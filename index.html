@@ -433,6 +433,24 @@
             text-align: center; font-size: 10px; color: var(--dmb-muted);
             letter-spacing: 1px; margin: 7px 0;
         }
+        .crown-btn {
+            display: block; width: 100%; margin-top: 12px;
+            padding: 12px 14px; border: none; border-radius: 8px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px;
+            background: #2a2f3a; color: #5a6172; opacity: 0.7;
+            cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
+        }
+        .crown-btn.ready {
+            background: linear-gradient(135deg, var(--dmb-gold), #b8902f);
+            color: #1a1208; opacity: 1; cursor: pointer;
+            box-shadow: 0 4px 18px rgba(212,175,55,0.45);
+            animation: crownPulse 1.9s ease-in-out infinite;
+        }
+        .crown-btn.ready:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(212,175,55,0.65); }
+        @keyframes crownPulse {
+            0%,100% { box-shadow: 0 4px 18px rgba(212,175,55,0.40); }
+            50%     { box-shadow: 0 4px 28px rgba(212,175,55,0.78); }
+        }
 
         /* ── CELEBRATION (confetti + encore flourish) ───────── */
         #confettiCanvas {
@@ -1360,6 +1378,7 @@
                     <div class="champ-label">Champion</div>
                     <div class="champ-name" id="champion">—</div>
                 </div>
+                <button class="crown-btn" id="crownBtn" onclick="submitAndCrown()" disabled>👑 Submit &amp; Crown</button>
             </div>
         </div>
         <div class="leaderboard-card">
@@ -1518,6 +1537,27 @@
             <button class="btn btn-outline" onclick="closeConcertModal()">Close</button>
             <button class="btn btn-gold" id="concertPrintBtn" onclick="printConcert()" style="display:none;">🖨 Print This</button>
         </div>
+    </div>
+</div>
+
+
+<!-- EMAIL MODAL -->
+<div class="email-modal-overlay" id="emailModal">
+    <div class="email-modal">
+        <span class="trophy-icon">🏆</span>
+        <div class="em-title">Champion Crowned!</div>
+        <div class="em-champ" id="emailModalChamp"></div>
+        <div class="em-desc">
+            Want a heads-up when the <strong>next tournament</strong> drops — new brackets, new artists?
+            Drop your email and we'll let you know. No spam, ever.
+        </div>
+        <div class="email-input-wrap">
+            <input type="email" class="email-input" id="emailInput" placeholder="you@email.com" autocomplete="email">
+            <button class="btn btn-submit" id="emailSubmitBtn" onclick="submitEmail()">Submit</button>
+        </div>
+        <div class="em-status" id="emailStatus"></div>
+        <button class="em-skip" onclick="skipEmail()">No thanks, just crown it</button>
+        <div class="em-privacy">🔒 We'll never share your email. Unsubscribe anytime.</div>
     </div>
 </div>
 
@@ -2245,6 +2285,7 @@ function clearDownstream(id) {
         const c = document.getElementById('champion');
         if (c) { c.innerText = '—'; }
         document.getElementById('champBanner').classList.remove('visible');
+        updateCrownButton();
         return;
     }
     const el = document.getElementById(next);
@@ -2280,10 +2321,26 @@ function showChampion(name) {
     const banner = document.getElementById('champBanner');
     document.getElementById('champBannerName').innerText = name;
     banner.classList.add('visible');
-    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    updateCrownButton();
+    // Draw attention to the now-active Submit & Crown button
+    const btn = document.getElementById('crownBtn');
+    if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 
-    // Trigger email modal after short delay for dramatic effect
-    setTimeout(() => openEmailModal(name), 800);
+function updateCrownButton() {
+    const btn = document.getElementById('crownBtn');
+    if (!btn) return;
+    const champ = (document.getElementById('champion').innerText || '').trim();
+    const ready = champ && champ !== '—' && champ !== '-' && champ !== '--';
+    btn.disabled = !ready;
+    btn.classList.toggle('ready', !!ready);
+}
+
+function submitAndCrown() {
+    const champ = (document.getElementById('champion').innerText || '').trim();
+    if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
+    celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
+    setTimeout(() => openEmailModal(champ), 1700); // email capture after the celebration plays
 }
 
 // ─── EMAIL MODAL ──────────────────────────────────────────────────
@@ -2297,7 +2354,6 @@ function skipEmail() {
     document.getElementById('emailModal').classList.remove('open');
     // Still save bracket data anonymously (no email)
     saveBracketData(null);
-    celebrate();
     // Open concert modal
     setTimeout(() => openConcertModal(document.getElementById('champion').innerText.trim()), 300);
 }
@@ -2321,7 +2377,6 @@ async function submitEmail() {
     statusEl.innerText = '';
 
     const result = await saveBracketData(email);
-    celebrate();
 
     if (result && result.success) {
         statusEl.innerText = '✓ Saved! We\'ll keep you posted on new tournaments.';
@@ -2524,6 +2579,7 @@ function restore() {
     }
 
     updateProgress();
+    updateCrownButton();
 }
 
 // ─── RESET ────────────────────────────────────────────────────────
