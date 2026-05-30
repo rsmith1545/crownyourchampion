@@ -410,6 +410,59 @@
             min-height: 24px;
         }
 
+        /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
+        .sf-pairs { display: flex; gap: 8px; }
+        .sf-pair {
+            flex: 1; display: flex; flex-direction: column;
+            border: 1.5px solid var(--dmb-gold);
+            border-radius: 4px; padding: 5px;
+        }
+        .sf-pair .final-slot { margin-bottom: 0; }
+        .finals-pair {
+            display: flex; align-items: center; gap: 6px;
+            border: 1.5px solid var(--dmb-gold);
+            border-radius: 4px; padding: 5px;
+        }
+        .finals-pair .final-slot { flex: 1; margin-bottom: 0; }
+        .vs-label {
+            text-align: center; font-size: 10px; font-style: italic;
+            color: var(--dmb-muted); letter-spacing: 1px; margin: 3px 0;
+        }
+        .finals-pair .vs-label { flex: none; margin: 0; }
+        .final-hint {
+            text-align: center; font-size: 10px; color: var(--dmb-muted);
+            letter-spacing: 1px; margin: 7px 0;
+        }
+
+        /* ── CELEBRATION (confetti + encore flourish) ───────── */
+        #confettiCanvas {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2147483646; display: none;
+        }
+        .celebrate-text {
+            position: fixed; inset: 0; z-index: 2147483647;
+            display: none; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center; pointer-events: none; padding: 20px;
+        }
+        .celebrate-text.show { display: flex; animation: ctFade 2.8s ease forwards; }
+        .celebrate-text .ct-main {
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
+            font-size: clamp(34px, 8vw, 76px); color: var(--dmb-gold);
+            text-shadow: 0 2px 24px rgba(0,0,0,0.7); line-height: 1.05;
+        }
+        .celebrate-text .ct-sub {
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;
+            font-size: clamp(20px, 5vw, 42px); color: #fff;
+            text-shadow: 0 2px 18px rgba(0,0,0,0.7); margin-top: 4px;
+        }
+        @keyframes ctFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            12% { opacity: 1; transform: scale(1); }
+            78% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.02); }
+        }
+
+
         /* ── LEADERBOARD ──────────────────────────────────── */
         .leaderboard-card {
             background: var(--dmb-card);
@@ -1133,6 +1186,20 @@
         @keyframes pvspin { to { transform: rotate(360deg); } }
         @keyframes pvshake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
 
+        /* ── SITE FOOTER / CREDITS ──────────────────────────── */
+        .site-footer {
+            max-width: 900px; margin: 26px auto 44px; padding: 16px 18px 0;
+            text-align: center; font-size: 11px; color: var(--dmb-muted);
+            border-top: 1px solid var(--dmb-border); line-height: 1.65;
+        }
+        .site-footer .credits-title {
+            letter-spacing: 2px; text-transform: uppercase;
+            font-size: 10px; margin-bottom: 6px; color: var(--dmb-muted);
+        }
+        .site-footer .credits-line { margin: 4px 0; }
+        .site-footer a { color: #6fa3e0; text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+
     </style>
 </head>
 <body>
@@ -1185,6 +1252,12 @@
     <div class="champ-label">🏆 Your DMB Champion 🏆</div>
     <div class="champ-name" id="champBannerName"></div>
     <div class="champ-sub">Crown Your Champion · All-Time Greatest Song</div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+<div class="celebrate-text" id="celebrateText">
+    <div class="ct-main">Thank you very much.</div>
+    <div class="ct-sub">Goodnight!</div>
 </div>
 
 <div class="main-wrap">
@@ -1263,15 +1336,26 @@
             <div class="finals-header">🏆 Championship</div>
             <div class="finals-body">
                 <div class="final-section-label">Final Four</div>
-                <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Gorge Winner</div>
-                <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">West Palm Winner</div>
-                <div class="final-section-label">Championship</div>
-                <div class="final-slot" id="c1" onclick="pickFinal(this,'champion')">---</div>
-                <div class="final-section-label">Final Four</div>
-                <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">SPAC Winner</div>
-                <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Camden Winner</div>
-                <div class="final-section-label">Championship</div>
-                <div class="final-slot" id="c2" onclick="pickFinal(this,'champion')">---</div>
+                <div class="sf-pairs">
+                    <div class="sf-pair">
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Gorge Winner</div>
+                        <div class="vs-label">vs.</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">West Palm Winner</div>
+                    </div>
+                    <div class="sf-pair">
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">SPAC Winner</div>
+                        <div class="vs-label">vs.</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Camden Winner</div>
+                    </div>
+                </div>
+                <div class="final-hint">▾ tap each pair's winner</div>
+                <div class="final-section-label">Finals</div>
+                <div class="finals-pair">
+                    <div class="final-slot" id="c1" onclick="pickFinal(this,'champion')">---</div>
+                    <div class="vs-label">vs.</div>
+                    <div class="final-slot" id="c2" onclick="pickFinal(this,'champion')">---</div>
+                </div>
+                <div class="final-hint">▾ tap the winner</div>
                 <div class="champion-slot">
                     <div class="champ-label">Champion</div>
                     <div class="champ-name" id="champion">—</div>
@@ -1355,6 +1439,18 @@
 
 </div>
 </div>
+
+
+<footer class="site-footer">
+    <div class="credits-title">Venue Photos · via Wikimedia Commons</div>
+    <div class="credits-line">
+        <a href="https://commons.wikimedia.org/wiki/File:Gorge_Amphitheatre.jpg" target="_blank" rel="noopener">Gorge</a> &mdash; Daniel (Calgary, Canada), CC BY 2.0 ·
+        <a href="https://commons.wikimedia.org/wiki/File:SPACExterior.jpg" target="_blank" rel="noopener">SPAC</a> &mdash; Matt H. Wade (thatmattwade), CC BY-SA 3.0 ·
+        <a href="https://commons.wikimedia.org/wiki/File:Sound_Advice_Amphitheater.jpg" target="_blank" rel="noopener">West Palm</a> &mdash; Joedamadman, CC BY-SA 3.0 ·
+        Camden &mdash; courtesy of the owner
+    </div>
+    <div class="credits-line">Crown Your Champion is a fan project, not affiliated with or endorsed by Dave Matthews Band.</div>
+</footer>
 
 <!-- FAVORITES MODAL -->
 <div class="fav-modal-overlay" id="favModal">
@@ -2044,13 +2140,42 @@ function pick(el, targetId) {
     // Clear downstream slots that were filled with old value
     clearDownstream(targetId);
 
+    // A region winner flows straight into the Final Four — no extra click
+    if (FEEDS[targetId] && /^f[1-4]$/.test(FEEDS[targetId])) {
+        autoFillFinalFour(targetId);
+    }
+
     save();
     updateProgress();
 }
 
+function autoFillFinalFour(winId) {
+    const fId = FEEDS[winId];
+    const f   = document.getElementById(fId);
+    const win = document.getElementById(winId);
+    if (!f || !win) return;
+    const text = win.innerText.replace(/^\d+\s*/, '').trim();
+    if (!text || text === '--') return;
+    f.innerText = text;
+    f.classList.remove('winner', 'empty');
+    f.classList.add('has-value');
+    // changing a Final Four entrant invalidates the finals pick it fed
+    clearDownstream(fId);
+}
+
 function pickFinal(el, targetId) {
     const text = el.innerText.trim();
-    if (!text || text === '---' || text === '--') return;
+    if (!text || text === '---' || text === '--' || /Winner$/.test(text)) return;
+
+    if (targetId === 'champion') {
+        const ok = s => s && s !== '---' && s !== '--';
+        const v1 = document.getElementById('c1').innerText.trim();
+        const v2 = document.getElementById('c2').innerText.trim();
+        if (!ok(v1) || !ok(v2)) {
+            if (typeof showToast === 'function') showToast('🏆 Set both finalists first!');
+            return;
+        }
+    }
 
     el.parentElement.querySelectorAll('.final-slot').forEach(s => s.classList.remove('winner'));
     el.classList.add('winner');
@@ -2172,6 +2297,7 @@ function skipEmail() {
     document.getElementById('emailModal').classList.remove('open');
     // Still save bracket data anonymously (no email)
     saveBracketData(null);
+    celebrate();
     // Open concert modal
     setTimeout(() => openConcertModal(document.getElementById('champion').innerText.trim()), 300);
 }
@@ -2195,6 +2321,7 @@ async function submitEmail() {
     statusEl.innerText = '';
 
     const result = await saveBracketData(email);
+    celebrate();
 
     if (result && result.success) {
         statusEl.innerText = '✓ Saved! We\'ll keep you posted on new tournaments.';
@@ -2221,6 +2348,101 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') submitEmail();
     });
 });
+
+// ─── CELEBRATION: confetti + encore fanfare + flourish ────────────
+function celebrate() {
+    try { fireConfetti(); } catch (e) {}
+    try { playFanfare(); } catch (e) {}
+    const t = document.getElementById('celebrateText');
+    if (t) {
+        t.classList.remove('show');
+        void t.offsetWidth;            // restart the CSS animation
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2900);
+    }
+}
+
+function fireConfetti() {
+    const canvas = document.getElementById('confettiCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * DPR;
+    canvas.height = window.innerHeight * DPR;
+    canvas.style.display = 'block';
+    const colors = ['#d4af37','#c9a227','#b22222','#003f88','#5b8dd6','#ffffff','#e8c75a'];
+    const W = canvas.width, H = canvas.height, N = 170, parts = [];
+    for (let i = 0; i < N; i++) {
+        parts.push({
+            x: W * (0.28 + Math.random() * 0.44),
+            y: H * 0.34 + (Math.random() - 0.5) * H * 0.08,
+            vx: (Math.random() - 0.5) * 15 * DPR,
+            vy: (Math.random() * -1 - 0.4) * 17 * DPR,
+            g: (0.30 + Math.random() * 0.22) * DPR,
+            w: (6 + Math.random() * 7) * DPR,
+            h: (8 + Math.random() * 9) * DPR,
+            rot: Math.random() * Math.PI * 2,
+            vr: (Math.random() - 0.5) * 0.4,
+            color: colors[(Math.random() * colors.length) | 0]
+        });
+    }
+    const start = performance.now(), DURATION = 3200;
+    function frame(now) {
+        const elapsed = now - start;
+        ctx.clearRect(0, 0, W, H);
+        ctx.globalAlpha = elapsed < 1900 ? 1 : Math.max(0, 1 - (elapsed - 1900) / 1300);
+        let alive = false;
+        for (const p of parts) {
+            p.vy += p.g; p.vx *= 0.99;
+            p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+            if (p.y < H + 40 * DPR) alive = true;
+            ctx.save();
+            ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+        }
+        if (elapsed < DURATION && (alive || elapsed < 1900)) {
+            requestAnimationFrame(frame);
+        } else {
+            ctx.clearRect(0, 0, W, H);
+            canvas.style.display = 'none';
+        }
+    }
+    requestAnimationFrame(frame);
+}
+
+function playFanfare() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const ctx = new AC();
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.value = 0.18;
+    master.connect(ctx.destination);
+    const notes = [523.25, 659.25, 783.99, 1046.50];   // C5 E5 G5 C6 — ascending
+    notes.forEach((f, i) => {
+        const t = now + i * 0.12;
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'triangle'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.22, t + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0008, t + 0.5);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + 0.55);
+    });
+    const chordT = now + notes.length * 0.12;           // warm held major chord
+    [523.25, 659.25, 783.99].forEach(f => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, chordT);
+        g.gain.exponentialRampToValueAtTime(0.16, chordT + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.0006, chordT + 1.1);
+        o.connect(g); g.connect(master);
+        o.start(chordT); o.stop(chordT + 1.2);
+    });
+    setTimeout(() => { try { ctx.close(); } catch (e) {} }, 2300);
+}
 
 // ─── COLLECT BRACKET DATA ─────────────────────────────────────────
 function collectBracketData() {
