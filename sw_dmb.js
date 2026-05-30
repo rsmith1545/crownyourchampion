@@ -1,9 +1,13 @@
 /* eslint-disable no-undef */
-var cacheName = 'crown-champion-v1';
+var cacheName = 'crown-champion-v3';
 var assets = [
   './',
   './index.html',
-  './manifest_dmb.json'
+  './manifest_dmb.json',
+  './bg-gorge.jpg',
+  './bg-westpalm.jpg',
+  './bg-spac.jpg',
+  './bg-camden.jpg'
 ];
 
 self.addEventListener('install', function(event) {

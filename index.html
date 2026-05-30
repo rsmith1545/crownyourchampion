@@ -8,49 +8,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- ═══════════════════════════════════════════════════════════
-         FIREBASE CONFIG — Replace the values below with your own
-         from console.firebase.google.com → Project Settings → SDK
+         FIREBASE — config baked in (project: crown-your-champion).
+         Note: web config values are public by design; data is
+         protected by Firestore security rules, not by hiding these.
          ═══════════════════════════════════════════════════════════ -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDocs, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // ▼▼▼ PASTE YOUR FIREBASE CONFIG HERE ▼▼▼
         const firebaseConfig = {
-            apiKey:            "YOUR_API_KEY",
-            authDomain:        "YOUR_PROJECT.firebaseapp.com",
-            projectId:         "YOUR_PROJECT_ID",
-            storageBucket:     "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId:             "YOUR_APP_ID"
+            apiKey:            "AIzaSyDxQVR0oiX1W_5qaRpRgVrSQYI-4MLzLdA",
+            authDomain:        "crown-your-champion.firebaseapp.com",
+            projectId:         "crown-your-champion",
+            storageBucket:     "crown-your-champion.firebasestorage.app",
+            messagingSenderId: "629630796857",
+            appId:             "1:629630796857:web:fa7a032c01bcc751b779e8"
         };
-        // ▲▲▲ END CONFIG ▲▲▲
 
         const app = initializeApp(firebaseConfig);
         const db  = getFirestore(app);
 
-        // Expose save function globally so inline JS can call it
+        // Save a completed bracket, then bump the crowned champion's tally
         window.saveToFirebase = async function(email, bracketData) {
             try {
                 await addDoc(collection(db, "brackets"), {
                     email:      email,
                     champion:   bracketData.champion,
-                    spac_winner:       bracketData.spac,
-                    alpine_winner:     bracketData.alpine,
+                    gorge_winner:      bracketData.gorge,
                     westpalm_winner:   bracketData.westpalm,
-                    deercreek_winner:  bracketData.deercreek,
+                    spac_winner:       bracketData.spac,
+                    camden_winner:     bracketData.camden,
                     final_four:        bracketData.finalFour,
                     all_picks:         bracketData.allPicks,
                     completed_at:      serverTimestamp(),
                     user_agent:        navigator.userAgent.substring(0, 100)
                 });
+                const champ = (bracketData.champion || '').trim();
+                if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
+                    try {
+                        await setDoc(doc(db, "leaderboard", champ),
+                                     { name: champ, count: increment(1) }, { merge: true });
+                    } catch(e) { console.warn("leaderboard bump failed:", e); }
+                    if (window.loadLeaderboard) window.loadLeaderboard();
+                }
                 return { success: true };
             } catch(e) {
                 console.error("Firebase save error:", e);
                 return { success: false, error: e.message };
             }
         };
+
+        // Read + render the Most-Crowned Champions board
+        window.loadLeaderboard = async function() {
+            const body = document.getElementById('leaderboardBody');
+            if (!body) return;
+            try {
+                const snap = await getDocs(collection(db, "leaderboard"));
+                const rows = [];
+                snap.forEach(d => { const v = d.data(); if (v && v.name) rows.push({ name: v.name, count: v.count || 0 }); });
+                rows.sort((a,b) => b.count - a.count);
+                const top = rows.slice(0, 8);
+                if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; return; }
+                const max = top[0].count || 1;
+                const total = rows.reduce((s,r) => s + r.count, 0) || 1;
+                body.innerHTML = top.map((r,i) => {
+                    const pct = Math.round((r.count / total) * 100);
+                    const w = Math.max(6, Math.round((r.count / max) * 100));
+                    const nm = String(r.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+                    return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span>'
+                         + '<span class="lb-name">' + nm + '</span>'
+                         + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
+                         + '<span class="lb-count">' + pct + '%</span></div>';
+                }).join('');
+            } catch(e) {
+                console.warn("leaderboard load failed:", e);
+                body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>';
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => window.loadLeaderboard());
     </script>
+
 
     <style>
     
@@ -371,6 +409,39 @@
             color: #fff;
             min-height: 24px;
         }
+
+        /* ── LEADERBOARD ──────────────────────────────────── */
+        .leaderboard-card {
+            background: var(--dmb-card);
+            border: 2px solid var(--dmb-gold);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .lb-header {
+            background: var(--dmb-gold);
+            color: #1a1205;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 3px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .lb-body { padding: 8px; }
+        .lb-empty {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            text-align: center;
+            padding: 12px 6px;
+            font-style: italic;
+        }
+        .lb-row { display: flex; align-items: center; gap: 6px; padding: 4px 2px; font-size: 11px; }
+        .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 14px; text-align: right; flex: none; }
+        .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px; }
+        .lb-track { flex: 1 1 50px; height: 7px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
+        .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
+        .lb-count { color: var(--dmb-muted); width: 32px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+
 
         /* TOAST */
         .toast {
@@ -999,6 +1070,69 @@
             animation: slideUp 0.3s ease;
         }
 
+
+        /* ── VENUE BACKDROPS (faint) ────────────────────────────────── */
+        .region-card { position: relative; }
+        .region-card::before {
+            content: ""; position: absolute; inset: 0;
+            background-size: cover; background-position: center bottom;
+            background-repeat: no-repeat;
+            opacity: 0.32; pointer-events: none; z-index: 0;
+        }
+        .region-header, .bracket-row { position: relative; z-index: 1; }
+        .venue-gorge::before    { background-image: url("./bg-gorge.jpg"); }
+        .venue-westpalm::before { background-image: url("./bg-westpalm.jpg"); }
+        .venue-spac::before     { background-image: url("./bg-spac.jpg"); }
+        .venue-camden::before   { background-image: url("./bg-camden.jpg"); }
+    
+        /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
+        .play-btn {
+            flex: 0 0 auto;
+            margin-left: auto;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 1px solid var(--dmb-gold);
+            background: rgba(240,165,0,0.12);
+            color: var(--dmb-gold);
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; padding: 0;
+            font-size: 0; line-height: 0;
+            transition: background 0.15s, transform 0.1s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .play-btn:hover { background: rgba(240,165,0,0.28); }
+        .play-btn:active { transform: scale(0.9); }
+        .play-btn::before {
+            content: "\25B6";            /* ▶ play */
+            font-size: 9px; line-height: 1;
+            margin-left: 1px;            /* optical centering of triangle */
+        }
+        .play-btn.playing {
+            background: var(--dmb-gold);
+            color: #0a0a0f;
+        }
+        .play-btn.playing::before { content: "\23F8"; margin-left: 0; }  /* ⏸ pause */
+        .play-btn.loading::before {
+            content: "";
+            width: 9px; height: 9px; margin: 0;
+            border: 2px solid rgba(240,165,0,0.35);
+            border-top-color: var(--dmb-gold);
+            border-radius: 50%;
+            animation: pvspin 0.6s linear infinite;
+        }
+        .play-btn.unavailable {
+            border-color: var(--dmb-muted);
+            background: transparent;
+            opacity: 0.5;
+            animation: pvshake 0.4s;
+        }
+        .play-btn.unavailable::before { content: "\2715"; color: var(--dmb-muted); font-size: 8px; margin: 0; }
+        /* keep buttons visible on a selected (winner) blue slot */
+        .slot.winner .play-btn { border-color: #fff; color: #fff; background: rgba(255,255,255,0.18); }
+        .slot.winner .play-btn.playing { background: #fff; color: var(--dmb-blue); }
+        @keyframes pvspin { to { transform: rotate(360deg); } }
+        @keyframes pvshake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
+
     </style>
 </head>
 <body>
@@ -1056,21 +1190,20 @@
 <div class="main-wrap">
 <div class="master-grid">
 
-    <!-- LEFT: SPAC + ALPINE -->
+    <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
-        <!-- SPAC REGION -->
-        <div class="region-card">
-            <div class="region-header">SPAC Region</div>
+        <div class="region-card venue-gorge">
+            <div class="region-header">Gorge Region</div>
             <div class="bracket-row">
                 <div class="round-col">
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Ants Marching</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Where Going</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">8</span>#27</div><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">9</span>Granny</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">5</span>Lie In Our Graves</div><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">12</span>Gravedigger</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">4</span>Warehouse</div><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">13</span>You &amp; Me</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">6</span>Crush</div><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">11</span>Rhyme &amp; Reason</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">3</span>Seek Up</div><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">14</span>Lover Lay Down</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">7</span>The Last Stop</div><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">10</span>Drive In Drive Out</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">2</span>Typical Situation</div><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">15</span>Virginia Rain</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Ants Marching</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>You Might Die Trying</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">8</span>Drive In Drive Out</div><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">9</span>Proudest Monkey</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">5</span>What Would You Say</div><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">12</span>When the World Ends</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">4</span>So Much to Say</div><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">13</span>So Right</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">6</span>Bartender</div><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">11</span>Gravedigger</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">3</span>#41</div><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">14</span>Seven</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">7</span>Typical Situation</div><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">10</span>So Damn Lucky</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">2</span>Don&#39;t Drink the Water</div><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">15</span>Old Dirt Hill</div></div>
                 </div>
                 <div class="round-col">
                     <div class="matchup"><div class="slot empty" id="SP-R2-1" onclick="pick(this,'SP-R3-1')">--</div><div class="slot empty" id="SP-R2-2" onclick="pick(this,'SP-R3-1')">--</div></div>
@@ -1091,19 +1224,18 @@
             </div>
         </div>
 
-        <!-- ALPINE REGION -->
-        <div class="region-card">
-            <div class="region-header">Alpine Region</div>
+        <div class="region-card venue-westpalm">
+            <div class="region-header">West Palm Region</div>
             <div class="bracket-row">
                 <div class="round-col">
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Jimi Thing</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Idea of You</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">8</span>Minarets</div><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">9</span>When the World Ends</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">5</span>Stay (Wasting Time)</div><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">12</span>Louisiana Bayou</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">4</span>#41</div><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">13</span>Shake Me Like a Monkey</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">6</span>One Sweet World</div><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">11</span>Busted Stuff</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">3</span>Best of What&#39;s Around</div><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">14</span>Lie In Graves</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">7</span>Bartender</div><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">10</span>The Dreaming Tree</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">2</span>Satellite</div><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">15</span>Steady As Go</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Jimi Thing</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Do You Remember</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">8</span>Where Are You Going</div><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">9</span>Cry Freedom</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">5</span>One Sweet World</div><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">12</span>Big Eyed Fish</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">4</span>Grey Street</div><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">13</span>The Dreaming Tree</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">6</span>Rhyme &amp; Reason</div><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">11</span>Sister</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">3</span>Lie in Our Graves</div><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">14</span>Some Devil</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">7</span>Everyday</div><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">10</span>Minarets</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">2</span>Satellite</div><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">15</span>Spoon</div></div>
                 </div>
                 <div class="round-col">
                     <div class="matchup"><div class="slot empty" id="AL-R2-1" onclick="pick(this,'AL-R3-1')">--</div><div class="slot empty" id="AL-R2-2" onclick="pick(this,'AL-R3-1')">--</div></div>
@@ -1125,19 +1257,19 @@
         </div>
     </div>
 
-    <!-- CENTER: FINALS -->
+    <!-- CENTER: FINALS + LEADERBOARD -->
     <div class="center-col">
         <div class="finals-card">
             <div class="finals-header">🏆 Championship</div>
             <div class="finals-body">
                 <div class="final-section-label">Final Four</div>
-                <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">SPAC Winner</div>
-                <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Alpine Winner</div>
+                <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Gorge Winner</div>
+                <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">West Palm Winner</div>
                 <div class="final-section-label">Championship</div>
                 <div class="final-slot" id="c1" onclick="pickFinal(this,'champion')">---</div>
                 <div class="final-section-label">Final Four</div>
-                <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">West Palm Winner</div>
-                <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Deer Creek Winner</div>
+                <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">SPAC Winner</div>
+                <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Camden Winner</div>
                 <div class="final-section-label">Championship</div>
                 <div class="final-slot" id="c2" onclick="pickFinal(this,'champion')">---</div>
                 <div class="champion-slot">
@@ -1146,23 +1278,28 @@
                 </div>
             </div>
         </div>
+        <div class="leaderboard-card">
+            <div class="lb-header">👑 Most-Crowned Champions</div>
+            <div class="lb-body" id="leaderboardBody">
+                <div class="lb-empty">Be the first to crown a champion!</div>
+            </div>
+        </div>
     </div>
 
-    <!-- RIGHT: WEST PALM + DEER CREEK -->
+    <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
-        <!-- WEST PALM REGION -->
-        <div class="region-card">
-            <div class="region-header">West Palm Region</div>
+        <div class="region-card venue-spac">
+            <div class="region-header">SPAC Region</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Tripping Billies</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Seven</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">8</span>Say Goodbye</div><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">9</span>Big Eyed Fish</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">5</span>Don&#39;t Drink the Water</div><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">12</span>American Baby</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">4</span>Too Much</div><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">13</span>Funny the Way It Is</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">6</span>Proudest Monkey</div><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">11</span>Anyone Seen the Bridge</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">3</span>Crash Into Me</div><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">14</span>So Right</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">7</span>Grey Street</div><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">10</span>Grace Is Gone</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">2</span>Dancing Nancies</div><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">15</span>Raven</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Tripping Billies</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Louisiana Bayou</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">8</span>Halloween</div><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">9</span>Pig</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">5</span>Recently</div><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">12</span>Grace Is Gone</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">4</span>Crush</div><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">13</span>Pay for What You Get</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">6</span>Seek Up</div><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">11</span>The Space Between</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">3</span>All Along the Watchtower</div><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">14</span>Why I Am</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">7</span>Best of What&#39;s Around</div><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">10</span>Say Goodbye</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">2</span>Warehouse</div><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">15</span>Raven</div></div>
                 </div>
                 <div class="round-col">
                     <div class="matchup"><div class="slot empty" id="WP-R2-1" onclick="pick(this,'WP-R3-1')">--</div><div class="slot empty" id="WP-R2-2" onclick="pick(this,'WP-R3-1')">--</div></div>
@@ -1183,19 +1320,18 @@
             </div>
         </div>
 
-        <!-- DEER CREEK REGION -->
-        <div class="region-card">
-            <div class="region-header">Deer Creek Region</div>
+        <div class="region-card venue-camden">
+            <div class="region-header">Camden Region</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Two Step</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Walk Moon</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">8</span>The Stone</div><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">9</span>The Space Between</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">5</span>Halloween</div><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">12</span>You Might Die Trying</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">4</span>So Much To Say</div><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">13</span>Captain</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">6</span>Rapunzel</div><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">11</span>Where Are You Going</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">3</span>Recently</div><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">14</span>Mercy</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">7</span>Pig</div><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">10</span>Everyday</div></div>
-                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">2</span>What Would You Say</div><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">15</span>Madman&#39;s Eyes</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Two Step</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Idea of You</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">8</span>The Stone</div><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">9</span>Lover Lay Down</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">5</span>Rapunzel</div><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">12</span>You &amp; Me</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">4</span>Too Much</div><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">13</span>American Baby</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">6</span>Granny</div><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">11</span>Stay or Leave</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">3</span>Crash Into Me</div><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">14</span>Funny the Way It Is</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">7</span>Stay (Wasting Time)</div><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">10</span>The Last Stop</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">2</span>Dancing Nancies</div><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">15</span>Cornbread</div></div>
                 </div>
                 <div class="round-col">
                     <div class="matchup"><div class="slot empty" id="DC-R2-1" onclick="pick(this,'DC-R3-1')">--</div><div class="slot empty" id="DC-R2-2" onclick="pick(this,'DC-R3-1')">--</div></div>
@@ -1312,70 +1448,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Ants Marching", seed:1, region:"SPAC", era:"1991-1995", spotify:82, liveRank:1},
-  {name:"Jimi Thing", seed:1, region:"Alpine", era:"1991-1995", spotify:43, liveRank:2},
-  {name:"Tripping Billies", seed:1, region:"West Palm", era:"1996-2000", spotify:64, liveRank:3},
-  {name:"Two Step", seed:1, region:"Deer Creek", era:"1996-2000", spotify:56, liveRank:4},
-  {name:"What Would You Say", seed:2, region:"Deer Creek", era:"1991-1995", spotify:58, liveRank:5},
-  {name:"Dancing Nancies", seed:2, region:"West Palm", era:"1991-1995", spotify:38, liveRank:6},
-  {name:"Satellite", seed:2, region:"Alpine", era:"1991-1995", spotify:61, liveRank:7},
-  {name:"Typical Situation", seed:2, region:"SPAC", era:"1991-1995", spotify:44, liveRank:8},
-  {name:"Seek Up", seed:3, region:"SPAC", era:"1991-1995", spotify:40, liveRank:9},
-  {name:"Best of What\'s Around", seed:3, region:"Alpine", era:"1991-1995", spotify:42, liveRank:10},
-  {name:"Crash Into Me", seed:3, region:"West Palm", era:"1996-2000", spotify:79, liveRank:11},
-  {name:"Recently", seed:3, region:"Deer Creek", era:"1991-1995", spotify:41, liveRank:12},
-  {name:"So Much To Say", seed:4, region:"Deer Creek", era:"1996-2000", spotify:48, liveRank:13},
-  {name:"Too Much", seed:4, region:"West Palm", era:"1996-2000", spotify:47, liveRank:14},
-  {name:"#41", seed:4, region:"Alpine", era:"1996-2000", spotify:49, liveRank:15},
-  {name:"Warehouse", seed:4, region:"SPAC", era:"1991-1995", spotify:52, liveRank:16},
-  {name:"Lie In Our Graves", seed:5, region:"SPAC", era:"1996-2000", spotify:39, liveRank:17},
-  {name:"Stay (Wasting Time)", seed:5, region:"Alpine", era:"1996-2000", spotify:51, liveRank:18},
-  {name:"Don\'t Drink the Water", seed:5, region:"West Palm", era:"1996-2000", spotify:65, liveRank:19},
-  {name:"Halloween", seed:5, region:"Deer Creek", era:"1991-1995", spotify:44, liveRank:20},
-  {name:"Rapunzel", seed:6, region:"Deer Creek", era:"1996-2000", spotify:41, liveRank:21},
-  {name:"Proudest Monkey", seed:6, region:"West Palm", era:"1996-2000", spotify:38, liveRank:22},
-  {name:"One Sweet World", seed:6, region:"Alpine", era:"1991-1995", spotify:42, liveRank:23},
-  {name:"Crush", seed:6, region:"SPAC", era:"2001-2007", spotify:68, liveRank:24},
-  {name:"The Last Stop", seed:7, region:"SPAC", era:"1996-2000", spotify:37, liveRank:25},
-  {name:"Bartender", seed:7, region:"Alpine", era:"1996-2000", spotify:47, liveRank:26},
-  {name:"Grey Street", seed:7, region:"West Palm", era:"2001-2007", spotify:67, liveRank:27},
-  {name:"Pig", seed:7, region:"Deer Creek", era:"1996-2000", spotify:45, liveRank:28},
-  {name:"The Stone", seed:8, region:"Deer Creek", era:"1996-2000", spotify:39, liveRank:29},
-  {name:"Say Goodbye", seed:8, region:"West Palm", era:"1996-2000", spotify:46, liveRank:30},
-  {name:"Minarets", seed:8, region:"Alpine", era:"1996-2000", spotify:42, liveRank:31},
-  {name:"#27", seed:8, region:"SPAC", era:"1996-2000", spotify:38, liveRank:32},
-  {name:"Granny", seed:9, region:"SPAC", era:"1991-1995", spotify:36, liveRank:33},
-  {name:"When the World Ends", seed:9, region:"Alpine", era:"2001-2007", spotify:44, liveRank:34},
-  {name:"Big Eyed Fish", seed:9, region:"West Palm", era:"2001-2007", spotify:43, liveRank:35},
-  {name:"The Space Between", seed:9, region:"Deer Creek", era:"2001-2007", spotify:72, liveRank:36},
-  {name:"Everyday", seed:10, region:"Deer Creek", era:"2001-2007", spotify:60, liveRank:37},
-  {name:"Grace Is Gone", seed:10, region:"West Palm", era:"2001-2007", spotify:46, liveRank:38},
-  {name:"The Dreaming Tree", seed:10, region:"Alpine", era:"1996-2000", spotify:48, liveRank:39},
-  {name:"Drive In Drive Out", seed:10, region:"SPAC", era:"1996-2000", spotify:40, liveRank:40},
-  {name:"Rhyme & Reason", seed:11, region:"SPAC", era:"1991-1995", spotify:36, liveRank:41},
-  {name:"Busted Stuff", seed:11, region:"Alpine", era:"2001-2007", spotify:41, liveRank:42},
-  {name:"Anyone Seen the Bridge", seed:11, region:"West Palm", era:"2001-2007", spotify:34, liveRank:43},
-  {name:"Where Are You Going", seed:11, region:"Deer Creek", era:"2001-2007", spotify:50, liveRank:44},
-  {name:"You Might Die Trying", seed:12, region:"Deer Creek", era:"2001-2007", spotify:46, liveRank:45},
-  {name:"American Baby", seed:12, region:"West Palm", era:"2001-2007", spotify:53, liveRank:46},
-  {name:"Louisiana Bayou", seed:12, region:"Alpine", era:"2001-2007", spotify:38, liveRank:47},
-  {name:"Gravedigger", seed:12, region:"SPAC", era:"2001-2007", spotify:62, liveRank:48},
-  {name:"You & Me", seed:13, region:"SPAC", era:"2008-present", spotify:55, liveRank:49},
-  {name:"Shake Me Like a Monkey", seed:13, region:"Alpine", era:"2008-present", spotify:44, liveRank:50},
-  {name:"Funny the Way It Is", seed:13, region:"West Palm", era:"2008-present", spotify:52, liveRank:51},
-  {name:"Captain", seed:13, region:"Deer Creek", era:"2008-present", spotify:48, liveRank:52},
-  {name:"Mercy", seed:14, region:"Deer Creek", era:"2008-present", spotify:54, liveRank:53},
-  {name:"So Right", seed:14, region:"West Palm", era:"2008-present", spotify:50, liveRank:54},
-  {name:"Lie In Graves", seed:14, region:"Alpine", era:"2001-2007", spotify:37, liveRank:55},
-  {name:"Lover Lay Down", seed:14, region:"SPAC", era:"1991-1995", spotify:38, liveRank:56},
-  {name:"Virginia Rain", seed:15, region:"SPAC", era:"2008-present", spotify:40, liveRank:57},
-  {name:"Steady As Go", seed:15, region:"Alpine", era:"2008-present", spotify:43, liveRank:58},
-  {name:"Raven", seed:15, region:"West Palm", era:"2008-present", spotify:57, liveRank:59},
-  {name:"Madman\'s Eyes", seed:15, region:"Deer Creek", era:"2008-present", spotify:45, liveRank:60},
-  {name:"Walk Moon", seed:16, region:"Deer Creek", era:"2008-present", spotify:44, liveRank:61},
-  {name:"Seven", seed:16, region:"West Palm", era:"2008-present", spotify:45, liveRank:62},
-  {name:"Idea of You", seed:16, region:"Alpine", era:"2008-present", spotify:33, liveRank:63},
-  {name:"Where Going", seed:16, region:"SPAC", era:"2008-present", spotify:38, liveRank:64},
+  {name:"Ants Marching", seed:1, region:"Gorge", era:"1991-1995", spotify:82, liveRank:1},
+  {name:"Jimi Thing", seed:1, region:"West Palm", era:"1991-1995", spotify:43, liveRank:2},
+  {name:"Tripping Billies", seed:1, region:"SPAC", era:"1996-2000", spotify:64, liveRank:3},
+  {name:"Two Step", seed:1, region:"Camden", era:"1996-2000", spotify:56, liveRank:4},
+  {name:"Dancing Nancies", seed:2, region:"Camden", era:"1991-1995", spotify:48, liveRank:5},
+  {name:"Warehouse", seed:2, region:"SPAC", era:"1991-1995", spotify:72, liveRank:6},
+  {name:"Satellite", seed:2, region:"West Palm", era:"1991-1995", spotify:74, liveRank:7},
+  {name:"Don't Drink the Water", seed:2, region:"Gorge", era:"1996-2000", spotify:54, liveRank:8},
+  {name:"#41", seed:3, region:"Gorge", era:"1996-2000", spotify:69, liveRank:9},
+  {name:"Lie in Our Graves", seed:3, region:"West Palm", era:"1996-2000", spotify:46, liveRank:10},
+  {name:"All Along the Watchtower", seed:3, region:"SPAC", era:"1991-1995", spotify:67, liveRank:11},
+  {name:"Crash Into Me", seed:3, region:"Camden", era:"1996-2000", spotify:88, liveRank:12},
+  {name:"Too Much", seed:4, region:"Camden", era:"1996-2000", spotify:50, liveRank:13},
+  {name:"Crush", seed:4, region:"SPAC", era:"1996-2000", spotify:70, liveRank:14},
+  {name:"Grey Street", seed:4, region:"West Palm", era:"2001-2007", spotify:55, liveRank:15},
+  {name:"So Much to Say", seed:4, region:"Gorge", era:"1996-2000", spotify:52, liveRank:16},
+  {name:"What Would You Say", seed:5, region:"Gorge", era:"1991-1995", spotify:61, liveRank:17},
+  {name:"One Sweet World", seed:5, region:"West Palm", era:"1991-1995", spotify:60, liveRank:18},
+  {name:"Recently", seed:5, region:"SPAC", era:"1991-1995", spotify:59, liveRank:19},
+  {name:"Rapunzel", seed:5, region:"Camden", era:"1996-2000", spotify:58, liveRank:20},
+  {name:"Granny", seed:6, region:"Camden", era:"1991-1995", spotify:57, liveRank:21},
+  {name:"Seek Up", seed:6, region:"SPAC", era:"1991-1995", spotify:56, liveRank:22},
+  {name:"Rhyme & Reason", seed:6, region:"West Palm", era:"1991-1995", spotify:55, liveRank:23},
+  {name:"Bartender", seed:6, region:"Gorge", era:"2001-2007", spotify:54, liveRank:24},
+  {name:"Typical Situation", seed:7, region:"Gorge", era:"1991-1995", spotify:53, liveRank:25},
+  {name:"Everyday", seed:7, region:"West Palm", era:"2001-2007", spotify:52, liveRank:26},
+  {name:"Best of What's Around", seed:7, region:"SPAC", era:"1991-1995", spotify:51, liveRank:27},
+  {name:"Stay (Wasting Time)", seed:7, region:"Camden", era:"1996-2000", spotify:50, liveRank:28},
+  {name:"The Stone", seed:8, region:"Camden", era:"1996-2000", spotify:49, liveRank:29},
+  {name:"Halloween", seed:8, region:"SPAC", era:"1996-2000", spotify:48, liveRank:30},
+  {name:"Where Are You Going", seed:8, region:"West Palm", era:"2001-2007", spotify:68, liveRank:31},
+  {name:"Drive In Drive Out", seed:8, region:"Gorge", era:"1996-2000", spotify:46, liveRank:32},
+  {name:"Proudest Monkey", seed:9, region:"Gorge", era:"1996-2000", spotify:45, liveRank:33},
+  {name:"Cry Freedom", seed:9, region:"West Palm", era:"1996-2000", spotify:44, liveRank:34},
+  {name:"Pig", seed:9, region:"SPAC", era:"1996-2000", spotify:43, liveRank:35},
+  {name:"Lover Lay Down", seed:9, region:"Camden", era:"1991-1995", spotify:42, liveRank:36},
+  {name:"The Last Stop", seed:10, region:"Camden", era:"1996-2000", spotify:41, liveRank:37},
+  {name:"Say Goodbye", seed:10, region:"SPAC", era:"1996-2000", spotify:40, liveRank:38},
+  {name:"Minarets", seed:10, region:"West Palm", era:"1991-1995", spotify:39, liveRank:39},
+  {name:"So Damn Lucky", seed:10, region:"Gorge", era:"2001-2007", spotify:38, liveRank:40},
+  {name:"Gravedigger", seed:11, region:"Gorge", era:"2001-2007", spotify:66, liveRank:41},
+  {name:"Sister", seed:11, region:"West Palm", era:"1991-1995", spotify:36, liveRank:42},
+  {name:"The Space Between", seed:11, region:"SPAC", era:"2001-2007", spotify:80, liveRank:43},
+  {name:"Stay or Leave", seed:11, region:"Camden", era:"2001-2007", spotify:34, liveRank:44},
+  {name:"You & Me", seed:12, region:"Camden", era:"2008-present", spotify:33, liveRank:45},
+  {name:"Grace Is Gone", seed:12, region:"SPAC", era:"2001-2007", spotify:32, liveRank:46},
+  {name:"Big Eyed Fish", seed:12, region:"West Palm", era:"2001-2007", spotify:31, liveRank:47},
+  {name:"When the World Ends", seed:12, region:"Gorge", era:"2001-2007", spotify:30, liveRank:48},
+  {name:"So Right", seed:13, region:"Gorge", era:"2001-2007", spotify:30, liveRank:49},
+  {name:"The Dreaming Tree", seed:13, region:"West Palm", era:"1996-2000", spotify:30, liveRank:50},
+  {name:"Pay for What You Get", seed:13, region:"SPAC", era:"1991-1995", spotify:30, liveRank:51},
+  {name:"American Baby", seed:13, region:"Camden", era:"2001-2007", spotify:58, liveRank:52},
+  {name:"Funny the Way It Is", seed:14, region:"Camden", era:"2008-present", spotify:60, liveRank:53},
+  {name:"Why I Am", seed:14, region:"SPAC", era:"2008-present", spotify:30, liveRank:54},
+  {name:"Some Devil", seed:14, region:"West Palm", era:"2001-2007", spotify:30, liveRank:55},
+  {name:"Seven", seed:14, region:"Gorge", era:"2008-present", spotify:30, liveRank:56},
+  {name:"Old Dirt Hill", seed:15, region:"Gorge", era:"2001-2007", spotify:30, liveRank:57},
+  {name:"Spoon", seed:15, region:"West Palm", era:"1996-2000", spotify:30, liveRank:58},
+  {name:"Raven", seed:15, region:"SPAC", era:"2001-2007", spotify:30, liveRank:59},
+  {name:"Cornbread", seed:15, region:"Camden", era:"2001-2007", spotify:30, liveRank:60},
+  {name:"Idea of You", seed:16, region:"Camden", era:"2008-present", spotify:30, liveRank:61},
+  {name:"Louisiana Bayou", seed:16, region:"SPAC", era:"2001-2007", spotify:30, liveRank:62},
+  {name:"Do You Remember", seed:16, region:"West Palm", era:"2008-present", spotify:30, liveRank:63},
+  {name:"You Might Die Trying", seed:16, region:"Gorge", era:"2001-2007", spotify:30, liveRank:64},
 ];
 
 
@@ -2004,7 +2140,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'SPAC Winner' && t !== 'Alpine Winner' && t !== 'West Palm Winner' && t !== 'Deer Creek Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'SPAC Winner' && t !== 'West Palm Winner' && t !== 'Gorge Winner' && t !== 'Camden Winner') {
                 filled++;
             }
         }
@@ -2098,10 +2234,10 @@ function collectBracketData() {
     });
     return {
         champion:   document.getElementById('champion').innerText.trim(),
-        spac:       (document.getElementById('SP-WIN') || {}).innerText?.trim() || '',
-        alpine:     (document.getElementById('AL-WIN') || {}).innerText?.trim() || '',
-        westpalm:   (document.getElementById('WP-WIN') || {}).innerText?.trim() || '',
-        deercreek:  (document.getElementById('DC-WIN') || {}).innerText?.trim() || '',
+        gorge:      (document.getElementById('SP-WIN') || {}).innerText?.trim() || '',
+        westpalm:   (document.getElementById('AL-WIN') || {}).innerText?.trim() || '',
+        spac:       (document.getElementById('WP-WIN') || {}).innerText?.trim() || '',
+        camden:     (document.getElementById('DC-WIN') || {}).innerText?.trim() || '',
         finalFour: {
             f1: (document.getElementById('f1') || {}).innerText?.trim() || '',
             f2: (document.getElementById('f2') || {}).innerText?.trim() || '',
@@ -2149,8 +2285,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'SPAC Winner' && text !== 'Alpine Winner' && 
-            text !== 'West Palm Winner' && text !== 'Deer Creek Winner') {
+            text !== 'SPAC Winner' && text !== 'West Palm Winner' && 
+            text !== 'Gorge Winner' && text !== 'Camden Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2179,10 +2315,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'SPAC': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Alpine': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'West Palm': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Deer Creek': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'Gorge': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'West Palm': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'SPAC': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Camden': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
@@ -2492,7 +2628,9 @@ function printConcert() {
             .date { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:4px; color:#111; text-align:center; margin-top:8px; }
             .tagline { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:11px; letter-spacing:2px; color:#aaa; text-align:center; margin-top:6px; }
             @media print { body { background:white; } .frame { box-shadow:none; } }
-        </style>
+        
+
+    </style>
         </head><body>
         <div class="frame">
             <p class="song">${currentChampSong}</p>
@@ -2523,6 +2661,164 @@ document.addEventListener('DOMContentLoaded', () => {
     const cs = document.getElementById('concertSearch');
     if (cs) cs.addEventListener('keydown', e => { if (e.key === 'Enter') searchConcerts(); });
 });
+
+
+
+// ─── SONG PREVIEW ENGINE (iTunes Search API, free 30s clips) ──────
+// Plays a 30-second preview when the ▶ on a song is tapped. One at a
+// time. iTunes returns previews with no API key; JSONP avoids CORS.
+(function () {
+    // Refinements so abbreviated bracket labels search accurately.
+    var SONG_TERMS = {
+        'Where Going': 'Where Are You Going',
+        'Lie In Our Graves': 'Lie in Our Graves',
+        'Lie In Graves': 'Lie in Our Graves',
+        'Steady As Go': 'Steady As We Go',
+        'Walk Moon': 'Walk Around the Moon',
+        'Virginia Rain': 'Virginia in the Rain',
+        'Best of What\'s Around': 'The Best of What\'s Around',
+        'Drive In Drive Out': 'Drive In, Drive Out',
+        'Stay (Wasting Time)': 'Stay Wasting Time'
+    };
+
+    var cache = {};            // songName -> previewUrl | null
+    var audio = null;
+    var currentBtn = null;
+    var currentName = null;
+
+    function getAudio() {
+        if (!audio) {
+            audio = new Audio();
+            audio.addEventListener('ended', resetCurrent);
+            audio.addEventListener('error', resetCurrent);
+        }
+        return audio;
+    }
+
+    function resetCurrent() {
+        if (currentBtn) currentBtn.classList.remove('playing', 'loading');
+        currentBtn = null;
+        currentName = null;
+    }
+
+    function stopPlayback() {
+        if (audio) { audio.pause(); try { audio.currentTime = 0; } catch (e) {} }
+        resetCurrent();
+    }
+
+    // JSONP lookup — appends a <script> with a callback param.
+    var SOLO_SONGS = { 'Some Devil':1, 'So Damn Lucky':1, 'Gravedigger':1, 'Stay or Leave':1 };
+    function itunesLookup(name, cb) {
+        var artist = SOLO_SONGS[name] ? 'Dave Matthews ' : 'Dave Matthews Band ';
+        var term = artist + (SONG_TERMS[name] || name);
+        var cbName = 'itpv_' + Math.random().toString(36).slice(2);
+        var done = false;
+        var s = document.createElement('script');
+        var timer = setTimeout(function () { finish(null); }, 7000);
+
+        function finish(url) {
+            if (done) return;
+            done = true;
+            clearTimeout(timer);
+            try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+            if (s.parentNode) s.parentNode.removeChild(s);
+            cb(url);
+        }
+
+        window[cbName] = function (data) {
+            var url = null;
+            var results = (data && data.results) || [];
+            // Prefer an actual DMB result that has a preview.
+            for (var i = 0; i < results.length; i++) {
+                var r = results[i];
+                if (r.previewUrl && /dave matthews/i.test(r.artistName || '')) { url = r.previewUrl; break; }
+            }
+            if (!url) {
+                for (var j = 0; j < results.length; j++) {
+                    if (results[j].previewUrl) { url = results[j].previewUrl; break; }
+                }
+            }
+            finish(url);
+        };
+
+        s.onerror = function () { finish(null); };
+        s.src = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+                '&media=music&entity=song&limit=10&callback=' + cbName;
+        document.head.appendChild(s);
+    }
+
+    function flashUnavailable(btn) {
+        btn.classList.remove('loading', 'playing');
+        btn.classList.add('unavailable');
+        btn.title = 'No preview available';
+        setTimeout(function () { btn.classList.remove('unavailable'); }, 1400);
+    }
+
+    function startPlayback(name, btn, url) {
+        var a = getAudio();
+        a.src = url;
+        var p = a.play();
+        currentBtn = btn;
+        currentName = name;
+        btn.classList.remove('loading');
+        btn.classList.add('playing');
+        if (p && p.catch) p.catch(function () { resetCurrent(); });
+    }
+
+    function onPlayClick(name, btn, e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // Tap the one that's playing -> stop.
+        if (currentBtn === btn) { stopPlayback(); return; }
+
+        stopPlayback();
+
+        if (cache[name] === null) { flashUnavailable(btn); return; }
+        if (cache[name]) { startPlayback(name, btn, cache[name]); return; }
+
+        btn.classList.add('loading');
+        itunesLookup(name, function (url) {
+            cache[name] = url || null;
+            // If user moved on to another song meanwhile, don't hijack.
+            if (!btn.classList.contains('loading')) return;
+            if (url) startPlayback(name, btn, url);
+            else flashUnavailable(btn);
+        });
+    }
+
+    function initPlayButtons() {
+        var slots = document.querySelectorAll('.slot');
+        for (var i = 0; i < slots.length; i++) {
+            var slot = slots[i];
+            // Only the 64 source songs (they carry a seed); skip if already done.
+            if (!slot.querySelector('.seed')) continue;
+            if (slot.querySelector('.play-btn')) continue;
+
+            var name = slot.innerText.replace(/^\d+\s*/, '').trim();
+            if (!name || name === '--') continue;
+
+            var btn = document.createElement('span');
+            btn.className = 'play-btn';
+            btn.setAttribute('role', 'button');
+            btn.setAttribute('aria-label', 'Play 30 second preview of ' + name);
+            btn.setAttribute('tabindex', '0');
+            (function (n, b) {
+                b.addEventListener('click', function (e) { onPlayClick(n, b, e); });
+                b.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') onPlayClick(n, b, e);
+                });
+            })(name, btn);
+            slot.appendChild(btn);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPlayButtons);
+    } else {
+        initPlayButtons();
+    }
+})();
 
 
 // ─── SERVICE WORKER ───────────────────────────────────────────────
