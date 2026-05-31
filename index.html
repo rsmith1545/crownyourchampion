@@ -3115,6 +3115,18 @@ document.addEventListener('DOMContentLoaded', () => {
     var currentBtn = null;
     var currentName = null;
     var unlocked = false;      // iOS audio-unlock state
+    var DEBUG = /debug/i.test(location.hash);
+    var dbgBox = null;
+    function dbg(msg) {
+        if (!DEBUG) return;
+        if (!dbgBox) {
+            dbgBox = document.createElement('div');
+            dbgBox.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.9);color:#0f0;font:12px/1.4 monospace;padding:8px;max-height:45vh;overflow:auto;white-space:pre-wrap;';
+            (document.body || document.documentElement).appendChild(dbgBox);
+        }
+        dbgBox.textContent += msg + '\n';
+        dbgBox.scrollTop = dbgBox.scrollHeight;
+    }
     var SILENT = 'data:audio/wav;base64,UklGRiQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
 
     function getAudio() {
@@ -3129,7 +3141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             audio.muted = false;
             audio.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
             audio.addEventListener('ended', resetCurrent);
-            audio.addEventListener('error', resetCurrent);
+            audio.addEventListener('error', function () { dbg('MEDIA ERROR code=' + (audio.error && audio.error.code) + ' src=' + (audio.currentSrc || '').slice(-40)); resetCurrent(); });
             (document.body || document.documentElement).appendChild(audio);
         }
         return audio;
@@ -3197,12 +3209,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function startPlayback(name, btn, url) {
         var a = getAudio();
         a.src = url;
+        dbg('play() called for ' + name + ' <' + a.tagName + '>');
         var p = a.play();
         currentBtn = btn;
         currentName = name;
         btn.classList.remove('loading');
         btn.classList.add('playing');
-        if (p && p.catch) p.catch(function () { resetCurrent(); });
+        if (p && p.then) {
+            p.then(function () { dbg('play() OK — should be audible'); })
+             .catch(function (e) { dbg('play() BLOCKED: ' + e.name + ' — ' + e.message); resetCurrent(); });
+        } else if (p && p.catch) {
+            p.catch(function () { resetCurrent(); });
+        }
     }
 
     function unlockAudio() {
@@ -3211,14 +3229,15 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             a.src = SILENT;
             var p = a.play();
-            if (p && p.then) { p.then(function () { unlocked = true; try { a.pause(); a.currentTime = 0; } catch (e) {} }).catch(function () {}); }
+            if (p && p.then) { p.then(function () { unlocked = true; dbg('unlock OK'); try { a.pause(); a.currentTime = 0; } catch (e) {} }).catch(function (e) { dbg('unlock FAIL: ' + e.name); }); }
             else { unlocked = true; }
-        } catch (e) {}
+        } catch (e) { dbg('unlock threw: ' + e.message); }
     }
 
     function onPlayClick(name, btn, e) {
         e.stopPropagation();
         e.preventDefault();
+        dbg('--- TAP: ' + name + ' | cached=' + (cache[name] === undefined ? 'no' : (cache[name] === null ? 'unavailable' : 'yes')));
         unlockAudio();   // iOS: claim audio permission inside the tap gesture
 
         // Tap the one that's playing -> stop.
@@ -3231,6 +3250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         btn.classList.add('loading');
         itunesLookup(name, function (url) {
+            dbg('lookup ' + name + ' -> ' + (url ? 'FOUND' : 'none'));
             cache[name] = url || null;
             // If user moved on to another song meanwhile, don't hijack.
             if (!btn.classList.contains('loading')) return;
