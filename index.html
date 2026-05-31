@@ -162,6 +162,10 @@
             background-clip: text;
             line-height: 1;
         }
+        .brand-h1 { margin: 0; padding: 0; line-height: 0; }
+        .brand-logo { height: 78px; width: auto; max-width: 100%; display: block;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        @media (max-width: 600px) { .brand-logo { height: 50px; } }
         .site-header .subtitle {
             font-size: 14px;
             color: var(--dmb-muted);
@@ -1306,7 +1310,7 @@
 <div class="sticky-top">
 <header class="site-header">
     <div class="header-left">
-        <h1>Crown Your Champion</h1>
+        <h1 class="brand-h1"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></h1>
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
         <div class="header-tagline">Settle the debate: the greatest DMB song ever</div>
     </div>
@@ -3195,12 +3199,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function unlockAudio() {
         if (unlocked) return;
-        unlocked = true;
         var a = getAudio();
         try {
             a.src = SILENT;
             var p = a.play();
-            if (p && p.then) p.then(function () { try { a.pause(); a.currentTime = 0; } catch (e) {} }).catch(function () {});
+            if (p && p.then) { p.then(function () { unlocked = true; try { a.pause(); a.currentTime = 0; } catch (e) {} }).catch(function () {}); }
+            else { unlocked = true; }
         } catch (e) {}
     }
 
@@ -3225,6 +3229,30 @@ document.addEventListener('DOMContentLoaded', () => {
             if (url) startPlayback(name, btn, url);
             else flashUnavailable(btn);
         });
+    }
+
+    function prefetchPreviews() {
+        var slots = document.querySelectorAll('.slot');
+        var names = [], seen = {};
+        for (var i = 0; i < slots.length; i++) {
+            var slot = slots[i];
+            if (!slot.querySelector('.seed')) continue;
+            var name = slot.innerText.replace(/^\d+\s*/, '').trim();
+            if (!name || name === '--' || seen[name]) continue;
+            seen[name] = 1;
+            if (cache[name] === undefined) names.push(name);
+        }
+        var q = names.slice();
+        function step() {
+            if (!q.length) return;
+            var name = q.shift();
+            if (cache[name] !== undefined) { setTimeout(step, 40); return; }
+            itunesLookup(name, function (url) {
+                if (url && cache[name] === undefined) cache[name] = url;  // cache hits only; misses retried on tap
+                setTimeout(step, 1500);   // gentle pacing to respect iTunes rate limits
+            });
+        }
+        setTimeout(step, 0);
     }
 
     function initPlayButtons() {
@@ -3253,10 +3281,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function boot() { initPlayButtons(); setTimeout(prefetchPreviews, 2500); }
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPlayButtons);
+        document.addEventListener('DOMContentLoaded', boot);
     } else {
-        initPlayButtons();
+        boot();
     }
 })();
 
