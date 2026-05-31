@@ -163,9 +163,8 @@
             line-height: 1;
         }
         .brand-h1 { margin: 0; padding: 0; line-height: 0; }
-        .brand-logo { height: 78px; width: auto; max-width: 100%; display: block;
+        .brand-logo { height: clamp(54px, 8.5vw, 140px); width: auto; max-width: 100%; display: block;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        @media (max-width: 600px) { .brand-logo { height: 50px; } }
         .site-header .subtitle {
             font-size: 14px;
             color: var(--dmb-muted);
