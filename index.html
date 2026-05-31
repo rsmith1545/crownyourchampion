@@ -68,7 +68,8 @@
                 snap.forEach(d => { const v = d.data(); if (v && v.name) rows.push({ name: v.name, count: v.count || 0 }); });
                 rows.sort((a,b) => b.count - a.count);
                 const top = rows.slice(0, 8);
-                if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; return; }
+                const upsetEl = document.getElementById('biggestUpset');
+                if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; if (upsetEl) upsetEl.innerHTML = ''; return; }
                 const max = top[0].count || 1;
                 const total = rows.reduce((s,r) => s + r.count, 0) || 1;
                 body.innerHTML = top.map((r,i) => {
@@ -80,6 +81,20 @@
                          + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
                          + '<span class="lb-count">' + pct + '%</span></div>';
                 }).join('');
+                // Biggest Cinderella: the highest seed number ever crowned
+                if (upsetEl) {
+                    const seeds = window.NAME_SEED || {};
+                    let up = null;
+                    rows.forEach(r => { const sd = seeds[r.name]; if (sd && (!up || sd > up.seed)) up = { name: r.name, seed: sd }; });
+                    if (up && up.seed >= 2) {
+                        const nm = String(up.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+                        upsetEl.innerHTML = '🃏 Biggest Cinderella: <strong>' + nm + '</strong> &middot; a #' + up.seed + ' seed crowned';
+                    } else if (up) {
+                        upsetEl.innerHTML = '🛡️ No Cinderella yet — a #1 seed still reigns';
+                    } else {
+                        upsetEl.innerHTML = '';
+                    }
+                }
             } catch(e) {
                 console.warn("leaderboard load failed:", e);
                 body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>';
@@ -118,6 +133,15 @@
                 radial-gradient(ellipse at 80% 80%, rgba(240,165,0,0.08) 0%, transparent 50%);
         }
 
+        /* Sticky zone: header + progress + auto-fill stay pinned while scrolling */
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #060a12;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+        }
+
         /* HEADER */
         .site-header {
             background: linear-gradient(135deg, #000810 0%, #001a3d 50%, #000810 100%);
@@ -126,10 +150,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
         .site-header h1 {
             font-family: 'Bebas Neue', sans-serif;
@@ -142,11 +162,11 @@
             line-height: 1;
         }
         .site-header .subtitle {
-            font-size: 11px;
+            font-size: 14px;
             color: var(--dmb-muted);
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-top: 2px;
+            margin-top: 4px;
         }
         .header-actions {
             display: flex;
@@ -343,6 +363,12 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: sticky;
+            top: var(--sticky-top-h, 200px);
+            align-self: start;
+            z-index: 40;
+            max-height: calc(100vh - var(--sticky-top-h, 200px) - 8px);
+            overflow-y: auto;
         }
         .finals-card {
             background: var(--dmb-card);
@@ -435,21 +461,23 @@
         }
         .crown-btn {
             display: block; width: 100%; margin-top: 12px;
-            padding: 12px 14px; border: none; border-radius: 8px;
+            padding: 13px 14px; border: 1px dashed #3a4150; border-radius: 8px;
             font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px;
-            background: #2a2f3a; color: #5a6172; opacity: 0.7;
+            background: #232833; color: #6b7283; opacity: 0.85;
             cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
         }
         .crown-btn.ready {
-            background: linear-gradient(135deg, var(--dmb-gold), #b8902f);
-            color: #1a1208; opacity: 1; cursor: pointer;
-            box-shadow: 0 4px 18px rgba(212,175,55,0.45);
-            animation: crownPulse 1.9s ease-in-out infinite;
+            background: linear-gradient(135deg, #22c55e, #15924a);
+            color: #fff; opacity: 1; cursor: pointer; border: 1px solid #2fe06f;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+            box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
+            animation: crownPulse 1.2s ease-in-out infinite;
         }
-        .crown-btn.ready:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(212,175,55,0.65); }
+        .crown-btn.ready:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 26px rgba(34,197,94,0.85); }
         @keyframes crownPulse {
-            0%,100% { box-shadow: 0 4px 18px rgba(212,175,55,0.40); }
-            50%     { box-shadow: 0 4px 28px rgba(212,175,55,0.78); }
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.55); transform: scale(1); }
+            55%  { box-shadow: 0 0 0 12px rgba(34,197,94,0); transform: scale(1.03); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); transform: scale(1); }
         }
 
         /* ── CELEBRATION (confetti + encore flourish) ───────── */
@@ -462,7 +490,7 @@
             display: none; align-items: center; justify-content: center;
             flex-direction: column; text-align: center; pointer-events: none; padding: 20px;
         }
-        .celebrate-text.show { display: flex; animation: ctFade 2.8s ease forwards; }
+        .celebrate-text.show { display: flex; animation: ctFade 4.8s ease forwards; }
         .celebrate-text .ct-main {
             font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
             font-size: clamp(34px, 8vw, 76px); color: var(--dmb-gold);
@@ -475,8 +503,8 @@
         }
         @keyframes ctFade {
             0% { opacity: 0; transform: scale(0.9); }
-            12% { opacity: 1; transform: scale(1); }
-            78% { opacity: 1; transform: scale(1); }
+            9% { opacity: 1; transform: scale(1); }
+            84% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(1.02); }
         }
 
@@ -512,6 +540,13 @@
         .lb-track { flex: 1 1 50px; height: 7px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
         .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
         .lb-count { color: var(--dmb-muted); width: 32px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+        .lb-upset {
+            margin-top: 8px; padding-top: 8px;
+            border-top: 1px dashed var(--dmb-border);
+            font-size: 11px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
+        }
+        .lb-upset:empty { display: none; }
+        .lb-upset strong { color: var(--dmb-gold); }
 
 
         /* TOAST */
@@ -536,10 +571,18 @@
         /* MOBILE: stack everything vertically */
         @media (max-width: 900px) {
             .master-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
-            .side-col { order: 2; }
-            .center-col { order: 1; }
+            /* On phones, let everything scroll normally — sticky would eat the screen */
+            .sticky-top { position: static; }
+            .center-col {
+                position: static; top: auto;
+                max-height: none; overflow-y: visible;
+            }
+            .side-col { order: 2; min-width: 0; }
+            .center-col { order: 1; min-width: 0; }
+            .region-card { min-width: 0; }
+            .finals-card, .leaderboard-card { min-width: 0; }
             .bracket-row {
                 height: auto;
                 flex-wrap: nowrap;
@@ -560,6 +603,17 @@
             /* Make sure songs column is always first/leftmost */
             .bracket-row .round-col:first-child {
                 min-width: 130px;
+            }
+            /* Hint that the bracket scrolls sideways within each region */
+            .region-header::after {
+                content: '⇄ swipe to see all rounds';
+                display: block;
+                font-family: 'Barlow Condensed', sans-serif;
+                font-size: 10px;
+                letter-spacing: 1px;
+                font-weight: 400;
+                opacity: 0.72;
+                margin-top: 3px;
             }
         }
 
@@ -955,11 +1009,11 @@
 
         .header-tagline {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 13px;
+            font-size: 17px;
             font-style: italic;
             letter-spacing: 1px;
             color: var(--dmb-gold);
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         /* ── MODE SELECTOR ── */
@@ -1223,13 +1277,14 @@
 <body>
 
 <!-- HEADER -->
+<div class="sticky-top">
 <header class="site-header">
-    <div>
+    <div class="header-left">
         <h1>Crown Your Champion</h1>
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
+        <div class="header-tagline">Settle the debate: the greatest DMB song ever</div>
     </div>
     <div class="header-actions">
-        <span class="header-tagline">Settle the debate: the greatest DMB song ever</span>
         <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
         <button class="btn btn-share" onclick="openShare()">Share ↗</button>
     </div>
@@ -1251,7 +1306,9 @@
     <button class="mode-btn mode-fav"         onclick="setMode('favorites')"   title="Pick your favorites first">❤️ Your Favorites</button>
     <button class="mode-btn mode-era"         onclick="setMode('era')"         title="Filter by era">🎸 Era Bracket</button>
     <button class="mode-btn mode-controversy" onclick="setMode('controversy')" title="Fan favorites face off early">🔥 Controversy</button>
+    <!-- Shelved until concert feature launches (needs proxy + setlist.fm key + ingest run):
     <button class="mode-btn mode-concert"     onclick="setMode('concert')"     title="Songs from your specific show">🎵 My Concert</button>
+    -->
 </div>
 
 <!-- ERA SUB-SELECTOR -->
@@ -1262,6 +1319,7 @@
     <button class="era-btn" onclick="selectEra('2001-2007')">2001–2007</button>
     <button class="era-btn" onclick="selectEra('2008-present')">2008–Present</button>
 </div>
+</div><!-- /sticky-top -->
 
 
 
@@ -1378,7 +1436,7 @@
                     <div class="champ-label">Champion</div>
                     <div class="champ-name" id="champion">—</div>
                 </div>
-                <button class="crown-btn" id="crownBtn" onclick="submitAndCrown()" disabled>👑 Submit &amp; Crown</button>
+                <button class="crown-btn" id="crownBtn" onclick="submitAndCrown()" disabled>🔒 Pick your champion first</button>
             </div>
         </div>
         <div class="leaderboard-card">
@@ -1386,6 +1444,7 @@
             <div class="lb-body" id="leaderboardBody">
                 <div class="lb-empty">Be the first to crown a champion!</div>
             </div>
+            <div class="lb-upset" id="biggestUpset"></div>
         </div>
     </div>
 
@@ -1650,9 +1709,9 @@ const ALL_SONGS = [
   {name:"You Might Die Trying", seed:16, region:"Gorge", era:"2001-2007", spotify:30, liveRank:64},
 ];
 
-
-
-// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
+// Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
+window.NAME_SEED = {};
+ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; });// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
 // Picks winners through ALL rounds using a scoring function
 // scoreFn(songName) returns a number — higher wins
 function fillEntireBracket(scoreFn, randomTiebreak) {
@@ -2000,6 +2059,67 @@ function applyFavorites() {
     }, 200);
 }
 
+// ─── CONCERT DATA (setlist.fm via your Cloudflare Worker proxy) ───
+// After deploying setlist-proxy.js, paste the Worker URL here:
+window.CONCERT_PROXY = 'https://YOUR-WORKER.workers.dev';   // <-- SET THIS
+const CONCERT_MAX_PAGES = 6;   // setlist.fm returns ~20/page; 6 pages = up to ~120 shows
+
+function concertProxyReady() {
+    return !!window.CONCERT_PROXY && !/YOUR-WORKER/i.test(window.CONCERT_PROXY);
+}
+function escHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function parseShowDate(d) {              // setlist.fm eventDate is "dd-MM-yyyy"
+    if (!d) return 0;
+    const p = String(d).split('-');
+    return p.length === 3 ? new Date(+p[2], (+p[1]) - 1, +p[0]).getTime() : 0;
+}
+function normSong(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+function songsMatch(a, b) {
+    const x = normSong(a), y = normSong(b);
+    if (!x || !y) return false;
+    return x === y || x.includes(y) || y.includes(x);
+}
+function getSetlistSongs(setlist) {       // handles both {set:[...]} and {sets:{set:[...]}}
+    const sets = (setlist && setlist.sets && setlist.sets.set) || (setlist && setlist.set) || [];
+    const out = [];
+    sets.forEach(st => (st.song || []).forEach(s => { if (s && s.name) out.push(s.name); }));
+    return out;
+}
+// Page through the proxy and collect every matching DMB show
+async function fetchDMBSetlists(params) {
+    const all = [];
+    for (let p = 1; p <= CONCERT_MAX_PAGES; p++) {
+        const qs = new URLSearchParams();
+        Object.keys(params).forEach(k => { if (params[k]) qs.set(k, params[k]); });
+        qs.set('p', String(p));
+        let data;
+        try {
+            const res = await fetch(`${window.CONCERT_PROXY}?${qs.toString()}`, { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) break;
+            data = await res.json();
+        } catch (e) { break; }
+        const list = (data && data.setlist) || [];
+        all.push(...list);
+        const total = (data && data.total) || 0;
+        const per = (data && data.itemsPerPage) || 20;
+        if (list.length === 0 || p * per >= total) break;
+    }
+    return all;
+}
+// Split a free-text query into a year (if present) and the remaining venue/city text
+function parseConcertQuery(query) {
+    const ym = query.match(/\b(19|20)\d{2}\b/);
+    return { year: ym ? ym[0] : '', text: query.replace(/\b(19|20)\d{2}\b/, '').trim() };
+}
+function cityLabel(venue) {
+    if (!venue || !venue.city) return '';
+    const c = venue.city;
+    const region = c.stateCode || c.state || (c.country && c.country.code) || '';
+    return `${c.name || ''}${region ? ', ' + region : ''}`;
+}
+
 // ─── CONCERT MODE ─────────────────────────────────────────────────
 function openConcertModeModal() {
     document.getElementById('concertModeModal').classList.add('open');
@@ -2018,68 +2138,57 @@ async function searchConcertMode() {
     if (!query) return;
 
     const statusEl = document.getElementById('concertModeStatus');
+    const container = document.getElementById('concertModeResults');
+    container.innerHTML = '';
+
+    if (!concertProxyReady()) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Concert search isn’t connected yet.';
+        return;
+    }
+
     statusEl.className = 'cm-status loading';
-    statusEl.innerText = 'Searching setlist.fm...';
-    document.getElementById('concertModeResults').innerHTML = '';
+    statusEl.innerText = 'Searching setlist.fm…';
 
     try {
-        const apiKey = 'YOUR_SETLISTFM_API_KEY';
-        const url = `https://api.setlist.fm/rest/1.0/search/setlists?artistName=Dave+Matthews+Band&p=1`;
-        let setlists = [];
-
-        try {
-            const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {
-                headers: { 'x-api-key': apiKey, 'Accept': 'application/json' }
-            });
-            const d = await res.json();
-            setlists = d.setlist || [];
-        } catch(e) {
-            setlists = getDemoSetlists(query, '');
+        const { year, text } = parseConcertQuery(query);
+        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
+        if (shows.length === 0 && text) {
+            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
         }
-
-        const filtered = setlists.filter(s => {
-            const str = `${s.venue?.name||''} ${s.venue?.city?.name||''} ${s.eventDate||''}`.toLowerCase();
-            return str.includes(query.toLowerCase());
-        }).slice(0, 6);
-
-        const shows = filtered.length > 0 ? filtered : getDemoSetlists(query, '');
 
         if (shows.length === 0) {
             statusEl.className = 'cm-status error';
-            statusEl.innerText = 'No shows found. Try year, venue, or city.';
+            statusEl.innerText = 'No shows found. Try a venue, city, or year.';
             return;
         }
 
+        shows.sort((a, b) => parseShowDate(b.eventDate) - parseShowDate(a.eventDate));
         statusEl.className = 'cm-status';
-        statusEl.innerText = `Found ${shows.length} show${shows.length !== 1 ? 's' : ''} — tap to load bracket`;
+        statusEl.innerText = `Found ${shows.length} show${shows.length !== 1 ? 's' : ''} — tap to load that night’s bracket`;
 
-        const container = document.getElementById('concertModeResults');
-        container.innerHTML = '';
-        shows.forEach(s => {
+        shows.slice(0, 60).forEach(s => {
             const date = formatDate(s.eventDate);
-            const venue = s.venue?.name || 'Unknown Venue';
-            const city = `${s.venue?.city?.name||''}${s.venue?.city?.state ? ', '+s.venue.city.state : ''}`;
+            const venue = (s.venue && s.venue.name) || 'Unknown Venue';
+            const city = cityLabel(s.venue);
             const div = document.createElement('div');
             div.className = 'cm-result';
-            div.innerHTML = `<div class="cm-result-date">${date}</div><div class="cm-result-venue">${venue}</div><div class="cm-result-city">${city}</div>`;
+            div.innerHTML = `<div class="cm-result-date">${escHtml(date)}</div>`
+                          + `<div class="cm-result-venue">${escHtml(venue)}</div>`
+                          + `<div class="cm-result-city">${escHtml(city)}</div>`;
             div.onclick = () => applyConcertBracket(s, date, venue, city);
             container.appendChild(div);
         });
 
-    } catch(e) {
+    } catch (e) {
         statusEl.className = 'cm-status error';
-        statusEl.innerText = 'Search failed. Try again.';
+        statusEl.innerText = 'Search failed. Please try again.';
     }
 }
 
 function applyConcertBracket(setlist, date, venue, city) {
     closeConcertModeModal();
-    let concertSongs = [];
-    if (setlist.sets?.set) {
-        setlist.sets.set.forEach(set => {
-            (set.song || []).forEach(s => { if (s.name) concertSongs.push(s.name); });
-        });
-    }
+    let concertSongs = getSetlistSongs(setlist);
     if (concertSongs.length < 8) {
         concertSongs = ["Ants Marching","Two Step","Crash Into Me","Jimi Thing",
                         "Satellite","#41","Tripping Billies","Grey Street",
@@ -2089,12 +2198,12 @@ function applyConcertBracket(setlist, date, venue, city) {
     silentReset();
     setTimeout(() => {
         const scoreFn = (name) => {
-            const played = concertSongs.some(s => s.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(s.toLowerCase()));
+            const played = concertSongs.some(s => songsMatch(s, name));
             return played ? (50 + Math.random()) : Math.random();
         };
         fillEntireBracket(scoreFn, true);
         document.querySelector('.mode-btn.mode-concert')?.classList.add('active');
-        showToast(`🎵 ${venue} · ${date} — bracket filled!`);
+        showToast(`🎵 ${venue} · ${date} — bracket filled from that night!`);
     }, 200);
 }
 
@@ -2303,6 +2412,8 @@ function clearDownstream(id) {
 function updateProgress() {
     let filled = 0;
     ALL_IDS.forEach(id => {
+        // f1–f4 auto-fill from the region winners, so they aren't separate picks
+        if (id === 'f1' || id === 'f2' || id === 'f3' || id === 'f4') return;
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
@@ -2311,6 +2422,12 @@ function updateProgress() {
             }
         }
     });
+    // the champion is the final (63rd) pick
+    const champ = document.getElementById('champion');
+    if (champ) {
+        const t = champ.innerText.trim();
+        if (t && t !== '\u2014' && t !== '-' && t !== '--') filled++;
+    }
     const pct = Math.round((filled / TOTAL_PICKS) * 100);
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressCount').innerText = filled + ' / ' + TOTAL_PICKS;
@@ -2334,6 +2451,7 @@ function updateCrownButton() {
     const ready = champ && champ !== '—' && champ !== '-' && champ !== '--';
     btn.disabled = !ready;
     btn.classList.toggle('ready', !!ready);
+    btn.innerHTML = ready ? '👑 Submit &amp; Crown' : '🔒 Pick your champion first';
 }
 
 function submitAndCrown() {
@@ -2342,6 +2460,19 @@ function submitAndCrown() {
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 1700); // email capture after the celebration plays
 }
+
+// Keep the sticky championship column aligned just under the sticky header zone
+function setStickyTopHeight() {
+    const st = document.querySelector('.sticky-top');
+    if (st) document.documentElement.style.setProperty('--sticky-top-h', st.offsetHeight + 'px');
+}
+document.addEventListener('DOMContentLoaded', () => {
+    setStickyTopHeight();
+    const st = document.querySelector('.sticky-top');
+    if (st && 'ResizeObserver' in window) new ResizeObserver(setStickyTopHeight).observe(st);
+});
+window.addEventListener('load', setStickyTopHeight);
+window.addEventListener('resize', setStickyTopHeight);
 
 // ─── EMAIL MODAL ──────────────────────────────────────────────────
 function openEmailModal(champName) {
@@ -2413,7 +2544,7 @@ function celebrate() {
         t.classList.remove('show');
         void t.offsetWidth;            // restart the CSS animation
         t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2900);
+        setTimeout(() => t.classList.remove('show'), 4900);
     }
 }
 
@@ -2431,9 +2562,9 @@ function fireConfetti() {
         parts.push({
             x: W * (0.28 + Math.random() * 0.44),
             y: H * 0.34 + (Math.random() - 0.5) * H * 0.08,
-            vx: (Math.random() - 0.5) * 15 * DPR,
-            vy: (Math.random() * -1 - 0.4) * 17 * DPR,
-            g: (0.30 + Math.random() * 0.22) * DPR,
+            vx: (Math.random() - 0.5) * 12 * DPR,
+            vy: (Math.random() * -1 - 0.4) * 14 * DPR,
+            g: (0.18 + Math.random() * 0.16) * DPR,
             w: (6 + Math.random() * 7) * DPR,
             h: (8 + Math.random() * 9) * DPR,
             rot: Math.random() * Math.PI * 2,
@@ -2441,11 +2572,11 @@ function fireConfetti() {
             color: colors[(Math.random() * colors.length) | 0]
         });
     }
-    const start = performance.now(), DURATION = 3200;
+    const start = performance.now(), DURATION = 4800;
     function frame(now) {
         const elapsed = now - start;
         ctx.clearRect(0, 0, W, H);
-        ctx.globalAlpha = elapsed < 1900 ? 1 : Math.max(0, 1 - (elapsed - 1900) / 1300);
+        ctx.globalAlpha = elapsed < 3200 ? 1 : Math.max(0, 1 - (elapsed - 3200) / 1600);
         let alive = false;
         for (const p of parts) {
             p.vy += p.g; p.vx *= 0.99;
@@ -2457,7 +2588,7 @@ function fireConfetti() {
             ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
             ctx.restore();
         }
-        if (elapsed < DURATION && (alive || elapsed < 1900)) {
+        if (elapsed < DURATION && (alive || elapsed < 3200)) {
             requestAnimationFrame(frame);
         } else {
             ctx.clearRect(0, 0, W, H);
@@ -2700,70 +2831,41 @@ async function searchConcerts() {
     if (!query) return;
 
     const statusEl = document.getElementById('concertStatus');
-    statusEl.className = 'cm-status loading';
-    statusEl.innerText = 'Searching setlist.fm...';
     document.getElementById('concertResults').innerHTML = '';
     document.getElementById('concertPrintPreview').classList.remove('show');
     document.getElementById('concertPrintBtn').style.display = 'none';
     document.getElementById('concertNamesRow').style.display = 'none';
 
+    if (!concertProxyReady()) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Concert search isn’t connected yet.';
+        return;
+    }
+
+    statusEl.className = 'cm-status loading';
+    statusEl.innerText = 'Searching setlist.fm…';
+
     try {
-        // Encode song name and search query for setlist.fm API
-        const songParam = encodeURIComponent(currentChampSong);
-        const venueParam = encodeURIComponent(query);
-
-        // Search setlist.fm for DMB setlists containing this song
-        // Using CORS proxy since setlist.fm requires API key server-side
-        const apiKey = 'YOUR_SETLISTFM_API_KEY'; // Replace with real key from setlist.fm
-        const url = `https://api.setlist.fm/rest/1.0/search/setlists?artistName=Dave+Matthews+Band&songName=${songParam}&p=1`;
-
-        let setlists = [];
-
-        try {
-            const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, {
-                headers: {
-                    'x-api-key': apiKey,
-                    'Accept': 'application/json'
-                }
-            });
-            const data = await res.json();
-            setlists = data.setlist || [];
-        } catch(apiErr) {
-            // If API key not set, use demo data so the UI still works
-            setlists = getDemoSetlists(query, currentChampSong);
+        const { year, text } = parseConcertQuery(query);
+        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
+        if (shows.length === 0 && text) {
+            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
         }
 
-        // Filter by search query (venue/year/city)
-        const filtered = setlists.filter(s => {
-            const searchStr = `${s.venue?.name || ''} ${s.venue?.city?.name || ''} ${s.venue?.city?.state || ''} ${s.eventDate || ''}`.toLowerCase();
-            return searchStr.includes(query.toLowerCase());
-        }).slice(0, 8);
-
-        if (filtered.length === 0 && setlists.length > 0) {
-            // Show all results if filter returns nothing
-            renderConcertResults(setlists.slice(0, 8));
-            statusEl.className = 'cm-status';
-            statusEl.innerText = `Showing ${Math.min(8, setlists.length)} shows — scroll to find yours`;
-        } else if (filtered.length > 0) {
-            renderConcertResults(filtered);
-            statusEl.className = 'cm-status';
-            statusEl.innerText = `Found ${filtered.length} show${filtered.length !== 1 ? 's' : ''} — tap to select`;
-        } else {
+        if (shows.length === 0) {
             statusEl.className = 'cm-status error';
-            statusEl.innerText = 'No shows found. Try a different search (year, city, or venue name).';
+            statusEl.innerText = 'No shows found. Try a venue, city, or year.';
+            return;
         }
 
-    } catch(e) {
-        // Fallback to demo data
-        const demos = getDemoSetlists(query, currentChampSong);
-        if (demos.length > 0) {
-            renderConcertResults(demos);
-            statusEl.className = 'cm-status';
-            statusEl.innerText = 'Demo results — add your setlist.fm API key for live data';
-        } else {
-            statusEl.className = 'cm-status error';
-            statusEl.innerText = 'Search failed. Check your connection and try again.';
-        }
+        shows.sort((a, b) => parseShowDate(b.eventDate) - parseShowDate(a.eventDate));
+        renderConcertResults(shows.slice(0, 60));
+        statusEl.className = 'cm-status';
+        statusEl.innerText = `Found ${shows.length} show${shows.length !== 1 ? 's' : ''} — tap to select`;
+
+    } catch (e) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Search failed. Please try again.';
     }
 }
 
