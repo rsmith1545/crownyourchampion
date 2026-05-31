@@ -2485,8 +2485,10 @@ function skipEmail() {
     document.getElementById('emailModal').classList.remove('open');
     // Still save bracket data anonymously (no email)
     saveBracketData(null);
-    // Open concert modal
-    setTimeout(() => openConcertModal(document.getElementById('champion').innerText.trim()), 300);
+    // Open concert modal only once the concert feature is connected
+    if (concertProxyReady()) {
+        setTimeout(() => openConcertModal(document.getElementById('champion').innerText.trim()), 300);
+    }
 }
 
 async function submitEmail() {
@@ -2516,7 +2518,7 @@ async function submitEmail() {
         try { localStorage.setItem('dmb-user-email', email); } catch(e) {}
         setTimeout(() => {
             document.getElementById('emailModal').classList.remove('open');
-            openConcertModal(document.getElementById('champion').innerText.trim());
+            if (concertProxyReady()) openConcertModal(document.getElementById('champion').innerText.trim());
         }, 1800);
     } else {
         // Silently succeed from user perspective even if Firebase fails
