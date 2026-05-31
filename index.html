@@ -3119,9 +3119,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getAudio() {
         if (!audio) {
-            audio = new Audio();
+            // Use a <video> element (not Audio()): on iPhone, video audio plays
+            // through restrictions that block plain/detached audio. iPad/desktop
+            // play it the same way, so this is safe everywhere.
+            audio = document.createElement('video');
+            audio.setAttribute('playsinline', '');
+            audio.setAttribute('webkit-playsinline', '');
+            audio.setAttribute('preload', 'auto');
+            audio.muted = false;
+            audio.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
             audio.addEventListener('ended', resetCurrent);
             audio.addEventListener('error', resetCurrent);
+            (document.body || document.documentElement).appendChild(audio);
         }
         return audio;
     }
