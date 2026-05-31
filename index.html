@@ -1087,6 +1087,16 @@
         }
         .era-btn:hover { color: var(--dmb-text); }
         .era-btn.active { background: var(--dmb-blue); color: #fff; border-color: var(--dmb-blue); }
+        .era-prompt {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px;
+            letter-spacing: 1px; color: var(--dmb-gold); display: flex; align-items: center;
+            text-transform: uppercase; margin-right: 4px;
+        }
+        @keyframes eraPulse {
+            0%, 100% { box-shadow: inset 0 0 0 0 rgba(240,165,0,0); background: var(--dmb-card); }
+            30% { box-shadow: inset 0 0 0 2px var(--dmb-gold); background: rgba(240,165,0,0.10); }
+        }
+        .era-selector.pulse { animation: eraPulse 1.5s ease-in-out 2; }
 
         /* Favorites picker modal */
         .fav-modal-overlay {
@@ -1313,7 +1323,7 @@
 
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
-    <span class="mode-label" style="font-size:9px;">Select Era:</span>
+    <span class="era-prompt">👇 Pick an era to fill your bracket</span>
     <button class="era-btn" onclick="selectEra('1991-1995')">1991–1995</button>
     <button class="era-btn" onclick="selectEra('1996-2000')">1996–2000</button>
     <button class="era-btn" onclick="selectEra('2001-2007')">2001–2007</button>
@@ -1867,7 +1877,11 @@ function setMode(mode) {
 
     if (mode === 'era') {
         currentMode = 'era';
-        document.getElementById('eraSelector').classList.add('show');
+        const es = document.getElementById('eraSelector');
+        es.classList.add('show');
+        es.classList.remove('pulse'); void es.offsetWidth; es.classList.add('pulse');
+        try { es.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+        showToast('🎸 Now pick an era below to fill your bracket');
         return;
     }
 
