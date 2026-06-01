@@ -55,7 +55,7 @@
     border-radius:16px; padding:30px 26px 26px; overflow:hidden;
     transition:transform .28s cubic-bezier(.2,.7,.2,1), border-color .28s, box-shadow .28s;
     animation:rise .8s both;}
-  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;} .tile:nth-child(6){animation-delay:.64s;} .tile:nth-child(7){animation-delay:.72s;}
+  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;} .tile:nth-child(6){animation-delay:.64s;} .tile:nth-child(7){animation-delay:.72s;} .tile:nth-child(8){animation-delay:.8s;}
   .tile::before{content:""; position:absolute; top:0; left:0; right:0; height:5px;
     background:var(--accent); opacity:.9;}
   .tile::after{content:""; position:absolute; right:-40px; top:-40px; width:150px; height:150px;
@@ -71,6 +71,7 @@
   .tile.pj{--accent:#2f9fa6;}
   .tile.bj{--accent:#6a4c93;}
   .tile.gd{--accent:#e8336d;}
+  .tile.rhcp{--accent:#e2571e;}
   .tile .genre{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.2em;
     font-size:12px; color:var(--accent); font-weight:700;}
   .tile .band{font-family:'Bebas Neue',sans-serif; font-size:clamp(30px,5vw,40px); line-height:1; margin:8px 0 10px;}
@@ -212,6 +213,13 @@
         <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
         <span class="enter">Enter the bracket <span class="arr">→</span></span>
       </a>
+      <a class="tile rhcp" href="./rhcp/">
+        <div class="genre">Funk · Rock</div>
+        <div class="band">Red Hot Chili Peppers</div>
+        <div class="desc">Four decades of funk, seeded by what they actually play live — from "Give It Away" to "Under the Bridge."</div>
+        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+        <span class="enter">Enter the bracket <span class="arr">→</span></span>
+      </a>
     </div>
     <section class="howto">
       <h2>How to Play</h2>
@@ -273,13 +281,4 @@
   $('yr').textContent = new Date().getFullYear();
 
   $('join').onclick = async () => {
-    const email = $('email').value.trim();
-    const consent = $('consent').checked;
-    const msg = $('msg');
-    const ok = /^[^@\s]+@[^@\s]+\.[^@\s]+/.test(email);
-    if (!ok){ msg.className='msg err'; msg.textContent='Please enter a valid email.'; return; }
-    if (!consent){ msg.className='msg err'; msg.textContent='Please tick the box so we can email you.'; return; }
-    const btn = $('join'); btn.disabled = true; btn.textContent = 'Saving…';
-    // capture locally first so nothing is lost even if the network hangs
-    try { localStorage.setItem('cyc-hub-email', email); } catch(e){}
-    const write = db ? addDoc(collec
+    const email = $('email').value.t
