@@ -3115,7 +3115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var currentBtn = null;
     var currentName = null;
     var unlocked = false;      // iOS audio-unlock state
-    var DEBUG = /debug/i.test(location.hash);
+    var DEBUG = true;  // TEMP: always show the diagnostic readout on tap
     var dbgBox = null;
     function dbg(msg) {
         if (!DEBUG) return;
