@@ -163,6 +163,8 @@
             line-height: 1;
         }
         .brand-h1 { margin: 0; padding: 0; line-height: 0; }
+        .brand-link { display: inline-block; line-height: 0; cursor: pointer; transition: filter .2s, transform .2s; }
+        .brand-link:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .brand-logo { height: clamp(54px, 8.5vw, 140px); width: auto; max-width: 100%; display: block;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
         .site-header .subtitle {
@@ -1309,7 +1311,7 @@
 <div class="sticky-top">
 <header class="site-header">
     <div class="header-left">
-        <h1 class="brand-h1"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></h1>
+        <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
         <div class="header-tagline">Settle the debate: the greatest DMB song ever</div>
     </div>
