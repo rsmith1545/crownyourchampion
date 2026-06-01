@@ -1372,8 +1372,8 @@
 
 <canvas id="confettiCanvas"></canvas>
 <div class="celebrate-text" id="celebrateText">
-    <div class="ct-main">Thank you very much.</div>
-    <div class="ct-sub">Goodnight!</div>
+    <div class="ct-main">We don't say goodbye,</div>
+    <div class="ct-sub">we just say this...</div>
 </div>
 
 <div class="main-wrap">
@@ -2496,7 +2496,7 @@ function updateCrownButton() {
 function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
-    celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
+    celebrate();                                 // confetti + fanfare + "We don't say goodbye, we just say this..."
     setTimeout(() => openEmailModal(champ), 1700); // email capture after the celebration plays
 }
 
