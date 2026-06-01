@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crown Your Champion Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Dark interface canvas background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #12161a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        /* The Premium T-Shirt Canvas Frame */
+        .shirt-container {
+            position: relative;
+            width: 480px;
+            height: 550px;
+            background-color: #23272a; /* Dark charcoal fabric shade */
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Subtle crewneck structural neckline shape */
+        .shirt-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 140px;
+            height: 25px;
+            background-color: #1a1d20;
+            border-bottom-left-radius: 70px;
+            border-bottom-right-radius: 70px;
+        }
+
+        /* Graphic Print Alignments */
+        .design-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        /* Scalable crisp vector crown graphics positioning layout */
+        .crown-svg {
+            position: absolute;
+            top: -28px;
+            left: -15px;
+            width: 65px;
+            height: auto;
+            transform: rotate(-15deg);
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .main-title {
+            font-size: 72px;
+            font-weight: 700;
+            color: #f4f4f4;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .sub-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #dca73e; /* Premium athletic gold line hex */
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Linear divider block styling */
+        .divider {
+            width: 180px;
+            height: 3px;
+            background-color: #dca73e;
+            margin-bottom: 25px;
+            border-radius: 2px;
+        }
+
+        /* The Champion Title Section - scales cleanly from short numbers to long titles */
+        .champion-name {
+            font-size: 42px;
+            font-weight: 700;
+            color: #dca73e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0 0 8px 0;
+            line-height: 1.1;
+            max-width: 420px;
+        }
+
+        .bracket-year {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0 0 40px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bracket-year::before,
+        .bracket-year::after {
+            content: '';
+            display: inline-block;
+            width: 15px;
+            height: 1px;
+            background-color: #556270;
+        }
+
+        /* Branding URL string styling rules */
+        .website-url {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The Virtual T-Shirt Card Box -->
+    <div class="shirt-container">
+        <div class="design-layout">
+            
+            <!-- Crown Branding Component Header -->
+            <div class="logo-wrapper">
+                <!-- Sharp Inline Vector Graphic Asset Elements -->
+                <svg class="crown-svg" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 70 L20 30 L40 50 L50 20 L60 50 L80 30 L90 70 Z" fill="#dca73e"/>
+                    <circle cx="20" cy="26" r="4" fill="#12161a"/>
+                    <circle cx="50" cy="15" r="4" fill="#12161a"/>
+                    <circle cx="80" cy="26" r="4" fill="#12161a"/>
+                    <path d="M8 70 L92 70 L85 76 L15 76 Z" fill="#b88324"/>
+                </svg>
+                <h1 class="main-title">Crown</h1>
+            </div>
+            
+            <div class="sub-title">Your Champion</div>
+            <div class="divider"></div>
+            
+            <!-- ======================================================== -->
+            <!-- EDIT THE LINE BELOW FOR ANY SONG YOU WANT TO RENDER      -->
+            <!-- ======================================================== -->
+            <h2 class="champion-name">Two Step</h2>
+            
+            <div class="bracket-year">2026 Bracket Champion</div>
+            
+            <a href="https://crownyourchampion.com" target="_blank" class="website-url">crownyourchampion.com</a>
+            
+        </div>
+    </div>
+
+</body>
+</html>

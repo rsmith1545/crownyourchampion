@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown Your Champion — Card Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e16; --panel:#121826; --line:#222b3d; --txt:#e7ecf5; --mut:#8a93a6;
+    --gold:#d4af37; --gold2:#b8902f; --cream:#e8e2d0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:'Barlow Condensed',system-ui,sans-serif;}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#05070d,#0c1424);}
+  header h1{font-family:'Bebas Neue',sans-serif;letter-spacing:3px;margin:0;font-size:30px;color:var(--gold);}
+  header p{margin:4px 0 0;color:var(--mut);font-size:14px;letter-spacing:1px;}
+  .wrap{display:flex;flex-wrap:wrap;gap:26px;padding:26px;align-items:flex-start;}
+  .card-col{flex:1 1 360px;min-width:320px;max-width:520px;}
+  .card-col h2{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:22px;color:var(--txt);margin:0 0 10px;}
+  canvas{width:100%;height:auto;border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,0.55);display:block;background:#05070d;}
+  .controls{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;}
+  .controls label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--mut);margin:10px 0 4px;}
+  .controls input,.controls textarea{width:100%;background:#0b101b;border:1px solid var(--line);border-radius:7px;color:var(--txt);
+    font-family:'Barlow Condensed',sans-serif;font-size:15px;padding:8px 10px;}
+  .controls textarea{min-height:150px;resize:vertical;line-height:1.5;}
+  .row{display:flex;gap:10px;}.row>*{flex:1;}
+  .btns{display:flex;gap:10px;margin-top:14px;}
+  button{flex:1;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:17px;padding:11px;border:none;border-radius:8px;cursor:pointer;transition:.15s;}
+  .b-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1208;}
+  .b-ghost{background:transparent;border:1px solid var(--line);color:var(--txt);}
+  button:hover{transform:translateY(-1px);}
+  .note{font-size:13px;color:var(--mut);line-height:1.5;margin:14px 26px 30px;max-width:900px;}
+  .note b{color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <h1>Card Studio</h1>
+  <p>Render, tweak, and download both card styles · designed background (no photo licensing) · 1080×1350 (Instagram portrait)</p>
+</header>
+
+<div class="wrap">
+  <!-- CHAMPION SHARE CARD -->
+  <div class="card-col">
+    <h2>① Champion Share Card <span style="color:var(--mut);font-size:13px;">— branded, made to spread</span></h2>
+    <canvas id="champCanvas" width="1080" height="1350"></canvas>
+    <div class="controls">
+      <label>Masthead</label>
+      <input id="cMast" value="CROWN YOUR CHAMPION">
+      <label>Sub-line</label>
+      <input id="cSub" value="A DAVE MATTHEWS BAND BRACKET">
+      <label>Champion song</label>
+      <input id="cChamp" value="Ants Marching">
+      <div class="row">
+        <div><label>Finalist A</label><input id="cFa" value="Ants Marching"></div>
+        <div><label>Finalist B</label><input id="cFb" value="Tripping Billies"></div>
+      </div>
+      <label>Final Four (one per line)</label>
+      <textarea id="cF4" style="min-height:90px;">Ants Marching
+Tripping Billies
+Two Step
+Crash Into Me</textarea>
+      <label>Footer / URL</label>
+      <input id="cFoot" value="crownyourchampion.com · build your bracket">
+      <div class="btns">
+        <button class="b-ghost" onclick="renderChamp()">↻ Render</button>
+        <button class="b-gold" onclick="download('champCanvas','champion-card')">↓ Download PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCERT RECAP CARD -->
+  <div class="card-col">
+    <h2>② Concert Recap Card <span style="color:var(--mut);font-size:13px;">— keepsake, no site branding</span></h2>
+    <canvas id="recapCanvas" width="1080" height="1350"></canvas>
+    <div class="controls">
+      <label>Masthead (band name)</label>
+      <input id="rMast" value="DAVE MATTHEWS BAND">
+      <div class="row">
+        <div><label>Show # (overall)</label><input id="rShowNum" value="3001"></div>
+        <div><label>Show # at this venue</label><input id="rVenueNum" value="12"></div>
+      </div>
+      <div class="row">
+        <div><label>Date</label><input id="rDate" value="MAY 25, 2026"></div>
+        <div><label>City</label><input id="rCity" value="ORANGE BEACH, AL"></div>
+      </div>
+      <label>Setlist (one per line · add » for segues)</label>
+      <textarea id="rList">#41
+Seven
+The Stone
+Straight Shot
+Satellite
+Pig
+Black and Blue Bird
+Dancing Nancies
+Sledgehammer
+Mercy
+The Only Thing
+Kill the Preacher
+Why I Am
+Corn Bread
+Gravedigger
+The Space Between
+Don't Drink the Water »
+Tripping Billies
+Encore:
+Two Step</textarea>
+      <label>Stat call-outs (SONG | FACT — one per line)</label>
+      <textarea id="rStats" style="min-height:90px;">SEVEN | 310 days since last performance
+THE STONE | 300th full-band performance
+SATELLITE, PIG | first back-to-back of the tour</textarea>
+      <label>Footer</label>
+      <input id="rFoot" value="A fan setlist record">
+      <div class="btns">
+        <button class="b-ghost" onclick="renderRecap()">↻ Render</button>
+        <button class="b-gold" onclick="download('recapCanvas','concert-recap')">↓ Download PNG</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="note">
+  <b>Note on the stat call-outs:</b> the deep stats ("310 days since last performance," "300th full-band performance," "first back-to-back") require pulling each song's <i>full performance history</i> across every DMB show — that's the historical-data pipeline we'd build on top of the setlist.fm proxy. For now they're editable text so you can see the design; once the data's wired, they'll compute automatically. Everything else (setlist, date, venue, champion, Final Four) is real, ownable data.
+</p>
+
+<script>
+const DISPLAY = "'Bebas Neue','Oswald','Arial Narrow','Impact',sans-serif";
+const BODY    = "'Barlow Condensed','Oswald','Arial Narrow',sans-serif";
+const SCALE = 2; // retina
+
+function el(id){return document.getElementById(id);}
+function commas(n){ const x=parseInt(String(n).replace(/[^0-9]/g,''),10); return isNaN(x)?String(n):x.toLocaleString('en-US'); }
+function ordinal(n){ const x=parseInt(String(n).replace(/[^0-9]/g,''),10); if(isNaN(x))return String(n); const s=['th','st','nd','rd'],v=x%100; return x+(s[(v-20)%10]||s[v]||s[0]); }
+
+function setup(canvas){
+  const W=1080,H=1350;
+  canvas.width=W*SCALE; canvas.height=H*SCALE;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(SCALE,SCALE);
+  return {ctx,W,H};
+}
+
+function txt(ctx,s,x,y,o){
+  o=o||{};
+  const size=o.size||40, weight=o.weight||'700', fam=o.fam||BODY;
+  ctx.font=`${o.italic?'italic ':''}${weight} ${size}px ${fam}`;
+  ctx.fillStyle=o.color||'#fff';
+  ctx.textAlign=o.align||'left';
+  ctx.textBaseline=o.baseline||'alphabetic';
+  if('letterSpacing' in ctx) ctx.letterSpacing=((o.spacing||0))+'px';
+  ctx.globalAlpha=o.alpha==null?1:o.alpha;
+  ctx.fillText(s,x,y);
+  ctx.globalAlpha=1;
+  if('letterSpacing' in ctx) ctx.letterSpacing='0px';
+}
+
+function measure(ctx,s,size,weight,fam,spacing){
+  ctx.font=`${weight||'700'} ${size}px ${fam||BODY}`;
+  if('letterSpacing' in ctx) ctx.letterSpacing=(spacing||0)+'px';
+  const w=ctx.measureText(s).width;
+  if('letterSpacing' in ctx) ctx.letterSpacing='0px';
+  return w;
+}
+
+// fit a single string to maxWidth by shrinking size (down to min)
+function fitSize(ctx,s,maxW,start,min,weight,fam,spacing){
+  let size=start;
+  while(size>min && measure(ctx,s,size,weight,fam,spacing)>maxW) size-=2;
+  return size;
+}
+
+// wrap into lines at a fixed size
+function wrap(ctx,s,maxW,size,weight,fam,spacing){
+  const words=s.split(' '); const lines=[]; let cur='';
+  for(const w of words){
+    const test=cur?cur+' '+w:w;
+    if(measure(ctx,test,size,weight,fam,spacing)>maxW && cur){lines.push(cur);cur=w;}
+    else cur=test;
+  }
+  if(cur)lines.push(cur);
+  return lines;
+}
+
+// small gold pill tag (OPENER / CLOSER)
+function pill(ctx,x,yBaseline,label){
+  ctx.save();
+  const fs=14, padX=7, h=21;
+  ctx.font=`700 ${fs}px ${BODY}`;
+  if('letterSpacing' in ctx) ctx.letterSpacing='1px';
+  const tw=ctx.measureText(label).width;
+  const y=yBaseline - h + 5;
+  ctx.fillStyle='#c9a227';
+  if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x,y,tw+padX*2,h,4); ctx.fill(); }
+  else ctx.fillRect(x,y,tw+padX*2,h);
+  ctx.fillStyle='#12161f'; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  ctx.fillText(label, x+padX, yBaseline-2);
+  if('letterSpacing' in ctx) ctx.letterSpacing='0px';
+  ctx.restore();
+}
+
+function drawAtmosphere(ctx,W,H){
+  // base vertical gradient
+  let g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#0c1730'); g.addColorStop(0.45,'#0a0f1b'); g.addColorStop(1,'#04060c');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  // warm stage glow from top
+  let rg=ctx.createRadialGradient(W*0.5,H*0.10,0,W*0.5,H*0.10,W*0.95);
+  rg.addColorStop(0,'rgba(212,175,55,0.22)');
+  rg.addColorStop(0.4,'rgba(50,84,150,0.12)');
+  rg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=rg; ctx.fillRect(0,0,W,H);
+  // light beams
+  ctx.save();
+  ctx.globalCompositeOperation='screen';
+  [[0.30,'rgba(120,160,255,0.10)'],[0.5,'rgba(212,175,55,0.10)'],[0.72,'rgba(120,160,255,0.08)']].forEach(([bx,col])=>{
+    ctx.fillStyle=col; ctx.beginPath();
+    ctx.moveTo(W*bx,-20); ctx.lineTo(W*bx-150,H*0.95); ctx.lineTo(W*bx+150,H*0.95); ctx.closePath(); ctx.fill();
+  });
+  ctx.restore();
+  // grain
+  ctx.save(); ctx.globalAlpha=0.05;
+  for(let i=0;i<2600;i++){
+    ctx.fillStyle=Math.random()>0.5?'#ffffff':'#000000';
+    ctx.fillRect(Math.random()*W,Math.random()*H,1,1);
+  }
+  ctx.restore();
+  // crowd silhouette along the bottom — concert atmosphere (drawn, fully ownable)
+  drawCrowd(ctx,W,H);
+  // vignette
+  let vg=ctx.createRadialGradient(W*0.5,H*0.52,H*0.28,W*0.5,H*0.55,H*0.8);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.6)');
+  ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+}
+
+// Concert crowd silhouette (heads + a few raised hands). Subtle, sits low, behind text.
+function drawCrowd(ctx,W,H){
+  const baseY=H*0.93;
+  ctx.save();
+  ctx.fillStyle='rgba(2,4,9,0.5)';
+  let x=-30, seed=7;
+  const rnd=()=>{ seed=(seed*9301+49297)%233280; return seed/233280; }; // deterministic
+  while(x<W+30){
+    const r=20+rnd()*16;
+    ctx.beginPath();
+    ctx.moveTo(x-r, baseY+90);
+    ctx.lineTo(x-r, baseY+8);
+    ctx.arc(x, baseY+8, r, Math.PI, 0);   // head
+    ctx.lineTo(x+r, baseY+90);
+    ctx.closePath(); ctx.fill();
+    if(rnd()<0.22){                        // raised arm
+      const ax=x+(rnd()<0.5?-r*0.5:r*0.5), ah=46+rnd()*44;
+      ctx.fillRect(ax-3, baseY-ah, 6, ah+10);
+      ctx.beginPath(); ctx.arc(ax, baseY-ah, 7, 0, Math.PI*2); ctx.fill();
+    }
+    x+=r*1.5;
+  }
+  ctx.restore();
+}
+
+// little crown mark
+function crown(ctx,cx,cy,s,color){
+  ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(-s,s*0.5); ctx.lineTo(-s,-s*0.2); ctx.lineTo(-s*0.5,s*0.15);
+  ctx.lineTo(0,-s*0.5); ctx.lineTo(s*0.5,s*0.15); ctx.lineTo(s,-s*0.2);
+  ctx.lineTo(s,s*0.5); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function mastheadBand(ctx,W,mast,sub,tag){
+  const bandH=176;
+  ctx.fillStyle='#e8e2d0'; ctx.fillRect(0,0,W,bandH);
+  // thin gold rule under band
+  ctx.fillStyle='#c9a227'; ctx.fillRect(0,bandH,W,5);
+  const mastSize=fitSize(ctx,mast,W-300,76,40,'700',DISPLAY,1);
+  txt(ctx,mast,64,96,{fam:DISPLAY,size:mastSize,color:'#12161f',spacing:1});
+  const subSpacing = sub.length > 34 ? 2 : 5;
+  const subSize = fitSize(ctx, sub, W-128, 24, 15, '600', BODY, subSpacing);
+  txt(ctx,sub,66,138,{fam:BODY,size:subSize,weight:'600',color:'#6f6a58',spacing:subSpacing});
+  // tour tag (right)
+  if(tag){
+    txt(ctx,tag,W-64,84,{fam:BODY,size:20,weight:'700',color:'#8a7c3f',spacing:3,align:'right'});
+  }
+  return bandH+5;
+}
+
+// ───────── CHAMPION SHARE CARD ─────────
+function renderChamp(){
+  const c=el('champCanvas'); const {ctx,W,H}=setup(c);
+  drawAtmosphere(ctx,W,H);
+  const top=mastheadBand(ctx,W,el('cMast').value.toUpperCase(),el('cSub').value.toUpperCase(),'2026');
+
+  // label
+  let y=top+92;
+  crown(ctx,64+14,y-30,18,'#d4af37');
+  txt(ctx,'MY CHAMPION',104,y-14,{fam:BODY,size:30,weight:'700',color:'#d4af37',spacing:8});
+
+  // champion big
+  const champ=(el('cChamp').value||'').toUpperCase();
+  y+=44;
+  const maxW=W-128;
+  let cs=fitSize(ctx,champ,maxW,150,70,'700',DISPLAY,0);
+  let lines=wrap(ctx,champ,maxW,cs,'700',DISPLAY,0);
+  if(lines.length>2){ cs=fitSize(ctx,'ABCDEFGHIJKL',maxW,110,60,'700',DISPLAY,0); lines=wrap(ctx,champ,maxW,cs,'700',DISPLAY,0);}
+  lines.forEach((ln,i)=>{ y+=cs*0.96; txt(ctx,ln,64,y,{fam:DISPLAY,size:cs,color:'#f4e9c8'}); });
+
+  // gold underline
+  y+=26; ctx.fillStyle='#c9a227'; ctx.fillRect(64,y,150,6);
+
+  // finals line
+  y+=72;
+  txt(ctx,'THE FINAL',64,y,{fam:BODY,size:26,weight:'700',color:'#8a93a6',spacing:6});
+  y+=52;
+  const fa=(el('cFa').value||'').toUpperCase(), fb=(el('cFb').value||'').toUpperCase();
+  const fSize=44;
+  txt(ctx,fa,64,y,{fam:DISPLAY,size:fSize,color:'#fff'});
+  txt(ctx,'def.',64,y+44,{fam:BODY,size:24,weight:'500',italic:true,color:'#d4af37'});
+  txt(ctx,fb,150,y+44,{fam:DISPLAY,size:36,color:'#aeb6c6'});
+
+  // Final Four block (lower)
+  let by=H-360;
+  ctx.fillStyle='rgba(212,175,55,0.9)'; ctx.fillRect(64,by-34,46,4);
+  txt(ctx,'THE ROAD · FINAL FOUR',64,by,{fam:BODY,size:24,weight:'700',color:'#d4af37',spacing:5});
+  const f4=(el('cF4').value||'').split('\n').map(s=>s.trim()).filter(Boolean).slice(0,4);
+  by+=20;
+  f4.forEach((s,i)=>{
+    by+=46;
+    txt(ctx,String(i+1),64,by,{fam:DISPLAY,size:34,color:'#5b6477'});
+    txt(ctx,s.toUpperCase(),120,by,{fam:DISPLAY,size:34,color:'#e7ecf5'});
+  });
+
+  // footer
+  ctx.fillStyle='#c9a227'; ctx.fillRect(0,H-70,W,2);
+  txt(ctx,(el('cFoot').value||'').toUpperCase(),W/2,H-32,{fam:BODY,size:24,weight:'700',color:'#d4af37',spacing:4,align:'center'});
+}
+
+// ───────── CONCERT RECAP CARD ─────────
+function renderRecap(){
+  const c=el('recapCanvas'); const {ctx,W,H}=setup(c);
+  drawAtmosphere(ctx,W,H);
+  // faint oversized year watermark for depth
+  const wmYear=(el('rDate').value.match(/\b(19|20)\d{2}\b/)||[''])[0];
+  if(wmYear){ ctx.save(); ctx.globalAlpha=0.05; ctx.fillStyle='#ffffff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font=`700 470px ${DISPLAY}`; if('letterSpacing' in ctx) ctx.letterSpacing='0px';
+    ctx.fillText(wmYear, W*0.5, H*0.57); ctx.restore(); }
+  const subLine = `SHOW ${commas(el('rShowNum').value)} · ${ordinal(el('rVenueNum').value)} APPEARANCE AT ${el('rCity').value.toUpperCase()}`;
+  const top=mastheadBand(ctx,W,el('rMast').value.toUpperCase(),subLine,'LIVE');
+
+  // date / city band
+  let y=top+70;
+  ctx.fillStyle='rgba(212,175,55,0.16)'; ctx.fillRect(0,y-44,W,72);
+  ctx.fillStyle='#c9a227'; ctx.fillRect(0,y-44,6,72);
+  txt(ctx,el('rDate').value.toUpperCase(),36,y,{fam:DISPLAY,size:42,color:'#f4e9c8',spacing:1});
+  txt(ctx,el('rCity').value.toUpperCase(),W-36,y-6,{fam:BODY,size:26,weight:'700',color:'#d4af37',spacing:3,align:'right'});
+
+  const items=(el('rList').value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  const stats=(el('rStats').value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+
+  const top2 = y+78;
+  const bottom = H-104;
+  const leftX = 44;
+  const rightX = W*0.52;
+  const rightW = W - rightX - 44;
+
+  // divider
+  ctx.strokeStyle='rgba(255,255,255,0.10)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(W*0.495, top2-6); ctx.lineTo(W*0.495, bottom); ctx.stroke();
+
+  // ----- left: setlist (single column) -----
+  const rows = items.length || 1;
+  const avail = bottom - top2;
+  const lineH = Math.min(46, Math.max(28, Math.floor(avail / rows)));
+  const songSize = Math.min(34, Math.max(22, lineH-10));
+  const realIdx = items.map((s,i)=>({s,i})).filter(o=>!/^encore:?$/i.test(o.s)).map(o=>o.i);
+  const openerI = realIdx.length ? realIdx[0] : -1;
+  const closerI = realIdx.length ? realIdx[realIdx.length-1] : -1;
+  let ry = top2;
+  items.forEach((raw,idx)=>{
+    ry += lineH;
+    let str=raw, segue=false;
+    if(/^encore:?$/i.test(str)){ txt(ctx,'— ENCORE —',leftX,ry-lineH*0.15,{fam:BODY,size:Math.max(17,songSize-13),weight:'700',italic:true,color:'#d4af37',spacing:3}); return; }
+    if(str.endsWith('\u00bb')){segue=true; str=str.replace(/\u00bb\s*$/,'').trim();}
+    txt(ctx,str,leftX,ry,{fam:DISPLAY,size:songSize,color:'#e7ecf5'});
+    let endX = leftX + measure(ctx,str,songSize,'700',DISPLAY,0);
+    if(segue){ txt(ctx,'\u00bb',endX+8,ry,{fam:DISPLAY,size:songSize,color:'#d4af37'}); endX += 8+measure(ctx,'\u00bb',songSize,'700',DISPLAY,0); }
+    if(idx===openerI) pill(ctx, endX+12, ry, 'OPENER');
+    else if(idx===closerI) pill(ctx, endX+12, ry, 'CLOSER');
+  });
+
+  // ----- right: stat call-outs (evenly fill the column) -----
+  if(stats.length){
+    const n = Math.min(stats.length,3);
+    const band = (bottom - top2) / n;
+    stats.slice(0,n).forEach((line,i)=>{
+      const parts=line.split('|');
+      const song=(parts[0]||'').trim().toUpperCase();
+      const fact=(parts[1]||'').trim();
+      const songSz = fitSize(ctx, song, rightW, 54, 28, '700', DISPLAY, 0);
+      const factLines = wrap(ctx,fact.toUpperCase(),rightW,25,'600',BODY,1);
+      const noteH = songSz + 16 + factLines.length*31;
+      const y0 = (top2 + i*band) + (band - noteH)/2;   // vertical center within its third
+      // gold accent tick above the note
+      ctx.fillStyle='#c9a227'; ctx.fillRect(W-44-48, Math.round(y0-16), 48, 3);
+      txt(ctx,song,W-44, y0+songSz, {fam:DISPLAY,size:songSz,color:'#d4af37',align:'right'});
+      let fy = y0+songSz+34;
+      factLines.forEach(fl=>{ txt(ctx,fl,W-44,fy,{fam:BODY,size:25,weight:'600',color:'#cfd6e3',spacing:1,align:'right'}); fy+=31; });
+    });
+  } else {
+    txt(ctx,'—',W-44,top2+44,{fam:DISPLAY,size:30,color:'#5b6477',align:'right'});
+  }
+
+  // footer
+  ctx.fillStyle='#c9a227'; ctx.fillRect(0,H-70,W,2);
+  txt(ctx,(el('rFoot').value||'').toUpperCase(),W/2,H-32,{fam:BODY,size:22,weight:'700',color:'#8a93a6',spacing:4,align:'center'});
+  txt(ctx,String(items.filter(s=>!/^encore:?$/i.test(s)).length)+' SONGS',64,H-32,{fam:BODY,size:22,weight:'700',color:'#d4af37',spacing:2});
+}
+
+function download(canvasId,name){
+  const c=el(canvasId);
+  c.toBlob(b=>{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(b); a.download=name+'.png'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  },'image/png');
+}
+
+function renderAll(){ renderChamp(); renderRecap(); }
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(renderAll); setTimeout(renderAll,600);} else { renderAll(); }
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview Link Generator · Crown Your Champion</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; background:#0b1018; color:#e7ecf5; max-width:760px; margin:0 auto; padding:32px 20px 80px; line-height:1.55; }
+  h1 { color:#f0a500; font-size:24px; margin-bottom:4px; }
+  .sub { color:#8a93a6; margin-top:0; }
+  ol { background:#121a28; border:1px solid #1e2737; border-radius:10px; padding:16px 16px 16px 38px; }
+  li { margin:6px 0; }
+  button { background:#f0a500; color:#10131a; border:0; font-weight:700; font-size:16px; padding:12px 22px; border-radius:8px; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  #dl { background:#2e7d32; color:#fff; margin-left:8px; }
+  .bar { height:14px; background:#1e2737; border-radius:7px; overflow:hidden; margin:16px 0 6px; }
+  .bar > div { height:100%; width:0; background:linear-gradient(90deg,#2563aa,#f0a500); transition:width .2s; }
+  #stat { font-size:14px; color:#9fb0c7; }
+  #log { font:12px/1.5 monospace; background:#06090f; border:1px solid #1e2737; border-radius:8px; padding:10px; max-height:240px; overflow:auto; white-space:pre-wrap; margin-top:14px; }
+  .ok { color:#5fd17a; } .miss { color:#e0683c; }
+  code { background:#1e2737; padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+  <h1>🎵 Preview Link Generator</h1>
+  <p class="sub">Run this once to bake the song previews into your site so every device (including iPhones) can play them.</p>
+
+  <ol>
+    <li>Click <b>Generate Links</b> below and let it run (about 2–3 minutes — it paces itself so Apple doesn't block it).</li>
+    <li>When it finishes, click <b>Download preview-urls.json</b>.</li>
+    <li>Upload <code>preview-urls.json</code> to your GitHub repo, in the same folder as <code>index.html</code>.</li>
+    <li>Reload your site. Done — previews now play everywhere with no live lookups.</li>
+  </ol>
+  <p style="font-size:13px;color:#8a93a6">Tip: if it finds only a few, your network may be temporarily rate-limited from earlier testing — wait ~15 minutes (or try a different WiFi) and run it again.</p>
+
+  <p>
+    <button id="go">Generate Links</button>
+    <button id="dl" disabled>Download preview-urls.json</button>
+  </p>
+  <div class="bar"><div id="fill"></div></div>
+  <div id="stat">Idle.</div>
+  <div id="log"></div>
+
+<script>
+var SONGS = ["#41","All Along the Watchtower","American Baby","Ants Marching","Bartender","Best of What's Around","Big Eyed Fish","Cornbread","Crash Into Me","Crush","Cry Freedom","Dancing Nancies","Do You Remember","Don't Drink the Water","Drive In Drive Out","Everyday","Funny the Way It Is","Grace Is Gone","Granny","Gravedigger","Grey Street","Halloween","Idea of You","Jimi Thing","Lie in Our Graves","Louisiana Bayou","Lover Lay Down","Minarets","Old Dirt Hill","One Sweet World","Pay for What You Get","Pig","Proudest Monkey","Rapunzel","Raven","Recently","Rhyme & Reason","Satellite","Say Goodbye","Seek Up","Seven","Sister","So Damn Lucky","So Much to Say","So Right","Some Devil","Spoon","Stay (Wasting Time)","Stay or Leave","The Dreaming Tree","The Last Stop","The Space Between","The Stone","Too Much","Tripping Billies","Two Step","Typical Situation","Warehouse","What Would You Say","When the World Ends","Where Are You Going","Why I Am","You & Me","You Might Die Trying"];
+
+var SONG_TERMS = {
+  "Best of What's Around": "The Best of What's Around",
+  "Drive In Drive Out": "Drive In, Drive Out",
+  "Stay (Wasting Time)": "Stay Wasting Time",
+  "Lie in Our Graves": "Lie in Our Graves",
+  "Where Are You Going": "Where Are You Going"
+};
+var SOLO_SONGS = { "Some Devil":1, "So Damn Lucky":1, "Gravedigger":1, "Stay or Leave":1 };
+
+function lookup(name, cb) {
+  var artist = SOLO_SONGS[name] ? "Dave Matthews " : "Dave Matthews Band ";
+  var term = artist + (SONG_TERMS[name] || name);
+  var cbName = "g_" + Math.random().toString(36).slice(2);
+  var done = false;
+  var s = document.createElement("script");
+  var timer = setTimeout(function(){ finish(null); }, 8000);
+  function finish(url){ if(done) return; done=true; clearTimeout(timer); try{delete window[cbName];}catch(e){window[cbName]=undefined;} if(s.parentNode) s.parentNode.removeChild(s); cb(url); }
+  window[cbName] = function(data){
+    var results = (data && data.results) || [], url = null;
+    for (var i=0;i<results.length;i++){ var r=results[i]; if(r.previewUrl && /dave matthews/i.test(r.artistName||"")){ url=r.previewUrl; break; } }
+    if(!url){ for(var j=0;j<results.length;j++){ if(results[j].previewUrl){ url=results[j].previewUrl; break; } } }
+    finish(url);
+  };
+  s.onerror = function(){ finish(null); };
+  s.src = "https://itunes.apple.com/search?term=" + encodeURIComponent(term) + "&media=music&entity=song&limit=10&callback=" + cbName;
+  document.head.appendChild(s);
+}
+
+var logEl = document.getElementById("log"), fill = document.getElementById("fill"), stat = document.getElementById("stat");
+function log(msg, cls){ var d=document.createElement("div"); if(cls) d.className=cls; d.textContent=msg; logEl.appendChild(d); logEl.scrollTop=logEl.scrollHeight; }
+
+var RESULT = {};
+function lookupWithRetry(name, tries, cb){
+  lookup(name, function(url){
+    if(url || tries<=0) return cb(url);
+    setTimeout(function(){ lookupWithRetry(name, tries-1, cb); }, 2500);
+  });
+}
+
+document.getElementById("go").onclick = function(){
+  this.disabled = true; document.getElementById("dl").disabled = true;
+  RESULT = {}; logEl.innerHTML = ""; var i = 0, found = 0;
+  function step(){
+    if(i >= SONGS.length){
+      stat.textContent = "Done. Found " + found + " of " + SONGS.length + " previews.";
+      document.getElementById("dl").disabled = false;
+      document.getElementById("go").disabled = false;
+      return;
+    }
+    var name = SONGS[i];
+    stat.textContent = "Looking up " + (i+1) + " of " + SONGS.length + ": " + name + "  (found " + found + ")";
+    lookupWithRetry(name, 2, function(url){
+      if(url){ RESULT[name] = url; found++; log("✓ " + name, "ok"); }
+      else { log("✗ " + name + " (no preview found)", "miss"); }
+      i++;
+      fill.style.width = Math.round(i/SONGS.length*100) + "%";
+      setTimeout(step, 1800);   // gentle pacing
+    });
+  }
+  step();
+};
+
+document.getElementById("dl").onclick = function(){
+  var blob = new Blob([JSON.stringify(RESULT, null, 2)], {type:"application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "preview-urls.json";
+  document.body.appendChild(a); a.click(); a.remove();
+};
+</script>
+</body>
+</html>

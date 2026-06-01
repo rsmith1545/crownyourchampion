@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crown Your Champion - Logo Asset</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #12161a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .logo-canvas {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-canvas">
+        <!-- Exact SVG Path layout recreating the stylized C with integrated gold crown -->
+        <svg viewBox="0 0 200 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- Crown graphic element tilted and resting on the top left of the letter -->
+            <g transform="translate(15, 10) rotate(-14) scale(0.95)">
+                <path d="M20 80 L35 30 L65 55 L80 15 L95 55 L125 30 L140 80 Z" fill="#dca73e"/>
+                <circle cx="35" cy="24" r="5" fill="#12161a"/>
+                <circle cx="80" cy="8" r="5" fill="#12161a"/>
+                <circle cx="125" cy="24" r="5" fill="#12161a"/>
+                <path d="M15 80 L145 80 L135 88 L25 88 Z" fill="#b88324"/>
+            </g>
+            
+            <!-- Ornate Serif Stylized "C" aligned precisely with the crown overlay -->
+            <path d="M165 65 
+                     C 155 40, 115 30, 95 30 
+                     C 45 30, 35 75, 35 105 
+                     C 35 145, 55 175, 100 175 
+                     C 125 175, 155 165, 165 140 
+                     L 150 135 
+                     C 140 152, 120 160, 100 160 
+                     C 65 160, 52 135, 52 105 
+                     C 52 70, 68 45, 98 45 
+                     C 118 45, 140 52, 150 70 
+                     Z" 
+                  fill="#f4f4f4"/>
+        </svg>
+    </div>
+
+</body>
+</html>

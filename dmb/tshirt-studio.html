@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown Your Champion — Tee Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0e16;--panel:#121826;--line:#222b3d;--txt:#e7ecf5;--mut:#8a93a6;--gold:#d4af37;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:'Barlow Condensed',system-ui,sans-serif;}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);}
+  header h1{font-family:'Bebas Neue',sans-serif;letter-spacing:3px;margin:0;font-size:28px;color:var(--gold);}
+  header p{margin:4px 0 0;color:var(--mut);font-size:14px;}
+  .wrap{display:flex;flex-wrap:wrap;gap:26px;padding:26px;align-items:flex-start;}
+  .col{flex:1 1 340px;min-width:300px;max-width:520px;}
+  canvas{width:100%;height:auto;border-radius:10px;background:#0d1119;box-shadow:0 16px 44px rgba(0,0,0,.5);display:block;}
+  .controls{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;}
+  label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--mut);margin:10px 0 4px;}
+  input,select{width:100%;background:#0b101b;border:1px solid var(--line);border-radius:7px;color:var(--txt);font-family:'Barlow Condensed';font-size:15px;padding:8px 10px;}
+  .row{display:flex;gap:10px}.row>*{flex:1}
+  .btns{display:flex;gap:10px;margin-top:14px}
+  button{flex:1;font-family:'Bebas Neue';letter-spacing:2px;font-size:16px;padding:11px;border:none;border-radius:8px;cursor:pointer}
+  .b-gold{background:linear-gradient(135deg,#d4af37,#b8902f);color:#1a1208}
+  .b-ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+  .note{font-size:13px;color:var(--mut);line-height:1.55;margin:0 26px 30px;max-width:880px}
+  .note b{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Tee Studio</h1>
+  <p>Crown-forward brand concept · your mark, not the band's · print-ready PNG export</p>
+</header>
+
+<div class="wrap">
+  <div class="col">
+    <canvas id="tee" width="1000" height="1180"></canvas>
+    <div class="controls">
+      <label>Champion song (the winner)</label>
+      <input id="song" value="ANTS MARCHING">
+      <div class="row">
+        <div><label>Shirt color</label>
+          <select id="shirt">
+            <option value="#1c2029">Charcoal</option>
+            <option value="#10131a">Black</option>
+            <option value="#243042">Navy</option>
+            <option value="#e9e4d6">Cream (dark print)</option>
+          </select>
+        </div>
+        <div><label>Bottom line</label><input id="foot" value="crownyourchampion.com"></div>
+      </div>
+      <div class="btns">
+        <button class="b-ghost" onclick="render()">↻ Render</button>
+        <button class="b-gold" onclick="downloadPrint()">↓ Print art (transparent)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="note">
+  <b>Why no “DMB” on it:</b> the crown + “Crown Your Champion” is <i>your</i> mark — fully ownable. The song title (e.g. “Ants Marching”) is factual and instantly recognizable to fans, so the shirt reads as DMB to the right people <i>without</i> using the band's trademark. If you ever want a small factual nod (“a Dave Matthews Band bracket”), that's more defensible than “DMB” as the logo — but lead with the crown. <b>Print art</b> exports on a transparent background, ready for Printful/Printify.
+</p>
+
+<script>
+const DISPLAY="'Bebas Neue','Oswald','Arial Narrow','Impact',sans-serif";
+const BODY="'Barlow Condensed','Oswald','Arial Narrow',sans-serif";
+const GOLD="#d4af37", CREAM="#f1e8cf";
+function el(id){return document.getElementById(id);}
+
+function txt(ctx,s,x,y,o){o=o||{};ctx.font=`${o.weight||'700'} ${o.size||40}px ${o.fam||BODY}`;ctx.fillStyle=o.color||'#fff';ctx.textAlign=o.align||'center';ctx.textBaseline='alphabetic';if('letterSpacing'in ctx)ctx.letterSpacing=(o.spacing||0)+'px';ctx.fillText(s,x,y);if('letterSpacing'in ctx)ctx.letterSpacing='0px';}
+function meas(ctx,s,size,fam,sp){ctx.font=`700 ${size}px ${fam||DISPLAY}`;if('letterSpacing'in ctx)ctx.letterSpacing=(sp||0)+'px';const w=ctx.measureText(s).width;if('letterSpacing'in ctx)ctx.letterSpacing='0px';return w;}
+function fit(ctx,s,maxW,start,min,fam,sp){let z=start;while(z>min&&meas(ctx,s,z,fam,sp)>maxW)z-=2;return z;}
+
+function crown(ctx,cx,cy,s,rot,color){
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot||0);ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(-s,s*0.5);ctx.lineTo(-s,s*0.1);
+  ctx.lineTo(-s*0.55,s*0.3);ctx.lineTo(-s*0.5,-s*0.55);ctx.lineTo(-s*0.16,s*0.12);
+  ctx.lineTo(0,-s*0.8);ctx.lineTo(s*0.16,s*0.12);ctx.lineTo(s*0.5,-s*0.55);ctx.lineTo(s*0.55,s*0.3);
+  ctx.lineTo(s,s*0.1);ctx.lineTo(s,s*0.5);ctx.closePath();ctx.fill();
+  ctx.fillRect(-s,s*0.46,2*s,s*0.3);
+  ctx.save();ctx.globalCompositeOperation='destination-out';
+  [[-s*0.5,-s*0.55],[0,-s*0.8],[s*0.5,-s*0.55]].forEach(p=>{ctx.beginPath();ctx.arc(p[0],p[1]+s*0.16,s*0.08,0,7);ctx.fill();});
+  ctx.restore();ctx.restore();
+}
+
+// draws the full lockup centered at cx, starting near topY. darkPrint => dark ink for light shirts
+function drawPrint(ctx,cx,topY,darkPrint){
+  const ink = darkPrint ? '#16140c' : CREAM;
+  const gold = darkPrint ? '#9a7d1e' : GOLD;
+  // hero word CROWN with crown leaning on it
+  const heroSize=128;
+  const heroW=meas(ctx,'CROWN',heroSize,DISPLAY,2);
+  const heroY=topY+150;
+  txt(ctx,'CROWN',cx,heroY,{fam:DISPLAY,size:heroSize,color:ink,spacing:2});
+  // crown leaning on the top-left, tilted across the C-R
+  crown(ctx, cx-heroW/2+62, heroY-heroSize*0.70, 58, -0.30, gold);
+  // YOUR CHAMPION
+  txt(ctx,'YOUR CHAMPION',cx,heroY+58,{fam:BODY,size:42,weight:'700',color:gold,spacing:8});
+  // rule
+  ctx.fillStyle=gold;ctx.fillRect(cx-150,heroY+92,300,4);
+  // winner song
+  const song=(el('song').value||'').toUpperCase()||'CHAMPION';
+  const ss=fit(ctx,song,560,72,34,DISPLAY,0);
+  txt(ctx,song,cx,heroY+92+ss+24,{fam:DISPLAY,size:ss,color:gold});
+  // small "champion" label above song
+  txt(ctx,'— 2026 BRACKET CHAMPION —',cx,heroY+92+ss+24+34,{fam:BODY,size:22,weight:'600',color:darkPrint?'#5b5640':'#9aa1b0',spacing:3});
+  // footer/url
+  txt(ctx,(el('foot').value||'').toUpperCase(),cx,heroY+92+ss+24+90,{fam:BODY,size:24,weight:'700',color:gold,spacing:3});
+}
+
+function drawTee(ctx,W,H,color){
+  ctx.save();
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(330,170);
+  ctx.quadraticCurveTo(420,120,500,138);
+  ctx.quadraticCurveTo(580,120,670,170);
+  ctx.lineTo(820,270);
+  ctx.lineTo(735,360);
+  ctx.lineTo(705,330);
+  ctx.lineTo(705,1010);
+  ctx.quadraticCurveTo(500,1050,295,1010);
+  ctx.lineTo(295,330);
+  ctx.lineTo(265,360);
+  ctx.lineTo(180,270);
+  ctx.closePath();
+  ctx.fill();
+  // collar
+  ctx.lineWidth=10;ctx.strokeStyle='rgba(0,0,0,0.18)';
+  ctx.beginPath();ctx.moveTo(400,150);ctx.quadraticCurveTo(500,215,600,150);ctx.stroke();
+  // subtle side shading
+  const g=ctx.createLinearGradient(180,0,820,0);
+  g.addColorStop(0,'rgba(0,0,0,0.18)');g.addColorStop(0.5,'rgba(255,255,255,0.04)');g.addColorStop(1,'rgba(0,0,0,0.18)');
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.moveTo(330,170);ctx.quadraticCurveTo(420,120,500,138);ctx.quadraticCurveTo(580,120,670,170);
+  ctx.lineTo(820,270);ctx.lineTo(735,360);ctx.lineTo(705,330);ctx.lineTo(705,1010);
+  ctx.quadraticCurveTo(500,1050,295,1010);ctx.lineTo(295,330);ctx.lineTo(265,360);ctx.lineTo(180,270);ctx.closePath();ctx.fill();
+  ctx.restore();
+}
+
+function render(){
+  const c=el('tee');const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const shirt=el('shirt').value;const darkPrint = shirt==='#e9e4d6';
+  drawTee(ctx,c.width,c.height,shirt);
+  drawPrint(ctx,500,300,darkPrint);
+}
+
+function downloadPrint(){
+  // print art only, transparent background, high-res
+  const W=1400,H=1200;const oc=document.createElement('canvas');oc.width=W;oc.height=H;
+  const ctx=oc.getContext('2d');
+  drawPrint(ctx,W/2,120,false);
+  oc.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='crown-tee-print.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);},'image/png');
+}
+
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(render);setTimeout(render,500);}else render();
+el('song').addEventListener('input',render);el('shirt').addEventListener('change',render);el('foot').addEventListener('input',render);
+</script>
+</body>
+</html>
