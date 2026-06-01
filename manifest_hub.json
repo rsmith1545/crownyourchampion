@@ -1,0 +1,11 @@
+{
+  "name": "Crown Your Champion — Fan Bracket Tournaments",
+  "short_name": "Crown Champion",
+  "description": "Interactive 64-song bracket tournaments — settle the debate, crown a champion.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#f0a500",
+  "icons": [{ "src":"./cyc-logo.png", "sizes":"512x512", "type":"image/png", "purpose":"any" }]
+}
