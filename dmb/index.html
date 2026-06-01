@@ -496,16 +496,21 @@
             display: none; align-items: center; justify-content: center;
             flex-direction: column; text-align: center; pointer-events: none; padding: 20px;
         }
-        .celebrate-text.show { display: flex; animation: ctFade 4.8s ease forwards; }
+        .celebrate-text.show { display: flex; animation: ctFade 5.8s ease forwards; }
         .celebrate-text .ct-main {
-            font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
-            font-size: clamp(34px, 8vw, 76px); color: var(--dmb-gold);
-            text-shadow: 0 2px 24px rgba(0,0,0,0.7); line-height: 1.05;
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;
+            font-size: clamp(22px, 5vw, 44px); color: #fff;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.7); line-height: 1.08;
         }
         .celebrate-text .ct-sub {
             font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;
-            font-size: clamp(20px, 5vw, 42px); color: #fff;
-            text-shadow: 0 2px 18px rgba(0,0,0,0.7); margin-top: 4px;
+            font-size: clamp(18px, 4vw, 34px); color: #fff; opacity:.92;
+            text-shadow: 0 2px 18px rgba(0,0,0,0.7); margin-top: 2px;
+        }
+        .celebrate-text .ct-cyc {
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
+            font-size: clamp(46px, 9.5vw, 98px); color: var(--dmb-gold);
+            text-shadow: 0 2px 26px rgba(0,0,0,0.8); line-height: 1; margin-top: 14px;
         }
         @keyframes ctFade {
             0% { opacity: 0; transform: scale(0.9); }
@@ -1363,8 +1368,9 @@
 
 <canvas id="confettiCanvas"></canvas>
 <div class="celebrate-text" id="celebrateText">
-    <div class="ct-main">Thank you very much.</div>
-    <div class="ct-sub">Goodnight!</div>
+    <div class="ct-main">Thank you, and goodnight…</div>
+    <div class="ct-sub">now…</div>
+    <div class="ct-cyc">Crown Your Champion</div>
 </div>
 
 <div class="main-wrap">
@@ -2495,7 +2501,7 @@ function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
-    setTimeout(() => openEmailModal(champ), 1700); // email capture after the celebration plays
+    setTimeout(() => openEmailModal(champ), 2800); // email capture after the celebration plays
 }
 
 // Keep the sticky championship column aligned just under the sticky header zone
@@ -2591,7 +2597,7 @@ function celebrate() {
         t.classList.remove('show');
         void t.offsetWidth;            // restart the CSS animation
         t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 4900);
+        setTimeout(() => t.classList.remove('show'), 5900);
     }
 }
 
