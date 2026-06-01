@@ -3309,7 +3309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function boot() { initPlayButtons(); setTimeout(prefetchPreviews, 2500); }
+    function boot() { initPlayButtons(); }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);
     } else {

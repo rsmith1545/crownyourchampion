@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-var cacheName = 'crown-champion-v7';
+var cacheName = 'crown-champion-v8';
 var assets = [
   './',
   './index.html',
