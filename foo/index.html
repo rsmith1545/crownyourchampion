@@ -163,6 +163,8 @@
             line-height: 1;
         }
         .brand-h1 { margin: 0; padding: 0; line-height: 0; }
+        .brand-link { display: inline-block; line-height: 0; cursor: pointer; transition: filter .2s, transform .2s; }
+        .brand-link:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .brand-logo { height: clamp(54px, 8.5vw, 140px); width: auto; max-width: 100%; display: block;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
         .site-header .subtitle {
@@ -1225,19 +1227,28 @@
         }
 
 
-        /* ── VENUE BACKDROPS (faint) ────────────────────────────────── */
+        /* ── DECADE BACKDROPS (CSS only — color wash + faint era label) ── */
         .region-card { position: relative; }
-        .region-card::before {
+        .region-card::before {            /* per-decade color wash */
             content: ""; position: absolute; inset: 0;
-            background-size: cover; background-position: center bottom;
-            background-repeat: no-repeat;
-            opacity: 0.32; pointer-events: none; z-index: 0;
+            pointer-events: none; z-index: 0; opacity: 0.55;
+        }
+        .region-card::after {             /* big faint decade label */
+            position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+            font-family: 'Bebas Neue', sans-serif; font-weight: 400;
+            font-size: clamp(46px, 11vw, 104px); line-height: 0.85;
+            letter-spacing: 0.03em; color: #ffffff; opacity: 0.055;
+            pointer-events: none; z-index: 0; white-space: nowrap;
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
-        .venue-gorge::before    { background-image: url("./bg-gorge.jpg"); }
-        .venue-westpalm::before { background-image: url("./bg-westpalm.jpg"); }
-        .venue-spac::before     { background-image: url("./bg-spac.jpg"); }
-        .venue-camden::before   { background-image: url("./bg-camden.jpg"); }
+        .venue-gorge::before    { background: radial-gradient(130% 80% at 50% 0%, rgba(0,63,136,.45), transparent 72%); }
+        .venue-gorge::after     { content: "\2019 90s"; }
+        .venue-westpalm::before { background: radial-gradient(130% 80% at 50% 0%, rgba(46,125,170,.42), transparent 72%); }
+        .venue-westpalm::after  { content: "2000s"; }
+        .venue-spac::before     { background: radial-gradient(130% 80% at 50% 0%, rgba(123,90,168,.40), transparent 72%); }
+        .venue-spac::after      { content: "2010s"; }
+        .venue-camden::before   { background: radial-gradient(130% 80% at 50% 0%, rgba(179,50,44,.42), transparent 72%); }
+        .venue-camden::after    { content: "2020s"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1309,7 +1320,7 @@
 <div class="sticky-top">
 <header class="site-header">
     <div class="header-left">
-        <h1 class="brand-h1"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></h1>
+        <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
         <div class="header-tagline">Settle the debate: the greatest Foo Fighters song ever</div>
     </div>
@@ -1549,13 +1560,6 @@
 
 
 <footer class="site-footer">
-    <div class="credits-title">Venue Photos · via Wikimedia Commons</div>
-    <div class="credits-line">
-        <a href="https://commons.wikimedia.org/wiki/File:Gorge_Amphitheatre.jpg" target="_blank" rel="noopener">Gorge</a> &mdash; Daniel (Calgary, Canada), CC BY 2.0 ·
-        <a href="https://commons.wikimedia.org/wiki/File:SPACExterior.jpg" target="_blank" rel="noopener">SPAC</a> &mdash; Matt H. Wade (thatmattwade), CC BY-SA 3.0 ·
-        <a href="https://commons.wikimedia.org/wiki/File:Sound_Advice_Amphitheater.jpg" target="_blank" rel="noopener">West Palm</a> &mdash; Joedamadman, CC BY-SA 3.0 ·
-        Camden &mdash; courtesy of the owner
-    </div>
     <div class="credits-line">Crown Your Champion is a fan project, not affiliated with or endorsed by Foo Fighters.</div>
     <div class="credits-line"><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
 </footer>
@@ -2452,7 +2456,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'SPAC Winner' && t !== 'West Palm Winner' && t !== 'Gorge Winner' && t !== 'Camden Winner') {
+            if (t && t !== '--' && t !== '---' && t !== '2010s Winner' && t !== '2000s Winner' && t !== '’90s Winner' && t !== '2020s Winner') {
                 filled++;
             }
         }
@@ -2742,8 +2746,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'SPAC Winner' && text !== 'West Palm Winner' && 
-            text !== 'Gorge Winner' && text !== 'Camden Winner') {
+            text !== '2010s Winner' && text !== '2000s Winner' && 
+            text !== '’90s Winner' && text !== '2020s Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2773,10 +2777,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'Gorge': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'West Palm': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'SPAC': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Camden': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        '90s': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        '2000s': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        '2010s': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        '2020s': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
