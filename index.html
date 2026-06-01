@@ -48,8 +48,8 @@
     color:var(--muted); font-size:13px; text-align:center; margin:48px 0 16px;
     display:flex; align-items:center; gap:14px; justify-content:center;}
   .pick-label::before,.pick-label::after{content:""; height:1px; width:54px; background:var(--line);}
-  .tiles{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
-  @media(max-width:680px){ .tiles{grid-template-columns:1fr;} }
+  .tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:820px){ .tiles{grid-template-columns:1fr;} }
 
   .tile{position:relative; display:block; text-decoration:none; color:var(--text);
     background:linear-gradient(170deg,var(--card),#0e1320); border:1px solid var(--line);
@@ -67,6 +67,7 @@
   .tile:hover::after{opacity:.26;}
   .tile.dmb{--accent:var(--blue-lt);}
   .tile.foo{--accent:var(--crimson-lt);}
+  .tile.frank{--accent:#6aa84f;}
   .tile .genre{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.2em;
     font-size:12px; color:var(--accent); font-weight:700;}
   .tile .band{font-family:'Bebas Neue',sans-serif; font-size:clamp(30px,5vw,40px); line-height:1; margin:8px 0 10px;}
@@ -171,6 +172,13 @@
         <div class="band">Foo Fighters</div>
         <div class="desc">Four decades head-to-head — the '90s through the brand-new 2026 record. Can anything dethrone "Everlong"?</div>
         <div class="meta"><span class="chip">64 songs</span><span class="chip">4 decade regions</span><span class="chip">▶ previews</span></div>
+        <span class="enter">Enter the bracket <span class="arr">→</span></span>
+      </a>
+      <a class="tile frank" href="./frank/">
+        <div class="genre">Folk · Punk</div>
+        <div class="band">Frank Turner</div>
+        <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
+        <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
         <span class="enter">Enter the bracket <span class="arr">→</span></span>
       </a>
     </div>
