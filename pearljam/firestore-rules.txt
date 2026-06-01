@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Bracket submissions ──────────────────────────────
+    // Anyone can submit a completed bracket; no one can read,
+    // edit, or delete them from the client side.
+    match /brackets/{doc}      { allow create: if true; allow read, update, delete: if false; }
+    match /ff_brackets/{doc}   { allow create: if true; allow read, update, delete: if false; }
+    match /ft_brackets/{doc}   { allow create: if true; allow read, update, delete: if false; }
+    match /bs_brackets/{doc}   { allow create: if true; allow read, update, delete: if false; }
+    match /pj_brackets/{doc}   { allow create: if true; allow read, update, delete: if false; }
+
+    // ── Email captures (hub signups) ─────────────────────
+    match /hub_signups/{doc}   { allow create: if true; allow read, update, delete: if false; }
+
+    // ── Leaderboards (champion tallies) ──────────────────
+    // Public read + write so the running counts update live.
+    match /leaderboard/{doc}     { allow read, write: if true; }
+    match /ff_leaderboard/{doc}  { allow read, write: if true; }
+    match /ft_leaderboard/{doc}  { allow read, write: if true; }
+    match /bs_leaderboard/{doc}  { allow read, write: if true; }
+    match /pj_leaderboard/{doc}  { allow read, write: if true; }
+  }
+}
