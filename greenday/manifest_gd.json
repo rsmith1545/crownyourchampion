@@ -1,0 +1,8 @@
+{
+  "name": "Crown Your Champion — Green Day Madness",
+  "short_name": "Crown Champion",
+  "description": "Interactive Green Day song bracket — 64 songs, 4 regions, 1 champion",
+  "start_url": "./index.html", "scope": "./", "display": "standalone",
+  "background_color": "#0a0a0f", "theme_color": "#e8336d",
+  "icons": [{ "src":"./cyc-logo.png", "sizes":"512x512", "type":"image/png", "purpose":"any" }]
+}
