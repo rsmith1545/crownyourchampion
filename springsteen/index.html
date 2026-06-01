@@ -1,0 +1,3340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crown Your Champion — Bruce Springsteen Madness</title>
+    <link rel="manifest" href="./manifest_bruce.json">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FIREBASE — config baked in (project: crown-your-champion).
+         Note: web config values are public by design; data is
+         protected by Firestore security rules, not by hiding these.
+         ═══════════════════════════════════════════════════════════ -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDocs, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey:            "AIzaSyDxQVR0oiX1W_5qaRpRgVrSQYI-4MLzLdA",
+            authDomain:        "crown-your-champion.firebaseapp.com",
+            projectId:         "crown-your-champion",
+            storageBucket:     "crown-your-champion.firebasestorage.app",
+            messagingSenderId: "629630796857",
+            appId:             "1:629630796857:web:fa7a032c01bcc751b779e8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db  = getFirestore(app);
+
+        // Save a completed bracket, then bump the crowned champion's tally
+        window.saveToFirebase = async function(email, bracketData, consent) {
+            try {
+                await addDoc(collection(db, "bs_brackets"), {
+                    email:      email,
+                    consent:    !!consent,
+                    consent_at: consent ? serverTimestamp() : null,
+                    champion:   bracketData.champion,
+                    gorge_winner:      bracketData.gorge,
+                    westpalm_winner:   bracketData.westpalm,
+                    spac_winner:       bracketData.spac,
+                    camden_winner:     bracketData.camden,
+                    final_four:        bracketData.finalFour,
+                    all_picks:         bracketData.allPicks,
+                    completed_at:      serverTimestamp()
+                });
+                const champ = (bracketData.champion || '').trim();
+                if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
+                    try {
+                        await setDoc(doc(db, "bs_leaderboard", champ),
+                                     { name: champ, count: increment(1) }, { merge: true });
+                    } catch(e) { console.warn("leaderboard bump failed:", e); }
+                    if (window.loadLeaderboard) window.loadLeaderboard();
+                }
+                return { success: true };
+            } catch(e) {
+                console.error("Firebase save error:", e);
+                return { success: false, error: e.message };
+            }
+        };
+
+        // Read + render the Most-Crowned Champions board
+        window.loadLeaderboard = async function() {
+            const body = document.getElementById('leaderboardBody');
+            if (!body) return;
+            try {
+                const snap = await getDocs(collection(db, "bs_leaderboard"));
+                const rows = [];
+                snap.forEach(d => { const v = d.data(); if (v && v.name) rows.push({ name: v.name, count: v.count || 0 }); });
+                rows.sort((a,b) => b.count - a.count);
+                const top = rows.slice(0, 8);
+                const upsetEl = document.getElementById('biggestUpset');
+                if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; if (upsetEl) upsetEl.innerHTML = ''; return; }
+                const max = top[0].count || 1;
+                const total = rows.reduce((s,r) => s + r.count, 0) || 1;
+                body.innerHTML = top.map((r,i) => {
+                    const pct = Math.round((r.count / total) * 100);
+                    const w = Math.max(6, Math.round((r.count / max) * 100));
+                    const nm = String(r.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+                    return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span>'
+                         + '<span class="lb-name">' + nm + '</span>'
+                         + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
+                         + '<span class="lb-count">' + pct + '%</span></div>';
+                }).join('');
+                // Biggest Cinderella: the highest seed number ever crowned
+                if (upsetEl) {
+                    const seeds = window.NAME_SEED || {};
+                    let up = null;
+                    rows.forEach(r => { const sd = seeds[r.name]; if (sd && (!up || sd > up.seed)) up = { name: r.name, seed: sd }; });
+                    if (up && up.seed >= 2) {
+                        const nm = String(up.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+                        upsetEl.innerHTML = '🃏 Biggest Cinderella: <strong>' + nm + '</strong> &middot; a #' + up.seed + ' seed crowned';
+                    } else if (up) {
+                        upsetEl.innerHTML = '🛡️ No Cinderella yet — a #1 seed still reigns';
+                    } else {
+                        upsetEl.innerHTML = '';
+                    }
+                }
+            } catch(e) {
+                console.warn("leaderboard load failed:", e);
+                body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>';
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => window.loadLeaderboard());
+    </script>
+
+
+    <style>
+    
+        :root {
+            --dmb-blue: #003f88;
+            --dmb-gold: #f0a500;
+            --dmb-red: #c1121f;
+            --dmb-dark: #0a0a0f;
+            --dmb-panel: #111827;
+            --dmb-card: #1a2332;
+            --dmb-border: #1e3a5f;
+            --dmb-text: #e8eaf0;
+            --dmb-muted: #6b7a99;
+            --dmb-winner: #003f88;
+            --slot-h: 42px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Barlow Condensed', sans-serif;
+            background: var(--dmb-dark);
+            color: var(--dmb-text);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 20%, rgba(0,63,136,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(240,165,0,0.08) 0%, transparent 50%);
+        }
+
+        /* Sticky zone: header + progress + auto-fill stay pinned while scrolling */
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #060a12;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+        }
+
+        /* HEADER */
+        .site-header {
+            background: linear-gradient(135deg, #000810 0%, #001a3d 50%, #000810 100%);
+            border-bottom: 3px solid var(--dmb-gold);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(24px, 5vw, 42px);
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #fff 0%, var(--dmb-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        .brand-h1 { margin: 0; padding: 0; line-height: 0; }
+        .brand-link { display: inline-block; line-height: 0; cursor: pointer; transition: filter .2s, transform .2s; }
+        .brand-link:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .brand-logo { height: clamp(54px, 8.5vw, 140px); width: auto; max-width: 100%; display: block;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .site-header .subtitle {
+            font-size: 14px;
+            color: var(--dmb-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .btn {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 3px;
+        }
+        .btn-reset {
+            background: transparent;
+            color: var(--dmb-muted);
+            border: 1px solid var(--dmb-border);
+        }
+        .btn-reset:hover { color: var(--dmb-red); border-color: var(--dmb-red); }
+        .btn-share {
+            background: var(--dmb-gold);
+            color: #000;
+        }
+        .btn-share:hover { background: #ffc107; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(240,165,0,0.4); }
+
+        /* PROGRESS BAR */
+        .progress-bar-wrap {
+            background: #000;
+            border-bottom: 1px solid var(--dmb-border);
+            padding: 6px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .progress-label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--dmb-muted);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .progress-track {
+            flex: 1;
+            height: 4px;
+            background: var(--dmb-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold));
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .progress-count {
+            font-size: 11px;
+            color: var(--dmb-gold);
+            font-weight: 700;
+            white-space: nowrap;
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* CHAMPION BANNER */
+        .champion-banner {
+            display: none;
+            background: linear-gradient(135deg, #0d1f0d, #1a3d1a);
+            border: 2px solid var(--dmb-gold);
+            margin: 16px 20px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            animation: champReveal 0.6s ease;
+        }
+        .champion-banner.visible { display: block; }
+        @keyframes champReveal {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .champion-banner .champ-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            letter-spacing: 6px;
+            color: var(--dmb-gold);
+            margin-bottom: 6px;
+        }
+        .champion-banner .champ-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(28px, 6vw, 52px);
+            letter-spacing: 3px;
+            color: #fff;
+        }
+        .champion-banner .champ-sub {
+            font-size: 12px;
+            color: var(--dmb-muted);
+            letter-spacing: 2px;
+            margin-top: 6px;
+        }
+
+        /* MAIN LAYOUT */
+        .main-wrap { padding: 16px 12px; }
+
+        /* DESKTOP: side by side regions + center finals */
+        .master-grid {
+            display: grid;
+            grid-template-columns: 1fr 200px 1fr;
+            gap: 12px;
+            max-width: 2000px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        .side-col { display: flex; flex-direction: column; gap: 12px; }
+
+        /* REGION CARD */
+        .region-card {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 3px solid var(--dmb-blue);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .region-header {
+            background: var(--dmb-blue);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            padding: 12px 14px;
+            text-align: center;
+        }
+        .bracket-row {
+            display: flex;
+            align-items: stretch;
+            height: 960px;
+            padding: 12px;
+            gap: 5px;
+        }
+        .round-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* SLOTS */
+        .matchup {
+            border: 1px solid var(--dmb-border);
+            background: var(--dmb-panel);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 1px 0;
+        }
+        .slot {
+            padding: 6px 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            min-height: var(--slot-h);
+            display: flex;
+            align-items: center;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            line-height: 1.15;
+            word-break: break-word;
+            color: var(--dmb-text);
+            transition: background 0.15s, color 0.15s;
+            letter-spacing: 0.3px;
+        }
+        .slot:last-child { border-bottom: none; }
+        .slot:hover:not(.empty) { background: rgba(0,63,136,0.3); }
+        .slot.winner {
+            background: var(--dmb-blue) !important;
+            color: #fff !important;
+        }
+        .slot.empty { cursor: default; color: var(--dmb-muted); font-style: italic; }
+        .seed {
+            width: 18px;
+            min-width: 18px;
+            color: var(--dmb-gold);
+            font-size: 11px;
+            margin-right: 5px;
+            font-weight: 700;
+        }
+
+        /* CENTER FINALS */
+        .center-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: sticky;
+            top: var(--sticky-top-h, 200px);
+            align-self: start;
+            z-index: 40;
+            max-height: calc(100vh - var(--sticky-top-h, 200px) - 8px);
+            overflow-y: auto;
+        }
+        .finals-card {
+            background: var(--dmb-card);
+            border: 2px solid var(--dmb-red);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .finals-header {
+            background: var(--dmb-red);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 4px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .finals-body { padding: 8px; }
+        .final-section-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--dmb-muted);
+            text-transform: uppercase;
+            text-align: center;
+            margin: 8px 0 4px;
+        }
+        .final-slot {
+            border: 1px solid var(--dmb-border);
+            background: var(--dmb-panel);
+            border-radius: 2px;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            color: var(--dmb-muted);
+            transition: all 0.15s;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .final-slot.has-value { color: var(--dmb-text); }
+        .final-slot.winner { background: var(--dmb-blue); color: #fff; border-color: var(--dmb-blue); }
+        .final-slot:hover:not(.empty-slot) { background: rgba(0,63,136,0.3); }
+
+        .champion-slot {
+            background: linear-gradient(135deg, #0a1a0a, #1a3a1a);
+            border: 2px solid var(--dmb-gold);
+            border-radius: 3px;
+            padding: 14px 10px;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .champion-slot .champ-label {
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--dmb-gold);
+            margin-bottom: 6px;
+        }
+        .champion-slot .champ-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+            min-height: 24px;
+        }
+
+        /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
+        .sf-pairs { display: flex; gap: 8px; }
+        .sf-pair {
+            flex: 1; display: flex; flex-direction: column;
+            border: 1.5px solid var(--dmb-gold);
+            border-radius: 4px; padding: 5px;
+        }
+        .sf-pair .final-slot { margin-bottom: 0; }
+        .finals-pair {
+            display: flex; align-items: center; gap: 6px;
+            border: 1.5px solid var(--dmb-gold);
+            border-radius: 4px; padding: 5px;
+        }
+        .finals-pair .final-slot { flex: 1; margin-bottom: 0; }
+        .vs-label {
+            text-align: center; font-size: 10px; font-style: italic;
+            color: var(--dmb-muted); letter-spacing: 1px; margin: 3px 0;
+        }
+        .finals-pair .vs-label { flex: none; margin: 0; }
+        .final-hint {
+            text-align: center; font-size: 10px; color: var(--dmb-muted);
+            letter-spacing: 1px; margin: 7px 0;
+        }
+        .crown-btn {
+            display: block; width: 100%; margin-top: 12px;
+            padding: 13px 14px; border: 1px dashed #3a4150; border-radius: 8px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px;
+            background: #232833; color: #6b7283; opacity: 0.85;
+            cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
+        }
+        .crown-btn.ready {
+            background: linear-gradient(135deg, #22c55e, #15924a);
+            color: #fff; opacity: 1; cursor: pointer; border: 1px solid #2fe06f;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+            box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
+            animation: crownPulse 1.2s ease-in-out infinite;
+        }
+        .crown-btn.ready:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 26px rgba(34,197,94,0.85); }
+        @keyframes crownPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.55); transform: scale(1); }
+            55%  { box-shadow: 0 0 0 12px rgba(34,197,94,0); transform: scale(1.03); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); transform: scale(1); }
+        }
+
+        /* ── CELEBRATION (confetti + encore flourish) ───────── */
+        #confettiCanvas {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2147483646; display: none;
+        }
+        .celebrate-text {
+            position: fixed; inset: 0; z-index: 2147483647;
+            display: none; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center; pointer-events: none; padding: 20px;
+        }
+        .celebrate-text.show { display: flex; animation: ctFade 6.5s ease forwards; }
+        .celebrate-text .ct-estreet { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:clamp(20px,4.2vw,38px); color:#f5e9d6; text-shadow:0 2px 18px rgba(0,0,0,.75); line-height:1.14; max-width:940px; }
+        .celebrate-text .ct-cyc { font-family:'Bebas Neue',sans-serif; letter-spacing:3px; font-size:clamp(44px,9vw,92px); color:var(--dmb-gold); text-shadow:0 2px 26px rgba(0,0,0,.8); line-height:1; margin:10px 0; }
+        .celebrate-text .ct-estreet2 { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:clamp(22px,5vw,46px); color:#fff; text-shadow:0 2px 18px rgba(0,0,0,.75); }
+        .celebrate-text .ct-main {
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px;
+            font-size: clamp(34px, 8vw, 76px); color: var(--dmb-gold);
+            text-shadow: 0 2px 24px rgba(0,0,0,0.7); line-height: 1.05;
+        }
+        .celebrate-text .ct-sub {
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px;
+            font-size: clamp(20px, 5vw, 42px); color: #fff;
+            text-shadow: 0 2px 18px rgba(0,0,0,0.7); margin-top: 4px;
+        }
+        @keyframes ctFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            9% { opacity: 1; transform: scale(1); }
+            84% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.02); }
+        }
+
+
+        /* ── LEADERBOARD ──────────────────────────────────── */
+        .leaderboard-card {
+            background: var(--dmb-card);
+            border: 2px solid var(--dmb-gold);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .lb-header {
+            background: var(--dmb-gold);
+            color: #1a1205;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 3px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .lb-body { padding: 8px; }
+        .lb-empty {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            text-align: center;
+            padding: 12px 6px;
+            font-style: italic;
+        }
+        .lb-row { display: flex; align-items: center; gap: 6px; padding: 4px 2px; font-size: 11px; }
+        .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 14px; text-align: right; flex: none; }
+        .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px; }
+        .lb-track { flex: 1 1 50px; height: 7px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
+        .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
+        .lb-count { color: var(--dmb-muted); width: 32px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+        .lb-upset {
+            margin-top: 8px; padding-top: 8px;
+            border-top: 1px dashed var(--dmb-border);
+            font-size: 11px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
+        }
+        .lb-upset:empty { display: none; }
+        .lb-upset strong { color: var(--dmb-gold); }
+
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--dmb-gold);
+            color: #000;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border-radius: 4px;
+            z-index: 999;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* MOBILE: stack everything vertically */
+        @media (max-width: 900px) {
+            .master-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            /* On phones, let everything scroll normally — sticky would eat the screen */
+            .sticky-top { position: static; }
+            .center-col {
+                position: static; top: auto;
+                max-height: none; overflow-y: visible;
+            }
+            .side-col { order: 2; min-width: 0; }
+            .center-col { order: 1; min-width: 0; }
+            .region-card { min-width: 0; }
+            .finals-card, .leaderboard-card { min-width: 0; }
+            .bracket-row {
+                height: auto;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: visible;
+                padding-bottom: 16px;
+                /* Always left-to-right on mobile regardless of region */
+                flex-direction: row !important;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x proximity;
+            }
+            .round-col { 
+                min-width: 110px; 
+                flex-shrink: 0;
+                scroll-snap-align: start;
+            }
+            .slot { font-size: 11px; min-height: 30px; }
+            /* Make sure songs column is always first/leftmost */
+            .bracket-row .round-col:first-child {
+                min-width: 130px;
+            }
+            /* Hint that the bracket scrolls sideways within each region */
+            .region-header::after {
+                content: '⇄ swipe to see all rounds';
+                display: block;
+                font-family: 'Barlow Condensed', sans-serif;
+                font-size: 10px;
+                letter-spacing: 1px;
+                font-weight: 400;
+                opacity: 0.72;
+                margin-top: 3px;
+            }
+        }
+
+        /* MOBILE: horizontal scrollable brackets */
+        @media (max-width: 600px) {
+            .site-header { flex-wrap: wrap; gap: 8px; }
+            .header-actions { width: 100%; justify-content: flex-end; }
+            .round-col { min-width: 100px; }
+            .bracket-row .round-col:first-child { min-width: 120px; }
+            .slot { font-size: 10.5px; min-height: 28px; }
+        }
+
+        /* SHARE MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 3px solid var(--dmb-gold);
+            border-radius: 6px;
+            padding: 24px;
+            max-width: 480px;
+            width: 90%;
+        }
+        .modal h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: var(--dmb-gold);
+            margin-bottom: 12px;
+        }
+        .modal p { font-size: 13px; color: var(--dmb-muted); margin-bottom: 16px; line-height: 1.5; }
+        .share-text {
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--dmb-text);
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Barlow', sans-serif;
+            line-height: 1.6;
+        }
+        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-close {
+            background: transparent;
+            color: var(--dmb-muted);
+            border: 1px solid var(--dmb-border);
+        }
+        .btn-close:hover { color: var(--dmb-text); }
+        .btn-copy {
+            background: var(--dmb-gold);
+            color: #000;
+        }
+        .btn-copy:hover { background: #ffc107; }
+
+        /* EMAIL CAPTURE MODAL */
+        .email-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+        }
+        .email-modal-overlay.open { display: flex; }
+        .email-modal {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 4px solid var(--dmb-gold);
+            border-radius: 6px;
+            padding: 32px 28px;
+            max-width: 440px;
+            width: 92%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .email-modal .trophy-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .email-modal .em-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            color: var(--dmb-gold);
+            margin-bottom: 4px;
+        }
+        .email-modal .em-champ {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+        .email-modal .em-desc {
+            font-size: 13px;
+            color: var(--dmb-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .email-modal .em-desc strong { color: var(--dmb-text); }
+        .email-input-wrap {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .email-input {
+            flex: 1;
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            padding: 10px 12px;
+            font-size: 14px;
+            color: var(--dmb-text);
+            font-family: 'Barlow', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .email-input:focus { border-color: var(--dmb-gold); }
+        .email-input::placeholder { color: var(--dmb-muted); }
+        .btn-submit {
+            background: var(--dmb-gold);
+            color: #000;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .btn-submit:hover { background: #ffc107; }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        .em-skip {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+        .em-skip:hover { color: var(--dmb-text); }
+        .em-status {
+            font-size: 12px;
+            margin-top: 10px;
+            min-height: 18px;
+            letter-spacing: 0.5px;
+        }
+        .em-status.success { color: #4caf50; }
+        .em-status.error   { color: var(--dmb-red); }
+        .em-privacy {
+            font-size: 10px;
+            color: var(--dmb-muted);
+            margin-top: 14px;
+            letter-spacing: 0.5px;
+        }
+        .em-privacy a { color: var(--dmb-gold); text-decoration: none; }
+        .em-privacy a:hover { text-decoration: underline; }
+        .em-optin {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            text-align: left;
+            margin: 12px 4px 2px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px;
+            color: var(--dmb-text);
+            cursor: pointer;
+            line-height: 1.3;
+        }
+        .em-optin input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--dmb-gold); cursor: pointer; flex-shrink: 0; }
+
+        /* ── CONCERT MODAL ── */
+        .concert-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .concert-modal-overlay.open { display: flex; }
+        .concert-modal {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 4px solid var(--dmb-gold);
+            border-radius: 6px;
+            padding: 28px 24px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s ease;
+        }
+        .cm-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: var(--dmb-gold);
+            margin-bottom: 4px;
+        }
+        .cm-champ {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .cm-desc {
+            font-size: 12px;
+            color: var(--dmb-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .cm-search-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .cm-input {
+            flex: 1;
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            padding: 9px 12px;
+            font-size: 13px;
+            color: var(--dmb-text);
+            font-family: 'Barlow Condensed', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .cm-input:focus { border-color: var(--dmb-gold); }
+        .cm-input::placeholder { color: var(--dmb-muted); }
+        .cm-status {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            margin-bottom: 10px;
+            min-height: 16px;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .cm-status.loading { color: var(--dmb-gold); }
+        .cm-status.error   { color: var(--dmb-red); }
+        .cm-results {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 240px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+        .cm-result {
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .cm-result:hover { border-color: var(--dmb-gold); background: rgba(240,165,0,0.06); }
+        .cm-result.selected { border-color: var(--dmb-gold); background: rgba(240,165,0,0.1); }
+        .cm-result-date {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: var(--dmb-gold);
+        }
+        .cm-result-venue {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--dmb-text);
+            margin-top: 1px;
+            letter-spacing: 0.5px;
+        }
+        .cm-result-city {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            margin-top: 1px;
+        }
+
+        /* PRINT PREVIEW in modal */
+        .cm-print-preview {
+            display: none;
+            background: #fff;
+            border-radius: 4px;
+            padding: 20px 24px;
+            margin: 12px 0;
+            text-align: center;
+            position: relative;
+        }
+        .cm-print-preview.show { display: block; }
+        .cm-print-preview::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 0.5px solid #ddd;
+            pointer-events: none;
+        }
+        .cpp-song {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 4px;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        .cpp-div {
+            border: none;
+            border-top: 1px solid #ddd;
+            width: 70%;
+            margin: 8px auto;
+        }
+        .cpp-div-thick {
+            border: none;
+            border-top: 1.5px solid #444;
+            width: 70%;
+            margin: 8px auto;
+        }
+        .cpp-venue {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .cpp-city {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        .cpp-date {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #555;
+        }
+        .cpp-names {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #555;
+        }
+        .cpp-heart { color: #c0392b; }
+
+        .cm-names-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .cm-footer {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .cm-skip {
+            font-size: 11px;
+            color: var(--dmb-muted);
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            font-family: 'Barlow Condensed', sans-serif;
+            align-self: center;
+            margin-right: auto;
+        }
+        .cm-skip:hover { color: var(--dmb-text); }
+        .btn-download {
+            background: var(--dmb-gold);
+            color: #000;
+            display: none;
+        }
+        .btn-download.show { display: inline-block; }
+    
+    
+
+        .header-tagline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 17px;
+            font-style: italic;
+            letter-spacing: 1px;
+            color: var(--dmb-gold);
+            margin-top: 6px;
+        }
+
+        /* ── MODE SELECTOR ── */
+        .mode-bar {
+            background: var(--dmb-panel);
+            border-bottom: 1px solid var(--dmb-border);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .mode-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dmb-muted);
+            margin-right: 4px;
+            white-space: nowrap;
+        }
+        .mode-btn {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 7px 14px;
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            background: var(--dmb-card);
+            color: var(--dmb-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .mode-btn:hover { color: var(--dmb-text); border-color: var(--dmb-gold); }
+        .mode-btn.active { background: var(--dmb-blue); color: #fff; border-color: var(--dmb-blue); }
+        .mode-btn.mode-crowd  { }
+        .mode-btn.mode-fav    { }
+        .mode-btn.mode-random { }
+        .mode-btn.mode-numbers { }
+        .mode-btn.mode-era    { }
+        .mode-btn.mode-controversy { }
+        .mode-btn.mode-concert:hover { background: rgba(240,165,0,0.1); border-color: var(--dmb-gold); color: var(--dmb-gold); }
+        .mode-btn.mode-concert.active { background: var(--dmb-gold); color: #000; border-color: var(--dmb-gold); }
+
+        /* Era sub-selector */
+        .era-selector {
+            display: none;
+            background: var(--dmb-card);
+            border-bottom: 1px solid var(--dmb-border);
+            padding: 8px 20px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .era-selector.show { display: flex; }
+        .era-btn {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border: 1px solid var(--dmb-border);
+            border-radius: 2px;
+            background: transparent;
+            color: var(--dmb-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .era-btn:hover { color: var(--dmb-text); }
+        .era-btn.active { background: var(--dmb-blue); color: #fff; border-color: var(--dmb-blue); }
+        .era-prompt {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px;
+            letter-spacing: 1px; color: var(--dmb-gold); display: flex; align-items: center;
+            text-transform: uppercase; margin-right: 4px;
+        }
+        @keyframes eraPulse {
+            0%, 100% { box-shadow: inset 0 0 0 0 rgba(240,165,0,0); background: var(--dmb-card); }
+            30% { box-shadow: inset 0 0 0 2px var(--dmb-gold); background: rgba(240,165,0,0.10); }
+        }
+        .era-selector.pulse { animation: eraPulse 1.5s ease-in-out 2; }
+
+        /* Favorites picker modal */
+        .fav-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .fav-modal-overlay.open { display: flex; }
+        .fav-modal {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 4px solid var(--dmb-gold);
+            border-radius: 6px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        .fav-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 3px;
+            color: var(--dmb-gold);
+            margin-bottom: 8px;
+        }
+        .fav-desc {
+            font-size: 12px;
+            color: var(--dmb-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .fav-search {
+            width: 100%;
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 3px;
+            padding: 9px 12px;
+            font-size: 13px;
+            color: var(--dmb-text);
+            outline: none;
+            margin-bottom: 10px;
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+        .fav-search:focus { border-color: var(--dmb-gold); }
+        .fav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-height: 280px;
+            overflow-y: auto;
+            margin-bottom: 14px;
+        }
+        .fav-item {
+            padding: 8px 12px;
+            background: var(--dmb-panel);
+            border: 1px solid var(--dmb-border);
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            color: var(--dmb-text);
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .fav-item:hover { border-color: var(--dmb-gold); }
+        .fav-item.selected { background: var(--dmb-blue); border-color: var(--dmb-blue); color: #fff; }
+        .fav-count {
+            font-size: 11px;
+            color: var(--dmb-gold);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Concert mode search modal */
+        .concert-mode-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .concert-mode-overlay.open { display: flex; }
+        .concert-mode-modal {
+            background: var(--dmb-card);
+            border: 1px solid var(--dmb-border);
+            border-top: 4px solid var(--dmb-gold);
+            border-radius: 6px;
+            padding: 24px;
+            max-width: 460px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+
+        /* ── REGION BACKDROPS (CSS only — wash + faint label) ── */
+        .region-card { position: relative; }
+        .region-card::before { content:""; position:absolute; inset:0; pointer-events:none; z-index:0; opacity:0.55; }
+        .region-card::after {
+            position:absolute; top:58px; left:50%; transform:translateX(-50%);
+            font-family:'Bebas Neue',sans-serif; font-weight:400; white-space:nowrap;
+            font-size:clamp(22px,5vw,46px); line-height:.85; letter-spacing:.04em;
+            color:#fff; opacity:0.05; pointer-events:none; z-index:0;
+            max-width:92%; overflow:hidden;
+        }
+        .region-header, .bracket-row { position: relative; z-index: 1; }
+        .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(158,27,27,.46), transparent 72%); }
+        .venue-gorge::after     { content:"The Boss"; }
+        .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(74,103,65,.44), transparent 72%); }
+        .venue-westpalm::after  { content:"Greasy Lake"; }
+        .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(40,70,120,.46), transparent 72%); }
+        .venue-spac::after      { content:"Highway 9"; }
+        .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(28,118,128,.44), transparent 72%); }
+        .venue-camden::after    { content:"The Jersey Shore"; }
+    
+        /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
+        .play-btn {
+            flex: 0 0 auto;
+            margin-left: auto;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 1px solid var(--dmb-gold);
+            background: rgba(240,165,0,0.12);
+            color: var(--dmb-gold);
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; padding: 0;
+            font-size: 0; line-height: 0;
+            transition: background 0.15s, transform 0.1s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .play-btn:hover { background: rgba(240,165,0,0.28); }
+        .play-btn:active { transform: scale(0.9); }
+        .play-btn::before {
+            content: "\25B6";            /* ▶ play */
+            font-size: 9px; line-height: 1;
+            margin-left: 1px;            /* optical centering of triangle */
+        }
+        .play-btn.playing {
+            background: var(--dmb-gold);
+            color: #0a0a0f;
+        }
+        .play-btn.playing::before { content: "\23F8"; margin-left: 0; }  /* ⏸ pause */
+        .play-btn.loading::before {
+            content: "";
+            width: 9px; height: 9px; margin: 0;
+            border: 2px solid rgba(240,165,0,0.35);
+            border-top-color: var(--dmb-gold);
+            border-radius: 50%;
+            animation: pvspin 0.6s linear infinite;
+        }
+        .play-btn.unavailable {
+            border-color: var(--dmb-muted);
+            background: transparent;
+            opacity: 0.5;
+            animation: pvshake 0.4s;
+        }
+        .play-btn.unavailable::before { content: "\2715"; color: var(--dmb-muted); font-size: 8px; margin: 0; }
+        /* keep buttons visible on a selected (winner) blue slot */
+        .slot.winner .play-btn { border-color: #fff; color: #fff; background: rgba(255,255,255,0.18); }
+        .slot.winner .play-btn.playing { background: #fff; color: var(--dmb-blue); }
+        @keyframes pvspin { to { transform: rotate(360deg); } }
+        @keyframes pvshake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
+
+        /* ── SITE FOOTER / CREDITS ──────────────────────────── */
+        .site-footer {
+            max-width: 900px; margin: 26px auto 44px; padding: 16px 18px 0;
+            text-align: center; font-size: 11px; color: var(--dmb-muted);
+            border-top: 1px solid var(--dmb-border); line-height: 1.65;
+        }
+        .site-footer .credits-title {
+            letter-spacing: 2px; text-transform: uppercase;
+            font-size: 10px; margin-bottom: 6px; color: var(--dmb-muted);
+        }
+        .site-footer .credits-line { margin: 4px 0; }
+        .site-footer a { color: #6fa3e0; text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="sticky-top">
+<header class="site-header">
+    <div class="header-left">
+        <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
+        <div class="header-tagline">Settle the debate: the greatest Bruce Springsteen song ever</div>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
+        <button class="btn btn-share" onclick="openShare()">Share ↗</button>
+    </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-count" id="progressCount">0 / 63</span>
+</div>
+
+<!-- MODE SELECTOR -->
+<div class="mode-bar">
+    <span class="mode-label">Auto-Fill Bracket:</span>
+    <button class="mode-btn mode-random"      onclick="setMode('random')"      title="Random bracket">🎲 Random</button>
+    <button class="mode-btn mode-numbers"     onclick="setMode('numbers')"     title="Seeded by all-time concert plays">📊 By The Numbers</button>
+    <button class="mode-btn mode-crowd"       onclick="setMode('crowd')"       title="Most popular picks from completed brackets">🏆 Crowd's Picks</button>
+    <button class="mode-btn mode-fav"         onclick="setMode('favorites')"   title="Pick your favorites first">❤️ Your Favorites</button>
+    <button class="mode-btn mode-era"         onclick="setMode('era')"         title="Filter by era">🎸 Era Bracket</button>
+    <button class="mode-btn mode-controversy" onclick="setMode('controversy')" title="Fan favorites face off early">🔥 Controversy</button>
+    <!-- Shelved until concert feature launches (needs proxy + setlist.fm key + ingest run):
+    <button class="mode-btn mode-concert" style="display:none"     onclick="setMode('concert')"     title="Songs from your specific show">🎵 My Concert</button>
+    -->
+</div>
+
+<!-- ERA SUB-SELECTOR -->
+<div class="era-selector" id="eraSelector">
+    <span class="era-prompt">👇 Pick an era to fill your bracket</span>
+    <button class="era-btn" onclick="selectEra('The Boss')">The Boss</button>
+    <button class="era-btn" onclick="selectEra('Greasy Lake')">Greasy Lake</button>
+    <button class="era-btn" onclick="selectEra('Highway 9')">Highway 9</button>
+    <button class="era-btn" onclick="selectEra('The Jersey Shore')">The Jersey Shore</button>
+</div>
+</div><!-- /sticky-top -->
+
+
+
+<!-- CHAMPION BANNER -->
+<div class="champion-banner" id="champBanner">
+    <div class="champ-label">🏆 Your Bruce Springsteen Champion 🏆</div>
+    <div class="champ-name" id="champBannerName"></div>
+    <div class="champ-sub">Crown Your Champion · All-Time Greatest Song</div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+<div class="celebrate-text" id="celebrateText">
+    <div class="ct-estreet">You&#39;ve just witnessed the heart-stopping, pants-dropping, hard-rocking, booty-shaking, love-making, Viagra-taking, history-making,</div>
+    <div class="ct-cyc">Crown Your Champion</div>
+    <div class="ct-estreet2">legendary E Street Band!</div>
+</div>
+
+<div class="main-wrap">
+<div class="master-grid">
+
+    <!-- LEFT: GORGE + WEST PALM -->
+    <div class="side-col">
+        <div class="region-card venue-gorge">
+            <div class="region-header">The Boss</div>
+            <div class="bracket-row">
+                <div class="round-col">
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Born to Run</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Wrecking Ball</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">8</span>Land of Hope and Dreams</div><div class="slot" onclick="pick(this,'SP-R2-2')"><span class="seed">9</span>Mary&#x27;s Place</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">5</span>She&#x27;s the One</div><div class="slot" onclick="pick(this,'SP-R2-3')"><span class="seed">12</span>Kitty&#x27;s Back</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">4</span>Cover Me</div><div class="slot" onclick="pick(this,'SP-R2-4')"><span class="seed">13</span>Incident on 57th Street</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">6</span>Working on the Highway</div><div class="slot" onclick="pick(this,'SP-R2-5')"><span class="seed">11</span>Long Walk Home</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">3</span>The River</div><div class="slot" onclick="pick(this,'SP-R2-6')"><span class="seed">14</span>Brilliant Disguise</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">7</span>No Surrender</div><div class="slot" onclick="pick(this,'SP-R2-7')"><span class="seed">10</span>Radio Nowhere</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">2</span>Out in the Street</div><div class="slot" onclick="pick(this,'SP-R2-8')"><span class="seed">15</span>Tunnel of Love</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="SP-R2-1" onclick="pick(this,'SP-R3-1')">--</div><div class="slot empty" id="SP-R2-2" onclick="pick(this,'SP-R3-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="SP-R2-3" onclick="pick(this,'SP-R3-2')">--</div><div class="slot empty" id="SP-R2-4" onclick="pick(this,'SP-R3-2')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="SP-R2-5" onclick="pick(this,'SP-R3-3')">--</div><div class="slot empty" id="SP-R2-6" onclick="pick(this,'SP-R3-3')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="SP-R2-7" onclick="pick(this,'SP-R3-4')">--</div><div class="slot empty" id="SP-R2-8" onclick="pick(this,'SP-R3-4')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="SP-R3-1" onclick="pick(this,'SP-R4-1')">--</div><div class="slot empty" id="SP-R3-2" onclick="pick(this,'SP-R4-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="SP-R3-3" onclick="pick(this,'SP-R4-2')">--</div><div class="slot empty" id="SP-R3-4" onclick="pick(this,'SP-R4-2')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="SP-R4-1" onclick="pick(this,'SP-WIN')">--</div><div class="slot empty" id="SP-R4-2" onclick="pick(this,'SP-WIN')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="SP-WIN" onclick="pick(this,'f1')">--</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card venue-westpalm">
+            <div class="region-header">Greasy Lake</div>
+            <div class="bracket-row">
+                <div class="round-col">
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Thunder Road</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Independence Day</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">8</span>Lonesome Day</div><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">9</span>Waitin&#x27; on a Sunny Day</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">5</span>Because the Night</div><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">12</span>4th of July, Asbury Park (Sandy)</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">4</span>Prove It All Night</div><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">13</span>The E Street Shuffle</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">6</span>Darlington County</div><div class="slot" onclick="pick(this,'AL-R2-5')"><span class="seed">11</span>American Skin (41 Shots)</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">3</span>Rosalita (Come Out Tonight)</div><div class="slot" onclick="pick(this,'AL-R2-6')"><span class="seed">14</span>Tougher Than the Rest</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">7</span>Growin&#x27; Up</div><div class="slot" onclick="pick(this,'AL-R2-7')"><span class="seed">10</span>Darkness on the Edge of Town</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">2</span>Born in the U.S.A.</div><div class="slot" onclick="pick(this,'AL-R2-8')"><span class="seed">15</span>Ghosts</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="AL-R2-1" onclick="pick(this,'AL-R3-1')">--</div><div class="slot empty" id="AL-R2-2" onclick="pick(this,'AL-R3-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="AL-R2-3" onclick="pick(this,'AL-R3-2')">--</div><div class="slot empty" id="AL-R2-4" onclick="pick(this,'AL-R3-2')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="AL-R2-5" onclick="pick(this,'AL-R3-3')">--</div><div class="slot empty" id="AL-R2-6" onclick="pick(this,'AL-R3-3')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="AL-R2-7" onclick="pick(this,'AL-R3-4')">--</div><div class="slot empty" id="AL-R2-8" onclick="pick(this,'AL-R3-4')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="AL-R3-1" onclick="pick(this,'AL-R4-1')">--</div><div class="slot empty" id="AL-R3-2" onclick="pick(this,'AL-R4-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="AL-R3-3" onclick="pick(this,'AL-R4-2')">--</div><div class="slot empty" id="AL-R3-4" onclick="pick(this,'AL-R4-2')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="AL-R4-1" onclick="pick(this,'AL-WIN')">--</div><div class="slot empty" id="AL-R4-2" onclick="pick(this,'AL-WIN')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="AL-WIN" onclick="pick(this,'f2')">--</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CENTER: FINALS + LEADERBOARD -->
+    <div class="center-col">
+        <div class="finals-card">
+            <div class="finals-header">🏆 Championship</div>
+            <div class="finals-body">
+                <div class="final-section-label">Final Four</div>
+                <div class="sf-pairs">
+                    <div class="sf-pair">
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">The Boss Winner</div>
+                        <div class="vs-label">vs.</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Greasy Lake Winner</div>
+                    </div>
+                    <div class="sf-pair">
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Highway 9 Winner</div>
+                        <div class="vs-label">vs.</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">The Jersey Shore Winner</div>
+                    </div>
+                </div>
+                <div class="final-hint">▾ tap each pair's winner</div>
+                <div class="final-section-label">Finals</div>
+                <div class="finals-pair">
+                    <div class="final-slot" id="c1" onclick="pickFinal(this,'champion')">---</div>
+                    <div class="vs-label">vs.</div>
+                    <div class="final-slot" id="c2" onclick="pickFinal(this,'champion')">---</div>
+                </div>
+                <div class="final-hint">▾ tap the winner</div>
+                <div class="champion-slot">
+                    <div class="champ-label">Champion</div>
+                    <div class="champ-name" id="champion">—</div>
+                </div>
+                <button class="crown-btn" id="crownBtn" onclick="submitAndCrown()" disabled>🔒 Pick your champion first</button>
+            </div>
+        </div>
+        <div class="leaderboard-card">
+            <div class="lb-header">👑 Most-Crowned Champions</div>
+            <div class="lb-body" id="leaderboardBody">
+                <div class="lb-empty">Be the first to crown a champion!</div>
+            </div>
+            <div class="lb-upset" id="biggestUpset"></div>
+        </div>
+    </div>
+
+    <!-- RIGHT: SPAC + CAMDEN -->
+    <div class="side-col">
+        <div class="region-card venue-spac">
+            <div class="region-header">Highway 9</div>
+            <div class="bracket-row" style="flex-direction: row-reverse;">
+                <div class="round-col">
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>The Promised Land</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>The Ties That Bind</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">8</span>The Rising</div><div class="slot" onclick="pick(this,'WP-R2-2')"><span class="seed">9</span>Ramrod</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">5</span>Glory Days</div><div class="slot" onclick="pick(this,'WP-R2-3')"><span class="seed">12</span>Jersey Girl</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">4</span>Two Hearts</div><div class="slot" onclick="pick(this,'WP-R2-4')"><span class="seed">13</span>Blinded by the Light</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">6</span>Jungleland</div><div class="slot" onclick="pick(this,'WP-R2-5')"><span class="seed">11</span>Youngstown</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">3</span>Hungry Heart</div><div class="slot" onclick="pick(this,'WP-R2-6')"><span class="seed">14</span>Fire</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">7</span>My Hometown</div><div class="slot" onclick="pick(this,'WP-R2-7')"><span class="seed">10</span>Johnny 99</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">2</span>Dancing in the Dark</div><div class="slot" onclick="pick(this,'WP-R2-8')"><span class="seed">15</span>Murder Incorporated</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="WP-R2-1" onclick="pick(this,'WP-R3-1')">--</div><div class="slot empty" id="WP-R2-2" onclick="pick(this,'WP-R3-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="WP-R2-3" onclick="pick(this,'WP-R3-2')">--</div><div class="slot empty" id="WP-R2-4" onclick="pick(this,'WP-R3-2')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="WP-R2-5" onclick="pick(this,'WP-R3-3')">--</div><div class="slot empty" id="WP-R2-6" onclick="pick(this,'WP-R3-3')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="WP-R2-7" onclick="pick(this,'WP-R3-4')">--</div><div class="slot empty" id="WP-R2-8" onclick="pick(this,'WP-R3-4')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="WP-R3-1" onclick="pick(this,'WP-R4-1')">--</div><div class="slot empty" id="WP-R3-2" onclick="pick(this,'WP-R4-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="WP-R3-3" onclick="pick(this,'WP-R4-2')">--</div><div class="slot empty" id="WP-R3-4" onclick="pick(this,'WP-R4-2')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="WP-R4-1" onclick="pick(this,'WP-WIN')">--</div><div class="slot empty" id="WP-R4-2" onclick="pick(this,'WP-WIN')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="WP-WIN" onclick="pick(this,'f3')">--</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="region-card venue-camden">
+            <div class="region-header">The Jersey Shore</div>
+            <div class="bracket-row" style="flex-direction: row-reverse;">
+                <div class="round-col">
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Badlands</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>My City of Ruins</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">8</span>Atlantic City</div><div class="slot" onclick="pick(this,'DC-R2-2')"><span class="seed">9</span>Sherry Darling</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">5</span>Spirit in the Night</div><div class="slot" onclick="pick(this,'DC-R2-3')"><span class="seed">12</span>Adam Raised a Cain</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">4</span>Backstreets</div><div class="slot" onclick="pick(this,'DC-R2-4')"><span class="seed">13</span>I&#x27;m on Fire</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">6</span>Candy&#x27;s Room</div><div class="slot" onclick="pick(this,'DC-R2-5')"><span class="seed">11</span>The Ghost of Tom Joad</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">3</span>Bobby Jean</div><div class="slot" onclick="pick(this,'DC-R2-6')"><span class="seed">14</span>Night</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">7</span>Racing in the Street</div><div class="slot" onclick="pick(this,'DC-R2-7')"><span class="seed">10</span>Cadillac Ranch</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">2</span>Tenth Avenue Freeze-Out</div><div class="slot" onclick="pick(this,'DC-R2-8')"><span class="seed">15</span>Streets of Philadelphia</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="DC-R2-1" onclick="pick(this,'DC-R3-1')">--</div><div class="slot empty" id="DC-R2-2" onclick="pick(this,'DC-R3-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="DC-R2-3" onclick="pick(this,'DC-R3-2')">--</div><div class="slot empty" id="DC-R2-4" onclick="pick(this,'DC-R3-2')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="DC-R2-5" onclick="pick(this,'DC-R3-3')">--</div><div class="slot empty" id="DC-R2-6" onclick="pick(this,'DC-R3-3')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="DC-R2-7" onclick="pick(this,'DC-R3-4')">--</div><div class="slot empty" id="DC-R2-8" onclick="pick(this,'DC-R3-4')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="DC-R3-1" onclick="pick(this,'DC-R4-1')">--</div><div class="slot empty" id="DC-R3-2" onclick="pick(this,'DC-R4-1')">--</div></div>
+                    <div class="matchup"><div class="slot empty" id="DC-R3-3" onclick="pick(this,'DC-R4-2')">--</div><div class="slot empty" id="DC-R3-4" onclick="pick(this,'DC-R4-2')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="DC-R4-1" onclick="pick(this,'DC-WIN')">--</div><div class="slot empty" id="DC-R4-2" onclick="pick(this,'DC-WIN')">--</div></div>
+                </div>
+                <div class="round-col">
+                    <div class="matchup"><div class="slot empty" id="DC-WIN" onclick="pick(this,'f4')">--</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<footer class="site-footer">
+    
+    <div class="credits-line">Crown Your Champion is a fan project, not affiliated with or endorsed by Bruce Springsteen.</div>
+    <div class="credits-line"><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
+</footer>
+
+<!-- FAVORITES MODAL -->
+<div class="fav-modal-overlay" id="favModal">
+    <div class="fav-modal">
+        <div class="fav-title">❤️ Pick Your Top 5</div>
+        <div class="fav-desc">Select up to 5 of your favorite Bruce Springsteen songs. They'll be seeded as #1 seeds in the bracket so you can defend them all the way to the championship.</div>
+        <input class="fav-search" id="favSearch" type="text" placeholder="Search songs..." oninput="filterFavs(this.value)" />
+        <div class="fav-list" id="favList"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="fav-count" id="favCountLabel">0 / 5 selected</span>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-reset" onclick="closeFavModal()">Cancel</button>
+                <button class="btn btn-share" id="favApplyBtn" onclick="applyFavorites()" style="opacity:0.5;" disabled>Apply →</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- CONCERT MODE MODAL -->
+<div class="concert-mode-overlay" id="concertModeModal">
+    <div class="concert-mode-modal">
+        <div class="cm-title">🎵 My Concert</div>
+        <div class="cm-desc">Search for a show you attended. We'll fill the bracket with songs played that night so you can crown your favorite from your concert.</div>
+        <div class="cm-search-row">
+            <input class="cm-input" id="concertModeSearch" type="text" placeholder="e.g. Gorge 1997, Alpine 2001..." />
+            <button class="btn btn-gold" onclick="searchConcertMode()">Search</button>
+        </div>
+        <div class="cm-status" id="concertModeStatus"></div>
+        <div class="cm-results" id="concertModeResults"></div>
+        <div class="cm-footer" style="margin-top:12px;">
+            <button class="cm-skip" onclick="closeConcertModeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- CONCERT MODAL -->
+<div class="concert-modal-overlay" id="concertModal">
+    <div class="concert-modal">
+        <div class="cm-title">🎸 Were You There?</div>
+        <div class="cm-champ" id="concertModalChamp"></div>
+        <div class="cm-desc">Search for a show where you heard this song live. We'll add the venue and date to your print — making it uniquely yours.</div>
+        <div class="cm-search-row">
+            <input class="cm-input" id="concertSearch" type="text" placeholder="e.g. 1997, Gorge, Alpine Valley..." />
+            <button class="btn btn-gold" onclick="searchConcerts()" style="font-size:11px;padding:9px 14px;">Search</button>
+        </div>
+        <div class="cm-status" id="concertStatus"></div>
+        <div class="cm-results" id="concertResults"></div>
+        <div class="cm-names-row" id="concertNamesRow" style="display:none;margin-top:8px;">
+            <input class="cm-input" id="concertName1" type="text" placeholder="Your name (optional)" />
+            <input class="cm-input" id="concertName2" type="text" placeholder="Their name (optional)" />
+        </div>
+        <div class="cm-print-preview" id="concertPrintPreview">
+            <div class="cpp-song" id="cppSong"></div>
+            <hr class="cpp-div">
+            <div class="cpp-venue" id="cppVenue"></div>
+            <div class="cpp-city" id="cppCity"></div>
+            <div class="cpp-date" id="cppDate"></div>
+            <hr class="cpp-div-thick">
+            <div class="cpp-names" id="cppNames"></div>
+        </div>
+        <div class="cm-footer">
+            <button class="cm-skip" onclick="skipConcert()">Skip — no concert</button>
+            <button class="btn btn-outline" onclick="closeConcertModal()">Close</button>
+            <button class="btn btn-gold" id="concertPrintBtn" onclick="printConcert()" style="display:none;">🖨 Print This</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- EMAIL MODAL -->
+<div class="email-modal-overlay" id="emailModal">
+    <div class="email-modal">
+        <span class="trophy-icon">🏆</span>
+        <div class="em-title">Champion Crowned!</div>
+        <div class="em-champ" id="emailModalChamp"></div>
+        <div class="em-desc">
+            Want a heads-up when the <strong>next tournament</strong> drops — new brackets, new artists?
+            Drop your email and we'll let you know. No spam, ever.
+        </div>
+        <div class="email-input-wrap">
+            <input type="email" class="email-input" id="emailInput" placeholder="you@email.com" autocomplete="email">
+            <button class="btn btn-submit" id="emailSubmitBtn" onclick="submitEmail()">Submit</button>
+        </div>
+        <label class="em-optin"><input type="checkbox" id="emailOptin"> <span>Yes — email me when new brackets &amp; tournaments drop.</span></label>
+        <div class="em-status" id="emailStatus"></div>
+        <button class="em-skip" onclick="skipEmail()">No thanks, just crown it</button>
+        <div class="em-privacy">🔒 We'll never sell or share your email. Unsubscribe anytime. <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
+    </div>
+</div>
+
+
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="shareModal">
+    <div class="modal">
+        <h2>Share Your Bracket</h2>
+        <p>Copy your picks below and share with fellow Bruce Springsteen fans to settle the debate.</p>
+        <div class="share-text" id="shareText"></div>
+        <div class="modal-actions">
+            <button class="btn btn-close" onclick="closeShare()">Close</button>
+            <button class="btn btn-copy" onclick="copyShare()">Copy to Clipboard</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+// ─── SONG DATA ────────────────────────────────────────────────────
+const ALL_SONGS = [
+  {name:"Born to Run", seed:1, region:"The Boss", era:"The Boss", spotify:99, liveRank:1},
+  {name:"Thunder Road", seed:1, region:"Greasy Lake", era:"Greasy Lake", spotify:80, liveRank:2},
+  {name:"The Promised Land", seed:1, region:"Highway 9", era:"Highway 9", spotify:77, liveRank:3},
+  {name:"Badlands", seed:1, region:"The Jersey Shore", era:"The Jersey Shore", spotify:61, liveRank:4},
+  {name:"Out in the Street", seed:2, region:"The Boss", era:"The Boss", spotify:51, liveRank:8},
+  {name:"Born in the U.S.A.", seed:2, region:"Greasy Lake", era:"Greasy Lake", spotify:53, liveRank:7},
+  {name:"Dancing in the Dark", seed:2, region:"Highway 9", era:"Highway 9", spotify:55, liveRank:6},
+  {name:"Tenth Avenue Freeze-Out", seed:2, region:"The Jersey Shore", era:"The Jersey Shore", spotify:57, liveRank:5},
+  {name:"The River", seed:3, region:"The Boss", era:"The Boss", spotify:50, liveRank:9},
+  {name:"Rosalita (Come Out Tonight)", seed:3, region:"Greasy Lake", era:"Greasy Lake", spotify:47, liveRank:10},
+  {name:"Hungry Heart", seed:3, region:"Highway 9", era:"Highway 9", spotify:46, liveRank:11},
+  {name:"Bobby Jean", seed:3, region:"The Jersey Shore", era:"The Jersey Shore", spotify:44, liveRank:12},
+  {name:"Cover Me", seed:4, region:"The Boss", era:"The Boss", spotify:37, liveRank:16},
+  {name:"Prove It All Night", seed:4, region:"Greasy Lake", era:"Greasy Lake", spotify:40, liveRank:15},
+  {name:"Two Hearts", seed:4, region:"Highway 9", era:"Highway 9", spotify:42, liveRank:14},
+  {name:"Backstreets", seed:4, region:"The Jersey Shore", era:"The Jersey Shore", spotify:43, liveRank:13},
+  {name:"She's the One", seed:5, region:"The Boss", era:"The Boss", spotify:33, liveRank:17},
+  {name:"Because the Night", seed:5, region:"Greasy Lake", era:"Greasy Lake", spotify:32, liveRank:18},
+  {name:"Glory Days", seed:5, region:"Highway 9", era:"Highway 9", spotify:31, liveRank:19},
+  {name:"Spirit in the Night", seed:5, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:20},
+  {name:"Working on the Highway", seed:6, region:"The Boss", era:"The Boss", spotify:30, liveRank:24},
+  {name:"Darlington County", seed:6, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:23},
+  {name:"Jungleland", seed:6, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:22},
+  {name:"Candy's Room", seed:6, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:21},
+  {name:"No Surrender", seed:7, region:"The Boss", era:"The Boss", spotify:30, liveRank:25},
+  {name:"Growin' Up", seed:7, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:26},
+  {name:"My Hometown", seed:7, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:27},
+  {name:"Racing in the Street", seed:7, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:28},
+  {name:"Land of Hope and Dreams", seed:8, region:"The Boss", era:"The Boss", spotify:30, liveRank:32},
+  {name:"Lonesome Day", seed:8, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:31},
+  {name:"The Rising", seed:8, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:30},
+  {name:"Atlantic City", seed:8, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:29},
+  {name:"Mary's Place", seed:9, region:"The Boss", era:"The Boss", spotify:30, liveRank:33},
+  {name:"Waitin' on a Sunny Day", seed:9, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:34},
+  {name:"Ramrod", seed:9, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:35},
+  {name:"Sherry Darling", seed:9, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:36},
+  {name:"Radio Nowhere", seed:10, region:"The Boss", era:"The Boss", spotify:30, liveRank:40},
+  {name:"Darkness on the Edge of Town", seed:10, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:39},
+  {name:"Johnny 99", seed:10, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:38},
+  {name:"Cadillac Ranch", seed:10, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:37},
+  {name:"Long Walk Home", seed:11, region:"The Boss", era:"The Boss", spotify:30, liveRank:41},
+  {name:"American Skin (41 Shots)", seed:11, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:42},
+  {name:"Youngstown", seed:11, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:43},
+  {name:"The Ghost of Tom Joad", seed:11, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:44},
+  {name:"Kitty's Back", seed:12, region:"The Boss", era:"The Boss", spotify:30, liveRank:48},
+  {name:"4th of July, Asbury Park (Sandy)", seed:12, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:47},
+  {name:"Jersey Girl", seed:12, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:46},
+  {name:"Adam Raised a Cain", seed:12, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:45},
+  {name:"Incident on 57th Street", seed:13, region:"The Boss", era:"The Boss", spotify:30, liveRank:49},
+  {name:"The E Street Shuffle", seed:13, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:50},
+  {name:"Blinded by the Light", seed:13, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:51},
+  {name:"I'm on Fire", seed:13, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:52},
+  {name:"Brilliant Disguise", seed:14, region:"The Boss", era:"The Boss", spotify:30, liveRank:56},
+  {name:"Tougher Than the Rest", seed:14, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:55},
+  {name:"Fire", seed:14, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:54},
+  {name:"Night", seed:14, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:53},
+  {name:"Tunnel of Love", seed:15, region:"The Boss", era:"The Boss", spotify:30, liveRank:57},
+  {name:"Ghosts", seed:15, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:58},
+  {name:"Murder Incorporated", seed:15, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:59},
+  {name:"Streets of Philadelphia", seed:15, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:60},
+  {name:"Wrecking Ball", seed:16, region:"The Boss", era:"The Boss", spotify:30, liveRank:64},
+  {name:"Independence Day", seed:16, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:63},
+  {name:"The Ties That Bind", seed:16, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:62},
+  {name:"My City of Ruins", seed:16, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:61},
+];
+
+// Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
+window.NAME_SEED = {};
+ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; });// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
+// Picks winners through ALL rounds using a scoring function
+// scoreFn(songName) returns a number — higher wins
+function fillEntireBracket(scoreFn, randomTiebreak) {
+    // Process region rounds: R1->R2->R3->R4->WIN for each region
+    const regionPrefixes = ['SP','AL','WP','DC'];
+
+    // Round 1: first-round song slots feed into R2 slots
+    document.querySelectorAll('.round-col:first-child .matchup').forEach(matchup => {
+        const slots = matchup.querySelectorAll('.slot:not(.empty)');
+        if (slots.length < 2) return;
+        pickWinner(slots[0], slots[1], scoreFn, randomTiebreak);
+    });
+
+    // Now process subsequent rounds by reading filled slots and advancing
+    // R2 slots (id SP-R2-1 etc) -> R3, R3 -> R4, R4 -> WIN, WIN -> finals
+    const rounds = [
+        // [list of slot id pairs, ...] processed in order
+    ];
+
+    regionPrefixes.forEach(p => {
+        // R2 -> R3 (4 matchups -> but R2 has 8 slots feeding 4 R3... actually 8 R2 slots = 4 matchups)
+        // R2-1&R2-2 -> R3-1, R2-3&R2-4 -> R3-2, R2-5&R2-6 -> R3-3, R2-7&R2-8 -> R3-4
+        for (let i = 1; i <= 4; i++) {
+            const a = document.getElementById(`${p}-R2-${i*2-1}`);
+            const b = document.getElementById(`${p}-R2-${i*2}`);
+            advancePair(a, b, scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        // R3-1&R3-2 -> R4-1, R3-3&R3-4 -> R4-2
+        for (let i = 1; i <= 2; i++) {
+            const a = document.getElementById(`${p}-R3-${i*2-1}`);
+            const b = document.getElementById(`${p}-R3-${i*2}`);
+            advancePair(a, b, scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        // R4-1&R4-2 -> WIN
+        const a = document.getElementById(`${p}-R4-1`);
+        const b = document.getElementById(`${p}-R4-2`);
+        advancePair(a, b, scoreFn, randomTiebreak);
+    });
+    // Region winners -> finals (WIN -> f1/f2/f3/f4)
+    // SP-WIN->f1, AL-WIN->f2, WP-WIN->f3, DC-WIN->f4
+    [['SP-WIN'],['AL-WIN'],['WP-WIN'],['DC-WIN']].forEach(([winId]) => {
+        const winSlot = document.getElementById(winId);
+        if (winSlot && winSlot.innerText.trim() !== '--') {
+            const targetId = winSlot.getAttribute('onclick')?.match(/pick\(this,'([^']+)'\)/)?.[1];
+            if (targetId) pick(winSlot, targetId);
+        }
+    });
+    // Finals: f1&f2 -> c1, f3&f4 -> c2
+    advanceFinalPair('f1','f2','c1', scoreFn, randomTiebreak);
+    advanceFinalPair('f3','f4','c2', scoreFn, randomTiebreak);
+    // Championship: c1&c2 -> champion
+    advanceFinalPair('c1','c2','champion', scoreFn, randomTiebreak);
+}
+
+function pickWinner(slotA, slotB, scoreFn, randomTiebreak) {
+    const songA = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(slotA);
+    const songB = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(slotB);
+    const scoreA = scoreFn(songA, slotA);
+    const scoreB = scoreFn(songB, slotB);
+    let winner;
+    if (scoreA > scoreB) winner = slotA;
+    else if (scoreB > scoreA) winner = slotB;
+    else winner = randomTiebreak ? (Math.random() < 0.5 ? slotA : slotB) : slotA;
+    const targetId = winner.getAttribute('onclick')?.match(/pick\(this,'([^']+)'\)/)?.[1];
+    if (targetId) pick(winner, targetId);
+}
+
+function advancePair(slotA, slotB, scoreFn, randomTiebreak) {
+    if (!slotA || !slotB) return;
+    const textA = slotA.innerText.trim();
+    const textB = slotB.innerText.trim();
+    if (textA === '--' || textB === '--' || !textA || !textB) return;
+    pickWinner(slotA, slotB, scoreFn, randomTiebreak);
+}
+
+function advanceFinalPair(idA, idB, targetId, scoreFn, randomTiebreak) {
+    const slotA = document.getElementById(idA);
+    const slotB = document.getElementById(idB);
+    if (!slotA || !slotB) return;
+    const textA = slotA.innerText.trim();
+    const textB = slotB.innerText.trim();
+    if (textA === '---' || textB === '---' || !textA || !textB) return;
+    if (textA.includes('Winner') || textB.includes('Winner')) return;
+    const scoreA = scoreFn(textA, slotA);
+    const scoreB = scoreFn(textB, slotB);
+    let winner;
+    if (scoreA > scoreB) winner = slotA;
+    else if (scoreB > scoreA) winner = slotB;
+    else winner = randomTiebreak ? (Math.random() < 0.5 ? slotA : slotB) : slotA;
+    if (targetId === 'champion') {
+        pickFinal(winner, 'champion');
+    } else {
+        pickFinal(winner, targetId);
+    }
+}
+
+// Score lookup helpers
+function songScoreByLiveRank(name) {
+    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    return s ? (65 - s.liveRank) : 0; // higher liveRank = lower score
+}
+function songScoreBySpotify(name) {
+    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    return s ? s.spotify : 0;
+}
+function songScoreBySeed(name, slot) {
+    const seedEl = slot.querySelector('.seed');
+    if (seedEl) return 17 - parseInt(seedEl.innerText); // lower seed number = higher score
+    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    return s ? (17 - s.seed) : 0;
+}
+
+
+// ─── MODE SYSTEM ──────────────────────────────────────────────────
+let currentMode = 'manual';
+let selectedFavorites = [];
+
+function setMode(mode) {
+    // Update active button
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector(`.mode-${mode === 'favorites' ? 'fav' : mode === 'numbers' ? 'numbers' : mode}`);
+    if (btn) btn.classList.add('active');
+
+    // Hide era selector by default
+    document.getElementById('eraSelector').classList.remove('show');
+
+    if (mode === 'manual') {
+        currentMode = 'manual';
+        return;
+    }
+
+    if (mode === 'random') {
+        currentMode = 'random';
+        applyRandomMode();
+        return;
+    }
+
+    if (mode === 'numbers') {
+        currentMode = 'numbers';
+        applyNumbersMode();
+        return;
+    }
+
+    if (mode === 'crowd') {
+        currentMode = 'crowd';
+        applyCrowdMode();
+        return;
+    }
+
+    if (mode === 'era') {
+        currentMode = 'era';
+        const es = document.getElementById('eraSelector');
+        es.classList.add('show');
+        es.classList.remove('pulse'); void es.offsetWidth; es.classList.add('pulse');
+        try { es.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+        showToast('🎸 Now pick an era below to fill your bracket');
+        return;
+    }
+
+    if (mode === 'controversy') {
+        currentMode = 'controversy';
+        applyControversyMode();
+        return;
+    }
+
+    if (mode === 'favorites') {
+        openFavModal();
+        return;
+    }
+
+    if (mode === 'concert') {
+        openConcertModeModal();
+        return;
+    }
+}
+
+// ─── RANDOM MODE ──────────────────────────────────────────────────
+function applyRandomMode() {
+    silentReset();
+    setTimeout(() => {
+        fillEntireBracket(() => Math.random(), true);
+        showToast('🎲 Random bracket filled — tweak any pick!');
+    }, 200);
+}
+
+// ─── BY THE NUMBERS MODE ──────────────────────────────────────────
+function applyNumbersMode() {
+    silentReset();
+    setTimeout(() => {
+        fillEntireBracket((name) => songScoreBySpotify(name), true);
+        showToast('📊 By The Numbers — the most-played win out!');
+    }, 200);
+}
+
+// ─── CROWD MODE ───────────────────────────────────────────────────
+async function applyCrowdMode() {
+    silentReset();
+    showToast('🏆 Loading crowd picks...');
+    setTimeout(async () => {
+        if (typeof window.getCrowdPicks === 'function') {
+            const picks = await window.getCrowdPicks();
+            if (picks) {
+                applyPicksData(picks);
+                showToast('🏆 Crowd\'s picks applied!');
+                return;
+            }
+        }
+        // Fallback — most played live = crowd favorite
+        fillEntireBracket((name) => songScoreByLiveRank(name), true);
+        showToast('🏆 Crowd favorites (by all-time plays) filled!');
+    }, 200);
+}
+
+// ─── ERA MODE ─────────────────────────────────────────────────────
+function selectEra(era) {
+    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+    silentReset();
+    setTimeout(() => {
+        const eraSongs = ALL_SONGS.filter(s => s.era === era).map(s => s.name);
+        const scoreFn = (name) => {
+            const inEra = eraSongs.some(s => name.includes(s) || s.includes(name));
+            return inEra ? (50 + Math.random()) : Math.random();
+        };
+        fillEntireBracket(scoreFn, true);
+        showToast(`🎸 ${era} era bracket filled!`);
+    }, 200);
+}
+
+// ─── CONTROVERSY MODE ─────────────────────────────────────────────
+function applyControversyMode() {
+    silentReset();
+    setTimeout(() => {
+        // Round 1: underdogs win. Later rounds: random chaos.
+        document.querySelectorAll('.round-col:first-child .matchup').forEach(matchup => {
+            const slots = matchup.querySelectorAll('.slot:not(.empty)');
+            if (slots.length < 2) return;
+            const seed1 = parseInt(slots[0].querySelector('.seed')?.innerText || '1');
+            const seed2 = parseInt(slots[1].querySelector('.seed')?.innerText || '16');
+            const winner = seed1 > seed2 ? slots[0] : slots[1];
+            const targetId = winner.getAttribute('onclick')?.match(/pick\(this,'([^']+)'\)/)?.[1];
+            if (targetId) pick(winner, targetId);
+        });
+        // Fill rest of rounds randomly for chaos
+        fillRemainingRounds(() => Math.random(), true);
+        showToast('🔥 Controversy — underdogs ran wild in round 1!');
+    }, 200);
+}
+
+// Fills rounds 2 onward (used when round 1 already done)
+function fillRemainingRounds(scoreFn, randomTiebreak) {
+    const regionPrefixes = ['SP','AL','WP','DC'];
+    regionPrefixes.forEach(p => {
+        for (let i = 1; i <= 4; i++) {
+            advancePair(document.getElementById(`${p}-R2-${i*2-1}`), document.getElementById(`${p}-R2-${i*2}`), scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        for (let i = 1; i <= 2; i++) {
+            advancePair(document.getElementById(`${p}-R3-${i*2-1}`), document.getElementById(`${p}-R3-${i*2}`), scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        advancePair(document.getElementById(`${p}-R4-1`), document.getElementById(`${p}-R4-2`), scoreFn, randomTiebreak);
+    });
+    ['SP-WIN','AL-WIN','WP-WIN','DC-WIN'].forEach(winId => {
+        const winSlot = document.getElementById(winId);
+        if (winSlot && winSlot.innerText.trim() !== '--') {
+            const targetId = winSlot.getAttribute('onclick')?.match(/pick\(this,'([^']+)'\)/)?.[1];
+            if (targetId) pick(winSlot, targetId);
+        }
+    });
+    advanceFinalPair('f1','f2','c1', scoreFn, randomTiebreak);
+    advanceFinalPair('f3','f4','c2', scoreFn, randomTiebreak);
+    advanceFinalPair('c1','c2','champion', scoreFn, randomTiebreak);
+}
+
+// ─── FAVORITES MODE ───────────────────────────────────────────────
+function openFavModal() {
+    selectedFavorites = [];
+    renderFavList('');
+    document.getElementById('favModal').classList.add('open');
+    document.getElementById('favCountLabel').innerText = '0 / 5 selected';
+    document.getElementById('favApplyBtn').disabled = true;
+    document.getElementById('favApplyBtn').style.opacity = '0.5';
+}
+
+function closeFavModal() {
+    document.getElementById('favModal').classList.remove('open');
+}
+
+function filterFavs(query) {
+    renderFavList(query);
+}
+
+function renderFavList(query) {
+    const list = document.getElementById('favList');
+    list.innerHTML = '';
+    const filtered = ALL_SONGS.filter(s =>
+        s.name.toLowerCase().includes(query.toLowerCase())
+    );
+    filtered.forEach(song => {
+        const div = document.createElement('div');
+        div.className = 'fav-item' + (selectedFavorites.includes(song.name) ? ' selected' : '');
+        div.innerHTML = `<span>${song.name}</span><span style="font-size:10px;opacity:0.5;">${song.era}</span>`;
+        div.onclick = () => toggleFavorite(song.name, div);
+        list.appendChild(div);
+    });
+}
+
+function toggleFavorite(name, el) {
+    if (selectedFavorites.includes(name)) {
+        selectedFavorites = selectedFavorites.filter(s => s !== name);
+        el.classList.remove('selected');
+    } else {
+        if (selectedFavorites.length >= 5) {
+            showToast('Max 5 favorites — deselect one first');
+            return;
+        }
+        selectedFavorites.push(name);
+        el.classList.add('selected');
+    }
+    document.getElementById('favCountLabel').innerText = `${selectedFavorites.length} / 5 selected`;
+    const btn = document.getElementById('favApplyBtn');
+    if (selectedFavorites.length > 0) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    }
+}
+
+function applyFavorites() {
+    closeFavModal();
+    silentReset();
+    setTimeout(() => {
+        const scoreFn = (name) => {
+            const isFav = selectedFavorites.some(f => name.includes(f) || f.includes(name));
+            return isFav ? (50 + Math.random()) : Math.random();
+        };
+        fillEntireBracket(scoreFn, true);
+        document.querySelector('.mode-btn.mode-fav')?.classList.add('active');
+        showToast(`❤️ Your favorites filled through the bracket!`);
+    }, 200);
+}
+
+// ─── CONCERT DATA (setlist.fm via your Cloudflare Worker proxy) ───
+// After deploying setlist-proxy.js, paste the Worker URL here:
+window.CONCERT_PROXY = 'https://YOUR-WORKER.workers.dev';   // <-- SET THIS
+const CONCERT_MAX_PAGES = 6;   // setlist.fm returns ~20/page; 6 pages = up to ~120 shows
+
+function concertProxyReady() {
+    return !!window.CONCERT_PROXY && !/YOUR-WORKER/i.test(window.CONCERT_PROXY);
+}
+function escHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function parseShowDate(d) {              // setlist.fm eventDate is "dd-MM-yyyy"
+    if (!d) return 0;
+    const p = String(d).split('-');
+    return p.length === 3 ? new Date(+p[2], (+p[1]) - 1, +p[0]).getTime() : 0;
+}
+function normSong(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+function songsMatch(a, b) {
+    const x = normSong(a), y = normSong(b);
+    if (!x || !y) return false;
+    return x === y || x.includes(y) || y.includes(x);
+}
+function getSetlistSongs(setlist) {       // handles both {set:[...]} and {sets:{set:[...]}}
+    const sets = (setlist && setlist.sets && setlist.sets.set) || (setlist && setlist.set) || [];
+    const out = [];
+    sets.forEach(st => (st.song || []).forEach(s => { if (s && s.name) out.push(s.name); }));
+    return out;
+}
+// Page through the proxy and collect every matching DMB show
+async function fetchDMBSetlists(params) {
+    const all = [];
+    for (let p = 1; p <= CONCERT_MAX_PAGES; p++) {
+        const qs = new URLSearchParams();
+        Object.keys(params).forEach(k => { if (params[k]) qs.set(k, params[k]); });
+        qs.set('p', String(p));
+        let data;
+        try {
+            const res = await fetch(`${window.CONCERT_PROXY}?${qs.toString()}`, { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) break;
+            data = await res.json();
+        } catch (e) { break; }
+        const list = (data && data.setlist) || [];
+        all.push(...list);
+        const total = (data && data.total) || 0;
+        const per = (data && data.itemsPerPage) || 20;
+        if (list.length === 0 || p * per >= total) break;
+    }
+    return all;
+}
+// Split a free-text query into a year (if present) and the remaining venue/city text
+function parseConcertQuery(query) {
+    const ym = query.match(/\b(19|20)\d{2}\b/);
+    return { year: ym ? ym[0] : '', text: query.replace(/\b(19|20)\d{2}\b/, '').trim() };
+}
+function cityLabel(venue) {
+    if (!venue || !venue.city) return '';
+    const c = venue.city;
+    const region = c.stateCode || c.state || (c.country && c.country.code) || '';
+    return `${c.name || ''}${region ? ', ' + region : ''}`;
+}
+
+// ─── CONCERT MODE ─────────────────────────────────────────────────
+function openConcertModeModal() {
+    document.getElementById('concertModeModal').classList.add('open');
+    document.getElementById('concertModeSearch').value = '';
+    document.getElementById('concertModeResults').innerHTML = '';
+    document.getElementById('concertModeStatus').innerText = '';
+    setTimeout(() => document.getElementById('concertModeSearch').focus(), 300);
+}
+
+function closeConcertModeModal() {
+    document.getElementById('concertModeModal').classList.remove('open');
+}
+
+async function searchConcertMode() {
+    const query = document.getElementById('concertModeSearch').value.trim();
+    if (!query) return;
+
+    const statusEl = document.getElementById('concertModeStatus');
+    const container = document.getElementById('concertModeResults');
+    container.innerHTML = '';
+
+    if (!concertProxyReady()) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Concert search isn’t connected yet.';
+        return;
+    }
+
+    statusEl.className = 'cm-status loading';
+    statusEl.innerText = 'Searching setlist.fm…';
+
+    try {
+        const { year, text } = parseConcertQuery(query);
+        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
+        if (shows.length === 0 && text) {
+            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
+        }
+
+        if (shows.length === 0) {
+            statusEl.className = 'cm-status error';
+            statusEl.innerText = 'No shows found. Try a venue, city, or year.';
+            return;
+        }
+
+        shows.sort((a, b) => parseShowDate(b.eventDate) - parseShowDate(a.eventDate));
+        statusEl.className = 'cm-status';
+        statusEl.innerText = `Found ${shows.length} show${shows.length !== 1 ? 's' : ''} — tap to load that night’s bracket`;
+
+        shows.slice(0, 60).forEach(s => {
+            const date = formatDate(s.eventDate);
+            const venue = (s.venue && s.venue.name) || 'Unknown Venue';
+            const city = cityLabel(s.venue);
+            const div = document.createElement('div');
+            div.className = 'cm-result';
+            div.innerHTML = `<div class="cm-result-date">${escHtml(date)}</div>`
+                          + `<div class="cm-result-venue">${escHtml(venue)}</div>`
+                          + `<div class="cm-result-city">${escHtml(city)}</div>`;
+            div.onclick = () => applyConcertBracket(s, date, venue, city);
+            container.appendChild(div);
+        });
+
+    } catch (e) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Search failed. Please try again.';
+    }
+}
+
+function applyConcertBracket(setlist, date, venue, city) {
+    closeConcertModeModal();
+    let concertSongs = getSetlistSongs(setlist);
+    if (concertSongs.length < 8) {
+        concertSongs = ["Ants Marching","Two Step","Crash Into Me","Jimi Thing",
+                        "Satellite","#41","Tripping Billies","Grey Street",
+                        "Dancing Nancies","Stay (Wasting Time)","Warehouse","Don't Drink the Water",
+                        "So Much To Say","Bartender","Pig","Halloween"];
+    }
+    silentReset();
+    setTimeout(() => {
+        const scoreFn = (name) => {
+            const played = concertSongs.some(s => songsMatch(s, name));
+            return played ? (50 + Math.random()) : Math.random();
+        };
+        fillEntireBracket(scoreFn, true);
+        document.querySelector('.mode-btn.mode-concert')?.classList.add('active');
+        showToast(`🎵 ${venue} · ${date} — bracket filled from that night!`);
+    }, 200);
+}
+
+// ─── SILENT RESET (for mode application) ─────────────────────────
+function silentReset() {
+    try { localStorage.removeItem('bruce-madness-v1-picks'); } catch(e) {}
+    // Clear all advance slots (not the first round song slots)
+    ALL_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerText = '--';
+        el.classList.add('empty');
+        el.classList.remove('winner', 'has-value');
+    });
+    // Clear finals
+    ['f1','f2','f3','f4'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerText = '---';
+            el.classList.remove('winner','has-value');
+        }
+    });
+    ['c1','c2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerText = '---';
+            el.classList.remove('winner','has-value');
+        }
+    });
+    // Clear winner highlights on first round slots
+    document.querySelectorAll('.round-col:first-child .slot').forEach(s => {
+        s.classList.remove('winner');
+    });
+    const champ = document.getElementById('champion');
+    if (champ) champ.innerText = '—';
+    document.getElementById('champBanner')?.classList.remove('visible');
+    updateProgress();
+}
+
+// Concert mode search enter key
+document.addEventListener('DOMContentLoaded', () => {
+    const cs = document.getElementById('concertModeSearch');
+    if (cs) cs.addEventListener('keydown', e => { if (e.key === 'Enter') searchConcertMode(); });
+    const fs = document.getElementById('favSearch');
+    if (fs) fs.addEventListener('keydown', e => { if (e.key === 'Enter') {} });
+});
+
+
+
+// ─── STORAGE KEY ──────────────────────────────────────────────────
+const SAVE_KEY = 'bruce-madness-v1-picks';
+
+// ─── ALL SLOT IDs IN ORDER (for save/restore) ─────────────────────
+const ALL_IDS = [
+    'SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8',
+    'SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN',
+    'AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8',
+    'AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN',
+    'WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8',
+    'WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN',
+    'DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8',
+    'DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN',
+    'f1','f2','f3','f4','c1','c2'
+];
+const TOTAL_PICKS = 63;
+
+// ─── PICK LOGIC ───────────────────────────────────────────────────
+function pick(el, targetId) {
+    const text = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(el);
+    if (!text || text === '--') return;
+
+    // Mark winner in this matchup
+    el.parentElement.querySelectorAll('.slot').forEach(s => s.classList.remove('winner'));
+    el.classList.add('winner');
+
+    // Push to target
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    target.innerText = text;
+    target.classList.remove('winner', 'empty');
+    target.classList.add('has-value');
+
+    // Clear downstream slots that were filled with old value
+    clearDownstream(targetId);
+
+    // A region winner flows straight into the Final Four — no extra click
+    if (FEEDS[targetId] && /^f[1-4]$/.test(FEEDS[targetId])) {
+        autoFillFinalFour(targetId);
+    }
+
+    save();
+    updateProgress();
+}
+
+function autoFillFinalFour(winId) {
+    const fId = FEEDS[winId];
+    const f   = document.getElementById(fId);
+    const win = document.getElementById(winId);
+    if (!f || !win) return;
+    const text = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(win);
+    if (!text || text === '--') return;
+    f.innerText = text;
+    f.classList.remove('winner', 'empty');
+    f.classList.add('has-value');
+    // changing a Final Four entrant invalidates the finals pick it fed
+    clearDownstream(fId);
+}
+
+function pickFinal(el, targetId) {
+    const text = el.innerText.trim();
+    if (!text || text === '---' || text === '--' || /Winner$/.test(text)) return;
+
+    if (targetId === 'champion') {
+        const ok = s => s && s !== '---' && s !== '--';
+        const v1 = document.getElementById('c1').innerText.trim();
+        const v2 = document.getElementById('c2').innerText.trim();
+        if (!ok(v1) || !ok(v2)) {
+            if (typeof showToast === 'function') showToast('🏆 Set both finalists first!');
+            return;
+        }
+    }
+
+    el.parentElement.querySelectorAll('.final-slot').forEach(s => s.classList.remove('winner'));
+    el.classList.add('winner');
+
+    if (targetId === 'champion') {
+        const champ = document.getElementById('champion');
+        champ.innerText = text;
+        showChampion(text);
+    } else {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        target.innerText = text;
+        target.classList.remove('winner');
+        target.classList.add('has-value');
+        clearDownstream(targetId);
+    }
+
+    save();
+    updateProgress();
+}
+
+// ─── DOWNSTREAM CLEARING ──────────────────────────────────────────
+// Map: slotId → what it feeds into
+const FEEDS = {
+    'SP-R2-1': 'SP-R3-1', 'SP-R2-2': 'SP-R3-1',
+    'SP-R2-3': 'SP-R3-2', 'SP-R2-4': 'SP-R3-2',
+    'SP-R2-5': 'SP-R3-3', 'SP-R2-6': 'SP-R3-3',
+    'SP-R2-7': 'SP-R3-4', 'SP-R2-8': 'SP-R3-4',
+    'SP-R3-1': 'SP-R4-1', 'SP-R3-2': 'SP-R4-1',
+    'SP-R3-3': 'SP-R4-2', 'SP-R3-4': 'SP-R4-2',
+    'SP-R4-1': 'SP-WIN',  'SP-R4-2': 'SP-WIN',
+    'SP-WIN':  'f1',
+    'AL-R2-1': 'AL-R3-1', 'AL-R2-2': 'AL-R3-1',
+    'AL-R2-3': 'AL-R3-2', 'AL-R2-4': 'AL-R3-2',
+    'AL-R2-5': 'AL-R3-3', 'AL-R2-6': 'AL-R3-3',
+    'AL-R2-7': 'AL-R3-4', 'AL-R2-8': 'AL-R3-4',
+    'AL-R3-1': 'AL-R4-1', 'AL-R3-2': 'AL-R4-1',
+    'AL-R3-3': 'AL-R4-2', 'AL-R3-4': 'AL-R4-2',
+    'AL-R4-1': 'AL-WIN',  'AL-R4-2': 'AL-WIN',
+    'AL-WIN':  'f2',
+    'WP-R2-1': 'WP-R3-1', 'WP-R2-2': 'WP-R3-1',
+    'WP-R2-3': 'WP-R3-2', 'WP-R2-4': 'WP-R3-2',
+    'WP-R2-5': 'WP-R3-3', 'WP-R2-6': 'WP-R3-3',
+    'WP-R2-7': 'WP-R3-4', 'WP-R2-8': 'WP-R3-4',
+    'WP-R3-1': 'WP-R4-1', 'WP-R3-2': 'WP-R4-1',
+    'WP-R3-3': 'WP-R4-2', 'WP-R3-4': 'WP-R4-2',
+    'WP-R4-1': 'WP-WIN',  'WP-R4-2': 'WP-WIN',
+    'WP-WIN':  'f3',
+    'DC-R2-1': 'DC-R3-1', 'DC-R2-2': 'DC-R3-1',
+    'DC-R2-3': 'DC-R3-2', 'DC-R2-4': 'DC-R3-2',
+    'DC-R2-5': 'DC-R3-3', 'DC-R2-6': 'DC-R3-3',
+    'DC-R2-7': 'DC-R3-4', 'DC-R2-8': 'DC-R3-4',
+    'DC-R3-1': 'DC-R4-1', 'DC-R3-2': 'DC-R4-1',
+    'DC-R3-3': 'DC-R4-2', 'DC-R3-4': 'DC-R4-2',
+    'DC-R4-1': 'DC-WIN',  'DC-R4-2': 'DC-WIN',
+    'DC-WIN':  'f4',
+    'f1': 'c1', 'f2': 'c1',
+    'f3': 'c2', 'f4': 'c2',
+    'c1': 'champion', 'c2': 'champion'
+};
+
+function clearDownstream(id) {
+    // Don't clear the slot we just set, clear anything it feeds into
+    const next = FEEDS[id];
+    if (!next) return;
+    if (next === 'champion') {
+        const c = document.getElementById('champion');
+        if (c) { c.innerText = '—'; }
+        document.getElementById('champBanner').classList.remove('visible');
+        updateCrownButton();
+        return;
+    }
+    const el = document.getElementById(next);
+    if (!el) return;
+    const old = el.innerText.trim();
+    if (old && old !== '--' && old !== '---') {
+        el.innerText = el.classList.contains('final-slot') ? '---' : '--';
+        el.classList.remove('winner','has-value');
+        el.classList.add('empty');
+        clearDownstream(next);
+    }
+}
+
+// ─── PROGRESS ─────────────────────────────────────────────────────
+function updateProgress() {
+    let filled = 0;
+    ALL_IDS.forEach(id => {
+        // f1–f4 auto-fill from the region winners, so they aren't separate picks
+        if (id === 'f1' || id === 'f2' || id === 'f3' || id === 'f4') return;
+        const el = document.getElementById(id);
+        if (el) {
+            const t = el.innerText.trim();
+            if (t && t !== '--' && t !== '---' && t !== 'Highway 9 Winner' && t !== 'Greasy Lake Winner' && t !== 'The Boss Winner' && t !== 'The Jersey Shore Winner') {
+                filled++;
+            }
+        }
+    });
+    // the champion is the final (63rd) pick
+    const champ = document.getElementById('champion');
+    if (champ) {
+        const t = champ.innerText.trim();
+        if (t && t !== '\u2014' && t !== '-' && t !== '--') filled++;
+    }
+    const pct = Math.round((filled / TOTAL_PICKS) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').innerText = filled + ' / ' + TOTAL_PICKS;
+}
+
+// ─── CHAMPION REVEAL ──────────────────────────────────────────────
+function showChampion(name) {
+    const banner = document.getElementById('champBanner');
+    document.getElementById('champBannerName').innerText = name;
+    banner.classList.add('visible');
+    updateCrownButton();
+    // Draw attention to the now-active Submit & Crown button
+    const btn = document.getElementById('crownBtn');
+    if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function updateCrownButton() {
+    const btn = document.getElementById('crownBtn');
+    if (!btn) return;
+    const champ = (document.getElementById('champion').innerText || '').trim();
+    const ready = champ && champ !== '—' && champ !== '-' && champ !== '--';
+    btn.disabled = !ready;
+    btn.classList.toggle('ready', !!ready);
+    btn.innerHTML = ready ? '👑 Submit &amp; Crown' : '🔒 Pick your champion first';
+}
+
+function submitAndCrown() {
+    const champ = (document.getElementById('champion').innerText || '').trim();
+    if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
+    celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
+    setTimeout(() => openEmailModal(champ), 3200); // email capture after the celebration plays
+}
+
+// Keep the sticky championship column aligned just under the sticky header zone
+function setStickyTopHeight() {
+    const st = document.querySelector('.sticky-top');
+    if (st) document.documentElement.style.setProperty('--sticky-top-h', st.offsetHeight + 'px');
+}
+document.addEventListener('DOMContentLoaded', () => {
+    setStickyTopHeight();
+    const st = document.querySelector('.sticky-top');
+    if (st && 'ResizeObserver' in window) new ResizeObserver(setStickyTopHeight).observe(st);
+});
+window.addEventListener('load', setStickyTopHeight);
+window.addEventListener('resize', setStickyTopHeight);
+
+// ─── EMAIL MODAL ──────────────────────────────────────────────────
+function openEmailModal(champName) {
+    document.getElementById('emailModalChamp').innerText = champName;
+    document.getElementById('emailModal').classList.add('open');
+    setTimeout(() => document.getElementById('emailInput').focus(), 400);
+}
+
+function skipEmail() {
+    document.getElementById('emailModal').classList.remove('open');
+    // Still save bracket data anonymously (no email, no consent)
+    saveBracketData(null, false).catch(() => {});
+    // Open concert modal only once the concert feature is connected
+    if (concertProxyReady()) {
+        setTimeout(() => openConcertModal(document.getElementById('champion').innerText.trim()), 300);
+    }
+}
+
+async function submitEmail() {
+    const emailInput = document.getElementById('emailInput');
+    const email = emailInput.value.trim();
+    const statusEl = document.getElementById('emailStatus');
+    const submitBtn = document.getElementById('emailSubmitBtn');
+
+    // Basic validation
+    if (!email || !email.includes('@') || !email.includes('.')) {
+        statusEl.innerText = 'Please enter a valid email address.';
+        statusEl.className = 'em-status error';
+        emailInput.focus();
+        return;
+    }
+
+    // Explicit opt-in required
+    const optin = document.getElementById('emailOptin');
+    if (!optin || !optin.checked) {
+        statusEl.innerText = 'Please check the box to opt in — or just crown it below.';
+        statusEl.className = 'em-status error';
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Saving...';
+    statusEl.innerText = '';
+
+    // Capture the email locally right away so it's never lost
+    try { localStorage.setItem('bruce-user-email', email); } catch(e) {}
+
+    // Attempt the cloud save, but never let a slow/failed Firebase call lock the UI (cap at 6s)
+    try {
+        await Promise.race([
+            saveBracketData(email, true),
+            new Promise(res => setTimeout(res, 6000))
+        ]);
+    } catch (e) { /* treated as success from the user's side */ }
+
+    statusEl.innerText = '✓ Saved! We\'ll keep you posted on new tournaments.';
+    statusEl.className = 'em-status success';
+    submitBtn.disabled = false;
+    submitBtn.innerText = 'Submit';
+    setTimeout(() => {
+        document.getElementById('emailModal').classList.remove('open');
+        if (concertProxyReady()) openConcertModal(document.getElementById('champion').innerText.trim());
+    }, 1500);
+}
+
+// Allow Enter key to submit email
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('emailInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') submitEmail();
+    });
+});
+
+// ─── CELEBRATION: confetti + encore fanfare + flourish ────────────
+function celebrate() {
+    try { fireConfetti(); } catch (e) {}
+    try { playFanfare(); } catch (e) {}
+    const t = document.getElementById('celebrateText');
+    if (t) {
+        t.classList.remove('show');
+        void t.offsetWidth;            // restart the CSS animation
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 6600);
+    }
+}
+
+function fireConfetti() {
+    const canvas = document.getElementById('confettiCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * DPR;
+    canvas.height = window.innerHeight * DPR;
+    canvas.style.display = 'block';
+    const colors = ['#d4af37','#c9a227','#b22222','#003f88','#5b8dd6','#ffffff','#e8c75a'];
+    const W = canvas.width, H = canvas.height, N = 170, parts = [];
+    for (let i = 0; i < N; i++) {
+        parts.push({
+            x: W * (0.28 + Math.random() * 0.44),
+            y: H * 0.34 + (Math.random() - 0.5) * H * 0.08,
+            vx: (Math.random() - 0.5) * 12 * DPR,
+            vy: (Math.random() * -1 - 0.4) * 14 * DPR,
+            g: (0.18 + Math.random() * 0.16) * DPR,
+            w: (6 + Math.random() * 7) * DPR,
+            h: (8 + Math.random() * 9) * DPR,
+            rot: Math.random() * Math.PI * 2,
+            vr: (Math.random() - 0.5) * 0.4,
+            color: colors[(Math.random() * colors.length) | 0]
+        });
+    }
+    const start = performance.now(), DURATION = 4800;
+    function frame(now) {
+        const elapsed = now - start;
+        ctx.clearRect(0, 0, W, H);
+        ctx.globalAlpha = elapsed < 3200 ? 1 : Math.max(0, 1 - (elapsed - 3200) / 1600);
+        let alive = false;
+        for (const p of parts) {
+            p.vy += p.g; p.vx *= 0.99;
+            p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+            if (p.y < H + 40 * DPR) alive = true;
+            ctx.save();
+            ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+        }
+        if (elapsed < DURATION && (alive || elapsed < 3200)) {
+            requestAnimationFrame(frame);
+        } else {
+            ctx.clearRect(0, 0, W, H);
+            canvas.style.display = 'none';
+        }
+    }
+    requestAnimationFrame(frame);
+}
+
+function playFanfare() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    // Reuse one context (Safari limits how many you can create) and resume it
+    // inside the user gesture — iOS starts audio contexts suspended.
+    let ctx = playFanfare._ctx;
+    if (!ctx) { try { ctx = playFanfare._ctx = new AC(); } catch (e) { return; } }
+    if (ctx.state === 'suspended' && ctx.resume) { try { ctx.resume(); } catch (e) {} }
+    const now = ctx.currentTime + 0.05;
+    const master = ctx.createGain();
+    master.gain.value = 0.18;
+    master.connect(ctx.destination);
+    const notes = [523.25, 659.25, 783.99, 1046.50];   // C5 E5 G5 C6 — ascending
+    notes.forEach((f, i) => {
+        const t = now + i * 0.12;
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'triangle'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.22, t + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0008, t + 0.5);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + 0.55);
+    });
+    const chordT = now + notes.length * 0.12;           // warm held major chord
+    [523.25, 659.25, 783.99].forEach(f => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, chordT);
+        g.gain.exponentialRampToValueAtTime(0.16, chordT + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.0006, chordT + 1.1);
+        o.connect(g); g.connect(master);
+        o.start(chordT); o.stop(chordT + 1.2);
+    });
+    // Context is reused on the next crown — do not close it.
+}
+
+// ─── COLLECT BRACKET DATA ─────────────────────────────────────────
+function collectBracketData() {
+    const allPicks = {};
+    ALL_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const t = el.innerText.trim();
+            if (t && t !== '--' && t !== '---') allPicks[id] = t;
+        }
+    });
+    return {
+        champion:   document.getElementById('champion').innerText.trim(),
+        gorge:      (document.getElementById('SP-WIN') || {}).innerText?.trim() || '',
+        westpalm:   (document.getElementById('AL-WIN') || {}).innerText?.trim() || '',
+        spac:       (document.getElementById('WP-WIN') || {}).innerText?.trim() || '',
+        camden:     (document.getElementById('DC-WIN') || {}).innerText?.trim() || '',
+        finalFour: {
+            f1: (document.getElementById('f1') || {}).innerText?.trim() || '',
+            f2: (document.getElementById('f2') || {}).innerText?.trim() || '',
+            f3: (document.getElementById('f3') || {}).innerText?.trim() || '',
+            f4: (document.getElementById('f4') || {}).innerText?.trim() || '',
+        },
+        allPicks
+    };
+}
+
+async function saveBracketData(email, consent) {
+    if (typeof window.saveToFirebase !== 'function') {
+        // Firebase not configured yet — skip silently
+        return { success: false, error: 'Firebase not configured' };
+    }
+    const bracketData = collectBracketData();
+    return await window.saveToFirebase(email, bracketData, !!consent);
+}
+
+// ─── SAVE / RESTORE ───────────────────────────────────────────────
+function save() {
+    const data = {};
+    ALL_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const t = el.innerText.trim();
+            const isWinner = el.classList.contains('winner');
+            data[id] = { text: t, winner: isWinner };
+        }
+    });
+    // Save champion
+    const champ = document.getElementById('champion');
+    if (champ) data['__champion'] = champ.innerText.trim();
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function restore() {
+    let data;
+    try { data = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch(e) {}
+    if (!data) return;
+
+    ALL_IDS.forEach(id => {
+        if (!data[id]) return;
+        const el = document.getElementById(id);
+        if (!el) return;
+        const { text, winner } = data[id];
+        if (text && text !== '--' && text !== '---' && 
+            text !== 'Highway 9 Winner' && text !== 'Greasy Lake Winner' && 
+            text !== 'The Boss Winner' && text !== 'The Jersey Shore Winner') {
+            el.innerText = text;
+            el.classList.remove('empty');
+            el.classList.add('has-value');
+            if (winner) el.classList.add('winner');
+        }
+    });
+
+    // Restore champion
+    if (data['__champion'] && data['__champion'] !== '—') {
+        document.getElementById('champion').innerText = data['__champion'];
+        document.getElementById('champBannerName').innerText = data['__champion'];
+        document.getElementById('champBanner').classList.add('visible');
+    }
+
+    updateProgress();
+    updateCrownButton();
+}
+
+// ─── RESET ────────────────────────────────────────────────────────
+function confirmReset() {
+    if (confirm('Reset your entire bracket? This cannot be undone.')) {
+        try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+        location.reload();
+    }
+}
+
+// ─── SHARE ────────────────────────────────────────────────────────
+function openShare() {
+    const regions = {
+        'The Boss': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Greasy Lake': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Highway 9': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'The Jersey Shore': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+    };
+    const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
+
+    let lines = ['🎸 BRUCE SPRINGSTEEN MADNESS — MY BRACKET', ''];
+
+    for (const [region, ids] of Object.entries(regions)) {
+        lines.push(`── ${region.toUpperCase()} REGION ──`);
+        const chunks = [ids.slice(0,8), ids.slice(8,12), ids.slice(12,14), ids.slice(14,15), ids.slice(15)];
+        chunks.forEach((chunk, i) => {
+            const label = roundLabels[i] || '';
+            chunk.forEach(id => {
+                const el = document.getElementById(id);
+                const t = el ? el.innerText.trim() : '';
+                if (t && t !== '--') lines.push(`  ${label ? label + ': ' : ''}${t}`);
+            });
+        });
+        lines.push('');
+    }
+
+    lines.push('── FINAL FOUR ──');
+    ['f1','f2','f3','f4'].forEach(id => {
+        const el = document.getElementById(id);
+        const t = el ? el.innerText.trim() : '';
+        if (t && t !== '---') lines.push('  ' + t);
+    });
+
+    lines.push('');
+    lines.push('── CHAMPIONSHIP ──');
+    ['c1','c2'].forEach(id => {
+        const el = document.getElementById(id);
+        const t = el ? el.innerText.trim() : '';
+        if (t && t !== '---') lines.push('  ' + t);
+    });
+
+    const champ = document.getElementById('champion').innerText.trim();
+    if (champ && champ !== '—') {
+        lines.push('');
+        lines.push('🏆 CHAMPION: ' + champ);
+    }
+
+    lines.push('');
+    lines.push('Play Bruce Springsteen Madness → crownyourchampion.com/springsteen');
+
+    document.getElementById('shareText').innerText = lines.join('\n');
+    document.getElementById('shareModal').classList.add('open');
+}
+
+function closeShare() {
+    document.getElementById('shareModal').classList.remove('open');
+}
+
+function copyShare() {
+    const text = document.getElementById('shareText').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard!');
+        closeShare();
+    }).catch(() => {
+        showToast('Select the text above and copy manually');
+    });
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+
+// ─── CONCERT MODAL ────────────────────────────────────────────────
+let selectedConcert = null;
+let currentChampSong = '';
+
+function openConcertModal(champName){ currentChampSong=champName; showToast('🏆 '+champName+' is your Bruce Springsteen Champion!'); }
+
+function closeConcertModal() {
+    document.getElementById('concertModal').classList.remove('open');
+}
+
+function skipConcert() {
+    closeConcertModal();
+    showToast('🏆 ' + currentChampSong + ' is your Bruce Springsteen Champion!');
+}
+
+async function searchConcerts() {
+    const query = document.getElementById('concertSearch').value.trim();
+    if (!query) return;
+
+    const statusEl = document.getElementById('concertStatus');
+    document.getElementById('concertResults').innerHTML = '';
+    document.getElementById('concertPrintPreview').classList.remove('show');
+    document.getElementById('concertPrintBtn').style.display = 'none';
+    document.getElementById('concertNamesRow').style.display = 'none';
+
+    if (!concertProxyReady()) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Concert search isn’t connected yet.';
+        return;
+    }
+
+    statusEl.className = 'cm-status loading';
+    statusEl.innerText = 'Searching setlist.fm…';
+
+    try {
+        const { year, text } = parseConcertQuery(query);
+        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
+        if (shows.length === 0 && text) {
+            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
+        }
+
+        if (shows.length === 0) {
+            statusEl.className = 'cm-status error';
+            statusEl.innerText = 'No shows found. Try a venue, city, or year.';
+            return;
+        }
+
+        shows.sort((a, b) => parseShowDate(b.eventDate) - parseShowDate(a.eventDate));
+        renderConcertResults(shows.slice(0, 60));
+        statusEl.className = 'cm-status';
+        statusEl.innerText = `Found ${shows.length} show${shows.length !== 1 ? 's' : ''} — tap to select`;
+
+    } catch (e) {
+        statusEl.className = 'cm-status error';
+        statusEl.innerText = 'Search failed. Please try again.';
+    }
+}
+
+function getDemoSetlists(query, song) {
+    // Demo data — real iconic DMB shows for common searches
+    const demoShows = [
+        { eventDate: '12-07-1996', venue: { name: 'Meadows Music Theatre', city: { name: 'Hartford', state: 'CT' } } },
+        { eventDate: '06-25-1997', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
+        { eventDate: '08-24-1997', venue: { name: 'Alpine Valley Music Theatre', city: { name: 'East Troy', state: 'WI' } } },
+        { eventDate: '07-04-1999', venue: { name: 'Folsom Field', city: { name: 'Boulder', state: 'CO' } } },
+        { eventDate: '09-15-2000', venue: { name: 'Nissan Pavilion', city: { name: 'Bristow', state: 'VA' } } },
+        { eventDate: '06-14-2001', venue: { name: 'Giants Stadium', city: { name: 'East Rutherford', state: 'NJ' } } },
+        { eventDate: '07-04-2003', venue: { name: 'Hersheypark Stadium', city: { name: 'Hershey', state: 'PA' } } },
+        { eventDate: '08-27-2006', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
+        { eventDate: '06-28-2008', venue: { name: 'Fenway Park', city: { name: 'Boston', state: 'MA' } } },
+        { eventDate: '07-04-2010', venue: { name: 'Saratoga Performing Arts Center', city: { name: 'Saratoga Springs', state: 'NY' } } },
+        { eventDate: '05-18-2012', venue: { name: 'Citi Field', city: { name: 'New York', state: 'NY' } } },
+        { eventDate: '06-07-2015', venue: { name: 'Jiffy Lube Live', city: { name: 'Bristow', state: 'VA' } } },
+        { eventDate: '07-22-2018', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
+        { eventDate: '08-10-2019', venue: { name: 'DTE Energy Music Theatre', city: { name: 'Clarkston', state: 'MI' } } },
+        { eventDate: '06-14-2023', venue: { name: 'Northwell Health at Jones Beach', city: { name: 'Wantagh', state: 'NY' } } },
+    ];
+    const q = query.toLowerCase();
+    return demoShows.filter(s => {
+        const str = `${s.venue.name} ${s.venue.city.name} ${s.venue.city.state} ${s.eventDate}`.toLowerCase();
+        return str.includes(q);
+    });
+}
+
+function renderConcertResults(setlists) {
+    const container = document.getElementById('concertResults');
+    container.innerHTML = '';
+    setlists.forEach(s => {
+        const date = formatDate(s.eventDate);
+        const venue = s.venue?.name || 'Unknown Venue';
+        const city = `${s.venue?.city?.name || ''}${s.venue?.city?.state ? ', ' + s.venue.city.state : ''}`;
+
+        const div = document.createElement('div');
+        div.className = 'cm-result';
+        div.innerHTML = `
+            <div class="cm-result-date">${date}</div>
+            <div class="cm-result-venue">${venue}</div>
+            <div class="cm-result-city">${city}</div>
+        `;
+        div.onclick = () => selectConcert(s, div, date, venue, city);
+        container.appendChild(div);
+    });
+}
+
+function selectConcert(setlist, el, date, venue, city) {
+    document.querySelectorAll('.cm-result').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedConcert = { date, venue, city };
+
+    // Show names row
+    document.getElementById('concertNamesRow').style.display = 'flex';
+
+    // Update live print preview
+    updateConcertPreview();
+
+    // Show print button
+    document.getElementById('concertPrintBtn').style.display = 'inline-block';
+
+    document.getElementById('concertStatus').className = 'cm-status';
+    document.getElementById('concertStatus').innerText = '✓ Show selected — add names or print now';
+}
+
+function updateConcertPreview() {
+    if (!selectedConcert) return;
+    const name1 = document.getElementById('concertName1').value.trim().toUpperCase();
+    const name2 = document.getElementById('concertName2').value.trim().toUpperCase();
+
+    document.getElementById('cppSong').innerText = currentChampSong.toUpperCase();
+    document.getElementById('cppVenue').innerText = selectedConcert.venue;
+    document.getElementById('cppCity').innerText = selectedConcert.city;
+    document.getElementById('cppDate').innerText = selectedConcert.date;
+
+    const namesEl = document.getElementById('cppNames');
+    if (name1 || name2) {
+        let parts = [];
+        if (name1) parts.push(name1);
+        if (name1 && name2) parts.push('&amp;');
+        if (name2) parts.push(name2);
+        namesEl.innerHTML = parts.join(' ') + ' <span class="cpp-heart">♥</span>';
+    } else {
+        namesEl.innerHTML = '';
+    }
+
+    document.getElementById('concertPrintPreview').classList.add('show');
+}
+
+function formatDate(rawDate) {
+    if (!rawDate) return '';
+    // setlist.fm format is DD-MM-YYYY
+    const parts = rawDate.split('-');
+    if (parts.length === 3) {
+        const months = ['','January','February','March','April','May','June',
+                        'July','August','September','October','November','December'];
+        const m = parseInt(parts[1]);
+        return `${months[m]} ${parseInt(parts[0])}, ${parts[2]}`;
+    }
+    return rawDate;
+}
+
+function printConcert() {
+    if (!selectedConcert) return;
+    // Build a full print page and open print dialog
+    const name1 = document.getElementById('concertName1').value.trim().toUpperCase();
+    const name2 = document.getElementById('concertName2').value.trim().toUpperCase();
+
+    let namesHtml = '';
+    if (name1 || name2) {
+        let parts = [];
+        if (name1) parts.push(`<span>${name1}</span>`);
+        if (name1 && name2) parts.push(`<span>&amp;</span>`);
+        if (name2) parts.push(`<span>${name2}</span>`);
+        parts.push(`<span style="color:#c0392b;">♥</span>`);
+        namesHtml = `<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#555;">${parts.join('')}</div>`;
+    }
+
+    const win = window.open('', '_blank');
+    win.document.write(`
+        <!DOCTYPE html><html><head>
+        <meta charset="UTF-8">
+        <title>${currentChampSong} — CrownYourChampion</title>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+        <style>
+            * { margin:0; padding:0; box-sizing:border-box; }
+            body { background:#e8e4df; display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:'Barlow Condensed',sans-serif; }
+            .frame { background:#fff; width:500px; padding:60px 72px 52px; position:relative; box-shadow:0 8px 40px rgba(0,0,0,0.2); }
+            .frame::before { content:''; position:absolute; inset:16px; border:0.75px solid #ddd; pointer-events:none; }
+            .song { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:5px; color:#111; text-align:center; margin-top:8px; }
+            .band { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:10px; letter-spacing:5px; text-transform:uppercase; color:#888; text-align:center; margin-top:4px; }
+            .div-thin { border:none; border-top:0.75px solid #ddd; width:80%; margin:14px auto; }
+            .div-thick { border:none; border-top:1.75px solid #444; width:80%; margin:14px auto; }
+            .div-double { width:80%; height:5px; border-top:0.75px solid #aaa; border-bottom:0.75px solid #aaa; margin:14px auto; }
+            .label { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:#aaa; text-align:center; margin-bottom:6px; }
+            .venue { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:16px; letter-spacing:3px; text-transform:uppercase; color:#222; text-align:center; line-height:1.4; }
+            .city { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:#666; text-align:center; margin-top:4px; }
+            .date { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:4px; color:#111; text-align:center; margin-top:8px; }
+            .tagline { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:11px; letter-spacing:2px; color:#aaa; text-align:center; margin-top:6px; }
+            @media print { body { background:white; } .frame { box-shadow:none; } }
+        
+
+    </style>
+        </head><body>
+        <div class="frame">
+            <p class="song">${currentChampSong}</p>
+            <p class="band">Bruce Springsteen</p>
+            <hr class="div-thin">
+            <p class="label">I was there</p>
+            <hr class="div-thick">
+            <p class="venue">${selectedConcert.venue}</p>
+            <p class="city">${selectedConcert.city}</p>
+            <p class="date">${selectedConcert.date}</p>
+            <hr class="div-thin">
+            <p class="tagline">My champion. My night. My memory.</p>
+            <hr class="div-double">
+            ${namesHtml}
+        </div>
+        <script>window.onload = () => { window.print(); }<\/script>
+        </body></html>
+    `);
+    win.document.close();
+}
+
+// ─── UPDATE CONCERT PREVIEW WHEN NAMES CHANGE ─────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    ['concertName1','concertName2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateConcertPreview);
+    });
+    const cs = document.getElementById('concertSearch');
+    if (cs) cs.addEventListener('keydown', e => { if (e.key === 'Enter') searchConcerts(); });
+});
+
+
+
+// ─── SONG PREVIEW ENGINE (iTunes Search API, free 30s clips) ──────
+// Plays a 30-second preview when the ▶ on a song is tapped. One at a
+// time. iTunes returns previews with no API key; JSONP avoids CORS.
+(function () {
+    // Refinements so abbreviated bracket labels search accurately.
+    var SONG_TERMS = {
+        'Where Going': 'Where Are You Going',
+        'Lie In Our Graves': 'Lie in Our Graves',
+        'Lie In Graves': 'Lie in Our Graves',
+        'Steady As Go': 'Steady As We Go',
+        'Walk Moon': 'Walk Around the Moon',
+        'Virginia Rain': 'Virginia in the Rain',
+        'Best of What\'s Around': 'The Best of What\'s Around',
+        'Drive In Drive Out': 'Drive In, Drive Out',
+        'Stay (Wasting Time)': 'Stay Wasting Time'
+    };
+
+    var cache = {};            // songName -> previewUrl | null
+    var audio = null;
+    var currentBtn = null;
+    var currentName = null;
+    var unlocked = false;      // iOS audio-unlock state
+    var DEBUG = /debug/i.test(location.hash);  // off for visitors; add #debug to the URL to see it
+    var dbgBox = null;
+    function dbg(msg) {
+        if (!DEBUG) return;
+        if (!dbgBox) {
+            dbgBox = document.createElement('div');
+            dbgBox.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.9);color:#0f0;font:12px/1.4 monospace;padding:8px;max-height:45vh;overflow:auto;white-space:pre-wrap;';
+            (document.body || document.documentElement).appendChild(dbgBox);
+        }
+        dbgBox.textContent += msg + '\n';
+        dbgBox.scrollTop = dbgBox.scrollHeight;
+    }
+    var SILENT = 'data:audio/wav;base64,UklGRiQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+
+    function getAudio() {
+        if (!audio) {
+            // Use a <video> element (not Audio()): on iPhone, video audio plays
+            // through restrictions that block plain/detached audio. iPad/desktop
+            // play it the same way, so this is safe everywhere.
+            audio = document.createElement('video');
+            audio.setAttribute('playsinline', '');
+            audio.setAttribute('webkit-playsinline', '');
+            audio.setAttribute('preload', 'auto');
+            audio.muted = false;
+            audio.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+            audio.addEventListener('ended', resetCurrent);
+            audio.addEventListener('error', function () { dbg('MEDIA ERROR code=' + (audio.error && audio.error.code) + ' src=' + (audio.currentSrc || '').slice(-40)); resetCurrent(); });
+            (document.body || document.documentElement).appendChild(audio);
+        }
+        return audio;
+    }
+
+    function resetCurrent() {
+        if (currentBtn) currentBtn.classList.remove('playing', 'loading');
+        currentBtn = null;
+        currentName = null;
+    }
+
+    function stopPlayback() {
+        if (audio) { audio.pause(); try { audio.currentTime = 0; } catch (e) {} }
+        resetCurrent();
+    }
+
+    // JSONP lookup — appends a <script> with a callback param.
+    var SOLO_SONGS = { 'Some Devil':1, 'So Damn Lucky':1, 'Gravedigger':1, 'Stay or Leave':1 };
+    function itunesLookup(name, cb) {
+        var artist = 'Bruce Springsteen ';
+        var term = artist + (SONG_TERMS[name] || name);
+        var cbName = 'itpv_' + Math.random().toString(36).slice(2);
+        var done = false;
+        var s = document.createElement('script');
+        var timer = setTimeout(function () { finish(null); }, 7000);
+
+        function finish(url) {
+            if (done) return;
+            done = true;
+            clearTimeout(timer);
+            try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+            if (s.parentNode) s.parentNode.removeChild(s);
+            cb(url);
+        }
+
+        window[cbName] = function (data) {
+            var url = null;
+            var results = (data && data.results) || [];
+            // Prefer an actual DMB result that has a preview.
+            for (var i = 0; i < results.length; i++) {
+                var r = results[i];
+                if (r.previewUrl && /bruce springsteen/i.test(r.artistName || '')) { url = r.previewUrl; break; }
+            }
+            if (!url) {
+                for (var j = 0; j < results.length; j++) {
+                    if (results[j].previewUrl) { url = results[j].previewUrl; break; }
+                }
+            }
+            finish(url);
+        };
+
+        s.onerror = function () { finish(null); };
+        s.src = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+                '&media=music&entity=song&limit=10&callback=' + cbName;
+        document.head.appendChild(s);
+    }
+
+    function flashUnavailable(btn) {
+        btn.classList.remove('loading', 'playing');
+        btn.classList.add('unavailable');
+        btn.title = 'No preview available';
+        setTimeout(function () { btn.classList.remove('unavailable'); }, 1400);
+    }
+
+    function startPlayback(name, btn, url) {
+        var a = getAudio();
+        a.src = url;
+        dbg('play() called for ' + name + ' <' + a.tagName + '>');
+        var p = a.play();
+        currentBtn = btn;
+        currentName = name;
+        btn.classList.remove('loading');
+        btn.classList.add('playing');
+        if (p && p.then) {
+            p.then(function () { dbg('play() OK — should be audible'); })
+             .catch(function (e) { dbg('play() BLOCKED: ' + e.name + ' — ' + e.message); resetCurrent(); });
+        } else if (p && p.catch) {
+            p.catch(function () { resetCurrent(); });
+        }
+    }
+
+    function unlockAudio() {
+        if (unlocked) return;
+        var a = getAudio();
+        try {
+            a.src = SILENT;
+            var p = a.play();
+            if (p && p.then) { p.then(function () { unlocked = true; dbg('unlock OK'); try { a.pause(); a.currentTime = 0; } catch (e) {} }).catch(function (e) { dbg('unlock FAIL: ' + e.name); }); }
+            else { unlocked = true; }
+        } catch (e) { dbg('unlock threw: ' + e.message); }
+    }
+
+    function onPlayClick(name, btn, e) {
+        e.stopPropagation();
+        e.preventDefault();
+        dbg('--- TAP: ' + name + ' | cached=' + (cache[name] === undefined ? 'no' : (cache[name] === null ? 'unavailable' : 'yes')));
+
+        // Tap the one that's playing -> stop.
+        if (currentBtn === btn) { stopPlayback(); return; }
+
+        stopPlayback();
+
+        if (cache[name] === null) { flashUnavailable(btn); return; }
+        if (cache[name]) { startPlayback(name, btn, cache[name]); return; }   // known link: plays in the tap gesture (iOS-safe)
+
+        // Not known yet -> live lookup. Play happens after the network call,
+        // so claim audio permission now, inside the gesture.
+        unlockAudio();
+        btn.classList.add('loading');
+        itunesLookup(name, function (url) {
+            dbg('lookup ' + name + ' -> ' + (url ? 'FOUND' : 'none'));
+            cache[name] = url || null;
+            // If user moved on to another song meanwhile, don't hijack.
+            if (!btn.classList.contains('loading')) return;
+            if (url) startPlayback(name, btn, url);
+            else flashUnavailable(btn);
+        });
+    }
+
+    function prefetchPreviews() {
+        var slots = document.querySelectorAll('.slot');
+        var names = [], seen = {};
+        for (var i = 0; i < slots.length; i++) {
+            var slot = slots[i];
+            if (!slot.querySelector('.seed')) continue;
+            var name = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(slot);
+            if (!name || name === '--' || seen[name]) continue;
+            seen[name] = 1;
+            if (cache[name] === undefined) names.push(name);
+        }
+        var q = names.slice();
+        function step() {
+            if (!q.length) return;
+            var name = q.shift();
+            if (cache[name] !== undefined) { setTimeout(step, 40); return; }
+            itunesLookup(name, function (url) {
+                if (url && cache[name] === undefined) cache[name] = url;  // cache hits only; misses retried on tap
+                setTimeout(step, 1500);   // gentle pacing to respect iTunes rate limits
+            });
+        }
+        setTimeout(step, 0);
+    }
+
+    function initPlayButtons() {
+        var slots = document.querySelectorAll('.slot');
+        for (var i = 0; i < slots.length; i++) {
+            var slot = slots[i];
+            // Only the 64 source songs (they carry a seed); skip if already done.
+            if (!slot.querySelector('.seed')) continue;
+            if (slot.querySelector('.play-btn')) continue;
+
+            var name = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(slot);
+            if (!name || name === '--') continue;
+
+            var btn = document.createElement('span');
+            btn.className = 'play-btn';
+            btn.setAttribute('role', 'button');
+            btn.setAttribute('aria-label', 'Play 30 second preview of ' + name);
+            btn.setAttribute('tabindex', '0');
+            (function (n, b) {
+                b.addEventListener('click', function (e) { onPlayClick(n, b, e); });
+                b.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') onPlayClick(n, b, e);
+                });
+            })(name, btn);
+            slot.appendChild(btn);
+        }
+    }
+
+    function boot() {
+        initPlayButtons();
+        // Load baked-in preview links if present, so no device has to call Apple live.
+        try {
+            fetch('preview-urls.json', { cache: 'no-store' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (map) {
+                    if (!map) { dbg('preview-urls.json not found — using live lookup'); return; }
+                    var n = 0; for (var k in map) { if (map[k]) { cache[k] = map[k]; n++; } }
+                    dbg('preview-urls.json loaded: ' + n + ' links');
+                })
+                .catch(function () {});
+        } catch (e) {}
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+
+
+// ─── SERVICE WORKER ───────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw_bruce.js');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────
+restore();
+updateProgress();
+</script>
+</script>
+</body>
+</html>

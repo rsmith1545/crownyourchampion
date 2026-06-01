@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview Link Generator (Bruce Springsteen) · Crown Your Champion</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; background:#0b1018; color:#e7ecf5; max-width:760px; margin:0 auto; padding:32px 20px 80px; line-height:1.55; }
+  h1 { color:#f0a500; font-size:24px; margin-bottom:4px; }
+  .sub { color:#8a93a6; margin-top:0; }
+  ol { background:#121a28; border:1px solid #1e2737; border-radius:10px; padding:16px 16px 16px 38px; }
+  li { margin:6px 0; }
+  button { background:#f0a500; color:#10131a; border:0; font-weight:700; font-size:16px; padding:12px 22px; border-radius:8px; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  #dl { background:#2e7d32; color:#fff; margin-left:8px; }
+  .bar { height:14px; background:#1e2737; border-radius:7px; overflow:hidden; margin:16px 0 6px; }
+  .bar > div { height:100%; width:0; background:linear-gradient(90deg,#9e1b1b,#f0a500); transition:width .2s; }
+  #stat { font-size:14px; color:#9fb0c7; }
+  #log { font:12px/1.5 monospace; background:#06090f; border:1px solid #1e2737; border-radius:8px; padding:10px; max-height:300px; overflow:auto; white-space:pre-wrap; margin-top:14px; }
+  .ok { color:#5fd17a; } .miss { color:#e0683c; }
+  code { background:#1e2737; padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+  <h1>🎵 Preview Link Generator — Bruce Springsteen</h1>
+  <p class="sub">Run this once to bake the song previews into your Springsteen site so every device (including iPhones) can play them.</p>
+
+  <ol>
+    <li>Click <b>Generate Links</b> below and let it run (about 2–3 minutes — it loads a few album catalogs first, then matches each song, pacing itself so Apple doesn't block it).</li>
+    <li>When it finishes, click <b>Download preview-urls.json</b>.</li>
+    <li>Upload <code>preview-urls.json</code> to your <code>/springsteen/</code> folder, alongside its <code>index.html</code>.</li>
+    <li>Reload the site. Done — previews now play everywhere with no live lookups.</li>
+  </ol>
+  <p style="font-size:13px;color:#8a93a6">It pulls previews from album tracklists and per-song search, with strict title-matching so it never grabs a live/acoustic take by mistake. Jersey Girl is pinned to Bruce's Live/1975–85 version (his only recording). If a song still can't be found, it just means Apple has no clean preview — the song still works in the bracket, just without a ▶.</p>
+
+  <p>
+    <button id="go">Generate Links</button>
+    <button id="dl" disabled>Download preview-urls.json</button>
+  </p>
+  <div class="bar"><div id="fill"></div></div>
+  <div id="stat">Idle.</div>
+  <div id="log"></div>
+
+<script>
+var SONGS = ["Born to Run","Thunder Road","The Promised Land","Badlands","Tenth Avenue Freeze-Out","Dancing in the Dark","Born in the U.S.A.","Out in the Street","The River","Rosalita (Come Out Tonight)","Hungry Heart","Bobby Jean","Backstreets","Two Hearts","Prove It All Night","Cover Me","She's the One","Because the Night","Glory Days","Spirit in the Night","Candy's Room","Jungleland","Darlington County","Working on the Highway","No Surrender","Growin' Up","My Hometown","Racing in the Street","Atlantic City","The Rising","Lonesome Day","Land of Hope and Dreams","Mary's Place","Waitin' on a Sunny Day","Ramrod","Sherry Darling","Cadillac Ranch","Johnny 99","Darkness on the Edge of Town","Radio Nowhere","Long Walk Home","American Skin (41 Shots)","Youngstown","The Ghost of Tom Joad","Adam Raised a Cain","Jersey Girl","4th of July, Asbury Park (Sandy)","Kitty's Back","Incident on 57th Street","The E Street Shuffle","Blinded by the Light","I'm on Fire","Night","Fire","Tougher Than the Rest","Brilliant Disguise","Tunnel of Love","Ghosts","Murder Incorporated","Streets of Philadelphia","My City of Ruins","The Ties That Bind","Independence Day","Wrecking Ball"];
+
+// search-term overrides only for punctuation that confuses search
+var SONG_TERMS = {"Rosalita (Come Out Tonight)":"Rosalita Come Out Tonight","American Skin (41 Shots)":"American Skin 41 Shots","4th of July, Asbury Park (Sandy)":"4th of July Asbury Park Sandy"};
+// exact-track pins (final safety net). Jersey Girl = Tom Waits cover, only on Live/1975-85.
+var SONG_IDS = {"Jersey Girl": "217296090"};
+// high-density studio albums (full tracklists = reliable previews); search covers the rest
+var ALBUM_IDS = [310730204, 203708420, 186064796]; // Born to Run, Born in the U.S.A., The River
+var ALBUM_INDEX = [];
+
+function norm(x){ return (x||"").toLowerCase().replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").trim(); }
+
+// generic JSONP with timeout + cleanup
+function jsonp(url, cb){
+  var cbName = "g_" + Math.random().toString(36).slice(2);
+  var s = document.createElement("script"); var done = false;
+  var timer = setTimeout(function(){ finish(null); }, 8000);
+  function finish(data){ if(done) return; done=true; clearTimeout(timer); try{delete window[cbName];}catch(e){window[cbName]=undefined;} if(s.parentNode) s.parentNode.removeChild(s); cb(data); }
+  window[cbName] = function(data){ finish(data); };
+  s.onerror = function(){ finish(null); };
+  s.src = url + "&callback=" + cbName;
+  document.head.appendChild(s);
+}
+
+// score candidate tracks and return the best matching previewUrl (or null)
+function bestMatch(results, name){
+  var tg = norm(name), best = null, bestScore = 0;
+  for (var i=0;i<results.length;i++){
+    var r = results[i];
+    if(!r.previewUrl) continue;
+    if(!/bruce springsteen/i.test(r.artistName||"")) continue;
+    var tn = norm(r.trackName||""), sc = 0;
+    if(tn===tg) sc=100;
+    else if(tn.indexOf(tg)===0) sc=70;
+    else if(tn.indexOf(tg)!==-1) sc=40;
+    else continue;
+    if(/\(/.test(r.trackName||"")) sc-=15;
+    if(/live|acoustic|remix|edit|demo|session|commentary|radio/i.test((r.trackName||"")+" "+(r.collectionName||""))) sc-=25;
+    if(sc>bestScore){ bestScore=sc; best=r.previewUrl; }
+  }
+  return bestScore>=40 ? best : null;
+}
+
+var logEl = document.getElementById("log"), fill = document.getElementById("fill"), stat = document.getElementById("stat");
+function log(msg, cls){ var d=document.createElement("div"); if(cls) d.className=cls; d.textContent=msg; logEl.appendChild(d); logEl.scrollTop=logEl.scrollHeight; }
+
+// step 1: load album tracklists into ALBUM_INDEX
+function loadAlbums(done){
+  var i=0, albums=0;
+  function next(){
+    if(i>=ALBUM_IDS.length){ log("Loaded "+ALBUM_INDEX.length+" album tracks from "+albums+" albums.","ok"); return done(); }
+    stat.textContent = "Loading album catalog "+(i+1)+" of "+ALBUM_IDS.length+"...";
+    jsonp("https://itunes.apple.com/lookup?id="+ALBUM_IDS[i]+"&entity=song&limit=200", function(data){
+      var rs=(data&&data.results)||[], added=0;
+      for(var j=0;j<rs.length;j++){ if(rs[j].wrapperType==="track" && rs[j].previewUrl){ ALBUM_INDEX.push(rs[j]); added++; } }
+      if(added>0) albums++;
+      i++; setTimeout(next, 700);
+    });
+  }
+  next();
+}
+
+function lookupById(name, cb){
+  jsonp("https://itunes.apple.com/lookup?id="+SONG_IDS[name]+"&country=us&entity=song", function(data){
+    var rs=(data&&data.results)||[], u=null;
+    for(var k=0;k<rs.length;k++){ if(rs[k].previewUrl){ u=rs[k].previewUrl; break; } }
+    cb(u);
+  });
+}
+function lookupSearch(name, cb){
+  var term = "Bruce Springsteen " + (SONG_TERMS[name] || name);
+  jsonp("https://itunes.apple.com/search?term="+encodeURIComponent(term)+"&media=music&entity=song&limit=25", function(data){
+    cb(bestMatch((data&&data.results)||[], name));
+  });
+}
+function resolve(name, cb){
+  if(SONG_IDS[name]) return lookupById(name, cb);   // pinned exact track
+  var u = bestMatch(ALBUM_INDEX, name);             // album tracklists (reliable)
+  if(u) return cb(u);
+  return lookupSearch(name, cb);                    // backup: per-song search
+}
+function resolveWithRetry(name, tries, cb){
+  resolve(name, function(url){
+    if(url || tries<=0) return cb(url);
+    setTimeout(function(){ resolveWithRetry(name, tries-1, cb); }, 2000);
+  });
+}
+
+var RESULT = {};
+document.getElementById("go").onclick = function(){
+  this.disabled = true; document.getElementById("dl").disabled = true;
+  RESULT = {}; logEl.innerHTML = ""; ALBUM_INDEX = [];
+  stat.textContent = "Loading Bruce Springsteen album data...";
+  loadAlbums(function(){
+    var i = 0, found = 0;
+    function step(){
+      if(i >= SONGS.length){
+        stat.textContent = "Done. Found " + found + " of " + SONGS.length + " previews.";
+        document.getElementById("dl").disabled = false;
+        document.getElementById("go").disabled = false;
+        return;
+      }
+      var name = SONGS[i];
+      stat.textContent = "Resolving " + (i+1) + " of " + SONGS.length + ": " + name + "  (found " + found + ")";
+      resolveWithRetry(name, 2, function(url){
+        if(url){ RESULT[name] = url; found++; log("\u2713 " + name, "ok"); }
+        else { log("\u2717 " + name + " (no preview found)", "miss"); }
+        i++;
+        fill.style.width = Math.round(i/SONGS.length*100) + "%";
+        setTimeout(step, 900);
+      });
+    }
+    step();
+  });
+};
+
+document.getElementById("dl").onclick = function(){
+  var blob = new Blob([JSON.stringify(RESULT, null, 2)], {type:"application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "preview-urls.json";
+  document.body.appendChild(a); a.click(); a.remove();
+};
+</script>
+</body>
+</html>
