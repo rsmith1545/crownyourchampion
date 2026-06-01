@@ -1,0 +1,8 @@
+{
+  "name": "Crown Your Champion — The Beatles Madness",
+  "short_name": "Crown Champion",
+  "description": "Interactive Beatles song bracket — 64 songs, 4 regions, 1 champion",
+  "start_url": "./index.html", "scope": "./", "display": "standalone",
+  "background_color": "#0a0a0f", "theme_color": "#f5c518",
+  "icons": [{ "src":"./cyc-logo.png", "sizes":"512x512", "type":"image/png", "purpose":"any" }]
+}
