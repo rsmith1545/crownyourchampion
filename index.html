@@ -3238,7 +3238,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         e.preventDefault();
         dbg('--- TAP: ' + name + ' | cached=' + (cache[name] === undefined ? 'no' : (cache[name] === null ? 'unavailable' : 'yes')));
-        unlockAudio();   // iOS: claim audio permission inside the tap gesture
 
         // Tap the one that's playing -> stop.
         if (currentBtn === btn) { stopPlayback(); return; }
@@ -3246,8 +3245,11 @@ document.addEventListener('DOMContentLoaded', () => {
         stopPlayback();
 
         if (cache[name] === null) { flashUnavailable(btn); return; }
-        if (cache[name]) { startPlayback(name, btn, cache[name]); return; }
+        if (cache[name]) { startPlayback(name, btn, cache[name]); return; }   // known link: plays in the tap gesture (iOS-safe)
 
+        // Not known yet -> live lookup. Play happens after the network call,
+        // so claim audio permission now, inside the gesture.
+        unlockAudio();
         btn.classList.add('loading');
         itunesLookup(name, function (url) {
             dbg('lookup ' + name + ' -> ' + (url ? 'FOUND' : 'none'));
@@ -3309,7 +3311,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function boot() { initPlayButtons(); }
+    function boot() {
+        initPlayButtons();
+        // Load baked-in preview links if present, so no device has to call Apple live.
+        try {
+            fetch('preview-urls.json', { cache: 'no-store' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (map) {
+                    if (!map) { dbg('preview-urls.json not found — using live lookup'); return; }
+                    var n = 0; for (var k in map) { if (map[k]) { cache[k] = map[k]; n++; } }
+                    dbg('preview-urls.json loaded: ' + n + ' links');
+                })
+                .catch(function () {});
+        } catch (e) {}
+    }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);
     } else {
