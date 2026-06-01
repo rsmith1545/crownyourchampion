@@ -85,6 +85,26 @@
     animation:rise .8s .5s both;}
   .soon b{color:var(--gold-soft); font-weight:600;}
 
+  /* ── HOW TO PLAY ── */
+  .howto{max-width:780px; margin:50px auto 0; animation:rise .8s .5s both;}
+  .howto h2{font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:30px; letter-spacing:.02em; text-align:center;}
+  .howto .lead{color:var(--muted); text-align:center; font-size:14.5px; margin:4px auto 22px; max-width:560px;}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media(max-width:640px){ .steps{grid-template-columns:1fr;} }
+  .step{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:18px 16px;}
+  .step .n{font-family:'Bebas Neue',sans-serif; font-size:20px; color:#10131a; background:var(--gold);
+    width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:11px;}
+  .step h3{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.06em; font-size:15px; margin-bottom:5px;}
+  .step p{color:var(--muted); font-size:13.5px;}
+  .modes-h{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.14em;
+    color:var(--muted); font-size:13px; text-align:center; margin:26px 0 13px;
+    display:flex; align-items:center; gap:12px; justify-content:center;}
+  .modes-h::before,.modes-h::after{content:""; height:1px; width:36px; background:var(--line);}
+  .modes{display:grid; grid-template-columns:1fr 1fr; gap:9px 22px;}
+  @media(max-width:640px){ .modes{grid-template-columns:1fr;} }
+  .mode{font-size:13.5px; color:var(--muted);}
+  .mode b{color:var(--text); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.02em;}
+
   /* ── EMAIL ── */
   .signup{margin:44px auto 0; max-width:560px; background:var(--ink-2);
     border:1px solid var(--line); border-radius:16px; padding:26px 24px; text-align:center;
@@ -154,6 +174,25 @@
         <span class="enter">Enter the bracket <span class="arr">→</span></span>
       </a>
     </div>
+    <section class="howto">
+      <h2>How to Play</h2>
+      <p class="lead">No sign-up, no rules to memorize — settle the debate in a few taps.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Pick a tournament</h3><p>Choose a bracket above — Dave Matthews Band or Foo Fighters.</p></div>
+        <div class="step"><div class="n">2</div><h3>Tap to advance</h3><p>In each matchup, tap the song you'd keep. Work through every round until all four regions have a winner.</p></div>
+        <div class="step"><div class="n">3</div><h3>Crown a champion</h3><p>Set your Final Four, pick the one that takes the crown, then share it or see how your picks rank on the leaderboard.</p></div>
+      </div>
+      <div class="modes-h">In a hurry? Start with an Auto-Fill mode, then tweak</div>
+      <div class="modes">
+        <div class="mode"><b>🎲 Random</b> — fills the whole bracket instantly.</div>
+        <div class="mode"><b>📊 By the Numbers</b> — seeds by popularity &amp; live-play data.</div>
+        <div class="mode"><b>🏆 Crowd's Picks</b> — fills with what other fans chose most.</div>
+        <div class="mode"><b>❤️ Your Favorites</b> — lock in your top songs as #1 seeds.</div>
+        <div class="mode"><b>🎸 Era Bracket</b> — let one era (or decade) take over.</div>
+        <div class="mode"><b>🔥 Controversy</b> — underdogs run wild in round one.</div>
+      </div>
+    </section>
+
     <div class="soon">More champions coming. <b>Who should we crown next?</b> Tell us below. 👇</div>
 
     <section class="signup">
