@@ -55,7 +55,7 @@
     border-radius:16px; padding:30px 26px 26px; overflow:hidden;
     transition:transform .28s cubic-bezier(.2,.7,.2,1), border-color .28s, box-shadow .28s;
     animation:rise .8s both;}
-  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;} .tile:nth-child(6){animation-delay:.64s;} .tile:nth-child(7){animation-delay:.72s;} .tile:nth-child(8){animation-delay:.8s;} .tile:nth-child(9){animation-delay:.88s;} .tile:nth-child(10){animation-delay:.96s;}
+  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;} .tile:nth-child(6){animation-delay:.64s;} .tile:nth-child(7){animation-delay:.72s;} .tile:nth-child(8){animation-delay:.8s;} .tile:nth-child(9){animation-delay:.88s;} .tile:nth-child(10){animation-delay:.96s;} .tile:nth-child(11){animation-delay:1.04s;}
   .tile::before{content:""; position:absolute; top:0; left:0; right:0; height:5px;
     background:var(--accent); opacity:.9;}
   .tile::after{content:""; position:absolute; right:-40px; top:-40px; width:150px; height:150px;
@@ -74,6 +74,7 @@
   .tile.rhcp{--accent:#e2571e;}
   .tile.beatles{--accent:#f5c518;}
   .tile.metallica{--accent:#9aa3b2;}
+  .tile.stones{--accent:#c41e7f;}
   .tile .genre{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.2em;
     font-size:12px; color:var(--accent); font-weight:700;}
   .tile .band{font-family:'Bebas Neue',sans-serif; font-size:clamp(30px,5vw,40px); line-height:1; margin:8px 0 10px;}
@@ -236,6 +237,13 @@
         <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
         <span class="enter">Enter the bracket <span class="arr">→</span></span>
       </a>
+      <a class="tile stones" href="./stones/">
+        <div class="genre">Rock · Blues</div>
+        <div class="band">The Rolling Stones</div>
+        <div class="desc">Sixty years of swagger, seeded by what they actually play live — from "Jumpin' Jack Flash" to "Tumbling Dice."</div>
+        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+        <span class="enter">Enter the bracket <span class="arr">→</span></span>
+      </a>
     </div>
     <section class="howto">
       <h2>How to Play</h2>
@@ -260,14 +268,4 @@
 
     <section class="signup">
       <h2>Get the next bracket first</h2>
-      <p>One email when a new artist tournament drops. No spam, ever.</p>
-      <div class="row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
-        <button id="join">Notify Me</button>
-      </div>
-      <label class="consent">
-        <input type="checkbox" id="consent">
-        <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="./privacy.html">privacy policy</a>.</span>
-      </label>
-      <div class="msg" id="msg" role="status" aria-live="polite"></div>
-      <div class="note" style="color:var(--muted)">Want a specific band? Put it in the email field aft
+      <p>One email when a new artist tournament drops. No

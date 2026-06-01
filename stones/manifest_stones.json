@@ -1,0 +1,8 @@
+{
+  "name": "Crown Your Champion — The Rolling Stones Madness",
+  "short_name": "Crown Champion",
+  "description": "Interactive Rolling Stones song bracket — 64 songs, 4 regions, 1 champion",
+  "start_url": "./index.html", "scope": "./", "display": "standalone",
+  "background_color": "#0a0a0f", "theme_color": "#c41e7f",
+  "icons": [{ "src":"./cyc-logo.png", "sizes":"512x512", "type":"image/png", "purpose":"any" }]
+}
