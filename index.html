@@ -48,15 +48,14 @@
     color:var(--muted); font-size:13px; text-align:center; margin:48px 0 16px;
     display:flex; align-items:center; gap:14px; justify-content:center;}
   .pick-label::before,.pick-label::after{content:""; height:1px; width:54px; background:var(--line);}
-  .tiles{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
-  @media(max-width:760px){ .tiles{grid-template-columns:1fr;} }
+  .tiles{display:flex; flex-wrap:wrap; justify-content:center; gap:20px;}
 
-  .tile{position:relative; display:block; text-decoration:none; color:var(--text);
+  .tile{position:relative; flex:1 1 300px; max-width:332px; display:block; text-decoration:none; color:var(--text);
     background:linear-gradient(170deg,var(--card),#0e1320); border:1px solid var(--line);
     border-radius:16px; padding:30px 26px 26px; overflow:hidden;
     transition:transform .28s cubic-bezier(.2,.7,.2,1), border-color .28s, box-shadow .28s;
     animation:rise .8s both;}
-  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;}
+  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;}
   .tile::before{content:""; position:absolute; top:0; left:0; right:0; height:5px;
     background:var(--accent); opacity:.9;}
   .tile::after{content:""; position:absolute; right:-40px; top:-40px; width:150px; height:150px;
@@ -69,6 +68,7 @@
   .tile.foo{--accent:var(--crimson-lt);}
   .tile.frank{--accent:#6aa84f;}
   .tile.boss{--accent:#c0202a;}
+  .tile.pj{--accent:#2f9fa6;}
   .tile .genre{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.2em;
     font-size:12px; color:var(--accent); font-weight:700;}
   .tile .band{font-family:'Bebas Neue',sans-serif; font-size:clamp(30px,5vw,40px); line-height:1; margin:8px 0 10px;}
@@ -186,6 +186,13 @@
         <div class="genre">Heartland · Rock</div>
         <div class="band">Bruce Springsteen</div>
         <div class="desc">Fifty years of the E Street Band, seeded by what The Boss plays live — from "Born to Run" to "Jersey Girl."</div>
+        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+        <span class="enter">Enter the bracket <span class="arr">→</span></span>
+      </a>
+      <a class="tile pj" href="./pearljam/">
+        <div class="genre">Grunge · Rock</div>
+        <div class="band">Pearl Jam</div>
+        <div class="desc">Thirty years of bootlegs, seeded by what they actually play live — covers and all, from "Even Flow" to "Last Kiss."</div>
         <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
         <span class="enter">Enter the bracket <span class="arr">→</span></span>
       </a>
