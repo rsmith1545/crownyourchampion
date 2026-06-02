@@ -39,7 +39,7 @@
 </style>
 </head>
 <body>
-  <h1><span class="crown">👑</span> Crown Your Champion — Admin</h1>
+  <h1><span class="crown">&#128081;</span> Crown Your Champion — Admin</h1>
   <div class="sub">Private dashboard. Data only loads for the authorized account.</div>
 
   <div id="gate">
@@ -51,7 +51,7 @@
     <div class="topbar">
       <div class="who" id="who"></div>
       <div>
-        <button class="btn-sm" id="reload">↻ Reload</button>
+        <button class="btn-sm" id="reload">&#8635; Reload</button>
         <button class="btn-sm" id="logout">Sign out</button>
       </div>
     </div>
@@ -68,9 +68,10 @@
       <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button></h2>
       <div id="leaderboards"></div>
 
-      <h2>Email signups <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
-      <table id="signupTable">
-        <thead><tr><th>Email</th><th>Consent</th><th>Source</th><th>When</th></tr></thead>
+      <h2>All emails — hub + bracket signups <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">De-duplicated across the hub "Notify Me" box and emails entered after crowning a bracket champion.</div>
+      <table id="emailTable">
+        <thead><tr><th>Email</th><th>Source(s)</th><th>Consent</th><th>First seen</th></tr></thead>
         <tbody></tbody>
       </table>
 
@@ -101,7 +102,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// band -> collection names (DMB uses the bare originals)
 const BANDS = [
   ["Dave Matthews Band","brackets","leaderboard"],
   ["Foo Fighters","ff_brackets","ff_leaderboard"],
@@ -163,32 +163,42 @@ async function loadAll(){
     const crowns = champs.reduce((s,c)=>s+c.count,0); totalCrowns += crowns;
     const top = champs[0];
     bandRows.push(`<tr><td>${name}</td><td class="num">${count}</td><td>${top?top.name:'<span class="muted">—</span>'}</td><td class="num">${top?top.count:''}</td><td><a class="muted" href="#lb-${brCol}">view</a></td></tr>`);
-    // leaderboard detail
     const max = top? top.count : 1;
     const rows = champs.map(c=>`<tr><td>${c.name}</td><td class="num">${c.count}</td><td style="width:120px"><div class="barwrap"><div class="bar" style="width:${Math.round(c.count/max*100)}%"></div></div></td></tr>`).join("") || '<tr><td class="muted" colspan="3">No champions yet</td></tr>';
     lbHtml.push(`<details id="lb-${brCol}"><summary><span>${name}</span><span class="c">${count} played · ${champs.length} unique champions</span></summary>
       <table><thead><tr><th>Song</th><th class="num">Crowns</th><th></th></tr></thead><tbody>${rows}</tbody></table></details>`);
   }
 
-  // signups
   try { const snap = await getDocs(collection(db, "hub_signups"));
     snap.forEach(d=>{ allSignups.push(d.data()); });
   } catch(e){ console.warn("hub_signups", e.message); }
   allSignups.sort((a,b)=>tsVal(b.created_at)-tsVal(a.created_at));
   allSubs.sort((a,b)=>tsVal(b.completed_at)-tsVal(a.completed_at));
 
-  // render cards
+  const emailMap = new Map();
+  const addEmail = (email, source, consent, ts) => {
+    if(!email) return; const k = String(email).trim().toLowerCase();
+    if(!k || k.indexOf('@') < 1) return;
+    let e = emailMap.get(k);
+    if(!e){ e = {email:String(email).trim(), sources:new Set(), consent:false, first:0}; emailMap.set(k, e); }
+    e.sources.add(source); if(consent) e.consent = true; if(ts && (!e.first || ts < e.first)) e.first = ts;
+  };
+  allSignups.forEach(s => addEmail(s.email, 'Hub signup', s.consent, tsVal(s.created_at)));
+  allSubs.forEach(s => addEmail(s.email, s.band, s.consent, tsVal(s.completed_at)));
+  const emails = [...emailMap.values()].sort((a,b) => (b.first||0) - (a.first||0));
+  window.__emails = emails;
+
   $("cards").innerHTML =
     card(totalBrackets,"Total brackets") +
-    card(allSignups.length,"Email signups") +
+    card(emails.length,"Unique emails") +
     card(totalCrowns,"Champions crowned") +
     card(BANDS.length,"Bands live");
 
   document.querySelector("#bandTable tbody").innerHTML = bandRows.join("");
   $("leaderboards").innerHTML = lbHtml.join("");
-  document.querySelector("#signupTable tbody").innerHTML = allSignups.map(s=>
-    `<tr><td>${esc(s.email)}</td><td>${s.consent?'✓':''}</td><td>${esc(s.source||'')}</td><td>${fmt(s.created_at)}</td></tr>`).join("")
-    || '<tr><td class="muted" colspan="4">No signups yet</td></tr>';
+  document.querySelector("#emailTable tbody").innerHTML = emails.map(e=>
+    `<tr><td>${esc(e.email)}</td><td class="muted">${esc([...e.sources].join(", "))}</td><td>${e.consent?'✓':''}</td><td class="muted">${e.first?fmt({seconds:e.first}):''}</td></tr>`).join("")
+    || '<tr><td class="muted" colspan="4">No emails yet — hub signups and bracket emails will show here</td></tr>';
   document.querySelector("#subTable tbody").innerHTML = allSubs.slice(0,300).map(s=>{
     const ff = Array.isArray(s.final_four)? s.final_four.join(", ") : (s.final_four||"");
     return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td></tr>`;
@@ -207,8 +217,8 @@ function downloadCSV(filename, rows){
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=filename;
   document.body.appendChild(a); a.click(); a.remove();
 }
-document.getElementById("csvSignups").onclick = () => downloadCSV("cyc-signups.csv",
-  [["email","consent","source","created_at"]].concat(allSignups.map(s=>[s.email,s.consent,s.source,fmt(s.created_at)])));
+document.getElementById("csvSignups").onclick = () => downloadCSV("cyc-emails.csv",
+  [["email","sources","consent","first_seen"]].concat((window.__emails||[]).map(e=>[e.email,[...e.sources].join(" | "),e.consent,e.first?fmt({seconds:e.first}):""])));
 document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
   [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
    allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,(Array.isArray(s.final_four)?s.final_four.join(" | "):s.final_four),s.email,fmt(s.completed_at)])));
