@@ -3353,8 +3353,8 @@ updateProgress();
 </script>
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
-  <script>
-/* cycShareCard — shareable champion image card + native Web Share. Self-contained; safe no-op if no champion. */
+    <script>
+/* cycShareCard v2 — branded champion card (card-bg.png + gold overlay) + 2-action share. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
   function bandName(){
@@ -3370,56 +3370,99 @@ updateProgress();
   function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
   function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
 
-  function drawCard(cb){
-    var W=1080,H=1080,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
-    x.fillStyle='#0a0a0f';x.fillRect(0,0,W,H);
-    var g=x.createRadialGradient(W/2,170,30,W/2,300,780);g.addColorStop(0,'rgba(240,165,0,.22)');g.addColorStop(1,'rgba(10,10,15,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-    x.strokeStyle='rgba(240,165,0,.5)';x.lineWidth=6;x.strokeRect(30,30,W-60,H-60);
-    x.textAlign='center';x.textBaseline='alphabetic';
-    x.fillStyle='#f0a500';x.font='130px serif';x.fillText('👑',W/2,230);
-    x.fillStyle='#f0a500';x.font='700 46px "Arial Black",system-ui,sans-serif';x.fillText('CROWN YOUR CHAMPION',W/2,305);
-    x.fillStyle='#9aa7b5';x.font='600 36px system-ui,sans-serif';x.fillText(bandName().toUpperCase(),W/2,378);
-    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('MY CHAMPION',W/2,475);
-    var name=getChamp()||'—', maxW=W-160, size=112;
-    function setF(s){ x.font='800 '+s+'px "Arial Black",system-ui,sans-serif'; }
-    function wrap(){ var words=name.split(' '),lines=[],cur=''; for(var i=0;i<words.length;i++){var t=cur?cur+' '+words[i]:words[i]; if(x.measureText(t).width>maxW&&cur){lines.push(cur);cur=words[i];}else cur=t;} if(cur)lines.push(cur); return lines; }
-    setF(size); var lines=wrap();
-    while(lines.length>3 && size>54){ size-=8; setF(size); lines=wrap(); }
-    x.fillStyle='#ffffff'; x.textBaseline='middle';
-    var lh=size*1.14, cy=660;
-    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
-    x.textBaseline='alphabetic';
-    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('crownyourchampion.com',W/2,H-78);
-    c.toBlob(function(b){ cb(b,c); },'image/png');
+  function withFonts(cb){
+    try{
+      if(document.fonts && document.fonts.load){
+        Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')])
+          .then(function(){ return document.fonts.ready; }).then(cb).catch(function(){ cb(); });
+        return;
+      }
+    }catch(e){}
+    cb();
+  }
+  function gold(x,y0,y1){ var g=x.createLinearGradient(0,y0,0,y1); g.addColorStop(0,'#F7E6A4'); g.addColorStop(0.42,'#F1D382'); g.addColorStop(0.72,'#C5A059'); g.addColorStop(1,'#8E6F36'); return g; }
+  function tracked(x,text,cx,cy,sp){
+    var widths=[],total=0,i;
+    for(i=0;i<text.length;i++){ var wch=x.measureText(text[i]).width; widths.push(wch); total+=wch+(i<text.length-1?sp:0); }
+    var sx=cx-total/2, prev=x.textAlign; x.textAlign='left';
+    for(i=0;i<text.length;i++){ x.fillText(text[i], sx, cy); sx+=widths[i]+sp; }
+    x.textAlign=prev;
   }
 
-  function saveCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){ var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-      a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
-      document.body.appendChild(a); a.click(); a.remove(); toast('Champion card saved!'); });
-  }
-  function shareCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    var txt=shareText(), url=siteURL();
-    drawCard(function(b){
-      var file=new File([b],'champion.png',{type:'image/png'});
-      try {
-        if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; }
-        if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; }
-      } catch(e){}
-      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); toast('Link copied — paste to share!'); }
-      else { saveCard(); }
+  function drawCard(cb){
+    withFonts(function(){
+      var img=new Image();
+      img.onload=function(){
+        var W=img.naturalWidth||1600, H=img.naturalHeight||845;
+        var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+        x.drawImage(img,0,0,W,H);
+        x.textAlign='center'; x.textBaseline='alphabetic';
+        x.fillStyle=gold(H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
+        x.fillText(bandName(), W/2, H*0.452);
+        x.fillStyle=gold(H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
+        tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
+        var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
+        function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
+        setF(size);
+        function wrap(){ var ws=song.split(' '),L=[],cur=''; for(var i=0;i<ws.length;i++){var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){L.push(cur);cur=ws[i];}else cur=t;} if(cur)L.push(cur); return L; }
+        while(x.measureText(song).width>maxW && size>minS){ size-=6; setF(size); }
+        var lines = x.measureText(song).width>maxW ? wrap() : [song];
+        if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
+        var cy=H*0.725, lh=size*1.0;
+        x.save();
+        x.fillStyle=gold(cy-size*0.55, cy+size*0.55);
+        x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
+        x.textBaseline='middle';
+        for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
+        x.restore();
+        x.fillStyle='#9c8a5e'; x.font='500 '+Math.round(H*0.026)+'px system-ui,-apple-system,sans-serif'; x.textBaseline='alphabetic';
+        x.fillText(bandName()+' · Fan-Voted All-Time Champion', W/2, H*0.838);
+        c.toBlob(function(b){ cb(b,c); }, 'image/png');
+      };
+      img.onerror=function(){ cb(null,null); };
+      img.src='/card-bg.png';
     });
   }
 
+  function shareOrSave(){
+    if(!getChamp()){ toast('Crown a champion first!'); return; }
+    drawCard(function(b){
+      if(!b){ toast('Could not build card — try again'); return; }
+      var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL();
+      try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){}
+      try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){}
+      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); }
+      toast('Card saved & link copied!');
+    });
+  }
+
+  function renderPreview(){
+    var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn');
+    if(!img) return;
+    if(!getChamp()){ img.style.display='none'; if(hint) hint.style.display='block'; if(btn) btn.style.display='none'; return; }
+    if(btn) btn.style.display='block';
+    drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } });
+  }
+
   function inject(){
-    var acts = document.querySelector('#shareModal .modal-actions');
-    if(acts && !document.getElementById('cycCardBtns')){
-      var b1=document.createElement('button'); b1.id='cycCardBtns'; b1.className='btn btn-share'; b1.textContent='📥 Champion Card'; b1.onclick=saveCard;
-      var b2=document.createElement('button'); b2.className='btn btn-share'; b2.textContent='📲 Share'; b2.onclick=shareCard;
-      acts.insertBefore(b1, acts.firstChild); acts.insertBefore(b2, acts.firstChild);
-    }
+    var modal=document.getElementById('shareModal'); if(!modal || document.getElementById('cycCardWrap')) return;
+    if(!document.getElementById('cycCinzel')){ var l=document.createElement('link'); l.id='cycCinzel'; l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap'; document.head.appendChild(l); }
+    var st = modal.querySelector('#shareText') || modal.querySelector('.share-text');
+    var wrap=document.createElement('div'); wrap.id='cycCardWrap'; wrap.style.cssText='text-align:center;margin:2px 0 6px;';
+    wrap.innerHTML='<img id="cycCardImg" alt="Your champion card" style="width:100%;max-width:520px;border-radius:10px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55)"><div id="cycCardHint" style="color:#7c89a6;font-size:13px;margin:4px 0 8px">Crown a champion to unlock your shareable card.</div>';
+    var btn=document.createElement('button'); btn.id='cycShareBtn'; btn.className='btn btn-share'; btn.textContent='📲 Share / Save Card'; btn.style.cssText='display:none;width:100%;margin:6px 0 2px;'; btn.onclick=shareOrSave;
+    wrap.appendChild(btn);
+    if(st && st.parentNode){
+      st.parentNode.insertBefore(wrap, st);
+      var picksH=document.createElement('div'); picksH.style.cssText='color:#7c89a6;font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;margin:16px 0 7px;';
+      picksH.textContent='Or copy your full bracket picks';
+      st.parentNode.insertBefore(picksH, st);
+    } else { modal.appendChild(wrap); }
+    var cb=modal.querySelector('.btn-copy'); if(cb) cb.textContent='📋 Copy Picks';
+    var _os=window.openShare;
+    window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
   }
   if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
