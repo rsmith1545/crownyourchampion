@@ -615,7 +615,7 @@
                 /* Always left-to-right on mobile regardless of region */
                 flex-direction: row !important;
                 -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x proximity;
+                scroll-snap-type: x mandatory;
             }
             .round-col { 
                 min-width: 110px; 
@@ -3490,6 +3490,31 @@ updateProgress();
     if(modal.classList.contains('open')) setTimeout(renderPreview,40);
   }
   if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
+})();
+</script>
+<script>
+/* cycMobileNav v1 — mobile-only floating "Championship" jump button. Self-contained, additive. */
+(function(){
+  if(window.__cycMobileNav) return; window.__cycMobileNav=1;
+  function isMobile(){ try{ return window.matchMedia('(max-width: 900px)').matches; }catch(e){ return window.innerWidth<=900; } }
+  function init(){
+    if(document.getElementById('cycJumpBtn')) return;
+    var b=document.createElement('button'); b.id='cycJumpBtn'; b.type='button';
+    b.innerHTML='👑 Championship';
+    b.style.cssText='position:fixed;right:14px;bottom:16px;z-index:900;display:none;'+
+      'padding:11px 16px;border:none;border-radius:24px;cursor:pointer;'+
+      'font:700 14px system-ui,-apple-system,sans-serif;letter-spacing:.5px;'+
+      'color:#1a1205;background:linear-gradient(180deg,#F1D382,#C5A059);'+
+      'box-shadow:0 4px 14px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent;';
+    b.onclick=function(){ var c=document.querySelector('.center-col')||document.getElementById('champion'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'}); };
+    document.body.appendChild(b);
+    function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open'); }
+    function upd(){ b.style.display=(isMobile() && window.scrollY>420 && !modalOpen()) ? 'block':'none'; }
+    window.addEventListener('scroll',upd,{passive:true});
+    window.addEventListener('resize',upd);
+    setInterval(upd,800); upd();
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 </body>
