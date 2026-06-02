@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds';
+                content: '⇄ swipe to see all rounds · v3';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1330,11 +1330,13 @@
         .site-footer a:hover { text-decoration: underline; }
 
     
-/* mobile bracket horizontal nesting (cyc) v2 — graduated pull so rounds tuck into prior round's vertical gaps; final round stays adjacent (no box-on-box overlap) */
+/* mobile bracket horizontal nesting (cyc) v3 — lock column widths (kill flex-grow so the pull sticks), graduated nest, final round adjacent */
 @media (max-width: 900px){
   .bracket-row { gap: 3px; }
-  .round-col:nth-child(3){ margin-left: -68px !important; }
-  .round-col:nth-child(4){ margin-left: -68px !important; }
+  .round-col { flex: 0 0 96px !important; width: 96px !important; }
+  .bracket-row .round-col:first-child { flex: 0 0 118px !important; width: 118px !important; }
+  .round-col:nth-child(3){ margin-left: -66px !important; }
+  .round-col:nth-child(4){ margin-left: -66px !important; }
   .round-col:nth-child(5){ margin-left: 0 !important; }
 }
 </style>
