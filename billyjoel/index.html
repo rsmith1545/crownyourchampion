@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v6';
+                content: '⇄ swipe to see all rounds · v7';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -3580,7 +3580,7 @@ updateProgress();
     var cols=Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col');});
     if(cols.length<2) return;
     var svg=row.querySelector(':scope > svg.cyc-lines');
-    if(!svg){ svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','cyc-lines'); row.insertBefore(svg,row.firstChild); }
+    if(!svg){ svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','cyc-lines'); row.appendChild(svg); }
     var W=row.scrollWidth,H=row.scrollHeight;
     svg.setAttribute('width',W); svg.setAttribute('height',H);
     while(svg.firstChild) svg.removeChild(svg.firstChild);
