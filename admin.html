@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard · Crown Your Champion</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root{ --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --gold:#f0a500; --green:#5fd17a; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; background:var(--ink); color:var(--text); line-height:1.5; padding:24px; max-width:1100px; margin:0 auto;}
+  h1{font-size:22px; margin-bottom:2px;} h1 .crown{color:var(--gold);}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:20px;}
+  button{font-family:inherit; cursor:pointer; border:0; border-radius:8px; font-weight:600;}
+  .btn-g{background:var(--gold); color:#10131a; padding:11px 20px; font-size:15px;}
+  .btn-sm{background:#1e2737; color:var(--text); border:1px solid var(--line); padding:6px 12px; font-size:12.5px;}
+  #gate{text-align:center; padding:60px 20px;}
+  #gate p{color:var(--muted); margin:14px 0 22px;}
+  .err{color:#e0683c;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
+  .who{color:var(--muted); font-size:13px;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:24px;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px;}
+  .stat .n{font-size:30px; font-weight:700; color:var(--gold); line-height:1;}
+  .stat .l{color:var(--muted); font-size:12.5px; margin-top:6px; text-transform:uppercase; letter-spacing:.05em;}
+  h2{font-size:15px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:26px 0 12px; border-bottom:1px solid var(--line); padding-bottom:6px;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.04em;}
+  td.num,th.num{text-align:right; font-variant-numeric:tabular-nums;}
+  tr:hover td{background:rgba(255,255,255,.02);}
+  details{background:var(--card); border:1px solid var(--line); border-radius:10px; margin:8px 0; padding:4px 14px;}
+  summary{cursor:pointer; padding:10px 0; font-weight:600; display:flex; justify-content:space-between; gap:10px;}
+  summary .c{color:var(--gold);}
+  .muted{color:var(--muted);}
+  .loading{color:var(--muted); padding:20px 0;}
+  .barwrap{background:#0a0e16; border-radius:4px; height:8px; overflow:hidden; min-width:60px;}
+  .bar{height:100%; background:var(--gold);}
+</style>
+</head>
+<body>
+  <h1><span class="crown">👑</span> Crown Your Champion — Admin</h1>
+  <div class="sub">Private dashboard. Data only loads for the authorized account.</div>
+
+  <div id="gate">
+    <button class="btn-g" id="login">Sign in with Google</button>
+    <p id="gatemsg">Sign in with the admin account to view submissions.</p>
+  </div>
+
+  <div id="app" style="display:none">
+    <div class="topbar">
+      <div class="who" id="who"></div>
+      <div>
+        <button class="btn-sm" id="reload">↻ Reload</button>
+        <button class="btn-sm" id="logout">Sign out</button>
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div id="loading" class="loading">Loading data…</div>
+
+    <div id="content" style="display:none">
+      <h2>Brackets played by band</h2>
+      <table id="bandTable">
+        <thead><tr><th>Band</th><th class="num">Brackets</th><th>Top champion</th><th class="num">Crowns</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button></h2>
+      <div id="leaderboards"></div>
+
+      <h2>Email signups <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
+      <table id="signupTable">
+        <thead><tr><th>Email</th><th>Consent</th><th>Source</th><th>When</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h2>All bracket submissions <button class="btn-sm" id="csvBrackets" style="margin-left:8px">export CSV</button></h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">Newest first. Showing champion + final four; full picks are in the CSV.</div>
+      <table id="subTable">
+        <thead><tr><th>Band</th><th>Champion</th><th>Final Four</th><th>Email</th><th>When</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const ADMIN_EMAIL = "rsmith1545@gmail.com";
+const firebaseConfig = {
+  apiKey:"AIzaSyDxQVR0oiX1W_5qaRpRgVrSQYI-4MLzLdA",
+  authDomain:"crown-your-champion.firebaseapp.com",
+  projectId:"crown-your-champion",
+  storageBucket:"crown-your-champion.firebasestorage.app",
+  messagingSenderId:"629630796857",
+  appId:"1:629630796857:web:fa7a032c01bcc751b779e8"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// band -> collection names (DMB uses the bare originals)
+const BANDS = [
+  ["Dave Matthews Band","brackets","leaderboard"],
+  ["Foo Fighters","ff_brackets","ff_leaderboard"],
+  ["Frank Turner","ft_brackets","ft_leaderboard"],
+  ["Bruce Springsteen","bs_brackets","bs_leaderboard"],
+  ["Pearl Jam","pj_brackets","pj_leaderboard"],
+  ["Billy Joel","bj_brackets","bj_leaderboard"],
+  ["Green Day","gd_brackets","gd_leaderboard"],
+  ["Red Hot Chili Peppers","rhcp_brackets","rhcp_leaderboard"],
+  ["The Beatles","beatles_brackets","beatles_leaderboard"],
+  ["Metallica","metallica_brackets","metallica_leaderboard"],
+  ["The Rolling Stones","stones_brackets","stones_leaderboard"],
+  ["Bon Jovi","bonjovi_brackets","bonjovi_leaderboard"],
+];
+
+const $ = id => document.getElementById(id);
+let allSubs = [], allSignups = [];
+
+document.getElementById("login").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e=>{ $("gatemsg").innerHTML='<span class="err">'+e.message+'</span>'; });
+document.getElementById("logout").onclick = () => signOut(auth);
+document.getElementById("reload").onclick = () => loadAll();
+
+onAuthStateChanged(auth, user => {
+  if (user && user.email === ADMIN_EMAIL) {
+    $("gate").style.display = "none";
+    $("app").style.display = "block";
+    $("who").textContent = "Signed in as " + user.email;
+    loadAll();
+  } else if (user) {
+    $("gatemsg").innerHTML = '<span class="err">'+user.email+' is not the admin account.</span>';
+    $("app").style.display = "none"; $("gate").style.display = "block";
+    signOut(auth);
+  } else {
+    $("app").style.display = "none"; $("gate").style.display = "block";
+  }
+});
+
+function fmt(ts){
+  if(!ts) return "";
+  try { const d = ts.seconds ? new Date(ts.seconds*1000) : new Date(ts); return d.toLocaleString(); } catch(e){ return ""; }
+}
+function tsVal(ts){ return ts && ts.seconds ? ts.seconds : 0; }
+
+async function loadAll(){
+  $("loading").style.display="block"; $("content").style.display="none";
+  allSubs=[]; allSignups=[];
+  const bandRows=[]; const lbHtml=[]; let totalBrackets=0, totalCrowns=0;
+
+  for (const [name, brCol, lbCol] of BANDS){
+    let count=0, champs=[];
+    try { const snap = await getDocs(collection(db, brCol));
+      snap.forEach(d=>{ const v=d.data(); count++; allSubs.push({band:name, ...v}); });
+    } catch(e){ console.warn(brCol, e.message); }
+    try { const snap = await getDocs(collection(db, lbCol));
+      snap.forEach(d=>{ const v=d.data(); if(v&&v.name) champs.push({name:v.name, count:v.count||0}); });
+    } catch(e){ console.warn(lbCol, e.message); }
+    champs.sort((a,b)=>b.count-a.count);
+    totalBrackets += count;
+    const crowns = champs.reduce((s,c)=>s+c.count,0); totalCrowns += crowns;
+    const top = champs[0];
+    bandRows.push(`<tr><td>${name}</td><td class="num">${count}</td><td>${top?top.name:'<span class="muted">—</span>'}</td><td class="num">${top?top.count:''}</td><td><a class="muted" href="#lb-${brCol}">view</a></td></tr>`);
+    // leaderboard detail
+    const max = top? top.count : 1;
+    const rows = champs.map(c=>`<tr><td>${c.name}</td><td class="num">${c.count}</td><td style="width:120px"><div class="barwrap"><div class="bar" style="width:${Math.round(c.count/max*100)}%"></div></div></td></tr>`).join("") || '<tr><td class="muted" colspan="3">No champions yet</td></tr>';
+    lbHtml.push(`<details id="lb-${brCol}"><summary><span>${name}</span><span class="c">${count} played · ${champs.length} unique champions</span></summary>
+      <table><thead><tr><th>Song</th><th class="num">Crowns</th><th></th></tr></thead><tbody>${rows}</tbody></table></details>`);
+  }
+
+  // signups
+  try { const snap = await getDocs(collection(db, "hub_signups"));
+    snap.forEach(d=>{ allSignups.push(d.data()); });
+  } catch(e){ console.warn("hub_signups", e.message); }
+  allSignups.sort((a,b)=>tsVal(b.created_at)-tsVal(a.created_at));
+  allSubs.sort((a,b)=>tsVal(b.completed_at)-tsVal(a.completed_at));
+
+  // render cards
+  $("cards").innerHTML =
+    card(totalBrackets,"Total brackets") +
+    card(allSignups.length,"Email signups") +
+    card(totalCrowns,"Champions crowned") +
+    card(BANDS.length,"Bands live");
+
+  document.querySelector("#bandTable tbody").innerHTML = bandRows.join("");
+  $("leaderboards").innerHTML = lbHtml.join("");
+  document.querySelector("#signupTable tbody").innerHTML = allSignups.map(s=>
+    `<tr><td>${esc(s.email)}</td><td>${s.consent?'✓':''}</td><td>${esc(s.source||'')}</td><td>${fmt(s.created_at)}</td></tr>`).join("")
+    || '<tr><td class="muted" colspan="4">No signups yet</td></tr>';
+  document.querySelector("#subTable tbody").innerHTML = allSubs.slice(0,300).map(s=>{
+    const ff = Array.isArray(s.final_four)? s.final_four.join(", ") : (s.final_four||"");
+    return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td></tr>`;
+  }).join("") || '<tr><td class="muted" colspan="5">No submissions yet</td></tr>';
+
+  $("loading").style.display="none"; $("content").style.display="block";
+}
+
+function card(n,l){ return `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`; }
+function esc(x){ return String(x==null?"":x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+document.getElementById("expandAll").onclick = () => document.querySelectorAll("#leaderboards details").forEach(d=>d.open=true);
+
+function downloadCSV(filename, rows){
+  const csv = rows.map(r=>r.map(c=>{ c=String(c==null?"":c); return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(",")).join("\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+document.getElementById("csvSignups").onclick = () => downloadCSV("cyc-signups.csv",
+  [["email","consent","source","created_at"]].concat(allSignups.map(s=>[s.email,s.consent,s.source,fmt(s.created_at)])));
+document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
+  [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
+   allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,(Array.isArray(s.final_four)?s.final_four.join(" | "):s.final_four),s.email,fmt(s.completed_at)])));
+</script>
+</body>
+</html>
