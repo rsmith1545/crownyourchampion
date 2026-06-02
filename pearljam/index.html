@@ -3354,7 +3354,7 @@ updateProgress();
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
     <script>
-/* cycShareCard v3 — branded champion card (card-bg.png + gold overlay) + 2-action share. Robust render. Self-contained. */
+/* cycShareCard v4 — branded champion card (card-bg.png + gold overlay) + 2-action share. Robust render. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
   function bandName(){
@@ -3377,13 +3377,13 @@ updateProgress();
       if(document.fonts && document.fonts.load){
         Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')])
           .then(function(){ return document.fonts.ready; }).then(cb).catch(cb);
-        setTimeout(cb, 1200); /* never block longer than 1.2s on fonts */
+        setTimeout(cb, 1200);
         return;
       }
     }catch(e){}
     cb();
   }
-  function gold(x,y0,y1){ var g=x.createLinearGradient(0,y0,0,y1); g.addColorStop(0,'#F7E6A4'); g.addColorStop(0.42,'#F1D382'); g.addColorStop(0.72,'#C5A059'); g.addColorStop(1,'#8E6F36'); return g; }
+  function gold(ctx,y0,y1){ var g=ctx.createLinearGradient(0,y0,0,y1); g.addColorStop(0,'#F7E6A4'); g.addColorStop(0.42,'#F1D382'); g.addColorStop(0.72,'#C5A059'); g.addColorStop(1,'#8E6F36'); return g; }
   function tracked(x,text,cx,cy,sp){
     var widths=[],total=0,i;
     for(i=0;i<text.length;i++){ var wch=x.measureText(text[i]).width; widths.push(wch); total+=wch+(i<text.length-1?sp:0); }
@@ -3394,9 +3394,9 @@ updateProgress();
 
   function paint(x,W,H){
     x.textAlign='center'; x.textBaseline='alphabetic';
-    x.fillStyle=gold(H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
+    x.fillStyle=gold(x,H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
     x.fillText(bandName(), W/2, H*0.452);
-    x.fillStyle=gold(H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
+    x.fillStyle=gold(x,H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
     tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
     var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
     function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
@@ -3407,7 +3407,7 @@ updateProgress();
     if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
     var cy=H*0.725, lh=size*1.0;
     x.save();
-    x.fillStyle=gold(cy-size*0.55, cy+size*0.55);
+    x.fillStyle=gold(x,cy-size*0.55, cy+size*0.55);
     x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
     x.textBaseline='middle';
     for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
@@ -3464,11 +3464,13 @@ updateProgress();
 
   function inject(){
     var modal=document.getElementById('shareModal'); if(!modal || document.getElementById('cycCardWrap')) return;
+    /* widen the share modal so the card shows bigger */
+    try{ var box=modal.querySelector('.modal'); if(box){ box.style.maxWidth='640px'; } }catch(e){}
     if(!document.getElementById('cycCinzel')){ var l=document.createElement('link'); l.id='cycCinzel'; l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap'; document.head.appendChild(l); }
     var st = modal.querySelector('#shareText') || modal.querySelector('.share-text');
     var wrap=document.createElement('div'); wrap.id='cycCardWrap'; wrap.style.cssText='text-align:center;margin:2px 0 6px;';
-    wrap.innerHTML='<img id="cycCardImg" alt="Your champion card" style="width:100%;max-width:520px;border-radius:10px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55)"><div id="cycCardHint" style="color:#7c89a6;font-size:13px;margin:4px 0 8px">Crown a champion to unlock your shareable card.</div>';
-    var btn=document.createElement('button'); btn.id='cycShareBtn'; btn.className='btn btn-share'; btn.textContent='📲 Share / Save Card'; btn.style.cssText='display:none;width:100%;margin:6px 0 2px;'; btn.onclick=shareOrSave;
+    wrap.innerHTML='<img id="cycCardImg" alt="Your champion card" style="width:100%;max-width:600px;border-radius:10px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55)"><div id="cycCardHint" style="color:#7c89a6;font-size:13px;margin:4px 0 8px">Crown a champion to unlock your shareable card.</div>';
+    var btn=document.createElement('button'); btn.id='cycShareBtn'; btn.className='btn btn-share'; btn.textContent='📲 Share / Save Card'; btn.style.cssText='display:none;width:100%;max-width:600px;margin:6px auto 2px;'; btn.onclick=shareOrSave;
     wrap.appendChild(btn);
     if(st && st.parentNode){
       st.parentNode.insertBefore(wrap, st);
