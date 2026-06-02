@@ -1324,7 +1324,12 @@
         .site-footer a { color: #6fa3e0; text-decoration: none; }
         .site-footer a:hover { text-decoration: underline; }
 
-    </style>
+    
+/* mobile bracket horizontal nesting (cyc) — pull rounds 3+ left into prior round's vertical gaps */
+@media (max-width: 900px){
+  .round-col:nth-child(n+3){ margin-left: -52px !important; }
+}
+</style>
 </head>
 <body>
 
@@ -3065,11 +3070,6 @@ function printConcert() {
         
 
     
-
-/* mobile bracket horizontal nesting (cyc) — pull later rounds into prior round's vertical gaps */
-@media (max-width: 900px){
-  .round-col:nth-child(n+3){ margin-left: -52px !important; }
-}
 
 </style>
         </head><body>
