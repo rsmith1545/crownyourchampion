@@ -627,7 +627,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds';
+                content: '⇄ swipe to see all rounds · v4';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1336,15 +1336,10 @@
   .round-col:nth-child(5){ margin-left: 0 !important; }
 }
 
-/* faint connector hairlines on advancing matchups (cyc) — soft gold, very translucent */
-.round-col:not(:first-child) .matchup { position: relative; }
-.round-col:not(:first-child) .matchup::after {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, rgba(197,160,89,0) 0%, rgba(197,160,89,0.30) 50%, rgba(197,160,89,0) 100%);
-  pointer-events: none;
+/* connector accent on advancing matchups (cyc) — translucent gold left edge */
+.round-col:not(:first-child) .matchup {
+  position: relative;
+  border-left: 3px solid rgba(197,160,89,0.55) !important;
 }
 </style>
 </head>
