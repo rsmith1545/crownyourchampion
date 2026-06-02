@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v5';
+                content: '⇄ swipe to see all rounds · v6';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -3567,52 +3567,53 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycBracketLines — soft translucent elbow connectors between rounds, measured from real geometry. Self-contained. Web only (skips overlapped mobile). */
+/* cycBracketLines v2 — soft translucent elbow connectors, DESKTOP ONLY, no MutationObserver (prevents redraw loop). Self-contained. */
 (function(){
   if(window.__cycLines) return; window.__cycLines=1;
   var NS='http://www.w3.org/2000/svg';
   if(!document.getElementById('cycLinesCss')){
     var st=document.createElement('style'); st.id='cycLinesCss';
-    st.textContent='.bracket-row{position:relative;} .bracket-row .matchup{position:relative;z-index:1;} svg.cyc-lines{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible;}';
+    st.textContent='@media (min-width:901px){.bracket-row{position:relative;}.bracket-row .matchup{position:relative;z-index:1;}svg.cyc-lines{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible;}}';
     document.head.appendChild(st);
   }
-  function matchups(col){ return Array.prototype.filter.call(col.children,function(m){return m.classList&&m.classList.contains('matchup');}); }
+  function mus(col){ return Array.prototype.filter.call(col.children,function(m){return m.classList&&m.classList.contains('matchup');}); }
+  function clear(row){ var s=row.querySelector(':scope > svg.cyc-lines'); if(s&&s.parentNode) s.parentNode.removeChild(s); }
   function build(row){
     var cols=Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col');});
     if(cols.length<2) return;
     var svg=row.querySelector(':scope > svg.cyc-lines');
     if(!svg){ svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','cyc-lines'); row.insertBefore(svg,row.firstChild); }
-    var W=row.scrollWidth, H=row.scrollHeight;
+    var W=row.scrollWidth,H=row.scrollHeight;
     svg.setAttribute('width',W); svg.setAttribute('height',H);
     while(svg.firstChild) svg.removeChild(svg.firstChild);
-    var rr=row.getBoundingClientRect(), sl=row.scrollLeft, stp=row.scrollTop;
-    function R(el){ var r=el.getBoundingClientRect(); return {l:r.left-rr.left+sl, t:r.top-rr.top+stp, w:r.width, h:r.height}; }
+    var rr=row.getBoundingClientRect(),sl=row.scrollLeft,stp=row.scrollTop;
+    function Rc(el){var r=el.getBoundingClientRect();return{l:r.left-rr.left+sl,t:r.top-rr.top+stp,w:r.width,h:r.height};}
     for(var c=0;c<cols.length-1;c++){
-      var src=matchups(cols[c]), dst=matchups(cols[c+1]);
-      if(!dst.length) continue;
+      var src=mus(cols[c]),dst=mus(cols[c+1]); if(!dst.length) continue;
       for(var k=0;k<src.length;k++){
         var t=dst[Math.floor(k/2)]; if(!t) continue;
-        var s=R(src[k]), d=R(t);
-        var sx=s.l+s.w, sy=s.t+s.h/2, tx=d.l, ty=d.t+d.h/2;
-        if(tx <= sx+4) continue; /* overlapped (mobile) — skip, keep it clean */
+        var s=Rc(src[k]),d=Rc(t);
+        var sx=s.l+s.w,sy=s.t+s.h/2,tx=d.l,ty=d.t+d.h/2;
+        if(tx<=sx+4) continue;
         var midx=sx+(tx-sx)/2;
         var p=document.createElementNS(NS,'path');
         p.setAttribute('d','M '+sx+' '+sy+' H '+midx+' V '+ty+' H '+tx);
-        p.setAttribute('fill','none');
-        p.setAttribute('stroke','rgba(197,160,89,0.28)');
-        p.setAttribute('stroke-width','1.5');
-        p.setAttribute('stroke-linejoin','round');
+        p.setAttribute('fill','none'); p.setAttribute('stroke','rgba(197,160,89,0.16)');
+        p.setAttribute('stroke-width','1.5'); p.setAttribute('stroke-linejoin','round');
         svg.appendChild(p);
       }
     }
   }
-  function run(){ try{ document.querySelectorAll('.bracket-row').forEach(build); }catch(e){} }
+  function run(){ try{
+    var desk=window.innerWidth>900;
+    document.querySelectorAll('.bracket-row').forEach(function(row){ if(desk) build(row); else clear(row); });
+  }catch(e){} }
   var raf; function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(function(){ setTimeout(run,0); }); }
+  function soon(){ setTimeout(schedule,70); setTimeout(schedule,420); }
   if(document.readyState!=='loading') schedule(); else document.addEventListener('DOMContentLoaded',schedule);
   window.addEventListener('load',schedule);
   window.addEventListener('resize',schedule);
-  document.addEventListener('click',function(){ setTimeout(schedule,70); });
-  try{ var mo=new MutationObserver(schedule); document.querySelectorAll('.bracket-row').forEach(function(r){ mo.observe(r,{subtree:true,childList:true,attributes:true,attributeFilter:['class']}); }); }catch(e){}
+  document.addEventListener('click',soon);
 })();
 </script>
 </body>
