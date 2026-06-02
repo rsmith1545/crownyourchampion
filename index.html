@@ -50,12 +50,30 @@
   .pick-label::before,.pick-label::after{content:""; height:1px; width:54px; background:var(--line);}
   .tiles{display:flex; flex-wrap:wrap; justify-content:center; gap:20px;}
 
+  /* search + genre sections */
+  .search-wrap{position:relative; margin:0 auto 34px; max-width:460px;}
+  .search-wrap input{width:100%; background:#0a0e16; border:1px solid var(--line); border-radius:999px;
+    color:var(--text); padding:12px 18px 12px 44px; font-size:15px; font-family:'Barlow',sans-serif;}
+  .search-wrap input:focus{outline:none; border-color:var(--gold);}
+  .search-wrap::before{content:"⌕"; position:absolute; left:18px; top:50%; transform:translateY(-52%);
+    font-size:20px; color:var(--muted);}
+  .genre-group{margin-bottom:34px;}
+  .genre-group.hidden{display:none;}
+  .tile.hidden{display:none;}
+  .section-head{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.22em;
+    color:var(--text); font-size:15px; margin:0 0 16px; display:flex; align-items:center; gap:14px;}
+  .section-head::after{content:""; flex:1; height:1px; background:var(--line);}
+  .no-results{text-align:center; color:var(--muted); padding:14px 0 30px; display:none;}
+  .new-badge{position:absolute; top:13px; right:13px; z-index:2; background:var(--gold); color:#10131a;
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; padding:3px 9px; border-radius:999px;}
+
   .tile{position:relative; flex:1 1 300px; max-width:332px; display:block; text-decoration:none; color:var(--text);
     background:linear-gradient(170deg,var(--card),#0e1320); border:1px solid var(--line);
     border-radius:16px; padding:30px 26px 26px; overflow:hidden;
     transition:transform .28s cubic-bezier(.2,.7,.2,1), border-color .28s, box-shadow .28s;
     animation:rise .8s both;}
-  .tile:nth-child(2){animation-delay:.32s;} .tile:nth-child(3){animation-delay:.4s;} .tile:nth-child(4){animation-delay:.48s;} .tile:nth-child(5){animation-delay:.56s;} .tile:nth-child(6){animation-delay:.64s;} .tile:nth-child(7){animation-delay:.72s;} .tile:nth-child(8){animation-delay:.8s;} .tile:nth-child(9){animation-delay:.88s;} .tile:nth-child(10){animation-delay:.96s;} .tile:nth-child(11){animation-delay:1.04s;}
+  .tile:nth-child(2){animation-delay:.10s;} .tile:nth-child(3){animation-delay:.18s;} .tile:nth-child(4){animation-delay:.26s;}
   .tile::before{content:""; position:absolute; top:0; left:0; right:0; height:5px;
     background:var(--accent); opacity:.9;}
   .tile::after{content:""; position:absolute; right:-40px; top:-40px; width:150px; height:150px;
@@ -166,85 +184,117 @@
     </header>
 
     <div class="pick-label">Choose your tournament</div>
-    <div class="tiles">
-      <a class="tile dmb" href="./dmb/">
-        <div class="genre">Jam · Rock</div>
-        <div class="band">Dave Matthews Band</div>
-        <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">4 venue regions</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile foo" href="./foo/">
-        <div class="genre">Alt · Rock</div>
-        <div class="band">Foo Fighters</div>
-        <div class="desc">Four decades head-to-head — the '90s through the brand-new 2026 record. Can anything dethrone "Everlong"?</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">4 decade regions</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile frank" href="./fthc/">
-        <div class="genre">Folk · Punk</div>
-        <div class="band">Frank Turner</div>
-        <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile boss" href="./springsteen/">
-        <div class="genre">Heartland · Rock</div>
-        <div class="band">Bruce Springsteen</div>
-        <div class="desc">Fifty years of the E Street Band, seeded by what The Boss plays live — from "Born to Run" to "Jersey Girl."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile pj" href="./pearljam/">
-        <div class="genre">Grunge · Rock</div>
-        <div class="band">Pearl Jam</div>
-        <div class="desc">Thirty years of bootlegs, seeded by what they actually play live — covers and all, from "Even Flow" to "Last Kiss."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile bj" href="./billyjoel/">
-        <div class="genre">Piano · Rock</div>
-        <div class="band">Billy Joel</div>
-        <div class="desc">Five decades of the Piano Man, seeded by what he plays live — from "Piano Man" to "Captain Jack."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile gd" href="./greenday/">
-        <div class="genre">Punk · Rock</div>
-        <div class="band">Green Day</div>
-        <div class="desc">Gilman Street to the stadiums, seeded by what they actually play live — from "Longview" to "Basket Case."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile rhcp" href="./rhcp/">
-        <div class="genre">Funk · Rock</div>
-        <div class="band">Red Hot Chili Peppers</div>
-        <div class="desc">Four decades of funk, seeded by what they actually play live — from "Give It Away" to "Under the Bridge."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile beatles" href="./beatles/">
-        <div class="genre">Rock · Pop</div>
-        <div class="band">The Beatles</div>
-        <div class="desc">Fab Four, ranked by acclaim and streams — from "Here Comes the Sun" to "A Day in the Life."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">ranked by acclaim &amp; streams</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile metallica" href="./metallica/">
-        <div class="genre">Thrash · Metal</div>
-        <div class="band">Metallica</div>
-        <div class="desc">Four decades of thrash, seeded by what they actually play live — from "Master of Puppets" to "One."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
-      <a class="tile stones" href="./stones/">
-        <div class="genre">Rock · Blues</div>
-        <div class="band">The Rolling Stones</div>
-        <div class="desc">Sixty years of swagger, seeded by what they actually play live — from "Jumpin' Jack Flash" to "Tumbling Dice."</div>
-        <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-        <span class="enter">Enter the bracket <span class="arr">→</span></span>
-      </a>
+
+    <div class="search-wrap">
+      <input id="bracket-search" type="search" autocomplete="off" placeholder="Filter bands…" aria-label="Filter bands">
     </div>
+
+    <section class="genre-group">
+      <h2 class="section-head">Classic Rock</h2>
+      <div class="tiles">
+        <a class="tile beatles" href="./beatles/">
+          <span class="new-badge">New</span>
+          <div class="genre">Rock · Pop</div>
+          <div class="band">The Beatles</div>
+          <div class="desc">Fab Four, ranked by acclaim and streams — from "Here Comes the Sun" to "A Day in the Life."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">ranked by acclaim &amp; streams</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile bj" href="./billyjoel/">
+          <div class="genre">Piano · Rock</div>
+          <div class="band">Billy Joel</div>
+          <div class="desc">Five decades of the Piano Man, seeded by what he plays live — from "Piano Man" to "Captain Jack."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile boss" href="./springsteen/">
+          <div class="genre">Heartland · Rock</div>
+          <div class="band">Bruce Springsteen</div>
+          <div class="desc">Fifty years of the E Street Band, seeded by what The Boss plays live — from "Born to Run" to "Jersey Girl."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile stones" href="./stones/">
+          <span class="new-badge">New</span>
+          <div class="genre">Rock · Blues</div>
+          <div class="band">The Rolling Stones</div>
+          <div class="desc">Sixty years of swagger, seeded by what they actually play live — from "Jumpin' Jack Flash" to "Tumbling Dice."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="genre-group">
+      <h2 class="section-head">Alt &amp; Hard Rock</h2>
+      <div class="tiles">
+        <a class="tile foo" href="./foo/">
+          <div class="genre">Alt · Rock</div>
+          <div class="band">Foo Fighters</div>
+          <div class="desc">Four decades head-to-head — the '90s through the brand-new 2026 record. Can anything dethrone "Everlong"?</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 decade regions</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile metallica" href="./metallica/">
+          <span class="new-badge">New</span>
+          <div class="genre">Thrash · Metal</div>
+          <div class="band">Metallica</div>
+          <div class="desc">Four decades of thrash, seeded by what they actually play live — from "Master of Puppets" to "One."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile pj" href="./pearljam/">
+          <div class="genre">Grunge · Rock</div>
+          <div class="band">Pearl Jam</div>
+          <div class="desc">Thirty years of bootlegs, seeded by what they actually play live — covers and all, from "Even Flow" to "Last Kiss."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="genre-group">
+      <h2 class="section-head">Funk &amp; Jam</h2>
+      <div class="tiles">
+        <a class="tile dmb" href="./dmb/">
+          <div class="genre">Jam · Rock</div>
+          <div class="band">Dave Matthews Band</div>
+          <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 venue regions</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile rhcp" href="./rhcp/">
+          <div class="genre">Funk · Rock</div>
+          <div class="band">Red Hot Chili Peppers</div>
+          <div class="desc">Four decades of funk, seeded by what they actually play live — from "Give It Away" to "Under the Bridge."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="genre-group">
+      <h2 class="section-head">Punk &amp; Folk</h2>
+      <div class="tiles">
+        <a class="tile frank" href="./fthc/">
+          <div class="genre">Folk · Punk</div>
+          <div class="band">Frank Turner</div>
+          <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile gd" href="./greenday/">
+          <div class="genre">Punk · Rock</div>
+          <div class="band">Green Day</div>
+          <div class="desc">Gilman Street to the stadiums, seeded by what they actually play live — from "Longview" to "Basket Case."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="no-results" id="no-results">No bands match that — try another search.</div>
+
     <section class="howto">
       <h2>How to Play</h2>
       <p class="lead">No sign-up, no rules to memorize — settle the debate in a few taps.</p>
@@ -268,4 +318,90 @@
 
     <section class="signup">
       <h2>Get the next bracket first</h2>
-      <p>One email when a new artist tournament drops. No
+      <p>One email when a new artist tournament drops. No spam, ever.</p>
+      <div class="row">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+        <button id="join">Notify Me</button>
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent">
+        <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="./privacy.html">privacy policy</a>.</span>
+      </label>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      <div class="note" style="color:var(--muted)">Want a specific band? Put it in the email field after a comma — we read every request.</div>
+    </section>
+
+    <footer>
+      <a href="./privacy.html">Privacy</a> &nbsp;·&nbsp; © <span id="yr"></span> Crown Your Champion
+      <div class="disc">Crown Your Champion is an independent fan project, not affiliated with or endorsed by any artist.</div>
+    </footer>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey:"AIzaSyDxQVR0oiX1W_5qaRpRgVrSQYI-4MLzLdA",
+    authDomain:"crown-your-champion.firebaseapp.com",
+    projectId:"crown-your-champion",
+    storageBucket:"crown-your-champion.firebasestorage.app",
+    messagingSenderId:"629630796857",
+    appId:"1:629630796857:web:fa7a032c01bcc751b779e8"
+  };
+  let db=null;
+  try { db = getFirestore(initializeApp(firebaseConfig)); } catch(e){ console.warn("fb init", e); }
+
+  const $ = id => document.getElementById(id);
+  $('yr').textContent = new Date().getFullYear();
+
+  $('join').onclick = async () => {
+    const email = $('email').value.trim();
+    const consent = $('consent').checked;
+    const msg = $('msg');
+    const ok = /^[^@\s]+@[^@\s]+\.[^@\s]+/.test(email);
+    if (!ok){ msg.className='msg err'; msg.textContent='Please enter a valid email.'; return; }
+    if (!consent){ msg.className='msg err'; msg.textContent='Please tick the box so we can email you.'; return; }
+    const btn = $('join'); btn.disabled = true; btn.textContent = 'Saving…';
+    // capture locally first so nothing is lost even if the network hangs
+    try { localStorage.setItem('cyc-hub-email', email); } catch(e){}
+    const write = db ? addDoc(collection(db,'hub_signups'), {
+      email, consent:true, consent_at:serverTimestamp(), source:'hub', created_at:serverTimestamp()
+    }) : Promise.resolve();
+    try {
+      await Promise.race([ write, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000)) ]);
+    } catch(e){ console.warn('signup write', e); }
+    msg.className='msg ok'; msg.textContent="You're on the list — watch your inbox. 👑";
+    btn.textContent='Done ✓'; $('email').value='';
+  };
+  $('email').addEventListener('keydown', e=>{ if(e.key==='Enter') $('join').click(); });
+</script>
+
+<script>
+  // Instant client-side filter across all genre sections
+  (function(){
+    var input = document.getElementById('bracket-search');
+    if(!input) return;
+    var groups = Array.prototype.slice.call(document.querySelectorAll('.genre-group'));
+    var tiles  = Array.prototype.slice.call(document.querySelectorAll('.tile'));
+    var noRes  = document.getElementById('no-results');
+    function apply(){
+      var q = input.value.trim().toLowerCase();
+      var anyVisible = false;
+      tiles.forEach(function(t){
+        var band = (t.querySelector('.band')||{}).textContent || '';
+        var genre = (t.querySelector('.genre')||{}).textContent || '';
+        var show = !q || (band + ' ' + genre).toLowerCase().indexOf(q) !== -1;
+        t.classList.toggle('hidden', !show);
+        if(show) anyVisible = true;
+      });
+      groups.forEach(function(g){
+        var visible = g.querySelectorAll('.tile:not(.hidden)').length;
+        g.classList.toggle('hidden', visible === 0);
+      });
+      if(noRes) noRes.style.display = anyVisible ? 'none' : 'block';
+    }
+    input.addEventListener('input', apply);
+  })();
+</script>
+</body>
+</html>
