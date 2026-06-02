@@ -3489,23 +3489,53 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycMobileNav v1 — mobile-only floating "Championship" jump button. Self-contained, additive. */
+/* cycTabBar v1 — mobile-only sticky region/championship tab nav. Self-contained, additive. */
 (function(){
-  if(window.__cycMobileNav) return; window.__cycMobileNav=1;
-  function isMobile(){ try{ return window.matchMedia('(max-width: 900px)').matches; }catch(e){ return window.innerWidth<=900; } }
+  if(window.__cycTabBar) return; window.__cycTabBar=1;
+  function isMobile(){ try{return window.matchMedia('(max-width: 900px)').matches;}catch(e){return window.innerWidth<=900;} }
+  function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open'); }
   function init(){
-    if(document.getElementById('cycJumpBtn')) return;
-    var b=document.createElement('button'); b.id='cycJumpBtn'; b.type='button';
-    b.innerHTML='👑 Championship';
-    b.style.cssText='position:fixed;right:14px;bottom:16px;z-index:900;display:none;'+
-      'padding:11px 16px;border:none;border-radius:24px;cursor:pointer;'+
-      'font:700 14px system-ui,-apple-system,sans-serif;letter-spacing:.5px;'+
-      'color:#1a1205;background:linear-gradient(180deg,#F1D382,#C5A059);'+
-      'box-shadow:0 4px 14px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent;';
-    b.onclick=function(){ var c=document.querySelector('.center-col')||document.getElementById('champion'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'}); };
-    document.body.appendChild(b);
-    function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open'); }
-    function upd(){ b.style.display=(isMobile() && window.scrollY>420 && !modalOpen()) ? 'block':'none'; }
+    if(document.getElementById('cycTabBar')) return;
+    var old=document.getElementById('cycJumpBtn'); if(old) old.remove();
+    var grid=document.querySelector('.master-grid'); if(!grid) return;
+    var secs=[];
+    var center=document.querySelector('.center-col');
+    if(center) secs.push({el:center,label:'🏆 Final Four'});
+    var regions=document.querySelectorAll('.region-card');
+    for(var i=0;i<regions.length;i++){
+      var h=regions[i].querySelector('.region-header');
+      var label=h ? (h.innerText||'').split('\n')[0].replace(/\s*REGION\s*$/i,'').trim() : ('Region '+(i+1));
+      secs.push({el:regions[i],label:label||('Region '+(i+1))});
+    }
+    if(secs.length<2) return;
+    var bar=document.createElement('div'); bar.id='cycTabBar';
+    bar.style.cssText='position:sticky;top:0;z-index:850;display:none;overflow-x:auto;'+
+      'padding:7px 8px;background:rgba(8,14,28,.97);border-bottom:1px solid rgba(197,160,89,.4);'+
+      'white-space:nowrap;-webkit-overflow-scrolling:touch;';
+    var tabs=[];
+    secs.forEach(function(sec){
+      var t=document.createElement('button'); t.type='button'; t.textContent=sec.label;
+      t.style.cssText='flex:0 0 auto;display:inline-block;margin-right:5px;padding:7px 13px;'+
+        'border:1px solid rgba(197,160,89,.45);border-radius:18px;background:transparent;'+
+        'color:#cdd6e6;font:700 12.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
+        'cursor:pointer;-webkit-tap-highlight-color:transparent;';
+      t.onclick=function(){ var y=sec.el.getBoundingClientRect().top+window.scrollY-bar.offsetHeight-6; window.scrollTo({top:y,behavior:'smooth'}); };
+      bar.appendChild(t); tabs.push({t:t,sec:sec});
+    });
+    grid.parentNode.insertBefore(bar, grid);
+    function setActive(idx){
+      tabs.forEach(function(o,i){
+        if(i===idx){ o.t.style.background='linear-gradient(180deg,#F1D382,#C5A059)'; o.t.style.color='#1a1205'; o.t.style.borderColor='transparent'; }
+        else { o.t.style.background='transparent'; o.t.style.color='#cdd6e6'; o.t.style.borderColor='rgba(197,160,89,.45)'; }
+      });
+    }
+    function upd(){
+      if(!isMobile() || modalOpen()){ bar.style.display='none'; return; }
+      bar.style.display='block';
+      var probe=bar.offsetHeight+24, best=0, bestTop=-1e9;
+      for(var i=0;i<secs.length;i++){ var top=secs[i].el.getBoundingClientRect().top; if(top-probe<=0 && top>bestTop){ bestTop=top; best=i; } }
+      setActive(best);
+    }
     window.addEventListener('scroll',upd,{passive:true});
     window.addEventListener('resize',upd);
     setInterval(upd,800); upd();
