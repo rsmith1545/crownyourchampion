@@ -3066,7 +3066,17 @@ function printConcert() {
             @media print { body { background:white; } .frame { box-shadow:none; } }
         
 
-    </style>
+    
+/* mobile bracket compaction (cyc) — tighter columns so more rounds fit, next round peeks in */
+@media (max-width: 900px){
+  .bracket-row{ gap:3px !important; }
+  .round-col{ max-width:98px !important; }
+  .round-col:nth-child(n+3){ max-width:90px !important; }
+  .bracket-row .round-col:first-child{ min-width:120px !important; max-width:120px !important; }
+  .slot{ padding:5px 7px !important; white-space:normal !important; word-break:break-word !important; line-height:1.18 !important; }
+}
+
+</style>
         </head><body>
         <div class="frame">
             <p class="song">${currentChampSong}</p>
