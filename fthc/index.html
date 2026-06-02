@@ -3093,78 +3093,8 @@ function printConcert() {
             ${namesHtml}
         </div>
         <script>window.onload = () => { window.print(); }<\/script>
-          <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
-  <script>
-/* cycShareCard — shareable champion image card + native Web Share. Self-contained; safe no-op if no champion. */
-(function(){
-  if (window.__cycShareCard) return; window.__cycShareCard = 1;
-  function bandName(){
-    var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i);
-    return m ? m[1].trim() : 'Crown Your Champion';
-  }
-  function getChamp(){
-    var el=document.getElementById('champion'); if(!el) return '';
-    var v=(el.innerText||'').trim();
-    return (v && v!=='—' && v!=='-' && v!=='---') ? v : '';
-  }
-  function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
-  function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
-  function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
-
-  function drawCard(cb){
-    var W=1080,H=1080,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
-    x.fillStyle='#0a0a0f';x.fillRect(0,0,W,H);
-    var g=x.createRadialGradient(W/2,170,30,W/2,300,780);g.addColorStop(0,'rgba(240,165,0,.22)');g.addColorStop(1,'rgba(10,10,15,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
-    x.strokeStyle='rgba(240,165,0,.5)';x.lineWidth=6;x.strokeRect(30,30,W-60,H-60);
-    x.textAlign='center';x.textBaseline='alphabetic';
-    x.fillStyle='#f0a500';x.font='130px serif';x.fillText('👑',W/2,230);
-    x.fillStyle='#f0a500';x.font='700 46px "Arial Black",system-ui,sans-serif';x.fillText('CROWN YOUR CHAMPION',W/2,305);
-    x.fillStyle='#9aa7b5';x.font='600 36px system-ui,sans-serif';x.fillText(bandName().toUpperCase(),W/2,378);
-    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('MY CHAMPION',W/2,475);
-    var name=getChamp()||'—', maxW=W-160, size=112;
-    function setF(s){ x.font='800 '+s+'px "Arial Black",system-ui,sans-serif'; }
-    function wrap(){ var words=name.split(' '),lines=[],cur=''; for(var i=0;i<words.length;i++){var t=cur?cur+' '+words[i]:words[i]; if(x.measureText(t).width>maxW&&cur){lines.push(cur);cur=words[i];}else cur=t;} if(cur)lines.push(cur); return lines; }
-    setF(size); var lines=wrap();
-    while(lines.length>3 && size>54){ size-=8; setF(size); lines=wrap(); }
-    x.fillStyle='#ffffff'; x.textBaseline='middle';
-    var lh=size*1.14, cy=660;
-    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
-    x.textBaseline='alphabetic';
-    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('crownyourchampion.com',W/2,H-78);
-    c.toBlob(function(b){ cb(b,c); },'image/png');
-  }
-
-  function saveCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){ var a=document.createElement('a'); a.href=URL.createObjectURL(b);
-      a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
-      document.body.appendChild(a); a.click(); a.remove(); toast('Champion card saved!'); });
-  }
-  function shareCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    var txt=shareText(), url=siteURL();
-    drawCard(function(b){
-      var file=new File([b],'champion.png',{type:'image/png'});
-      try {
-        if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; }
-        if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; }
-      } catch(e){}
-      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); toast('Link copied — paste to share!'); }
-      else { saveCard(); }
-    });
-  }
-
-  function inject(){
-    var acts = document.querySelector('#shareModal .modal-actions');
-    if(acts && !document.getElementById('cycCardBtns')){
-      var b1=document.createElement('button'); b1.id='cycCardBtns'; b1.className='btn btn-share'; b1.textContent='📥 Champion Card'; b1.onclick=saveCard;
-      var b2=document.createElement('button'); b2.className='btn btn-share'; b2.textContent='📲 Share'; b2.onclick=shareCard;
-      acts.insertBefore(b1, acts.firstChild); acts.insertBefore(b2, acts.firstChild);
-    }
-  }
-  if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
-})();
-</script>
+          
+  
 </body></html>
     `);
     win.document.close();
@@ -3431,6 +3361,78 @@ if ('serviceWorker' in navigator) {
 restore();
 updateProgress();
 </script>
+</script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
+  <script>
+/* cycShareCard — shareable champion image card + native Web Share. Self-contained; safe no-op if no champion. */
+(function(){
+  if (window.__cycShareCard) return; window.__cycShareCard = 1;
+  function bandName(){
+    var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i);
+    return m ? m[1].trim() : 'Crown Your Champion';
+  }
+  function getChamp(){
+    var el=document.getElementById('champion'); if(!el) return '';
+    var v=(el.innerText||'').trim();
+    return (v && v!=='—' && v!=='-' && v!=='---') ? v : '';
+  }
+  function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
+  function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
+  function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
+
+  function drawCard(cb){
+    var W=1080,H=1080,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+    x.fillStyle='#0a0a0f';x.fillRect(0,0,W,H);
+    var g=x.createRadialGradient(W/2,170,30,W/2,300,780);g.addColorStop(0,'rgba(240,165,0,.22)');g.addColorStop(1,'rgba(10,10,15,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle='rgba(240,165,0,.5)';x.lineWidth=6;x.strokeRect(30,30,W-60,H-60);
+    x.textAlign='center';x.textBaseline='alphabetic';
+    x.fillStyle='#f0a500';x.font='130px serif';x.fillText('👑',W/2,230);
+    x.fillStyle='#f0a500';x.font='700 46px "Arial Black",system-ui,sans-serif';x.fillText('CROWN YOUR CHAMPION',W/2,305);
+    x.fillStyle='#9aa7b5';x.font='600 36px system-ui,sans-serif';x.fillText(bandName().toUpperCase(),W/2,378);
+    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('MY CHAMPION',W/2,475);
+    var name=getChamp()||'—', maxW=W-160, size=112;
+    function setF(s){ x.font='800 '+s+'px "Arial Black",system-ui,sans-serif'; }
+    function wrap(){ var words=name.split(' '),lines=[],cur=''; for(var i=0;i<words.length;i++){var t=cur?cur+' '+words[i]:words[i]; if(x.measureText(t).width>maxW&&cur){lines.push(cur);cur=words[i];}else cur=t;} if(cur)lines.push(cur); return lines; }
+    setF(size); var lines=wrap();
+    while(lines.length>3 && size>54){ size-=8; setF(size); lines=wrap(); }
+    x.fillStyle='#ffffff'; x.textBaseline='middle';
+    var lh=size*1.14, cy=660;
+    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
+    x.textBaseline='alphabetic';
+    x.fillStyle='#7c89a6';x.font='600 30px system-ui,sans-serif';x.fillText('crownyourchampion.com',W/2,H-78);
+    c.toBlob(function(b){ cb(b,c); },'image/png');
+  }
+
+  function saveCard(){
+    if(!getChamp()){ toast('Crown a champion first!'); return; }
+    drawCard(function(b){ var a=document.createElement('a'); a.href=URL.createObjectURL(b);
+      a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
+      document.body.appendChild(a); a.click(); a.remove(); toast('Champion card saved!'); });
+  }
+  function shareCard(){
+    if(!getChamp()){ toast('Crown a champion first!'); return; }
+    var txt=shareText(), url=siteURL();
+    drawCard(function(b){
+      var file=new File([b],'champion.png',{type:'image/png'});
+      try {
+        if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; }
+        if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; }
+      } catch(e){}
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); toast('Link copied — paste to share!'); }
+      else { saveCard(); }
+    });
+  }
+
+  function inject(){
+    var acts = document.querySelector('#shareModal .modal-actions');
+    if(acts && !document.getElementById('cycCardBtns')){
+      var b1=document.createElement('button'); b1.id='cycCardBtns'; b1.className='btn btn-share'; b1.textContent='📥 Champion Card'; b1.onclick=saveCard;
+      var b2=document.createElement('button'); b2.className='btn btn-share'; b2.textContent='📲 Share'; b2.onclick=shareCard;
+      acts.insertBefore(b1, acts.firstChild); acts.insertBefore(b2, acts.firstChild);
+    }
+  }
+  if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
+})();
 </script>
 </body>
 </html>
