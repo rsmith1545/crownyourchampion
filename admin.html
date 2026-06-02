@@ -68,7 +68,7 @@
       <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button></h2>
       <div id="leaderboards"></div>
 
-      <h2>All emails — hub + bracket signups <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
+      <h2>All emails — hub + bracket signups <span id="emailCount" class="muted" style="font-size:12px;text-transform:none;letter-spacing:0"></span> <label class="muted" style="font-size:12.5px;text-transform:none;letter-spacing:0;margin:0 8px"><input type="checkbox" id="consentOnly"> consented only</label> <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
       <div class="muted" style="font-size:12.5px;margin-bottom:8px">De-duplicated across the hub "Notify Me" box and emails entered after crowning a bracket champion.</div>
       <table id="emailTable">
         <thead><tr><th>Email</th><th>Source(s)</th><th>Consent</th><th>First seen</th></tr></thead>
@@ -196,9 +196,7 @@ async function loadAll(){
 
   document.querySelector("#bandTable tbody").innerHTML = bandRows.join("");
   $("leaderboards").innerHTML = lbHtml.join("");
-  document.querySelector("#emailTable tbody").innerHTML = emails.map(e=>
-    `<tr><td>${esc(e.email)}</td><td class="muted">${esc([...e.sources].join(", "))}</td><td>${e.consent?'✓':''}</td><td class="muted">${e.first?fmt({seconds:e.first}):''}</td></tr>`).join("")
-    || '<tr><td class="muted" colspan="4">No emails yet — hub signups and bracket emails will show here</td></tr>';
+  renderEmails();
   document.querySelector("#subTable tbody").innerHTML = allSubs.slice(0,300).map(s=>{
     const ff = Array.isArray(s.final_four)? s.final_four.join(", ") : (s.final_four||"");
     return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td></tr>`;
@@ -210,6 +208,18 @@ async function loadAll(){
 function card(n,l){ return `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`; }
 function esc(x){ return String(x==null?"":x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+function renderEmails(){
+  const only = document.getElementById("consentOnly") && document.getElementById("consentOnly").checked;
+  const all = window.__emails || [];
+  const list = all.filter(e => only ? e.consent : true);
+  const cons = all.filter(e => e.consent).length;
+  const cnt = document.getElementById("emailCount");
+  if(cnt) cnt.textContent = "— " + cons + " consented / " + all.length + " total";
+  document.querySelector("#emailTable tbody").innerHTML = list.map(e=>
+    `<tr><td>${esc(e.email)}</td><td class="muted">${esc([...e.sources].join(", "))}</td><td>${e.consent?'✓':''}</td><td class="muted">${e.first?fmt({seconds:e.first}):''}</td></tr>`).join("")
+    || ('<tr><td class="muted" colspan="4">No '+(only?'consented ':'')+'emails yet</td></tr>');
+}
+window.addEventListener("change", e => { if(e.target && e.target.id === "consentOnly") renderEmails(); });
 document.getElementById("expandAll").onclick = () => document.querySelectorAll("#leaderboards details").forEach(d=>d.open=true);
 
 function downloadCSV(filename, rows){
@@ -217,8 +227,12 @@ function downloadCSV(filename, rows){
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=filename;
   document.body.appendChild(a); a.click(); a.remove();
 }
-document.getElementById("csvSignups").onclick = () => downloadCSV("cyc-emails.csv",
-  [["email","sources","consent","first_seen"]].concat((window.__emails||[]).map(e=>[e.email,[...e.sources].join(" | "),e.consent,e.first?fmt({seconds:e.first}):""])));
+document.getElementById("csvSignups").onclick = () => {
+  const only = document.getElementById("consentOnly") && document.getElementById("consentOnly").checked;
+  const list = (window.__emails||[]).filter(e => only ? e.consent : true);
+  downloadCSV(only ? "cyc-emails-consented.csv" : "cyc-emails.csv",
+    [["email","sources","consent","first_seen"]].concat(list.map(e=>[e.email,[...e.sources].join(" | "),e.consent,e.first?fmt({seconds:e.first}):""])));
+};
 document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
   [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
    allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,(Array.isArray(s.final_four)?s.final_four.join(" | "):s.final_four),s.email,fmt(s.completed_at)])));
