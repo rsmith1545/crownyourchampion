@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-var cacheName = 'crown-champion-v11';
+var cacheName = 'crown-champion-v12';
 var assets = [
   './',
   './index.html',
@@ -38,7 +38,7 @@ self.addEventListener('fetch', function(event) {
   if (isHTML) {
     // Network-first: always try for the freshest page, fall back to cache offline
     event.respondWith(
-      fetch(req).then(function(response) {
+      fetch(req, {cache: 'reload'}).then(function(response) {
         var copy = response.clone();
         caches.open(cacheName).then(function(cache) { cache.put(req, copy); });
         return response;

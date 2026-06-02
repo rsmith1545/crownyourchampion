@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-var cacheName = 'crown-champion-ff-v1';
+var cacheName = 'crown-champion-ff-v2';
 var assets = [
   './',
   './index.html',
@@ -25,7 +25,7 @@ self.addEventListener('fetch', function(event) {
   var isHTML = req.mode === 'navigate' || (req.headers.get('accept')||'').indexOf('text/html') !== -1;
   if (isHTML) {
     event.respondWith(
-      fetch(req).then(function(response){
+      fetch(req, {cache: 'reload'}).then(function(response){
         var copy = response.clone();
         caches.open(cacheName).then(function(cache){ cache.put(req, copy); });
         return response;
