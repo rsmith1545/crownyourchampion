@@ -3366,7 +3366,7 @@ updateProgress();
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
     <script>
-/* cycShareCard v2 — branded champion card (card-bg.png + gold overlay) + 2-action share. Self-contained. */
+/* cycShareCard v3 — branded champion card (card-bg.png + gold overlay) + 2-action share. Robust render. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
   function bandName(){
@@ -3376,17 +3376,20 @@ updateProgress();
   function getChamp(){
     var el=document.getElementById('champion'); if(!el) return '';
     var v=(el.innerText||'').trim();
-    return (v && v!=='—' && v!=='-' && v!=='---') ? v : '';
+    return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : '';
   }
   function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
   function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
   function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
 
+  function once(fn){ var done=false; return function(){ if(done) return; done=true; return fn.apply(this,arguments); }; }
   function withFonts(cb){
+    cb=once(cb);
     try{
       if(document.fonts && document.fonts.load){
         Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')])
-          .then(function(){ return document.fonts.ready; }).then(cb).catch(function(){ cb(); });
+          .then(function(){ return document.fonts.ready; }).then(cb).catch(cb);
+        setTimeout(cb, 1200); /* never block longer than 1.2s on fonts */
         return;
       }
     }catch(e){}
@@ -3401,38 +3404,50 @@ updateProgress();
     x.textAlign=prev;
   }
 
+  function paint(x,W,H){
+    x.textAlign='center'; x.textBaseline='alphabetic';
+    x.fillStyle=gold(H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
+    x.fillText(bandName(), W/2, H*0.452);
+    x.fillStyle=gold(H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
+    tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
+    var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
+    function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
+    setF(size);
+    function wrap(){ var ws=song.split(' '),L=[],cur=''; for(var i=0;i<ws.length;i++){var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){L.push(cur);cur=ws[i];}else cur=t;} if(cur)L.push(cur); return L; }
+    while(x.measureText(song).width>maxW && size>minS){ size-=6; setF(size); }
+    var lines = x.measureText(song).width>maxW ? wrap() : [song];
+    if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
+    var cy=H*0.725, lh=size*1.0;
+    x.save();
+    x.fillStyle=gold(cy-size*0.55, cy+size*0.55);
+    x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
+    x.textBaseline='middle';
+    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
+    x.restore();
+    x.fillStyle='#9c8a5e'; x.font='500 '+Math.round(H*0.026)+'px system-ui,-apple-system,sans-serif'; x.textBaseline='alphabetic';
+    x.fillText(bandName()+' · Fan-Voted All-Time Champion', W/2, H*0.838);
+  }
+  function fallbackBg(x,W,H){
+    var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f');
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+    var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m);
+    x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m);
+  }
+
   function drawCard(cb){
+    cb=once(cb);
     withFonts(function(){
+      var W=1600,H=845;
+      var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+      var finish=once(function(){
+        try{ paint(x,W,H); }catch(e){}
+        try{ c.toBlob(function(b){ cb(b,c); }, 'image/png'); }catch(e){ cb(null,c); }
+      });
       var img=new Image();
-      img.onload=function(){
-        var W=img.naturalWidth||1600, H=img.naturalHeight||845;
-        var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
-        x.drawImage(img,0,0,W,H);
-        x.textAlign='center'; x.textBaseline='alphabetic';
-        x.fillStyle=gold(H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
-        x.fillText(bandName(), W/2, H*0.452);
-        x.fillStyle=gold(H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
-        tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
-        var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
-        function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
-        setF(size);
-        function wrap(){ var ws=song.split(' '),L=[],cur=''; for(var i=0;i<ws.length;i++){var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){L.push(cur);cur=ws[i];}else cur=t;} if(cur)L.push(cur); return L; }
-        while(x.measureText(song).width>maxW && size>minS){ size-=6; setF(size); }
-        var lines = x.measureText(song).width>maxW ? wrap() : [song];
-        if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
-        var cy=H*0.725, lh=size*1.0;
-        x.save();
-        x.fillStyle=gold(cy-size*0.55, cy+size*0.55);
-        x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
-        x.textBaseline='middle';
-        for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
-        x.restore();
-        x.fillStyle='#9c8a5e'; x.font='500 '+Math.round(H*0.026)+'px system-ui,-apple-system,sans-serif'; x.textBaseline='alphabetic';
-        x.fillText(bandName()+' · Fan-Voted All-Time Champion', W/2, H*0.838);
-        c.toBlob(function(b){ cb(b,c); }, 'image/png');
-      };
-      img.onerror=function(){ cb(null,null); };
-      img.src='/card-bg.png';
+      var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
+      img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
+      img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
+      img.src='/card-bg.png?v=3';
     });
   }
 
@@ -3453,8 +3468,9 @@ updateProgress();
   function renderPreview(){
     var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn');
     if(!img) return;
-    if(!getChamp()){ img.style.display='none'; if(hint) hint.style.display='block'; if(btn) btn.style.display='none'; return; }
+    if(!getChamp()){ img.style.display='none'; if(hint){ hint.style.display='block'; hint.textContent='Crown a champion to unlock your shareable card.'; } if(btn) btn.style.display='none'; return; }
     if(btn) btn.style.display='block';
+    if(hint){ hint.style.display='block'; hint.textContent='Building your champion card…'; }
     drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } });
   }
 
@@ -3473,8 +3489,13 @@ updateProgress();
       st.parentNode.insertBefore(picksH, st);
     } else { modal.appendChild(wrap); }
     var cb=modal.querySelector('.btn-copy'); if(cb) cb.textContent='📋 Copy Picks';
+    try{
+      var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); });
+      mo.observe(modal,{attributes:true,attributeFilter:['class']});
+    }catch(e){}
     var _os=window.openShare;
     window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
+    if(modal.classList.contains('open')) setTimeout(renderPreview,40);
   }
   if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
