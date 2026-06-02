@@ -603,7 +603,7 @@
                 max-height: none; overflow-y: visible;
             }
             .side-col { order: 2; min-width: 0; }
-            .center-col { order: 1; min-width: 0; }
+            .center-col { order: 3; min-width: 0; }
             .region-card { min-width: 0; }
             .finals-card, .leaderboard-card { min-width: 0; }
             .bracket-row {
@@ -615,17 +615,17 @@
                 /* Always left-to-right on mobile regardless of region */
                 flex-direction: row !important;
                 -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
+                scroll-snap-type: x proximity;
             }
             .round-col { 
-                min-width: 110px; 
+                min-width: 96px; 
                 flex-shrink: 0;
                 scroll-snap-align: start;
             }
             .slot { font-size: 11px; min-height: 30px; }
             /* Make sure songs column is always first/leftmost */
             .bracket-row .round-col:first-child {
-                min-width: 130px;
+                min-width: 122px;
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
@@ -1379,7 +1379,7 @@
 
 <!-- CHAMPION BANNER -->
 <div class="champion-banner" id="champBanner">
-    <div class="champ-label">🏆 Your Rolling Stones Champion 🏆</div>
+    <div class="champ-label">👑 Your Rolling Stones Champion 👑</div>
     <div class="champ-name" id="champBannerName"></div>
     <div class="champ-sub">Crown Your Champion · All-Time Greatest Song</div>
 </div>
@@ -1464,7 +1464,7 @@
     <!-- CENTER: FINALS + LEADERBOARD -->
     <div class="center-col">
         <div class="finals-card">
-            <div class="finals-header">🏆 Championship</div>
+            <div class="finals-header">👑 Championship</div>
             <div class="finals-body">
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
@@ -3491,7 +3491,7 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycTabBar v1 — mobile-only sticky region/championship tab nav. Self-contained, additive. */
+/* cycTabBar v2 — mobile-only sticky region/championship tab nav. Regions first, Final Four last. Self-contained. */
 (function(){
   if(window.__cycTabBar) return; window.__cycTabBar=1;
   function isMobile(){ try{return window.matchMedia('(max-width: 900px)').matches;}catch(e){return window.innerWidth<=900;} }
@@ -3501,14 +3501,14 @@ updateProgress();
     var old=document.getElementById('cycJumpBtn'); if(old) old.remove();
     var grid=document.querySelector('.master-grid'); if(!grid) return;
     var secs=[];
-    var center=document.querySelector('.center-col');
-    if(center) secs.push({el:center,label:'🏆 Final Four'});
     var regions=document.querySelectorAll('.region-card');
     for(var i=0;i<regions.length;i++){
       var h=regions[i].querySelector('.region-header');
       var label=h ? (h.innerText||'').split('\n')[0].replace(/\s*REGION\s*$/i,'').trim() : ('Region '+(i+1));
       secs.push({el:regions[i],label:label||('Region '+(i+1))});
     }
+    var center=document.querySelector('.center-col');
+    if(center) secs.push({el:center,label:'👑 Final Four'});
     if(secs.length<2) return;
     var bar=document.createElement('div'); bar.id='cycTabBar';
     bar.style.cssText='position:sticky;top:0;z-index:850;display:none;overflow-x:auto;'+
