@@ -296,7 +296,7 @@
         /* DESKTOP: side by side regions + center finals */
         .master-grid {
             display: grid;
-            grid-template-columns: 1fr 200px 1fr;
+            grid-template-columns: 1fr 272px 1fr;
             gap: 12px;
             max-width: 2000px;
             margin: 0 auto;
@@ -398,7 +398,7 @@
             background: var(--dmb-red);
             color: #fff;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 13px;
+            font-size: 16px;
             letter-spacing: 4px;
             padding: 6px 10px;
             text-align: center;
@@ -448,10 +448,10 @@
         }
         .champion-slot .champ-name {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 20px;
+            font-size: 24px;
             letter-spacing: 2px;
             color: #fff;
-            min-height: 24px;
+            min-height: 28px;
         }
 
         /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
@@ -459,7 +459,7 @@
         .sf-pair {
             flex: 1; display: flex; flex-direction: column;
             border: 1.5px solid var(--dmb-gold);
-            border-radius: 4px; padding: 5px;
+            border-radius: 4px; padding: 7px;
         }
         .sf-pair .final-slot { margin-bottom: 0; }
         .finals-pair {
@@ -542,29 +542,29 @@
             background: var(--dmb-gold);
             color: #1a1205;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 13px;
+            font-size: 16px;
             letter-spacing: 3px;
             padding: 6px 10px;
             text-align: center;
         }
         .lb-body { padding: 8px; }
         .lb-empty {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--dmb-muted);
             text-align: center;
             padding: 12px 6px;
             font-style: italic;
         }
-        .lb-row { display: flex; align-items: center; gap: 6px; padding: 4px 2px; font-size: 11px; }
-        .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 14px; text-align: right; flex: none; }
-        .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px; }
-        .lb-track { flex: 1 1 50px; height: 7px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
+        .lb-row { display: flex; align-items: center; gap: 6px; padding: 6px 3px; font-size: 13px; }
+        .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 18px; text-align: right; flex: none; }
+        .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 132px; }
+        .lb-track { flex: 1 1 50px; height: 9px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
         .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
-        .lb-count { color: var(--dmb-muted); width: 32px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+        .lb-count { color: var(--dmb-muted); width: 40px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
         .lb-upset {
             margin-top: 8px; padding-top: 8px;
             border-top: 1px dashed var(--dmb-border);
-            font-size: 11px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
+            font-size: 13px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
         }
         .lb-upset:empty { display: none; }
         .lb-upset strong { color: var(--dmb-gold); }
