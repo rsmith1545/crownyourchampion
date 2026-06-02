@@ -1335,6 +1335,17 @@
   .round-col:nth-child(4){ margin-left: -66px !important; }
   .round-col:nth-child(5){ margin-left: 0 !important; }
 }
+
+/* faint connector hairlines on advancing matchups (cyc) — soft gold, very translucent */
+.round-col:not(:first-child) .matchup { position: relative; }
+.round-col:not(:first-child) .matchup::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(197,160,89,0) 0%, rgba(197,160,89,0.30) 50%, rgba(197,160,89,0) 100%);
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
