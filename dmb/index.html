@@ -1321,9 +1321,12 @@
         .site-footer a:hover { text-decoration: underline; }
 
     
-/* mobile bracket horizontal nesting (cyc) — pull rounds 3+ left into prior round's vertical gaps */
+/* mobile bracket horizontal nesting (cyc) v2 — graduated pull so rounds tuck into prior round's vertical gaps; final round stays adjacent (no box-on-box overlap) */
 @media (max-width: 900px){
-  .round-col:nth-child(n+3){ margin-left: -52px !important; }
+  .bracket-row { gap: 3px; }
+  .round-col:nth-child(3){ margin-left: -68px !important; }
+  .round-col:nth-child(4){ margin-left: -68px !important; }
+  .round-col:nth-child(5){ margin-left: 0 !important; }
 }
 </style>
 </head>
