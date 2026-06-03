@@ -674,7 +674,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v33';
+                content: '⇄ swipe to see all rounds · v34';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1409,7 +1409,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v33</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v34</div>
         <div class="header-tagline">Settle the debate: the greatest Frank Turner song ever</div>
     </div>
     <div class="header-actions">
@@ -3886,6 +3886,47 @@ updateProgress();
     window.addEventListener('resize', applyState);
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cycInstall — smart install helper: Android/desktop one-tap install; iOS Safari guided hint; iOS Chrome "open in Safari" nudge. Self-contained. */
+(function(){
+  if(window.__cycInstall) return; window.__cycInstall=1;
+  function standalone(){ try{ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true; }catch(e){ return false; } }
+  if(standalone()) return;
+  try{ var d=localStorage.getItem('cyc-install-dismiss'); if(d && (Date.now()-(+d) < 1209600000)) return; }catch(e){}
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  var isIOSChrome=isIOS && /CriOS|FxiOS|EdgiOS/.test(ua);
+  var isIOSSafari=isIOS && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua);
+  var deferred=null;
+  function injectCss(){
+    if(document.getElementById('cycInstallCss')) return;
+    var st=document.createElement('style'); st.id='cycInstallCss';
+    st.textContent="#cycInstallBar{position:fixed;left:12px;right:12px;bottom:12px;z-index:2147483000;max-width:560px;margin:0 auto;background:linear-gradient(135deg,#101a2e,#0a0e18);border:1px solid var(--dmb-gold,#f0a500);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.5);padding:12px 13px;display:flex;align-items:center;gap:12px;font-family:'Barlow Condensed',sans-serif;color:#e8eaf0;animation:cycInUp .35s ease both;}"+
+      "@keyframes cycInUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}"+
+      "#cycInstallBar img.ci{width:42px;height:42px;border-radius:9px;flex-shrink:0;}"+
+      "#cycInstallBar .ci-tx{flex:1;line-height:1.28;}"+
+      "#cycInstallBar .ci-tx b{color:#fff;font-size:15px;letter-spacing:.2px;}"+
+      "#cycInstallBar .ci-tx span{display:block;color:#9fb0cc;font-size:12.5px;margin-top:1px;}"+
+      "#cycInstallBar .ci-go{font-family:inherit;border:none;border-radius:9px;cursor:pointer;background:var(--dmb-gold,#f0a500);color:#0a0a0f;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:13px;padding:10px 15px;white-space:nowrap;}"+
+      "#cycInstallBar .ci-x{font-family:inherit;border:none;background:transparent;color:#7c89a6;font-size:23px;line-height:1;padding:2px 6px;cursor:pointer;}"+
+      "@keyframes cycArrow{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}"+
+      "#cycInstallBar .ci-arrow{font-size:22px;animation:cycArrow 1s infinite;}";
+    document.head.appendChild(st);
+  }
+  function dismiss(){ try{ localStorage.setItem('cyc-install-dismiss', String(Date.now())); }catch(e){} var b=document.getElementById('cycInstallBar'); if(b) b.remove(); }
+  function banner(html){ injectCss(); if(document.getElementById('cycInstallBar')) return null; var b=document.createElement('div'); b.id='cycInstallBar'; b.innerHTML=html; document.body.appendChild(b); var x=b.querySelector('.ci-x'); if(x) x.onclick=dismiss; return b; }
+  function showAndroid(){
+    var b=banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Install Crown Your Champion</b><span>Add it to your home screen — full-screen, even offline.</span></div><button class="ci-go" id="ciGo">Install</button><button class="ci-x" aria-label="Dismiss">&times;</button>');
+    if(!b) return;
+    b.querySelector('#ciGo').onclick=async function(){ if(!deferred) return; deferred.prompt(); try{ await deferred.userChoice; }catch(e){} deferred=null; dismiss(); };
+  }
+  function showIOSSafari(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add to your Home Screen</b><span>Tap <b style="color:#f0a500">Share</b>, then <b style="color:#f0a500">Add to Home Screen</b>.</span></div><span class="ci-arrow">&#x2935;&#xFE0F;</span><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
+  function showIOSChrome(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Want the app?</b><span>Open this page in <b style="color:#f0a500">Safari</b> to install it (Apple only allows it there).</span></div><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred=e; setTimeout(showAndroid,1500); });
+  window.addEventListener('appinstalled', dismiss);
+  if(isIOS){ setTimeout(function(){ if(standalone()) return; if(isIOSChrome) showIOSChrome(); else if(isIOSSafari) showIOSSafari(); }, 2500); }
 })();
 </script>
 </body>
