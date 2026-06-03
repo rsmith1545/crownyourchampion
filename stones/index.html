@@ -658,7 +658,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v23';
+                content: '⇄ swipe to see all rounds · v24';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1387,7 +1387,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v23</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v24</div>
         <div class="header-tagline">Settle the debate: the greatest Rolling Stones song ever</div>
     </div>
     <div class="header-actions">
@@ -3765,8 +3765,8 @@ updateProgress();
   function init(){
     if(!document.getElementById('cycPlayedCss')){
       var st=document.createElement('style'); st.id='cycPlayedCss';
-      st.textContent='.slot.cyc-played{ box-shadow: inset 3px 0 0 var(--dmb-gold); background: rgba(197,160,89,0.10); }'+
-        '.slot.cyc-played, .slot.cyc-played .seed, .champ-name.cyc-played{ color:#F1D382 !important; }';
+      st.textContent='.slot.cyc-played{ box-shadow: inset 0 0 0 2px var(--dmb-gold), inset 5px 0 0 var(--dmb-gold); background: rgba(197,160,89,0.16); border-radius:2px; }'+
+        '.slot.cyc-played, .slot.cyc-played .seed{ color:#F7E6A4 !important; font-weight:700 !important; } .champ-name.cyc-played{ color:#F7E6A4 !important; font-weight:700 !important; }';
       document.head.appendChild(st);
     }
     var _ab=window.applyConcertBracket;
@@ -3785,18 +3785,18 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycSetlistPanel — slide-in (from LEFT) full concert setlist when My Concert is loaded. Self-contained. */
+/* cycSetlistPanel v2 — concert setlist: DOCKED left column on desktop (permanent), slide-in overlay on mobile. Self-contained. */
 (function(){
   if(window.__cycSetlist) return; window.__cycSetlist=1;
-  var data=null;
+  var data=null, isOpen=false, tab, bd, panel;
   function escapeHtml(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function desktop(){ return window.matchMedia('(min-width:1024px)').matches; }
   function inBracket(song){ try{ var NS=window.NAME_SEED||{}; for(var k in NS){ if(window.songsMatch?window.songsMatch(k,song):String(k).toLowerCase()===String(song).toLowerCase()) return true; } }catch(e){} return false; }
   function ensureUI(){
     if(document.getElementById('cycSetlistPanel')) return;
     var css=document.createElement('style'); css.id='cycSetlistCss';
     css.textContent=
       "#cycSetlistTab{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:1000;display:none;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);color:var(--dmb-gold);border:1px solid var(--dmb-gold);border-left:none;border-radius:0 9px 9px 0;padding:16px 9px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:2px 2px 14px rgba(0,0,0,.45);}"+
-      "#cycSetlistTab:hover{background:#1a3d1a;}"+
       "#cycSetlistBackdrop{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .25s;}"+
       "#cycSetlistBackdrop.open{opacity:1;visibility:visible;}"+
       "#cycSetlistPanel{position:fixed;left:0;top:0;bottom:0;width:min(340px,87vw);z-index:1001;background:#0b1422;border-right:2px solid var(--dmb-gold);box-shadow:4px 0 26px rgba(0,0,0,.55);transform:translateX(-100%);transition:transform .28s ease;overflow-y:auto;font-family:'Barlow Condensed',sans-serif;}"+
@@ -3810,36 +3810,55 @@ updateProgress();
       ".cyc-sl-list li .n{color:#5e6b85;min-width:22px;text-align:right;}"+
       ".cyc-sl-list li.inb{color:#F1D382;font-weight:600;}"+
       ".cyc-sl-list li.inb .n{color:var(--dmb-gold);}"+
-      ".cyc-sl-foot{padding:12px 18px 22px;color:#7c89a6;font-size:12px;letter-spacing:.4px;line-height:1.5;}";
+      ".cyc-sl-foot{padding:12px 18px 22px;color:#7c89a6;font-size:12px;letter-spacing:.4px;line-height:1.5;}"+
+      "@media (min-width:1024px){"+
+        "body.cyc-dock-open{--cyc-dock-w:clamp(258px,21vw,330px);}"+
+        "body.cyc-dock-open #cycSetlistPanel{transform:none !important;top:var(--sticky-top-h,150px);bottom:0;width:var(--cyc-dock-w);box-shadow:3px 0 20px rgba(0,0,0,.4);}"+
+        "body.cyc-dock-open #cycSetlistBackdrop{display:none !important;}"+
+        "body.cyc-dock-open .main-wrap{padding-left:calc(var(--cyc-dock-w) + 18px);}"+
+        "body.cyc-dock-open .cyc-sl-x{font-size:20px;}"+
+      "}";
     document.head.appendChild(css);
-    var tab=document.createElement('button'); tab.id='cycSetlistTab'; tab.type='button'; tab.textContent='🎵 Setlist'; tab.onclick=openP;
-    var bd=document.createElement('div'); bd.id='cycSetlistBackdrop'; bd.onclick=closeP;
-    var panel=document.createElement('div'); panel.id='cycSetlistPanel';
+    tab=document.createElement('button'); tab.id='cycSetlistTab'; tab.type='button'; tab.textContent='🎵 Setlist'; tab.onclick=openP;
+    bd=document.createElement('div'); bd.id='cycSetlistBackdrop'; bd.onclick=closeP;
+    panel=document.createElement('div'); panel.id='cycSetlistPanel';
     document.body.appendChild(tab); document.body.appendChild(bd); document.body.appendChild(panel);
   }
   function render(){
-    var p=document.getElementById('cycSetlistPanel'); if(!p||!data) return;
+    if(!panel||!data) return;
     var songs=data.songs||[]; var nin=0;
     var rows=songs.map(function(s,i){ var ib=inBracket(s); if(ib)nin++; return '<li class="'+(ib?'inb':'')+'"><span class="n">'+(i+1)+'</span><span>'+escapeHtml(s)+(ib?' 👑':'')+'</span></li>'; }).join('');
     var sub=[data.venue,data.date,data.city].filter(Boolean).join(' · ');
-    p.innerHTML='<div class="cyc-sl-head"><button class="cyc-sl-x" aria-label="Close">×</button><div class="t">🎵 Your Setlist</div><div class="s">'+escapeHtml(sub)+'</div></div>'+
+    panel.innerHTML='<div class="cyc-sl-head"><button class="cyc-sl-x" aria-label="Close">×</button><div class="t">🎵 Your Setlist</div><div class="s">'+escapeHtml(sub)+'</div></div>'+
       '<ul class="cyc-sl-list">'+rows+'</ul>'+
       '<div class="cyc-sl-foot">'+songs.length+' songs played · <span style="color:#F1D382">'+nin+' in the bracket</span> 👑<br>Setlist data via setlist.fm</div>';
-    var x=p.querySelector('.cyc-sl-x'); if(x) x.onclick=closeP;
+    var x=panel.querySelector('.cyc-sl-x'); if(x) x.onclick=closeP;
   }
-  function openP(){ var p=document.getElementById('cycSetlistPanel'),b=document.getElementById('cycSetlistBackdrop'),t=document.getElementById('cycSetlistTab'); if(p)p.classList.add('open'); if(b)b.classList.add('open'); if(t)t.style.display='none'; }
-  function closeP(){ var p=document.getElementById('cycSetlistPanel'),b=document.getElementById('cycSetlistBackdrop'),t=document.getElementById('cycSetlistTab'); if(p)p.classList.remove('open'); if(b)b.classList.remove('open'); if(t&&data)t.style.display='block'; }
+  function applyState(){
+    if(!panel) return;
+    if(isOpen && data){
+      if(desktop()){ document.body.classList.add('cyc-dock-open'); panel.classList.remove('open'); bd.classList.remove('open'); }
+      else { document.body.classList.remove('cyc-dock-open'); panel.classList.add('open'); bd.classList.add('open'); }
+      tab.style.display='none';
+    } else {
+      document.body.classList.remove('cyc-dock-open'); panel.classList.remove('open'); bd.classList.remove('open');
+      tab.style.display = data ? 'block' : 'none';
+    }
+  }
+  function openP(){ isOpen=true; applyState(); }
+  function closeP(){ isOpen=false; applyState(); }
   function init(){
     ensureUI();
     var _ab=window.applyConcertBracket;
     if(typeof _ab==='function'){
       window.applyConcertBracket=function(setlist,date,venue,city){
-        try{ var songs=(window.getSetlistSongs?window.getSetlistSongs(setlist):[])||[]; data={venue:venue,date:date,city:city,songs:songs}; render(); var t=document.getElementById('cycSetlistTab'); if(t)t.style.display='block'; setTimeout(openP,800); }catch(e){}
+        try{ var songs=(window.getSetlistSongs?window.getSetlistSongs(setlist):[])||[]; data={venue:venue,date:date,city:city,songs:songs}; render(); setTimeout(openP,400); }catch(e){}
         return _ab.apply(this,arguments);
       };
     }
-    ['silentReset','confirmReset'].forEach(function(fn){ var _f=window[fn]; if(typeof _f==='function'){ window[fn]=function(){ data=null; var t=document.getElementById('cycSetlistTab'); if(t)t.style.display='none'; closeP(); return _f.apply(this,arguments); }; } });
+    ['silentReset','confirmReset'].forEach(function(fn){ var _f=window[fn]; if(typeof _f==='function'){ window[fn]=function(){ data=null; isOpen=false; applyState(); return _f.apply(this,arguments); }; } });
     document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeP(); });
+    window.addEventListener('resize', applyState);
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
