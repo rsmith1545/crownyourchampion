@@ -215,6 +215,7 @@
   @keyframes rise{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:none;}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;}}
 </style>
+<style>.hero-cta{display:inline-block;margin-top:20px;padding:12px 28px;border-radius:999px;background:linear-gradient(180deg,#f0c75e,#d99a1e);color:#1a1206;font-weight:800;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;font-size:14px;box-shadow:0 6px 22px rgba(240,165,0,.35);}.hero-cta:hover{filter:brightness(1.08);}html{scroll-behavior:smooth;}</style>
 </head>
 <body>
   <div class="bg-bracket" aria-hidden="true">
@@ -234,6 +235,7 @@
       <h1>Settle The Debate</h1>
       <div class="tagline">64 songs. 4 regions. One takes the crown.</div>
       <div class="subline">Build your bracket, crown a champion, and see how your picks stack up against the crowd.</div>
+      <a class="hero-cta" href="#tournaments">🏆 Pick Your Tournament</a>
     </header>
 
     <section class="whats-new">
@@ -254,7 +256,7 @@
       </div>
     </section>
 
-    <div class="pick-label">Choose your tournament</div>
+    <div class="pick-label" id="tournaments">Choose your tournament</div>
 
     <div class="search-wrap">
       <input id="bracket-search" type="search" autocomplete="off" placeholder="Filter bands…" aria-label="Filter bands">
