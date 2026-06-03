@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stones Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a The Rolling Stones fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Stones Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/stones/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stones Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_stones.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">The Rolling Stones</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Stones bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "The Rolling Stones formed in 1962 in which city?", "a": ["London", "Liverpool", "Manchester", "Birmingham"], "e": "<b>London</b>."}, {"q": "The Rolling Stones' lead singer is?", "a": ["Mick Jagger", "Keith Richards", "Brian Jones", "Ronnie Wood"], "e": "<b>Mick Jagger</b>."}, {"q": "The Stones' riff-driving guitarist and co-founder is?", "a": ["Keith Richards", "Ronnie Wood", "Mick Taylor", "Bill Wyman"], "e": "<b>Keith Richards</b>."}, {"q": "The Rolling Stones' drummer from 1963 to 2021 was?", "a": ["Charlie Watts", "Steve Jordan", "Bill Wyman", "Mick Taylor"], "e": "<b>Charlie Watts</b>."}, {"q": "Which guitarist joined the Stones in 1975 (from Faces)?", "a": ["Ronnie Wood", "Mick Taylor", "Brian Jones", "Keith Richards"], "e": "<b>Ronnie Wood</b>."}, {"q": "The Stones' famous logo depicts a?", "a": ["Tongue and lips", "Skull", "Lightning bolt", "Crown"], "e": "the <b>'tongue and lips.'</b>"}, {"q": "'(I Can't Get No) Satisfaction' was a breakthrough hit in which year?", "a": ["1965", "1969", "1962", "1971"], "e": "<b>1965</b>."}, {"q": "The Stones founder who died in 1969 was?", "a": ["Brian Jones", "Charlie Watts", "Ian Stewart", "Mick Taylor"], "e": "<b>Brian Jones</b>."}, {"q": "'Brown Sugar' and 'Wild Horses' are from which 1971 album?", "a": ["Sticky Fingers", "Exile on Main St.", "Let It Bleed", "Goats Head Soup"], "e": "<b>Sticky Fingers</b>."}, {"q": "The Stones' acclaimed 1972 double album was?", "a": ["Exile on Main St.", "Sticky Fingers", "Let It Bleed", "Some Girls"], "e": "<b>Exile on Main St.</b>."}, {"q": "'Sympathy for the Devil' is from which 1968 album?", "a": ["Beggars Banquet", "Let It Bleed", "Aftermath", "Sticky Fingers"], "e": "<b>Beggars Banquet</b>."}, {"q": "The Stones' 2023 album, their first originals since 2005, was?", "a": ["Hackney Diamonds", "Blue & Lonesome", "A Bigger Bang", "Steel Wheels"], "e": "<b>Hackney Diamonds</b>."}, {"q": "The Stones' bassist who left in 1993 was?", "a": ["Bill Wyman", "Ronnie Wood", "Mick Taylor", "Charlie Watts"], "e": "<b>Bill Wyman</b>."}, {"q": "'Angie' is from which 1973 album?", "a": ["Goats Head Soup", "Exile on Main St.", "Sticky Fingers", "It's Only Rock 'n Roll"], "e": "<b>Goats Head Soup</b>."}, {"q": "The notorious 1969 free concert with a fatal stabbing was at?", "a": ["Altamont", "Hyde Park", "Woodstock", "Wembley"], "e": "<b>Altamont</b>."}, {"q": "The Rolling Stones were inducted into the Rock & Roll Hall of Fame in?", "a": ["1989", "1995", "1980", "2000"], "e": "<b>1989</b>."}, {"q": "'Gimme Shelter' opens which 1969 album?", "a": ["Let It Bleed", "Beggars Banquet", "Sticky Fingers", "Aftermath"], "e": "<b>Let It Bleed</b>."}, {"q": "The Stones' songs are credited to which songwriting team?", "a": ["Jagger/Richards", "Jagger/Jones", "Richards/Watts", "Jagger/Wood"], "e": "<b>Jagger/Richards</b>."}, {"q": "Charlie Watts died in which year?", "a": ["2021", "2019", "2023", "2016"], "e": "<b>2021</b>."}, {"q": "'Start Me Up' is from which 1981 album?", "a": ["Tattoo You", "Some Girls", "Emotional Rescue", "Undercover"], "e": "<b>Tattoo You</b>."}, {"q": "'Miss You' is from which 1978 album?", "a": ["Some Girls", "Tattoo You", "Black and Blue", "Emotional Rescue"], "e": "<b>Some Girls</b>."}, {"q": "Who replaced Charlie Watts on drums?", "a": ["Steve Jordan", "Chad Smith", "Jim Keltner", "Bill Bruford"], "e": "<b>Steve Jordan</b>."}, {"q": "The Stones' guitarist from 1969 to 1974 (between Jones and Wood) was?", "a": ["Mick Taylor", "Ronnie Wood", "Ian Stewart", "Bill Wyman"], "e": "<b>Mick Taylor</b>."}, {"q": "The Stones took their name from a song by which blues legend?", "a": ["Muddy Waters", "Howlin' Wolf", "B.B. King", "Robert Johnson"], "e": "<b>Muddy Waters</b> ('Rollin' Stone')."}, {"q": "'You Can't Always Get What You Want' is from which album?", "a": ["Let It Bleed", "Sticky Fingers", "Beggars Banquet", "Exile on Main St."], "e": "<b>Let It Bleed</b>."}, {"q": "Mick Jagger received which honour in 2003?", "a": ["Knighthood", "An Oscar", "A Nobel", "A peerage"], "e": "a <b>knighthood</b> — Sir Mick."}, {"q": "'Honky Tonk Women' was a hit single in which year?", "a": ["1969", "1965", "1972", "1978"], "e": "<b>1969</b>."}, {"q": "'Jumpin' Jack Flash' was a hit in which year?", "a": ["1968", "1965", "1971", "1974"], "e": "<b>1968</b>."}, {"q": "Hackney Diamonds (2023) was produced by?", "a": ["Andrew Watt", "Don Was", "Jimmy Miller", "Glyn Johns"], "e": "<b>Andrew Watt</b>."}, {"q": "'Tumbling Dice' is from which album?", "a": ["Exile on Main St.", "Sticky Fingers", "Some Girls", "Goats Head Soup"], "e": "<b>Exile on Main St.</b>."}, {"q": "'Ruby Tuesday' was a hit in which year?", "a": ["1967", "1964", "1971", "1969"], "e": "<b>1967</b>."}, {"q": "The Stones' early style was rooted in American?", "a": ["Blues", "Country", "Jazz", "Soul"], "e": "<b>blues</b> (Chicago blues / R&B)."}, {"q": "Keith Richards' 2010 memoir was titled?", "a": ["Life", "Stone Me", "Satisfaction", "Exile"], "e": "<b>Life</b>."}, {"q": "'Beast of Burden' is from which 1978 album?", "a": ["Some Girls", "Tattoo You", "Black and Blue", "Emotional Rescue"], "e": "<b>Some Girls</b>."}, {"q": "'Wild Horses' is from which 1971 album?", "a": ["Sticky Fingers", "Exile on Main St.", "Let It Bleed", "Goats Head Soup"], "e": "<b>Sticky Fingers</b>."}, {"q": "The Stones are often billed as 'The World's Greatest ___ Band.'", "a": ["Rock and Roll", "Blues", "Touring", "Live"], "e": "<b>Rock and Roll</b> Band."}, {"q": "The Stones' 1989 comeback album was?", "a": ["Steel Wheels", "Voodoo Lounge", "Bridges to Babylon", "Dirty Work"], "e": "<b>Steel Wheels</b>."}, {"q": "Bill Wyman's role in the band was?", "a": ["Bassist", "Drummer", "Keyboardist", "Saxophonist"], "e": "<b>bassist</b>."}, {"q": "'It's Only Rock 'n Roll (But I Like It)' came out in which year?", "a": ["1974", "1971", "1978", "1969"], "e": "<b>1974</b>."}, {"q": "The Stones' label, founded in 1971, was?", "a": ["Rolling Stones Records", "Apple", "Swan Song", "Decca"], "e": "<b>Rolling Stones Records</b>."}, {"q": "'Paint It Black' (1966) prominently features which instrument played by Brian Jones?", "a": ["Sitar", "Banjo", "Harpsichord", "Cello"], "e": "<b>sitar</b>."}, {"q": "The Stones' early hit 'Satisfaction' famously opens with a riff played on?", "a": ["A fuzz-toned guitar", "A piano", "A saxophone", "A harmonica"], "e": "a fuzz-toned <b>guitar</b> (Keith Richards)."}, {"q": "'Emotional Rescue' was released in which year?", "a": ["1980", "1976", "1983", "1978"], "e": "<b>1980</b>."}, {"q": "The Stones' 2016 album of blues covers was?", "a": ["Blue & Lonesome", "A Bigger Bang", "Some Girls", "Stripped"], "e": "<b>Blue & Lonesome</b>."}, {"q": "Brian Jones died by drowning in his?", "a": ["Swimming pool", "Bathtub", "Car", "Boat"], "e": "<b>swimming pool</b> (1969)."}, {"q": "'Suck My Kiss'... wait — 'Sympathy for the Devil' is narrated from the viewpoint of?", "a": ["The Devil", "A soldier", "A king", "A gambler"], "e": "<b>the Devil</b> / Lucifer."}, {"q": "Mick Jagger and Keith Richards' production alias was the?", "a": ["Glimmer Twins", "Terrible Twins", "Stone Brothers", "Devil's Pair"], "e": "the <b>Glimmer Twins</b>."}, {"q": "The Stones' early manager who crafted their 'bad boy' image was?", "a": ["Andrew Loog Oldham", "Brian Epstein", "Allen Klein", "Peter Grant"], "e": "<b>Andrew Loog Oldham</b>."}, {"q": "The Sticky Fingers cover, designed by Andy Warhol, featured a working?", "a": ["Zipper", "Lightbulb", "Mirror", "Window"], "e": "a real <b>zipper</b>."}, {"q": "Hackney Diamonds features a guest appearance by former Stones bassist?", "a": ["Bill Wyman", "Mick Taylor", "Ian Stewart", "Ronnie Lane"], "e": "<b>Bill Wyman</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "The Stones took their name from the Muddy Waters song?", "a": ["Rollin' Stone", "Mannish Boy", "Hoochie Coochie Man", "I'm Ready"], "e": "<b>'Rollin' Stone.'</b>"}, {"q": "The pianist/founder demoted to road manager and session player was?", "a": ["Ian Stewart", "Nicky Hopkins", "Chuck Leavell", "Jack Nitzsche"], "e": "<b>Ian Stewart</b>."}, {"q": "Brian Jones drowned at Cotchford Farm, formerly the home of which author?", "a": ["A.A. Milne", "Roald Dahl", "C.S. Lewis", "Rudyard Kipling"], "e": "<b>A.A. Milne</b> (Winnie-the-Pooh)."}, {"q": "The Maysles brothers' documentary capturing the Altamont tragedy was?", "a": ["Gimme Shelter", "Cocksucker Blues", "Shine a Light", "Sympathy for the Devil"], "e": "<b>Gimme Shelter</b> (1970)."}, {"q": "Ronnie Wood joined the Stones from which band?", "a": ["Faces", "The Kinks", "The Who", "Small Faces only"], "e": "<b>Faces</b> (and the Jeff Beck Group)."}, {"q": "The tongue-and-lips logo was designed in 1970 by?", "a": ["John Pasche", "Andy Warhol", "Peter Blake", "Robert Frank"], "e": "<b>John Pasche</b>."}, {"q": "Exile on Main St. (1972) was largely recorded in a villa (Nellcôte) in?", "a": ["The south of France", "Jamaica", "Los Angeles", "Switzerland"], "e": "the <b>south of France</b> (Keith's villa)."}, {"q": "Charlie Watts' musical background, before rock, was mainly in?", "a": ["Jazz", "Classical", "Folk", "Country"], "e": "<b>jazz</b> (he also worked in graphic design)."}, {"q": "'Gimme Shelter' features a soaring guest vocal by?", "a": ["Merry Clayton", "Darlene Love", "Lisa Fischer", "Bonnie Bramlett"], "e": "<b>Merry Clayton</b>."}, {"q": "Marianne Faithfull's 1964 hit, written by Jagger/Richards, was?", "a": ["As Tears Go By", "Sister Morphine", "Ruby Tuesday", "Wild Horses"], "e": "<b>As Tears Go By</b>."}, {"q": "The Stones' 1967 psychedelic album was?", "a": ["Their Satanic Majesties Request", "Aftermath", "Between the Buttons", "Beggars Banquet"], "e": "<b>Their Satanic Majesties Request</b>."}, {"q": "Keith Richards' signature riffs often use which guitar tuning?", "a": ["Open G (5-string)", "Drop D", "Open E", "Standard only"], "e": "<b>open G</b> on a 5-string."}, {"q": "Steve Jordan was personally chosen to succeed Charlie Watts by?", "a": ["Watts himself", "Mick Jagger", "Andrew Watt", "Don Was"], "e": "<b>Charlie Watts</b> himself."}, {"q": "The Stones' first US #1 album (1965) was?", "a": ["Out of Our Heads", "Aftermath", "December's Children", "12 X 5"], "e": "<b>Out of Our Heads</b>."}, {"q": "Mick Jagger briefly studied at which institution before fame?", "a": ["The London School of Economics", "Oxford", "Cambridge", "The Royal Academy"], "e": "the <b>London School of Economics</b>."}, {"q": "'Wild Horses' was first released (1970) by which other band?", "a": ["The Flying Burrito Brothers", "The Byrds", "Gram Parsons solo", "Poco"], "e": "<b>The Flying Burrito Brothers</b>."}, {"q": "The Some Girls (1978) cover drew lawsuits for unlicensed images of?", "a": ["Celebrities (e.g., Lucille Ball)", "Politicians", "Royals", "Athletes"], "e": "<b>celebrities</b> like Lucille Ball."}, {"q": "'Miss You' (1978) notably absorbed the influence of which genre?", "a": ["Disco", "Reggae", "Punk", "Funk-metal"], "e": "<b>disco</b>."}, {"q": "The Stones' longtime touring keyboardist since 1982 (ex-Allman Brothers) is?", "a": ["Chuck Leavell", "Nicky Hopkins", "Billy Preston", "Ian McLagan"], "e": "<b>Chuck Leavell</b>."}, {"q": "Tattoo You (1981) was assembled largely from?", "a": ["Outtakes from earlier sessions", "Live recordings", "Brand-new jams", "Cover songs"], "e": "<b>outtakes</b>."}, {"q": "Mick Jagger's film acting debut (1970) was in?", "a": ["Performance", "Ned Kelly", "Freejack", "Gimme Shelter"], "e": "<b>Performance</b>."}, {"q": "Keith Richards' late-1980s solo side band was the?", "a": ["X-Pensive Winos", "Glimmer Twins", "New Barbarians", "Dirty Macs"], "e": "<b>X-Pensive Winos</b>."}, {"q": "Mick Taylor left the Rolling Stones in which year?", "a": ["1974", "1969", "1978", "1971"], "e": "<b>1974</b>."}, {"q": "Some Girls is generally cited as the Stones' best-selling studio album in the?", "a": ["United States", "UK", "Japan", "Germany"], "e": "<b>United States</b>."}, {"q": "'Start Me Up' began life in the late '70s as a?", "a": ["Reggae-style song", "Ballad", "Disco track", "Instrumental"], "e": "a <b>reggae</b>-flavoured song."}, {"q": "Brian Jones was found dead in his pool less than a month after the band?", "a": ["Fired him", "Toured Japan", "Released Let It Bleed", "Played Hyde Park"], "e": "<b>fired him</b> (1969)."}, {"q": "The Stones' 1968 TV special, shelved for decades, was titled?", "a": ["The Rolling Stones Rock and Roll Circus", "Cocksucker Blues", "Ladies & Gentlemen", "Shine a Light"], "e": "<b>...Rock and Roll Circus</b>."}, {"q": "Anita Pallenberg was romantically linked first to Brian Jones and then to?", "a": ["Keith Richards", "Mick Jagger", "Bill Wyman", "Mick Taylor"], "e": "<b>Keith Richards</b>."}, {"q": "Keith Richards suffered a serious 2006 head injury after falling from a?", "a": ["Tree (in Fiji)", "Stage", "Ladder", "Boat"], "e": "a <b>tree</b> in Fiji."}, {"q": "The Stones' free 1969 Hyde Park concert, days after Brian Jones' death, released thousands of?", "a": ["Butterflies", "Doves", "Balloons", "Lanterns"], "e": "<b>butterflies</b>."}, {"q": "Hackney Diamonds (2023) was the band's first album since which 2005 record?", "a": ["A Bigger Bang", "Bridges to Babylon", "Voodoo Lounge", "Steel Wheels"], "e": "<b>A Bigger Bang</b>."}, {"q": "The Stones signed to which label in 1963?", "a": ["Decca", "EMI", "Chess", "Atlantic"], "e": "<b>Decca</b>."}, {"q": "'Sympathy for the Devil' was recorded during sessions for which 1968 album?", "a": ["Beggars Banquet", "Let It Bleed", "Aftermath", "Their Satanic Majesties Request"], "e": "<b>Beggars Banquet</b>."}, {"q": "The Stones' saxophonist and close friend of Keith Richards was?", "a": ["Bobby Keys", "Clarence Clemons", "Andrew Watt", "Ian McLagan"], "e": "<b>Bobby Keys</b>."}, {"q": "'Beggars Banquet' (1968) marked a return to roots after which experimental album?", "a": ["Their Satanic Majesties Request", "Aftermath", "Between the Buttons", "December's Children"], "e": "<b>Their Satanic Majesties Request</b>."}, {"q": "Aftermath (1966) was notable as the first Stones album made up entirely of?", "a": ["Jagger/Richards originals", "Blues covers", "Live tracks", "Instrumentals"], "e": "<b>Jagger/Richards originals</b>."}, {"q": "'Brown Sugar' was the lead single from which album?", "a": ["Sticky Fingers", "Exile on Main St.", "Let It Bleed", "Goats Head Soup"], "e": "<b>Sticky Fingers</b>."}, {"q": "The Stones' 1972 American tour was infamous for its?", "a": ["Excess and chaos (the 'STP' tour)", "Cancellations", "Acoustic sets", "Symphony backing"], "e": "<b>excess</b> — the 'STP' tour."}, {"q": "Charlie Watts died at what age?", "a": ["80", "72", "75", "85"], "e": "<b>80</b>."}, {"q": "Hackney Diamonds guests included Lady Gaga, Stevie Wonder, Elton John and?", "a": ["Paul McCartney", "Bob Dylan", "Bruce Springsteen", "Eric Clapton"], "e": "<b>Paul McCartney</b> (on bass)."}, {"q": "Keith Richards and Ronnie Wood are jokingly called the band's?", "a": ["Front line / 'ancient art of weaving' guitars", "Rhythm section", "Horn section", "Glimmer Twins"], "e": "the guitar weave — the <b>'ancient art of weaving.'</b>"}, {"q": "The Stones' 1995 mostly-acoustic live album was?", "a": ["Stripped", "Flashpoint", "Love You Live", "Get Yer Ya-Ya's Out!"], "e": "<b>Stripped</b>."}, {"q": "'Gimme Shelter' (the song) was written against the backdrop of which era's turmoil?", "a": ["The late-1960s (Vietnam era)", "The 1950s", "The 1980s", "The 1940s"], "e": "the <b>late 1960s</b>."}, {"q": "Voodoo Lounge (1994) was the first Stones studio album without?", "a": ["Bill Wyman", "Charlie Watts", "Ronnie Wood", "Mick Taylor"], "e": "<b>Bill Wyman</b> (he'd left in 1993)."}, {"q": "The Stones' 1970 live album from the 1969 US tour was?", "a": ["Get Yer Ya-Ya's Out!", "Love You Live", "Still Life", "Flashpoint"], "e": "<b>Get Yer Ya-Ya's Out!</b>."}, {"q": "Jagger and Richards first bonded as boys over a shared love of?", "a": ["American blues/R&B records", "Football", "Jazz", "Skiffle only"], "e": "<b>American blues and R&B records</b>."}, {"q": "Mick Jagger's 1980s solo feud with Keith Richards nearly ended the band before which 1989 reunion album?", "a": ["Steel Wheels", "Dirty Work", "Voodoo Lounge", "Undercover"], "e": "<b>Steel Wheels</b>."}, {"q": "The Stones backing vocalist famous for the 'Gimme Shelter' duet on later tours was?", "a": ["Lisa Fischer", "Merry Clayton", "Darlene Love", "Claudia Lennear"], "e": "<b>Lisa Fischer</b>."}, {"q": "Brian Jones contributed the marimba/dulcimer-style textures on early albums, reflecting his role as a?", "a": ["Multi-instrumentalist", "Lead vocalist", "Drummer", "Producer"], "e": "a <b>multi-instrumentalist</b>."}, {"q": "The Stones' Andrew Watt-produced Hackney Diamonds debuted strongly worldwide in?", "a": ["2023", "2021", "2019", "2024"], "e": "<b>2023</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Glimmer Twin", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Exile Devotee", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Tongue & Lips Regular", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Singalong", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a The Rolling Stones fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Stones Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/stones/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Stones champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Stones Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
