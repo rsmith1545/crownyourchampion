@@ -3201,6 +3201,11 @@ function printConcert() {
             <hr class="div-double">
             ${namesHtml}
         </div>
+        <div class="cyc-postbar" style="position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;z-index:9;">
+            <button onclick="try{window.close();}catch(e){};setTimeout(function(){location.href='${location.href}';},200);" style="background:#15151d;color:#f0c75e;border:1px solid #c5a059;padding:10px 18px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.05em;cursor:pointer;">\u2190 Back to Bracket</button>
+            <button onclick="window.print();" style="background:linear-gradient(180deg,#f0c75e,#d99a1e);color:#1a1206;border:none;padding:10px 18px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;cursor:pointer;">\ud83d\udda8 Print / Save PDF</button>
+        </div>
+        <style>@media print{.cyc-postbar{display:none!important;}}</style>
         <script>window.onload = () => { window.print(); }<\/script>
           
   
