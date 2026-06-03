@@ -469,8 +469,8 @@
       if (band.length < 2){ msg.className='req-msg err'; msg.textContent='Type an artist name first.'; return; }
       brBtn.disabled = true; const lbl = brBtn.textContent; brBtn.textContent = 'Sending…';
       try { localStorage.setItem('cyc-band-req', band); } catch(e){}
-      const write = db ? addDoc(collection(db,'hub_signups'), {
-        band, source:'band_request', created_at:serverTimestamp()
+      const write = db ? addDoc(collection(db,'band_requests'), {
+        band, created_at:serverTimestamp()
       }) : Promise.resolve();
       try { await Promise.race([ write, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000)) ]); }
       catch(e){ console.warn('band req', e); }
