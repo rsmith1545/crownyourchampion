@@ -18,8 +18,8 @@
   <meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
 <meta name="description" content="Settle the debate. Interactive 64-song bracket tournaments for the bands you love — one song takes the crown.">
 <link rel="manifest" href="./manifest_hub.json">
-<meta name="theme-color" content="#003f88">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -75,6 +75,11 @@
   .whats-new .wn-more{color:var(--muted); font-size:14px; margin-top:12px; border-top:1px solid var(--line); padding-top:11px;}
   .whats-new .wn-more b{color:var(--gold-soft);}
   @media (max-width:600px){ .whats-new{padding:18px 18px;} }
+  .get-app .ga-steps{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-top:16px;}
+  .get-app .ga-step{background:rgba(0,0,0,.28); border:1px solid var(--line); border-radius:11px; padding:13px 15px; font-size:14.5px; color:var(--text); line-height:1.45;}
+  .get-app .ga-step .ga-dev{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12px; color:var(--gold); margin-bottom:6px;}
+  .get-app .ga-step b{color:var(--gold-soft);}
+  @media (max-width:680px){ .get-app .ga-steps{grid-template-columns:1fr;} }
 
   /* ── TILES ── */
   .pick-label{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.28em;
@@ -221,7 +226,18 @@
       <span class="wn-pill">✨ New Feature</span>
       <h2>🎵 My Concert — build your bracket from a show you were at</h2>
       <p>Open any tournament, hit <b>🎵 My Concert</b>, and search a show you attended. We pull the real setlist from setlist.fm, fill your bracket with the songs played that night, light them up gold across the bracket, and show you the full setlist alongside. Your night, your champion.</p>
-      <div class="wn-more">Also new: <b>🏆 Crowd's Picks</b> decides every matchup by what fans actually vote, and you can now <b>📲 install it as an app</b> — add Crown Your Champion to your home screen for full-screen, offline play.</div>
+      <div class="wn-more">Also new: <b>🏆 Crowd's Picks</b> now decides every matchup by what fans actually vote — real wisdom of the crowd.</div>
+    </section>
+
+    <section class="whats-new get-app">
+      <span class="wn-pill">📲 Now Installable</span>
+      <h2>Add Crown Your Champion to your home screen</h2>
+      <p>It installs like a real app — full-screen, no browser bar, even works offline. No app store, no download, totally free.</p>
+      <div class="ga-steps">
+        <div class="ga-step"><div class="ga-dev">📱 iPhone · Safari</div>Tap the <b>Share</b> button, then <b>Add to Home Screen</b>.</div>
+        <div class="ga-step"><div class="ga-dev">🤖 Android · Chrome</div>Tap the <b>⋮</b> menu, then <b>Install app</b> (or "Add to Home screen").</div>
+        <div class="ga-step"><div class="ga-dev">💻 Computer · Chrome/Edge</div>Click the <b>install icon</b> in the address bar.</div>
+      </div>
     </section>
 
     <div class="pick-label">Choose your tournament</div>
