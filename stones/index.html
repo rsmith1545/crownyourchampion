@@ -664,7 +664,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v31';
+                content: '⇄ swipe to see all rounds · v32';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -682,6 +682,12 @@
             .round-col { min-width: 100px; }
             .bracket-row .round-col:first-child { min-width: 120px; }
             .slot { font-size: 10.5px; min-height: 28px; }
+            .brand-logo { height: clamp(42px, 12vw, 62px) !important; }
+            .mode-btn { font-size: 9.5px; padding: 5px 9px; letter-spacing: .8px; }
+            .mode-bar { padding: 8px 12px; gap: 6px; }
+            .site-header { padding: 11px 14px; }
+            .site-header .subtitle { font-size: 10.5px; }
+            .header-tagline { font-size: 11px; }
         }
 
         /* SHARE MODAL */
@@ -1393,7 +1399,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v31</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v32</div>
         <div class="header-tagline">Settle the debate: the greatest Rolling Stones song ever</div>
     </div>
     <div class="header-actions">
@@ -3577,7 +3583,7 @@ updateProgress();
 (function(){
   if(window.__cycTabBar) return; window.__cycTabBar=1;
   function isMobile(){ try{return window.matchMedia('(max-width: 900px)').matches;}catch(e){return window.innerWidth<=900;} }
-  function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open'); }
+  function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open, .concert-mode-overlay.open, .concert-modal-overlay.open, .fav-modal-overlay.open'); }
   function init(){
     if(document.getElementById('cycTabBar')) return;
     var old=document.getElementById('cycJumpBtn'); if(old) old.remove();
@@ -3807,7 +3813,7 @@ updateProgress();
       "#cycSetlistBackdrop.open{opacity:1;visibility:visible;}"+
       "#cycSetlistPanel{position:fixed;left:0;top:0;bottom:0;width:min(340px,87vw);z-index:1001;background:#0b1422;border-right:2px solid var(--dmb-gold);box-shadow:4px 0 26px rgba(0,0,0,.55);transform:translateX(-100%);transition:transform .28s ease;overflow-y:auto;font-family:'Barlow Condensed',sans-serif;}"+
       "#cycSetlistPanel.open{transform:translateX(0);}"+
-      ".cyc-sl-head{position:sticky;top:0;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);border-bottom:1px solid var(--dmb-gold);padding:16px 18px;}"+
+      ".cyc-sl-head{position:sticky;top:0;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);border-bottom:1px solid var(--dmb-gold);padding:16px 18px;padding-top:calc(16px + env(safe-area-inset-top,0px));}"+
       ".cyc-sl-head .t{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;color:var(--dmb-gold);font-size:23px;line-height:1;}"+
       ".cyc-sl-head .s{color:#cdd6e6;font-size:13px;margin-top:4px;letter-spacing:.4px;}"+
       ".cyc-sl-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#cdd6e6;font-size:24px;cursor:pointer;line-height:1;}"+
@@ -3851,7 +3857,7 @@ updateProgress();
       tab.style.display = data ? 'block' : 'none';
     }
   }
-  function openP(){ isOpen=true; applyState(); }
+  function openP(){ isOpen=true; applyState(); var sp=document.getElementById('cycSetlistPanel'); if(sp) sp.scrollTop=0; }
   function closeP(){ isOpen=false; applyState(); }
   function init(){
     ensureUI();
