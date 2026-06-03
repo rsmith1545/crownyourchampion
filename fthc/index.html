@@ -3072,6 +3072,26 @@ function renderConcertResults(setlists) {
     });
 }
 
+function songInSetlist(setlist, songName) {
+    try {
+        var want = String(songName).toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (!want) return null;
+        var sets = (setlist.sets && setlist.sets.set) || [];
+        var total = 0, hit = false;
+        for (var i = 0; i < sets.length; i++) {
+            var songs = sets[i].song || [];
+            for (var k = 0; k < songs.length; k++) {
+                var n = String(songs[k].name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                if (!n) continue;
+                total++;
+                if (n === want || n.indexOf(want) !== -1 || want.indexOf(n) !== -1) hit = true;
+            }
+        }
+        if (total === 0) return null;  // no setlist data
+        return hit;
+    } catch (e) { return null; }
+}
+
 function selectConcert(setlist, el, date, venue, city) {
     document.querySelectorAll('.cm-result').forEach(r => r.classList.remove('selected'));
     el.classList.add('selected');
@@ -3086,8 +3106,18 @@ function selectConcert(setlist, el, date, venue, city) {
     // Show print button
     document.getElementById('concertPrintBtn').style.display = 'inline-block';
 
-    document.getElementById('concertStatus').className = 'cm-status';
-    document.getElementById('concertStatus').innerText = '✓ Show selected — add names or print now';
+    var played = songInSetlist(setlist, currentChampSong);
+    var stEl = document.getElementById('concertStatus');
+    if (played === true) {
+        stEl.className = 'cm-status';
+        stEl.innerText = '✓ ' + currentChampSong + ' was played at this show! Add names or print.';
+    } else if (played === false) {
+        stEl.className = 'cm-status error';
+        stEl.innerText = '⚠️ ' + currentChampSong + ' isn\'t on this show\'s setlist (setlist.fm can be incomplete) — you can still print.';
+    } else {
+        stEl.className = 'cm-status';
+        stEl.innerText = '✓ Show selected — setlist details unavailable. Add names or print.';
+    }
 }
 
 function updateConcertPreview() {
