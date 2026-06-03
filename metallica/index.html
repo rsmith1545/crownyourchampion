@@ -664,7 +664,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v32';
+                content: '⇄ swipe to see all rounds · v33';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -809,7 +809,7 @@
             border: 1px solid var(--dmb-border);
             border-radius: 3px;
             padding: 10px 12px;
-            font-size: 14px;
+            font-size: 16px;
             color: var(--dmb-text);
             font-family: 'Barlow', sans-serif;
             outline: none;
@@ -921,7 +921,7 @@
             border: 1px solid var(--dmb-border);
             border-radius: 3px;
             padding: 9px 12px;
-            font-size: 13px;
+            font-size: 16px;
             color: var(--dmb-text);
             font-family: 'Barlow Condensed', sans-serif;
             outline: none;
@@ -1221,7 +1221,7 @@
             border: 1px solid var(--dmb-border);
             border-radius: 3px;
             padding: 9px 12px;
-            font-size: 13px;
+            font-size: 16px;
             color: var(--dmb-text);
             outline: none;
             margin-bottom: 10px;
@@ -1399,7 +1399,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v32</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v33</div>
         <div class="header-tagline">Settle the debate: the greatest Metallica song ever</div>
     </div>
     <div class="header-actions">
@@ -3857,7 +3857,7 @@ updateProgress();
       tab.style.display = data ? 'block' : 'none';
     }
   }
-  function openP(){ isOpen=true; applyState(); var sp=document.getElementById('cycSetlistPanel'); if(sp) sp.scrollTop=0; }
+  function openP(){ isOpen=true; applyState(); var sp=document.getElementById('cycSetlistPanel'); if(sp){ sp.scrollTop=0; requestAnimationFrame(function(){ sp.scrollTop=0; }); setTimeout(function(){ sp.scrollTop=0; }, 380); } }
   function closeP(){ isOpen=false; applyState(); }
   function init(){
     ensureUI();
