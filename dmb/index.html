@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v11';
+                content: '⇄ swipe to see all rounds · v12';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -721,7 +721,7 @@
             border-top: 4px solid var(--dmb-gold);
             border-radius: 6px;
             padding: 32px 28px;
-            max-width: 440px;
+            max-width: 480px;
             width: 92%;
             text-align: center;
             animation: slideUp 0.4s ease;
@@ -731,26 +731,27 @@
             to   { opacity: 1; transform: translateY(0); }
         }
         .email-modal .trophy-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
+            width: 96px;
+            height: auto;
+            margin: 0 auto 14px;
             display: block;
         }
         .email-modal .em-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
+            font-size: 34px;
             letter-spacing: 3px;
             color: var(--dmb-gold);
             margin-bottom: 4px;
         }
         .email-modal .em-champ {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
+            font-size: 32px;
             color: #fff;
             margin-bottom: 12px;
             letter-spacing: 2px;
         }
         .email-modal .em-desc {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--dmb-muted);
             line-height: 1.6;
             margin-bottom: 20px;
@@ -1346,7 +1347,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v12</div>
         <div class="header-tagline">Settle the debate: the greatest DMB song ever</div>
     </div>
     <div class="header-actions">
@@ -1670,7 +1671,7 @@
 <!-- EMAIL MODAL -->
 <div class="email-modal-overlay" id="emailModal">
     <div class="email-modal">
-        <span class="trophy-icon">🏆</span>
+        <img class="trophy-icon" src="crown.png" alt="Champion crown">
         <div class="em-title">Champion Crowned!</div>
         <div class="em-champ" id="emailModalChamp"></div>
         <div class="em-desc">
@@ -3628,18 +3629,24 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycChampUX v3 — large green/gold header champion box (after submit) + dark scrim on the celebration flash (champion kept separate). Self-contained. */
+/* cycChampUX v4 — big green/gold header champion box (full banner wording, branded crown) + branded crown in celebration flash + hides redundant green banner. Self-contained. */
 (function(){
   if(window.__cycChampUX) return; window.__cycChampUX=1;
   function champName(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
   function share(){ try{ if(window.openShare) window.openShare(); }catch(e){} }
+  function bannerLabel(){ var b=document.querySelector('#champBanner .champ-label'); return b?b.textContent.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,'').trim():'Your Champion'; }
+  function bannerSub(){ var b=document.querySelector('#champBanner .champ-sub'); return b?b.textContent.trim():'Crown Your Champion · All-Time Greatest Song'; }
   if(!document.getElementById('cycChampCss')){
     var st=document.createElement('style'); st.id='cycChampCss';
-    st.textContent='#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,.86) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.66) 100%);}'+
+    st.textContent='#champBanner{display:none !important;}'+
+      '#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,.86) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.66) 100%);}'+
       '#cycCelebScrim.show{display:block;animation:cycScrimFade 5.8s ease forwards;}'+
-      '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}';
+      '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}'+
+      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(32px,6.5vw,66px);color:#fff;line-height:1.04;margin-top:12px;text-shadow:0 2px 22px rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;gap:14px;}'+
+      '.celebrate-text .ct-champ img{height:.82em;width:auto;}';
     document.head.appendChild(st);
   }
+  (function(){ var ov=document.getElementById('celebrateText'); if(ov && !document.getElementById('ctChamp')){ var d=document.createElement('div'); d.className='ct-champ'; d.id='ctChamp'; ov.appendChild(d); } })();
   if(!document.getElementById('cycCelebScrim')){ var sc=document.createElement('div'); sc.id='cycCelebScrim'; document.body.appendChild(sc); }
   function addMobileShare(){
     var crown=document.getElementById('crownBtn');
@@ -3653,11 +3660,13 @@ updateProgress();
     var hdr=document.querySelector('.site-header'), actions=hdr&&hdr.querySelector('.header-actions');
     if(hdr && actions && !document.getElementById('cycHdrChamp')){
       var c=document.createElement('div'); c.id='cycHdrChamp'; c.title='Share your champion'; c.onclick=share;
-      c.style.cssText='display:none;flex:1 1 auto;align-items:center;justify-content:center;gap:20px;margin:0 34px;padding:16px 30px;min-height:96px;box-sizing:border-box;border:2px solid var(--dmb-gold);border-radius:11px;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);';
-      c.innerHTML='<span style="font-size:50px;line-height:1">👑</span>'+
-        '<span style="display:flex;flex-direction:column;line-height:1.04">'+
-        '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold);font-size:15px;margin-bottom:2px">Your Champion</span>'+
-        '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1.5px;color:#fff;font-size:clamp(34px,3.6vw,52px);line-height:1"></strong></span>';
+      c.style.cssText='display:none;flex:1 1 auto;flex-direction:column;align-items:center;justify-content:center;gap:3px;margin:0 34px;padding:12px 24px;min-height:104px;box-sizing:border-box;border:2px solid var(--dmb-gold);border-radius:11px;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);';
+      c.innerHTML='<div style="display:flex;align-items:center;gap:10px">'+
+        '<img src="crown.png" alt="" style="height:22px;width:auto">'+
+        '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold);font-size:14px">'+bannerLabel()+'</span>'+
+        '<img src="crown.png" alt="" style="height:22px;width:auto"></div>'+
+        '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1.5px;color:#fff;font-size:clamp(34px,3.4vw,52px);line-height:1"></strong>'+
+        '<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;color:#9c8a5e;letter-spacing:1.5px">'+bannerSub()+'</span>';
       hdr.insertBefore(c, actions);
     }
   }
@@ -3668,7 +3677,9 @@ updateProgress();
     addMobileShare(); addHeaderChip(); showMobShare();
     var _cel=window.celebrate;
     window.celebrate=function(){
-      try{ var s=document.getElementById('cycCelebScrim'); if(s){ s.classList.remove('show'); void s.offsetWidth; s.classList.add('show'); setTimeout(function(){ s.classList.remove('show'); },5900); } }catch(_){}
+      try{ var n=champName(), e=document.getElementById('ctChamp'); if(e) e.innerHTML = n ? ('<img src="crown.png" alt=""> '+n+' <img src="crown.png" alt="">') : '';
+        var s=document.getElementById('cycCelebScrim'); if(s){ s.classList.remove('show'); void s.offsetWidth; s.classList.add('show'); setTimeout(function(){ s.classList.remove('show'); },5900); }
+      }catch(_){}
       return _cel && _cel.apply(this,arguments);
     };
     var _sc=window.submitAndCrown;
