@@ -627,7 +627,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v12';
+                content: '⇄ swipe to see all rounds · v13';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1351,7 +1351,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v12</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v13</div>
         <div class="header-tagline">Settle the debate: the greatest Bruce Springsteen song ever</div>
     </div>
     <div class="header-actions">
@@ -3614,7 +3614,7 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycChampUX v4 — big green/gold header champion box (full banner wording, branded crown) + branded crown in celebration flash + hides redundant green banner. Self-contained. */
+/* cycChampUX v5 — header champion box + branded crown in celebration + auto-open share card after email submit/decline. Self-contained. */
 (function(){
   if(window.__cycChampUX) return; window.__cycChampUX=1;
   function champName(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
@@ -3658,8 +3658,15 @@ updateProgress();
   function showHeaderChamp(){ var name=champName(); if(!name) return; var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName'); if(c&&n){ n.textContent=name; c.style.display=(window.innerWidth>900)?'flex':'none'; } }
   function hideHeaderChamp(){ var c=document.getElementById('cycHdrChamp'); if(c) c.style.display='none'; }
   function showMobShare(){ var b=document.getElementById('cycMobShare'); if(b) b.style.display=(window.innerWidth<=900)?'block':'none'; }
+  function autoShareAfterEmail(){
+    var emailM=document.getElementById('emailModal'), concertM=document.getElementById('concertModal');
+    if(!emailM) return; var armed=false;
+    function openSoon(){ setTimeout(function(){ try{ if(champName() && window.openShare) openShare(); }catch(e){} },500); }
+    function afterEmail(){ if(concertM && concertM.classList.contains('open')){ var mo=new MutationObserver(function(){ if(!concertM.classList.contains('open')){ mo.disconnect(); openSoon(); } }); mo.observe(concertM,{attributes:true,attributeFilter:['class']}); } else { openSoon(); } }
+    new MutationObserver(function(){ var op=emailM.classList.contains('open'); if(op){ armed=true; } else if(armed){ armed=false; afterEmail(); } }).observe(emailM,{attributes:true,attributeFilter:['class']});
+  }
   function init(){
-    addMobileShare(); addHeaderChip(); showMobShare();
+    addMobileShare(); addHeaderChip(); showMobShare(); autoShareAfterEmail();
     var _cel=window.celebrate;
     window.celebrate=function(){
       try{ var n=champName(), e=document.getElementById('ctChamp'); if(e) e.innerHTML = n ? ('<img src="crown.png" alt=""> '+n+' <img src="crown.png" alt="">') : '';
