@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v8';
+                content: '⇄ swipe to see all rounds · v9';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -3634,16 +3634,16 @@ updateProgress();
     }
   }
   function addHeaderChip(){
-    var hdr=document.querySelector('.site-header'), logo=hdr&&hdr.querySelector('.brand-h1');
-    if(hdr && logo && !document.getElementById('cycHdrChamp')){
+    var hdr=document.querySelector('.site-header'), actions=hdr&&hdr.querySelector('.header-actions');
+    if(hdr && actions && !document.getElementById('cycHdrChamp')){
       var c=document.createElement('div'); c.id='cycHdrChamp';
       c.title='Share your champion'; c.onclick=share;
-      c.style.cssText='display:none;align-items:center;gap:10px;margin-left:30px;padding:7px 16px;border:1px solid rgba(197,160,89,0.5);border-radius:7px;background:rgba(197,160,89,0.08);cursor:pointer;';
+      c.style.cssText='display:none;align-items:center;gap:10px;padding:7px 16px;border:1px solid rgba(197,160,89,0.5);border-radius:7px;background:rgba(197,160,89,0.08);cursor:pointer;';
       c.innerHTML='<span style="font-size:24px;line-height:1">👑</span>'+
         '<span style="display:flex;flex-direction:column;line-height:1.05">'+
         '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#9c8a5e;font-size:10px">Your Champion</span>'+
         '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1px;color:#fff;font-size:21px"></strong></span>';
-      logo.parentNode.insertBefore(c, logo.nextSibling);
+      hdr.insertBefore(c, actions);
     }
   }
   function showHeaderChamp(){
