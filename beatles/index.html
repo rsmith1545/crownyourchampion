@@ -42,13 +42,16 @@
 
         // Crowd's Picks data — champion-crowning frequency from the readable leaderboard aggregate (no PII)
         window.getCrowdTally = async function() {
-            const champ = {}; let count = 0;
+            const champ = {}; let count = 0; let matchups = {};
             const SEEDS = window.NAME_SEED || {};
             try {
                 const lb = await getDocs(collection(db, "leaderboard"));
-                lb.forEach(d => { const v = d.data(); if (v && v.name) { champ[v.name] = v.count || 0; if (SEEDS[v.name]) count += (v.count || 0); } });
+                lb.forEach(d => {
+                    if (d.id === 'mv_all') { matchups = (d.data() || {}).mv || {}; return; }
+                    const v = d.data(); if (v && v.name) { champ[v.name] = v.count || 0; if (SEEDS[v.name]) count += (v.count || 0); }
+                });
             } catch (e) { console.warn("crowd tally failed:", e); }
-            return { champ, count };
+            return { champ, matchups, count };
         };
 
         // Save a completed bracket, then bump the crowned champion's tally
@@ -75,6 +78,21 @@
                     } catch(e) { console.warn("leaderboard bump failed:", e); }
                     if (window.loadLeaderboard) window.loadLeaderboard();
                 }
+                // True per-matchup tally — single merge-write, no PII; no `name` field so Most-Crowned ignores it
+                try {
+                    const SAN = s => String(s || '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
+                    const ap = bracketData.allPicks || {};
+                    const m = {};
+                    for (const id in ap) {
+                        if (id === 'f1' || id === 'f2' || id === 'f3' || id === 'f4') continue;
+                        const song = (ap[id] || '').trim(); if (!song) continue;
+                        (m[id] = m[id] || {})[SAN(song)] = increment(1);
+                    }
+                    if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
+                        (m['champion'] = m['champion'] || {})[SAN(champ)] = increment(1);
+                    }
+                    await setDoc(doc(db, "leaderboard", "mv_all"), { mv: m }, { merge: true });
+                } catch(e) { console.warn("matchup tally bump failed:", e); }
                 return { success: true };
             } catch(e) {
                 console.error("Firebase save error:", e);
@@ -640,7 +658,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v15';
+                content: '⇄ swipe to see all rounds · v16';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1364,7 +1382,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v15</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v16</div>
         <div class="header-tagline">Settle the debate: the greatest Beatles song ever</div>
     </div>
     <div class="header-actions">
@@ -1993,24 +2011,30 @@ function applyNumbersMode() {
 // ─── CROWD MODE ───────────────────────────────────────────────────
 async function applyCrowdMode() {
     silentReset();
-    showToast('🏆 Tallying crowd picks…');
+    showToast("🏆 Tallying crowd picks…");
     setTimeout(async () => {
         let data = null;
         if (typeof window.getCrowdTally === 'function') {
             try { data = await window.getCrowdTally(); } catch (e) {}
         }
         const champ = (data && data.champ) ? data.champ : {};
+        const mm = (data && data.matchups) ? data.matchups : {};
         const SEEDS = window.NAME_SEED || {};
-        const hasData = Object.keys(champ).some(k => SEEDS[k] && champ[k] > 0);
-        // Crowd favorites rise by how often fans actually crown them; higher seed fills any song nobody has crowned yet.
-        const scoreFn = (song) => {
+        const SAN = s => String(s || '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
+        const destOf = (slot) => { const r = (slot.getAttribute('onclick') || '').match(/\(this,\s*'([^']+)'\)/); return r ? r[1] : null; };
+        const hasMatchups = Object.keys(mm).length > 0;
+        const hasData = hasMatchups || Object.keys(champ).some(k => SEEDS[k] && champ[k] > 0);
+        // 1) real per-matchup votes decide; 2) champion-crowning frequency bootstraps; 3) higher seed fills the blanks
+        const scoreFn = (song, slot) => {
+            let mv = 0;
+            if (hasMatchups) { const dst = destOf(slot); if (dst && mm[dst]) { const c = mm[dst][SAN(song)]; if (typeof c === 'number') mv = c; } }
             const cf = champ[song] || 0;
             const seed = SEEDS[song] || 16;
-            return cf * 1000 + (17 - seed);
+            return mv * 1e9 + cf * 1e3 + (17 - seed);
         };
         fillEntireBracket(scoreFn, false);
-        if (hasData) showToast('🏆 Crowd\'s Picks — ranked by what fans actually crown!');
-        else showToast('🏆 No crowd data yet — filled by top seeds. Be the first to crown one!');
+        if (hasData) showToast("🏆 Crowd's Picks — decided by real fan votes!");
+        else showToast("🏆 No crowd data yet — filled by top seeds. Be the first!");
     }, 200);
 }
 
