@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chili Peppers Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Red Hot Chili Peppers fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Chili Peppers Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/rhcp/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chili Peppers Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_rhcp.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Red Hot Chili Peppers</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Chili Peppers bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Red Hot Chili Peppers formed in 1983 in which city?", "a": ["Los Angeles", "San Francisco", "New York", "Seattle"], "e": "<b>Los Angeles</b>."}, {"q": "RHCP's lead vocalist is?", "a": ["Anthony Kiedis", "Flea", "Chad Smith", "John Frusciante"], "e": "<b>Anthony Kiedis</b>."}, {"q": "RHCP's slap-style bassist is?", "a": ["Flea", "Chad Smith", "Josh Klinghoffer", "Cliff Martinez"], "e": "<b>Flea</b>."}, {"q": "RHCP's drummer since 1988 is?", "a": ["Chad Smith", "Jack Irons", "Cliff Martinez", "Will Ferrell"], "e": "<b>Chad Smith</b>."}, {"q": "Which guitarist returned to RHCP for a third stint in 2019?", "a": ["John Frusciante", "Josh Klinghoffer", "Dave Navarro", "Hillel Slovak"], "e": "<b>John Frusciante</b>."}, {"q": "RHCP's breakthrough 1991 album was?", "a": ["Blood Sugar Sex Magik", "Californication", "By the Way", "Mother's Milk"], "e": "<b>Blood Sugar Sex Magik</b>."}, {"q": "'Under the Bridge' is from which album?", "a": ["Blood Sugar Sex Magik", "Californication", "Mother's Milk", "By the Way"], "e": "<b>Blood Sugar Sex Magik</b>."}, {"q": "RHCP's 1999 comeback album was?", "a": ["Californication", "By the Way", "Stadium Arcadium", "One Hot Minute"], "e": "<b>Californication</b>."}, {"q": "'Scar Tissue,' 'Otherside' and 'Californication' are from which album?", "a": ["Californication", "Blood Sugar Sex Magik", "By the Way", "Stadium Arcadium"], "e": "<b>Californication</b>."}, {"q": "RHCP's 2006 double album was?", "a": ["Stadium Arcadium", "By the Way", "The Getaway", "I'm with You"], "e": "<b>Stadium Arcadium</b>."}, {"q": "'By the Way' (the album) was released in which year?", "a": ["2002", "1999", "2006", "1995"], "e": "<b>2002</b>."}, {"q": "RHCP's musical style is best described as?", "a": ["Funk rock", "Heavy metal", "Country", "Reggae"], "e": "<b>funk rock</b> / alternative rock."}, {"q": "Flea's real name is?", "a": ["Michael Balzary", "Michael Pritchard", "Cliff Martinez", "Jack Sherman"], "e": "<b>Michael Balzary</b>."}, {"q": "The original RHCP guitarist who died of an overdose in 1988 was?", "a": ["Hillel Slovak", "Jack Sherman", "DeWayne McKnight", "Arik Marshall"], "e": "<b>Hillel Slovak</b>."}, {"q": "RHCP was inducted into the Rock & Roll Hall of Fame in?", "a": ["2012", "2007", "2016", "2019"], "e": "<b>2012</b>."}, {"q": "'Give It Away' is from which album?", "a": ["Blood Sugar Sex Magik", "Californication", "Mother's Milk", "By the Way"], "e": "<b>Blood Sugar Sex Magik</b>."}, {"q": "The producer of most of RHCP's classic albums is?", "a": ["Rick Rubin", "Danger Mouse", "Andy Gill", "Michael Beinhorn"], "e": "<b>Rick Rubin</b>."}, {"q": "In 2022 RHCP released two albums: Unlimited Love and?", "a": ["Return of the Dream Canteen", "The Getaway", "I'm with You", "Stadium Arcadium"], "e": "<b>Return of the Dream Canteen</b>."}, {"q": "'Dani California' is from which album?", "a": ["Stadium Arcadium", "By the Way", "Californication", "The Getaway"], "e": "<b>Stadium Arcadium</b>."}, {"q": "'Snow (Hey Oh)' is from which 2006 album?", "a": ["Stadium Arcadium", "By the Way", "Californication", "I'm with You"], "e": "<b>Stadium Arcadium</b>."}, {"q": "Anthony Kiedis' 2004 memoir was titled?", "a": ["Scar Tissue", "Acid for the Children", "By the Way", "Higher Ground"], "e": "<b>Scar Tissue</b>."}, {"q": "RHCP became infamous early on for performing wearing only?", "a": ["Socks (and nothing else)", "Suits", "Masks", "Face paint"], "e": "strategically placed <b>socks</b>."}, {"q": "'Can't Stop' is from which 2002 album?", "a": ["By the Way", "Californication", "Stadium Arcadium", "One Hot Minute"], "e": "<b>By the Way</b>."}, {"q": "Which guitarist played in RHCP from 2009 to 2019?", "a": ["Josh Klinghoffer", "Dave Navarro", "John Frusciante", "Jack Sherman"], "e": "<b>Josh Klinghoffer</b>."}, {"q": "RHCP's 1989 album, John Frusciante's debut, was?", "a": ["Mother's Milk", "Blood Sugar Sex Magik", "The Uplift Mofo Party Plan", "Freaky Styley"], "e": "<b>Mother's Milk</b>."}, {"q": "RHCP's cover of 'Higher Ground' was originally by which artist?", "a": ["Stevie Wonder", "Sly Stone", "James Brown", "Prince"], "e": "<b>Stevie Wonder</b>."}, {"q": "'Aeroplane' and 'My Friends' are from which 1995 album?", "a": ["One Hot Minute", "Blood Sugar Sex Magik", "Mother's Milk", "Californication"], "e": "<b>One Hot Minute</b>."}, {"q": "Which guitarist played on One Hot Minute (when Frusciante had left)?", "a": ["Dave Navarro", "Josh Klinghoffer", "Jack Sherman", "Arik Marshall"], "e": "<b>Dave Navarro</b> (ex-Jane's Addiction)."}, {"q": "'The Adventures of Rain Dance Maggie' is from which 2011 album?", "a": ["I'm with You", "The Getaway", "Stadium Arcadium", "By the Way"], "e": "<b>I'm with You</b>."}, {"q": "John Frusciante first joined RHCP at 18, replacing?", "a": ["Hillel Slovak", "Jack Sherman", "Dave Navarro", "DeWayne McKnight"], "e": "<b>Hillel Slovak</b>."}, {"q": "RHCP's 2011 album was titled?", "a": ["I'm with You", "The Getaway", "Stadium Arcadium", "Unlimited Love"], "e": "<b>I'm with You</b>."}, {"q": "Drummer Chad Smith is often mistaken for which comedian?", "a": ["Will Ferrell", "Jack Black", "Adam Sandler", "Steve Carell"], "e": "<b>Will Ferrell</b>."}, {"q": "'Around the World' is from which album?", "a": ["Californication", "By the Way", "Stadium Arcadium", "Mother's Milk"], "e": "<b>Californication</b>."}, {"q": "'Tell Me Baby' is from which 2006 album?", "a": ["Stadium Arcadium", "By the Way", "Californication", "The Getaway"], "e": "<b>Stadium Arcadium</b>."}, {"q": "Kiedis and Flea originally met as teenagers at which LA high school?", "a": ["Fairfax High", "Hollywood High", "Beverly Hills High", "Venice High"], "e": "<b>Fairfax High</b>."}, {"q": "RHCP headlined which 2014 Super Bowl halftime show (with Bruno Mars)?", "a": ["Super Bowl XLVIII", "Super Bowl 50", "Super Bowl XLV", "Super Bowl LIII"], "e": "<b>Super Bowl XLVIII</b> (2014)."}, {"q": "'Dark Necessities' is from which 2016 album?", "a": ["The Getaway", "I'm with You", "Stadium Arcadium", "Unlimited Love"], "e": "<b>The Getaway</b>."}, {"q": "The Getaway (2016) was produced by whom (not Rick Rubin)?", "a": ["Danger Mouse", "Andrew Watt", "Butch Vig", "Nigel Godrich"], "e": "<b>Danger Mouse</b> (Brian Burton)."}, {"q": "'Suck My Kiss' is from which album?", "a": ["Blood Sugar Sex Magik", "Californication", "By the Way", "Mother's Milk"], "e": "<b>Blood Sugar Sex Magik</b>."}, {"q": "'Black Summer' was the lead single from which 2022 album?", "a": ["Unlimited Love", "Return of the Dream Canteen", "The Getaway", "I'm with You"], "e": "<b>Unlimited Love</b>."}, {"q": "RHCP's self-titled debut album came out in which year?", "a": ["1984", "1989", "1991", "1987"], "e": "<b>1984</b>."}, {"q": "Stadium Arcadium won the 2007 Grammy for Best Rock?", "a": ["Album", "Song", "Performance", "Video"], "e": "Best Rock <b>Album</b>."}, {"q": "Both of RHCP's 2022 albums were produced by?", "a": ["Rick Rubin", "Danger Mouse", "Andrew Watt", "Flea"], "e": "<b>Rick Rubin</b>."}, {"q": "'Otherside' deals largely with the theme of?", "a": ["Addiction and loss", "Politics", "Travel", "Young love"], "e": "<b>addiction</b> and loss."}, {"q": "RHCP's major influences include funk pioneers like Sly Stone and?", "a": ["Parliament-Funkadelic", "The Beatles", "Led Zeppelin", "The Eagles"], "e": "<b>Parliament-Funkadelic</b>."}, {"q": "'Look Around' is from which 2011 album?", "a": ["I'm with You", "The Getaway", "Stadium Arcadium", "By the Way"], "e": "<b>I'm with You</b>."}, {"q": "Frusciante left RHCP in 2009 and was replaced by?", "a": ["Josh Klinghoffer", "Dave Navarro", "Arik Marshall", "Jack Sherman"], "e": "<b>Josh Klinghoffer</b>."}, {"q": "'Soul to Squeeze' became a hit via which 1993 film soundtrack?", "a": ["Coneheads", "Wayne's World", "Reality Bites", "Singles"], "e": "<b>Coneheads</b>."}, {"q": "RHCP's home music scene is?", "a": ["Los Angeles", "Seattle", "London", "Austin"], "e": "<b>Los Angeles</b>."}, {"q": "Frusciante's return for Unlimited Love was first announced in?", "a": ["2019", "2016", "2021", "2022"], "e": "<b>2019</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "RHCP formed at which Los Angeles high school?", "a": ["Fairfax High", "Hollywood High", "Venice High", "Crenshaw"], "e": "<b>Fairfax High</b>."}, {"q": "The band's original one-off name was?", "a": ["Tony Flow and the Miraculously Majestic Masters of Mayhem", "The Red Hots", "Anthym", "What Is This?"], "e": "<b>Tony Flow and the Miraculously Majestic Masters of Mayhem</b>."}, {"q": "Hillel Slovak died on which date in 1988?", "a": ["June 25", "April 13", "December 1", "August 19"], "e": "<b>June 25, 1988</b> (heroin overdose)."}, {"q": "RHCP's original drummer, later a noted film composer (Drive), was?", "a": ["Cliff Martinez", "Jack Irons", "Chad Smith", "D.H. Peligro"], "e": "<b>Cliff Martinez</b>."}, {"q": "Founding drummer Jack Irons later joined which band after leaving RHCP?", "a": ["Pearl Jam", "Soundgarden", "Eleven", "Jane's Addiction"], "e": "<b>Pearl Jam</b> (and Eleven)."}, {"q": "John Frusciante first appeared on which RHCP album?", "a": ["Mother's Milk", "Blood Sugar Sex Magik", "The Uplift Mofo Party Plan", "Freaky Styley"], "e": "<b>Mother's Milk</b> (1989)."}, {"q": "Frusciante abruptly quit during the 1992 tour for which album?", "a": ["Blood Sugar Sex Magik", "Mother's Milk", "One Hot Minute", "Californication"], "e": "<b>Blood Sugar Sex Magik</b>."}, {"q": "Dave Navarro joined RHCP from which band?", "a": ["Jane's Addiction", "Soundgarden", "Porno for Pyros only", "Janes/Deconstruction"], "e": "<b>Jane's Addiction</b>."}, {"q": "Frusciante rejoined RHCP in 1998 for which album?", "a": ["Californication", "By the Way", "Stadium Arcadium", "One Hot Minute"], "e": "<b>Californication</b>."}, {"q": "Blood Sugar Sex Magik (1991) was famously recorded in a reputedly haunted?", "a": ["Mansion (with Rick Rubin)", "Church", "Castle", "Warehouse"], "e": "a <b>mansion</b> ('The Mansion')."}, {"q": "'Under the Bridge' reflects Anthony Kiedis' isolation during his struggle with?", "a": ["Heroin addiction", "Stage fright", "A breakup", "Illness"], "e": "his <b>heroin addiction</b>."}, {"q": "Before bass, Flea was trained on which instrument?", "a": ["Trumpet", "Piano", "Guitar", "Drums"], "e": "<b>trumpet</b>."}, {"q": "Stadium Arcadium (2006) was notable as a?", "a": ["Double album that hit #1", "Live album", "Covers record", "Acoustic set"], "e": "a <b>double album</b> #1."}, {"q": "RHCP was inducted into the Rock Hall in 2012 by which comedian?", "a": ["Chris Rock", "Will Ferrell", "Eddie Murphy", "Dave Chappelle"], "e": "<b>Chris Rock</b>."}, {"q": "Flea's experimental band with Radiohead's Thom Yorke was?", "a": ["Atoms for Peace", "Antemasque", "Rocket Juice & the Moon", "Pylon"], "e": "<b>Atoms for Peace</b>."}, {"q": "'Knock Me Down' (Mother's Milk) was written in tribute to?", "a": ["Hillel Slovak", "Kurt Cobain", "River Phoenix", "Jack Sherman"], "e": "<b>Hillel Slovak</b>."}, {"q": "The band's 1987 album, the only one with the original four members, was?", "a": ["The Uplift Mofo Party Plan", "Freaky Styley", "The Red Hot Chili Peppers", "Mother's Milk"], "e": "<b>The Uplift Mofo Party Plan</b>."}, {"q": "RHCP's self-titled 1984 debut was produced by Gang of Four's?", "a": ["Andy Gill", "Jon King", "Hugo Burnham", "Dave Allen"], "e": "<b>Andy Gill</b>."}, {"q": "'Aeroplane' (One Hot Minute) features backing vocals by Flea's young daughter?", "a": ["Clara", "Sunny", "Iris", "Frances"], "e": "<b>Clara</b>."}, {"q": "Hillel Slovak was born in which country?", "a": ["Israel", "Australia", "England", "Hungary"], "e": "<b>Israel</b> (Haifa)."}, {"q": "Anthony Kiedis' actor father went by the stage name?", "a": ["Blackie Dammett", "John Michael", "Cole Dammett", "Sonny Kiedis"], "e": "<b>Blackie Dammett</b>."}, {"q": "'Scar Tissue' won a 2000 Grammy for Best Rock?", "a": ["Song", "Album", "Performance", "Video"], "e": "Best Rock <b>Song</b>."}, {"q": "Flea has appeared as an actor in films including The Big Lebowski and?", "a": ["Back to the Future Part II", "Pulp Fiction", "Fight Club", "Heat"], "e": "<b>Back to the Future Part II</b>."}, {"q": "The 2022 sessions with Rick Rubin produced nearly 50 songs, yielding how many albums?", "a": ["Two", "One", "Three", "Four"], "e": "<b>two</b> (Unlimited Love & Return of the Dream Canteen)."}, {"q": "Unlimited Love (2022) debuted at which spot on the Billboard 200?", "a": ["No. 1", "No. 5", "No. 3", "No. 10"], "e": "<b>No. 1</b>."}, {"q": "Frusciante's replacement Josh Klinghoffer had previously toured with RHCP as a?", "a": ["Second guitarist/multi-instrumentalist", "Roadie", "Drummer", "Bassist"], "e": "a <b>touring second guitarist</b>."}, {"q": "Flea co-founded which nonprofit music school in Los Angeles?", "a": ["Silverlake Conservatory of Music", "The LA Phil Academy", "Rock Camp", "The Flea School"], "e": "the <b>Silverlake Conservatory of Music</b>."}, {"q": "'Soul to Squeeze' appeared on the soundtrack to which 1993 comedy?", "a": ["Coneheads", "Wayne's World 2", "So I Married an Axe Murderer", "Dazed and Confused"], "e": "<b>Coneheads</b>."}, {"q": "'Higher Ground' appears on which 1989 album?", "a": ["Mother's Milk", "Blood Sugar Sex Magik", "Freaky Styley", "The Uplift Mofo Party Plan"], "e": "<b>Mother's Milk</b>."}, {"q": "Chad Smith also drums in which supergroup with Sammy Hagar and Joe Satriani?", "a": ["Chickenfoot", "Velvet Revolver", "Audioslave", "Them Crooked Vultures"], "e": "<b>Chickenfoot</b>."}, {"q": "Frusciante released numerous what during his absences from RHCP?", "a": ["Solo albums", "Film scores", "Novels", "Photography books"], "e": "<b>solo albums</b>."}, {"q": "By the Way (2002) leaned heavily into melody and harmony, reflecting the influence of?", "a": ["John Frusciante", "Rick Rubin", "Dave Navarro", "Flea's jazz roots"], "e": "<b>John Frusciante</b>."}, {"q": "RHCP performed at Woodstock '94 famously wearing giant?", "a": ["Lightbulb costumes/helmets", "Animal masks", "Inflatable suits", "Tuxedos"], "e": "giant <b>lightbulb</b> costumes."}, {"q": "Cliff Martinez's later film scores include which Nicolas Winding Refn film?", "a": ["Drive", "Heat", "Collateral", "Sicario"], "e": "<b>Drive</b>."}, {"q": "'Return of the Dream Canteen' was released in which month of 2022?", "a": ["October", "April", "July", "December"], "e": "<b>October</b> 2022 (Unlimited Love came in April)."}, {"q": "RHCP's bassist and frontman wrote the band's name drawing on a tradition of bands like?", "a": ["Funk acts (e.g., 'red hot')", "British invasion bands", "Surf bands", "Doo-wop groups"], "e": "<b>funk</b> band naming."}, {"q": "Frusciante's second departure (2009) was reportedly to focus on?", "a": ["His solo/electronic music", "Acting", "Producing", "Touring with others"], "e": "his <b>solo and electronic music</b>."}, {"q": "'Dani California' sparked some comparisons to which Tom Petty song?", "a": ["Mary Jane's Last Dance", "Free Fallin'", "American Girl", "Refugee"], "e": "<b>Mary Jane's Last Dance</b>."}, {"q": "RHCP's 'Freaky Styley' (1985) was produced by funk legend?", "a": ["George Clinton", "Sly Stone", "Bootsy Collins", "Rick James"], "e": "<b>George Clinton</b>."}, {"q": "Anthony Kiedis' 2022 memoir/companion (with Flea writing his own) — Flea's memoir was titled?", "a": ["Acid for the Children", "Scar Tissue", "Get Up", "By the Way"], "e": "<b>Acid for the Children</b> (Flea's memoir)."}, {"q": "RHCP's early guitarist Jack Sherman played on which album?", "a": ["The Red Hot Chili Peppers (1984 debut)", "Freaky Styley", "Mother's Milk", "Uplift Mofo"], "e": "the <b>1984 debut</b>."}, {"q": "'Californication' (1999) marked the creative return of which member?", "a": ["John Frusciante", "Dave Navarro", "Cliff Martinez", "Jack Irons"], "e": "<b>John Frusciante</b>."}, {"q": "Stadium Arcadium's two discs were subtitled?", "a": ["Jupiter and Mars", "Sun and Moon", "Earth and Sky", "Fire and Ice"], "e": "<b>Jupiter and Mars</b>."}, {"q": "Frusciante's third stint (from 2019) first reached the stage at festivals in?", "a": ["2019", "2021", "2017", "2022"], "e": "<b>2019</b> (announced December 2019)."}, {"q": "'Snow (Hey Oh)' is admired for its rapid, intricate?", "a": ["Guitar arpeggios", "Drum fills", "Bass slaps", "Vocal runs"], "e": "<b>guitar arpeggios</b>."}, {"q": "The Getaway (2016) was the band's first album in over two decades NOT produced by?", "a": ["Rick Rubin", "Flea", "George Clinton", "Andy Gill"], "e": "<b>Rick Rubin</b>."}, {"q": "RHCP's funk-heavy second album, Freaky Styley, came out in which year?", "a": ["1985", "1984", "1987", "1989"], "e": "<b>1985</b>."}, {"q": "Anthony Kiedis grew up partly with his father in which scene?", "a": ["The Hollywood/LA club scene", "The Seattle grunge scene", "The London punk scene", "The NYC art scene"], "e": "the <b>Hollywood/LA</b> scene."}, {"q": "'By the Way' the single is built on a contrast between gentle verses and a?", "a": ["Punchy, shouted chorus", "Rap breakdown", "Slow ballad outro", "Spoken-word bridge"], "e": "a <b>punchy, aggressive chorus</b>."}, {"q": "Drummer Chad Smith joined RHCP in which year?", "a": ["1988", "1991", "1985", "1983"], "e": "<b>1988</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Funk Overlord", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Frusciante Faithful", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Stadium Regular", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Fan", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Red Hot Chili Peppers fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Chili Peppers Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/rhcp/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Chili Peppers champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Chili Peppers Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
