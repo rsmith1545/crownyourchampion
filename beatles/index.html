@@ -2617,6 +2617,7 @@ window.addEventListener('resize', setStickyTopHeight);
 
 // ─── EMAIL MODAL ──────────────────────────────────────────────────
 function openEmailModal(champName) {
+    try { if (localStorage.getItem('cyc-hub-email')) { skipEmail(); return; } } catch(e) {}
     document.getElementById('emailModalChamp').innerText = champName;
     document.getElementById('emailModal').classList.add('open');
     setTimeout(() => document.getElementById('emailInput').focus(), 400);
@@ -2660,6 +2661,7 @@ async function submitEmail() {
 
     // Capture the email locally right away so it's never lost
     try { localStorage.setItem('beatles-user-email', email); } catch(e) {}
+    try { localStorage.setItem('cyc-hub-email', email); } catch(e) {}
 
     // Attempt the cloud save, but never let a slow/failed Firebase call lock the UI (cap at 6s)
     try {
