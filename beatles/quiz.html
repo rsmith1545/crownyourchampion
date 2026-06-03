@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beatles Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a The Beatles fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Beatles Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/beatles/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beatles Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_beatles.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">The Beatles</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Beatles bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "The Beatles formed in which English city?", "a": ["Liverpool", "London", "Manchester", "Birmingham"], "e": "<b>Liverpool</b>."}, {"q": "Who was the Beatles' drummer?", "a": ["Ringo Starr", "Pete Best", "George Harrison", "Paul McCartney"], "e": "<b>Ringo Starr</b>."}, {"q": "The Beatles' debut studio album (1963) was titled?", "a": ["Please Please Me", "With the Beatles", "Rubber Soul", "Help!"], "e": "<b>Please Please Me</b>."}, {"q": "Which 1969 album has a zebra crossing on its cover?", "a": ["Abbey Road", "Let It Be", "Revolver", "Sgt. Pepper's"], "e": "<b>Abbey Road</b>."}, {"q": "The Beatles' manager, who died in 1967, was?", "a": ["Brian Epstein", "George Martin", "Allen Klein", "Pete Best"], "e": "<b>Brian Epstein</b>."}, {"q": "The Beatles' producer, often called the 'Fifth Beatle,' was?", "a": ["George Martin", "Brian Epstein", "Phil Spector", "Billy Preston"], "e": "<b>George Martin</b>."}, {"q": "Which Beatle was murdered in New York City in 1980?", "a": ["John Lennon", "George Harrison", "Ringo Starr", "Paul McCartney"], "e": "<b>John Lennon</b>."}, {"q": "The Beatles' record label, founded in 1968, was?", "a": ["Apple Records", "Parlophone", "Capitol", "Decca"], "e": "<b>Apple Records</b>."}, {"q": "Whom did Ringo Starr replace as drummer in 1962?", "a": ["Pete Best", "Stuart Sutcliffe", "Andy White", "Jimmie Nicol"], "e": "<b>Pete Best</b>."}, {"q": "'Yesterday' was primarily written by which Beatle?", "a": ["Paul McCartney", "John Lennon", "George Harrison", "Ringo Starr"], "e": "<b>Paul McCartney</b>."}, {"q": "Which 1967 album is the Beatles' psychedelic concept record?", "a": ["Sgt. Pepper's Lonely Hearts Club Band", "Revolver", "Rubber Soul", "Magical Mystery Tour"], "e": "<b>Sgt. Pepper's Lonely Hearts Club Band</b>."}, {"q": "The fan hysteria around the Beatles was nicknamed?", "a": ["Beatlemania", "Beatle Fever", "Fab Frenzy", "Mop-Top Madness"], "e": "<b>Beatlemania</b>."}, {"q": "The Beatles stopped touring in which year?", "a": ["1966", "1962", "1969", "1970"], "e": "<b>1966</b> — they became a studio band."}, {"q": "The Beatles' famous 1964 US TV debut was on which show?", "a": ["The Ed Sullivan Show", "American Bandstand", "The Tonight Show", "Top of the Pops"], "e": "<b>The Ed Sullivan Show</b>."}, {"q": "'A Hard Day's Night' (1964) was the title of the Beatles' first what?", "a": ["Feature film", "Compilation", "Live album", "World tour"], "e": "Their first <b>film</b>."}, {"q": "The Beatles broke up in which year?", "a": ["1970", "1966", "1968", "1972"], "e": "<b>1970</b>."}, {"q": "The Beatles' 1968 self-titled double album is nicknamed the?", "a": ["White Album", "Black Album", "Grey Album", "Blue Album"], "e": "The <b>White Album</b> (officially 'The Beatles')."}, {"q": "Which Beatle is known as the 'quiet Beatle'?", "a": ["George Harrison", "Ringo Starr", "John Lennon", "Paul McCartney"], "e": "<b>George Harrison</b>."}, {"q": "'Come Together' opens which 1969 album?", "a": ["Abbey Road", "Let It Be", "Revolver", "Help!"], "e": "<b>Abbey Road</b>."}, {"q": "Ringo Starr's real name is?", "a": ["Richard Starkey", "Richard Best", "Ronald Starr", "Reginald Starkey"], "e": "<b>Richard Starkey</b>."}, {"q": "The Beatles' early club residencies took place in which German city?", "a": ["Hamburg", "Berlin", "Munich", "Cologne"], "e": "<b>Hamburg</b>."}, {"q": "'Penny Lane' and 'Strawberry Fields Forever' reference places in which city?", "a": ["Liverpool", "London", "Hamburg", "Manchester"], "e": "<b>Liverpool</b>."}, {"q": "Paul McCartney famously played which instrument (left-handed)?", "a": ["Bass guitar", "Drums", "Saxophone", "Violin"], "e": "<b>Bass guitar</b>."}, {"q": "Which 1965 album contains 'Norwegian Wood'?", "a": ["Rubber Soul", "Revolver", "Help!", "Beatles for Sale"], "e": "<b>Rubber Soul</b>."}, {"q": "'Here Comes the Sun' was written by which Beatle?", "a": ["George Harrison", "Paul McCartney", "John Lennon", "Ringo Starr"], "e": "<b>George Harrison</b> (on Abbey Road)."}, {"q": "The Beatles' final album to be released (1970) was?", "a": ["Let It Be", "Abbey Road", "Yellow Submarine", "The White Album"], "e": "<b>Let It Be</b>."}, {"q": "The Beatles' 1968 animated film was?", "a": ["Yellow Submarine", "Magical Mystery Tour", "Help!", "A Hard Day's Night"], "e": "<b>Yellow Submarine</b>."}, {"q": "Which Beatle died of cancer in 2001?", "a": ["George Harrison", "John Lennon", "Ringo Starr", "Paul McCartney"], "e": "<b>George Harrison</b>."}, {"q": "John Lennon's second wife, an avant-garde artist, was?", "a": ["Yoko Ono", "Cynthia Powell", "Linda Eastman", "Pattie Boyd"], "e": "<b>Yoko Ono</b>."}, {"q": "'Let It Be' was inspired by a dream Paul had of his late?", "a": ["Mother, Mary", "Father", "Grandmother", "Sister"], "e": "His mother <b>Mary</b>."}, {"q": "The Beatles' 2023 'final song,' completed using AI to isolate Lennon's vocal, is?", "a": ["Now and Then", "Free as a Bird", "Real Love", "Grow Old with Me"], "e": "<b>Now and Then</b>."}, {"q": "The Beatles' rooftop concert — their last live performance — took place in which year?", "a": ["1969", "1966", "1967", "1970"], "e": "<b>1969</b> (January, atop the Apple building)."}, {"q": "'Lucy in the Sky with Diamonds' is from which album?", "a": ["Sgt. Pepper's", "Revolver", "Rubber Soul", "Abbey Road"], "e": "<b>Sgt. Pepper's</b>."}, {"q": "The songwriting duo behind most Beatles songs was credited as?", "a": ["Lennon–McCartney", "Harrison–Starr", "McCartney–Martin", "Lennon–Harrison"], "e": "<b>Lennon–McCartney</b>."}, {"q": "The Beatles' US record label was?", "a": ["Capitol Records", "Parlophone", "Apple", "Atlantic"], "e": "<b>Capitol Records</b>."}, {"q": "'Ob-La-Di, Ob-La-Da' is from which 1968 album?", "a": ["The White Album", "Sgt. Pepper's", "Abbey Road", "Revolver"], "e": "<b>The White Album</b>."}, {"q": "'Help!' (1965) was both a single and a?", "a": ["Film", "Live album", "TV special", "Compilation"], "e": "A <b>film</b>."}, {"q": "Which 1966 album features 'Eleanor Rigby' and 'Yellow Submarine'?", "a": ["Revolver", "Rubber Soul", "Help!", "Sgt. Pepper's"], "e": "<b>Revolver</b>."}, {"q": "The Beatles received MBE honours in 1965 from?", "a": ["The Queen", "The Prime Minister", "Parliament", "The BBC"], "e": "<b>Queen Elizabeth II</b>."}, {"q": "'Octopus's Garden,' sung by Ringo, is from which album?", "a": ["Abbey Road", "Let It Be", "Revolver", "The White Album"], "e": "<b>Abbey Road</b>."}, {"q": "The Beatles were inducted into the Rock & Roll Hall of Fame in?", "a": ["1988", "1995", "2000", "1980"], "e": "<b>1988</b>."}, {"q": "The Beatles' last paid concert (1966) was at which US venue?", "a": ["Candlestick Park", "Shea Stadium", "Madison Square Garden", "The Hollywood Bowl"], "e": "<b>Candlestick Park</b>, San Francisco."}, {"q": "The two surviving Beatles (as of 2025) are Paul McCartney and?", "a": ["Ringo Starr", "George Harrison", "John Lennon", "Pete Best"], "e": "<b>Ringo Starr</b>."}, {"q": "'All You Need Is Love' debuted on a 1967 global broadcast called?", "a": ["Our World", "Live Aid", "Top of the Pops", "The Ed Sullivan Show"], "e": "<b>Our World</b>."}, {"q": "Which Beatle was the youngest member?", "a": ["George Harrison", "Ringo Starr", "Paul McCartney", "John Lennon"], "e": "<b>George Harrison</b>."}, {"q": "'Twist and Shout' closes which 1963 debut album?", "a": ["Please Please Me", "With the Beatles", "A Hard Day's Night", "Beatles for Sale"], "e": "<b>Please Please Me</b>."}, {"q": "The Beatles signed to EMI's which label in 1962?", "a": ["Parlophone", "Capitol", "Decca", "Apple"], "e": "<b>Parlophone</b>."}, {"q": "Paul McCartney's band after the Beatles was?", "a": ["Wings", "The Quarrymen", "Traveling Wilburys", "Plastic Ono Band"], "e": "<b>Wings</b>."}, {"q": "John Lennon's most famous solo song (1971) was?", "a": ["Imagine", "Jealous Guy", "Mind Games", "Woman"], "e": "<b>Imagine</b>."}, {"q": "The Beatles' first single (1962) was?", "a": ["Love Me Do", "Please Please Me", "She Loves You", "Twist and Shout"], "e": "<b>Love Me Do</b>."}, {"q": "'A Day in the Life' closes which 1967 album?", "a": ["Sgt. Pepper's", "Revolver", "Rubber Soul", "Magical Mystery Tour"], "e": "<b>Sgt. Pepper's</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Before becoming 'The Beatles,' John Lennon's band was called?", "a": ["The Quarrymen", "The Silver Beetles", "The Cavemen", "The Hurricanes"], "e": "<b>The Quarrymen</b>."}, {"q": "The original Beatles bassist who left before fame and died in 1962 was?", "a": ["Stuart Sutcliffe", "Pete Best", "Andy White", "Tony Sheridan"], "e": "<b>Stuart Sutcliffe</b>."}, {"q": "The Beatles recorded most of their albums at which London studio?", "a": ["Abbey Road (EMI) Studios", "Trident", "Olympic", "Apple"], "e": "<b>Abbey Road / EMI Studios</b>."}, {"q": "The Indian instrument George Harrison popularized in rock was the?", "a": ["Sitar", "Tabla", "Tanpura", "Sarod"], "e": "<b>Sitar</b>."}, {"q": "The guru the Beatles studied transcendental meditation with was?", "a": ["Maharishi Mahesh Yogi", "Ravi Shankar", "Sai Baba", "Paramahansa Yogananda"], "e": "<b>Maharishi Mahesh Yogi</b>."}, {"q": "Who played the uncredited lead guitar on 'While My Guitar Gently Weeps'?", "a": ["Eric Clapton", "Jeff Beck", "Jimmy Page", "George Martin"], "e": "<b>Eric Clapton</b>."}, {"q": "Keyboardist Billy Preston, who played on 'Get Back,' was dubbed the?", "a": ["Fifth Beatle", "Sixth Beatle", "Honorary Beatle", "Soul Beatle"], "e": "the <b>'Fifth Beatle.'</b>"}, {"q": "'Tomorrow Never Knows' (Revolver) drew lyrics from the?", "a": ["Tibetan Book of the Dead", "Bible", "I Ching", "Bhagavad Gita"], "e": "the <b>Tibetan Book of the Dead</b>."}, {"q": "'Hey Jude' was written by Paul to comfort which child?", "a": ["Julian Lennon", "Sean Lennon", "Zak Starkey", "James McCartney"], "e": "<b>Julian Lennon</b>."}, {"q": "The collage cover of Sgt. Pepper's was co-designed by which pop artist?", "a": ["Peter Blake", "Andy Warhol", "Richard Hamilton", "David Hockney"], "e": "<b>Peter Blake</b>."}, {"q": "The Beatles' 1995–96 reunion project that released 'Free as a Bird' was?", "a": ["Anthology", "Past Masters", "Let It Be... Naked", "1"], "e": "<b>Anthology</b>."}, {"q": "'Free as a Bird' (1995) was built from a home demo by whom?", "a": ["John Lennon", "Paul McCartney", "George Harrison", "George Martin"], "e": "<b>John Lennon</b>."}, {"q": "The Lennon–McCartney song given to the Rolling Stones as an early hit was?", "a": ["I Wanna Be Your Man", "Ticket to Ride", "Day Tripper", "Love Me Do"], "e": "<b>I Wanna Be Your Man</b>."}, {"q": "The Beatles' first US album (1964) was titled?", "a": ["Meet the Beatles!", "Introducing... The Beatles", "The Early Beatles", "Beatles '65"], "e": "<b>Meet the Beatles!</b>."}, {"q": "The orchestral build in 'A Day in the Life' instructed players to go from lowest to?", "a": ["Highest note", "Loudest note", "Softest note", "Last note"], "e": "the <b>highest note</b>."}, {"q": "George Harrison organized which 1971 charity concert?", "a": ["The Concert for Bangladesh", "Live Aid", "The Last Waltz", "Concert for New York"], "e": "<b>The Concert for Bangladesh</b>."}, {"q": "'Something' (1969) was notable as the first George Harrison song to be a?", "a": ["Single A-side", "Number-one hit", "Live opener", "B-side"], "e": "a <b>single A-side</b> for the band."}, {"q": "Brian Epstein discovered the Beatles while running a Liverpool?", "a": ["Record shop (NEMS)", "Nightclub", "Radio station", "Newspaper"], "e": "a <b>record shop</b> (NEMS)."}, {"q": "The Liverpool club central to the Beatles' early rise was the?", "a": ["Cavern Club", "Marquee", "100 Club", "Star-Club"], "e": "the <b>Cavern Club</b>."}, {"q": "Ringo briefly quit the band during the sessions for which 1968 album?", "a": ["The White Album", "Abbey Road", "Revolver", "Let It Be"], "e": "the <b>White Album</b>."}, {"q": "George Harrison's acclaimed 1970 triple solo album was?", "a": ["All Things Must Pass", "Living in the Material World", "Cloud Nine", "Wonderwall Music"], "e": "<b>All Things Must Pass</b>."}, {"q": "'I Am the Walrus' first appeared on which 1967 release?", "a": ["Magical Mystery Tour", "Sgt. Pepper's", "Abbey Road", "Yellow Submarine"], "e": "<b>Magical Mystery Tour</b>."}, {"q": "The controversial 'butcher cover' belonged to which US album?", "a": ["Yesterday and Today", "Beatles '65", "Meet the Beatles!", "Something New"], "e": "<b>Yesterday and Today</b>."}, {"q": "The medley on side two of Abbey Road famously concludes with the track?", "a": ["The End", "Her Majesty", "Carry That Weight", "Golden Slumbers"], "e": "<b>The End</b> (followed by hidden 'Her Majesty')."}, {"q": "The Beatles' publishing company, set up in 1963, was?", "a": ["Northern Songs", "Apple Music", "MacLen", "Parlophone Publishing"], "e": "<b>Northern Songs</b>."}, {"q": "'Penny Lane' / 'Strawberry Fields Forever' (1967) was released as a?", "a": ["Double A-side single", "B-side", "Limited EP", "Album track only"], "e": "a <b>double A-side single</b>."}, {"q": "The Beatles' final feature film, a 1970 documentary, was titled?", "a": ["Let It Be", "Magical Mystery Tour", "Yellow Submarine", "Get Back"], "e": "<b>Let It Be</b>."}, {"q": "Peter Jackson's 2021 documentary on the Let It Be sessions was titled?", "a": ["The Beatles: Get Back", "Eight Days a Week", "Anthology", "Living in the Material World"], "e": "<b>The Beatles: Get Back</b>."}, {"q": "The director of the Beatles' first two films was?", "a": ["Richard Lester", "Stanley Kubrick", "David Lean", "Ken Russell"], "e": "<b>Richard Lester</b>."}, {"q": "'Lovely Rita' and 'Fixing a Hole' are from which album?", "a": ["Sgt. Pepper's", "Revolver", "Rubber Soul", "The White Album"], "e": "<b>Sgt. Pepper's</b>."}, {"q": "The Beatles' last album recorded together (though not last released) was?", "a": ["Abbey Road", "Let It Be", "The White Album", "Yellow Submarine"], "e": "<b>Abbey Road</b>."}, {"q": "Session drummer Andy White played on the album version of which single?", "a": ["Love Me Do", "Please Please Me", "From Me to You", "She Loves You"], "e": "<b>Love Me Do</b> (Ringo played tambourine)."}, {"q": "The Beatles' best-selling UK single of the 1960s was?", "a": ["She Loves You", "Hey Jude", "Help!", "Yesterday"], "e": "<b>She Loves You</b>."}, {"q": "'Eleanor Rigby' (1966) is built around a string?", "a": ["Octet (double quartet)", "Solo violin", "Full orchestra", "Brass section"], "e": "a string <b>octet</b>."}, {"q": "Phil Spector's controversial 'Wall of Sound' production reworked which album?", "a": ["Let It Be", "Abbey Road", "Revolver", "Rubber Soul"], "e": "<b>Let It Be</b> (1970)."}, {"q": "John Lennon's first wife, mother of Julian, was?", "a": ["Cynthia Powell", "Yoko Ono", "Pattie Boyd", "Maureen Cox"], "e": "<b>Cynthia Powell</b>."}, {"q": "Pattie Boyd, who married George Harrison, inspired which Harrison song?", "a": ["Something", "Here Comes the Sun", "My Sweet Lord", "Taxman"], "e": "<b>Something</b>."}, {"q": "The Beatles' stand-in drummer during a 1964 tour (when Ringo was ill) was?", "a": ["Jimmie Nicol", "Andy White", "Pete Best", "Bernard Purdie"], "e": "<b>Jimmie Nicol</b>."}, {"q": "'Strawberry Fields Forever' was named after a Salvation Army home near John's childhood home in?", "a": ["Liverpool", "London", "Hamburg", "Blackpool"], "e": "<b>Liverpool</b>."}, {"q": "The Beatles' 1965 Shea Stadium show was notable as one of the first major?", "a": ["Stadium rock concerts", "Televised concerts", "Charity concerts", "Open-air festivals"], "e": "<b>stadium rock concerts</b>."}, {"q": "George Martin played the sped-up, baroque-style piano solo on which 1965 song?", "a": ["In My Life", "Penny Lane", "Yesterday", "Michelle"], "e": "<b>In My Life</b> (Rubber Soul)."}, {"q": "'Taxman,' opening Revolver, was written by which Beatle?", "a": ["George Harrison", "Paul McCartney", "John Lennon", "Ringo Starr"], "e": "<b>George Harrison</b>."}, {"q": "The Beatles' 1962 Decca audition famously ended with Decca?", "a": ["Rejecting them", "Signing them", "Losing the tapes", "Offering a film deal"], "e": "Decca <b>rejected</b> them."}, {"q": "Which Beatle sang lead on 'With a Little Help from My Friends'?", "a": ["Ringo Starr", "Paul McCartney", "John Lennon", "George Harrison"], "e": "<b>Ringo Starr</b>."}, {"q": "'Blackbird,' a solo acoustic track, was written by which Beatle?", "a": ["Paul McCartney", "John Lennon", "George Harrison", "Ringo Starr"], "e": "<b>Paul McCartney</b>."}, {"q": "The Beatles' final new single before the 2023 'Now and Then' had been 1996's?", "a": ["Real Love", "Free as a Bird", "Now and Then", "Grow Old with Me"], "e": "<b>Real Love</b>."}, {"q": "The famous 'Paul is dead' hoax claimed clues were hidden on which album cover?", "a": ["Abbey Road", "Sgt. Pepper's", "Revolver", "Let It Be"], "e": "<b>Abbey Road</b> (among others)."}, {"q": "John Lennon controversially said in 1966 the Beatles were 'more popular than'?", "a": ["Jesus", "Elvis", "The Queen", "God himself"], "e": "<b>Jesus</b> — sparking backlash in the US."}, {"q": "The Beatles' animated film characters battled villains called the?", "a": ["Blue Meanies", "Mop Tops", "Nowhere Men", "Grey Ghouls"], "e": "the <b>Blue Meanies</b> (Yellow Submarine)."}, {"q": "'Get Back' and 'Don't Let Me Down' featured which guest musician?", "a": ["Billy Preston", "Eric Clapton", "Nicky Hopkins", "Klaus Voormann"], "e": "<b>Billy Preston</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Fab Four Scholar", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Abbey Road Regular", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Cavern Club Kid", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Singalong", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a The Beatles fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Beatles Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/beatles/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Beatles champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Beatles Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
