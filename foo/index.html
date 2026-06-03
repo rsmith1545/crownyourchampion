@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v7';
+                content: '⇄ swipe to see all rounds · v8';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -3614,6 +3614,54 @@ updateProgress();
   window.addEventListener('load',schedule);
   window.addEventListener('resize',schedule);
   document.addEventListener('click',soon);
+})();
+</script>
+<script>
+/* cycChampUX — (1) mobile Share button under Submit&Crown; (2) desktop champion chip in header, shown after submit. Self-contained. */
+(function(){
+  if(window.__cycChampUX) return; window.__cycChampUX=1;
+  function champName(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
+  function share(){ try{ if(window.openShare) window.openShare(); }catch(e){} }
+  function addMobileShare(){
+    var crown=document.getElementById('crownBtn');
+    if(crown && !document.getElementById('cycMobShare')){
+      var b=document.createElement('button');
+      b.id='cycMobShare'; b.type='button'; b.className='btn btn-share';
+      b.textContent='↗ Share Your Bracket';
+      b.style.cssText='display:none;width:100%;margin-top:8px;';
+      b.onclick=share;
+      crown.parentNode.insertBefore(b, crown.nextSibling);
+    }
+  }
+  function addHeaderChip(){
+    var hdr=document.querySelector('.site-header'), logo=hdr&&hdr.querySelector('.brand-h1');
+    if(hdr && logo && !document.getElementById('cycHdrChamp')){
+      var c=document.createElement('div'); c.id='cycHdrChamp';
+      c.title='Share your champion'; c.onclick=share;
+      c.style.cssText='display:none;align-items:center;gap:10px;margin-left:30px;padding:7px 16px;border:1px solid rgba(197,160,89,0.5);border-radius:7px;background:rgba(197,160,89,0.08);cursor:pointer;';
+      c.innerHTML='<span style="font-size:24px;line-height:1">👑</span>'+
+        '<span style="display:flex;flex-direction:column;line-height:1.05">'+
+        '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#9c8a5e;font-size:10px">Your Champion</span>'+
+        '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1px;color:#fff;font-size:21px"></strong></span>';
+      logo.parentNode.insertBefore(c, logo.nextSibling);
+    }
+  }
+  function showHeaderChamp(){
+    var name=champName(); if(!name) return;
+    var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName');
+    if(c&&n){ n.textContent=name; c.style.display = (window.innerWidth>900)?'inline-flex':'none'; }
+  }
+  function hideHeaderChamp(){ var c=document.getElementById('cycHdrChamp'); if(c) c.style.display='none'; }
+  function showMobShare(){ var b=document.getElementById('cycMobShare'); if(b) b.style.display=(window.innerWidth<=900)?'block':'none'; }
+  function init(){
+    addMobileShare(); addHeaderChip(); showMobShare();
+    var _sc=window.submitAndCrown;
+    window.submitAndCrown=function(){ var r; try{ r=_sc&&_sc.apply(this,arguments);}catch(e){} showHeaderChamp(); return r; };
+    var _cr=window.confirmReset;
+    if(typeof _cr==='function'){ window.confirmReset=function(){ var r; try{ r=_cr.apply(this,arguments);}catch(e){} setTimeout(hideHeaderChamp,60); return r; }; }
+    window.addEventListener('resize', function(){ showMobShare(); var c=document.getElementById('cycHdrChamp'); if(c&&c.style.display!=='none'&&window.innerWidth<=900) c.style.display='none'; });
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
 </body>
