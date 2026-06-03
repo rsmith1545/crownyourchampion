@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bon Jovi Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Bon Jovi fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Bon Jovi Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/bonjovi/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bon Jovi Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_bonjovi.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Bon Jovi</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Bon Jovi bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Bon Jovi formed in which US state?", "a": ["New Jersey", "New York", "California", "Pennsylvania"], "e": "<b>New Jersey</b> (Sayreville)."}, {"q": "Bon Jovi's lead singer is?", "a": ["Jon Bon Jovi", "Richie Sambora", "David Bryan", "Tico Torres"], "e": "<b>Jon Bon Jovi</b>."}, {"q": "The band's longtime guitarist (1983–2013) was?", "a": ["Richie Sambora", "Phil X", "David Bryan", "Hugh McDonald"], "e": "<b>Richie Sambora</b>."}, {"q": "Bon Jovi's keyboardist is?", "a": ["David Bryan", "Tico Torres", "Alec John Such", "Phil X"], "e": "<b>David Bryan</b>."}, {"q": "Bon Jovi's drummer is?", "a": ["Tico Torres", "David Bryan", "Hugh McDonald", "Richie Sambora"], "e": "<b>Tico Torres</b>."}, {"q": "Bon Jovi's breakthrough 1986 album was?", "a": ["Slippery When Wet", "New Jersey", "Keep the Faith", "7800° Fahrenheit"], "e": "<b>Slippery When Wet</b>."}, {"q": "'Livin' on a Prayer' and 'You Give Love a Bad Name' are from which album?", "a": ["Slippery When Wet", "New Jersey", "Crush", "These Days"], "e": "<b>Slippery When Wet</b>."}, {"q": "Bon Jovi's 1988 album was?", "a": ["New Jersey", "Slippery When Wet", "Keep the Faith", "Crush"], "e": "<b>New Jersey</b>."}, {"q": "'Bad Medicine' and 'Born to Be My Baby' are from which album?", "a": ["New Jersey", "Slippery When Wet", "Keep the Faith", "These Days"], "e": "<b>New Jersey</b>."}, {"q": "'It's My Life' (2000) is from which album?", "a": ["Crush", "These Days", "Keep the Faith", "Bounce"], "e": "<b>Crush</b>."}, {"q": "Bon Jovi's style is best described as?", "a": ["Arena / glam rock", "Thrash metal", "Punk", "Grunge"], "e": "<b>arena rock</b> (glam-tinged)."}, {"q": "Bon Jovi's 2024 album was titled?", "a": ["Forever", "2020", "Bounce", "The Circle"], "e": "<b>Forever</b>."}, {"q": "Bon Jovi was inducted into the Rock & Roll Hall of Fame in?", "a": ["2018", "2012", "2009", "2021"], "e": "<b>2018</b>."}, {"q": "Jon Bon Jovi's real name is?", "a": ["John Francis Bongiovi Jr.", "John Jon Bon Jovi", "Jonathan Francis Jovi", "John Frank Bongiovanni"], "e": "<b>John Francis Bongiovi Jr.</b>."}, {"q": "Bon Jovi's 1992 album was?", "a": ["Keep the Faith", "These Days", "Crush", "Bounce"], "e": "<b>Keep the Faith</b>."}, {"q": "The founding Bon Jovi bassist who died in 2022 was?", "a": ["Alec John Such", "Hugh McDonald", "Phil X", "Tico Torres"], "e": "<b>Alec John Such</b>."}, {"q": "Richie Sambora left Bon Jovi in which year?", "a": ["2013", "2008", "2016", "2019"], "e": "<b>2013</b>."}, {"q": "'Wanted Dead or Alive' is a cowboy-styled anthem from which album?", "a": ["Slippery When Wet", "New Jersey", "Crush", "7800° Fahrenheit"], "e": "<b>Slippery When Wet</b>."}, {"q": "Bon Jovi's self-titled debut album came out in which year?", "a": ["1984", "1986", "1988", "1982"], "e": "<b>1984</b>."}, {"q": "'Runaway,' an early hit, is from which album?", "a": ["Bon Jovi (1984 debut)", "Slippery When Wet", "7800° Fahrenheit", "New Jersey"], "e": "the <b>1984 debut</b>."}, {"q": "'You Give Love a Bad Name' was the band's first US No. 1 in?", "a": ["1986", "1984", "1989", "1992"], "e": "<b>1986</b>."}, {"q": "Jon Bon Jovi's 1990 solo album (a Young Guns II soundtrack) was?", "a": ["Blaze of Glory", "Destination Anywhere", "Forever", "Crush"], "e": "<b>Blaze of Glory</b>."}, {"q": "Bon Jovi's 2007 country-leaning album was?", "a": ["Lost Highway", "Have a Nice Day", "The Circle", "Bounce"], "e": "<b>Lost Highway</b>."}, {"q": "'Who Says You Can't Go Home' (2005) became a country duet with?", "a": ["Jennifer Nettles", "Shania Twain", "LeAnn Rimes", "Carrie Underwood"], "e": "<b>Jennifer Nettles</b> (Sugarland)."}, {"q": "Keyboardist David Bryan co-wrote which Tony-winning Broadway musical?", "a": ["Memphis", "Hamilton", "Rent", "Jersey Boys"], "e": "<b>Memphis</b>."}, {"q": "'Bed of Roses' is from which 1992 album?", "a": ["Keep the Faith", "These Days", "Slippery When Wet", "Crush"], "e": "<b>Keep the Faith</b>."}, {"q": "Jon Bon Jovi underwent surgery in 2022 on his?", "a": ["Vocal cords", "Knee", "Shoulder", "Hip"], "e": "his <b>vocal cords</b>."}, {"q": "The guitarist who replaced Richie Sambora is?", "a": ["Phil X", "Hugh McDonald", "Jason Newsted", "Steve Vai"], "e": "<b>Phil X</b>."}, {"q": "Bon Jovi's 2005 album was?", "a": ["Have a Nice Day", "The Circle", "Bounce", "Crush"], "e": "<b>Have a Nice Day</b>."}, {"q": "'This Ain't a Love Song' is from which 1995 album?", "a": ["These Days", "Keep the Faith", "Crush", "Bounce"], "e": "<b>These Days</b>."}, {"q": "Bon Jovi's classic albums (Slippery, New Jersey) were produced by?", "a": ["Bruce Fairbairn", "Bob Rock", "Mutt Lange", "Desmond Child"], "e": "<b>Bruce Fairbairn</b>."}, {"q": "The young couple at the heart of 'Livin' on a Prayer' are named?", "a": ["Tommy and Gina", "Brenda and Eddie", "Jack and Diane", "Billy and Mary"], "e": "<b>Tommy and Gina</b>."}, {"q": "Bon Jovi's 2020 album was titled?", "a": ["2020", "The Circle", "Bounce", "Forever"], "e": "<b>2020</b>."}, {"q": "The 2024 Hulu docuseries on Bon Jovi's 40 years was titled?", "a": ["Thank You, Goodnight", "Slippery When Wet", "Livin' on a Prayer", "Cross Road"], "e": "<b>Thank You, Goodnight</b>."}, {"q": "'Lay Your Hands on Me' is from which 1988 album?", "a": ["New Jersey", "Slippery When Wet", "Keep the Faith", "7800° Fahrenheit"], "e": "<b>New Jersey</b>."}, {"q": "Forever (2024) was preceded by the singles 'Legendary' and?", "a": ["Living Proof", "It's My Life", "Always", "Bed of Roses"], "e": "<b>Living Proof</b>."}, {"q": "Jon Bon Jovi also acted, including a recurring role on which TV series?", "a": ["Ally McBeal", "Friends", "ER", "The Sopranos"], "e": "<b>Ally McBeal</b>."}, {"q": "'Always,' a massive 1994 ballad, was released around which compilation?", "a": ["Cross Road", "These Days", "Bounce", "Crush"], "e": "the <b>Cross Road</b> greatest-hits set."}, {"q": "Bon Jovi's bassist after Alec John Such was?", "a": ["Hugh McDonald", "Phil X", "Tico Torres", "David Bryan"], "e": "<b>Hugh McDonald</b>."}, {"q": "'Bad Medicine' hit No. 1 in which year?", "a": ["1988", "1986", "1990", "1992"], "e": "<b>1988</b>."}, {"q": "Bon Jovi's hometown is?", "a": ["Sayreville, New Jersey", "Newark, New Jersey", "Long Branch, New Jersey", "Trenton, New Jersey"], "e": "<b>Sayreville, New Jersey</b>."}, {"q": "Bon Jovi's 1995 album was?", "a": ["These Days", "Keep the Faith", "Crush", "Bounce"], "e": "<b>These Days</b>."}, {"q": "'Keep the Faith' (the song) was a hit in which year?", "a": ["1992", "1988", "1986", "1995"], "e": "<b>1992</b>."}, {"q": "Bon Jovi's 2002 album, partly responding to 9/11, was?", "a": ["Bounce", "Crush", "The Circle", "Have a Nice Day"], "e": "<b>Bounce</b>."}, {"q": "Slippery When Wet is one of the best-selling albums of which decade?", "a": ["The 1980s", "The 1990s", "The 2000s", "The 1970s"], "e": "the <b>1980s</b>."}, {"q": "Forever (2024) followed Jon Bon Jovi's recovery from?", "a": ["Vocal cord surgery", "A heart attack", "A back injury", "COVID"], "e": "<b>vocal cord surgery</b>."}, {"q": "'Blaze of Glory' (1990) earned Jon Bon Jovi a Golden Globe and an Oscar?", "a": ["Nomination", "Win", "Snub then win", "Hosting gig"], "e": "an Oscar <b>nomination</b>."}, {"q": "Bon Jovi's 2009 album was?", "a": ["The Circle", "Bounce", "Have a Nice Day", "Crush"], "e": "<b>The Circle</b>."}, {"q": "The band's name combines Jon's stage first name with his?", "a": ["Surname (Bon Jovi)", "Hometown", "Middle name", "Nickname"], "e": "his <b>surname</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Jon Bon Jovi is a cousin of which record producer (of Power Station studio fame)?", "a": ["Tony Bongiovi", "Tommy Mottola", "Bob Rock", "Desmond Child"], "e": "<b>Tony Bongiovi</b>."}, {"q": "'Runaway' was recorded at his cousin's studio with session players, including bassist?", "a": ["Hugh McDonald", "Alec John Such", "Tico Torres", "Phil X"], "e": "<b>Hugh McDonald</b> (uncredited at the time)."}, {"q": "Desmond Child co-wrote which two Slippery When Wet smashes?", "a": ["Livin' on a Prayer & You Give Love a Bad Name", "Wanted Dead or Alive & Bad Medicine", "Always & Bed of Roses", "It's My Life & Crush"], "e": "<b>Livin' on a Prayer</b> & <b>You Give Love a Bad Name</b>."}, {"q": "'You Give Love a Bad Name' was reworked from a Desmond Child song originally written for?", "a": ["Bonnie Tyler", "Cher", "Pat Benatar", "Heart"], "e": "<b>Bonnie Tyler</b> ('If You Were a Woman')."}, {"q": "Richie Sambora's signature talk-box effect powers the intro of?", "a": ["Livin' on a Prayer", "Bad Medicine", "Bed of Roses", "Always"], "e": "<b>Livin' on a Prayer</b>."}, {"q": "New Jersey (1988) set a record for a hard-rock/metal album by producing how many top-10 hits?", "a": ["Five", "Three", "Two", "Seven"], "e": "<b>five</b>."}, {"q": "Jon Bon Jovi's Blaze of Glory was the soundtrack to which 1990 film?", "a": ["Young Guns II", "Days of Thunder", "Navy SEALs", "Backdraft"], "e": "<b>Young Guns II</b>."}, {"q": "David Bryan's Tony-winning musical 'Memphis' opened on Broadway in?", "a": ["2009", "2003", "2014", "1998"], "e": "<b>2009</b> (won the 2010 Tony for Best Musical)."}, {"q": "Founding bassist Alec John Such departed the band in?", "a": ["1994", "1988", "2000", "2013"], "e": "<b>1994</b>."}, {"q": "Alec John Such famously reunited with the band at which 2018 event?", "a": ["Their Rock Hall induction", "A Sayreville benefit", "The Forever tour", "A Super Bowl"], "e": "their <b>Rock Hall induction</b>."}, {"q": "Richie Sambora left abruptly in 2013 during which tour?", "a": ["Because We Can", "Have a Nice Day", "The Circle", "This House Is Not for Sale"], "e": "the <b>Because We Can</b> tour."}, {"q": "Jon Bon Jovi's 2022 vocal-cord procedure was a?", "a": ["Medialization thyroplasty", "Tonsillectomy", "Cochlear implant", "Tracheotomy"], "e": "a <b>medialization thyroplasty</b>."}, {"q": "Forever (2024) was released on which label?", "a": ["Island Records", "Mercury", "Atlantic", "Columbia"], "e": "<b>Island Records</b>."}, {"q": "Bon Jovi was inducted into the Rock Hall in 2018 by which broadcaster?", "a": ["Howard Stern", "David Letterman", "Jimmy Fallon", "Ryan Seacrest"], "e": "<b>Howard Stern</b>."}, {"q": "'Always' (1994) was originally written for which film, which Jon then disowned?", "a": ["Romeo Is Bleeding", "Young Guns II", "The Crow", "Pulp Fiction"], "e": "<b>Romeo Is Bleeding</b>."}, {"q": "'It's My Life' (2000) references which earlier Bon Jovi characters?", "a": ["Tommy and Gina", "Brenda and Eddie", "Jack and Diane", "Frankie and Johnny"], "e": "<b>Tommy and Gina</b>."}, {"q": "Bon Jovi headlined the 1989 Soviet charity concert known as the?", "a": ["Moscow Music Peace Festival", "Live Aid", "Concert for Russia", "Glasnost Jam"], "e": "the <b>Moscow Music Peace Festival</b>."}, {"q": "Drummer Tico Torres is also accomplished as a?", "a": ["Painter / visual artist", "Novelist", "Chef", "Pilot"], "e": "a <b>painter</b>."}, {"q": "Jon Bon Jovi founded which pay-what-you-can community restaurant chain?", "a": ["JBJ Soul Kitchen", "Jersey Eats", "Prayer Pantry", "Bongiovi Bistro"], "e": "the <b>JBJ Soul Kitchen</b>."}, {"q": "Keyboardist David Bryan's birth surname is?", "a": ["Rashbaum", "Bongiovi", "Sambora", "Torres"], "e": "<b>Rashbaum</b>."}, {"q": "'Wanted Dead or Alive' is built around a distinctive 12-string?", "a": ["Acoustic guitar riff", "Banjo line", "Piano figure", "Mandolin part"], "e": "a 12-string <b>acoustic</b> riff."}, {"q": "Bon Jovi's 2007 album Lost Highway was recorded partly in which music city?", "a": ["Nashville", "Memphis", "Austin", "Muscle Shoals"], "e": "<b>Nashville</b>."}, {"q": "'Who Says You Can't Go Home' won a Grammy for Best Country Collaboration with?", "a": ["Jennifer Nettles", "Miranda Lambert", "Faith Hill", "Trisha Yearwood"], "e": "<b>Jennifer Nettles</b>."}, {"q": "Before fame, Jon worked sweeping floors and running errands at which NYC studio?", "a": ["The Power Station", "Electric Lady", "Hit Factory", "Right Track"], "e": "the <b>Power Station</b> (his cousin's studio)."}, {"q": "Bon Jovi's second album (1985), considered a step before their breakthrough, was?", "a": ["7800° Fahrenheit", "These Days", "Bounce", "Crush"], "e": "<b>7800° Fahrenheit</b>."}, {"q": "'Bed of Roses' (1992) was reportedly written by Jon while?", "a": ["Hungover", "On tour in Japan", "In the hospital", "On a plane"], "e": "<b>hungover</b>."}, {"q": "Richie Sambora's acclaimed 1991 solo album was?", "a": ["Stranger in This Town", "Undiscovered Soul", "Aftermath of the Lowdown", "Sambora"], "e": "<b>Stranger in This Town</b>."}, {"q": "Jon Bon Jovi's son Jake Bongiovi married which actress in 2024?", "a": ["Millie Bobby Brown", "Sadie Sink", "Maya Hawke", "Sophie Turner"], "e": "<b>Millie Bobby Brown</b>."}, {"q": "Bon Jovi has sold an estimated how many records worldwide?", "a": ["Over 100 million", "About 25 million", "Over 500 million", "About 50 million"], "e": "over <b>100 million</b>."}, {"q": "Keep the Faith (1992) marked a reinvention after the band took an early-'90s?", "a": ["Hiatus", "Label change", "Lineup overhaul", "Country detour"], "e": "a <b>hiatus</b>."}, {"q": "'Livin' on a Prayer' almost didn't make Slippery When Wet until it was championed by?", "a": ["Richie Sambora", "Desmond Child", "Bruce Fairbairn", "Jon's manager"], "e": "<b>Richie Sambora</b>."}, {"q": "The band's debut single 'Runaway' first gained traction via a local radio station's?", "a": ["Homegrown compilation album", "Battle of the bands", "Request line", "Morning show"], "e": "a <b>homegrown compilation</b> (WAPP)."}, {"q": "These Days (1995) was notably more successful in which market than the US?", "a": ["Europe", "Japan", "Australia", "Canada"], "e": "<b>Europe</b> (especially the UK)."}, {"q": "Bon Jovi's 2016 album, made after Sambora's exit, was titled?", "a": ["This House Is Not for Sale", "Burning Bridges", "The Circle", "2020"], "e": "<b>This House Is Not for Sale</b>."}, {"q": "David Bryan's swirling organ famously opens which early Bon Jovi hit?", "a": ["Runaway", "Bad Medicine", "Always", "Bed of Roses"], "e": "<b>Runaway</b>."}, {"q": "Slippery When Wet's final cover featured a wet trash bag after which racier image was scrapped?", "a": ["A woman in a wet T-shirt", "A car crash", "A motel sign", "A neon skull"], "e": "a scrapped <b>'wet T-shirt'</b> shot."}, {"q": "Jon Bon Jovi served as an executive figure and active owner in which sports venture?", "a": ["An Arena Football team (Philadelphia Soul)", "An NBA team", "A NASCAR team", "A soccer club"], "e": "the AFL's <b>Philadelphia Soul</b>."}, {"q": "'Have a Nice Day' (2005) features a sneering smiley face designed by?", "a": ["Jon Bon Jovi (his concept)", "Shepard Fairey", "Banksy", "David Bryan"], "e": "a <b>smirking smiley</b> concept Jon championed."}, {"q": "The Forever (Legendary Edition) reissue (2024) featured guests including Bruce Springsteen and?", "a": ["Jelly Roll", "Taylor Swift", "Drake", "Adele"], "e": "<b>Jelly Roll</b> (among others)."}, {"q": "Bon Jovi's 'Bounce' (2002) title alluded to?", "a": ["Resilience after 9/11", "A basketball theme", "A dance craze", "Bouncing checks (a joke)"], "e": "<b>resilience after 9/11</b>."}, {"q": "Tico Torres joined Bon Jovi having previously been a seasoned?", "a": ["Session/touring drummer", "Schoolteacher", "Boxer", "Record producer"], "e": "a veteran <b>session drummer</b>."}, {"q": "Richie Sambora and Jon Bon Jovi formed one of rock's great?", "a": ["Songwriting partnerships", "Rival camps", "Producer duos", "Comedy acts"], "e": "<b>songwriting partnerships</b>."}, {"q": "'Bad Medicine' and 'Born to Be My Baby' were co-written with which frequent collaborator?", "a": ["Desmond Child", "Bruce Fairbairn", "Mutt Lange", "Diane Warren"], "e": "<b>Desmond Child</b>."}, {"q": "Jon Bon Jovi campaigned and performed for several US political and charity causes, often tied to?", "a": ["Housing / homelessness (JBJ Soul Foundation)", "Space exploration", "Tech startups", "Auto racing"], "e": "<b>housing/homelessness</b> efforts."}, {"q": "The Circle (2009) and most post-2000 albums saw production input from?", "a": ["John Shanks", "Bruce Fairbairn", "Bob Rock", "Rick Rubin"], "e": "<b>John Shanks</b>."}, {"q": "'Living Proof,' a Forever single, reflects Jon's mindset after his?", "a": ["Vocal recovery", "Divorce", "Retirement", "Hall of Fame induction"], "e": "his <b>vocal-cord recovery</b>."}, {"q": "Bon Jovi's '7800° Fahrenheit' (1985) is named for the approximate temperature of?", "a": ["Molten/erupting magma", "The sun's surface", "A jet engine", "Stage pyrotechnics"], "e": "roughly the temperature of <b>molten rock</b>."}, {"q": "Phil X had filled in for Sambora as early as which year before becoming permanent?", "a": ["2011", "2005", "2013", "2016"], "e": "<b>2011</b> (subbing on tour)."}, {"q": "'Wanted Dead or Alive' casts Jon and the band as modern-day?", "a": ["Cowboys / outlaws", "Sailors", "Soldiers", "Gamblers"], "e": "<b>cowboys</b> on the road."}, {"q": "Bon Jovi's induction made them New Jersey rock royalty alongside fellow inductee?", "a": ["Bruce Springsteen", "Frank Sinatra", "The Misfits", "Whitney Houston"], "e": "<b>Bruce Springsteen</b> (a fellow Jersey legend)."}];
+
+  var RANKS = [{"pct": 100, "name": "Captain Kidd", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Prayer Faithful", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Jersey Regular", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Singalong", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Bon Jovi fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Bon Jovi Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/bonjovi/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Bon Jovi champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Bon Jovi Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
