@@ -658,7 +658,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v24';
+                content: '⇄ swipe to see all rounds · v25';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1387,7 +1387,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v24</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v25</div>
         <div class="header-tagline">Settle the debate: the greatest Billy Joel song ever</div>
     </div>
     <div class="header-actions">
@@ -3772,9 +3772,9 @@ updateProgress();
     var _ab=window.applyConcertBracket;
     if(typeof _ab==='function'){
       window.applyConcertBracket=function(setlist,date,venue,city){
+        var r=_ab.apply(this,arguments);  // runs the internal silentReset first
         try{ played = (window.getSetlistSongs ? window.getSetlistSongs(setlist) : []) || []; }catch(e){ played=null; }
-        var r=_ab.apply(this,arguments);
-        setTimeout(schedule,300); setTimeout(schedule,650);
+        setTimeout(schedule,300); setTimeout(schedule,700);
         return r;
       };
     }
@@ -3852,8 +3852,9 @@ updateProgress();
     var _ab=window.applyConcertBracket;
     if(typeof _ab==='function'){
       window.applyConcertBracket=function(setlist,date,venue,city){
-        try{ var songs=(window.getSetlistSongs?window.getSetlistSongs(setlist):[])||[]; data={venue:venue,date:date,city:city,songs:songs}; render(); setTimeout(openP,400); }catch(e){}
-        return _ab.apply(this,arguments);
+        var r=_ab.apply(this,arguments);  // runs the internal silentReset first
+        try{ var songs=(window.getSetlistSongs?window.getSetlistSongs(setlist):[])||[]; data={venue:venue,date:date,city:city,songs:songs}; render(); setTimeout(openP,500); }catch(e){}
+        return r;
       };
     }
     ['silentReset','confirmReset'].forEach(function(fn){ var _f=window[fn]; if(typeof _f==='function'){ window[fn]=function(){ data=null; isOpen=false; applyState(); return _f.apply(this,arguments); }; } });
