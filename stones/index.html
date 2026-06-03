@@ -2617,7 +2617,17 @@ window.addEventListener('resize', setStickyTopHeight);
 
 // ─── EMAIL MODAL ──────────────────────────────────────────────────
 function openEmailModal(champName) {
-    try { if (localStorage.getItem('cyc-hub-email')) { skipEmail(); return; } } catch(e) {}
+    try { if (localStorage.getItem('cyc-hub-email')) {
+        console.log('[cyc] subscriber fast-path: saving bracket, skipping email ask');
+        try { saveBracketData(null, false).catch(function(){}); } catch(e) { console.warn('[cyc] bracket save', e); }
+        if (concertProxyReady()) {
+            setTimeout(function(){
+                try { openConcertModal((document.getElementById('champion').innerText || '').trim()); console.log('[cyc] concert modal opened'); }
+                catch(e) { console.warn('[cyc] concert modal failed', e); }
+            }, 600);
+        } else { console.log('[cyc] concert proxy not ready — no concert ask'); }
+        return;
+    } } catch(e) { console.warn('[cyc] fast-path error', e); }
     document.getElementById('emailModalChamp').innerText = champName;
     document.getElementById('emailModal').classList.add('open');
     setTimeout(() => document.getElementById('emailInput').focus(), 400);
