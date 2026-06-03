@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pearl Jam Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Pearl Jam fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Pearl Jam Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/pearljam/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pearl Jam Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_pj.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Pearl Jam</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Pearl Jam bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Pearl Jam formed in 1990 in which city?", "a": ["Seattle", "Los Angeles", "Portland", "San Diego"], "e": "<b>Seattle</b>."}, {"q": "Pearl Jam's lead vocalist is?", "a": ["Eddie Vedder", "Stone Gossard", "Mike McCready", "Jeff Ament"], "e": "<b>Eddie Vedder</b>."}, {"q": "Pearl Jam's debut album (1991) was titled?", "a": ["Ten", "Vs.", "Vitalogy", "No Code"], "e": "<b>Ten</b>."}, {"q": "'Alive,' 'Even Flow' and 'Jeremy' are from which album?", "a": ["Ten", "Vs.", "Vitalogy", "Yield"], "e": "<b>Ten</b>."}, {"q": "Pearl Jam's lead guitarist is?", "a": ["Mike McCready", "Stone Gossard", "Jeff Ament", "Matt Cameron"], "e": "<b>Mike McCready</b>."}, {"q": "Pearl Jam's bassist is?", "a": ["Jeff Ament", "Stone Gossard", "Mike McCready", "Boom Gaspar"], "e": "<b>Jeff Ament</b>."}, {"q": "Pearl Jam's rhythm guitarist and co-founder is?", "a": ["Stone Gossard", "Mike McCready", "Jeff Ament", "Eddie Vedder"], "e": "<b>Stone Gossard</b>."}, {"q": "Pearl Jam rose from the ashes of which band, after its singer died?", "a": ["Mother Love Bone", "Soundgarden", "Green River", "Temple of the Dog"], "e": "<b>Mother Love Bone</b> (singer Andrew Wood)."}, {"q": "Pearl Jam is a flagship of which 1990s movement?", "a": ["Grunge", "Britpop", "Nu metal", "New wave"], "e": "<b>Grunge</b>."}, {"q": "Pearl Jam's 1993 second album was titled?", "a": ["Vs.", "Vitalogy", "No Code", "Ten"], "e": "<b>Vs.</b>."}, {"q": "Pearl Jam's 1994 third album was titled?", "a": ["Vitalogy", "Vs.", "No Code", "Yield"], "e": "<b>Vitalogy</b>."}, {"q": "Pearl Jam's drummer from 1998 to 2025 was?", "a": ["Matt Cameron", "Dave Krusen", "Jack Irons", "Dave Abbruzzese"], "e": "<b>Matt Cameron</b> (also of Soundgarden)."}, {"q": "In 1994 Pearl Jam famously boycotted which ticketing company?", "a": ["Ticketmaster", "Live Nation", "StubHub", "AXS"], "e": "<b>Ticketmaster</b>."}, {"q": "'Better Man' is from which album?", "a": ["Vitalogy", "Ten", "Vs.", "No Code"], "e": "<b>Vitalogy</b>."}, {"q": "Pearl Jam's 2024 album was titled?", "a": ["Dark Matter", "Gigaton", "Lightning Bolt", "Backspacer"], "e": "<b>Dark Matter</b>."}, {"q": "Eddie Vedder grew up mainly in which city?", "a": ["San Diego", "Seattle", "Chicago", "Portland"], "e": "<b>San Diego</b> (born in Evanston, IL)."}, {"q": "Pearl Jam was inducted into the Rock & Roll Hall of Fame in?", "a": ["2017", "2010", "2014", "2020"], "e": "<b>2017</b>."}, {"q": "'Daughter' is from which album?", "a": ["Vs.", "Ten", "Vitalogy", "Yield"], "e": "<b>Vs.</b>."}, {"q": "Nine fans died at Pearl Jam's 2000 set at which festival?", "a": ["Roskilde", "Glastonbury", "Reading", "Lollapalooza"], "e": "<b>Roskilde</b> (Denmark)."}, {"q": "'Black,' a beloved ballad, is from which album?", "a": ["Ten", "Vs.", "Vitalogy", "Riot Act"], "e": "<b>Ten</b>."}, {"q": "Pearl Jam's highest-charting US single was a 1999 cover of?", "a": ["Last Kiss", "Love Reign O'er Me", "Rockin' in the Free World", "Crazy Mary"], "e": "<b>'Last Kiss.'</b>"}, {"q": "Eddie Vedder's 2007 solo soundtrack album was for which film?", "a": ["Into the Wild", "Big Fish", "Singles", "Dead Man Walking"], "e": "<b>Into the Wild</b>."}, {"q": "Pearl Jam's 2020 album was titled?", "a": ["Gigaton", "Backspacer", "Lightning Bolt", "Riot Act"], "e": "<b>Gigaton</b>."}, {"q": "Pearl Jam appeared (as the band 'Citizen Dick') in which 1992 film?", "a": ["Singles", "Reality Bites", "Hype!", "Almost Famous"], "e": "<b>Singles</b>."}, {"q": "Pearl Jam's original band name was?", "a": ["Mookie Blaylock", "Temple of the Dog", "Green River", "Mother Love Bone"], "e": "<b>Mookie Blaylock</b> (an NBA guard)."}, {"q": "The animated 'Do the Evolution' video is from which 1998 album?", "a": ["Yield", "No Code", "Vitalogy", "Binaural"], "e": "<b>Yield</b>."}, {"q": "'Given to Fly' is from which 1998 album?", "a": ["Yield", "No Code", "Vitalogy", "Riot Act"], "e": "<b>Yield</b>."}, {"q": "Pearl Jam's 1996 album was titled?", "a": ["No Code", "Yield", "Binaural", "Riot Act"], "e": "<b>No Code</b>."}, {"q": "Pearl Jam's 2002 album was titled?", "a": ["Riot Act", "Binaural", "Backspacer", "No Code"], "e": "<b>Riot Act</b>."}, {"q": "Pearl Jam's 2006 self-titled album is nicknamed the ___ album.", "a": ["Avocado", "Stickman", "Green", "Black"], "e": "the <b>'Avocado'</b> album (for its cover)."}, {"q": "Pearl Jam's 2009 album was titled?", "a": ["Backspacer", "Riot Act", "Lightning Bolt", "Binaural"], "e": "<b>Backspacer</b>."}, {"q": "Pearl Jam's 2013 album was titled?", "a": ["Lightning Bolt", "Backspacer", "Gigaton", "Dark Matter"], "e": "<b>Lightning Bolt</b>."}, {"q": "'Sirens' is a single from which 2013 album?", "a": ["Lightning Bolt", "Backspacer", "Gigaton", "Riot Act"], "e": "<b>Lightning Bolt</b>."}, {"q": "Pearl Jam's album 'Ten' was named after the jersey number of which NBA player?", "a": ["Mookie Blaylock", "Michael Jordan", "Gary Payton", "Shawn Kemp"], "e": "<b>Mookie Blaylock</b> (#10)."}, {"q": "'Even Flow' and 'Once' are from which album?", "a": ["Ten", "Vs.", "Vitalogy", "No Code"], "e": "<b>Ten</b>."}, {"q": "Pearl Jam's 2000 album was titled?", "a": ["Binaural", "No Code", "Riot Act", "Yield"], "e": "<b>Binaural</b>."}, {"q": "'Spin the Black Circle' and 'Corduroy' are from which album?", "a": ["Vitalogy", "Vs.", "Ten", "No Code"], "e": "<b>Vitalogy</b>."}, {"q": "Eddie Vedder is famously a devoted fan of which baseball team?", "a": ["Chicago Cubs", "Seattle Mariners", "San Diego Padres", "Boston Red Sox"], "e": "the <b>Chicago Cubs</b>."}, {"q": "'Dance of the Clairvoyants' was the lead single from which 2020 album?", "a": ["Gigaton", "Lightning Bolt", "Backspacer", "Dark Matter"], "e": "<b>Gigaton</b>."}, {"q": "Pearl Jam released hundreds of official live ___ starting in 2000.", "a": ["Bootlegs", "Videos", "Remixes", "Acoustic EPs"], "e": "official <b>bootlegs</b>."}, {"q": "Mike McCready's 1990s side band with Layne Staley was?", "a": ["Mad Season", "Temple of the Dog", "Mother Love Bone", "Brad"], "e": "<b>Mad Season</b>."}, {"q": "Pearl Jam contributed 'Man of the Hour' to which 2003 Tim Burton film?", "a": ["Big Fish", "Into the Wild", "Singles", "Dead Man Walking"], "e": "<b>Big Fish</b>."}, {"q": "Dark Matter (2024) was produced by?", "a": ["Andrew Watt", "Brendan O'Brien", "Rick Parashar", "Adam Kasper"], "e": "<b>Andrew Watt</b>."}, {"q": "'Jeremy' (1991) became famous partly for its controversial?", "a": ["Music video", "Album cover", "Banned lyrics", "Live ban"], "e": "its <b>music video</b>."}, {"q": "Eddie Vedder also plays which instrument prominently?", "a": ["Guitar (and ukulele)", "Drums", "Saxophone", "Keyboards"], "e": "<b>guitar</b> (and ukulele)."}, {"q": "Pearl Jam's touring keyboardist since 2002 is?", "a": ["Boom Gaspar", "Brendan O'Brien", "Josh Evans", "Kenny Gradney"], "e": "<b>Boom Gaspar</b>."}, {"q": "'Last Kiss' (1999) was released as a charity single benefiting?", "a": ["Kosovar refugees", "Hurricane relief", "Cancer research", "Veterans"], "e": "<b>Kosovar refugees</b>."}, {"q": "Pearl Jam's three founders (Gossard, Ament, McCready) are all from the ___ scene.", "a": ["Seattle", "Los Angeles", "Portland", "San Francisco"], "e": "<b>Seattle</b>."}, {"q": "Eddie Vedder's full ukulele-based solo album (2011) was titled?", "a": ["Ukulele Songs", "Into the Wild", "Earthling", "Songs"], "e": "<b>Ukulele Songs</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Pearl Jam formed after the 1990 death of which Mother Love Bone singer?", "a": ["Andrew Wood", "Layne Staley", "Chris Cornell", "Mark Lanegan"], "e": "<b>Andrew Wood</b>."}, {"q": "Eddie Vedder's birth name is?", "a": ["Edward Louis Severson III", "Eddie Mueller", "Edward Vedder Jr.", "Louis Edward Vedder"], "e": "<b>Edward Louis Severson III</b>."}, {"q": "Before Pearl Jam, Stone Gossard and Jeff Ament were in Mother Love Bone and?", "a": ["Green River", "Soundgarden", "Mudhoney", "Alice in Chains"], "e": "<b>Green River</b>."}, {"q": "Ten's drummer, who left during early touring, was?", "a": ["Dave Krusen", "Dave Abbruzzese", "Jack Irons", "Matt Cameron"], "e": "<b>Dave Krusen</b> (later of Candlebox)."}, {"q": "The drummer on Vs. and Vitalogy was?", "a": ["Dave Abbruzzese", "Dave Krusen", "Jack Irons", "Matt Cameron"], "e": "<b>Dave Abbruzzese</b>."}, {"q": "The Pearl Jam drummer from 1994–1998 (ex-Red Hot Chili Peppers) was?", "a": ["Jack Irons", "Dave Krusen", "Matt Cameron", "Dave Abbruzzese"], "e": "<b>Jack Irons</b>."}, {"q": "Matt Cameron simultaneously drummed for Pearl Jam and which reunited band?", "a": ["Soundgarden", "Audioslave", "Alice in Chains", "Mad Season"], "e": "<b>Soundgarden</b>."}, {"q": "The 1991 tribute supergroup to Andrew Wood, featuring Vedder and Chris Cornell, was?", "a": ["Temple of the Dog", "Mad Season", "Mother Love Bone", "Brad"], "e": "<b>Temple of the Dog</b>."}, {"q": "Temple of the Dog's signature Vedder/Cornell duet was?", "a": ["Hunger Strike", "Say Hello 2 Heaven", "Reach Down", "Times of Trouble"], "e": "<b>Hunger Strike</b>."}, {"q": "Eddie Vedder wrote his first lyrics over a demo dubbed 'Momma-Son,' yielding 'Alive,' 'Once' and?", "a": ["Footsteps", "Black", "Jeremy", "Release"], "e": "<b>Footsteps</b>."}, {"q": "Pearl Jam took its early name 'Mookie Blaylock' from a player in which league?", "a": ["The NBA", "The NFL", "MLB", "The NHL"], "e": "the <b>NBA</b>."}, {"q": "In 1994 Pearl Jam testified before the US government in an antitrust dispute with?", "a": ["Ticketmaster", "MTV", "the RIAA", "Sony"], "e": "<b>Ticketmaster</b>."}, {"q": "The Roskilde Festival tragedy occurred in which year?", "a": ["2000", "1998", "2003", "1996"], "e": "<b>2000</b> (30 June) — nine fans died."}, {"q": "Brendan O'Brien began his long run producing Pearl Jam with which album?", "a": ["Vs.", "Ten", "Vitalogy", "No Code"], "e": "<b>Vs.</b> (1993)."}, {"q": "Pearl Jam's debut 'Ten' (1991) was produced by the band and?", "a": ["Rick Parashar", "Brendan O'Brien", "Andrew Watt", "Adam Kasper"], "e": "<b>Rick Parashar</b>."}, {"q": "Vitalogy (1994) was unusually released first on which format?", "a": ["Vinyl", "Cassette", "8-track", "CD only"], "e": "<b>vinyl</b>, two weeks before CD."}, {"q": "Mad Season's lone studio album (1995) was titled?", "a": ["Above", "Dirt", "Facelift", "Temple"], "e": "<b>Above</b>."}, {"q": "'Spin the Black Circle' won Pearl Jam a 1996 Grammy for?", "a": ["Best Hard Rock Performance", "Best Rock Album", "Best New Artist", "Record of the Year"], "e": "<b>Best Hard Rock Performance</b>."}, {"q": "Dark Matter (2024) was recorded at which Malibu studio?", "a": ["Shangri-La", "Sound City", "Ocean Way", "Bad Animals"], "e": "<b>Shangri-La</b>."}, {"q": "Andrew Watt produced Dark Matter after working on which Vedder solo album?", "a": ["Earthling", "Into the Wild", "Ukulele Songs", "Songs"], "e": "<b>Earthling</b> (2022)."}, {"q": "Matt Cameron left Pearl Jam in 2025 after how many years?", "a": ["27 years", "15 years", "20 years", "10 years"], "e": "<b>27 years</b>."}, {"q": "Cameron Crowe's 2011 Pearl Jam documentary was titled?", "a": ["Pearl Jam Twenty", "Singles", "Hype!", "Let's Play Two"], "e": "<b>Pearl Jam Twenty</b> (PJ20)."}, {"q": "Eddie Vedder's Cubs anthem is the song?", "a": ["All the Way", "Better Man", "Sirens", "Future Days"], "e": "<b>All the Way</b>."}, {"q": "Pearl Jam's Riot Act (2002) included the anti-Bush song?", "a": ["Bu$hleaguer", "World Wide Suicide", "Do the Evolution", "Grievance"], "e": "<b>Bu$hleaguer</b>."}, {"q": "Pearl Jam was inducted into the Rock Hall in 2017 by?", "a": ["David Letterman", "Bruce Springsteen", "Neil Young", "Cameron Crowe"], "e": "<b>David Letterman</b>."}, {"q": "Riot Act (2002) was the first Pearl Jam album to feature which keyboardist?", "a": ["Boom Gaspar", "Brendan O'Brien", "Adam Kasper", "Josh Evans"], "e": "<b>Boom Gaspar</b>."}, {"q": "'World Wide Suicide' was the lead single from which 2006 album?", "a": ["Pearl Jam (Avocado)", "Riot Act", "Backspacer", "Binaural"], "e": "<b>Pearl Jam</b> (the 'Avocado' album)."}, {"q": "Pearl Jam's name reportedly derives from a homemade preserve made by Vedder's great-grandmother named?", "a": ["Pearl", "Ruby", "Opal", "Hazel"], "e": "<b>Pearl</b> — 'Pearl's jam.'"}, {"q": "Jack Irons, who later drummed for PJ, originally co-founded which band?", "a": ["Red Hot Chili Peppers", "Soundgarden", "Eleven", "Mother Love Bone"], "e": "<b>Red Hot Chili Peppers</b>."}, {"q": "It was Jack Irons who first passed Eddie Vedder the demo tape that became?", "a": ["Pearl Jam's audition", "Mad Season", "Temple of the Dog", "Into the Wild"], "e": "the <b>Pearl Jam audition</b> material."}, {"q": "Jeff Ament is known within the band for designing much of its?", "a": ["Album art and visual aesthetic", "Stage pyrotechnics", "Setlists", "Merch pricing"], "e": "<b>album art / visual aesthetic</b>."}, {"q": "Lightning Bolt (2013) and several earlier albums were produced by?", "a": ["Brendan O'Brien", "Andrew Watt", "Rick Parashar", "Adam Kasper"], "e": "<b>Brendan O'Brien</b>."}, {"q": "The 'Jeremy' video controversy centered on MTV's edits softening its depiction of?", "a": ["A school shooting/suicide", "Drug use", "Nudity", "Violence against police"], "e": "a <b>school shooting/suicide</b>."}, {"q": "Binaural (2000) and Riot Act were largely produced by?", "a": ["Adam Kasper", "Brendan O'Brien", "Andrew Watt", "Rick Parashar"], "e": "<b>Adam Kasper</b>."}, {"q": "Stone Gossard's funk-rock side project of the 1990s was called?", "a": ["Brad", "Mad Season", "Three Fish", "Temple of the Dog"], "e": "<b>Brad</b>."}, {"q": "Jeff Ament's side project with members of other Seattle bands was?", "a": ["Three Fish", "Brad", "Mad Season", "Wellwater Conspiracy"], "e": "<b>Three Fish</b>."}, {"q": "Pearl Jam's 'Yellow Ledbetter,' a fan-favorite B-side, is famous for its?", "a": ["Largely improvised, indecipherable lyrics", "Hidden track", "Banned video", "Orchestral arrangement"], "e": "its <b>improvised, unclear lyrics</b>."}, {"q": "'Why Go' and 'Porch' are from which album?", "a": ["Ten", "Vs.", "Vitalogy", "No Code"], "e": "<b>Ten</b>."}, {"q": "Pearl Jam's 'Crazy Mary' is a cover originally by which artist?", "a": ["Victoria Williams", "Neil Young", "Bob Dylan", "The Who"], "e": "<b>Victoria Williams</b>."}, {"q": "Eddie Vedder famously climbed lighting rigs at early shows, captured in the video for?", "a": ["Even Flow", "Alive", "Black", "Jeremy"], "e": "<b>Even Flow</b>."}, {"q": "Pearl Jam covered 'Love, Reign O'er Me' for which 2007 film?", "a": ["Reign Over Me", "Big Fish", "Into the Wild", "Singles"], "e": "<b>Reign Over Me</b>."}, {"q": "Mike McCready cites which guitarist as a primary influence on his solos?", "a": ["Jimi Hendrix", "Eddie Van Halen", "Kirk Hammett", "The Edge"], "e": "<b>Jimi Hendrix</b> (and Stevie Ray Vaughan)."}, {"q": "Pearl Jam's 'No Code' (1996) debuted at #1 but fell quickly, reflecting its?", "a": ["Experimental, less radio-friendly sound", "Lack of singles", "Poor reviews", "Limited pressing"], "e": "its <b>experimental</b> direction."}, {"q": "Before Pearl Jam, Eddie Vedder fronted a San Diego band called?", "a": ["Bad Radio", "Green River", "Brad", "Citizen Dick"], "e": "<b>Bad Radio</b>."}, {"q": "'Gigaton' (2020) marked Pearl Jam's first album in how many years?", "a": ["Seven", "Three", "Ten", "Five"], "e": "<b>seven</b> years (since 2013)."}, {"q": "Pearl Jam's 'Immortality' is widely (if wrongly) thought to reference the death of?", "a": ["Kurt Cobain", "Andrew Wood", "Layne Staley", "Chris Cornell"], "e": "<b>Kurt Cobain</b> (the band has downplayed this)."}, {"q": "The 'Avocado' album's bird-eating-its-prey artwork was designed in part by?", "a": ["Jeff Ament", "Stone Gossard", "Eddie Vedder", "Brendan O'Brien"], "e": "<b>Jeff Ament</b>."}, {"q": "Pearl Jam toured 1995's 'Vitalogy' era largely without using which company's venues?", "a": ["Ticketmaster", "Live Nation", "SFX", "House of Blues"], "e": "<b>Ticketmaster</b>'s."}, {"q": "Eddie Vedder's 2022 solo rock album (produced by Andrew Watt) was?", "a": ["Earthling", "Ukulele Songs", "Into the Wild", "Songs"], "e": "<b>Earthling</b>."}, {"q": "'Future Days,' a tender closing track, is from which 2013 album?", "a": ["Lightning Bolt", "Backspacer", "Gigaton", "Binaural"], "e": "<b>Lightning Bolt</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Ten Club Legend", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Bootleg Collector", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Pit Regular", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Listener", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Pearl Jam fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Pearl Jam Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/pearljam/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Pearl Jam champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Pearl Jam Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
