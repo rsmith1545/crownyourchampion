@@ -55,6 +55,21 @@
     color:var(--text); margin-top:12px; animation:rise .8s .2s both;}
   .subline{color:var(--muted); font-size:15px; margin-top:6px; animation:rise .8s .26s both;}
 
+  /* ── WHAT'S NEW CALLOUT ── */
+  .whats-new{position:relative; margin:34px 0 6px; padding:22px 26px; border-radius:14px;
+    background:linear-gradient(135deg, rgba(240,165,0,.13), rgba(20,25,39,.55));
+    border:1px solid var(--gold); box-shadow:0 8px 30px rgba(0,0,0,.35); animation:rise .8s .3s both;}
+  .whats-new .wn-pill{display:inline-block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;
+    letter-spacing:.2em; font-size:11px; font-weight:700; color:#0a0a0f; background:var(--gold);
+    padding:4px 13px; border-radius:999px; margin-bottom:12px;}
+  .whats-new h2{font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(24px,4vw,38px);
+    letter-spacing:.01em; color:#fff; line-height:1.04; margin-bottom:8px;}
+  .whats-new p{color:var(--text); font-size:15.5px; max-width:780px;}
+  .whats-new p b{color:var(--gold-soft); font-weight:700;}
+  .whats-new .wn-more{color:var(--muted); font-size:14px; margin-top:12px; border-top:1px solid var(--line); padding-top:11px;}
+  .whats-new .wn-more b{color:var(--gold-soft);}
+  @media (max-width:600px){ .whats-new{padding:18px 18px;} }
+
   /* ── TILES ── */
   .pick-label{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.28em;
     color:var(--muted); font-size:13px; text-align:center; margin:48px 0 16px;
@@ -195,6 +210,13 @@
       <div class="tagline">64 songs. 4 regions. One takes the crown.</div>
       <div class="subline">Build your bracket, crown a champion, and see how your picks stack up against the crowd.</div>
     </header>
+
+    <section class="whats-new">
+      <span class="wn-pill">✨ New Feature</span>
+      <h2>🎵 My Concert — build your bracket from a show you were at</h2>
+      <p>Open any tournament, hit <b>🎵 My Concert</b>, and search a show you attended. We pull the real setlist from setlist.fm, fill your bracket with the songs played that night, light them up gold across the bracket, and show you the full setlist alongside. Your night, your champion.</p>
+      <div class="wn-more">Also new: <b>🏆 Crowd's Picks</b> now decides every matchup by what fans actually vote — real wisdom of the crowd.</div>
+    </section>
 
     <div class="pick-label">Choose your tournament</div>
 
