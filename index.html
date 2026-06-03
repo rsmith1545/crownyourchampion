@@ -88,6 +88,11 @@
     text-transform:uppercase; font-size:15px; color:#0a0a0f; background:var(--gold); padding:11px 22px; border-radius:10px;
     text-decoration:none; transition:transform .15s, box-shadow .15s;}
   .missing-btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(240,165,0,.35);}
+  .req-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+  .req-row input{flex:1 1 240px; max-width:320px; padding:11px 14px; border-radius:10px; border:1px solid var(--line); background:#0c1018; color:var(--text); font-size:15px;}
+  .req-row input:focus{outline:none; border-color:var(--gold);}
+  .req-msg{margin-top:11px; font-size:14px; min-height:18px;}
+  .req-msg.ok{color:#4caf50;} .req-msg.err{color:var(--crimson-lt);}
 
   /* ── TILES ── */
   .pick-label{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.28em;
@@ -371,7 +376,7 @@
     <section class="missing">
       <h2>🎸 Don't see your band?</h2>
       <p>We're always adding artists with the catalog to fill a 64-song bracket. Tell us who's next — the deeper the discography, the better the tournament.</p>
-      <a class="missing-btn" href="mailto:crownyourchampion@gmail.com?subject=Band%20Request&body=I'd%20love%20a%20Crown%20Your%20Champion%20bracket%20for%3A%20">📧 Request a band</a>
+      <div class="req-row"><input id="band-req" type="text" autocomplete="off" placeholder="Which artist?" aria-label="Request a band"><button id="band-req-btn" class="missing-btn" type="button">Request</button></div><div class="req-msg" id="band-req-msg" role="status" aria-live="polite"></div>
     </section>
 
     <section class="howto">
@@ -454,6 +459,26 @@
     btn.textContent='Done ✓'; $('email').value='';
   };
   $('email').addEventListener('keydown', e=>{ if(e.key==='Enter') $('join').click(); });
+
+  // Band request -> logged to the same hub_signups collection (tagged), reliable on every device
+  var brBtn = $('band-req-btn');
+  if (brBtn) {
+    brBtn.onclick = async () => {
+      const band = $('band-req').value.trim();
+      const msg = $('band-req-msg');
+      if (band.length < 2){ msg.className='req-msg err'; msg.textContent='Type an artist name first.'; return; }
+      brBtn.disabled = true; const lbl = brBtn.textContent; brBtn.textContent = 'Sending…';
+      try { localStorage.setItem('cyc-band-req', band); } catch(e){}
+      const write = db ? addDoc(collection(db,'hub_signups'), {
+        band, source:'band_request', created_at:serverTimestamp()
+      }) : Promise.resolve();
+      try { await Promise.race([ write, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000)) ]); }
+      catch(e){ console.warn('band req', e); }
+      msg.className='req-msg ok'; msg.textContent='🎉 Request received — thanks! We read every one.';
+      brBtn.textContent='Sent ✓'; $('band-req').value='';
+    };
+    $('band-req').addEventListener('keydown', e=>{ if(e.key==='Enter') brBtn.click(); });
+  }
 </script>
 
 <script>
