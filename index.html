@@ -80,6 +80,14 @@
   .get-app .ga-step .ga-dev{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12px; color:var(--gold); margin-bottom:6px;}
   .get-app .ga-step b{color:var(--gold-soft);}
   @media (max-width:680px){ .get-app .ga-steps{grid-template-columns:1fr;} }
+  .missing{text-align:center; margin:40px auto 0; max-width:620px; padding:26px 24px; border-radius:14px;
+    background:linear-gradient(135deg, rgba(179,50,44,.12), rgba(20,25,39,.5)); border:1px solid var(--crimson-lt);}
+  .missing h2{font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(22px,3.6vw,32px); color:#fff; letter-spacing:.01em; margin-bottom:6px;}
+  .missing p{color:var(--text); font-size:15px; margin-bottom:16px;}
+  .missing-btn{display:inline-block; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; font-size:15px; color:#0a0a0f; background:var(--gold); padding:11px 22px; border-radius:10px;
+    text-decoration:none; transition:transform .15s, box-shadow .15s;}
+  .missing-btn:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(240,165,0,.35);}
 
   /* ── TILES ── */
   .pick-label{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.28em;
@@ -359,6 +367,12 @@
     </section>
 
     <div class="no-results" id="no-results">No bands match that — try another search.</div>
+
+    <section class="missing">
+      <h2>🎸 Don't see your band?</h2>
+      <p>New tournaments drop all the time. Tell us which artist deserves a bracket and we'll add them to the lineup.</p>
+      <a class="missing-btn" href="mailto:crownyourchampion@gmail.com?subject=Band%20Request&body=I'd%20love%20a%20Crown%20Your%20Champion%20bracket%20for%3A%20">📧 Request a band</a>
+    </section>
 
     <section class="howto">
       <h2>How to Play</h2>
