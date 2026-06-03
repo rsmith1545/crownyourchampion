@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billy Joel Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Billy Joel fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Billy Joel Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/billyjoel/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Billy Joel Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_bj.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Billy Joel</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Billy Joel bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Billy Joel's signature song, also a 1973 album title, is?", "a": ["Piano Man", "The Stranger", "My Life", "Honesty"], "e": "<b>Piano Man</b>."}, {"q": "Billy Joel hails from which US state?", "a": ["New York (Long Island)", "New Jersey", "California", "Pennsylvania"], "e": "<b>New York</b> — Hicksville, Long Island."}, {"q": "Billy Joel's 1977 breakthrough album was?", "a": ["The Stranger", "52nd Street", "Glass Houses", "Turnstiles"], "e": "<b>The Stranger</b>."}, {"q": "Billy Joel's primary instrument is the?", "a": ["Piano", "Guitar", "Saxophone", "Drums"], "e": "<b>piano</b>."}, {"q": "'Just the Way You Are' and 'Movin' Out' are from which 1977 album?", "a": ["The Stranger", "52nd Street", "An Innocent Man", "Glass Houses"], "e": "<b>The Stranger</b>."}, {"q": "'We Didn't Start the Fire' was a hit in which year?", "a": ["1989", "1983", "1977", "1993"], "e": "<b>1989</b> (from Storm Front)."}, {"q": "'Uptown Girl' is from which 1983 album?", "a": ["An Innocent Man", "The Stranger", "Glass Houses", "The Bridge"], "e": "<b>An Innocent Man</b>."}, {"q": "Billy Joel held a decade-long monthly residency at which venue?", "a": ["Madison Square Garden", "Radio City", "The Hollywood Bowl", "Red Rocks"], "e": "<b>Madison Square Garden</b>."}, {"q": "Billy Joel's MSG residency wrapped up with its final show in?", "a": ["2024", "2020", "2018", "2022"], "e": "<b>2024</b> (July 25 — his 150th show there)."}, {"q": "Billy Joel's first new single in 17 years (2024) was?", "a": ["Turn the Lights Back On", "The River of Dreams", "All About Soul", "Christmas in Fallujah"], "e": "<b>Turn the Lights Back On</b>."}, {"q": "Billy Joel was inducted into the Rock & Roll Hall of Fame in?", "a": ["1999", "1992", "2004", "2010"], "e": "<b>1999</b>."}, {"q": "'It's Still Rock and Roll to Me' is from which 1980 album?", "a": ["Glass Houses", "52nd Street", "The Stranger", "Turnstiles"], "e": "<b>Glass Houses</b>."}, {"q": "Billy Joel's last pop/rock studio album (1993) was?", "a": ["River of Dreams", "Storm Front", "The Bridge", "Glass Houses"], "e": "<b>River of Dreams</b>."}, {"q": "'New York State of Mind' is from which 1976 album?", "a": ["Turnstiles", "The Stranger", "52nd Street", "Piano Man"], "e": "<b>Turnstiles</b>."}, {"q": "'Tell Her About It' and 'The Longest Time' are from which album?", "a": ["An Innocent Man", "The Stranger", "Glass Houses", "The Bridge"], "e": "<b>An Innocent Man</b>."}, {"q": "'Allentown' is from which 1982 album?", "a": ["The Nylon Curtain", "Glass Houses", "An Innocent Man", "52nd Street"], "e": "<b>The Nylon Curtain</b>."}, {"q": "Billy Joel was famously married to which supermodel?", "a": ["Christie Brinkley", "Cindy Crawford", "Iman", "Heather Locklear"], "e": "<b>Christie Brinkley</b>."}, {"q": "'She's Always a Woman' is from which 1977 album?", "a": ["The Stranger", "52nd Street", "An Innocent Man", "Glass Houses"], "e": "<b>The Stranger</b>."}, {"q": "'My Life,' 'Big Shot' and 'Honesty' are from which 1978 album?", "a": ["52nd Street", "The Stranger", "Glass Houses", "Turnstiles"], "e": "<b>52nd Street</b>."}, {"q": "Billy Joel's 1983 album, a tribute to '60s pop and soul, was?", "a": ["An Innocent Man", "The Bridge", "Glass Houses", "Storm Front"], "e": "<b>An Innocent Man</b>."}, {"q": "'Vienna' and 'Scenes from an Italian Restaurant' are from which album?", "a": ["The Stranger", "52nd Street", "Turnstiles", "Glass Houses"], "e": "<b>The Stranger</b>."}, {"q": "Billy Joel's nickname is the?", "a": ["Piano Man", "Boss", "Voice", "Killer"], "e": "the <b>Piano Man</b>."}, {"q": "Billy Joel's 1986 album was?", "a": ["The Bridge", "Storm Front", "Glass Houses", "The Nylon Curtain"], "e": "<b>The Bridge</b>."}, {"q": "'Pressure' and 'Goodnight Saigon' are from which 1982 album?", "a": ["The Nylon Curtain", "Glass Houses", "52nd Street", "An Innocent Man"], "e": "<b>The Nylon Curtain</b>."}, {"q": "'Keeping the Faith' is from which 1983 album?", "a": ["An Innocent Man", "The Bridge", "Glass Houses", "Storm Front"], "e": "<b>An Innocent Man</b>."}, {"q": "Billy Joel's 1989 album was?", "a": ["Storm Front", "The Bridge", "River of Dreams", "52nd Street"], "e": "<b>Storm Front</b>."}, {"q": "'Leningrad' and 'And So It Goes' are from which 1989 album?", "a": ["Storm Front", "The Bridge", "River of Dreams", "An Innocent Man"], "e": "<b>Storm Front</b>."}, {"q": "Billy Joel's full name is?", "a": ["William Martin Joel", "William Michael Joel", "Bill Martin Joel", "William Joseph Joel"], "e": "<b>William Martin Joel</b>."}, {"q": "'Say Goodbye to Hollywood' is from which 1976 album?", "a": ["Turnstiles", "The Stranger", "Piano Man", "52nd Street"], "e": "<b>Turnstiles</b>."}, {"q": "Billy Joel grew up in which Long Island town?", "a": ["Hicksville", "Levittown", "Massapequa", "Montauk"], "e": "<b>Hicksville</b>."}, {"q": "Billy Joel's 2001 album, a departure into classical piano, was?", "a": ["Fantasies & Delusions", "River of Dreams", "Storm Front", "The Bridge"], "e": "<b>Fantasies & Delusions</b>."}, {"q": "'You May Be Right' is from which 1980 album?", "a": ["Glass Houses", "52nd Street", "The Stranger", "An Innocent Man"], "e": "<b>Glass Houses</b>."}, {"q": "'Lullabye (Goodnight, My Angel)' is from which 1993 album?", "a": ["River of Dreams", "Storm Front", "The Bridge", "An Innocent Man"], "e": "<b>River of Dreams</b>."}, {"q": "The Stranger album cover shows Billy Joel with which props on a bed?", "a": ["Boxing gloves", "A guitar", "A typewriter", "A telephone"], "e": "<b>boxing gloves</b>."}, {"q": "'Movin' Out (Anthony's Song)' later inspired a Broadway dance musical choreographed by?", "a": ["Twyla Tharp", "Bob Fosse", "Jerome Robbins", "Susan Stroman"], "e": "<b>Twyla Tharp</b>."}, {"q": "'Only the Good Die Young' is from which 1977 album?", "a": ["The Stranger", "52nd Street", "Glass Houses", "An Innocent Man"], "e": "<b>The Stranger</b>."}, {"q": "'The River of Dreams' (the single) was a hit in which year?", "a": ["1993", "1989", "1983", "1980"], "e": "<b>1993</b>."}, {"q": "Billy Joel performed a famous concert behind the Iron Curtain in 1987, in the?", "a": ["Soviet Union", "East Germany", "Poland", "Hungary"], "e": "the <b>Soviet Union</b>."}, {"q": "'Big Shot' is from which 1978 album?", "a": ["52nd Street", "The Stranger", "Glass Houses", "Turnstiles"], "e": "<b>52nd Street</b>."}, {"q": "Billy Joel's 'Piano Man' was inspired by his real stint playing at a?", "a": ["Piano bar / lounge", "Wedding band", "Church", "Jazz club"], "e": "a <b>piano bar</b> (in LA)."}, {"q": "'An Innocent Man' (the song) is from which album of the same name, released in?", "a": ["1983", "1977", "1980", "1989"], "e": "<b>1983</b>."}, {"q": "'Tell Her About It' evokes the sound of which 1960s style?", "a": ["Motown", "Disco", "Surf rock", "Punk"], "e": "<b>Motown</b>."}, {"q": "Billy Joel has sold over how many records worldwide?", "a": ["150 million", "20 million", "500 million", "50 million"], "e": "over <b>150 million</b>."}, {"q": "'Captain Jack,' an early FM-radio favorite, is from which 1973 album?", "a": ["Piano Man", "The Stranger", "Turnstiles", "52nd Street"], "e": "<b>Piano Man</b>."}, {"q": "Billy Joel's 1976 album, his first with his touring band, was?", "a": ["Turnstiles", "The Stranger", "Piano Man", "52nd Street"], "e": "<b>Turnstiles</b>."}, {"q": "'Pressure' is from which 1982 album?", "a": ["The Nylon Curtain", "Glass Houses", "52nd Street", "An Innocent Man"], "e": "<b>The Nylon Curtain</b>."}, {"q": "Billy Joel's 'We Didn't Start the Fire' is essentially a rapid-fire list of?", "a": ["Historical events", "Cities", "Ex-girlfriends", "Movies"], "e": "<b>historical events</b> (1949–1989)."}, {"q": "'Goodnight Saigon' is a song about which war?", "a": ["The Vietnam War", "World War II", "The Korean War", "The Gulf War"], "e": "the <b>Vietnam War</b>."}, {"q": "Billy Joel's 1980 album Glass Houses had a harder sound responding to?", "a": ["Punk / new wave", "Disco", "Country", "Hip-hop"], "e": "<b>punk / new wave</b>."}, {"q": "'Honesty' is a ballad from which 1978 album?", "a": ["52nd Street", "The Stranger", "Glass Houses", "Turnstiles"], "e": "<b>52nd Street</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Billy Joel was born in which year?", "a": ["1949", "1945", "1952", "1958"], "e": "<b>1949</b>."}, {"q": "Before his solo career, Billy Joel was in a hard-rock duo called?", "a": ["Attila", "The Hassles", "Cold Spring", "The Lost Souls"], "e": "<b>Attila</b> (with Jon Small)."}, {"q": "Billy Joel's 1971 solo debut, mastered at the wrong speed, was?", "a": ["Cold Spring Harbor", "Piano Man", "Turnstiles", "Streetlife Serenade"], "e": "<b>Cold Spring Harbor</b>."}, {"q": "'Piano Man' drew on his time playing LA lounges under the alias?", "a": ["Bill Martin", "Joey Reynolds", "Billy Martin Joel", "Bill Joel"], "e": "<b>Bill Martin</b>."}, {"q": "52nd Street (1978) won the Grammy for?", "a": ["Album of the Year", "Record of the Year", "Best New Artist", "Song of the Year"], "e": "<b>Album of the Year</b>."}, {"q": "'Just the Way You Are' won Grammys for Record of the Year and?", "a": ["Song of the Year", "Album of the Year", "Best Pop Vocal", "Best New Artist"], "e": "<b>Song of the Year</b>."}, {"q": "The Stranger and most of Joel's classic albums were produced by?", "a": ["Phil Ramone", "Quincy Jones", "George Martin", "Mutt Lange"], "e": "<b>Phil Ramone</b>."}, {"q": "Billy Joel competed as a teenager in which sport?", "a": ["Boxing", "Swimming", "Baseball", "Wrestling"], "e": "<b>boxing</b> (amateur)."}, {"q": "Billy Joel's 1987 USSR tour produced the live album titled?", "a": ["Концерт (Kohuept)", "Live in Moscow", "Iron Curtain", "Red Square"], "e": "<b>Концерт</b> ('Kohuept')."}, {"q": "Billy Joel's MSG residency began in which year?", "a": ["2014", "2010", "2006", "2018"], "e": "<b>2014</b>."}, {"q": "'Turn the Lights Back On' (2024) was co-written and produced by?", "a": ["Freddy Wexler", "Jack Antonoff", "Max Martin", "Phil Ramone"], "e": "<b>Freddy Wexler</b>."}, {"q": "Billy Joel's final studio album overall (2001) consisted of?", "a": ["Classical solo-piano compositions", "Pop covers", "Live recordings", "Jazz standards"], "e": "<b>classical piano</b> ('Fantasies & Delusions')."}, {"q": "Christie Brinkley appeared in the music video for which Billy Joel hit?", "a": ["Uptown Girl", "Tell Her About It", "The Longest Time", "Keeping the Faith"], "e": "<b>Uptown Girl</b>."}, {"q": "'Miami 2017 (Seen the Lights Go Out on Broadway)' is from which 1976 album?", "a": ["Turnstiles", "The Stranger", "52nd Street", "Piano Man"], "e": "<b>Turnstiles</b>."}, {"q": "The Nylon Curtain (1982) was heavily influenced by which band?", "a": ["The Beatles", "The Rolling Stones", "The Beach Boys", "The Who"], "e": "<b>The Beatles</b>."}, {"q": "The Bridge (1986) featured the duet 'Baby Grand' with?", "a": ["Ray Charles", "Stevie Wonder", "Elton John", "Ray Parker Jr."], "e": "<b>Ray Charles</b>."}, {"q": "Billy Joel's daughter with Christie Brinkley, also a musician, is?", "a": ["Alexa Ray Joel", "Sailor Joel", "Stephanie Joel", "Della Joel"], "e": "<b>Alexa Ray Joel</b> — named partly for Ray Charles."}, {"q": "Storm Front (1989) was co-produced by Mick Jones of which band?", "a": ["Foreigner", "The Clash", "Bad Company", "Free"], "e": "<b>Foreigner</b>."}, {"q": "Billy Joel's father, Howard, was a classically trained pianist who fled?", "a": ["Nazi Germany", "Soviet Russia", "Fascist Italy", "Franco's Spain"], "e": "<b>Nazi Germany</b>."}, {"q": "Billy Joel's half-brother, Alexander Joel, is a noted?", "a": ["Classical conductor", "Film director", "Novelist", "Painter"], "e": "a <b>classical conductor</b>."}, {"q": "'Allentown' addressed the decline of which American industry?", "a": ["Steel / heavy industry", "Auto manufacturing", "Coal mining", "Textiles"], "e": "<b>steel/industrial</b> towns."}, {"q": "Joel's finances were badly mismanaged by his ex-brother-in-law manager?", "a": ["Frank Weber", "Tommy Mottola", "Allen Klein", "Irving Azoff"], "e": "<b>Frank Weber</b>."}, {"q": "'She's Always a Woman' was written about Joel's first wife and former?", "a": ["Manager (Elizabeth Weber)", "Bandmate", "Producer", "Backing singer"], "e": "his manager <b>Elizabeth</b>."}, {"q": "'Scenes from an Italian Restaurant' tells the story of which couple?", "a": ["Brenda and Eddie", "Tommy and Gina", "Sue and Sal", "Anthony and Maria"], "e": "<b>Brenda and Eddie</b>."}, {"q": "Billy Joel headlined the final concerts at which stadium in 2008?", "a": ["Shea Stadium", "Yankee Stadium", "Giants Stadium", "Veterans Stadium"], "e": "<b>Shea Stadium</b> ('Last Play at Shea')."}, {"q": "'You're Only Human (Second Wind)' (1985) was written to address?", "a": ["Teen suicide / hope", "Drug abuse", "War", "Homelessness"], "e": "<b>teen suicide</b> and hope."}, {"q": "Billy Joel was inducted into the Songwriters Hall of Fame in which year?", "a": ["1992", "1999", "1985", "2004"], "e": "<b>1992</b> (Rock Hall came in 1999)."}, {"q": "'The Longest Time' is an homage to which vocal style?", "a": ["A cappella doo-wop", "Gregorian chant", "Barbershop ragtime", "Gospel"], "e": "<b>a cappella doo-wop</b>."}, {"q": "Billy Joel debuted 'Turn the Lights Back On' live at which 2024 awards show?", "a": ["The Grammys", "The Oscars", "The Tonys", "The VMAs"], "e": "the <b>Grammys</b>."}, {"q": "'Christmas in Fallujah' (2007) was Joel's prior single before his 17-year gap; it addressed?", "a": ["The Iraq War", "Homelessness", "9/11", "Climate change"], "e": "the <b>Iraq War</b>."}, {"q": "Joel's mid-1970s album before Turnstiles was?", "a": ["Streetlife Serenade", "Cold Spring Harbor", "Piano Man", "52nd Street"], "e": "<b>Streetlife Serenade</b> (1974)."}, {"q": "52nd Street was historically the first album commercially released on which format?", "a": ["CD", "Cassette", "8-track", "MiniDisc"], "e": "the <b>compact disc</b> (in Japan, 1982)."}, {"q": "'Leningrad' grew out of friendships Joel made during his?", "a": ["Soviet tour", "Broadway run", "MSG residency", "Boxing days"], "e": "his <b>Soviet tour</b>."}, {"q": "Billy Joel's 1985 compilation 'Greatest Hits Vol. 1 & 2' became one of the?", "a": ["Best-selling albums in US history", "First MTV albums", "Shortest hits sets", "Only live compilations"], "e": "<b>best-selling albums</b> in US history."}, {"q": "'And So It Goes,' released on Storm Front (1989), was actually written in the?", "a": ["Early 1980s", "Late 1990s", "Mid-1970s", "Year 1989"], "e": "the <b>early 1980s</b>."}, {"q": "Billy Joel's 'Vienna' has become a beloved anthem about?", "a": ["Slowing down / not rushing life", "New York City", "Lost love", "Touring"], "e": "<b>not rushing life</b>."}, {"q": "Joel co-wrote 'We Didn't Start the Fire' listing events from 1949 to?", "a": ["1989", "1999", "1980", "1975"], "e": "<b>1989</b> — spanning his lifetime."}, {"q": "Glass Houses' lead single 'It's Still Rock and Roll to Me' was Billy Joel's first US?", "a": ["No. 1 single", "Gold album", "Grammy win", "Top 40 hit"], "e": "<b>No. 1 single</b>."}, {"q": "Billy Joel briefly retired from pop songwriting after which 1993 album?", "a": ["River of Dreams", "Storm Front", "The Bridge", "An Innocent Man"], "e": "<b>River of Dreams</b>."}, {"q": "'Tell Her About It' hit No. 1 and was styled after which label's sound?", "a": ["Motown", "Stax", "Sun", "Chess"], "e": "<b>Motown</b>."}, {"q": "Billy Joel's manager-driven 1980s lawsuits centered on lost?", "a": ["Royalties and publishing", "Concert revenue", "Merchandise", "Film rights"], "e": "<b>royalties and publishing</b>."}, {"q": "The album An Innocent Man pays tribute to the music of Joel's?", "a": ["Teenage years (early '60s)", "College years", "Childhood lullabies", "Touring years"], "e": "his <b>teenage years</b> (early '60s)."}, {"q": "Billy Joel's 'Piano Man' is built on a distinctive waltzing?", "a": ["3/4 time feel", "4/4 backbeat", "Reggae groove", "March tempo"], "e": "<b>3/4 (waltz)</b> feel."}, {"q": "'Big Shot' is widely thought to be about a night out with which then-partner?", "a": ["Bianca Jagger (per legend)", "Christie Brinkley", "Elizabeth Weber", "Carolyn Beegan"], "e": "reportedly a <b>high-society night out</b>."}, {"q": "Joel's 1974 song 'The Entertainer' satirized the?", "a": ["Music industry", "Political world", "Tabloid press", "Touring life"], "e": "the <b>music industry</b>."}, {"q": "Billy Joel's MSG final-residency concert (2024) marked roughly how many lifetime shows there?", "a": ["150", "75", "100", "200"], "e": "<b>150</b>."}, {"q": "'Movin' Out (Anthony's Song)' references a character working to escape?", "a": ["A dead-end, money-driven life", "A small town", "A bad marriage", "The army"], "e": "a <b>materialistic, dead-end life</b>."}, {"q": "Billy Joel's backing-band saxophone and the Stranger-era sound were shaped by producer?", "a": ["Phil Ramone", "Mick Jones", "Quincy Jones", "George Martin"], "e": "<b>Phil Ramone</b>."}, {"q": "Billy Joel performed at the 12-12-12 concert and many benefits in/for which city he's tied to?", "a": ["New York", "Los Angeles", "Boston", "Philadelphia"], "e": "<b>New York</b>."}, {"q": "Joel's 1980 album Glass Houses won him the Grammy for Best Rock Vocal Performance, Male, for?", "a": ["Glass Houses", "It's Still Rock and Roll to Me", "52nd Street", "The Stranger"], "e": "<b>Glass Houses</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Piano Man", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Garden Regular", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Long Island Faithful", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Singalong", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Billy Joel fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Billy Joel Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/billyjoel/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Billy Joel champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Billy Joel Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
