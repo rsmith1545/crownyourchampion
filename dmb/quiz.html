@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMB Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Dave Matthews Band fan are you? 16 questions, one fan rank. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="DMB Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="16 questions, one fan rank. Can you reach GrooGrux King?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/dmb/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DMB Superfan Quiz">
+<meta name="twitter:description" content="16 questions, one fan rank. Can you reach GrooGrux King?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_dmb.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .top a{ display:inline-block; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:20px; }
+  .btn{ display:inline-block; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  /* progress */
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.12em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  /* result */
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:440px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Dave Matthews Band</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+
+  <div class="card" id="card">
+    <!-- screens injected by JS -->
+  </div>
+
+  <div class="foot">
+    <a href="./">← Back to the DMB bracket</a> &nbsp;·&nbsp; <a href="../">All tournaments</a>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  // ---- Question bank (fact-checked; no lyrics) ----
+  var QUESTIONS = [
+    { q:"In what year was Dave Matthews Band formed?", a:["1991","1989","1994","1996"], c:0,
+      e:"Formed in <b>Charlottesville, Virginia, in 1991</b>." },
+    { q:"In which city did the band get its start?", a:["Charlottesville, VA","Richmond, VA","Athens, GA","Seattle, WA"], c:0,
+      e:"<b>Charlottesville, VA</b> — where Dave tended bar and recruited the original lineup." },
+    { q:"Dave Matthews was born in which country?", a:["South Africa","United States","England","Australia"], c:0,
+      e:"Born in <b>Johannesburg, South Africa</b>, in 1967." },
+    { q:"What was DMB's first major-label studio album (1994)?", a:["Under the Table and Dreaming","Crash","Before These Crowded Streets","Busted Stuff"], c:0,
+      e:"<b>Under the Table and Dreaming</b> (Sept 1994). The 1993 indie release \"Remember Two Things\" came first." },
+    { q:"\"Crash Into Me\" appears on which album?", a:["Crash (1996)","Everyday","Busted Stuff","Big Whiskey and the GrooGrux King"], c:0,
+      e:"<b>Crash</b> (1996) — which also gave us \"Two Step\" and \"#41.\"" },
+    { q:"Which founding member played the saxophone?", a:["LeRoi Moore","Boyd Tinsley","Jeff Coffin","Rashawn Ross"], c:0,
+      e:"<b>LeRoi Moore</b>, a founding member, passed away in 2008." },
+    { q:"The founding saxophonist passed away in which year?", a:["2008","2012","2005","2018"], c:0,
+      e:"<b>2008</b> — LeRoi Moore died from complications after an ATV accident." },
+    { q:"The 2009 album \"Big Whiskey and the GrooGrux King\" pays tribute to whom?", a:["LeRoi Moore","Carter Beauford","Dave's father","A longtime fan"], c:0,
+      e:"\"GrooGrux\" was <b>LeRoi Moore's</b> nickname; the album honors him." },
+    { q:"Which instrument did founding member Boyd Tinsley play?", a:["Violin","Saxophone","Trumpet","Keyboards"], c:0,
+      e:"Tinsley's electric <b>violin</b> defined the early DMB sound. He departed in 2018." },
+    { q:"Who is DMB's drummer, famed for his open-handed, ambidextrous style?", a:["Carter Beauford","Stefan Lessard","Tim Reynolds","Rashawn Ross"], c:0,
+      e:"<b>Carter Beauford</b> — widely ranked among the greatest rock drummers." },
+    { q:"Bassist Stefan Lessard was famously what age when he joined?", a:["A teenager","In his 30s","25","21"], c:0,
+      e:"Lessard was a <b>teenage</b> jazz student when he joined in 1991." },
+    { q:"Which album features \"Grey Street\" and \"Grace Is Gone\"?", a:["Busted Stuff (2002)","Everyday","Stand Up","Crash"], c:0,
+      e:"<b>Busted Stuff</b> — many of its songs came from the unreleased \"Lillywhite Sessions.\"" },
+    { q:"Which guitarist is Dave's frequent acoustic-duo partner?", a:["Tim Reynolds","Jeff Coffin","Rashawn Ross","Buddy Strong"], c:0,
+      e:"<b>Tim Reynolds</b> — the \"Dave & Tim\" acoustic shows are legendary." },
+    { q:"Which saxophonist joined the band after LeRoi Moore's passing?", a:["Jeff Coffin","Rashawn Ross","Tim Reynolds","Boyd Tinsley"], c:0,
+      e:"<b>Jeff Coffin</b> (ex-Bela Fleck & the Flecktones) stepped in and stayed." },
+    { q:"What is DMB's most recent studio album?", a:["Walk Around the Moon (2023)","Come Tomorrow","Away From the World","Crash"], c:0,
+      e:"<b>Walk Around the Moon</b>, released May 2023." },
+    { q:"Roughly how many studio albums has DMB released?", a:["10","5","7","14"], c:0,
+      e:"<b>Ten</b> — from the 1994 debut through 2023's Walk Around the Moon." }
+  ];
+
+  var RANKS = [
+    { min:16, name:"GrooGrux King", icon:"👑", blurb:"Flawless. You ARE the band's encyclopedia. Bow down." },
+    { min:13, name:"Front Row Faithful", icon:"🎸", blurb:"Serious fan. You've got the deep cuts and the history down." },
+    { min:10, name:"Warehouse Regular", icon:"🎫", blurb:"Solid. You know your DMB — a few gaps to fill on tour." },
+    { min:6,  name:"Tailgater", icon:"🍻", blurb:"You're here for the good time more than the trivia. Respect." },
+    { min:0,  name:"Casual Listener", icon:"🎧", blurb:"Time to dig into the catalog — then come settle the bracket." }
+  ];
+
+  var card=document.getElementById('toast'); // placeholder
+  var C=document.getElementById('card');
+  var idx=0, score=0, answered=false;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+
+  function start(){
+    idx=0; score=0; answered=false;
+    C.innerHTML=
+      '<div class="center">'+
+      '<p class="lead">How big a Dave Matthews Band fan are you?</p>'+
+      '<p class="sub">16 questions. One fan rank. No \"finish the lyric\" — just the real stuff.</p>'+
+      '<button class="btn btn-go" id="startBtn">Start the Quiz</button>'+
+      '</div>';
+    document.getElementById('startBtn').onclick=function(){ idx=0; score=0; render(); };
+  }
+
+  function render(){
+    answered=false;
+    var item=QUESTIONS[idx];
+    var html=''+
+      '<div class="qmeta"><span>Question '+(idx+1)+' / '+QUESTIONS.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/QUESTIONS.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===QUESTIONS.length-1?'See My Rank':'Next')+'</button></div>';
+    C.innerHTML=html;
+    var opts=document.getElementById('opts');
+    item.a.forEach(function(text,i){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text;
+      b.onclick=function(){ choose(i,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){
+      if(idx<QUESTIONS.length-1){ idx++; render(); } else { result(); }
+    };
+  }
+
+  function choose(i,btn){
+    if(answered) return; answered=true;
+    var item=QUESTIONS[idx];
+    var all=document.querySelectorAll('.opt');
+    all.forEach(function(b,bi){ b.disabled=true; if(bi===item.c) b.classList.add('correct'); });
+    if(i===item.c){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(i===item.c?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(s){ for(var i=0;i<RANKS.length;i++){ if(s>=RANKS[i].min) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var r=rankFor(score);
+    var shareText='I scored '+score+'/'+QUESTIONS.length+' on the DMB Superfan Quiz — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/dmb/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">Your DMB Fan Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+QUESTIONS.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="retryBtn">↺ Retake</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your DMB champion →</a></div>'+
+      '</div>';
+    document.getElementById('retryBtn').onclick=start;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'DMB Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
