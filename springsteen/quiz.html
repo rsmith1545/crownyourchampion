@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springsteen Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Bruce Springsteen fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Springsteen Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/springsteen/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Springsteen Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_bruce.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Bruce Springsteen</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the DMB bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Bruce Springsteen's famous nickname is?", "a": ["The Boss", "The King", "The Voice", "Slowhand"], "e": "<b>The Boss</b>."}, {"q": "Springsteen is most associated with which U.S. state?", "a": ["New Jersey", "California", "Texas", "New York"], "e": "<b>New Jersey</b>."}, {"q": "Springsteen's longtime backing band is the?", "a": ["E Street Band", "Heartbreakers", "Silver Bullet Band", "Wailers"], "e": "The <b>E Street Band</b>."}, {"q": "The E Street Band saxophonist who died in 2011 was?", "a": ["Clarence Clemons", "Danny Federici", "Garry Tallent", "Nils Lofgren"], "e": "<b>Clarence Clemons</b>, 'The Big Man.'"}, {"q": "'Thunder Road' and 'Born to Run' are from which 1975 album?", "a": ["Born to Run", "Darkness on the Edge of Town", "The River", "Nebraska"], "e": "<b>Born to Run</b>."}, {"q": "Springsteen's best-selling album (1984) was?", "a": ["Born in the U.S.A.", "Born to Run", "The River", "Nebraska"], "e": "<b>Born in the U.S.A.</b>"}, {"q": "'Dancing in the Dark' is from which album?", "a": ["Born in the U.S.A.", "Born to Run", "Tunnel of Love", "The Rising"], "e": "<b>Born in the U.S.A.</b> (1984)."}, {"q": "The stark, mostly solo 1982 acoustic album was?", "a": ["Nebraska", "Darkness on the Edge of Town", "Devils & Dust", "The Ghost of Tom Joad"], "e": "<b>Nebraska</b>."}, {"q": "Bruce Springsteen was born in which year?", "a": ["1949", "1945", "1953", "1958"], "e": "<b>1949</b>."}, {"q": "The E Street guitarist nicknamed 'Little Steven' is?", "a": ["Steven Van Zandt", "Nils Lofgren", "Roy Bittan", "Garry Tallent"], "e": "<b>Steven Van Zandt</b>."}, {"q": "Springsteen's wife and E Street Band member is?", "a": ["Patti Scialfa", "Stevie Nicks", "Linda Ronstadt", "Emmylou Harris"], "e": "<b>Patti Scialfa</b>."}, {"q": "'Glory Days' and 'I'm on Fire' are from which album?", "a": ["Born in the U.S.A.", "The River", "Born to Run", "Tunnel of Love"], "e": "<b>Born in the U.S.A.</b> (1984)."}, {"q": "Which Springsteen song from the film 'Philadelphia' won an Oscar?", "a": ["Streets of Philadelphia", "The Rising", "Secret Garden", "Dead Man Walkin'"], "e": "<b>Streets of Philadelphia</b> (1994)."}, {"q": "Springsteen launched his career in which NJ shore town?", "a": ["Asbury Park", "Atlantic City", "Hoboken", "Cape May"], "e": "<b>Asbury Park</b>."}, {"q": "The E Street Band's drummer is?", "a": ["Max Weinberg", "Danny Federici", "Roy Bittan", "Clarence Clemons"], "e": "<b>Max Weinberg</b>."}, {"q": "'The Rising' (2002) was largely a response to which event?", "a": ["9/11", "Hurricane Katrina", "The 2008 crash", "The Vietnam War"], "e": "The <b>September 11 attacks</b>."}, {"q": "The E Street Band was inducted into the Rock & Roll Hall of Fame in?", "a": ["2014", "1999", "2005", "2021"], "e": "<b>2014</b> (Bruce solo in 1999)."}, {"q": "Springsteen's acclaimed solo theater residency was called?", "a": ["Springsteen on Broadway", "The Boss Live", "E Street Nights", "Glory Days"], "e": "<b>Springsteen on Broadway</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Bruce Springsteen grew up mainly in which NJ town?", "a": ["Freehold", "Newark", "Camden", "Trenton"], "e": "<b>Freehold</b> (born in Long Branch)."}, {"q": "Springsteen's 1973 debut album was titled?", "a": ["Greetings from Asbury Park, N.J.", "Born to Run", "The Wild, the Innocent...", "Nebraska"], "e": "<b>Greetings from Asbury Park, N.J.</b>"}, {"q": "His second 1973 album was?", "a": ["The Wild, the Innocent & the E Street Shuffle", "Born to Run", "Darkness on the Edge of Town", "The River"], "e": "<b>The Wild, the Innocent & the E Street Shuffle</b>."}, {"q": "'Nebraska' (1982) was famously recorded on?", "a": ["A 4-track home cassette", "An 8-track in the studio", "Analog tape live", "A laptop"], "e": "A <b>4-track cassette</b> — home demos released as-is."}, {"q": "Which critic wrote 'I saw rock and roll future and its name is Bruce Springsteen'?", "a": ["Jon Landau", "Lester Bangs", "Greil Marcus", "Robert Christgau"], "e": "<b>Jon Landau</b> — who became his manager/producer."}, {"q": "The E Street keyboardist/organist who died in 2008 was?", "a": ["Danny Federici", "Roy Bittan", "Clarence Clemons", "David Sancious"], "e": "<b>Danny Federici</b>."}, {"q": "'Born in the U.S.A.' (1984) produced a record-tying how many Top-10 singles?", "a": ["Seven", "Three", "Five", "Ten"], "e": "<b>Seven</b> Top-10 hits."}, {"q": "The E Street Band bassist is?", "a": ["Garry Tallent", "Nils Lofgren", "Steven Van Zandt", "Roy Bittan"], "e": "<b>Garry Tallent</b>."}, {"q": "Springsteen's 1980 double album was?", "a": ["The River", "Born to Run", "Nebraska", "Tunnel of Love"], "e": "<b>The River</b>."}, {"q": "'Darkness on the Edge of Town' was released in which year?", "a": ["1978", "1975", "1982", "1984"], "e": "<b>1978</b>."}, {"q": "The 'Born to Run' album cover shows Bruce leaning on which bandmate?", "a": ["Clarence Clemons", "Steven Van Zandt", "Max Weinberg", "Garry Tallent"], "e": "<b>Clarence Clemons</b>."}, {"q": "Nils Lofgren joined the E Street Band in 1984 replacing whom?", "a": ["Steven Van Zandt", "Danny Federici", "Clarence Clemons", "Roy Bittan"], "e": "<b>Steven Van Zandt</b> (who later returned)."}, {"q": "Springsteen's 2016 memoir was titled?", "a": ["Born to Run", "The Boss", "Glory Days", "Thunder Road"], "e": "<b>Born to Run</b>."}, {"q": "The E Street pianist known for the 'Thunder Road' intro is?", "a": ["Roy Bittan", "Danny Federici", "David Sancious", "Charlie Giordano"], "e": "<b>Roy Bittan</b>."}, {"q": "In 1975, Springsteen appeared the same week on the covers of Time and?", "a": ["Newsweek", "Rolling Stone", "Life", "People"], "e": "<b>Newsweek</b> — simultaneously, Oct 1975."}, {"q": "'Tunnel of Love' was released in which year?", "a": ["1987", "1982", "1992", "1980"], "e": "<b>1987</b>."}, {"q": "The E Street Band took its name from a street in which NJ town?", "a": ["Belmar", "Freehold", "Asbury Park", "Long Branch"], "e": "<b>Belmar</b> — E Street, where David Sancious's mother lived."}, {"q": "Clarence Clemons' famous nickname was?", "a": ["The Big Man", "The Professor", "Phantom", "Mighty Max"], "e": "<b>The Big Man</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "The Boss", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "E Street Faithful", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Jersey Regular", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Glory Days Fan", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Bruce Springsteen fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Springsteen Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/springsteen/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Springsteen champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Springsteen Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
