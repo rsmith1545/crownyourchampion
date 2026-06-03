@@ -658,7 +658,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v17';
+                content: '⇄ swipe to see all rounds · v18';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1387,7 +1387,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v17</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v18</div>
         <div class="header-tagline">Settle the debate: the greatest Red Hot Chili Peppers song ever</div>
     </div>
     <div class="header-actions">
@@ -2327,9 +2327,10 @@ function applyConcertBracket(setlist, date, venue, city) {
     setTimeout(() => {
         const scoreFn = (name) => {
             const played = concertSongs.some(s => songsMatch(s, name));
-            return played ? (50 + Math.random()) : Math.random();
+            const seed = (window.NAME_SEED && window.NAME_SEED[name]) || 16;
+            return (played ? 1000 : 0) + (17 - seed);   // concert songs always advance; higher seed breaks ties (both or neither played)
         };
-        fillEntireBracket(scoreFn, true);
+        fillEntireBracket(scoreFn, false);
         document.querySelector('.mode-btn.mode-concert')?.classList.add('active');
         showToast(`🎵 ${venue} · ${date} — bracket filled from that night!`);
     }, 200);
