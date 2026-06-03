@@ -629,7 +629,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v10';
+                content: '⇄ swipe to see all rounds · v11';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -3628,7 +3628,7 @@ updateProgress();
 })();
 </script>
 <script>
-/* cycChampUX v2 — header champion chip (green/gold, after submit) + champion folded into celebration popup with dark scrim for readability. Self-contained. */
+/* cycChampUX v3 — large green/gold header champion box (after submit) + dark scrim on the celebration flash (champion kept separate). Self-contained. */
 (function(){
   if(window.__cycChampUX) return; window.__cycChampUX=1;
   function champName(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
@@ -3637,12 +3637,9 @@ updateProgress();
     var st=document.createElement('style'); st.id='cycChampCss';
     st.textContent='#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,.86) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.66) 100%);}'+
       '#cycCelebScrim.show{display:block;animation:cycScrimFade 5.8s ease forwards;}'+
-      '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}'+
-      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(30px,6.5vw,64px);color:#fff;line-height:1.04;margin-top:10px;text-shadow:0 2px 22px rgba(0,0,0,.85);}'+
-      '.celebrate-text .ct-champ .cgold{color:var(--dmb-gold);}';
+      '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}';
     document.head.appendChild(st);
   }
-  (function(){ var ov=document.getElementById('celebrateText'); if(ov && !document.getElementById('ctChamp')){ var d=document.createElement('div'); d.className='ct-champ'; d.id='ctChamp'; ov.appendChild(d); } })();
   if(!document.getElementById('cycCelebScrim')){ var sc=document.createElement('div'); sc.id='cycCelebScrim'; document.body.appendChild(sc); }
   function addMobileShare(){
     var crown=document.getElementById('crownBtn');
@@ -3656,24 +3653,22 @@ updateProgress();
     var hdr=document.querySelector('.site-header'), actions=hdr&&hdr.querySelector('.header-actions');
     if(hdr && actions && !document.getElementById('cycHdrChamp')){
       var c=document.createElement('div'); c.id='cycHdrChamp'; c.title='Share your champion'; c.onclick=share;
-      c.style.cssText='display:none;align-items:center;gap:14px;padding:10px 22px;border:2px solid var(--dmb-gold);border-radius:9px;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);cursor:pointer;box-shadow:0 3px 14px rgba(0,0,0,.4);';
-      c.innerHTML='<span style="font-size:32px;line-height:1">👑</span>'+
-        '<span style="display:flex;flex-direction:column;line-height:1.05">'+
-        '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--dmb-gold);font-size:11px">Your Champion</span>'+
-        '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1px;color:#fff;font-size:30px;line-height:1"></strong></span>';
+      c.style.cssText='display:none;flex:1 1 auto;align-items:center;justify-content:center;gap:20px;margin:0 34px;padding:16px 30px;min-height:96px;box-sizing:border-box;border:2px solid var(--dmb-gold);border-radius:11px;background:linear-gradient(135deg,#0d1f0d,#1a3d1a);cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);';
+      c.innerHTML='<span style="font-size:50px;line-height:1">👑</span>'+
+        '<span style="display:flex;flex-direction:column;line-height:1.04">'+
+        '<span style="font-family:\'Barlow Condensed\',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold);font-size:15px;margin-bottom:2px">Your Champion</span>'+
+        '<strong id="cycHdrChampName" style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:1.5px;color:#fff;font-size:clamp(34px,3.6vw,52px);line-height:1"></strong></span>';
       hdr.insertBefore(c, actions);
     }
   }
-  function showHeaderChamp(){ var name=champName(); if(!name) return; var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName'); if(c&&n){ n.textContent=name; c.style.display=(window.innerWidth>900)?'inline-flex':'none'; } }
+  function showHeaderChamp(){ var name=champName(); if(!name) return; var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName'); if(c&&n){ n.textContent=name; c.style.display=(window.innerWidth>900)?'flex':'none'; } }
   function hideHeaderChamp(){ var c=document.getElementById('cycHdrChamp'); if(c) c.style.display='none'; }
   function showMobShare(){ var b=document.getElementById('cycMobShare'); if(b) b.style.display=(window.innerWidth<=900)?'block':'none'; }
   function init(){
     addMobileShare(); addHeaderChip(); showMobShare();
     var _cel=window.celebrate;
     window.celebrate=function(){
-      try{ var n=champName(), e=document.getElementById('ctChamp'); if(e) e.innerHTML = n ? ('<span class="cgold">👑</span> '+n+' <span class="cgold">👑</span>') : '';
-        var s=document.getElementById('cycCelebScrim'); if(s){ s.classList.remove('show'); void s.offsetWidth; s.classList.add('show'); setTimeout(function(){ s.classList.remove('show'); },5900); }
-      }catch(_){}
+      try{ var s=document.getElementById('cycCelebScrim'); if(s){ s.classList.remove('show'); void s.offsetWidth; s.classList.add('show'); setTimeout(function(){ s.classList.remove('show'); },5900); } }catch(_){}
       return _cel && _cel.apply(this,arguments);
     };
     var _sc=window.submitAndCrown;
