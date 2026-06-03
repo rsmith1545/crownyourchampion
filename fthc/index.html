@@ -3673,8 +3673,10 @@ updateProgress();
       for(var k=0;k<src.length;k++){
         var t=dst[Math.floor(k/2)]; if(!t) continue;
         var s=Rc(src[k]),d=Rc(t);
-        var sx=s.l+s.w,sy=s.t+s.h/2,tx=d.l,ty=d.t+d.h/2;
-        if(tx<=sx+4) continue;
+        var sy=s.t+s.h/2,ty=d.t+d.h/2,sx,tx;
+        if(d.l>=s.l+s.w+4){ sx=s.l+s.w; tx=d.l; }
+        else if(s.l>=d.l+d.w+4){ sx=s.l; tx=d.l+d.w; }
+        else continue;
         var midx=sx+(tx-sx)/2;
         var p=document.createElementNS(NS,'path');
         p.setAttribute('d','M '+sx+' '+sy+' H '+midx+' V '+ty+' H '+tx);
