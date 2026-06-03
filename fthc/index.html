@@ -668,7 +668,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v16';
+                content: '⇄ swipe to see all rounds · v17';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1363,6 +1363,11 @@
             font-size: 10px; margin-bottom: 6px; color: var(--dmb-muted);
         }
         .site-footer .credits-line { margin: 4px 0; }
+        .site-footer .modes-title { letter-spacing: 2px; text-transform: uppercase; font-size: 10px; margin-bottom: 9px; color: var(--dmb-muted); }
+        .site-footer .fm-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 26px; max-width: 760px; margin: 0 auto 18px; text-align: left; }
+        .site-footer .fm-list .fm-item { margin: 0; }
+        .site-footer .fm-list strong { color: var(--dmb-gold); font-weight: 700; }
+        @media (max-width: 600px) { .site-footer .fm-list { grid-template-columns: 1fr; gap: 7px; } }
         .site-footer a { color: #6fa3e0; text-decoration: none; }
         .site-footer a:hover { text-decoration: underline; }
 
@@ -1392,7 +1397,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v16</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v17</div>
         <div class="header-tagline">Settle the debate: the greatest Frank Turner song ever</div>
     </div>
     <div class="header-actions">
@@ -1634,6 +1639,16 @@
 
 
 <footer class="site-footer">
+    <div class="modes-title">How the Auto-Fill Modes Work</div>
+    <div class="fm-list">
+        <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
+        <div class="fm-item"><strong>📊 By The Numbers</strong> — the most-streamed songs on Spotify advance.</div>
+        <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by how fans actually voted.</div>
+        <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
+        <div class="fm-item"><strong>🎸 Era Bracket</strong> — songs from the era you choose win out.</div>
+        <div class="fm-item"><strong>🔥 Controversy</strong> — underdogs take round 1, then chaos reigns.</div>
+        <div class="fm-item"><strong>🎵 My Concert</strong> — fills with songs from a show you actually attended.</div>
+    </div>
     
     <div class="credits-line">Crown Your Champion is a fan project, not affiliated with or endorsed by Frank Turner.</div>
     <div class="credits-line"><a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
