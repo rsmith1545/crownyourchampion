@@ -658,7 +658,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v18';
+                content: '⇄ swipe to see all rounds · v19';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1387,7 +1387,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v18</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v19</div>
         <div class="header-tagline">Settle the debate: the greatest Billy Joel song ever</div>
     </div>
     <div class="header-actions">
@@ -2189,7 +2189,8 @@ function applyFavorites() {
 
 // ─── CONCERT DATA (setlist.fm via your Cloudflare Worker proxy) ───
 // After deploying setlist-proxy.js, paste the Worker URL here:
-window.CONCERT_PROXY = 'https://YOUR-WORKER.workers.dev';   // <-- SET THIS
+window.CONCERT_PROXY = 'https://setlist-proxy.rsmith1545.workers.dev';
+window.CONCERT_ARTIST = 'Billy Joel';
 const CONCERT_MAX_PAGES = 6;   // setlist.fm returns ~20/page; 6 pages = up to ~120 shows
 
 function concertProxyReady() {
@@ -2221,6 +2222,7 @@ async function fetchDMBSetlists(params) {
     for (let p = 1; p <= CONCERT_MAX_PAGES; p++) {
         const qs = new URLSearchParams();
         Object.keys(params).forEach(k => { if (params[k]) qs.set(k, params[k]); });
+        if (window.CONCERT_ARTIST && !qs.get('artistName')) qs.set('artistName', window.CONCERT_ARTIST);
         qs.set('p', String(p));
         let data;
         try {
