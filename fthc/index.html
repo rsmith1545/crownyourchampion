@@ -668,7 +668,7 @@
             }
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '⇄ swipe to see all rounds · v21';
+                content: '⇄ swipe to see all rounds · v22';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px;
@@ -1397,7 +1397,7 @@
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
-        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v21</div>
+        <div class="subtitle">64 Songs · 4 Regions · 1 Champion · v22</div>
         <div class="header-tagline">Settle the debate: the greatest Frank Turner song ever</div>
     </div>
     <div class="header-actions">
@@ -3751,6 +3751,49 @@ updateProgress();
     window.addEventListener('resize', function(){ showMobShare(); var c=document.getElementById('cycHdrChamp'); if(c&&c.style.display!=='none'&&window.innerWidth<=900) c.style.display='none'; });
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+<script>
+/* cycConcertHL — highlights songs from your loaded concert in the bracket (gold). Self-contained. */
+(function(){
+  if(window.__cycConcertHL) return; window.__cycConcertHL=1;
+  var played = null;
+  function nameOf(el){ return (el.innerText||'').replace(/^\d+\s*/,'').trim(); }
+  function isPlayed(song){
+    if(!played||!song) return false;
+    try{ return played.some(function(s){ return window.songsMatch ? window.songsMatch(s,song) : (String(s).toLowerCase()===song.toLowerCase()); }); }catch(e){ return false; }
+  }
+  function apply(){
+    var slots=document.querySelectorAll('.slot');
+    if(!played){ slots.forEach(function(el){ el.classList.remove('cyc-played'); }); var c0=document.getElementById('champion'); if(c0) c0.classList.remove('cyc-played'); return; }
+    slots.forEach(function(el){
+      var n=nameOf(el);
+      if(n && n!=='--' && n!=='---' && isPlayed(n)) el.classList.add('cyc-played'); else el.classList.remove('cyc-played');
+    });
+    var champ=document.getElementById('champion');
+    if(champ){ var cn=nameOf(champ); if(cn && cn!=='—' && isPlayed(cn)) champ.classList.add('cyc-played'); else champ.classList.remove('cyc-played'); }
+  }
+  var raf; function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(function(){ setTimeout(apply,0); }); }
+  function init(){
+    if(!document.getElementById('cycPlayedCss')){
+      var st=document.createElement('style'); st.id='cycPlayedCss';
+      st.textContent='.slot.cyc-played{ box-shadow: inset 3px 0 0 var(--dmb-gold); background: rgba(197,160,89,0.10); }'+
+        '.slot.cyc-played, .slot.cyc-played .seed, .champ-name.cyc-played{ color:#F1D382 !important; }';
+      document.head.appendChild(st);
+    }
+    var _ab=window.applyConcertBracket;
+    if(typeof _ab==='function'){
+      window.applyConcertBracket=function(setlist,date,venue,city){
+        try{ played = (window.getSetlistSongs ? window.getSetlistSongs(setlist) : []) || []; }catch(e){ played=null; }
+        var r=_ab.apply(this,arguments);
+        setTimeout(schedule,300); setTimeout(schedule,650);
+        return r;
+      };
+    }
+    ['pick','pickFinal'].forEach(function(fn){ var _f=window[fn]; if(typeof _f==='function'){ window[fn]=function(){ var r=_f.apply(this,arguments); schedule(); return r; }; } });
+    ['silentReset','confirmReset'].forEach(function(fn){ var _f=window[fn]; if(typeof _f==='function'){ window[fn]=function(){ played=null; var r=_f.apply(this,arguments); schedule(); return r; }; } });
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 </body>
