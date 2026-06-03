@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Day Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big a Green Day fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Green Day Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/greenday/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Green Day Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_gd.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Green Day</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Green Day bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [{"q": "Green Day formed in 1987 in which US state?", "a": ["California", "New York", "Texas", "Washington"], "e": "<b>California</b> (the East Bay)."}, {"q": "Green Day's lead vocalist and guitarist is?", "a": ["Billie Joe Armstrong", "Mike Dirnt", "Tré Cool", "Jason White"], "e": "<b>Billie Joe Armstrong</b>."}, {"q": "Green Day's bassist is?", "a": ["Mike Dirnt", "Tré Cool", "Billie Joe Armstrong", "Jason White"], "e": "<b>Mike Dirnt</b>."}, {"q": "Green Day's drummer is?", "a": ["Tré Cool", "Mike Dirnt", "John Kiffmeyer", "Jason White"], "e": "<b>Tré Cool</b>."}, {"q": "Green Day's breakthrough 1994 major-label album was?", "a": ["Dookie", "Insomniac", "Nimrod", "Kerplunk"], "e": "<b>Dookie</b>."}, {"q": "'Basket Case,' 'Longview' and 'When I Come Around' are from which album?", "a": ["Dookie", "American Idiot", "Insomniac", "Warning"], "e": "<b>Dookie</b>."}, {"q": "Green Day's 2004 rock opera album was?", "a": ["American Idiot", "21st Century Breakdown", "Nimrod", "Warning"], "e": "<b>American Idiot</b>."}, {"q": "'Boulevard of Broken Dreams' is from which album?", "a": ["American Idiot", "Dookie", "Nimrod", "Saviors"], "e": "<b>American Idiot</b>."}, {"q": "Green Day's genre is best described as?", "a": ["Pop-punk", "Heavy metal", "Grunge", "Country"], "e": "<b>pop-punk</b> / punk rock."}, {"q": "Green Day's 2024 album was titled?", "a": ["Saviors", "Father of All...", "Revolution Radio", "Insomniac"], "e": "<b>Saviors</b>."}, {"q": "Green Day was inducted into the Rock & Roll Hall of Fame in?", "a": ["2015", "2010", "2018", "2020"], "e": "<b>2015</b>."}, {"q": "'Good Riddance (Time of Your Life)' is from which 1997 album?", "a": ["Nimrod", "Dookie", "Warning", "Insomniac"], "e": "<b>Nimrod</b>."}, {"q": "'Wake Me Up When September Ends' is from which album?", "a": ["American Idiot", "Nimrod", "Warning", "Dookie"], "e": "<b>American Idiot</b>."}, {"q": "Green Day's label since Dookie has been?", "a": ["Reprise Records", "Lookout!", "Epitaph", "Fat Wreck"], "e": "<b>Reprise Records</b>."}, {"q": "Green Day's early independent label was?", "a": ["Lookout! Records", "Epitaph", "Fat Wreck Chords", "SST"], "e": "<b>Lookout! Records</b>."}, {"q": "Green Day's 1995 follow-up to Dookie was?", "a": ["Insomniac", "Nimrod", "Warning", "Kerplunk"], "e": "<b>Insomniac</b>."}, {"q": "Green Day's 2000 album was?", "a": ["Warning", "Nimrod", "Insomniac", "21st Century Breakdown"], "e": "<b>Warning</b>."}, {"q": "American Idiot was adapted into a 2010 stage production on?", "a": ["Broadway", "The West End first", "Off-Broadway only", "Las Vegas"], "e": "<b>Broadway</b>."}, {"q": "'21 Guns' is from which 2009 album?", "a": ["21st Century Breakdown", "American Idiot", "Revolution Radio", "Warning"], "e": "<b>21st Century Breakdown</b>."}, {"q": "Dookie won a 1995 Grammy for Best Alternative?", "a": ["Album", "Song", "Performance", "New Artist"], "e": "Best Alternative <b>Album</b>."}, {"q": "Green Day formed in which year?", "a": ["1987", "1991", "1994", "1983"], "e": "<b>1987</b>."}, {"q": "The band's name refers to a day spent doing what?", "a": ["Smoking marijuana", "Skipping school", "Playing video games", "Surfing"], "e": "a day <b>smoking marijuana</b>."}, {"q": "'Holiday' and 'Jesus of Suburbia' are from which album?", "a": ["American Idiot", "21st Century Breakdown", "Dookie", "Nimrod"], "e": "<b>American Idiot</b>."}, {"q": "'Minority' is from which 2000 album?", "a": ["Warning", "Nimrod", "Insomniac", "American Idiot"], "e": "<b>Warning</b>."}, {"q": "Green Day's 2012 album trilogy was titled?", "a": ["¡Uno!, ¡Dos!, ¡Tré!", "One, Two, Three", "A, B, C", "Red, White, Blue"], "e": "<b>¡Uno!, ¡Dos!, ¡Tré!</b>."}, {"q": "'Brain Stew' and 'Geek Stink Breath' are from which 1995 album?", "a": ["Insomniac", "Dookie", "Nimrod", "Warning"], "e": "<b>Insomniac</b>."}, {"q": "Green Day's 2016 album was?", "a": ["Revolution Radio", "Father of All...", "¡Uno!", "Warning"], "e": "<b>Revolution Radio</b>."}, {"q": "'Bang Bang' and 'Still Breathing' are from which 2016 album?", "a": ["Revolution Radio", "Father of All...", "21st Century Breakdown", "Saviors"], "e": "<b>Revolution Radio</b>."}, {"q": "Mike Dirnt's real name is?", "a": ["Michael Pritchard", "Michael Balzary", "Frank Wright", "Mike Dirnt"], "e": "<b>Michael Pritchard</b>."}, {"q": "Tré Cool's real name is?", "a": ["Frank Edwin Wright III", "Frank Iero", "Frank Cool", "Edwin Wright"], "e": "<b>Frank Edwin Wright III</b>."}, {"q": "American Idiot won the 2005 Grammy for Best Rock?", "a": ["Album", "Song", "Performance", "Video"], "e": "Best Rock <b>Album</b>."}, {"q": "Green Day's 2020 album had the radio-safe title 'Father of All...' (full title shortened) on?", "a": ["Father of All Motherf***ers", "Father Figure", "Father Time", "Our Father"], "e": "<b>Father of All Motherf***ers</b>."}, {"q": "The Dookie album cover depicts a chaotic, cartoonish?", "a": ["Bombing of a city", "Beach party", "Concert crowd", "School scene"], "e": "a cartoon <b>bombing</b> scene."}, {"q": "Saviors (2024) celebrated the anniversaries of Dookie and which other album?", "a": ["American Idiot", "Nimrod", "Insomniac", "Warning"], "e": "<b>American Idiot</b>."}, {"q": "'Know Your Enemy' is from which 2009 album?", "a": ["21st Century Breakdown", "American Idiot", "Revolution Radio", "Saviors"], "e": "<b>21st Century Breakdown</b>."}, {"q": "The all-ages punk club central to Green Day's early scene was?", "a": ["924 Gilman Street", "CBGB", "The Whisky", "The Roxy"], "e": "<b>924 Gilman Street</b> (Berkeley)."}, {"q": "'Welcome to Paradise' appeared on Dookie and earlier on which album?", "a": ["Kerplunk", "39/Smooth", "Insomniac", "Nimrod"], "e": "<b>Kerplunk</b>."}, {"q": "Green Day's debut studio album (1990) was?", "a": ["39/Smooth", "Kerplunk", "Dookie", "Insomniac"], "e": "<b>39/Smooth</b>."}, {"q": "Green Day has how many official members?", "a": ["Three", "Four", "Two", "Five"], "e": "<b>three</b> (Billie Joe, Mike, Tré)."}, {"q": "21st Century Breakdown was released in which year?", "a": ["2009", "2004", "2012", "2016"], "e": "<b>2009</b>."}, {"q": "Green Day's breakout was boosted by a mud-soaked 1994 set at?", "a": ["Woodstock '94", "Lollapalooza", "Reading", "Warped Tour"], "e": "<b>Woodstock '94</b>."}, {"q": "'Longview' is a song about?", "a": ["Boredom (and idleness)", "War", "Heartbreak", "Fame"], "e": "<b>boredom</b> and idleness."}, {"q": "Billie Joe Armstrong was born in which year?", "a": ["1972", "1968", "1975", "1980"], "e": "<b>1972</b>."}, {"q": "Green Day's pop-punk peers in the 1990s included Blink-182 and?", "a": ["The Offspring", "Nirvana", "Pearl Jam", "Soundgarden"], "e": "<b>The Offspring</b>."}, {"q": "'American Idiot' (the song) was a protest aimed at the politics of which era?", "a": ["The George W. Bush era", "The Reagan era", "The Clinton era", "The Obama era"], "e": "the <b>George W. Bush</b> era."}, {"q": "Green Day's 1992 indie album was?", "a": ["Kerplunk", "39/Smooth", "Dookie", "Insomniac"], "e": "<b>Kerplunk</b>."}, {"q": "Saviors (2024) is Green Day's how-many-th studio album?", "a": ["14th", "10th", "20th", "7th"], "e": "their <b>14th</b>."}, {"q": "Tré Cool replaced which original Green Day drummer?", "a": ["John Kiffmeyer (Al Sobrante)", "Mike Dirnt", "Jason White", "Frank Wright"], "e": "<b>John Kiffmeyer</b> ('Al Sobrante')."}, {"q": "Green Day's 'Father of All...' (2020) leaned toward which retro style?", "a": ["Glam/garage rock", "Disco", "Reggae", "Folk"], "e": "<b>glam/garage rock</b>."}, {"q": "'When I Come Around' is from which album?", "a": ["Dookie", "Insomniac", "Nimrod", "American Idiot"], "e": "<b>Dookie</b>."}];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [{"q": "Green Day's original name, before they were 'Green Day,' was?", "a": ["Sweet Children", "The Lookouts", "Pinhead Gunpowder", "Blatz"], "e": "<b>Sweet Children</b>."}, {"q": "Tré Cool previously drummed in which East Bay punk band?", "a": ["The Lookouts", "Operation Ivy", "Rancid", "Crimpshrine"], "e": "<b>The Lookouts</b>."}, {"q": "Green Day's first two albums were released on which indie label?", "a": ["Lookout! Records", "Epitaph", "Fat Wreck Chords", "Reprise"], "e": "<b>Lookout! Records</b>."}, {"q": "Dookie (1994) was produced by?", "a": ["Rob Cavallo", "Butch Vig", "Rick Rubin", "Jerry Finn"], "e": "<b>Rob Cavallo</b>."}, {"q": "Rob Cavallo also produced which Green Day rock opera?", "a": ["American Idiot", "Father of All...", "Revolution Radio", "Kerplunk"], "e": "<b>American Idiot</b>."}, {"q": "American Idiot's central character is named?", "a": ["Jesus of Suburbia", "St. Jimmy", "Whatsername", "Tunny"], "e": "the <b>Jesus of Suburbia</b> (with St. Jimmy)."}, {"q": "The American Idiot musical opened on Broadway in?", "a": ["2010", "2005", "2008", "2014"], "e": "<b>2010</b>."}, {"q": "Billie Joe Armstrong joined the Broadway cast of American Idiot playing which role?", "a": ["St. Jimmy", "Jesus of Suburbia", "Tunny", "Will"], "e": "<b>St. Jimmy</b>."}, {"q": "Green Day's '60s-garage covers side project is called?", "a": ["Foxboro Hot Tubs", "Pinhead Gunpowder", "The Network", "The Longshot"], "e": "<b>Foxboro Hot Tubs</b>."}, {"q": "Billie Joe's masked new-wave side band is called?", "a": ["The Network", "Foxboro Hot Tubs", "The Lookouts", "Green Date"], "e": "<b>The Network</b>."}, {"q": "Green Day was inducted into the Rock Hall in 2015 by which band?", "a": ["Fall Out Boy", "Blink-182", "Weezer", "The Offspring"], "e": "<b>Fall Out Boy</b>."}, {"q": "Dookie's cover artwork was created by?", "a": ["Richie Bucher", "Winston Smith", "Raymond Pettibon", "Shepard Fairey"], "e": "<b>Richie Bucher</b>."}, {"q": "The nine-minute, multi-part epic on American Idiot is?", "a": ["Jesus of Suburbia", "Homecoming", "Holiday", "Are We the Waiting"], "e": "<b>Jesus of Suburbia</b> (and 'Homecoming')."}, {"q": "21st Century Breakdown (2009) was produced by which Nirvana producer?", "a": ["Butch Vig", "Rob Cavallo", "Rick Rubin", "Steve Albini"], "e": "<b>Butch Vig</b>."}, {"q": "'Boulevard of Broken Dreams' won the 2006 Grammy for?", "a": ["Record of the Year", "Song of the Year", "Best Rock Album", "Best New Artist"], "e": "<b>Record of the Year</b>."}, {"q": "'Wake Me Up When September Ends' was written by Billie Joe about?", "a": ["His father's death", "A breakup", "9/11", "A friend's overdose"], "e": "his <b>father's death</b> (from cancer)."}, {"q": "Billie Joe Armstrong's father died of cancer when Billie Joe was about?", "a": ["10 years old", "16 years old", "5 years old", "18 years old"], "e": "<b>10</b>."}, {"q": "After Green Day signed to a major label, 924 Gilman Street effectively?", "a": ["Banned them", "Renamed a stage after them", "Closed down", "Hosted a farewell show"], "e": "<b>banned</b> them (its no-major-label ethos)."}, {"q": "Green Day's 1992 album 'Kerplunk' was their last on which label?", "a": ["Lookout! Records", "Reprise", "Epitaph", "Adeline"], "e": "<b>Lookout! Records</b>."}, {"q": "At Woodstock '94, bassist Mike Dirnt was tackled by a security guard and lost some?", "a": ["Teeth", "Hair", "Strings", "Shoes"], "e": "<b>teeth</b>."}, {"q": "Billie Joe and Mike Dirnt first met as kids around age?", "a": ["10", "15", "18", "7"], "e": "about <b>10</b>."}, {"q": "Green Day's live album/DVD from the American Idiot tour (2005) was?", "a": ["Bullet in a Bible", "Awesome as F**k", "Tune In, Tokyo", "Heart Like a Hand Grenade"], "e": "<b>Bullet in a Bible</b>."}, {"q": "'39/Smooth' was later reissued combined with EPs as?", "a": ["1,039/Smoothed Out Slappy Hours", "Kerplunk Deluxe", "Foot in Mouth", "Slappy"], "e": "<b>1,039/Smoothed Out Slappy Hours</b>."}, {"q": "In 2012 Billie Joe had an onstage meltdown at the iHeartRadio festival and then entered?", "a": ["Rehab", "Hospital for surgery", "A hiatus from touring only", "Retirement"], "e": "<b>rehab</b>."}, {"q": "Saviors (2024) reunited Green Day with which longtime producer?", "a": ["Rob Cavallo", "Butch Vig", "Rick Rubin", "Danger Mouse"], "e": "<b>Rob Cavallo</b>."}, {"q": "On the 2024 Saviors tour, Green Day performed which two albums in full?", "a": ["Dookie and American Idiot", "Nimrod and Warning", "Insomniac and Kerplunk", "Dookie and 21st Century Breakdown"], "e": "<b>Dookie</b> and <b>American Idiot</b>."}, {"q": "During a 2024 performance, Billie Joe altered an 'American Idiot' lyric to distance the band from the?", "a": ["MAGA agenda", "British monarchy", "Music industry", "Streaming era"], "e": "the <b>MAGA agenda</b>."}, {"q": "Green Day's hand-grenade-heart logo is most associated with which album?", "a": ["American Idiot", "Dookie", "Nimrod", "Warning"], "e": "<b>American Idiot</b>."}, {"q": "American Idiot was largely a reaction to which contemporary event?", "a": ["The Iraq War", "The 2008 crash", "Brexit", "The dot-com bust"], "e": "the <b>Iraq War</b> / Bush era."}, {"q": "Mike Dirnt's stage surname 'Dirnt' came from?", "a": ["The sound he made miming a bass as a kid", "A comic book", "His grandfather", "A misspelling"], "e": "the <b>'dirnt dirnt'</b> bass sound he hummed."}, {"q": "'Nimrod' (1997) broadened Green Day's sound with horns, surf and even a song featuring?", "a": ["A string arrangement (Good Riddance)", "A rap verse", "A choir", "Bagpipes"], "e": "a <b>string arrangement</b> on 'Good Riddance.'"}, {"q": "Billie Joe Armstrong's signature blue guitar is nicknamed?", "a": ["Blue", "Old Faithful", "Lucille", "Excalibur"], "e": "<b>'Blue'</b> (a modified Fernandes)."}, {"q": "Revolution Radio (2016) was notable for being?", "a": ["Self-produced by the band", "A covers album", "A live record", "An acoustic set"], "e": "<b>self-produced</b> by Green Day."}, {"q": "Green Day's pop-punk side band Billie Joe formed with members of other bands (2018) was?", "a": ["The Longshot", "The Network", "Pinhead Gunpowder", "Foxboro Hot Tubs"], "e": "<b>The Longshot</b>."}, {"q": "Billie Joe Armstrong's long-running garage/punk band (with members of Crimpshrine, etc.) is?", "a": ["Pinhead Gunpowder", "The Network", "The Lookouts", "Sweet Children"], "e": "<b>Pinhead Gunpowder</b>."}, {"q": "Dookie shipped over how many million copies in the US?", "a": ["20 million", "5 million", "2 million", "50 million"], "e": "over <b>20 million</b>."}, {"q": "American Idiot sold roughly how many million copies in the US?", "a": ["6 million", "1 million", "15 million", "20 million"], "e": "about <b>6 million</b>."}, {"q": "Green Day's 'Jesus of Suburbia' five-part suite runs roughly how long?", "a": ["Nine minutes", "Three minutes", "Fifteen minutes", "Six minutes"], "e": "about <b>nine minutes</b>."}, {"q": "Tré Cool joined Green Day (replacing Al Sobrante) in which year?", "a": ["1990", "1987", "1994", "1992"], "e": "<b>1990</b>."}, {"q": "Green Day's 'Warning' (2000) leaned in a more acoustic, folk-influenced direction partly inspired by?", "a": ["Bob Dylan / folk-punk", "Heavy metal", "Disco", "Electronica"], "e": "<b>folk and Dylan-esque</b> songwriting."}, {"q": "The members of Green Day grew up in and around which California region?", "a": ["The East Bay (near Berkeley/Rodeo)", "Orange County", "San Diego", "Sacramento"], "e": "the <b>East Bay</b>."}, {"q": "Green Day's 'Bullet in a Bible' was filmed at which UK venue?", "a": ["Milton Keynes Bowl", "Wembley Stadium", "Reading Festival", "Glastonbury"], "e": "<b>Milton Keynes Bowl</b>."}, {"q": "Insomniac (1995) reflected the band's discomfort with their?", "a": ["Sudden mainstream fame", "Record label", "Hometown scene", "Touring schedule"], "e": "their sudden <b>fame</b>."}, {"q": "'21st Century Breakdown' was structured as three acts, much like?", "a": ["American Idiot", "Dookie", "Tommy by The Who only", "Nimrod"], "e": "<b>American Idiot</b> (another rock opera)."}, {"q": "Green Day briefly performed under the joke name 'Foxboro Hot Tubs' to play?", "a": ["Surprise small club shows", "Their farewell tour", "A Super Bowl", "A telethon"], "e": "surprise <b>small-club shows</b>."}, {"q": "'Saviors' (2024) was released through which label?", "a": ["Reprise Records", "Lookout!", "Epitaph", "Adeline"], "e": "<b>Reprise Records</b>."}, {"q": "Billie Joe, Mike and Tré are all credited as the songwriters, but most lyrics come from?", "a": ["Billie Joe Armstrong", "Mike Dirnt", "Tré Cool", "An outside writer"], "e": "<b>Billie Joe Armstrong</b>."}, {"q": "Green Day's 'American Idiot' debuted at No. 1 in the US, becoming their first album to do so along with?", "a": ["21st Century Breakdown and later albums", "Dookie", "Nimrod", "Warning"], "e": "it began a run of <b>No. 1 debuts</b> (incl. 21st Century Breakdown)."}, {"q": "The character 'Whatsername' appears in which Green Day rock opera?", "a": ["American Idiot", "21st Century Breakdown", "Dookie", "Saviors"], "e": "<b>American Idiot</b>."}, {"q": "Green Day co-founded which record label to release side projects (e.g., AFI early on)?", "a": ["Adeline Records", "Lookout!", "Reprise", "Hellcat"], "e": "<b>Adeline Records</b>."}];
+
+  var RANKS = [{"pct": 100, "name": "Punk Rock Saviour", "icon": "👑", "blurb": "Flawless. You ARE the encyclopedia. Bow down."}, {"pct": 80, "name": "Gilman Street Regular", "icon": "🎸", "blurb": "Serious fan — deep cuts and history down cold."}, {"pct": 55, "name": "Boulevard Singer", "icon": "🎫", "blurb": "Solid. You know your stuff; a few gaps to fill."}, {"pct": 30, "name": "Radio Fan", "icon": "🍻", "blurb": "Here for the good time more than the trivia. Respect."}, {"pct": 0, "name": "Casual Listener", "icon": "🎧", "blurb": "Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big a Green Day fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Green Day Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/greenday/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Green Day champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      if(navigator.share){ navigator.share({title:'Green Day Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+    };
+  }
+
+  startScreen();
+})();
+</script>
+</body>
+</html>
