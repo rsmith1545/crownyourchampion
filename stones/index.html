@@ -3786,7 +3786,7 @@ updateProgress();
     var emailM=document.getElementById('emailModal'), concertM=document.getElementById('concertModal');
     if(!emailM) return; var armed=false;
     function openSoon(){ setTimeout(function(){ try{ if(champName() && window.openShare) openShare(); }catch(e){} },500); }
-    function afterEmail(){ if(concertM && concertM.classList.contains('open')){ var mo=new MutationObserver(function(){ if(!concertM.classList.contains('open')){ mo.disconnect(); openSoon(); } }); mo.observe(concertM,{attributes:true,attributeFilter:['class']}); } else { openSoon(); } }
+    function afterEmail(){ setTimeout(function(){ if(concertM && concertM.classList.contains('open')){ var mo=new MutationObserver(function(){ if(!concertM.classList.contains('open')){ mo.disconnect(); openSoon(); } }); mo.observe(concertM,{attributes:true,attributeFilter:['class']}); } else { openSoon(); } }, 1200); }
     new MutationObserver(function(){ var op=emailM.classList.contains('open'); if(op){ armed=true; } else if(armed){ armed=false; afterEmail(); } }).observe(emailM,{attributes:true,attributeFilter:['class']});
   }
   function init(){
