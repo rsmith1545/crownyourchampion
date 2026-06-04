@@ -2621,9 +2621,12 @@ function openEmailModal(champName) {
         try { saveBracketData(null, false).catch(function(){}); } catch(e) { console.warn('[cyc] bracket save', e); }
         if (concertProxyReady()) {
             setTimeout(function(){
-                try { openConcertModal((document.getElementById('champion').innerText || '').trim()); console.log('[cyc] concert modal opened'); }
-                catch(e) { console.warn('[cyc] concert modal failed', e); }
-            }, 600);
+                try {
+                    openConcertModal((document.getElementById('champion').innerText || '').trim());
+                    var cm=document.getElementById('concertModal');
+                    console.log('[cyc] concert modal opened — display:', getComputedStyle(cm).display, '| zIndex:', getComputedStyle(cm).zIndex, '| hasOpen:', cm.classList.contains('open'));
+                } catch(e) { console.warn('[cyc] concert modal failed', e); }
+            }, 3600);
         } else { console.log('[cyc] concert proxy not ready — no concert ask'); }
         return;
     } } catch(e) { console.warn('[cyc] fast-path error', e); }
