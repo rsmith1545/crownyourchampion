@@ -2624,10 +2624,21 @@ function openEmailModal(champName) {
                 try {
                     openConcertModal((document.getElementById('champion').innerText || '').trim());
                     var cm=document.getElementById('concertModal');
-                    console.log('[cyc] concert modal opened — display:', getComputedStyle(cm).display, '| zIndex:', getComputedStyle(cm).zIndex, '| hasOpen:', cm.classList.contains('open'));
+                    console.log('[cyc] concert modal opened — display:', getComputedStyle(cm).display, '| hasOpen:', cm.classList.contains('open'));
+                    var mo=new MutationObserver(function(){
+                        if(!cm.classList.contains('open')){
+                            mo.disconnect();
+                            console.log('[cyc] concert closed — opening share card');
+                            setTimeout(function(){ try { if (window.openShare) openShare(); } catch(e) {} }, 500);
+                        }
+                    });
+                    mo.observe(cm,{attributes:true,attributeFilter:['class']});
                 } catch(e) { console.warn('[cyc] concert modal failed', e); }
             }, 3600);
-        } else { console.log('[cyc] concert proxy not ready — no concert ask'); }
+        } else {
+            console.log('[cyc] concert proxy not ready — opening share card directly');
+            setTimeout(function(){ try { if (window.openShare) openShare(); } catch(e) {} }, 3800);
+        }
         return;
     } } catch(e) { console.warn('[cyc] fast-path error', e); }
     document.getElementById('emailModalChamp').innerText = champName;
