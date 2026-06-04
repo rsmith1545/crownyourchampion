@@ -2676,6 +2676,7 @@ async function submitEmail() {
     // Capture the email locally right away so it's never lost
     try { localStorage.setItem('dmb-user-email', email); } catch(e) {}
     try { localStorage.setItem('cyc-hub-email', email); } catch(e) {}
+    try { var hs = document.getElementById('cycHdrSig'); if (hs) hs.style.display = 'none'; } catch(e) {}
 
     // Attempt the cloud save, but never let a slow/failed Firebase call lock the UI (cap at 6s)
     try {
@@ -2975,6 +2976,7 @@ let selectedConcert = null;
 let currentChampSong = '';
 
 function openConcertModal(champName) {
+    console.log('[cyc] openConcertModal called:', champName);
     currentChampSong = champName;
     selectedConcert = null;
     document.getElementById('concertModalChamp').innerText = champName;
@@ -2986,10 +2988,12 @@ function openConcertModal(champName) {
     document.getElementById('concertPrintBtn').style.display = 'none';
     document.getElementById('concertNamesRow').style.display = 'none';
     document.getElementById('concertModal').classList.add('open');
+    console.log('[cyc] concert modal .open added');
     setTimeout(() => document.getElementById('concertSearch').focus(), 300);
 }
 
 function closeConcertModal() {
+    console.log('[cyc] closeConcertModal called'); console.trace();
     document.getElementById('concertModal').classList.remove('open');
 }
 

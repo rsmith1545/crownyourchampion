@@ -2675,6 +2675,7 @@ async function submitEmail() {
     // Capture the email locally right away so it's never lost
     try { localStorage.setItem('rhcp-user-email', email); } catch(e) {}
     try { localStorage.setItem('cyc-hub-email', email); } catch(e) {}
+    try { var hs = document.getElementById('cycHdrSig'); if (hs) hs.style.display = 'none'; } catch(e) {}
 
     // Attempt the cloud save, but never let a slow/failed Firebase call lock the UI (cap at 6s)
     try {
@@ -2976,6 +2977,7 @@ let currentChampSong = '';
 function openConcertModal(champName){ currentChampSong=champName; showToast('🏆 '+champName+' is your Red Hot Chili Peppers Champion!'); }
 
 function closeConcertModal() {
+    console.log('[cyc] closeConcertModal called'); console.trace();
     document.getElementById('concertModal').classList.remove('open');
 }
 
