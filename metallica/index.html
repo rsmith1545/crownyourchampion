@@ -3395,16 +3395,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window[cbName] = function (data) {
             var url = null;
             var results = (data && data.results) || [];
-            // Prefer an actual DMB result that has a preview.
-            for (var i = 0; i < results.length; i++) {
-                var r = results[i];
-                if (r.previewUrl && /metallica/i.test(r.artistName || '')) { url = r.previewUrl; break; }
-            }
-            if (!url) {
-                for (var j = 0; j < results.length; j++) {
-                    if (results[j].previewUrl) { url = results[j].previewUrl; break; }
-                }
-            }
+            // Title-anchored matching: play the RIGHT song or nothing at all.
+            var AR = /metallica/i;
+            var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, '');
+            function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, ''); }
+            function pick(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r.previewUrl; } return null; }
+            url = pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
+               || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
+               || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
             finish(url);
         };
 
