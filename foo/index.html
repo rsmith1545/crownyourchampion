@@ -2295,9 +2295,19 @@ async function searchConcertMode() {
 
     try {
         const { year, text } = parseConcertQuery(query);
-        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
-        if (shows.length === 0 && text) {
-            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
+        let shows = [];
+        if (text) {
+            const [byVenue, byCity] = await Promise.all([
+                fetchDMBSetlists({ venueName: text, year: year || undefined }),
+                fetchDMBSetlists({ cityName: text, year: year || undefined })
+            ]);
+            const seenIds = {};
+            byVenue.concat(byCity).forEach(sh => {
+                const key = (sh && (sh.id || ((sh.eventDate || '') + '|' + ((sh.venue && sh.venue.name) || ''))));
+                if (key && !seenIds[key]) { seenIds[key] = 1; shows.push(sh); }
+            });
+        } else {
+            shows = await fetchDMBSetlists({ year: year || undefined });
         }
 
         if (shows.length === 0) {
@@ -3036,9 +3046,19 @@ async function searchConcerts() {
 
     try {
         const { year, text } = parseConcertQuery(query);
-        let shows = await fetchDMBSetlists({ venueName: text || undefined, year: year || undefined });
-        if (shows.length === 0 && text) {
-            shows = await fetchDMBSetlists({ cityName: text, year: year || undefined });
+        let shows = [];
+        if (text) {
+            const [byVenue, byCity] = await Promise.all([
+                fetchDMBSetlists({ venueName: text, year: year || undefined }),
+                fetchDMBSetlists({ cityName: text, year: year || undefined })
+            ]);
+            const seenIds = {};
+            byVenue.concat(byCity).forEach(sh => {
+                const key = (sh && (sh.id || ((sh.eventDate || '') + '|' + ((sh.venue && sh.venue.name) || ''))));
+                if (key && !seenIds[key]) { seenIds[key] = 1; shows.push(sh); }
+            });
+        } else {
+            shows = await fetchDMBSetlists({ year: year || undefined });
         }
 
         if (shows.length === 0) {
