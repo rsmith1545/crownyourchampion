@@ -2297,15 +2297,24 @@ async function searchConcertMode() {
         const { year, text } = parseConcertQuery(query);
         let shows = [];
         if (text) {
-            const [byVenue, byCity] = await Promise.all([
+            const US_STATES = {alabama:'AL',alaska:'AK',arizona:'AZ',arkansas:'AR',california:'CA',colorado:'CO',connecticut:'CT',delaware:'DE',florida:'FL',georgia:'GA',hawaii:'HI',idaho:'ID',illinois:'IL',indiana:'IN',iowa:'IA',kansas:'KS',kentucky:'KY',louisiana:'LA',maine:'ME',maryland:'MD',massachusetts:'MA',michigan:'MI',minnesota:'MN',mississippi:'MS',missouri:'MO',montana:'MT',nebraska:'NE',nevada:'NV','new hampshire':'NH','new jersey':'NJ','new mexico':'NM','new york':'NY','north carolina':'NC','north dakota':'ND',ohio:'OH',oklahoma:'OK',oregon:'OR',pennsylvania:'PA','rhode island':'RI','south carolina':'SC','south dakota':'SD',tennessee:'TN',texas:'TX',utah:'UT',vermont:'VT',virginia:'VA',washington:'WA','west virginia':'WV',wisconsin:'WI',wyoming:'WY'};
+            const tLow = text.toLowerCase();
+            let stCode = US_STATES[tLow] || null;
+            if (!stCode && /^[A-Za-z]{2}$/.test(text)) {
+                const up = text.toUpperCase();
+                for (const k in US_STATES) { if (US_STATES[k] === up) { stCode = up; break; } }
+            }
+            const queries = [
                 fetchDMBSetlists({ venueName: text, year: year || undefined }),
                 fetchDMBSetlists({ cityName: text, year: year || undefined })
-            ]);
+            ];
+            if (stCode) queries.push(fetchDMBSetlists({ stateCode: stCode, year: year || undefined }));
+            const resultSets = await Promise.all(queries);
             const seenIds = {};
-            byVenue.concat(byCity).forEach(sh => {
+            resultSets.forEach(set => (set || []).forEach(sh => {
                 const key = (sh && (sh.id || ((sh.eventDate || '') + '|' + ((sh.venue && sh.venue.name) || ''))));
                 if (key && !seenIds[key]) { seenIds[key] = 1; shows.push(sh); }
-            });
+            }));
         } else {
             shows = await fetchDMBSetlists({ year: year || undefined });
         }
@@ -3048,15 +3057,24 @@ async function searchConcerts() {
         const { year, text } = parseConcertQuery(query);
         let shows = [];
         if (text) {
-            const [byVenue, byCity] = await Promise.all([
+            const US_STATES = {alabama:'AL',alaska:'AK',arizona:'AZ',arkansas:'AR',california:'CA',colorado:'CO',connecticut:'CT',delaware:'DE',florida:'FL',georgia:'GA',hawaii:'HI',idaho:'ID',illinois:'IL',indiana:'IN',iowa:'IA',kansas:'KS',kentucky:'KY',louisiana:'LA',maine:'ME',maryland:'MD',massachusetts:'MA',michigan:'MI',minnesota:'MN',mississippi:'MS',missouri:'MO',montana:'MT',nebraska:'NE',nevada:'NV','new hampshire':'NH','new jersey':'NJ','new mexico':'NM','new york':'NY','north carolina':'NC','north dakota':'ND',ohio:'OH',oklahoma:'OK',oregon:'OR',pennsylvania:'PA','rhode island':'RI','south carolina':'SC','south dakota':'SD',tennessee:'TN',texas:'TX',utah:'UT',vermont:'VT',virginia:'VA',washington:'WA','west virginia':'WV',wisconsin:'WI',wyoming:'WY'};
+            const tLow = text.toLowerCase();
+            let stCode = US_STATES[tLow] || null;
+            if (!stCode && /^[A-Za-z]{2}$/.test(text)) {
+                const up = text.toUpperCase();
+                for (const k in US_STATES) { if (US_STATES[k] === up) { stCode = up; break; } }
+            }
+            const queries = [
                 fetchDMBSetlists({ venueName: text, year: year || undefined }),
                 fetchDMBSetlists({ cityName: text, year: year || undefined })
-            ]);
+            ];
+            if (stCode) queries.push(fetchDMBSetlists({ stateCode: stCode, year: year || undefined }));
+            const resultSets = await Promise.all(queries);
             const seenIds = {};
-            byVenue.concat(byCity).forEach(sh => {
+            resultSets.forEach(set => (set || []).forEach(sh => {
                 const key = (sh && (sh.id || ((sh.eventDate || '') + '|' + ((sh.venue && sh.venue.name) || ''))));
                 if (key && !seenIds[key]) { seenIds[key] = 1; shows.push(sh); }
-            });
+            }));
         } else {
             shows = await fetchDMBSetlists({ year: year || undefined });
         }
