@@ -2987,7 +2987,22 @@ function showToast(msg) {
 let selectedConcert = null;
 let currentChampSong = '';
 
-function openConcertModal(champName){ currentChampSong=champName; showToast('🏆 '+champName+' is your Frank Turner Champion!'); }
+function openConcertModal(champName) {
+    console.log('[cyc] openConcertModal called:', champName);
+    currentChampSong = champName;
+    selectedConcert = null;
+    document.getElementById('concertModalChamp').innerText = champName;
+    document.getElementById('concertSearch').value = '';
+    document.getElementById('concertResults').innerHTML = '';
+    document.getElementById('concertStatus').innerText = '';
+    document.getElementById('concertStatus').className = 'cm-status';
+    document.getElementById('concertPrintPreview').classList.remove('show');
+    document.getElementById('concertPrintBtn').style.display = 'none';
+    document.getElementById('concertNamesRow').style.display = 'none';
+    document.getElementById('concertModal').classList.add('open');
+    console.log('[cyc] concert modal .open added');
+    setTimeout(() => document.getElementById('concertSearch').focus(), 300);
+}
 
 function closeConcertModal() {
     console.log('[cyc] closeConcertModal called'); console.trace();
