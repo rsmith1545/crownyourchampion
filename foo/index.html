@@ -1301,13 +1301,13 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background: radial-gradient(130% 80% at 50% 0%, rgba(0,63,136,.45), transparent 72%); }
-        .venue-gorge::after     { content: "Roswell"; }
+        .venue-gorge::after     { content: "The Hawk"; }
         .venue-westpalm::before { background: radial-gradient(130% 80% at 50% 0%, rgba(46,125,170,.42), transparent 72%); }
-        .venue-westpalm::after  { content: "Studio 606"; }
+        .venue-westpalm::after  { content: "Fresh Pots"; }
         .venue-spac::before     { background: radial-gradient(130% 80% at 50% 0%, rgba(123,90,168,.40), transparent 72%); }
-        .venue-spac::after      { content: "Wembley"; }
+        .venue-spac::after      { content: "Studio 606"; }
         .venue-camden::before   { background: radial-gradient(130% 80% at 50% 0%, rgba(179,50,44,.42), transparent 72%); }
-        .venue-camden::after    { content: "The Garage"; }
+        .venue-camden::after    { content: "Cradle to Stage"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1463,7 +1463,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Roswell</div>
+            <div class="region-header">The Hawk</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Everlong</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Love Dies Young</div></div>
@@ -1495,7 +1495,7 @@
         </div>
 
         <div class="region-card venue-westpalm">
-            <div class="region-header">Studio 606</div>
+            <div class="region-header">Fresh Pots</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Monkey Wrench</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Asking for a Friend</div></div>
@@ -1535,14 +1535,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Roswell Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">The Hawk Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Studio 606 Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Fresh Pots Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Wembley Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Studio 606 Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">The Garage Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Cradle to Stage Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1572,7 +1572,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Wembley</div>
+            <div class="region-header">Studio 606</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>My Hero</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Caught in the Echo</div></div>
@@ -1604,7 +1604,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">The Garage</div>
+            <div class="region-header">Cradle to Stage</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Learn to Fly</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Making a Fire</div></div>
@@ -1769,70 +1769,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Everlong", seed:1, region:"Roswell", era:"1990s", spotify:99, liveRank:1},
-  {name:"Breakout", seed:2, region:"Roswell", era:"1990s", spotify:66, liveRank:8},
-  {name:"Best of You", seed:3, region:"Roswell", era:"2000s", spotify:61, liveRank:9},
-  {name:"Cold Day in the Sun", seed:4, region:"Roswell", era:"2000s", spotify:35, liveRank:16},
-  {name:"These Days", seed:5, region:"Roswell", era:"2010s", spotify:35, liveRank:17},
-  {name:"Arlandria", seed:6, region:"Roswell", era:"2010s", spotify:30, liveRank:24},
-  {name:"Enough Space", seed:7, region:"Roswell", era:"1990s", spotify:30, liveRank:25},
-  {name:"Run", seed:8, region:"Roswell", era:"2010s", spotify:30, liveRank:32},
-  {name:"No Son of Mine", seed:9, region:"Roswell", era:"2020s", spotify:30, liveRank:33},
-  {name:"Congregation", seed:10, region:"Roswell", era:"2010s", spotify:30, liveRank:40},
-  {name:"Wheels", seed:11, region:"Roswell", era:"2000s", spotify:30, liveRank:41},
-  {name:"Dear Rosemary", seed:12, region:"Roswell", era:"2010s", spotify:30, liveRank:48},
-  {name:"Rescued", seed:13, region:"Roswell", era:"2020s", spotify:30, liveRank:49},
-  {name:"The Glass", seed:14, region:"Roswell", era:"2020s", spotify:30, liveRank:56},
-  {name:"Show Me How", seed:15, region:"Roswell", era:"2020s", spotify:30, liveRank:57},
-  {name:"Love Dies Young", seed:16, region:"Roswell", era:"2020s", spotify:30, liveRank:64},
-  {name:"Monkey Wrench", seed:1, region:"Studio 606", era:"1990s", spotify:91, liveRank:2},
-  {name:"All My Life", seed:2, region:"Studio 606", era:"2000s", spotify:71, liveRank:7},
-  {name:"Big Me", seed:3, region:"Studio 606", era:"1990s", spotify:53, liveRank:10},
-  {name:"For All the Cows", seed:4, region:"Studio 606", era:"1990s", spotify:39, liveRank:15},
-  {name:"Hey, Johnny Park!", seed:5, region:"Studio 606", era:"1990s", spotify:30, liveRank:18},
-  {name:"Rope", seed:6, region:"Studio 606", era:"2010s", spotify:30, liveRank:23},
-  {name:"Skin and Bones", seed:7, region:"Studio 606", era:"2000s", spotify:30, liveRank:26},
-  {name:"Let It Die", seed:8, region:"Studio 606", era:"2000s", spotify:30, liveRank:31},
-  {name:"La Dee Da", seed:9, region:"Studio 606", era:"2010s", spotify:30, liveRank:34},
-  {name:"Tired of You", seed:10, region:"Studio 606", era:"2000s", spotify:30, liveRank:39},
-  {name:"Bridge Burning", seed:11, region:"Studio 606", era:"2010s", spotify:30, liveRank:42},
-  {name:"Shame Shame", seed:12, region:"Studio 606", era:"2020s", spotify:30, liveRank:47},
-  {name:"Outside", seed:13, region:"Studio 606", era:"2010s", spotify:30, liveRank:50},
-  {name:"I Should Have Known", seed:14, region:"Studio 606", era:"2010s", spotify:30, liveRank:55},
-  {name:"Waiting on a War", seed:15, region:"Studio 606", era:"2020s", spotify:30, liveRank:58},
-  {name:"Asking for a Friend", seed:16, region:"Studio 606", era:"2020s", spotify:30, liveRank:63},
-  {name:"My Hero", seed:1, region:"Wembley", era:"1990s", spotify:89, liveRank:3},
-  {name:"Times Like These", seed:2, region:"Wembley", era:"2000s", spotify:72, liveRank:6},
-  {name:"The Pretender", seed:3, region:"Wembley", era:"2000s", spotify:52, liveRank:11},
-  {name:"I'll Stick Around", seed:4, region:"Wembley", era:"1990s", spotify:41, liveRank:14},
-  {name:"Up in Arms", seed:5, region:"Wembley", era:"1990s", spotify:30, liveRank:19},
-  {name:"Generator", seed:6, region:"Wembley", era:"1990s", spotify:30, liveRank:22},
-  {name:"The Sky Is a Neighborhood", seed:7, region:"Wembley", era:"2010s", spotify:30, liveRank:27},
-  {name:"Long Road to Ruin", seed:8, region:"Wembley", era:"2000s", spotify:30, liveRank:30},
-  {name:"Low", seed:9, region:"Wembley", era:"2000s", spotify:30, liveRank:35},
-  {name:"Something From Nothing", seed:10, region:"Wembley", era:"2010s", spotify:30, liveRank:38},
-  {name:"DOA", seed:11, region:"Wembley", era:"2000s", spotify:30, liveRank:43},
-  {name:"Dirty Water", seed:12, region:"Wembley", era:"2010s", spotify:30, liveRank:46},
-  {name:"Under You", seed:13, region:"Wembley", era:"2020s", spotify:30, liveRank:51},
-  {name:"Medicine at Midnight", seed:14, region:"Wembley", era:"2020s", spotify:30, liveRank:54},
-  {name:"Your Favorite Toy", seed:15, region:"Wembley", era:"2020s", spotify:30, liveRank:59},
-  {name:"Caught in the Echo", seed:16, region:"Wembley", era:"2020s", spotify:30, liveRank:62},
-  {name:"Learn to Fly", seed:1, region:"The Garage", era:"1990s", spotify:82, liveRank:4},
-  {name:"This Is a Call", seed:2, region:"The Garage", era:"1990s", spotify:82, liveRank:5},
-  {name:"Stacked Actors", seed:3, region:"The Garage", era:"1990s", spotify:49, liveRank:12},
-  {name:"Walk", seed:4, region:"The Garage", era:"2010s", spotify:41, liveRank:13},
-  {name:"Alone + Easy Target", seed:5, region:"The Garage", era:"1990s", spotify:30, liveRank:20},
-  {name:"Aurora", seed:6, region:"The Garage", era:"1990s", spotify:30, liveRank:21},
-  {name:"White Limo", seed:7, region:"The Garage", era:"2010s", spotify:30, liveRank:28},
-  {name:"The One", seed:8, region:"The Garage", era:"2000s", spotify:30, liveRank:29},
-  {name:"Sunday Rain", seed:9, region:"The Garage", era:"2010s", spotify:30, liveRank:36},
-  {name:"Have It All", seed:10, region:"The Garage", era:"2000s", spotify:30, liveRank:37},
-  {name:"Cheer Up, Boys", seed:11, region:"The Garage", era:"2000s", spotify:30, liveRank:44},
-  {name:"But, Honestly", seed:12, region:"The Garage", era:"2000s", spotify:30, liveRank:45},
-  {name:"Nothing at All", seed:13, region:"The Garage", era:"2020s", spotify:30, liveRank:52},
-  {name:"The Teacher", seed:14, region:"The Garage", era:"2020s", spotify:30, liveRank:53},
-  {name:"Of All People", seed:15, region:"The Garage", era:"2020s", spotify:30, liveRank:60},
-  {name:"Making a Fire", seed:16, region:"The Garage", era:"2020s", spotify:30, liveRank:61},
+  {name:"Everlong", seed:1, region:"The Hawk", era:"1990s", spotify:99, liveRank:1},
+  {name:"Breakout", seed:2, region:"The Hawk", era:"1990s", spotify:66, liveRank:8},
+  {name:"Best of You", seed:3, region:"The Hawk", era:"2000s", spotify:61, liveRank:9},
+  {name:"Cold Day in the Sun", seed:4, region:"The Hawk", era:"2000s", spotify:35, liveRank:16},
+  {name:"These Days", seed:5, region:"The Hawk", era:"2010s", spotify:35, liveRank:17},
+  {name:"Arlandria", seed:6, region:"The Hawk", era:"2010s", spotify:30, liveRank:24},
+  {name:"Enough Space", seed:7, region:"The Hawk", era:"1990s", spotify:30, liveRank:25},
+  {name:"Run", seed:8, region:"The Hawk", era:"2010s", spotify:30, liveRank:32},
+  {name:"No Son of Mine", seed:9, region:"The Hawk", era:"2020s", spotify:30, liveRank:33},
+  {name:"Congregation", seed:10, region:"The Hawk", era:"2010s", spotify:30, liveRank:40},
+  {name:"Wheels", seed:11, region:"The Hawk", era:"2000s", spotify:30, liveRank:41},
+  {name:"Dear Rosemary", seed:12, region:"The Hawk", era:"2010s", spotify:30, liveRank:48},
+  {name:"Rescued", seed:13, region:"The Hawk", era:"2020s", spotify:30, liveRank:49},
+  {name:"The Glass", seed:14, region:"The Hawk", era:"2020s", spotify:30, liveRank:56},
+  {name:"Show Me How", seed:15, region:"The Hawk", era:"2020s", spotify:30, liveRank:57},
+  {name:"Love Dies Young", seed:16, region:"The Hawk", era:"2020s", spotify:30, liveRank:64},
+  {name:"Monkey Wrench", seed:1, region:"Fresh Pots", era:"1990s", spotify:91, liveRank:2},
+  {name:"All My Life", seed:2, region:"Fresh Pots", era:"2000s", spotify:71, liveRank:7},
+  {name:"Big Me", seed:3, region:"Fresh Pots", era:"1990s", spotify:53, liveRank:10},
+  {name:"For All the Cows", seed:4, region:"Fresh Pots", era:"1990s", spotify:39, liveRank:15},
+  {name:"Hey, Johnny Park!", seed:5, region:"Fresh Pots", era:"1990s", spotify:30, liveRank:18},
+  {name:"Rope", seed:6, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:23},
+  {name:"Skin and Bones", seed:7, region:"Fresh Pots", era:"2000s", spotify:30, liveRank:26},
+  {name:"Let It Die", seed:8, region:"Fresh Pots", era:"2000s", spotify:30, liveRank:31},
+  {name:"La Dee Da", seed:9, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:34},
+  {name:"Tired of You", seed:10, region:"Fresh Pots", era:"2000s", spotify:30, liveRank:39},
+  {name:"Bridge Burning", seed:11, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:42},
+  {name:"Shame Shame", seed:12, region:"Fresh Pots", era:"2020s", spotify:30, liveRank:47},
+  {name:"Outside", seed:13, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:50},
+  {name:"I Should Have Known", seed:14, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:55},
+  {name:"Waiting on a War", seed:15, region:"Fresh Pots", era:"2020s", spotify:30, liveRank:58},
+  {name:"Asking for a Friend", seed:16, region:"Fresh Pots", era:"2020s", spotify:30, liveRank:63},
+  {name:"My Hero", seed:1, region:"Studio 606", era:"1990s", spotify:89, liveRank:3},
+  {name:"Times Like These", seed:2, region:"Studio 606", era:"2000s", spotify:72, liveRank:6},
+  {name:"The Pretender", seed:3, region:"Studio 606", era:"2000s", spotify:52, liveRank:11},
+  {name:"I'll Stick Around", seed:4, region:"Studio 606", era:"1990s", spotify:41, liveRank:14},
+  {name:"Up in Arms", seed:5, region:"Studio 606", era:"1990s", spotify:30, liveRank:19},
+  {name:"Generator", seed:6, region:"Studio 606", era:"1990s", spotify:30, liveRank:22},
+  {name:"The Sky Is a Neighborhood", seed:7, region:"Studio 606", era:"2010s", spotify:30, liveRank:27},
+  {name:"Long Road to Ruin", seed:8, region:"Studio 606", era:"2000s", spotify:30, liveRank:30},
+  {name:"Low", seed:9, region:"Studio 606", era:"2000s", spotify:30, liveRank:35},
+  {name:"Something From Nothing", seed:10, region:"Studio 606", era:"2010s", spotify:30, liveRank:38},
+  {name:"DOA", seed:11, region:"Studio 606", era:"2000s", spotify:30, liveRank:43},
+  {name:"Dirty Water", seed:12, region:"Studio 606", era:"2010s", spotify:30, liveRank:46},
+  {name:"Under You", seed:13, region:"Studio 606", era:"2020s", spotify:30, liveRank:51},
+  {name:"Medicine at Midnight", seed:14, region:"Studio 606", era:"2020s", spotify:30, liveRank:54},
+  {name:"Your Favorite Toy", seed:15, region:"Studio 606", era:"2020s", spotify:30, liveRank:59},
+  {name:"Caught in the Echo", seed:16, region:"Studio 606", era:"2020s", spotify:30, liveRank:62},
+  {name:"Learn to Fly", seed:1, region:"Cradle to Stage", era:"1990s", spotify:82, liveRank:4},
+  {name:"This Is a Call", seed:2, region:"Cradle to Stage", era:"1990s", spotify:82, liveRank:5},
+  {name:"Stacked Actors", seed:3, region:"Cradle to Stage", era:"1990s", spotify:49, liveRank:12},
+  {name:"Walk", seed:4, region:"Cradle to Stage", era:"2010s", spotify:41, liveRank:13},
+  {name:"Alone + Easy Target", seed:5, region:"Cradle to Stage", era:"1990s", spotify:30, liveRank:20},
+  {name:"Aurora", seed:6, region:"Cradle to Stage", era:"1990s", spotify:30, liveRank:21},
+  {name:"White Limo", seed:7, region:"Cradle to Stage", era:"2010s", spotify:30, liveRank:28},
+  {name:"The One", seed:8, region:"Cradle to Stage", era:"2000s", spotify:30, liveRank:29},
+  {name:"Sunday Rain", seed:9, region:"Cradle to Stage", era:"2010s", spotify:30, liveRank:36},
+  {name:"Have It All", seed:10, region:"Cradle to Stage", era:"2000s", spotify:30, liveRank:37},
+  {name:"Cheer Up, Boys", seed:11, region:"Cradle to Stage", era:"2000s", spotify:30, liveRank:44},
+  {name:"But, Honestly", seed:12, region:"Cradle to Stage", era:"2000s", spotify:30, liveRank:45},
+  {name:"Nothing at All", seed:13, region:"Cradle to Stage", era:"2020s", spotify:30, liveRank:52},
+  {name:"The Teacher", seed:14, region:"Cradle to Stage", era:"2020s", spotify:30, liveRank:53},
+  {name:"Of All People", seed:15, region:"Cradle to Stage", era:"2020s", spotify:30, liveRank:60},
+  {name:"Making a Fire", seed:16, region:"Cradle to Stage", era:"2020s", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2580,7 +2580,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Wembley Winner' && t !== 'Studio 606 Winner' && t !== 'Roswell Winner' && t !== 'The Garage Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Studio 606 Winner' && t !== 'Fresh Pots Winner' && t !== 'The Hawk Winner' && t !== 'Cradle to Stage Winner') {
                 filled++;
             }
         }
@@ -2897,8 +2897,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Wembley Winner' && text !== 'Studio 606 Winner' && 
-            text !== 'Roswell Winner' && text !== 'The Garage Winner') {
+            text !== 'Studio 606 Winner' && text !== 'Fresh Pots Winner' && 
+            text !== 'The Hawk Winner' && text !== 'Cradle to Stage Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2928,10 +2928,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'Roswell': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Studio 606': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Wembley': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'The Garage': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'The Hawk': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Fresh Pots': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Studio 606': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Cradle to Stage': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
