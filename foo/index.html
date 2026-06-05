@@ -3563,6 +3563,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(function () {});
         } catch (e) {}
+        setTimeout(prefetchPreviews, 2500);   // warm the cache in background via title-anchored lookups
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);
