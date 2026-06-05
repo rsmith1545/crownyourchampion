@@ -3430,8 +3430,13 @@ document.addEventListener('DOMContentLoaded', () => {
             url = chosen ? chosen.previewUrl : null;
             console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
             if (chosen) { finish(url, results.length); return; }
-            if (window[cbName + '_r']) { finish(null, results.length); return; }
+            if (window[cbName + '_r']) {
+                // retry also missed — only a definitive verdict if the PRIMARY query had results
+                finish(null, (window[cbName + '_n'] || 0) > 0 ? results.length : 0);
+                return;
+            }
             window[cbName + '_r'] = 1;                          // one title-only retry
+            window[cbName + '_n'] = results.length;             // remember primary result count
             var cb2 = cbName + 'b';
             window[cb2] = window[cbName];
             var s2 = document.createElement('script');
