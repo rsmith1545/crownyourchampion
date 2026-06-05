@@ -1307,13 +1307,13 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(158,27,27,.46), transparent 72%); }
-        .venue-gorge::after     { content:"The Boss"; }
+        .venue-gorge::after     { content:"E Street"; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(74,103,65,.44), transparent 72%); }
-        .venue-westpalm::after  { content:"Greasy Lake"; }
+        .venue-westpalm::after  { content:"The Stone Pony"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(40,70,120,.46), transparent 72%); }
-        .venue-spac::after      { content:"Highway 9"; }
+        .venue-spac::after      { content:"Greasy Lake"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(28,118,128,.44), transparent 72%); }
-        .venue-camden::after    { content:"The Jersey Shore"; }
+        .venue-camden::after    { content:"Highway 9"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1440,10 +1440,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('The Boss')">The Boss</button>
+    <button class="era-btn" onclick="selectEra('E Street')">E Street</button>
+    <button class="era-btn" onclick="selectEra('The Stone Pony')">The Stone Pony</button>
     <button class="era-btn" onclick="selectEra('Greasy Lake')">Greasy Lake</button>
     <button class="era-btn" onclick="selectEra('Highway 9')">Highway 9</button>
-    <button class="era-btn" onclick="selectEra('The Jersey Shore')">The Jersey Shore</button>
 </div>
 </div><!-- /sticky-top -->
 
@@ -1469,7 +1469,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">The Boss</div>
+            <div class="region-header">E Street</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Born to Run</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Human Touch</div></div>
@@ -1501,7 +1501,7 @@
         </div>
 
         <div class="region-card venue-westpalm">
-            <div class="region-header">Greasy Lake</div>
+            <div class="region-header">The Stone Pony</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Thunder Road</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Darlington County</div></div>
@@ -1541,14 +1541,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">The Boss Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">E Street Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Greasy Lake Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">The Stone Pony Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Highway 9 Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Greasy Lake Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">The Jersey Shore Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Highway 9 Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1578,7 +1578,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Highway 9</div>
+            <div class="region-header">Greasy Lake</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Jungleland</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Cover Me</div></div>
@@ -1610,7 +1610,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">The Jersey Shore</div>
+            <div class="region-header">Highway 9</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Tenth Avenue Freeze-Out</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Lonesome Day</div></div>
@@ -1776,70 +1776,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Born to Run", seed:1, region:"The Boss", era:"The Boss", spotify:99, liveRank:1},
-  {name:"Dancing in the Dark", seed:2, region:"The Boss", era:"The Boss", spotify:55, liveRank:8},
-  {name:"Out in the Street", seed:3, region:"The Boss", era:"The Boss", spotify:51, liveRank:9},
-  {name:"Land of Hope and Dreams", seed:4, region:"The Boss", era:"The Boss", spotify:30, liveRank:16},
-  {name:"Bobby Jean", seed:5, region:"The Boss", era:"The Boss", spotify:44, liveRank:17},
-  {name:"Racing in the Street", seed:6, region:"The Boss", era:"The Boss", spotify:30, liveRank:24},
-  {name:"Darkness on the Edge of Town", seed:7, region:"The Boss", era:"The Boss", spotify:30, liveRank:25},
-  {name:"Kitty's Back", seed:8, region:"The Boss", era:"The Boss", spotify:30, liveRank:32},
-  {name:"For You", seed:9, region:"The Boss", era:"The Boss", spotify:30, liveRank:33},
-  {name:"The E Street Shuffle", seed:10, region:"The Boss", era:"The Boss", spotify:30, liveRank:40},
-  {name:"Something in the Night", seed:11, region:"The Boss", era:"The Boss", spotify:30, liveRank:41},
-  {name:"Sherry Darling", seed:12, region:"The Boss", era:"The Boss", spotify:30, liveRank:48},
-  {name:"Two Hearts", seed:13, region:"The Boss", era:"The Boss", spotify:42, liveRank:49},
-  {name:"Adam Raised a Cain", seed:14, region:"The Boss", era:"The Boss", spotify:30, liveRank:56},
-  {name:"Cadillac Ranch", seed:15, region:"The Boss", era:"The Boss", spotify:30, liveRank:57},
-  {name:"Human Touch", seed:16, region:"The Boss", era:"The Boss", spotify:30, liveRank:64},
-  {name:"Thunder Road", seed:1, region:"Greasy Lake", era:"Greasy Lake", spotify:80, liveRank:2},
-  {name:"The Promised Land", seed:2, region:"Greasy Lake", era:"Greasy Lake", spotify:77, liveRank:7},
-  {name:"Born in the U.S.A.", seed:3, region:"Greasy Lake", era:"Greasy Lake", spotify:53, liveRank:10},
-  {name:"Glory Days", seed:4, region:"Greasy Lake", era:"Greasy Lake", spotify:31, liveRank:15},
-  {name:"Spirit in the Night", seed:5, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:18},
-  {name:"Growin' Up", seed:6, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:23},
-  {name:"Atlantic City", seed:7, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:26},
-  {name:"Candy's Room", seed:8, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:31},
-  {name:"Jersey Girl", seed:9, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:34},
-  {name:"Night", seed:10, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:39},
-  {name:"My Hometown", seed:11, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:42},
-  {name:"Fire", seed:12, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:47},
-  {name:"Streets of Fire", seed:13, region:"Greasy Lake", era:"Greasy Lake", spotify:36, liveRank:50},
-  {name:"Nebraska", seed:14, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:55},
-  {name:"The Ties That Bind", seed:15, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:58},
-  {name:"Darlington County", seed:16, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:63},
-  {name:"Jungleland", seed:1, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:3},
-  {name:"Badlands", seed:2, region:"Highway 9", era:"Highway 9", spotify:61, liveRank:6},
-  {name:"Hungry Heart", seed:3, region:"Highway 9", era:"Highway 9", spotify:46, liveRank:11},
-  {name:"Prove It All Night", seed:4, region:"Highway 9", era:"Highway 9", spotify:40, liveRank:14},
-  {name:"She's the One", seed:5, region:"Highway 9", era:"Highway 9", spotify:33, liveRank:19},
-  {name:"The Rising", seed:6, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:22},
-  {name:"Because the Night", seed:7, region:"Highway 9", era:"Highway 9", spotify:32, liveRank:27},
-  {name:"Blinded by the Light", seed:8, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:30},
-  {name:"It's Hard to Be a Saint in the City", seed:9, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:35},
-  {name:"The Ghost of Tom Joad", seed:10, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:38},
-  {name:"Brilliant Disguise", seed:11, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:43},
-  {name:"Independence Day", seed:12, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:46},
-  {name:"Youngstown", seed:13, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:51},
-  {name:"My City of Ruins", seed:14, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:54},
-  {name:"Murder Incorporated", seed:15, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:59},
-  {name:"Cover Me", seed:16, region:"Highway 9", era:"Highway 9", spotify:37, liveRank:62},
-  {name:"Tenth Avenue Freeze-Out", seed:1, region:"The Jersey Shore", era:"The Jersey Shore", spotify:57, liveRank:4},
-  {name:"Rosalita (Come Out Tonight)", seed:2, region:"The Jersey Shore", era:"The Jersey Shore", spotify:47, liveRank:5},
-  {name:"Backstreets", seed:3, region:"The Jersey Shore", era:"The Jersey Shore", spotify:43, liveRank:12},
-  {name:"The River", seed:4, region:"The Jersey Shore", era:"The Jersey Shore", spotify:50, liveRank:13},
-  {name:"Incident on 57th Street", seed:5, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:20},
-  {name:"New York City Serenade", seed:6, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:21},
-  {name:"No Surrender", seed:7, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:28},
-  {name:"Lost In the Flood", seed:8, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:29},
-  {name:"4th of July, Asbury Park (Sandy)", seed:9, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:36},
-  {name:"Meeting Across the River", seed:10, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:37},
-  {name:"I'm on Fire", seed:11, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:44},
-  {name:"Point Blank", seed:12, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:45},
-  {name:"Tougher Than the Rest", seed:13, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:52},
-  {name:"Tunnel of Love", seed:14, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:53},
-  {name:"American Skin (41 Shots)", seed:15, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:60},
-  {name:"Lonesome Day", seed:16, region:"The Jersey Shore", era:"The Jersey Shore", spotify:30, liveRank:61},
+  {name:"Born to Run", seed:1, region:"E Street", era:"E Street", spotify:99, liveRank:1},
+  {name:"Dancing in the Dark", seed:2, region:"E Street", era:"E Street", spotify:55, liveRank:8},
+  {name:"Out in the Street", seed:3, region:"E Street", era:"E Street", spotify:51, liveRank:9},
+  {name:"Land of Hope and Dreams", seed:4, region:"E Street", era:"E Street", spotify:30, liveRank:16},
+  {name:"Bobby Jean", seed:5, region:"E Street", era:"E Street", spotify:44, liveRank:17},
+  {name:"Racing in the Street", seed:6, region:"E Street", era:"E Street", spotify:30, liveRank:24},
+  {name:"Darkness on the Edge of Town", seed:7, region:"E Street", era:"E Street", spotify:30, liveRank:25},
+  {name:"Kitty's Back", seed:8, region:"E Street", era:"E Street", spotify:30, liveRank:32},
+  {name:"For You", seed:9, region:"E Street", era:"E Street", spotify:30, liveRank:33},
+  {name:"The E Street Shuffle", seed:10, region:"E Street", era:"E Street", spotify:30, liveRank:40},
+  {name:"Something in the Night", seed:11, region:"E Street", era:"E Street", spotify:30, liveRank:41},
+  {name:"Sherry Darling", seed:12, region:"E Street", era:"E Street", spotify:30, liveRank:48},
+  {name:"Two Hearts", seed:13, region:"E Street", era:"E Street", spotify:42, liveRank:49},
+  {name:"Adam Raised a Cain", seed:14, region:"E Street", era:"E Street", spotify:30, liveRank:56},
+  {name:"Cadillac Ranch", seed:15, region:"E Street", era:"E Street", spotify:30, liveRank:57},
+  {name:"Human Touch", seed:16, region:"E Street", era:"E Street", spotify:30, liveRank:64},
+  {name:"Thunder Road", seed:1, region:"The Stone Pony", era:"The Stone Pony", spotify:80, liveRank:2},
+  {name:"The Promised Land", seed:2, region:"The Stone Pony", era:"The Stone Pony", spotify:77, liveRank:7},
+  {name:"Born in the U.S.A.", seed:3, region:"The Stone Pony", era:"The Stone Pony", spotify:53, liveRank:10},
+  {name:"Glory Days", seed:4, region:"The Stone Pony", era:"The Stone Pony", spotify:31, liveRank:15},
+  {name:"Spirit in the Night", seed:5, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:18},
+  {name:"Growin' Up", seed:6, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:23},
+  {name:"Atlantic City", seed:7, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:26},
+  {name:"Candy's Room", seed:8, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:31},
+  {name:"Jersey Girl", seed:9, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:34},
+  {name:"Night", seed:10, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:39},
+  {name:"My Hometown", seed:11, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:42},
+  {name:"Fire", seed:12, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:47},
+  {name:"Streets of Fire", seed:13, region:"The Stone Pony", era:"The Stone Pony", spotify:36, liveRank:50},
+  {name:"Nebraska", seed:14, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:55},
+  {name:"The Ties That Bind", seed:15, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:58},
+  {name:"Darlington County", seed:16, region:"The Stone Pony", era:"The Stone Pony", spotify:30, liveRank:63},
+  {name:"Jungleland", seed:1, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:3},
+  {name:"Badlands", seed:2, region:"Greasy Lake", era:"Greasy Lake", spotify:61, liveRank:6},
+  {name:"Hungry Heart", seed:3, region:"Greasy Lake", era:"Greasy Lake", spotify:46, liveRank:11},
+  {name:"Prove It All Night", seed:4, region:"Greasy Lake", era:"Greasy Lake", spotify:40, liveRank:14},
+  {name:"She's the One", seed:5, region:"Greasy Lake", era:"Greasy Lake", spotify:33, liveRank:19},
+  {name:"The Rising", seed:6, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:22},
+  {name:"Because the Night", seed:7, region:"Greasy Lake", era:"Greasy Lake", spotify:32, liveRank:27},
+  {name:"Blinded by the Light", seed:8, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:30},
+  {name:"It's Hard to Be a Saint in the City", seed:9, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:35},
+  {name:"The Ghost of Tom Joad", seed:10, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:38},
+  {name:"Brilliant Disguise", seed:11, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:43},
+  {name:"Independence Day", seed:12, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:46},
+  {name:"Youngstown", seed:13, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:51},
+  {name:"My City of Ruins", seed:14, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:54},
+  {name:"Murder Incorporated", seed:15, region:"Greasy Lake", era:"Greasy Lake", spotify:30, liveRank:59},
+  {name:"Cover Me", seed:16, region:"Greasy Lake", era:"Greasy Lake", spotify:37, liveRank:62},
+  {name:"Tenth Avenue Freeze-Out", seed:1, region:"Highway 9", era:"Highway 9", spotify:57, liveRank:4},
+  {name:"Rosalita (Come Out Tonight)", seed:2, region:"Highway 9", era:"Highway 9", spotify:47, liveRank:5},
+  {name:"Backstreets", seed:3, region:"Highway 9", era:"Highway 9", spotify:43, liveRank:12},
+  {name:"The River", seed:4, region:"Highway 9", era:"Highway 9", spotify:50, liveRank:13},
+  {name:"Incident on 57th Street", seed:5, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:20},
+  {name:"New York City Serenade", seed:6, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:21},
+  {name:"No Surrender", seed:7, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:28},
+  {name:"Lost In the Flood", seed:8, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:29},
+  {name:"4th of July, Asbury Park (Sandy)", seed:9, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:36},
+  {name:"Meeting Across the River", seed:10, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:37},
+  {name:"I'm on Fire", seed:11, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:44},
+  {name:"Point Blank", seed:12, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:45},
+  {name:"Tougher Than the Rest", seed:13, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:52},
+  {name:"Tunnel of Love", seed:14, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:53},
+  {name:"American Skin (41 Shots)", seed:15, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:60},
+  {name:"Lonesome Day", seed:16, region:"Highway 9", era:"Highway 9", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2594,7 +2594,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Highway 9 Winner' && t !== 'Greasy Lake Winner' && t !== 'The Boss Winner' && t !== 'The Jersey Shore Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Greasy Lake Winner' && t !== 'The Stone Pony Winner' && t !== 'E Street Winner' && t !== 'Highway 9 Winner') {
                 filled++;
             }
         }
@@ -2912,8 +2912,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Highway 9 Winner' && text !== 'Greasy Lake Winner' && 
-            text !== 'The Boss Winner' && text !== 'The Jersey Shore Winner') {
+            text !== 'Greasy Lake Winner' && text !== 'The Stone Pony Winner' && 
+            text !== 'E Street Winner' && text !== 'Highway 9 Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2945,10 +2945,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'The Boss': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Greasy Lake': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Highway 9': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'The Jersey Shore': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'E Street': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'The Stone Pony': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Greasy Lake': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Highway 9': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 

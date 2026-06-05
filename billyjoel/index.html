@@ -1309,13 +1309,13 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(40,110,120,.46), transparent 72%); }
-        .venue-gorge::after     { content:"Oyster Bay"; }
+        .venue-gorge::after     { content:"Brenda & Eddies"; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(56,96,72,.46), transparent 72%); }
-        .venue-westpalm::after  { content:"Cold Spring Harbor"; }
+        .venue-westpalm::after  { content:"Oyster Bay"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(150,40,40,.46), transparent 72%); }
-        .venue-spac::after      { content:"Brenda & Eddies"; }
+        .venue-spac::after      { content:"Home Run Production"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(60,80,116,.48), transparent 72%); }
-        .venue-camden::after    { content:"Alexa"; }
+        .venue-camden::after    { content:"MSG Residency"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1441,10 +1441,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Oyster Bay')">Oyster Bay</button>
-    <button class="era-btn" onclick="selectEra('Cold Spring Harbor')">Cold Spring Harbor</button>
     <button class="era-btn" onclick="selectEra('Brenda & Eddies')">Brenda &amp; Eddies</button>
-    <button class="era-btn" onclick="selectEra('Alexa')">Alexa</button>
+    <button class="era-btn" onclick="selectEra('Oyster Bay')">Oyster Bay</button>
+    <button class="era-btn" onclick="selectEra('Home Run Production')">Home Run Production</button>
+    <button class="era-btn" onclick="selectEra('MSG Residency')">MSG Residency</button>
 </div>
 </div><!-- /sticky-top -->
 
@@ -1470,7 +1470,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Oyster Bay</div>
+            <div class="region-header">Brenda &amp; Eddies</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Piano Man</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Souvenir</div></div>
@@ -1502,7 +1502,7 @@
         </div>
 
         <div class="region-card venue-westpalm">
-            <div class="region-header">Cold Spring Harbor</div>
+            <div class="region-header">Oyster Bay</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Scenes from an Italian Restaurant</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Travelin&#x27; Prayer</div></div>
@@ -1542,14 +1542,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Oyster Bay Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Brenda &amp; Eddies Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Cold Spring Harbor Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Oyster Bay Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Brenda &amp; Eddies Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Home Run Production Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Alexa Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">MSG Residency Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1579,7 +1579,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Brenda &amp; Eddies</div>
+            <div class="region-header">Home Run Production</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>New York State of Mind</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Root Beer Rag</div></div>
@@ -1611,7 +1611,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">Alexa</div>
+            <div class="region-header">MSG Residency</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Movin&#x27; Out (Anthony&#x27;s Song)</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>You&#x27;re My Home</div></div>
@@ -1777,70 +1777,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Piano Man", seed:1, region:"Oyster Bay", era:"Oyster Bay", spotify:99, liveRank:1},
-  {name:"My Life", seed:2, region:"Oyster Bay", era:"Oyster Bay", spotify:95, liveRank:8},
-  {name:"Vienna", seed:3, region:"Oyster Bay", era:"Oyster Bay", spotify:73, liveRank:9},
-  {name:"Allentown", seed:4, region:"Oyster Bay", era:"Oyster Bay", spotify:87, liveRank:16},
-  {name:"Big Shot", seed:5, region:"Oyster Bay", era:"Oyster Bay", spotify:91, liveRank:17},
-  {name:"Summer, Highland Falls", seed:6, region:"Oyster Bay", era:"Oyster Bay", spotify:52, liveRank:24},
-  {name:"An Innocent Man", seed:7, region:"Oyster Bay", era:"Oyster Bay", spotify:76, liveRank:25},
-  {name:"Zanzibar", seed:8, region:"Oyster Bay", era:"Oyster Bay", spotify:83, liveRank:32},
-  {name:"Angry Young Man", seed:9, region:"Oyster Bay", era:"Oyster Bay", spotify:68, liveRank:33},
-  {name:"I've Loved These Days", seed:10, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:40},
-  {name:"Leave a Tender Moment Alone", seed:11, region:"Oyster Bay", era:"Oyster Bay", spotify:31, liveRank:41},
-  {name:"Leningrad", seed:12, region:"Oyster Bay", era:"Oyster Bay", spotify:43, liveRank:48},
-  {name:"Baby Grand", seed:13, region:"Oyster Bay", era:"Oyster Bay", spotify:42, liveRank:49},
-  {name:"Stiletto", seed:14, region:"Oyster Bay", era:"Oyster Bay", spotify:54, liveRank:56},
-  {name:"The Great Wall of China", seed:15, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:57},
-  {name:"Souvenir", seed:16, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:64},
-  {name:"Scenes from an Italian Restaurant", seed:1, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:98, liveRank:2},
-  {name:"Only the Good Die Young", seed:2, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:92, liveRank:7},
-  {name:"Goodnight Saigon", seed:3, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:60, liveRank:10},
-  {name:"Say Goodbye to Hollywood", seed:4, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:62, liveRank:15},
-  {name:"It's Still Rock and Roll to Me", seed:5, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:80, liveRank:18},
-  {name:"You May Be Right", seed:6, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:94, liveRank:23},
-  {name:"She's Got a Way", seed:7, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:45, liveRank:26},
-  {name:"This Is the Time", seed:8, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:41, liveRank:31},
-  {name:"Honesty", seed:9, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:53, liveRank:34},
-  {name:"Sometimes a Fantasy", seed:10, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:71, liveRank:39},
-  {name:"Everybody Loves You Now", seed:11, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:46, liveRank:42},
-  {name:"Turn the Lights Back On", seed:12, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:30, liveRank:47},
-  {name:"And So It Goes", seed:13, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:38, liveRank:50},
-  {name:"Until the Night", seed:14, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:30, liveRank:55},
-  {name:"Where's the Orchestra?", seed:15, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:30, liveRank:58},
-  {name:"Travelin' Prayer", seed:16, region:"Cold Spring Harbor", era:"Cold Spring Harbor", spotify:37, liveRank:63},
-  {name:"New York State of Mind", seed:1, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:85, liveRank:3},
-  {name:"Uptown Girl", seed:2, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:79, liveRank:6},
-  {name:"We Didn't Start the Fire", seed:3, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:81, liveRank:11},
-  {name:"Captain Jack", seed:4, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:69, liveRank:14},
-  {name:"She's Always a Woman", seed:5, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:72, liveRank:19},
-  {name:"Pressure", seed:6, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:88, liveRank:22},
-  {name:"Tell Her About It", seed:7, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:50, liveRank:27},
-  {name:"The Downeaster 'Alexa'", seed:8, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:49, liveRank:30},
-  {name:"I Go to Extremes", seed:9, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:58, liveRank:35},
-  {name:"A Matter of Trust", seed:10, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:65, liveRank:38},
-  {name:"Streetlife Serenader", seed:11, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:42, liveRank:43},
-  {name:"Easy Money", seed:12, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:46},
-  {name:"Los Angelenos", seed:13, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:33, liveRank:51},
-  {name:"The Night Is Still Young", seed:14, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:54},
-  {name:"Sleeping with the Television On", seed:15, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:59},
-  {name:"Root Beer Rag", seed:16, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:35, liveRank:62},
-  {name:"Movin' Out (Anthony's Song)", seed:1, region:"Alexa", era:"Alexa", spotify:96, liveRank:4},
-  {name:"Just the Way You Are", seed:2, region:"Alexa", era:"Alexa", spotify:64, liveRank:5},
-  {name:"The Stranger", seed:3, region:"Alexa", era:"Alexa", spotify:75, liveRank:12},
-  {name:"Miami 2017 (Seen the Lights Go Out on Broadway)", seed:4, region:"Alexa", era:"Alexa", spotify:61, liveRank:13},
-  {name:"The Entertainer", seed:5, region:"Alexa", era:"Alexa", spotify:90, liveRank:20},
-  {name:"The Longest Time", seed:6, region:"Alexa", era:"Alexa", spotify:66, liveRank:21},
-  {name:"The River of Dreams", seed:7, region:"Alexa", era:"Alexa", spotify:77, liveRank:28},
-  {name:"Keeping the Faith", seed:8, region:"Alexa", era:"Alexa", spotify:57, liveRank:29},
-  {name:"The Ballad of Billy the Kid", seed:9, region:"Alexa", era:"Alexa", spotify:56, liveRank:36},
-  {name:"Don't Ask Me Why", seed:10, region:"Alexa", era:"Alexa", spotify:84, liveRank:37},
-  {name:"All for Leyna", seed:11, region:"Alexa", era:"Alexa", spotify:48, liveRank:44},
-  {name:"Lullabye (Goodnight, My Angel)", seed:12, region:"Alexa", era:"Alexa", spotify:39, liveRank:45},
-  {name:"Big Man on Mulberry Street", seed:13, region:"Alexa", era:"Alexa", spotify:34, liveRank:52},
-  {name:"All About Soul", seed:14, region:"Alexa", era:"Alexa", spotify:30, liveRank:53},
-  {name:"Shameless", seed:15, region:"Alexa", era:"Alexa", spotify:30, liveRank:60},
-  {name:"You're My Home", seed:16, region:"Alexa", era:"Alexa", spotify:30, liveRank:61},
+  {name:"Piano Man", seed:1, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:99, liveRank:1},
+  {name:"My Life", seed:2, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:95, liveRank:8},
+  {name:"Vienna", seed:3, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:73, liveRank:9},
+  {name:"Allentown", seed:4, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:87, liveRank:16},
+  {name:"Big Shot", seed:5, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:91, liveRank:17},
+  {name:"Summer, Highland Falls", seed:6, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:52, liveRank:24},
+  {name:"An Innocent Man", seed:7, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:76, liveRank:25},
+  {name:"Zanzibar", seed:8, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:83, liveRank:32},
+  {name:"Angry Young Man", seed:9, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:68, liveRank:33},
+  {name:"I've Loved These Days", seed:10, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:40},
+  {name:"Leave a Tender Moment Alone", seed:11, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:31, liveRank:41},
+  {name:"Leningrad", seed:12, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:43, liveRank:48},
+  {name:"Baby Grand", seed:13, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:42, liveRank:49},
+  {name:"Stiletto", seed:14, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:54, liveRank:56},
+  {name:"The Great Wall of China", seed:15, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:57},
+  {name:"Souvenir", seed:16, region:"Brenda & Eddies", era:"Brenda & Eddies", spotify:30, liveRank:64},
+  {name:"Scenes from an Italian Restaurant", seed:1, region:"Oyster Bay", era:"Oyster Bay", spotify:98, liveRank:2},
+  {name:"Only the Good Die Young", seed:2, region:"Oyster Bay", era:"Oyster Bay", spotify:92, liveRank:7},
+  {name:"Goodnight Saigon", seed:3, region:"Oyster Bay", era:"Oyster Bay", spotify:60, liveRank:10},
+  {name:"Say Goodbye to Hollywood", seed:4, region:"Oyster Bay", era:"Oyster Bay", spotify:62, liveRank:15},
+  {name:"It's Still Rock and Roll to Me", seed:5, region:"Oyster Bay", era:"Oyster Bay", spotify:80, liveRank:18},
+  {name:"You May Be Right", seed:6, region:"Oyster Bay", era:"Oyster Bay", spotify:94, liveRank:23},
+  {name:"She's Got a Way", seed:7, region:"Oyster Bay", era:"Oyster Bay", spotify:45, liveRank:26},
+  {name:"This Is the Time", seed:8, region:"Oyster Bay", era:"Oyster Bay", spotify:41, liveRank:31},
+  {name:"Honesty", seed:9, region:"Oyster Bay", era:"Oyster Bay", spotify:53, liveRank:34},
+  {name:"Sometimes a Fantasy", seed:10, region:"Oyster Bay", era:"Oyster Bay", spotify:71, liveRank:39},
+  {name:"Everybody Loves You Now", seed:11, region:"Oyster Bay", era:"Oyster Bay", spotify:46, liveRank:42},
+  {name:"Turn the Lights Back On", seed:12, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:47},
+  {name:"And So It Goes", seed:13, region:"Oyster Bay", era:"Oyster Bay", spotify:38, liveRank:50},
+  {name:"Until the Night", seed:14, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:55},
+  {name:"Where's the Orchestra?", seed:15, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:58},
+  {name:"Travelin' Prayer", seed:16, region:"Oyster Bay", era:"Oyster Bay", spotify:37, liveRank:63},
+  {name:"New York State of Mind", seed:1, region:"Home Run Production", era:"Home Run Production", spotify:85, liveRank:3},
+  {name:"Uptown Girl", seed:2, region:"Home Run Production", era:"Home Run Production", spotify:79, liveRank:6},
+  {name:"We Didn't Start the Fire", seed:3, region:"Home Run Production", era:"Home Run Production", spotify:81, liveRank:11},
+  {name:"Captain Jack", seed:4, region:"Home Run Production", era:"Home Run Production", spotify:69, liveRank:14},
+  {name:"She's Always a Woman", seed:5, region:"Home Run Production", era:"Home Run Production", spotify:72, liveRank:19},
+  {name:"Pressure", seed:6, region:"Home Run Production", era:"Home Run Production", spotify:88, liveRank:22},
+  {name:"Tell Her About It", seed:7, region:"Home Run Production", era:"Home Run Production", spotify:50, liveRank:27},
+  {name:"The Downeaster 'Alexa'", seed:8, region:"Home Run Production", era:"Home Run Production", spotify:49, liveRank:30},
+  {name:"I Go to Extremes", seed:9, region:"Home Run Production", era:"Home Run Production", spotify:58, liveRank:35},
+  {name:"A Matter of Trust", seed:10, region:"Home Run Production", era:"Home Run Production", spotify:65, liveRank:38},
+  {name:"Streetlife Serenader", seed:11, region:"Home Run Production", era:"Home Run Production", spotify:42, liveRank:43},
+  {name:"Easy Money", seed:12, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:46},
+  {name:"Los Angelenos", seed:13, region:"Home Run Production", era:"Home Run Production", spotify:33, liveRank:51},
+  {name:"The Night Is Still Young", seed:14, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:54},
+  {name:"Sleeping with the Television On", seed:15, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:59},
+  {name:"Root Beer Rag", seed:16, region:"Home Run Production", era:"Home Run Production", spotify:35, liveRank:62},
+  {name:"Movin' Out (Anthony's Song)", seed:1, region:"MSG Residency", era:"MSG Residency", spotify:96, liveRank:4},
+  {name:"Just the Way You Are", seed:2, region:"MSG Residency", era:"MSG Residency", spotify:64, liveRank:5},
+  {name:"The Stranger", seed:3, region:"MSG Residency", era:"MSG Residency", spotify:75, liveRank:12},
+  {name:"Miami 2017 (Seen the Lights Go Out on Broadway)", seed:4, region:"MSG Residency", era:"MSG Residency", spotify:61, liveRank:13},
+  {name:"The Entertainer", seed:5, region:"MSG Residency", era:"MSG Residency", spotify:90, liveRank:20},
+  {name:"The Longest Time", seed:6, region:"MSG Residency", era:"MSG Residency", spotify:66, liveRank:21},
+  {name:"The River of Dreams", seed:7, region:"MSG Residency", era:"MSG Residency", spotify:77, liveRank:28},
+  {name:"Keeping the Faith", seed:8, region:"MSG Residency", era:"MSG Residency", spotify:57, liveRank:29},
+  {name:"The Ballad of Billy the Kid", seed:9, region:"MSG Residency", era:"MSG Residency", spotify:56, liveRank:36},
+  {name:"Don't Ask Me Why", seed:10, region:"MSG Residency", era:"MSG Residency", spotify:84, liveRank:37},
+  {name:"All for Leyna", seed:11, region:"MSG Residency", era:"MSG Residency", spotify:48, liveRank:44},
+  {name:"Lullabye (Goodnight, My Angel)", seed:12, region:"MSG Residency", era:"MSG Residency", spotify:39, liveRank:45},
+  {name:"Big Man on Mulberry Street", seed:13, region:"MSG Residency", era:"MSG Residency", spotify:34, liveRank:52},
+  {name:"All About Soul", seed:14, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:53},
+  {name:"Shameless", seed:15, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:60},
+  {name:"You're My Home", seed:16, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2595,7 +2595,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Brenda & Eddies Winner' && t !== 'Cold Spring Harbor Winner' && t !== 'Oyster Bay Winner' && t !== 'Alexa Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Home Run Production Winner' && t !== 'Oyster Bay Winner' && t !== 'Brenda & Eddies Winner' && t !== 'MSG Residency Winner') {
                 filled++;
             }
         }
@@ -2913,8 +2913,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Brenda & Eddies Winner' && text !== 'Cold Spring Harbor Winner' && 
-            text !== 'Oyster Bay Winner' && text !== 'Alexa Winner') {
+            text !== 'Home Run Production Winner' && text !== 'Oyster Bay Winner' && 
+            text !== 'Brenda & Eddies Winner' && text !== 'MSG Residency Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2946,10 +2946,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'Oyster Bay': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Cold Spring Harbor': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Brenda & Eddies': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Alexa': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'Brenda & Eddies': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Oyster Bay': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Home Run Production': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'MSG Residency': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 

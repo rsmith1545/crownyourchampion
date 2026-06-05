@@ -1311,11 +1311,11 @@
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(60,90,150,.44), transparent 72%); }
         .venue-gorge::after     { content:"Tommy & Gina’s"; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(180,60,150,.44), transparent 72%); }
-        .venue-westpalm::after  { content:"Big Hair & Spandex"; }
+        .venue-westpalm::after  { content:"The Power Station"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(180,90,50,.46), transparent 72%); }
-        .venue-spac::after      { content:"Loaded Six-String"; }
+        .venue-spac::after      { content:"JBJ Soul"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(190,140,50,.44), transparent 72%); }
-        .venue-camden::after    { content:"JBJ Soul"; }
+        .venue-camden::after    { content:"Loaded Six-String"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1441,10 +1441,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Tommy &amp; Gina’s')">Tommy &amp; Gina’s</button>
-    <button class="era-btn" onclick="selectEra('Big Hair &amp; Spandex')">Big Hair &amp; Spandex</button>
-    <button class="era-btn" onclick="selectEra('Loaded Six-String')">Loaded Six-String</button>
+    <button class="era-btn" onclick="selectEra('Tommy & Gina’s')">Tommy &amp; Gina’s</button>
+    <button class="era-btn" onclick="selectEra('The Power Station')">The Power Station</button>
     <button class="era-btn" onclick="selectEra('JBJ Soul')">JBJ Soul</button>
+    <button class="era-btn" onclick="selectEra('Loaded Six-String')">Loaded Six-String</button>
 </div>
 </div><!-- /sticky-top -->
 
@@ -1502,7 +1502,7 @@
         </div>
 
         <div class="region-card venue-westpalm">
-            <div class="region-header">Big Hair &amp; Spandex</div>
+            <div class="region-header">The Power Station</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>You Give Love a Bad Name</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Superman Tonight</div></div>
@@ -1544,12 +1544,12 @@
                     <div class="sf-pair">
                         <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Tommy &amp; Gina’s Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Big Hair &amp; Spandex Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">The Power Station Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Loaded Six-String Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">JBJ Soul Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">JBJ Soul Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Loaded Six-String Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1579,7 +1579,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Loaded Six-String</div>
+            <div class="region-header">JBJ Soul</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Wanted Dead or Alive</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Bells of Freedom</div></div>
@@ -1611,7 +1611,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">JBJ Soul</div>
+            <div class="region-header">Loaded Six-String</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>It&#x27;s My Life</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Legendary</div></div>
@@ -1793,54 +1793,54 @@ const ALL_SONGS = [
   {name:"Diamond Ring", seed:14, region:"Tommy & Gina’s", era:"Tommy & Gina’s", spotify:30, liveRank:56},
   {name:"Misunderstood", seed:15, region:"Tommy & Gina’s", era:"Tommy & Gina’s", spotify:30, liveRank:57},
   {name:"Stick to Your Guns", seed:16, region:"Tommy & Gina’s", era:"Tommy & Gina’s", spotify:30, liveRank:64},
-  {name:"You Give Love a Bad Name", seed:1, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:99, liveRank:2},
-  {name:"Bad Medicine", seed:2, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:95, liveRank:7},
-  {name:"Born to Be My Baby", seed:3, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:87, liveRank:10},
-  {name:"Have a Nice Day", seed:4, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:81, liveRank:15},
-  {name:"Someday I'll Be Saturday Night", seed:5, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:76, liveRank:18},
-  {name:"Something for the Pain", seed:6, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:71, liveRank:23},
-  {name:"Never Say Goodbye", seed:7, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:65, liveRank:26},
-  {name:"Captain Crash & the Beauty Queen from Mars", seed:8, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:58, liveRank:31},
-  {name:"Wild Is the Wind", seed:9, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:56, liveRank:34},
-  {name:"Last Man Standing", seed:10, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:48, liveRank:39},
-  {name:"All About Lovin' You", seed:11, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:45, liveRank:42},
-  {name:"Hey God", seed:12, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:37, liveRank:47},
-  {name:"These Days", seed:13, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:34, liveRank:50},
-  {name:"I Believe", seed:14, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:30, liveRank:55},
-  {name:"Homebound Train", seed:15, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:30, liveRank:58},
-  {name:"Superman Tonight", seed:16, region:"Big Hair & Spandex", era:"Big Hair & Spandex", spotify:30, liveRank:63},
-  {name:"Wanted Dead or Alive", seed:1, region:"Loaded Six-String", era:"Loaded Six-String", spotify:96, liveRank:3},
-  {name:"Keep the Faith", seed:2, region:"Loaded Six-String", era:"Loaded Six-String", spotify:91, liveRank:6},
-  {name:"I'll Be There for You", seed:3, region:"Loaded Six-String", era:"Loaded Six-String", spotify:85, liveRank:11},
-  {name:"Bed of Roses", seed:4, region:"Loaded Six-String", era:"Loaded Six-String", spotify:80, liveRank:14},
-  {name:"In These Arms", seed:5, region:"Loaded Six-String", era:"Loaded Six-String", spotify:75, liveRank:19},
-  {name:"(You Want to) Make a Memory", seed:6, region:"Loaded Six-String", era:"Loaded Six-String", spotify:69, liveRank:22},
-  {name:"Let It Rock", seed:7, region:"Loaded Six-String", era:"Loaded Six-String", spotify:64, liveRank:27},
-  {name:"Say It Isn't So", seed:8, region:"Loaded Six-String", era:"Loaded Six-String", spotify:57, liveRank:30},
-  {name:"Because We Can", seed:9, region:"Loaded Six-String", era:"Loaded Six-String", spotify:54, liveRank:35},
-  {name:"One Wild Night", seed:10, region:"Loaded Six-String", era:"Loaded Six-String", spotify:46, liveRank:38},
-  {name:"Just Older", seed:11, region:"Loaded Six-String", era:"Loaded Six-String", spotify:43, liveRank:43},
-  {name:"Lie to Me", seed:12, region:"Loaded Six-String", era:"Loaded Six-String", spotify:35, liveRank:46},
-  {name:"This House Is Not for Sale", seed:13, region:"Loaded Six-String", era:"Loaded Six-String", spotify:33, liveRank:51},
-  {name:"What Do You Got?", seed:14, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:54},
-  {name:"Only Lonely", seed:15, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:59},
-  {name:"Bells of Freedom", seed:16, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:62},
-  {name:"It's My Life", seed:1, region:"JBJ Soul", era:"JBJ Soul", spotify:92, liveRank:4},
-  {name:"Blaze of Glory", seed:2, region:"JBJ Soul", era:"JBJ Soul", spotify:90, liveRank:5},
-  {name:"Always", seed:3, region:"JBJ Soul", era:"JBJ Soul", spotify:84, liveRank:12},
-  {name:"Who Says You Can't Go Home", seed:4, region:"JBJ Soul", era:"JBJ Soul", spotify:79, liveRank:13},
-  {name:"Lost Highway", seed:5, region:"JBJ Soul", era:"JBJ Soul", spotify:73, liveRank:20},
-  {name:"Living in Sin", seed:6, region:"JBJ Soul", era:"JBJ Soul", spotify:68, liveRank:21},
-  {name:"In and Out of Love", seed:7, region:"JBJ Soul", era:"JBJ Soul", spotify:62, liveRank:28},
-  {name:"Dry County", seed:8, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:29},
-  {name:"What About Now", seed:9, region:"JBJ Soul", era:"JBJ Soul", spotify:53, liveRank:36},
-  {name:"We Got It Going On", seed:10, region:"JBJ Soul", era:"JBJ Soul", spotify:52, liveRank:37},
-  {name:"Everyday", seed:11, region:"JBJ Soul", era:"JBJ Soul", spotify:42, liveRank:44},
-  {name:"Undivided", seed:12, region:"JBJ Soul", era:"JBJ Soul", spotify:41, liveRank:45},
-  {name:"Thank You for Loving Me", seed:13, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:52},
-  {name:"I'll Sleep When I'm Dead", seed:14, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:53},
-  {name:"The Hardest Part Is the Night", seed:15, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:60},
-  {name:"Legendary", seed:16, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:61},
+  {name:"You Give Love a Bad Name", seed:1, region:"The Power Station", era:"The Power Station", spotify:99, liveRank:2},
+  {name:"Bad Medicine", seed:2, region:"The Power Station", era:"The Power Station", spotify:95, liveRank:7},
+  {name:"Born to Be My Baby", seed:3, region:"The Power Station", era:"The Power Station", spotify:87, liveRank:10},
+  {name:"Have a Nice Day", seed:4, region:"The Power Station", era:"The Power Station", spotify:81, liveRank:15},
+  {name:"Someday I'll Be Saturday Night", seed:5, region:"The Power Station", era:"The Power Station", spotify:76, liveRank:18},
+  {name:"Something for the Pain", seed:6, region:"The Power Station", era:"The Power Station", spotify:71, liveRank:23},
+  {name:"Never Say Goodbye", seed:7, region:"The Power Station", era:"The Power Station", spotify:65, liveRank:26},
+  {name:"Captain Crash & the Beauty Queen from Mars", seed:8, region:"The Power Station", era:"The Power Station", spotify:58, liveRank:31},
+  {name:"Wild Is the Wind", seed:9, region:"The Power Station", era:"The Power Station", spotify:56, liveRank:34},
+  {name:"Last Man Standing", seed:10, region:"The Power Station", era:"The Power Station", spotify:48, liveRank:39},
+  {name:"All About Lovin' You", seed:11, region:"The Power Station", era:"The Power Station", spotify:45, liveRank:42},
+  {name:"Hey God", seed:12, region:"The Power Station", era:"The Power Station", spotify:37, liveRank:47},
+  {name:"These Days", seed:13, region:"The Power Station", era:"The Power Station", spotify:34, liveRank:50},
+  {name:"I Believe", seed:14, region:"The Power Station", era:"The Power Station", spotify:30, liveRank:55},
+  {name:"Homebound Train", seed:15, region:"The Power Station", era:"The Power Station", spotify:30, liveRank:58},
+  {name:"Superman Tonight", seed:16, region:"The Power Station", era:"The Power Station", spotify:30, liveRank:63},
+  {name:"Wanted Dead or Alive", seed:1, region:"JBJ Soul", era:"JBJ Soul", spotify:96, liveRank:3},
+  {name:"Keep the Faith", seed:2, region:"JBJ Soul", era:"JBJ Soul", spotify:91, liveRank:6},
+  {name:"I'll Be There for You", seed:3, region:"JBJ Soul", era:"JBJ Soul", spotify:85, liveRank:11},
+  {name:"Bed of Roses", seed:4, region:"JBJ Soul", era:"JBJ Soul", spotify:80, liveRank:14},
+  {name:"In These Arms", seed:5, region:"JBJ Soul", era:"JBJ Soul", spotify:75, liveRank:19},
+  {name:"(You Want to) Make a Memory", seed:6, region:"JBJ Soul", era:"JBJ Soul", spotify:69, liveRank:22},
+  {name:"Let It Rock", seed:7, region:"JBJ Soul", era:"JBJ Soul", spotify:64, liveRank:27},
+  {name:"Say It Isn't So", seed:8, region:"JBJ Soul", era:"JBJ Soul", spotify:57, liveRank:30},
+  {name:"Because We Can", seed:9, region:"JBJ Soul", era:"JBJ Soul", spotify:54, liveRank:35},
+  {name:"One Wild Night", seed:10, region:"JBJ Soul", era:"JBJ Soul", spotify:46, liveRank:38},
+  {name:"Just Older", seed:11, region:"JBJ Soul", era:"JBJ Soul", spotify:43, liveRank:43},
+  {name:"Lie to Me", seed:12, region:"JBJ Soul", era:"JBJ Soul", spotify:35, liveRank:46},
+  {name:"This House Is Not for Sale", seed:13, region:"JBJ Soul", era:"JBJ Soul", spotify:33, liveRank:51},
+  {name:"What Do You Got?", seed:14, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:54},
+  {name:"Only Lonely", seed:15, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:59},
+  {name:"Bells of Freedom", seed:16, region:"JBJ Soul", era:"JBJ Soul", spotify:30, liveRank:62},
+  {name:"It's My Life", seed:1, region:"Loaded Six-String", era:"Loaded Six-String", spotify:92, liveRank:4},
+  {name:"Blaze of Glory", seed:2, region:"Loaded Six-String", era:"Loaded Six-String", spotify:90, liveRank:5},
+  {name:"Always", seed:3, region:"Loaded Six-String", era:"Loaded Six-String", spotify:84, liveRank:12},
+  {name:"Who Says You Can't Go Home", seed:4, region:"Loaded Six-String", era:"Loaded Six-String", spotify:79, liveRank:13},
+  {name:"Lost Highway", seed:5, region:"Loaded Six-String", era:"Loaded Six-String", spotify:73, liveRank:20},
+  {name:"Living in Sin", seed:6, region:"Loaded Six-String", era:"Loaded Six-String", spotify:68, liveRank:21},
+  {name:"In and Out of Love", seed:7, region:"Loaded Six-String", era:"Loaded Six-String", spotify:62, liveRank:28},
+  {name:"Dry County", seed:8, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:29},
+  {name:"What About Now", seed:9, region:"Loaded Six-String", era:"Loaded Six-String", spotify:53, liveRank:36},
+  {name:"We Got It Going On", seed:10, region:"Loaded Six-String", era:"Loaded Six-String", spotify:52, liveRank:37},
+  {name:"Everyday", seed:11, region:"Loaded Six-String", era:"Loaded Six-String", spotify:42, liveRank:44},
+  {name:"Undivided", seed:12, region:"Loaded Six-String", era:"Loaded Six-String", spotify:41, liveRank:45},
+  {name:"Thank You for Loving Me", seed:13, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:52},
+  {name:"I'll Sleep When I'm Dead", seed:14, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:53},
+  {name:"The Hardest Part Is the Night", seed:15, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:60},
+  {name:"Legendary", seed:16, region:"Loaded Six-String", era:"Loaded Six-String", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2595,7 +2595,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Loaded Six-String Winner' && t !== 'Big Hair & Spandex Winner' && t !== 'Tommy & Gina’s Winner' && t !== 'JBJ Soul Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'JBJ Soul Winner' && t !== 'The Power Station Winner' && t !== 'Tommy & Gina’s Winner' && t !== 'Loaded Six-String Winner') {
                 filled++;
             }
         }
@@ -2913,8 +2913,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Loaded Six-String Winner' && text !== 'Big Hair & Spandex Winner' && 
-            text !== 'Tommy & Gina’s Winner' && text !== 'JBJ Soul Winner') {
+            text !== 'JBJ Soul Winner' && text !== 'The Power Station Winner' && 
+            text !== 'Tommy & Gina’s Winner' && text !== 'Loaded Six-String Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2947,9 +2947,9 @@ function confirmReset() {
 function openShare() {
     const regions = {
         'Tommy & Gina’s': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Big Hair & Spandex': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Loaded Six-String': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'JBJ Soul': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'The Power Station': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'JBJ Soul': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Loaded Six-String': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
