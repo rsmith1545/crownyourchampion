@@ -3415,7 +3415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var cbName = 'itpv_' + Math.random().toString(36).slice(2);
         var done = false;
         var s = document.createElement('script');
-        var timer = setTimeout(function () { finish(null); }, 7000);
+        var timer = setTimeout(function () { finish(null, -1); }, 7000);
 
         function finish(url) {
             if (done) return;
@@ -3439,7 +3439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
             url = chosen ? chosen.previewUrl : null;
             console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
-            finish(url);
+            finish(url, results.length);
         };
 
         s.onerror = function () { finish(null); };
@@ -3500,9 +3500,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // so claim audio permission now, inside the gesture.
         unlockAudio();
         btn.classList.add('loading');
-        itunesLookup(name, function (url) {
+        itunesLookup(name, function (url, rc) {
             dbg('lookup ' + name + ' -> ' + (url ? 'FOUND' : 'none'));
-            cache[name] = url || null;
+            if (url) { cache[name] = url; }
+            else if (rc > 0) { cache[name] = null; }            // definitive miss
+            else { delete cache[name]; }                        // throttled/empty — retry on next tap
             // If user moved on to another song meanwhile, don't hijack.
             if (!btn.classList.contains('loading')) return;
             if (url) startPlayback(name, btn, url);
