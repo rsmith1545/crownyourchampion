@@ -421,9 +421,14 @@
             font-size: 0.5em; color: var(--dmb-gold);
             vertical-align: middle; font-weight: 700;
         }
-        /* Mobile: slots are too narrow to carry seeds forward — keep the tight layout */
+        /* Mobile: carried seed as a zero-layout corner badge (inline version broke nesting) */
         @media (max-width: 600px) {
-            .slot.adv.has-value::before, .final-slot.adv.has-value::before { display: none; }
+            .slot.adv.has-value, .final-slot.adv.has-value { position: relative; padding-right: 12px; }
+            .slot.adv.has-value::before, .final-slot.adv.has-value::before {
+                position: absolute; top: 1px; right: 3px;
+                width: auto; min-width: 0; margin: 0;
+                font-size: 8.5px; line-height: 1; opacity: 0.95;
+            }
         }
 
         /* CENTER FINALS */
