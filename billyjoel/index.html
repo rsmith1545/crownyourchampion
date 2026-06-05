@@ -1315,7 +1315,7 @@
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(150,40,40,.46), transparent 72%); }
         .venue-spac::after      { content:"Last Play at Shea"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(60,80,116,.48), transparent 72%); }
-        .venue-camden::after    { content:"MSG Residency"; }
+        .venue-camden::after    { content:"Bill Martin"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1444,7 +1444,7 @@
     <button class="era-btn" onclick="selectEra('Brenda & Eddies')">Brenda &amp; Eddies</button>
     <button class="era-btn" onclick="selectEra('Oyster Bay')">Oyster Bay</button>
     <button class="era-btn" onclick="selectEra('Last Play at Shea')">Last Play at Shea</button>
-    <button class="era-btn" onclick="selectEra('MSG Residency')">MSG Residency</button>
+    <button class="era-btn" onclick="selectEra('Bill Martin')">Bill Martin</button>
 </div>
 </div><!-- /sticky-top -->
 
@@ -1549,7 +1549,7 @@
                     <div class="sf-pair">
                         <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Last Play at Shea Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">MSG Residency Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Bill Martin Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1611,7 +1611,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">MSG Residency</div>
+            <div class="region-header">Bill Martin</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Movin&#x27; Out (Anthony&#x27;s Song)</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>You&#x27;re My Home</div></div>
@@ -1825,22 +1825,22 @@ const ALL_SONGS = [
   {name:"The Night Is Still Young", seed:14, region:"Last Play at Shea", era:"Last Play at Shea", spotify:30, liveRank:54},
   {name:"Sleeping with the Television On", seed:15, region:"Last Play at Shea", era:"Last Play at Shea", spotify:30, liveRank:59},
   {name:"Root Beer Rag", seed:16, region:"Last Play at Shea", era:"Last Play at Shea", spotify:35, liveRank:62},
-  {name:"Movin' Out (Anthony's Song)", seed:1, region:"MSG Residency", era:"MSG Residency", spotify:96, liveRank:4},
-  {name:"Just the Way You Are", seed:2, region:"MSG Residency", era:"MSG Residency", spotify:64, liveRank:5},
-  {name:"The Stranger", seed:3, region:"MSG Residency", era:"MSG Residency", spotify:75, liveRank:12},
-  {name:"Miami 2017 (Seen the Lights Go Out on Broadway)", seed:4, region:"MSG Residency", era:"MSG Residency", spotify:61, liveRank:13},
-  {name:"The Entertainer", seed:5, region:"MSG Residency", era:"MSG Residency", spotify:90, liveRank:20},
-  {name:"The Longest Time", seed:6, region:"MSG Residency", era:"MSG Residency", spotify:66, liveRank:21},
-  {name:"The River of Dreams", seed:7, region:"MSG Residency", era:"MSG Residency", spotify:77, liveRank:28},
-  {name:"Keeping the Faith", seed:8, region:"MSG Residency", era:"MSG Residency", spotify:57, liveRank:29},
-  {name:"The Ballad of Billy the Kid", seed:9, region:"MSG Residency", era:"MSG Residency", spotify:56, liveRank:36},
-  {name:"Don't Ask Me Why", seed:10, region:"MSG Residency", era:"MSG Residency", spotify:84, liveRank:37},
-  {name:"All for Leyna", seed:11, region:"MSG Residency", era:"MSG Residency", spotify:48, liveRank:44},
-  {name:"Lullabye (Goodnight, My Angel)", seed:12, region:"MSG Residency", era:"MSG Residency", spotify:39, liveRank:45},
-  {name:"Big Man on Mulberry Street", seed:13, region:"MSG Residency", era:"MSG Residency", spotify:34, liveRank:52},
-  {name:"All About Soul", seed:14, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:53},
-  {name:"Shameless", seed:15, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:60},
-  {name:"You're My Home", seed:16, region:"MSG Residency", era:"MSG Residency", spotify:30, liveRank:61},
+  {name:"Movin' Out (Anthony's Song)", seed:1, region:"Bill Martin", era:"Bill Martin", spotify:96, liveRank:4},
+  {name:"Just the Way You Are", seed:2, region:"Bill Martin", era:"Bill Martin", spotify:64, liveRank:5},
+  {name:"The Stranger", seed:3, region:"Bill Martin", era:"Bill Martin", spotify:75, liveRank:12},
+  {name:"Miami 2017 (Seen the Lights Go Out on Broadway)", seed:4, region:"Bill Martin", era:"Bill Martin", spotify:61, liveRank:13},
+  {name:"The Entertainer", seed:5, region:"Bill Martin", era:"Bill Martin", spotify:90, liveRank:20},
+  {name:"The Longest Time", seed:6, region:"Bill Martin", era:"Bill Martin", spotify:66, liveRank:21},
+  {name:"The River of Dreams", seed:7, region:"Bill Martin", era:"Bill Martin", spotify:77, liveRank:28},
+  {name:"Keeping the Faith", seed:8, region:"Bill Martin", era:"Bill Martin", spotify:57, liveRank:29},
+  {name:"The Ballad of Billy the Kid", seed:9, region:"Bill Martin", era:"Bill Martin", spotify:56, liveRank:36},
+  {name:"Don't Ask Me Why", seed:10, region:"Bill Martin", era:"Bill Martin", spotify:84, liveRank:37},
+  {name:"All for Leyna", seed:11, region:"Bill Martin", era:"Bill Martin", spotify:48, liveRank:44},
+  {name:"Lullabye (Goodnight, My Angel)", seed:12, region:"Bill Martin", era:"Bill Martin", spotify:39, liveRank:45},
+  {name:"Big Man on Mulberry Street", seed:13, region:"Bill Martin", era:"Bill Martin", spotify:34, liveRank:52},
+  {name:"All About Soul", seed:14, region:"Bill Martin", era:"Bill Martin", spotify:30, liveRank:53},
+  {name:"Shameless", seed:15, region:"Bill Martin", era:"Bill Martin", spotify:30, liveRank:60},
+  {name:"You're My Home", seed:16, region:"Bill Martin", era:"Bill Martin", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2595,7 +2595,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Last Play at Shea Winner' && t !== 'Oyster Bay Winner' && t !== 'Brenda & Eddies Winner' && t !== 'MSG Residency Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Last Play at Shea Winner' && t !== 'Oyster Bay Winner' && t !== 'Brenda & Eddies Winner' && t !== 'Bill Martin Winner') {
                 filled++;
             }
         }
@@ -2914,7 +2914,7 @@ function restore() {
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
             text !== 'Last Play at Shea Winner' && text !== 'Oyster Bay Winner' && 
-            text !== 'Brenda & Eddies Winner' && text !== 'MSG Residency Winner') {
+            text !== 'Brenda & Eddies Winner' && text !== 'Bill Martin Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2949,7 +2949,7 @@ function openShare() {
         'Brenda & Eddies': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
         'Oyster Bay': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
         'Last Play at Shea': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'MSG Residency': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'Bill Martin': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
