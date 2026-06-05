@@ -1313,7 +1313,7 @@
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(56,96,72,.46), transparent 72%); }
         .venue-westpalm::after  { content:"Oyster Bay"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(150,40,40,.46), transparent 72%); }
-        .venue-spac::after      { content:"Home Run Production"; }
+        .venue-spac::after      { content:"Last Play at Shea"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(60,80,116,.48), transparent 72%); }
         .venue-camden::after    { content:"MSG Residency"; }
     
@@ -1443,7 +1443,7 @@
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
     <button class="era-btn" onclick="selectEra('Brenda & Eddies')">Brenda &amp; Eddies</button>
     <button class="era-btn" onclick="selectEra('Oyster Bay')">Oyster Bay</button>
-    <button class="era-btn" onclick="selectEra('Home Run Production')">Home Run Production</button>
+    <button class="era-btn" onclick="selectEra('Last Play at Shea')">Last Play at Shea</button>
     <button class="era-btn" onclick="selectEra('MSG Residency')">MSG Residency</button>
 </div>
 </div><!-- /sticky-top -->
@@ -1547,7 +1547,7 @@
                         <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Oyster Bay Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Home Run Production Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Last Play at Shea Winner</div>
                         <div class="vs-label">vs.</div>
                         <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">MSG Residency Winner</div>
                     </div>
@@ -1579,7 +1579,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Home Run Production</div>
+            <div class="region-header">Last Play at Shea</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>New York State of Mind</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Root Beer Rag</div></div>
@@ -1809,22 +1809,22 @@ const ALL_SONGS = [
   {name:"Until the Night", seed:14, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:55},
   {name:"Where's the Orchestra?", seed:15, region:"Oyster Bay", era:"Oyster Bay", spotify:30, liveRank:58},
   {name:"Travelin' Prayer", seed:16, region:"Oyster Bay", era:"Oyster Bay", spotify:37, liveRank:63},
-  {name:"New York State of Mind", seed:1, region:"Home Run Production", era:"Home Run Production", spotify:85, liveRank:3},
-  {name:"Uptown Girl", seed:2, region:"Home Run Production", era:"Home Run Production", spotify:79, liveRank:6},
-  {name:"We Didn't Start the Fire", seed:3, region:"Home Run Production", era:"Home Run Production", spotify:81, liveRank:11},
-  {name:"Captain Jack", seed:4, region:"Home Run Production", era:"Home Run Production", spotify:69, liveRank:14},
-  {name:"She's Always a Woman", seed:5, region:"Home Run Production", era:"Home Run Production", spotify:72, liveRank:19},
-  {name:"Pressure", seed:6, region:"Home Run Production", era:"Home Run Production", spotify:88, liveRank:22},
-  {name:"Tell Her About It", seed:7, region:"Home Run Production", era:"Home Run Production", spotify:50, liveRank:27},
-  {name:"The Downeaster 'Alexa'", seed:8, region:"Home Run Production", era:"Home Run Production", spotify:49, liveRank:30},
-  {name:"I Go to Extremes", seed:9, region:"Home Run Production", era:"Home Run Production", spotify:58, liveRank:35},
-  {name:"A Matter of Trust", seed:10, region:"Home Run Production", era:"Home Run Production", spotify:65, liveRank:38},
-  {name:"Streetlife Serenader", seed:11, region:"Home Run Production", era:"Home Run Production", spotify:42, liveRank:43},
-  {name:"Easy Money", seed:12, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:46},
-  {name:"Los Angelenos", seed:13, region:"Home Run Production", era:"Home Run Production", spotify:33, liveRank:51},
-  {name:"The Night Is Still Young", seed:14, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:54},
-  {name:"Sleeping with the Television On", seed:15, region:"Home Run Production", era:"Home Run Production", spotify:30, liveRank:59},
-  {name:"Root Beer Rag", seed:16, region:"Home Run Production", era:"Home Run Production", spotify:35, liveRank:62},
+  {name:"New York State of Mind", seed:1, region:"Last Play at Shea", era:"Last Play at Shea", spotify:85, liveRank:3},
+  {name:"Uptown Girl", seed:2, region:"Last Play at Shea", era:"Last Play at Shea", spotify:79, liveRank:6},
+  {name:"We Didn't Start the Fire", seed:3, region:"Last Play at Shea", era:"Last Play at Shea", spotify:81, liveRank:11},
+  {name:"Captain Jack", seed:4, region:"Last Play at Shea", era:"Last Play at Shea", spotify:69, liveRank:14},
+  {name:"She's Always a Woman", seed:5, region:"Last Play at Shea", era:"Last Play at Shea", spotify:72, liveRank:19},
+  {name:"Pressure", seed:6, region:"Last Play at Shea", era:"Last Play at Shea", spotify:88, liveRank:22},
+  {name:"Tell Her About It", seed:7, region:"Last Play at Shea", era:"Last Play at Shea", spotify:50, liveRank:27},
+  {name:"The Downeaster 'Alexa'", seed:8, region:"Last Play at Shea", era:"Last Play at Shea", spotify:49, liveRank:30},
+  {name:"I Go to Extremes", seed:9, region:"Last Play at Shea", era:"Last Play at Shea", spotify:58, liveRank:35},
+  {name:"A Matter of Trust", seed:10, region:"Last Play at Shea", era:"Last Play at Shea", spotify:65, liveRank:38},
+  {name:"Streetlife Serenader", seed:11, region:"Last Play at Shea", era:"Last Play at Shea", spotify:42, liveRank:43},
+  {name:"Easy Money", seed:12, region:"Last Play at Shea", era:"Last Play at Shea", spotify:30, liveRank:46},
+  {name:"Los Angelenos", seed:13, region:"Last Play at Shea", era:"Last Play at Shea", spotify:33, liveRank:51},
+  {name:"The Night Is Still Young", seed:14, region:"Last Play at Shea", era:"Last Play at Shea", spotify:30, liveRank:54},
+  {name:"Sleeping with the Television On", seed:15, region:"Last Play at Shea", era:"Last Play at Shea", spotify:30, liveRank:59},
+  {name:"Root Beer Rag", seed:16, region:"Last Play at Shea", era:"Last Play at Shea", spotify:35, liveRank:62},
   {name:"Movin' Out (Anthony's Song)", seed:1, region:"MSG Residency", era:"MSG Residency", spotify:96, liveRank:4},
   {name:"Just the Way You Are", seed:2, region:"MSG Residency", era:"MSG Residency", spotify:64, liveRank:5},
   {name:"The Stranger", seed:3, region:"MSG Residency", era:"MSG Residency", spotify:75, liveRank:12},
@@ -2595,7 +2595,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Home Run Production Winner' && t !== 'Oyster Bay Winner' && t !== 'Brenda & Eddies Winner' && t !== 'MSG Residency Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Last Play at Shea Winner' && t !== 'Oyster Bay Winner' && t !== 'Brenda & Eddies Winner' && t !== 'MSG Residency Winner') {
                 filled++;
             }
         }
@@ -2913,7 +2913,7 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Home Run Production Winner' && text !== 'Oyster Bay Winner' && 
+            text !== 'Last Play at Shea Winner' && text !== 'Oyster Bay Winner' && 
             text !== 'Brenda & Eddies Winner' && text !== 'MSG Residency Winner') {
             el.innerText = text;
             el.classList.remove('empty');
@@ -2948,7 +2948,7 @@ function openShare() {
     const regions = {
         'Brenda & Eddies': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
         'Oyster Bay': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Home Run Production': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Last Play at Shea': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
         'MSG Residency': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
