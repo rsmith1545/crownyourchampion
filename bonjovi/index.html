@@ -410,6 +410,17 @@
             margin-right: 5px;
             font-weight: 700;
         }
+        .slot.adv.has-value::before, .final-slot.adv.has-value::before {
+            content: attr(data-seed);
+            width: 18px; min-width: 18px;
+            color: var(--dmb-gold);
+            font-size: 11px; margin-right: 5px; font-weight: 700;
+        }
+        #champion.adv::before {
+            content: '#' attr(data-seed) ' ';
+            font-size: 0.5em; color: var(--dmb-gold);
+            vertical-align: middle; font-weight: 700;
+        }
 
         /* CENTER FINALS */
         .center-col {
@@ -2439,12 +2450,15 @@ function pick(el, targetId) {
     el.parentElement.querySelectorAll('.slot').forEach(s => s.classList.remove('winner'));
     el.classList.add('winner');
 
-    // Push to target
+    // Push to target (seed travels along for upset visibility)
+    const sdEl = el.querySelector('.seed');
+    const sd = sdEl ? sdEl.innerText.trim() : (el.dataset.seed || '');
     const target = document.getElementById(targetId);
     if (!target) return;
     target.innerText = text;
     target.classList.remove('winner', 'empty');
     target.classList.add('has-value');
+    if (sd) { target.dataset.seed = sd; target.classList.add('adv'); } else { delete target.dataset.seed; target.classList.remove('adv'); }
 
     // Clear downstream slots that were filled with old value
     clearDownstream(targetId);
@@ -2468,6 +2482,7 @@ function autoFillFinalFour(winId) {
     f.innerText = text;
     f.classList.remove('winner', 'empty');
     f.classList.add('has-value');
+    if (win.dataset.seed) { f.dataset.seed = win.dataset.seed; f.classList.add('adv'); } else { delete f.dataset.seed; f.classList.remove('adv'); }
     // changing a Final Four entrant invalidates the finals pick it fed
     clearDownstream(fId);
 }
@@ -2492,6 +2507,7 @@ function pickFinal(el, targetId) {
     if (targetId === 'champion') {
         const champ = document.getElementById('champion');
         champ.innerText = text;
+        if (el.dataset.seed) { champ.dataset.seed = el.dataset.seed; champ.classList.add('adv'); } else { delete champ.dataset.seed; champ.classList.remove('adv'); }
         showChampion(text);
     } else {
         const target = document.getElementById(targetId);
@@ -2499,6 +2515,7 @@ function pickFinal(el, targetId) {
         target.innerText = text;
         target.classList.remove('winner');
         target.classList.add('has-value');
+        if (el.dataset.seed) { target.dataset.seed = el.dataset.seed; target.classList.add('adv'); } else { delete target.dataset.seed; target.classList.remove('adv'); }
         clearDownstream(targetId);
     }
 
@@ -2552,7 +2569,7 @@ function clearDownstream(id) {
     if (!next) return;
     if (next === 'champion') {
         const c = document.getElementById('champion');
-        if (c) { c.innerText = '—'; }
+        if (c) { c.innerText = '—'; delete c.dataset.seed; c.classList.remove('adv'); }
         document.getElementById('champBanner').classList.remove('visible');
         updateCrownButton();
         return;
@@ -2564,6 +2581,7 @@ function clearDownstream(id) {
         el.innerText = el.classList.contains('final-slot') ? '---' : '--';
         el.classList.remove('winner','has-value');
         el.classList.add('empty');
+        delete el.dataset.seed; el.classList.remove('adv');
         clearDownstream(next);
     }
 }
@@ -2874,12 +2892,13 @@ function save() {
         if (el) {
             const t = el.innerText.trim();
             const isWinner = el.classList.contains('winner');
-            data[id] = { text: t, winner: isWinner };
+            data[id] = { text: t, winner: isWinner, seed: el.dataset.seed || '' };
         }
     });
     // Save champion
     const champ = document.getElementById('champion');
     if (champ) data['__champion'] = champ.innerText.trim();
+    if (champ) data['__championSeed'] = champ.dataset.seed || '';
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch(e) {}
 }
 
@@ -2900,12 +2919,14 @@ function restore() {
             el.classList.remove('empty');
             el.classList.add('has-value');
             if (winner) el.classList.add('winner');
+            if (data[id].seed) { el.dataset.seed = data[id].seed; el.classList.add('adv'); }
         }
     });
 
     // Restore champion
     if (data['__champion'] && data['__champion'] !== '—') {
         document.getElementById('champion').innerText = data['__champion'];
+        if (data['__championSeed']) { const cEl = document.getElementById('champion'); cEl.dataset.seed = data['__championSeed']; cEl.classList.add('adv'); }
         document.getElementById('champBannerName').innerText = data['__champion'];
         document.getElementById('champBanner').classList.add('visible');
     }
