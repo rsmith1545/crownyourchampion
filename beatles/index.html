@@ -1309,13 +1309,13 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(120,120,130,.44), transparent 72%); }
-        .venue-gorge::after     { content:"Abbey Road"; }
+        .venue-gorge::after     { content:"The Cavern"; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(220,180,40,.42), transparent 72%); }
-        .venue-westpalm::after  { content:"Yellow Submarine"; }
+        .venue-westpalm::after  { content:"Hamburg"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(70,130,180,.44), transparent 72%); }
-        .venue-spac::after      { content:"Penny Lane"; }
+        .venue-spac::after      { content:"Shea Stadium"; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(190,50,60,.46), transparent 72%); }
-        .venue-camden::after    { content:"Strawberry Fields"; }
+        .venue-camden::after    { content:"The Rooftop"; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1441,10 +1441,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Abbey Road')">Abbey Road</button>
-    <button class="era-btn" onclick="selectEra('Yellow Submarine')">Yellow Submarine</button>
-    <button class="era-btn" onclick="selectEra('Penny Lane')">Penny Lane</button>
-    <button class="era-btn" onclick="selectEra('Strawberry Fields')">Strawberry Fields</button>
+    <button class="era-btn" onclick="selectEra('The Cavern')">The Cavern</button>
+    <button class="era-btn" onclick="selectEra('Hamburg')">Hamburg</button>
+    <button class="era-btn" onclick="selectEra('Shea Stadium')">Shea Stadium</button>
+    <button class="era-btn" onclick="selectEra('The Rooftop')">The Rooftop</button>
 </div>
 </div><!-- /sticky-top -->
 
@@ -1470,7 +1470,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Abbey Road</div>
+            <div class="region-header">The Cavern</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Here Comes the Sun</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>I Saw Her Standing There</div></div>
@@ -1502,7 +1502,7 @@
         </div>
 
         <div class="region-card venue-westpalm">
-            <div class="region-header">Yellow Submarine</div>
+            <div class="region-header">Hamburg</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Hey Jude</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>And I Love Her</div></div>
@@ -1542,14 +1542,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Abbey Road Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">The Cavern Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Yellow Submarine Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Hamburg Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Penny Lane Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Shea Stadium Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Strawberry Fields Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">The Rooftop Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1579,7 +1579,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-spac">
-            <div class="region-header">Penny Lane</div>
+            <div class="region-header">Shea Stadium</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Let It Be</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Two of Us</div></div>
@@ -1611,7 +1611,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">Strawberry Fields</div>
+            <div class="region-header">The Rooftop</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>A Day in the Life</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>The Fool on the Hill</div></div>
@@ -1777,70 +1777,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Here Comes the Sun", seed:1, region:"Abbey Road", era:"Abbey Road", spotify:99, liveRank:1},
-  {name:"Yesterday", seed:2, region:"Abbey Road", era:"Abbey Road", spotify:94, liveRank:8},
-  {name:"In My Life", seed:3, region:"Abbey Road", era:"Abbey Road", spotify:88, liveRank:9},
-  {name:"Ticket to Ride", seed:4, region:"Abbey Road", era:"Abbey Road", spotify:76, liveRank:16},
-  {name:"Norwegian Wood (This Bird Has Flown)", seed:5, region:"Abbey Road", era:"Abbey Road", spotify:77, liveRank:17},
-  {name:"Get Back", seed:6, region:"Abbey Road", era:"Abbey Road", spotify:71, liveRank:24},
-  {name:"Don't Let Me Down", seed:7, region:"Abbey Road", era:"Abbey Road", spotify:72, liveRank:25},
-  {name:"Happiness Is a Warm Gun", seed:8, region:"Abbey Road", era:"Abbey Road", spotify:38, liveRank:32},
-  {name:"She Loves You", seed:9, region:"Abbey Road", era:"Abbey Road", spotify:39, liveRank:33},
-  {name:"I Am the Walrus", seed:10, region:"Abbey Road", era:"Abbey Road", spotify:45, liveRank:40},
-  {name:"Paperback Writer", seed:11, region:"Abbey Road", era:"Abbey Road", spotify:42, liveRank:41},
-  {name:"Can't Buy Me Love", seed:12, region:"Abbey Road", era:"Abbey Road", spotify:61, liveRank:48},
-  {name:"Tomorrow Never Knows", seed:13, region:"Abbey Road", era:"Abbey Road", spotify:30, liveRank:49},
-  {name:"I've Just Seen a Face", seed:14, region:"Abbey Road", era:"Abbey Road", spotify:30, liveRank:56},
-  {name:"Ob-La-Di, Ob-La-Da", seed:15, region:"Abbey Road", era:"Abbey Road", spotify:54, liveRank:57},
-  {name:"I Saw Her Standing There", seed:16, region:"Abbey Road", era:"Abbey Road", spotify:30, liveRank:64},
-  {name:"Hey Jude", seed:1, region:"Yellow Submarine", era:"Yellow Submarine", spotify:98, liveRank:2},
-  {name:"Something", seed:2, region:"Yellow Submarine", era:"Yellow Submarine", spotify:91, liveRank:7},
-  {name:"Penny Lane", seed:3, region:"Yellow Submarine", era:"Yellow Submarine", spotify:81, liveRank:10},
-  {name:"Help!", seed:4, region:"Yellow Submarine", era:"Yellow Submarine", spotify:80, liveRank:15},
-  {name:"Blackbird", seed:5, region:"Yellow Submarine", era:"Yellow Submarine", spotify:87, liveRank:18},
-  {name:"Twist and Shout", seed:6, region:"Yellow Submarine", era:"Yellow Submarine", spotify:69, liveRank:23},
-  {name:"Day Tripper", seed:7, region:"Yellow Submarine", era:"Yellow Submarine", spotify:66, liveRank:26},
-  {name:"I Want You (She's So Heavy)", seed:8, region:"Yellow Submarine", era:"Yellow Submarine", spotify:49, liveRank:31},
-  {name:"The Long and Winding Road", seed:9, region:"Yellow Submarine", era:"Yellow Submarine", spotify:56, liveRank:34},
-  {name:"Nowhere Man", seed:10, region:"Yellow Submarine", era:"Yellow Submarine", spotify:50, liveRank:39},
-  {name:"Taxman", seed:11, region:"Yellow Submarine", era:"Yellow Submarine", spotify:62, liveRank:42},
-  {name:"Lady Madonna", seed:12, region:"Yellow Submarine", era:"Yellow Submarine", spotify:31, liveRank:47},
-  {name:"Rain", seed:13, region:"Yellow Submarine", era:"Yellow Submarine", spotify:40, liveRank:50},
-  {name:"You've Got to Hide Your Love Away", seed:14, region:"Yellow Submarine", era:"Yellow Submarine", spotify:30, liveRank:55},
-  {name:"Hello, Goodbye", seed:15, region:"Yellow Submarine", era:"Yellow Submarine", spotify:53, liveRank:58},
-  {name:"And I Love Her", seed:16, region:"Yellow Submarine", era:"Yellow Submarine", spotify:41, liveRank:63},
-  {name:"Let It Be", seed:1, region:"Penny Lane", era:"Penny Lane", spotify:96, liveRank:3},
-  {name:"While My Guitar Gently Weeps", seed:2, region:"Penny Lane", era:"Penny Lane", spotify:90, liveRank:6},
-  {name:"Strawberry Fields Forever", seed:3, region:"Penny Lane", era:"Penny Lane", spotify:85, liveRank:11},
-  {name:"Lucy in the Sky with Diamonds", seed:4, region:"Penny Lane", era:"Penny Lane", spotify:79, liveRank:14},
-  {name:"All You Need Is Love", seed:5, region:"Penny Lane", era:"Penny Lane", spotify:75, liveRank:19},
-  {name:"Across the Universe", seed:6, region:"Penny Lane", era:"Penny Lane", spotify:68, liveRank:22},
-  {name:"Golden Slumbers / Carry That Weight / The End", seed:7, region:"Penny Lane", era:"Penny Lane", spotify:65, liveRank:27},
-  {name:"Back in the U.S.S.R.", seed:8, region:"Penny Lane", era:"Penny Lane", spotify:60, liveRank:30},
-  {name:"Drive My Car", seed:9, region:"Penny Lane", era:"Penny Lane", spotify:52, liveRank:35},
-  {name:"With a Little Help from My Friends", seed:10, region:"Penny Lane", era:"Penny Lane", spotify:48, liveRank:38},
-  {name:"We Can Work It Out", seed:11, region:"Penny Lane", era:"Penny Lane", spotify:65, liveRank:43},
-  {name:"Oh! Darling", seed:12, region:"Penny Lane", era:"Penny Lane", spotify:34, liveRank:46},
-  {name:"Michelle", seed:13, region:"Penny Lane", era:"Penny Lane", spotify:49, liveRank:51},
-  {name:"Got to Get You into My Life", seed:14, region:"Penny Lane", era:"Penny Lane", spotify:30, liveRank:54},
-  {name:"I Feel Fine", seed:15, region:"Penny Lane", era:"Penny Lane", spotify:30, liveRank:59},
-  {name:"Two of Us", seed:16, region:"Penny Lane", era:"Penny Lane", spotify:30, liveRank:62},
-  {name:"A Day in the Life", seed:1, region:"Strawberry Fields", era:"Strawberry Fields", spotify:92, liveRank:4},
-  {name:"Come Together", seed:2, region:"Strawberry Fields", era:"Strawberry Fields", spotify:95, liveRank:5},
-  {name:"Eleanor Rigby", seed:3, region:"Strawberry Fields", era:"Strawberry Fields", spotify:83, liveRank:12},
-  {name:"I Want to Hold Your Hand", seed:4, region:"Strawberry Fields", era:"Strawberry Fields", spotify:84, liveRank:13},
-  {name:"Dear Prudence", seed:5, region:"Strawberry Fields", era:"Strawberry Fields", spotify:37, liveRank:20},
-  {name:"Eight Days a Week", seed:6, region:"Strawberry Fields", era:"Strawberry Fields", spotify:73, liveRank:21},
-  {name:"A Hard Day's Night", seed:7, region:"Strawberry Fields", era:"Strawberry Fields", spotify:64, liveRank:28},
-  {name:"Helter Skelter", seed:8, region:"Strawberry Fields", era:"Strawberry Fields", spotify:58, liveRank:29},
-  {name:"Revolution", seed:9, region:"Strawberry Fields", era:"Strawberry Fields", spotify:43, liveRank:36},
-  {name:"Sgt. Pepper's Lonely Hearts Club Band", seed:10, region:"Strawberry Fields", era:"Strawberry Fields", spotify:46, liveRank:37},
-  {name:"Yellow Submarine", seed:11, region:"Strawberry Fields", era:"Strawberry Fields", spotify:30, liveRank:44},
-  {name:"Here, There and Everywhere", seed:12, region:"Strawberry Fields", era:"Strawberry Fields", spotify:35, liveRank:45},
-  {name:"All My Loving", seed:13, region:"Strawberry Fields", era:"Strawberry Fields", spotify:40, liveRank:52},
-  {name:"Love Me Do", seed:14, region:"Strawberry Fields", era:"Strawberry Fields", spotify:30, liveRank:53},
-  {name:"From Me to You", seed:15, region:"Strawberry Fields", era:"Strawberry Fields", spotify:30, liveRank:60},
-  {name:"The Fool on the Hill", seed:16, region:"Strawberry Fields", era:"Strawberry Fields", spotify:30, liveRank:61},
+  {name:"Here Comes the Sun", seed:1, region:"The Cavern", era:"The Cavern", spotify:99, liveRank:1},
+  {name:"Yesterday", seed:2, region:"The Cavern", era:"The Cavern", spotify:94, liveRank:8},
+  {name:"In My Life", seed:3, region:"The Cavern", era:"The Cavern", spotify:88, liveRank:9},
+  {name:"Ticket to Ride", seed:4, region:"The Cavern", era:"The Cavern", spotify:76, liveRank:16},
+  {name:"Norwegian Wood (This Bird Has Flown)", seed:5, region:"The Cavern", era:"The Cavern", spotify:77, liveRank:17},
+  {name:"Get Back", seed:6, region:"The Cavern", era:"The Cavern", spotify:71, liveRank:24},
+  {name:"Don't Let Me Down", seed:7, region:"The Cavern", era:"The Cavern", spotify:72, liveRank:25},
+  {name:"Happiness Is a Warm Gun", seed:8, region:"The Cavern", era:"The Cavern", spotify:38, liveRank:32},
+  {name:"She Loves You", seed:9, region:"The Cavern", era:"The Cavern", spotify:39, liveRank:33},
+  {name:"I Am the Walrus", seed:10, region:"The Cavern", era:"The Cavern", spotify:45, liveRank:40},
+  {name:"Paperback Writer", seed:11, region:"The Cavern", era:"The Cavern", spotify:42, liveRank:41},
+  {name:"Can't Buy Me Love", seed:12, region:"The Cavern", era:"The Cavern", spotify:61, liveRank:48},
+  {name:"Tomorrow Never Knows", seed:13, region:"The Cavern", era:"The Cavern", spotify:30, liveRank:49},
+  {name:"I've Just Seen a Face", seed:14, region:"The Cavern", era:"The Cavern", spotify:30, liveRank:56},
+  {name:"Ob-La-Di, Ob-La-Da", seed:15, region:"The Cavern", era:"The Cavern", spotify:54, liveRank:57},
+  {name:"I Saw Her Standing There", seed:16, region:"The Cavern", era:"The Cavern", spotify:30, liveRank:64},
+  {name:"Hey Jude", seed:1, region:"Hamburg", era:"Hamburg", spotify:98, liveRank:2},
+  {name:"Something", seed:2, region:"Hamburg", era:"Hamburg", spotify:91, liveRank:7},
+  {name:"Penny Lane", seed:3, region:"Hamburg", era:"Hamburg", spotify:81, liveRank:10},
+  {name:"Help!", seed:4, region:"Hamburg", era:"Hamburg", spotify:80, liveRank:15},
+  {name:"Blackbird", seed:5, region:"Hamburg", era:"Hamburg", spotify:87, liveRank:18},
+  {name:"Twist and Shout", seed:6, region:"Hamburg", era:"Hamburg", spotify:69, liveRank:23},
+  {name:"Day Tripper", seed:7, region:"Hamburg", era:"Hamburg", spotify:66, liveRank:26},
+  {name:"I Want You (She's So Heavy)", seed:8, region:"Hamburg", era:"Hamburg", spotify:49, liveRank:31},
+  {name:"The Long and Winding Road", seed:9, region:"Hamburg", era:"Hamburg", spotify:56, liveRank:34},
+  {name:"Nowhere Man", seed:10, region:"Hamburg", era:"Hamburg", spotify:50, liveRank:39},
+  {name:"Taxman", seed:11, region:"Hamburg", era:"Hamburg", spotify:62, liveRank:42},
+  {name:"Lady Madonna", seed:12, region:"Hamburg", era:"Hamburg", spotify:31, liveRank:47},
+  {name:"Rain", seed:13, region:"Hamburg", era:"Hamburg", spotify:40, liveRank:50},
+  {name:"You've Got to Hide Your Love Away", seed:14, region:"Hamburg", era:"Hamburg", spotify:30, liveRank:55},
+  {name:"Hello, Goodbye", seed:15, region:"Hamburg", era:"Hamburg", spotify:53, liveRank:58},
+  {name:"And I Love Her", seed:16, region:"Hamburg", era:"Hamburg", spotify:41, liveRank:63},
+  {name:"Let It Be", seed:1, region:"Shea Stadium", era:"Shea Stadium", spotify:96, liveRank:3},
+  {name:"While My Guitar Gently Weeps", seed:2, region:"Shea Stadium", era:"Shea Stadium", spotify:90, liveRank:6},
+  {name:"Strawberry Fields Forever", seed:3, region:"Shea Stadium", era:"Shea Stadium", spotify:85, liveRank:11},
+  {name:"Lucy in the Sky with Diamonds", seed:4, region:"Shea Stadium", era:"Shea Stadium", spotify:79, liveRank:14},
+  {name:"All You Need Is Love", seed:5, region:"Shea Stadium", era:"Shea Stadium", spotify:75, liveRank:19},
+  {name:"Across the Universe", seed:6, region:"Shea Stadium", era:"Shea Stadium", spotify:68, liveRank:22},
+  {name:"Golden Slumbers / Carry That Weight / The End", seed:7, region:"Shea Stadium", era:"Shea Stadium", spotify:65, liveRank:27},
+  {name:"Back in the U.S.S.R.", seed:8, region:"Shea Stadium", era:"Shea Stadium", spotify:60, liveRank:30},
+  {name:"Drive My Car", seed:9, region:"Shea Stadium", era:"Shea Stadium", spotify:52, liveRank:35},
+  {name:"With a Little Help from My Friends", seed:10, region:"Shea Stadium", era:"Shea Stadium", spotify:48, liveRank:38},
+  {name:"We Can Work It Out", seed:11, region:"Shea Stadium", era:"Shea Stadium", spotify:65, liveRank:43},
+  {name:"Oh! Darling", seed:12, region:"Shea Stadium", era:"Shea Stadium", spotify:34, liveRank:46},
+  {name:"Michelle", seed:13, region:"Shea Stadium", era:"Shea Stadium", spotify:49, liveRank:51},
+  {name:"Got to Get You into My Life", seed:14, region:"Shea Stadium", era:"Shea Stadium", spotify:30, liveRank:54},
+  {name:"I Feel Fine", seed:15, region:"Shea Stadium", era:"Shea Stadium", spotify:30, liveRank:59},
+  {name:"Two of Us", seed:16, region:"Shea Stadium", era:"Shea Stadium", spotify:30, liveRank:62},
+  {name:"A Day in the Life", seed:1, region:"The Rooftop", era:"The Rooftop", spotify:92, liveRank:4},
+  {name:"Come Together", seed:2, region:"The Rooftop", era:"The Rooftop", spotify:95, liveRank:5},
+  {name:"Eleanor Rigby", seed:3, region:"The Rooftop", era:"The Rooftop", spotify:83, liveRank:12},
+  {name:"I Want to Hold Your Hand", seed:4, region:"The Rooftop", era:"The Rooftop", spotify:84, liveRank:13},
+  {name:"Dear Prudence", seed:5, region:"The Rooftop", era:"The Rooftop", spotify:37, liveRank:20},
+  {name:"Eight Days a Week", seed:6, region:"The Rooftop", era:"The Rooftop", spotify:73, liveRank:21},
+  {name:"A Hard Day's Night", seed:7, region:"The Rooftop", era:"The Rooftop", spotify:64, liveRank:28},
+  {name:"Helter Skelter", seed:8, region:"The Rooftop", era:"The Rooftop", spotify:58, liveRank:29},
+  {name:"Revolution", seed:9, region:"The Rooftop", era:"The Rooftop", spotify:43, liveRank:36},
+  {name:"Sgt. Pepper's Lonely Hearts Club Band", seed:10, region:"The Rooftop", era:"The Rooftop", spotify:46, liveRank:37},
+  {name:"Yellow Submarine", seed:11, region:"The Rooftop", era:"The Rooftop", spotify:30, liveRank:44},
+  {name:"Here, There and Everywhere", seed:12, region:"The Rooftop", era:"The Rooftop", spotify:35, liveRank:45},
+  {name:"All My Loving", seed:13, region:"The Rooftop", era:"The Rooftop", spotify:40, liveRank:52},
+  {name:"Love Me Do", seed:14, region:"The Rooftop", era:"The Rooftop", spotify:30, liveRank:53},
+  {name:"From Me to You", seed:15, region:"The Rooftop", era:"The Rooftop", spotify:30, liveRank:60},
+  {name:"The Fool on the Hill", seed:16, region:"The Rooftop", era:"The Rooftop", spotify:30, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2595,7 +2595,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Penny Lane Winner' && t !== 'Yellow Submarine Winner' && t !== 'Abbey Road Winner' && t !== 'Strawberry Fields Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Shea Stadium Winner' && t !== 'Hamburg Winner' && t !== 'The Cavern Winner' && t !== 'The Rooftop Winner') {
                 filled++;
             }
         }
@@ -2913,8 +2913,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Penny Lane Winner' && text !== 'Yellow Submarine Winner' && 
-            text !== 'Abbey Road Winner' && text !== 'Strawberry Fields Winner') {
+            text !== 'Shea Stadium Winner' && text !== 'Hamburg Winner' && 
+            text !== 'The Cavern Winner' && text !== 'The Rooftop Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2946,10 +2946,10 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'Abbey Road': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Yellow Submarine': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Penny Lane': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Strawberry Fields': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'The Cavern': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Hamburg': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Shea Stadium': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'The Rooftop': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
