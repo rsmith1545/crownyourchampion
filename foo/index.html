@@ -1509,7 +1509,7 @@
             <div class="region-header">Fresh Pots</div>
             <div class="bracket-row">
                 <div class="round-col">
-                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Monkey Wrench</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Back and Forth</div></div>
+                    <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Monkey Wrench</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Back &amp; Forth</div></div>
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">8</span>Up in Arms</div><div class="slot" onclick="pick(this,'AL-R2-2')"><span class="seed">9</span>No Son of Mine</div></div>
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">5</span>Big Me</div><div class="slot" onclick="pick(this,'AL-R2-3')"><span class="seed">12</span>I Should Have Known</div></div>
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">4</span>Rope</div><div class="slot" onclick="pick(this,'AL-R2-4')"><span class="seed">13</span>Outside</div></div>
@@ -1811,7 +1811,7 @@ const ALL_SONGS = [
   {name:"Outside", seed:13, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:50},
   {name:"Making a Fire", seed:14, region:"Fresh Pots", era:"2020s", spotify:30, liveRank:55},
   {name:"Waiting on a War", seed:15, region:"Fresh Pots", era:"2020s", spotify:30, liveRank:58},
-  {name:"Back and Forth", seed:16, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:63},
+  {name:"Back & Forth", seed:16, region:"Fresh Pots", era:"2010s", spotify:30, liveRank:63},
   {name:"Best of You", seed:1, region:"Studio 606", era:"2000s", spotify:95, liveRank:3},
   {name:"Times Like These", seed:2, region:"Studio 606", era:"2000s", spotify:72, liveRank:6},
   {name:"This Is a Call", seed:3, region:"Studio 606", era:"1990s", spotify:82, liveRank:11},
@@ -3421,8 +3421,8 @@ document.addEventListener('DOMContentLoaded', () => {
             var results = (data && data.results) || [];
             // Title-anchored matching: play the RIGHT song or nothing at all.
             var AR = /foo fighters/i;
-            var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, '');
-            function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, ''); }
+            var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, '');
+            function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, ''); }
             function pick(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r.previewUrl; } return null; }
             url = pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
                || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })

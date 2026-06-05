@@ -3418,8 +3418,8 @@ document.addEventListener('DOMContentLoaded', () => {
             var results = (data && data.results) || [];
             // Title-anchored matching: play the RIGHT song or nothing at all.
             var AR = /rolling stones/i;
-            var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, '');
-            function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/[^a-z0-9]/g, ''); }
+            var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, '');
+            function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, ''); }
             function pick(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r.previewUrl; } return null; }
             url = pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
                || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
