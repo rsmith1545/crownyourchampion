@@ -3347,6 +3347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Stay (Wasting Time)': 'Stay Wasting Time'
     };
 
+    var SONG_IDS = {};         // hand-placed Apple track IDs for songs search can't find
     var cache = {};            // songName -> previewUrl | null
     var audio = null;
     var currentBtn = null;
@@ -3453,7 +3454,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         s.onerror = function () { finish(null); };
-        s.src = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+        s.src = SONG_IDS[name]
+            ? 'https://itunes.apple.com/lookup?id=' + SONG_IDS[name] + '&callback=' + cbName
+            : 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
                 '&media=music&entity=song&limit=25&callback=' + cbName;
         document.head.appendChild(s);
     }
