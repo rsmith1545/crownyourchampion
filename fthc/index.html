@@ -1332,7 +1332,7 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(0,63,136,.45), transparent 72%); }
-        .venue-gorge::after     { content:"Don't be a dickhead"; }
+        .venue-gorge::after     { content:"Don't be a Dickhead"; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(46,125,170,.42), transparent 72%); }
         .venue-westpalm::after  { content:"Circle Pit"; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(123,90,168,.40), transparent 72%); }
@@ -1436,6 +1436,9 @@
   .bracket-row .round-col:first-child .slot { font-size: 11.5px; }
   .region-header { font-size: 15px; letter-spacing: 3px; padding: 6px 10px; }
   .region-header::after { display: inline; font-size: 9px; margin: 0 0 0 10px; letter-spacing: 1px; }
+  .bracket-row { padding-top: 4px; }
+  .bracket-row .round-col:first-child .matchup:first-child { margin-top: 0 !important; }
+  .region-card::after { left: auto; right: 8px; transform: none; }
 }
 
 </style>
@@ -1479,7 +1482,7 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Don\'t be a dickhead')">Don't be a dickhead</button>
+    <button class="era-btn" onclick="selectEra('Don\'t be a Dickhead')">Don't be a Dickhead</button>
     <button class="era-btn" onclick="selectEra('Circle Pit')">Circle Pit</button>
     <button class="era-btn" onclick="selectEra('Invisible Llama')">Invisible Llama</button>
     <button class="era-btn" onclick="selectEra('Lost Evenings')">Lost Evenings</button>
@@ -1498,7 +1501,7 @@
 <canvas id="confettiCanvas"></canvas>
 <div class="celebrate-text" id="celebrateText">
     <div class="ct-rules">
-        <div class="ct-rule"><span class="ct-rn">Rule #1:</span> Don&#39;t be a dickhead</div>
+        <div class="ct-rule"><span class="ct-rn">Rule #1:</span> Don&#39;t be a Dickhead</div>
         <div class="ct-rule"><span class="ct-rn">Rule #2:</span> If you know the words to a song that we play you gotta f*cking sing along</div>
         <div class="ct-rule ct-rule-crown"><span class="ct-rn">Rule #3:</span> Crown Your Champion</div>
     </div>
@@ -1510,7 +1513,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Don't be a dickhead</div>
+            <div class="region-header">Don't be a Dickhead</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Photosynthesis</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>No Thank You for the Music</div></div>
@@ -1582,7 +1585,7 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Don't be a dickhead Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Don't be a Dickhead Winner</div>
                         <div class="vs-label">vs.</div>
                         <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Circle Pit Winner</div>
                     </div>
@@ -1817,22 +1820,22 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Photosynthesis", seed:1, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:99, liveRank:1},
-  {name:"The Ballad of Me and My Friends", seed:2, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:64, liveRank:8},
-  {name:"Long Live the Queen", seed:3, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:63, liveRank:9},
-  {name:"Plain Sailing Weather", seed:4, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:39, liveRank:16},
-  {name:"1933", seed:5, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:41, liveRank:17},
-  {name:"Peggy Sang the Blues", seed:6, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:37, liveRank:24},
-  {name:"Father's Day", seed:7, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:25},
-  {name:"Balthazar, Impresario", seed:8, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:32},
-  {name:"Tell Tale Signs", seed:9, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:33},
-  {name:"Punches", seed:10, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:40},
-  {name:"Glorious You", seed:11, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:41},
-  {name:"Good & Gone", seed:12, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:48},
-  {name:"Little Life", seed:13, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:49},
-  {name:"Wanderlust", seed:14, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:56},
-  {name:"Don't Worry", seed:15, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:57},
-  {name:"No Thank You for the Music", seed:16, region:"Don't be a dickhead", era:"Don't be a dickhead", spotify:30, liveRank:64},
+  {name:"Photosynthesis", seed:1, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:99, liveRank:1},
+  {name:"The Ballad of Me and My Friends", seed:2, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:64, liveRank:8},
+  {name:"Long Live the Queen", seed:3, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:63, liveRank:9},
+  {name:"Plain Sailing Weather", seed:4, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:39, liveRank:16},
+  {name:"1933", seed:5, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:41, liveRank:17},
+  {name:"Peggy Sang the Blues", seed:6, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:37, liveRank:24},
+  {name:"Father's Day", seed:7, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:25},
+  {name:"Balthazar, Impresario", seed:8, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:32},
+  {name:"Tell Tale Signs", seed:9, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:33},
+  {name:"Punches", seed:10, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:40},
+  {name:"Glorious You", seed:11, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:41},
+  {name:"Good & Gone", seed:12, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:48},
+  {name:"Little Life", seed:13, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:49},
+  {name:"Wanderlust", seed:14, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:56},
+  {name:"Don't Worry", seed:15, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:57},
+  {name:"No Thank You for the Music", seed:16, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:64},
   {name:"I Still Believe", seed:1, region:"Circle Pit", era:"Circle Pit", spotify:99, liveRank:2},
   {name:"Get Better", seed:2, region:"Circle Pit", era:"Circle Pit", spotify:68, liveRank:7},
   {name:"I Knew Prufrock Before He Got Famous", seed:3, region:"Circle Pit", era:"Circle Pit", spotify:53, liveRank:10},
@@ -2635,7 +2638,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Invisible Llama Winner' && t !== 'Circle Pit Winner' && t !== 'Don\'t be a dickhead Winner' && t !== 'Lost Evenings Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Invisible Llama Winner' && t !== 'Circle Pit Winner' && t !== 'Don\'t be a Dickhead Winner' && t !== 'Lost Evenings Winner') {
                 filled++;
             }
         }
@@ -2954,7 +2957,7 @@ function restore() {
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
             text !== 'Invisible Llama Winner' && text !== 'Circle Pit Winner' && 
-            text !== 'Don\'t be a dickhead Winner' && text !== 'Lost Evenings Winner') {
+            text !== 'Don\'t be a Dickhead Winner' && text !== 'Lost Evenings Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -2986,7 +2989,7 @@ function confirmReset() {
 // ─── SHARE ────────────────────────────────────────────────────────
 function openShare() {
     const regions = {
-        'Don\'t be a dickhead': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Don\'t be a Dickhead': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
         'Circle Pit': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
         'Invisible Llama': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
         'Lost Evenings': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
@@ -3815,7 +3818,7 @@ updateProgress();
       var t=document.createElement('button'); t.type='button'; t.textContent=sec.label;
       t.style.cssText='flex:0 0 auto;display:inline-block;margin-right:5px;padding:7px 13px;'+
         'border:1px solid rgba(197,160,89,.45);border-radius:18px;background:transparent;'+
-        'color:#cdd6e6;font:700 12.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
+        'color:#cdd6e6;font:700 13.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
         'cursor:pointer;-webkit-tap-highlight-color:transparent;';
       t.onclick=function(){ var y=sec.el.getBoundingClientRect().top+window.scrollY-bar.offsetHeight-6; window.scrollTo({top:y,behavior:'smooth'}); };
       bar.appendChild(t); tabs.push({t:t,sec:sec});

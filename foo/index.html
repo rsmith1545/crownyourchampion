@@ -1429,6 +1429,9 @@
   .bracket-row .round-col:first-child .slot { font-size: 11.5px; }
   .region-header { font-size: 15px; letter-spacing: 3px; padding: 6px 10px; }
   .region-header::after { display: inline; font-size: 9px; margin: 0 0 0 10px; letter-spacing: 1px; }
+  .bracket-row { padding-top: 4px; }
+  .bracket-row .round-col:first-child .matchup:first-child { margin-top: 0 !important; }
+  .region-card::after { left: auto; right: 8px; transform: none; }
 }
 
 </style>
@@ -3808,7 +3811,7 @@ updateProgress();
       var t=document.createElement('button'); t.type='button'; t.textContent=sec.label;
       t.style.cssText='flex:0 0 auto;display:inline-block;margin-right:5px;padding:7px 13px;'+
         'border:1px solid rgba(197,160,89,.45);border-radius:18px;background:transparent;'+
-        'color:#cdd6e6;font:700 12.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
+        'color:#cdd6e6;font:700 13.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
         'cursor:pointer;-webkit-tap-highlight-color:transparent;';
       t.onclick=function(){ var y=sec.el.getBoundingClientRect().top+window.scrollY-bar.offsetHeight-6; window.scrollTo({top:y,behavior:'smooth'}); };
       bar.appendChild(t); tabs.push({t:t,sec:sec});
