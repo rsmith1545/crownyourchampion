@@ -3420,10 +3420,12 @@ document.addEventListener('DOMContentLoaded', () => {
             var AR = /metallica/i;
             var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, '');
             function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, ''); }
-            function pick(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r.previewUrl; } return null; }
-            url = pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
-               || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
-               || pick(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
+            function pickR(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r; } return null; }
+            var chosen = pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
+                || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
+                || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
+            url = chosen ? chosen.previewUrl : null;
+            console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
             finish(url);
         };
 
