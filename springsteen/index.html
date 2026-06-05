@@ -3425,12 +3425,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
             url = chosen ? chosen.previewUrl : null;
             console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
-            finish(url, results.length);
+            if (chosen) { finish(url, results.length); return; }
+            if (window[cbName + '_r']) { finish(null, results.length); return; }
+            window[cbName + '_r'] = 1;                          // one title-only retry
+            var cb2 = cbName + 'b';
+            window[cb2] = window[cbName];
+            var s2 = document.createElement('script');
+            s2.onerror = function () { finish(null, results.length); };
+            s2.src = 'https://itunes.apple.com/search?attribute=songTerm&term=' + encodeURIComponent(SONG_TERMS[name] || name) + '&media=music&entity=song&limit=25&callback=' + cb2;
+            document.head.appendChild(s2);
         };
 
         s.onerror = function () { finish(null); };
         s.src = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
-                '&media=music&entity=song&limit=10&callback=' + cbName;
+                '&media=music&entity=song&limit=25&callback=' + cbName;
         document.head.appendChild(s);
     }
 
