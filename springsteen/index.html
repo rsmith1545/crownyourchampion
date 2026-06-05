@@ -421,6 +421,10 @@
             font-size: 0.5em; color: var(--dmb-gold);
             vertical-align: middle; font-weight: 700;
         }
+        /* Mobile: spacer after the last round so the regional final never clips at scroll-end */
+        @media (max-width: 600px) {
+            .bracket-row::after { content: ''; flex: 0 0 16px; }
+        }
         /* Mobile: carried seed as a zero-layout corner badge (inline version broke nesting) */
         @media (max-width: 600px) {
             .slot.adv.has-value, .final-slot.adv.has-value { position: relative; padding-right: 12px; }
