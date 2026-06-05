@@ -3401,7 +3401,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var cbName = 'itpv_' + Math.random().toString(36).slice(2);
         var done = false;
         var s = document.createElement('script');
-        var timer = setTimeout(function () { finish(null, -1); }, 7000);
+        var timer = setTimeout(function () { finish(null, -1); }, 14000);
 
         function finish(url) {
             if (done) return;
@@ -3426,19 +3426,28 @@ document.addEventListener('DOMContentLoaded', () => {
             url = chosen ? chosen.previewUrl : null;
             console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
             if (chosen) { finish(url, results.length); return; }
-            if (window[cbName + '_r']) {
-                // retry also missed — only a definitive verdict if the PRIMARY query had results
-                finish(null, (window[cbName + '_n'] || 0) > 0 ? results.length : 0);
+            if (!window[cbName + '_r']) {
+                window[cbName + '_r'] = 1;                      // tier 2: title-only search
+                window[cbName + '_n'] = results.length;
+                var cb2 = cbName + 'b';
+                window[cb2] = window[cbName];
+                var s2 = document.createElement('script');
+                s2.onerror = function () { finish(null, results.length); };
+                s2.src = 'https://itunes.apple.com/search?attribute=songTerm&term=' + encodeURIComponent(SONG_TERMS[name] || name) + '&media=music&entity=song&limit=25&callback=' + cb2;
+                document.head.appendChild(s2);
                 return;
             }
-            window[cbName + '_r'] = 1;                          // one title-only retry
-            window[cbName + '_n'] = results.length;             // remember primary result count
-            var cb2 = cbName + 'b';
-            window[cb2] = window[cbName];
-            var s2 = document.createElement('script');
-            s2.onerror = function () { finish(null, results.length); };
-            s2.src = 'https://itunes.apple.com/search?attribute=songTerm&term=' + encodeURIComponent(SONG_TERMS[name] || name) + '&media=music&entity=song&limit=25&callback=' + cb2;
-            document.head.appendChild(s2);
+            if (!window[cbName + '_r2']) {
+                window[cbName + '_r2'] = 1;                     // tier 3: full artist catalog dump
+                var cb3 = cbName + 'c';
+                window[cb3] = window[cbName];
+                var s3 = document.createElement('script');
+                s3.onerror = function () { finish(null, results.length); };
+                s3.src = 'https://itunes.apple.com/search?attribute=artistTerm&term=' + encodeURIComponent(artist) + '&media=music&entity=song&limit=200&callback=' + cb3;
+                document.head.appendChild(s3);
+                return;
+            }
+            finish(null, (window[cbName + '_n'] || 0) > 0 ? Math.max(results.length, 1) : 0);
         };
 
         s.onerror = function () { finish(null); };
