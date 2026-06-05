@@ -421,6 +421,10 @@
             font-size: 0.5em; color: var(--dmb-gold);
             vertical-align: middle; font-weight: 700;
         }
+        /* Mobile: slots are too narrow to carry seeds forward — keep the tight layout */
+        @media (max-width: 600px) {
+            .slot.adv.has-value::before, .final-slot.adv.has-value::before { display: none; }
+        }
 
         /* CENTER FINALS */
         .center-col {
