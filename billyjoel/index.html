@@ -3452,10 +3452,12 @@ document.addEventListener('DOMContentLoaded', () => {
             var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, '');
             function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, ''); }
             function pickR(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r; } return null; }
+            function lscore(r){var h=((r.trackName||'')+' '+(r.collectionName||'')).toLowerCase();var s=0;if(/\b(live|unplugged|acoustic|remix|demo|session|karaoke|instrumental|commentary|tribute|rehearsal|soundcheck)\b/.test(h))s+=100;if(/\b(cast recording|broadway|original cast|radio edit|single edit|re-?recorded)\b/.test(h))s+=100;if(/\blive (at|in|from)\b/.test(h))s+=100;return s;}
+            function pickBest(f){var b=null,bs=1e9;for(var i=0;i<results.length;i++){var r=results[i];if(r.previewUrl&&f(r)){var sc=lscore(r)+i*0.001;if(sc<bs){bs=sc;b=r;}}}return b;}
             if (SONG_IDS[name]) { var pinned = pickR(function(){ return true; }); if (pinned) { console.log('[cyc] preview "' + name + '" -> PINNED: ' + pinned.trackName + ' \u2014 ' + pinned.artistName); finish(pinned.previewUrl, results.length); return; } }
-            var chosen = pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
-                || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
-                || pickR(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
+            var chosen = pickBest(function(r){ var t = tn(r); return AR.test(r.artistName || '') && t === want; })
+                || pickBest(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want && (t.indexOf(want) === 0 || t.indexOf(want) !== -1); })
+                || pickBest(function(r){ var t = tn(r); return AR.test(r.artistName || '') && want.length > 6 && t.length > 6 && want.indexOf(t) !== -1; });
             url = chosen ? chosen.previewUrl : null;
             console.log('[cyc] preview want="' + want + '" → ' + (chosen ? (chosen.trackName + ' — ' + chosen.artistName) : 'NO MATCH (' + results.length + ' results)'));
             if (chosen) { finish(url, results.length); return; }
