@@ -769,6 +769,16 @@
         }
         .btn-copy:hover { background: #ffc107; }
 
+        /* HOW TO PLAY MODAL */
+        .howto-modal { max-width: 580px; max-height: 86vh; overflow-y: auto; }
+        .howto-modal .howto-steps p { font-size: 13px; color: var(--dmb-muted); line-height: 1.55; margin-bottom: 12px; }
+        .howto-modal .howto-steps strong { color: var(--dmb-text); }
+        .howto-legend-title { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; color:var(--dmb-gold); font-size:16px; margin:14px 0 10px; }
+        .howto-list { display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; text-align:left; margin-bottom:18px; }
+        .howto-list .fm-item { font-size:12px; color:var(--dmb-muted); line-height:1.4; }
+        .howto-list .fm-item strong { color: var(--dmb-gold); font-weight:700; }
+        @media (max-width:600px){ .howto-list{ grid-template-columns:1fr; } }
+
         /* EMAIL CAPTURE MODAL */
         .email-modal-overlay {
             display: none;
@@ -1438,6 +1448,8 @@
         <div class="header-tagline">Settle the debate: the greatest DMB song ever</div>
     </div>
     <div class="header-actions">
+        <button class="btn btn-reset" onclick="openHowto()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">❓ How to Play</button>
+
         <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
         <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
         <button class="btn btn-share" onclick="openShare()">Share ↗</button>
@@ -1791,6 +1803,32 @@
 
 
 <!-- SHARE MODAL -->
+<div class="modal-overlay" id="howtoModal" onclick="if(event.target===this)closeHowto()">
+    <div class="modal howto-modal">
+        <h2>How to Play</h2>
+        <div class="howto-steps">
+            <p><strong>1. Pick your way to a champion.</strong> Tap a song in each matchup to advance it. The part most people miss: the center <strong>Championship</strong> box stays locked until you work through the four regions — fill those out and the Final Four (then the final) unlock in the middle. Crown your winner there.</p>
+            <p><strong>2. Forget how one goes?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just to relive it.</p>
+            <p><strong>3. Want a head start?</strong> Tap an auto-fill button up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
+        </div>
+        <div class="howto-legend-title">Auto-fill modes</div>
+        <div class="fm-list howto-list">
+            <div class="fm-item"><strong>&#128202; Most Streamed</strong> &mdash; the most-streamed songs on Spotify advance.</div>
+            <div class="fm-item"><strong>&#127908; Most Played Live</strong> &mdash; the songs played most in concert advance.</div>
+            <div class="fm-item"><strong>&#127775; Highest Seed</strong> &mdash; our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
+            <div class="fm-item"><strong>&#127942; Crowd's Picks</strong> &mdash; every matchup decided by what fans actually vote.</div>
+            <div class="fm-item"><strong>&#127922; Random</strong> &mdash; a completely random bracket, every time.</div>
+            <div class="fm-item"><strong>&#10084;&#65039; Your Favorites</strong> &mdash; your top 5 songs, seeded #1 to defend their crown.</div>
+            <div class="fm-item"><strong>&#127928; Era Bracket</strong> &mdash; songs from the era you choose win out.</div>
+            <div class="fm-item"><strong>&#128293; Controversy</strong> &mdash; underdogs take round 1, then chaos reigns.</div>
+            <div class="fm-item" style="grid-column:1/-1"><strong>&#127925; My Concert</strong> &mdash; search a show you attended; we fill your bracket from that night's real setlist and light it up across the board.</div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-copy" onclick="closeHowto()">Got it</button>
+        </div>
+    </div>
+</div>
+
 <div class="modal-overlay" id="shareModal">
     <div class="modal">
         <h2>Share Your Bracket</h2>
@@ -3005,6 +3043,9 @@ function confirmReset() {
 }
 
 // ─── SHARE ────────────────────────────────────────────────────────
+function openHowto(){ document.getElementById('howtoModal').classList.add('open'); }
+function closeHowto(){ document.getElementById('howtoModal').classList.remove('open'); }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=document.getElementById('howtoModal'); if(m) m.classList.remove('open'); } });
 function openShare() {
     const regions = {
         'Gorge': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
