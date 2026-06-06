@@ -331,13 +331,13 @@
         /* DESKTOP: side by side regions + center finals */
         .master-grid {
             display: grid;
-            grid-template-columns: 1fr 272px 1fr;
+            grid-template-columns: minmax(0, 1fr) 272px minmax(0, 1fr);
             gap: 12px;
             max-width: 2000px;
             margin: 0 auto;
             align-items: start;
         }
-        .side-col { display: flex; flex-direction: column; gap: 12px; }
+        .side-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 
         /* REGION CARD */
         .region-card {
@@ -1589,12 +1589,12 @@
                     <div class="sf-pair">
                         <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Don't be a Dickhead Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Circle Pit Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c1')">Lost Evenings Winner</div>
                     </div>
                     <div class="sf-pair">
                         <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Invisible Llama Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Lost Evenings Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c2')">Circle Pit Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1824,70 +1824,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Photosynthesis", seed:1, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:99, liveRank:1},
-  {name:"The Ballad of Me and My Friends", seed:2, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:64, liveRank:8},
-  {name:"Long Live the Queen", seed:3, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:63, liveRank:9},
-  {name:"Plain Sailing Weather", seed:4, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:39, liveRank:16},
-  {name:"1933", seed:5, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:41, liveRank:17},
-  {name:"Peggy Sang the Blues", seed:6, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:37, liveRank:24},
-  {name:"Father's Day", seed:7, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:25},
-  {name:"Balthazar, Impresario", seed:8, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:32},
-  {name:"Tell Tale Signs", seed:9, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:33},
-  {name:"Punches", seed:10, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:40},
-  {name:"Glorious You", seed:11, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:41},
-  {name:"Good & Gone", seed:12, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:48},
-  {name:"Little Life", seed:13, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:49},
-  {name:"Wanderlust", seed:14, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:56},
-  {name:"Don't Worry", seed:15, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:57},
-  {name:"No Thank You for the Music", seed:16, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:30, liveRank:64},
-  {name:"I Still Believe", seed:1, region:"Circle Pit", era:"Circle Pit", spotify:99, liveRank:2},
-  {name:"Get Better", seed:2, region:"Circle Pit", era:"Circle Pit", spotify:68, liveRank:7},
-  {name:"I Knew Prufrock Before He Got Famous", seed:3, region:"Circle Pit", era:"Circle Pit", spotify:53, liveRank:10},
-  {name:"The Way I Tend to Be", seed:4, region:"Circle Pit", era:"Circle Pit", spotify:58, liveRank:15},
-  {name:"Losing Days", seed:5, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:18},
-  {name:"Haven't Been Doing So Well", seed:6, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:23},
-  {name:"Love Ire & Song", seed:7, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:26},
-  {name:"Wessex Boy", seed:8, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:31},
-  {name:"Thatcher Fucked the Kids", seed:9, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:34},
-  {name:"Dan's Song", seed:10, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:39},
-  {name:"Non Serviam", seed:11, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:42},
-  {name:"Love Forty Down", seed:12, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:47},
-  {name:"Somewhere Inbetween", seed:13, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:50},
-  {name:"Poetry of the Deed", seed:14, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:55},
-  {name:"Girl From the Record Shop", seed:15, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:58},
-  {name:"Worse Things Happen at Sea", seed:16, region:"Circle Pit", era:"Circle Pit", spotify:30, liveRank:63},
-  {name:"Recovery", seed:1, region:"Invisible Llama", era:"Invisible Llama", spotify:82, liveRank:3},
-  {name:"If Ever I Stray", seed:2, region:"Invisible Llama", era:"Invisible Llama", spotify:78, liveRank:6},
-  {name:"The Next Storm", seed:3, region:"Invisible Llama", era:"Invisible Llama", spotify:52, liveRank:11},
-  {name:"Be More Kind", seed:4, region:"Invisible Llama", era:"Invisible Llama", spotify:37, liveRank:14},
-  {name:"Reasons Not to Be an Idiot", seed:5, region:"Invisible Llama", era:"Invisible Llama", spotify:36, liveRank:19},
-  {name:"Try This at Home", seed:6, region:"Invisible Llama", era:"Invisible Llama", spotify:75, liveRank:22},
-  {name:"Substitute", seed:7, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:27},
-  {name:"Do One", seed:8, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:30},
-  {name:"Jet Lag", seed:9, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:35},
-  {name:"To Take You Home", seed:10, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:38},
-  {name:"Undefeated", seed:11, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:43},
-  {name:"Sons of Liberty", seed:12, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:46},
-  {name:"Little Changes", seed:13, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:51},
-  {name:"Untainted Love", seed:14, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:54},
-  {name:"A Wave Across a Bay", seed:15, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:59},
-  {name:"Letters", seed:16, region:"Invisible Llama", era:"Invisible Llama", spotify:30, liveRank:62},
-  {name:"Four Simple Words", seed:1, region:"Lost Evenings", era:"Lost Evenings", spotify:71, liveRank:4},
-  {name:"I Am Disappeared", seed:2, region:"Lost Evenings", era:"Lost Evenings", spotify:49, liveRank:5},
-  {name:"Polaroid Picture", seed:3, region:"Lost Evenings", era:"Lost Evenings", spotify:45, liveRank:12},
-  {name:"The Road", seed:4, region:"Lost Evenings", era:"Lost Evenings", spotify:71, liveRank:13},
-  {name:"The Real Damage", seed:5, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:20},
-  {name:"Redemption", seed:6, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:21},
-  {name:"Nashville Tennessee", seed:7, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:28},
-  {name:"Glory Hallelujah", seed:8, region:"Lost Evenings", era:"Lost Evenings", spotify:32, liveRank:29},
-  {name:"Eulogy", seed:9, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:36},
-  {name:"Mittens", seed:10, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:37},
-  {name:"Out of Breath", seed:11, region:"Lost Evenings", era:"Lost Evenings", spotify:31, liveRank:44},
-  {name:"The Opening Act of Spring", seed:12, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:45},
-  {name:"One Foot Before the Other", seed:13, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:52},
-  {name:"The Lioness", seed:14, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:53},
-  {name:"The Gathering", seed:15, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:60},
-  {name:"Once We Were Anarchists", seed:16, region:"Lost Evenings", era:"Lost Evenings", spotify:30, liveRank:61},
+  {name:"Photosynthesis", seed:1, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:15791143, liveRank:1},
+  {name:"The Ballad of Me and My Friends", seed:2, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:6302005, liveRank:8},
+  {name:"Long Live the Queen", seed:3, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:9017288, liveRank:9},
+  {name:"Plain Sailing Weather", seed:4, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:13887689, liveRank:16},
+  {name:"1933", seed:5, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:11241164, liveRank:17},
+  {name:"Peggy Sang the Blues", seed:6, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:6591624, liveRank:24},
+  {name:"Father's Day", seed:7, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:70000, liveRank:25},
+  {name:"Balthazar, Impresario", seed:8, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:2021931, liveRank:32},
+  {name:"Tell Tale Signs", seed:9, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:3884640, liveRank:33},
+  {name:"Punches", seed:10, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:2579276, liveRank:40},
+  {name:"Glorious You", seed:11, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:4813612, liveRank:41},
+  {name:"Good & Gone", seed:12, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:3199329, liveRank:48},
+  {name:"Little Life", seed:13, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:663555, liveRank:49},
+  {name:"Wanderlust", seed:14, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:3192018, liveRank:56},
+  {name:"Don't Worry", seed:15, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:5848239, liveRank:57},
+  {name:"No Thank You for the Music", seed:16, region:"Don't be a Dickhead", era:"Don't be a Dickhead", spotify:1155921, liveRank:64},
+  {name:"I Still Believe", seed:1, region:"Circle Pit", era:"Circle Pit", spotify:16394115, liveRank:2},
+  {name:"Get Better", seed:2, region:"Circle Pit", era:"Circle Pit", spotify:17679828, liveRank:7},
+  {name:"I Knew Prufrock Before He Got Famous", seed:3, region:"Circle Pit", era:"Circle Pit", spotify:7037148, liveRank:10},
+  {name:"The Way I Tend to Be", seed:4, region:"Circle Pit", era:"Circle Pit", spotify:24636477, liveRank:15},
+  {name:"Losing Days", seed:5, region:"Circle Pit", era:"Circle Pit", spotify:6099054, liveRank:18},
+  {name:"Haven't Been Doing So Well", seed:6, region:"Circle Pit", era:"Circle Pit", spotify:5281406, liveRank:23},
+  {name:"Love Ire & Song", seed:7, region:"Circle Pit", era:"Circle Pit", spotify:5254316, liveRank:26},
+  {name:"Wessex Boy", seed:8, region:"Circle Pit", era:"Circle Pit", spotify:7761055, liveRank:31},
+  {name:"Thatcher Fucked the Kids", seed:9, region:"Circle Pit", era:"Circle Pit", spotify:3618277, liveRank:34},
+  {name:"Dan's Song", seed:10, region:"Circle Pit", era:"Circle Pit", spotify:60000, liveRank:39},
+  {name:"Non Serviam", seed:11, region:"Circle Pit", era:"Circle Pit", spotify:2094220, liveRank:42},
+  {name:"Love Forty Down", seed:12, region:"Circle Pit", era:"Circle Pit", spotify:3643052, liveRank:47},
+  {name:"Somewhere Inbetween", seed:13, region:"Circle Pit", era:"Circle Pit", spotify:613209, liveRank:50},
+  {name:"Poetry of the Deed", seed:14, region:"Circle Pit", era:"Circle Pit", spotify:100000, liveRank:55},
+  {name:"Girl From the Record Shop", seed:15, region:"Circle Pit", era:"Circle Pit", spotify:1678136, liveRank:58},
+  {name:"Worse Things Happen at Sea", seed:16, region:"Circle Pit", era:"Circle Pit", spotify:80000, liveRank:63},
+  {name:"Recovery", seed:1, region:"Invisible Llama", era:"Invisible Llama", spotify:37003661, liveRank:3},
+  {name:"If Ever I Stray", seed:2, region:"Invisible Llama", era:"Invisible Llama", spotify:11204660, liveRank:6},
+  {name:"The Next Storm", seed:3, region:"Invisible Llama", era:"Invisible Llama", spotify:9610710, liveRank:11},
+  {name:"Be More Kind", seed:4, region:"Invisible Llama", era:"Invisible Llama", spotify:16160563, liveRank:14},
+  {name:"Reasons Not to Be an Idiot", seed:5, region:"Invisible Llama", era:"Invisible Llama", spotify:6552080, liveRank:19},
+  {name:"Try This at Home", seed:6, region:"Invisible Llama", era:"Invisible Llama", spotify:130000, liveRank:22},
+  {name:"Substitute", seed:7, region:"Invisible Llama", era:"Invisible Llama", spotify:4963052, liveRank:27},
+  {name:"Do One", seed:8, region:"Invisible Llama", era:"Invisible Llama", spotify:2319645, liveRank:30},
+  {name:"Jet Lag", seed:9, region:"Invisible Llama", era:"Invisible Llama", spotify:1590043, liveRank:35},
+  {name:"To Take You Home", seed:10, region:"Invisible Llama", era:"Invisible Llama", spotify:2551207, liveRank:38},
+  {name:"Undefeated", seed:11, region:"Invisible Llama", era:"Invisible Llama", spotify:395110, liveRank:43},
+  {name:"Sons of Liberty", seed:12, region:"Invisible Llama", era:"Invisible Llama", spotify:90000, liveRank:46},
+  {name:"Little Changes", seed:13, region:"Invisible Llama", era:"Invisible Llama", spotify:5369948, liveRank:51},
+  {name:"Untainted Love", seed:14, region:"Invisible Llama", era:"Invisible Llama", spotify:1514260, liveRank:54},
+  {name:"A Wave Across a Bay", seed:15, region:"Invisible Llama", era:"Invisible Llama", spotify:2891371, liveRank:59},
+  {name:"Letters", seed:16, region:"Invisible Llama", era:"Invisible Llama", spotify:1421557, liveRank:62},
+  {name:"Four Simple Words", seed:1, region:"Lost Evenings", era:"Lost Evenings", spotify:13108215, liveRank:4},
+  {name:"I Am Disappeared", seed:2, region:"Lost Evenings", era:"Lost Evenings", spotify:7987938, liveRank:5},
+  {name:"Polaroid Picture", seed:3, region:"Lost Evenings", era:"Lost Evenings", spotify:5964265, liveRank:12},
+  {name:"The Road", seed:4, region:"Lost Evenings", era:"Lost Evenings", spotify:120000, liveRank:13},
+  {name:"The Real Damage", seed:5, region:"Lost Evenings", era:"Lost Evenings", spotify:2593099, liveRank:20},
+  {name:"Redemption", seed:6, region:"Lost Evenings", era:"Lost Evenings", spotify:2887669, liveRank:21},
+  {name:"Nashville Tennessee", seed:7, region:"Lost Evenings", era:"Lost Evenings", spotify:1804096, liveRank:28},
+  {name:"Glory Hallelujah", seed:8, region:"Lost Evenings", era:"Lost Evenings", spotify:3511111, liveRank:29},
+  {name:"Eulogy", seed:9, region:"Lost Evenings", era:"Lost Evenings", spotify:2937918, liveRank:36},
+  {name:"Mittens", seed:10, region:"Lost Evenings", era:"Lost Evenings", spotify:4331889, liveRank:37},
+  {name:"Out of Breath", seed:11, region:"Lost Evenings", era:"Lost Evenings", spotify:2079573, liveRank:44},
+  {name:"The Opening Act of Spring", seed:12, region:"Lost Evenings", era:"Lost Evenings", spotify:4662169, liveRank:45},
+  {name:"One Foot Before the Other", seed:13, region:"Lost Evenings", era:"Lost Evenings", spotify:2422183, liveRank:52},
+  {name:"The Lioness", seed:14, region:"Lost Evenings", era:"Lost Evenings", spotify:50000, liveRank:53},
+  {name:"The Gathering", seed:15, region:"Lost Evenings", era:"Lost Evenings", spotify:2620137, liveRank:60},
+  {name:"Once We Were Anarchists", seed:16, region:"Lost Evenings", era:"Lost Evenings", spotify:110000, liveRank:61},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2631,8 +2631,8 @@ const FEEDS = {
     'DC-R3-3': 'DC-R4-2', 'DC-R3-4': 'DC-R4-2',
     'DC-R4-1': 'DC-WIN',  'DC-R4-2': 'DC-WIN',
     'DC-WIN':  'f4',
-    'f1': 'c1', 'f2': 'c1',
-    'f3': 'c2', 'f4': 'c2',
+    'f1': 'c1', 'f2': 'c2',
+    'f3': 'c2', 'f4': 'c1',
     'c1': 'champion', 'c2': 'champion'
 };
 

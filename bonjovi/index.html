@@ -331,13 +331,13 @@
         /* DESKTOP: side by side regions + center finals */
         .master-grid {
             display: grid;
-            grid-template-columns: 1fr 272px 1fr;
+            grid-template-columns: minmax(0, 1fr) 272px minmax(0, 1fr);
             gap: 12px;
             max-width: 2000px;
             margin: 0 auto;
             align-items: start;
         }
-        .side-col { display: flex; flex-direction: column; gap: 12px; }
+        .side-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 
         /* REGION CARD */
         .region-card {
@@ -1576,12 +1576,12 @@
                     <div class="sf-pair">
                         <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Tommy &amp; Gina’s Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">The Power Station Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c1')">Loaded Six-String Winner</div>
                     </div>
                     <div class="sf-pair">
                         <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">JBJ Soul Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Loaded Six-String Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c2')">The Power Station Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -2618,8 +2618,8 @@ const FEEDS = {
     'DC-R3-3': 'DC-R4-2', 'DC-R3-4': 'DC-R4-2',
     'DC-R4-1': 'DC-WIN',  'DC-R4-2': 'DC-WIN',
     'DC-WIN':  'f4',
-    'f1': 'c1', 'f2': 'c1',
-    'f3': 'c2', 'f4': 'c2',
+    'f1': 'c1', 'f2': 'c2',
+    'f3': 'c2', 'f4': 'c1',
     'c1': 'champion', 'c2': 'champion'
 };
 
