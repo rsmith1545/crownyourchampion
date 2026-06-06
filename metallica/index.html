@@ -1460,7 +1460,9 @@
 <div class="mode-bar">
     <span class="mode-label">Auto-Fill Bracket:</span>
     <button class="mode-btn mode-random"      onclick="setMode('random')"      title="Random bracket">🎲 Random</button>
-    <button class="mode-btn mode-numbers"     onclick="setMode('numbers')"     title="Seeded by all-time concert plays">📊 By The Numbers</button>
+    <button class="mode-btn mode-streamed"    onclick="setMode('streamed')"    title="Top Spotify songs advance">📊 Most Streamed</button>
+    <button class="mode-btn mode-live"        onclick="setMode('live')"        title="Songs played most in concert advance">🎤 Most Played Live</button>
+    <button class="mode-btn mode-seed"        onclick="setMode('seed')"        title="Our fan-weighted seeding">🌟 Highest Seed</button>
     <button class="mode-btn mode-crowd"       onclick="setMode('crowd')"       title="Most popular picks from completed brackets">🏆 Crowd's Picks</button>
     <button class="mode-btn mode-fav"         onclick="setMode('favorites')"   title="Pick your favorites first">❤️ Your Favorites</button>
     <button class="mode-btn mode-era"         onclick="setMode('era')"         title="Filter by era">🎸 Era Bracket</button>
@@ -1681,7 +1683,9 @@
     <div class="modes-title">How the Auto-Fill Modes Work</div>
     <div class="fm-list">
         <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
-        <div class="fm-item"><strong>📊 By The Numbers</strong> — the most-streamed songs on Spotify advance.</div>
+        <div class="fm-item"><strong>📊 Most Streamed</strong> — the most-streamed songs on Spotify advance.</div>
+        <div class="fm-item"><strong>🎤 Most Played Live</strong> — the songs played most in concert advance.</div>
+        <div class="fm-item"><strong>🌟 Highest Seed</strong> — our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
         <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by what fans actually vote (sharpens as more brackets roll in).</div>
         <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
         <div class="fm-item"><strong>🎸 Era Bracket</strong> — songs from the era you choose win out.</div>
@@ -2000,7 +2004,7 @@ let selectedFavorites = [];
 function setMode(mode) {
     // Update active button
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    const btn = document.querySelector(`.mode-${mode === 'favorites' ? 'fav' : mode === 'numbers' ? 'numbers' : mode}`);
+    const btn = document.querySelector(`.mode-${mode === 'favorites' ? 'fav' : mode}`);
     if (btn) btn.classList.add('active');
 
     // Hide era selector by default
@@ -2017,9 +2021,21 @@ function setMode(mode) {
         return;
     }
 
-    if (mode === 'numbers') {
-        currentMode = 'numbers';
-        applyNumbersMode();
+    if (mode === 'streamed') {
+        currentMode = 'streamed';
+        applyStreamedMode();
+        return;
+    }
+
+    if (mode === 'live') {
+        currentMode = 'live';
+        applyLiveMode();
+        return;
+    }
+
+    if (mode === 'seed') {
+        currentMode = 'seed';
+        applySeedMode();
         return;
     }
 
@@ -2065,12 +2081,26 @@ function applyRandomMode() {
     }, 200);
 }
 
-// ─── BY THE NUMBERS MODE ──────────────────────────────────────────
-function applyNumbersMode() {
+// ─── MOST STREAMED / MOST PLAYED LIVE / HIGHEST SEED MODES ────────
+function applyStreamedMode() {
     silentReset();
     setTimeout(() => {
         fillEntireBracket((name) => songScoreBySpotify(name), true);
-        showToast('📊 By The Numbers — the most-played win out!');
+        showToast('📊 Most Streamed — top Spotify songs advance!');
+    }, 200);
+}
+function applyLiveMode() {
+    silentReset();
+    setTimeout(() => {
+        fillEntireBracket((name) => songScoreByLiveRank(name), true);
+        showToast('🎤 Most Played Live — concert staples advance!');
+    }, 200);
+}
+function applySeedMode() {
+    silentReset();
+    setTimeout(() => {
+        fillEntireBracket((name, slot) => songScoreBySeed(name, slot), true);
+        showToast('🌟 Highest Seed — our fan-weighted seeding!');
     }, 200);
 }
 
@@ -2390,10 +2420,10 @@ function applyConcertBracket(setlist, date, venue, city) {
     closeConcertModeModal();
     let concertSongs = getSetlistSongs(setlist);
     if (concertSongs.length < 8) {
-        concertSongs = ["Ants Marching","Two Step","Crash Into Me","Jimi Thing",
-                        "Satellite","#41","Tripping Billies","Grey Street",
-                        "Dancing Nancies","Stay (Wasting Time)","Warehouse","Don't Drink the Water",
-                        "So Much To Say","Bartender","Pig","Halloween"];
+        concertSongs = ["Master of Puppets","Creeping Death","One","Seek & Destroy",
+                        "Fade to Black","For Whom the Bell Tolls","Enter Sandman","Sad But True",
+                        "Battery","Nothing Else Matters","Ride the Lightning","Welcome Home (Sanitarium)",
+                        "Blackened","The Four Horsemen","Orion","Harvester of Sorrow"];
     }
     silentReset();
     setTimeout(() => {
@@ -3144,31 +3174,6 @@ async function searchConcerts() {
     }
 }
 
-function getDemoSetlists(query, song) {
-    // Demo data — real iconic DMB shows for common searches
-    const demoShows = [
-        { eventDate: '12-07-1996', venue: { name: 'Meadows Music Theatre', city: { name: 'Hartford', state: 'CT' } } },
-        { eventDate: '06-25-1997', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
-        { eventDate: '08-24-1997', venue: { name: 'Alpine Valley Music Theatre', city: { name: 'East Troy', state: 'WI' } } },
-        { eventDate: '07-04-1999', venue: { name: 'Folsom Field', city: { name: 'Boulder', state: 'CO' } } },
-        { eventDate: '09-15-2000', venue: { name: 'Nissan Pavilion', city: { name: 'Bristow', state: 'VA' } } },
-        { eventDate: '06-14-2001', venue: { name: 'Giants Stadium', city: { name: 'East Rutherford', state: 'NJ' } } },
-        { eventDate: '07-04-2003', venue: { name: 'Hersheypark Stadium', city: { name: 'Hershey', state: 'PA' } } },
-        { eventDate: '08-27-2006', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
-        { eventDate: '06-28-2008', venue: { name: 'Fenway Park', city: { name: 'Boston', state: 'MA' } } },
-        { eventDate: '07-04-2010', venue: { name: 'Saratoga Performing Arts Center', city: { name: 'Saratoga Springs', state: 'NY' } } },
-        { eventDate: '05-18-2012', venue: { name: 'Citi Field', city: { name: 'New York', state: 'NY' } } },
-        { eventDate: '06-07-2015', venue: { name: 'Jiffy Lube Live', city: { name: 'Bristow', state: 'VA' } } },
-        { eventDate: '07-22-2018', venue: { name: 'The Gorge Amphitheatre', city: { name: 'George', state: 'WA' } } },
-        { eventDate: '08-10-2019', venue: { name: 'DTE Energy Music Theatre', city: { name: 'Clarkston', state: 'MI' } } },
-        { eventDate: '06-14-2023', venue: { name: 'Northwell Health at Jones Beach', city: { name: 'Wantagh', state: 'NY' } } },
-    ];
-    const q = query.toLowerCase();
-    return demoShows.filter(s => {
-        const str = `${s.venue.name} ${s.venue.city.name} ${s.venue.city.state} ${s.eventDate}`.toLowerCase();
-        return str.includes(q);
-    });
-}
 
 function renderConcertResults(setlists) {
     const container = document.getElementById('concertResults');
