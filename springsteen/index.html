@@ -701,7 +701,7 @@
         /* MOBILE: horizontal scrollable brackets */
         @media (max-width: 600px) {
             .site-header { flex-wrap: wrap; gap: 8px; }
-            .header-actions { width: 100%; justify-content: flex-start; }
+            .header-actions { width: 100%; justify-content: flex-start; flex-wrap: nowrap; gap: 5px; }
             .round-col { min-width: 100px; }
             .bracket-row .round-col:first-child { min-width: 120px; }
             .slot { font-size: 10.5px; min-height: 28px; }
@@ -712,7 +712,7 @@
             .mode-bar .mode-toggle { display: inline-block; }
             .mode-bar .mode-btns { display: none; width: 100%; }
             .mode-bar.modes-open .mode-btns { display: flex; flex-wrap: wrap; gap: 6px; }
-            .header-actions .btn { font-size: 10px; padding: 4px 8px; letter-spacing: .5px; }
+            .header-actions .btn { font-size: 9px; padding: 5px 6px; letter-spacing: 0; white-space: nowrap; line-height: 1.1; margin-left: 0 !important; }
             .site-header { padding: 11px 14px; }
             .site-header .subtitle { font-size: 10.5px; }
             .header-tagline { font-size: 11px; }
