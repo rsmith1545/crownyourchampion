@@ -710,9 +710,9 @@
             .brand-logo { height: clamp(60px, 19vw, 92px) !important; }
             .mode-btn { font-size: 9.5px; padding: 5px 9px; letter-spacing: .8px; }
             .mode-bar { padding: 8px 12px; gap: 6px; }
-            .mode-label { display: none; }
-            .mode-toggle { display: inline-block; }
-            .mode-btns { display: none; width: 100%; }
+            .mode-bar .mode-label { display: none; }
+            .mode-bar .mode-toggle { display: inline-block; }
+            .mode-bar .mode-btns { display: none; width: 100%; }
             .mode-bar.modes-open .mode-btns { display: flex; flex-wrap: wrap; gap: 6px; }
             .header-actions .btn { font-size: 10px; padding: 4px 8px; letter-spacing: .5px; }
             .site-header { padding: 11px 14px; }
@@ -1471,10 +1471,10 @@
         <div class="header-tagline">Settle the debate: the greatest Metallica song ever</div>
     </div>
     <div class="header-actions">
-        <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
         <button class="btn btn-reset" onclick="openHowto()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">❓ How to Play</button>
         <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
-        <button class="btn btn-share" onclick="openShare()">Share ↗</button>
+        <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
+        <button class="btn btn-share" onclick="openShare()" style="margin-left:18px;">Share ↗</button>
     </div>
 </header>
 
