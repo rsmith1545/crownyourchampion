@@ -513,13 +513,13 @@
         }
 
         /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
-        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; gap: 8px; }
+        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: stretch; }
         .sf-pair {
-            display: grid; grid-template-rows: subgrid; grid-row: span 3;
+            display: grid; grid-template-rows: 1fr auto 1fr; gap: 4px;
             border: 1.5px solid var(--dmb-gold);
             border-radius: 4px; padding: 7px;
         }
-        .sf-pair .final-slot { margin-bottom: 0; justify-content: center; text-align: center; }
+        .sf-pair .final-slot { margin-bottom: 0; justify-content: center; text-align: center; font-size: 13px; line-height: 1.15; }
         .finals-pair {
             display: flex; align-items: center; gap: 6px;
             border: 1.5px solid var(--dmb-gold);
