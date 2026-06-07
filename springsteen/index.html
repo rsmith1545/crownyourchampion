@@ -4173,12 +4173,12 @@ updateProgress();
   function dismiss(){ try{ localStorage.setItem('cyc-install-dismiss', String(Date.now())); }catch(e){} var b=document.getElementById('cycInstallBar'); if(b) b.remove(); }
   function banner(html){ injectCss(); if(document.getElementById('cycInstallBar')) return null; var b=document.createElement('div'); b.id='cycInstallBar'; b.innerHTML=html; document.body.appendChild(b); var x=b.querySelector('.ci-x'); if(x) x.onclick=dismiss; return b; }
   function showAndroid(){
-    var b=banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Install Crown Your Champion</b><span>Add it to your home screen — full-screen, even offline.</span></div><button class="ci-go" id="ciGo">Install</button><button class="ci-x" aria-label="Dismiss">&times;</button>');
+    var b=banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add Crown Your Champion</b><span>Not a download — it pins the site like an app (works offline).</span></div><button class="ci-go" id="ciGo">Add to home</button><button class="ci-x" aria-label="Dismiss">&times;</button>');
     if(!b) return;
     b.querySelector('#ciGo').onclick=async function(){ if(!deferred) return; deferred.prompt(); try{ await deferred.userChoice; }catch(e){} deferred=null; dismiss(); };
   }
-  function showIOSSafari(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add to your Home Screen</b><span>Tap <b style="color:#f0a500">Share</b>, then <b style="color:#f0a500">Add to Home Screen</b>.</span></div><span class="ci-arrow">&#x2935;&#xFE0F;</span><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
-  function showIOSChrome(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Want the app?</b><span>Open this page in <b style="color:#f0a500">Safari</b> to install it (Apple only allows it there).</span></div><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
+  function showIOSSafari(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add to your Home Screen</b><span>Not a download! Tap <b style="color:#f0a500">Share</b>, then <b style="color:#f0a500">Add to Home Screen</b>.</span></div><span class="ci-arrow">&#x2935;&#xFE0F;</span><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
+  function showIOSChrome(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add it to your Home Screen</b><span>Not a download — open this page in <b style="color:#f0a500">Safari</b> first (Apple only allows it there), then Share &rarr; Add to Home Screen.</span></div><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
   window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred=e; setTimeout(showAndroid,1500); });
   window.addEventListener('appinstalled', dismiss);
   if(isIOS){ setTimeout(function(){ if(standalone()) return; if(isIOSChrome) showIOSChrome(); else if(isIOSSafari) showIOSSafari(); }, 2500); }
