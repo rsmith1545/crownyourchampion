@@ -514,13 +514,13 @@
         }
 
         /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
-        .sf-pairs { display: flex; gap: 8px; }
+        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; gap: 8px; }
         .sf-pair {
-            flex: 1; display: flex; flex-direction: column;
+            display: grid; grid-template-rows: subgrid; grid-row: span 3;
             border: 1.5px solid var(--dmb-gold);
             border-radius: 4px; padding: 7px;
         }
-        .sf-pair .final-slot { margin-bottom: 0; }
+        .sf-pair .final-slot { margin-bottom: 0; justify-content: center; text-align: center; }
         .finals-pair {
             display: flex; align-items: center; gap: 6px;
             border: 1.5px solid var(--dmb-gold);
@@ -709,6 +709,11 @@
             .brand-logo { height: clamp(60px, 19vw, 92px) !important; }
             .mode-btn { font-size: 9.5px; padding: 5px 9px; letter-spacing: .8px; }
             .mode-bar { padding: 8px 12px; gap: 6px; }
+            .mode-label { display: none; }
+            .mode-toggle { display: inline-block; }
+            .mode-btns { display: none; width: 100%; }
+            .mode-bar.modes-open .mode-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+            .header-actions .btn { font-size: 10px; padding: 4px 8px; letter-spacing: .5px; }
             .site-header { padding: 11px 14px; }
             .site-header .subtitle { font-size: 10.5px; }
             .header-tagline { font-size: 11px; }
@@ -1150,6 +1155,16 @@
             margin-right: 4px;
             white-space: nowrap;
         }
+        .mode-toggle {
+            display: none;
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 9px 16px; border: 1px solid var(--dmb-gold); border-radius: 3px;
+            background: var(--dmb-card); color: var(--dmb-gold); cursor: pointer; white-space: nowrap;
+        }
+        .mode-toggle::after { content: ' \25BE'; }
+        .mode-bar.modes-open .mode-toggle::after { content: ' \25B4'; }
+        .mode-btns { display: contents; }
         .mode-btn {
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700;
@@ -1475,6 +1490,8 @@
 <!-- MODE SELECTOR -->
 <div class="mode-bar">
     <span class="mode-label">Auto-Fill Bracket:</span>
+    <button class="mode-toggle" onclick="toggleModes()" aria-expanded="false">⚡ Auto-Fill Bracket</button>
+    <div class="mode-btns">
     <button class="mode-btn mode-random"      onclick="setMode('random')"      title="Random bracket">🎲 Random</button>
     <button class="mode-btn mode-streamed"    onclick="setMode('streamed')"    title="Top Spotify songs advance">📊 Most Streamed</button>
     <button class="mode-btn mode-live"        onclick="setMode('live')"        title="Songs played most in concert advance">🎤 Most Played Live</button>
@@ -1484,6 +1501,7 @@
     <button class="mode-btn mode-era"         onclick="setMode('era')"         title="Filter by era">🎸 Era Bracket</button>
     <button class="mode-btn mode-controversy" onclick="setMode('controversy')" title="Fan favorites face off early">🔥 Controversy</button>
     <button class="mode-btn mode-concert"     onclick="setMode('concert')"     title="Songs from your specific show">🎵 My Concert</button>
+    </div>
 </div>
 
 <!-- ERA SUB-SELECTOR -->
@@ -2042,6 +2060,7 @@ function songScoreBySeed(name, slot) {
 let currentMode = 'manual';
 let selectedFavorites = [];
 
+function toggleModes(){ var mb=document.querySelector('.mode-bar'); if(!mb) return; mb.classList.toggle('modes-open'); var t=mb.querySelector('.mode-toggle'); if(t) t.setAttribute('aria-expanded', mb.classList.contains('modes-open')); }
 function setMode(mode) {
     // Update active button
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
