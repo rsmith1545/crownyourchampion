@@ -225,6 +225,7 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            align-self: flex-end;
         }
         .btn {
             font-family: 'Barlow Condensed', sans-serif;
@@ -775,12 +776,13 @@
         .btn-copy:hover { background: #ffc107; }
 
         /* HOW TO PLAY MODAL */
-        .howto-modal { max-width: 580px; max-height: 86vh; overflow-y: auto; }
-        .howto-modal .howto-steps p { font-size: 13px; color: var(--dmb-muted); line-height: 1.55; margin-bottom: 12px; }
+        .howto-modal { max-width: 680px; max-height: 86vh; overflow-y: auto; }
+        .howto-modal h2 { font-size: 28px; }
+        .howto-modal .howto-steps p { font-size: 15px; color: var(--dmb-muted); line-height: 1.6; margin-bottom: 14px; }
         .howto-modal .howto-steps strong { color: var(--dmb-text); }
-        .howto-legend-title { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; color:var(--dmb-gold); font-size:16px; margin:14px 0 10px; }
-        .howto-list { display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; text-align:left; margin-bottom:18px; }
-        .howto-list .fm-item { font-size:12px; color:var(--dmb-muted); line-height:1.4; }
+        .howto-legend-title { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; color:var(--dmb-gold); font-size:19px; margin:16px 0 11px; }
+        .howto-list { display:grid; grid-template-columns:1fr 1fr; gap:9px 24px; text-align:left; margin-bottom:18px; }
+        .howto-list .fm-item { font-size:14px; color:var(--dmb-muted); line-height:1.5; }
         .howto-list .fm-item strong { color: var(--dmb-gold); font-weight:700; }
         @media (max-width:600px){ .howto-list{ grid-template-columns:1fr; } }
 
@@ -1469,9 +1471,9 @@
         <div class="header-tagline">Settle the debate: the greatest Beatles song ever</div>
     </div>
     <div class="header-actions">
+        <button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
         <button class="btn btn-reset" onclick="openHowto()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">❓ How to Play</button>
-
-        <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a><button class="btn btn-reset" onclick="confirmReset()">↺ Reset</button>
+        <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
         <button class="btn btn-share" onclick="openShare()">Share ↗</button>
     </div>
 </header>
