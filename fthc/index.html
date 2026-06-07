@@ -445,8 +445,6 @@
             top: var(--sticky-top-h, 200px);
             align-self: start;
             z-index: 40;
-            max-height: calc(100vh - var(--sticky-top-h, 200px) - 8px);
-            overflow-y: auto;
         }
         .finals-card {
             background: var(--dmb-card);
@@ -1428,7 +1426,7 @@
         }
         .site-footer .credits-line { margin: 4px 0; }
         .site-footer .modes-title { letter-spacing: 2px; text-transform: uppercase; font-size: 10px; margin-bottom: 9px; color: var(--dmb-muted); }
-        .site-footer .fm-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 26px; max-width: 760px; margin: 0 auto 18px; text-align: left; }
+        .site-footer .fm-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 26px; max-width: 1040px; margin: 0 auto 18px; text-align: left; }
         .site-footer .fm-list .fm-item { margin: 0; }
         .site-footer .fm-list strong { color: var(--dmb-gold); font-weight: 700; }
         @media (max-width: 600px) { .site-footer .fm-list { grid-template-columns: 1fr; gap: 7px; } }
@@ -1727,14 +1725,14 @@
 <footer class="site-footer">
     <div class="modes-title">How the Auto-Fill Modes Work</div>
     <div class="fm-list">
-        <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
         <div class="fm-item"><strong>📊 Most Streamed</strong> — the most-streamed songs on Spotify advance.</div>
         <div class="fm-item"><strong>🎤 Most Played Live</strong> — the songs played most in concert advance.</div>
         <div class="fm-item"><strong>🌟 Highest Seed</strong> — our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
-        <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by what fans actually vote (sharpens as more brackets roll in).</div>
-        <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
-        <div class="fm-item"><strong>🎸 Era Bracket</strong> — songs from the era you choose win out.</div>
+        <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by what fans actually vote.</div>
+        <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
         <div class="fm-item"><strong>🔥 Controversy</strong> — underdogs take round 1, then chaos reigns.</div>
+        <div class="fm-item"><strong>🎸 Era Bracket</strong> — songs from the era you choose win out.</div>
+        <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
         <div class="fm-item"><strong>🎵 My Concert</strong> — search a show you attended; we fill your bracket from that night's real setlist and light it up across the board.</div>
     </div>
     
