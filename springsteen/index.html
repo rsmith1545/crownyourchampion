@@ -701,7 +701,7 @@
         /* MOBILE: horizontal scrollable brackets */
         @media (max-width: 600px) {
             .site-header { flex-wrap: wrap; gap: 8px; }
-            .site-header .header-actions { width: 100%; justify-content: flex-start; flex-wrap: nowrap; gap: 4px; }
+            .site-header .header-actions { width: 100%; flex-wrap: nowrap; gap: 5px; }
             .round-col { min-width: 100px; }
             .bracket-row .round-col:first-child { min-width: 120px; }
             .slot { font-size: 10.5px; min-height: 28px; }
@@ -712,7 +712,7 @@
             .mode-bar .mode-toggle { display: inline-block; }
             .mode-bar .mode-btns { display: none; width: 100%; }
             .mode-bar.modes-open .mode-btns { display: flex; flex-wrap: wrap; gap: 6px; }
-            .site-header .header-actions .btn { font-size: 8.5px; padding: 5px 4px; letter-spacing: 0; white-space: nowrap; line-height: 1.1; margin-left: 0 !important; }
+            .site-header .header-actions .btn { flex: 1 1 0; min-width: 0; text-align: center; font-size: 10px; padding: 6px 4px; letter-spacing: 0; white-space: nowrap; line-height: 1.1; margin-left: 0 !important; }
             .site-header { padding: 11px 14px; }
             .site-header .subtitle { font-size: 10.5px; }
             .header-tagline { font-size: 11px; }
@@ -1158,8 +1158,8 @@
         .mode-toggle {
             display: none;
             font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-            font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
-            padding: 9px 16px; border: 1px solid var(--dmb-gold); border-radius: 3px;
+            font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 7px 14px; border: 1px solid var(--dmb-gold); border-radius: 3px;
             background: var(--dmb-card); color: var(--dmb-gold); cursor: pointer; white-space: nowrap;
         }
         .mode-toggle::after { content: ' \25BE'; }
