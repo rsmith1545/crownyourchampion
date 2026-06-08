@@ -2079,18 +2079,19 @@ function advanceFinalPair(idA, idB, targetId, scoreFn, randomTiebreak) {
 }
 
 // Score lookup helpers
+function findSong(name){ return ALL_SONGS.find(function(x){ return x.name===name; }) || ALL_SONGS.find(function(x){ return name.indexOf(x.name)!==-1 || x.name.indexOf(name)!==-1; }); }
 function songScoreByLiveRank(name) {
-    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    const s = findSong(name);
     return s ? (65 - s.liveRank) : 0; // higher liveRank = lower score
 }
 function songScoreBySpotify(name) {
-    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    const s = findSong(name);
     return s ? s.spotify : 0;
 }
 function songScoreBySeed(name, slot) {
     // Highest Seed: the higher seed wins EVERY round; equal seeds (the four #1s in the
     // Final Four, etc.) are broken deterministically by region order = overall 1-64 rank.
-    const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
+    const s = findSong(name);
     let seed, region;
     if (s) { seed = s.seed; region = s.region; }
     else { const seedEl = slot.querySelector('.seed'); seed = seedEl ? parseInt(seedEl.innerText) : 16; region = null; }
@@ -2247,7 +2248,7 @@ function selectEra(era) {
     setTimeout(() => {
         const eraSongs = ALL_SONGS.filter(s => s.era === era).map(s => s.name);
         const scoreFn = (name, slot) => {
-            const inEra = eraSongs.some(s => name.includes(s) || s.includes(name));
+            const inEra = eraSongs.indexOf(name) !== -1;
             return (inEra ? 1e6 : 0) + songScoreBySeed(name, slot);   // era songs advance; ties broken by seed+region (deterministic)
         };
         fillEntireBracket(scoreFn, false);
@@ -2364,7 +2365,7 @@ function applyFavorites() {
     silentReset();
     setTimeout(() => {
         const scoreFn = (name, slot) => {
-            const isFav = selectedFavorites.some(f => name.includes(f) || f.includes(name));
+            const isFav = selectedFavorites.indexOf(name) !== -1;
             return (isFav ? 1e6 : 0) + songScoreBySeed(name, slot);   // your picks advance; ties broken by seed+region (deterministic)
         };
         fillEntireBracket(scoreFn, false);
