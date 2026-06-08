@@ -333,7 +333,7 @@
         /* DESKTOP: side by side regions + center finals */
         .master-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 272px minmax(0, 1fr);
+            grid-template-columns: minmax(0, 1fr) 290px minmax(0, 1fr);
             gap: 12px;
             max-width: 2000px;
             margin: 0 auto;
@@ -514,13 +514,13 @@
         }
 
         /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
-        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(40px, auto) auto minmax(40px, auto); gap: 8px; }
         .sf-pair {
-            display: grid; grid-template-rows: 54px auto 54px; gap: 6px;
+            display: grid; grid-template-rows: subgrid; grid-row: 1 / span 3; gap: 6px;
             border: 1.5px solid var(--dmb-gold);
             border-radius: 4px; padding: 7px;
         }
-        .sf-pair .final-slot { margin-bottom: 0; justify-content: center; text-align: center; font-size: 12.5px; line-height: 1.12; min-height: 0; padding: 4px 6px; }
+        .sf-pair .final-slot { margin-bottom: 0; min-height: 0; font-size: 15px; line-height: 1.1; padding: 5px 8px; }
         .finals-pair {
             display: flex; align-items: center; gap: 6px;
             border: 1.5px solid var(--dmb-gold);
