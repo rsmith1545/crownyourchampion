@@ -3813,6 +3813,22 @@ updateProgress();
   function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
   function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
   function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
+  function isMobileShare(){ try{ return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches; }catch(e){ return false; } }
+  function downloadCard(){
+    if(!getChamp()){ toast('Crown a champion first!'); return; }
+    drawCard(function(b){
+      if(!b){ toast('Could not build card — try again'); return; }
+      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500);
+      toast('Card downloaded!');
+    });
+  }
+  function copyLink(){
+    var url=siteURL();
+    try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){}
+    try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){}
+  }
 
   function once(fn){ var done=false; return function(){ if(done) return; done=true; return fn.apply(this,arguments); }; }
   function withFonts(cb){
@@ -3914,7 +3930,8 @@ updateProgress();
     var st = modal.querySelector('#shareText') || modal.querySelector('.share-text');
     var wrap=document.createElement('div'); wrap.id='cycCardWrap'; wrap.style.cssText='text-align:center;margin:2px 0 6px;';
     wrap.innerHTML='<img id="cycCardImg" alt="Your champion card" style="width:100%;max-width:600px;border-radius:10px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55)"><div id="cycCardHint" style="color:#7c89a6;font-size:13px;margin:4px 0 8px">Crown a champion to unlock your shareable card.</div>';
-    var btn=document.createElement('button'); btn.id='cycShareBtn'; btn.className='btn btn-share'; btn.textContent='📲 Share / Save Card'; btn.style.cssText='display:none;width:100%;max-width:600px;margin:6px auto 2px;'; btn.onclick=shareOrSave;
+    var __mob=isMobileShare();
+    var btn=document.createElement('button'); btn.id='cycShareBtn'; btn.className='btn btn-share'; btn.textContent=__mob?'📲 Share / Save Card':'📥 Download Card'; btn.style.cssText='display:none;width:100%;max-width:600px;margin:6px auto 2px;'; btn.onclick=__mob?shareOrSave:downloadCard;
     wrap.appendChild(btn);
     if(st && st.parentNode){
       st.parentNode.insertBefore(wrap, st);
@@ -3923,6 +3940,7 @@ updateProgress();
       st.parentNode.insertBefore(picksH, st);
     } else { modal.appendChild(wrap); }
     var cb=modal.querySelector('.btn-copy'); if(cb) cb.textContent='📋 Copy Picks';
+    if(cb && !isMobileShare() && !document.getElementById('cycCopyLinkBtn')){ var clk=document.createElement('button'); clk.id='cycCopyLinkBtn'; clk.className=cb.className; clk.textContent='🔗 Copy Link'; clk.style.cssText='background:transparent;color:#cdd6e6;border:1px solid #1e3a5f;'; clk.onclick=copyLink; cb.parentNode.insertBefore(clk, cb.nextSibling); }
     try{
       var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); });
       mo.observe(modal,{attributes:true,attributeFilter:['class']});
