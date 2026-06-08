@@ -195,11 +195,11 @@
   .row input{flex:1; background:#0a0e16; border:1px solid var(--line); border-radius:9px;
     color:var(--text); padding:13px 14px; font-size:16px; font-family:'Barlow',sans-serif;}
   .row input:focus{outline:none; border-color:var(--gold);}
-  .row button{background:var(--gold); color:#10131a; border:0; font-family:'Barlow Condensed',sans-serif;
+  .signup-go{display:block; width:100%; margin-top:14px; background:var(--gold); color:#10131a; border:0; font-family:'Barlow Condensed',sans-serif;
     font-weight:700; text-transform:uppercase; letter-spacing:.08em; font-size:16px;
     padding:13px 22px; border-radius:9px; cursor:pointer; transition:filter .2s,transform .1s;}
-  .row button:hover{filter:brightness(1.08);} .row button:active{transform:scale(.98);}
-  .row button:disabled{opacity:.55; cursor:default;}
+  .signup-go:hover{filter:brightness(1.08);} .signup-go:active{transform:scale(.98);}
+  .signup-go:disabled{opacity:.55; cursor:default;}
   .band-opt{margin-top:10px; text-align:left;}
   .band-opt-label{display:block; font-size:12px; letter-spacing:.3px; color:var(--muted); margin:0 0 5px 2px;}
   .band-opt-label span{opacity:.75;}
@@ -415,12 +415,12 @@
       <p>One email when a new artist tournament drops. No spam, ever.</p>
       <div class="row">
         <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
-        <button id="join">Notify Me</button>
       </div>
       <div class="band-opt">
         <label class="band-opt-label" for="hub-band">Want a specific band? <span>(optional)</span></label>
         <input id="hub-band" type="text" autocomplete="off" placeholder="e.g. Tom Petty">
       </div>
+      <button id="join" class="signup-go">Notify Me</button>
       <label class="consent">
         <input type="checkbox" id="consent">
         <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="./privacy.html">privacy policy</a>.</span>
