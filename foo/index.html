@@ -2086,10 +2086,16 @@ function songScoreBySpotify(name) {
     return s ? s.spotify : 0;
 }
 function songScoreBySeed(name, slot) {
-    const seedEl = slot.querySelector('.seed');
-    if (seedEl) return 17 - parseInt(seedEl.innerText); // lower seed number = higher score
+    // Highest Seed: the higher seed wins EVERY round; equal seeds (the four #1s in the
+    // Final Four, etc.) are broken deterministically by region order = overall 1-64 rank.
     const s = ALL_SONGS.find(x => x.name === name || name.includes(x.name) || x.name.includes(name));
-    return s ? (17 - s.seed) : 0;
+    let seed, region;
+    if (s) { seed = s.seed; region = s.region; }
+    else { const seedEl = slot.querySelector('.seed'); seed = seedEl ? parseInt(seedEl.innerText) : 16; region = null; }
+    if (!window.__REGION_ORDER) { window.__REGION_ORDER = [...new Set(ALL_SONGS.map(x => x.region))]; }
+    const ro = window.__REGION_ORDER;
+    const ri = region ? ro.indexOf(region) : ro.length - 1;
+    return (16 - seed) * 100 + (ro.length - ri); // seed primary; earlier region wins the tie
 }
 
 
@@ -2196,7 +2202,7 @@ function applyLiveMode() {
 function applySeedMode() {
     silentReset();
     setTimeout(() => {
-        fillEntireBracket((name, slot) => songScoreBySeed(name, slot), true);
+        fillEntireBracket((name, slot) => songScoreBySeed(name, slot), false);
         showToast('🌟 Highest Seed — our fan-weighted seeding!');
     }, 200);
 }
@@ -2238,11 +2244,11 @@ function selectEra(era) {
     silentReset();
     setTimeout(() => {
         const eraSongs = ALL_SONGS.filter(s => s.era === era).map(s => s.name);
-        const scoreFn = (name) => {
+        const scoreFn = (name, slot) => {
             const inEra = eraSongs.some(s => name.includes(s) || s.includes(name));
-            return inEra ? (50 + Math.random()) : Math.random();
+            return (inEra ? 1e6 : 0) + songScoreBySeed(name, slot);   // era songs advance; ties broken by seed+region (deterministic)
         };
-        fillEntireBracket(scoreFn, true);
+        fillEntireBracket(scoreFn, false);
         showToast(`🎸 ${era} era bracket filled!`);
     }, 200);
 }
@@ -2263,7 +2269,7 @@ function applyControversyMode() {
         });
         // Fill rest of rounds randomly for chaos
         fillRemainingRounds(() => Math.random(), true);
-        showToast('🔥 Controversy — underdogs ran wild in round 1!');
+        showToast('🔥 Controversy — underdogs won round 1, then chaos. Re-run for a new bracket!');
     }, 200);
 }
 
@@ -2355,11 +2361,11 @@ function applyFavorites() {
     closeFavModal();
     silentReset();
     setTimeout(() => {
-        const scoreFn = (name) => {
+        const scoreFn = (name, slot) => {
             const isFav = selectedFavorites.some(f => name.includes(f) || f.includes(name));
-            return isFav ? (50 + Math.random()) : Math.random();
+            return (isFav ? 1e6 : 0) + songScoreBySeed(name, slot);   // your picks advance; ties broken by seed+region (deterministic)
         };
-        fillEntireBracket(scoreFn, true);
+        fillEntireBracket(scoreFn, false);
         document.querySelector('.mode-btn.mode-fav')?.classList.add('active');
         showToast(`❤️ Your favorites filled through the bracket!`);
     }, 200);
