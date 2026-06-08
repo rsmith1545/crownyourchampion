@@ -4252,7 +4252,7 @@ updateProgress();
     var lbl=document.createElement('span'); lbl.className='mode-label'; lbl.textContent='Regions:'; wrap.appendChild(lbl);
     cards.forEach(function(c,i){
       var hdr=c.querySelector('.region-header');
-      var b=document.createElement('button'); b.className='rj-btn'; b.type='button';
+      var b=document.createElement('button'); b.className='mode-btn'; b.type='button';
       b.textContent=hdr?hdr.textContent.trim():('Region '+(i+1));
       b.addEventListener('click',function(){jump(i);});
       wrap.appendChild(b);
