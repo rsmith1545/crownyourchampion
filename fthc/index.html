@@ -712,7 +712,7 @@
         /* MOBILE: horizontal scrollable brackets */
         @media (max-width: 600px) {
             .site-header { flex-wrap: wrap; gap: 8px; }
-            .site-header .header-actions { width: 100%; flex-wrap: wrap; gap: 5px; }
+            .site-header .header-actions { width: 100%; flex-wrap: wrap; gap: 3px; }
             .round-col { min-width: 100px; }
             .bracket-row .round-col:first-child { min-width: 120px; }
             .slot { font-size: 10.5px; min-height: 28px; }
@@ -723,7 +723,7 @@
             .mode-bar .mode-toggle { display: inline-block; }
             .mode-bar .mode-btns { display: none; width: 100%; }
             .mode-bar.modes-open .mode-btns { display: flex; flex-wrap: wrap; gap: 6px; }
-            .site-header .header-actions .btn { flex: 1 1 auto; min-width: 0; text-align: center; font-size: 12px; padding: 7px 2px; letter-spacing: 0; white-space: nowrap; line-height: 1.1; margin-left: 0 !important; }
+            .site-header .header-actions .btn { flex: 1 1 auto; min-width: 0; text-align: center; font-size: 11px; padding: 7px 2px; letter-spacing: 0; white-space: nowrap; line-height: 1.1; margin-left: 0 !important; }
             .site-header .header-actions .btn[onclick*="confirmReset"] { flex: 0 1 auto; }
             .site-header { padding: 11px 14px; }
             .site-header .subtitle { font-size: 10.5px; }
@@ -4207,7 +4207,7 @@ updateProgress();
     var act=document.querySelector('.site-header .header-actions')||document.querySelector('.header-actions');
     if(!act) return;
     var st=document.createElement('style');
-    st.textContent="@media (min-width:1081px){.header-actions{flex-wrap:wrap;justify-content:flex-end;}}@media (max-width:1080px){.header-actions{flex-wrap:wrap;justify-content:flex-start;}}#cycHdrSig{flex-basis:100%;display:flex;gap:6px;align-items:center;justify-content:flex-end;margin-top:6px;}#cycHdrSig input{background:rgba(255,255,255,.06);border:1px solid rgba(240,165,0,.4);color:#fff;border-radius:6px;padding:6px 10px;font-size:16px;width:185px;outline:none;font-family:inherit;}#cycHdrSig input::placeholder{color:rgba(255,255,255,.45);font-size:13px;}#cycHdrSig input:focus{border-color:rgba(240,165,0,.8);}#cycHdrSig button{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:rgba(240,165,0,.15);border:1px solid rgba(240,165,0,.55);color:var(--dmb-gold,#f0a500);border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap;}#cycHdrSig button:hover{background:rgba(240,165,0,.3);}#cycHdrSig .ok{color:var(--dmb-gold,#f0a500);font-size:13px;font-weight:700;}@media (max-width:1080px){#cycHdrSig{justify-content:flex-start;margin-top:8px;}#cycHdrSig input{flex:1;max-width:250px;width:auto;}}@media(max-width:600px){#cycHdrSig{flex:1 1 auto;flex-basis:auto;margin-top:0;min-width:0;}#cycHdrSig input{display:none;}#cycHdrSig button{width:100%;font-size:12px;padding:7px 6px;letter-spacing:.5px;}#cycHdrSig.cyc-open{flex:1 1 100%;flex-basis:100%;margin-top:8px;}#cycHdrSig.cyc-open input{display:block;flex:1;min-width:0;}#cycHdrSig.cyc-open button{width:auto;}}";
+    st.textContent="@media (min-width:1081px){.header-actions{flex-wrap:wrap;justify-content:flex-end;}}@media (max-width:1080px){.header-actions{flex-wrap:wrap;justify-content:flex-start;}}#cycHdrSig{flex-basis:100%;display:flex;gap:6px;align-items:center;justify-content:flex-end;margin-top:6px;}#cycHdrSig input{background:rgba(255,255,255,.06);border:1px solid rgba(240,165,0,.4);color:#fff;border-radius:6px;padding:6px 10px;font-size:16px;width:185px;outline:none;font-family:inherit;}#cycHdrSig input::placeholder{color:rgba(255,255,255,.45);font-size:13px;}#cycHdrSig input:focus{border-color:rgba(240,165,0,.8);}#cycHdrSig button{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:rgba(240,165,0,.15);border:1px solid rgba(240,165,0,.55);color:var(--dmb-gold,#f0a500);border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap;}#cycHdrSig button:hover{background:rgba(240,165,0,.3);}#cycHdrSig .ok{color:var(--dmb-gold,#f0a500);font-size:13px;font-weight:700;}@media (max-width:1080px){#cycHdrSig{justify-content:flex-start;margin-top:8px;}#cycHdrSig input{flex:1;max-width:250px;width:auto;}}@media(max-width:600px){#cycHdrSig{flex:1 1 auto;flex-basis:auto;margin-top:0;min-width:0;}#cycHdrSig input{display:none;}#cycHdrSig button{width:100%;font-size:11px;padding:7px 3px;letter-spacing:.5px;}#cycHdrSig.cyc-open{flex:1 1 100%;flex-basis:100%;margin-top:8px;}#cycHdrSig.cyc-open input{display:block;flex:1;min-width:0;}#cycHdrSig.cyc-open button{width:auto;}}";
     document.head.appendChild(st);
     var wrap=document.createElement('div'); wrap.id='cycHdrSig';
     var inp=document.createElement('input'); inp.type='email'; inp.placeholder='Email for new artist drops';
