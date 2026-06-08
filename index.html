@@ -200,6 +200,12 @@
     padding:13px 22px; border-radius:9px; cursor:pointer; transition:filter .2s,transform .1s;}
   .row button:hover{filter:brightness(1.08);} .row button:active{transform:scale(.98);}
   .row button:disabled{opacity:.55; cursor:default;}
+  .band-opt{margin-top:10px; text-align:left;}
+  .band-opt-label{display:block; font-size:12px; letter-spacing:.3px; color:var(--muted); margin:0 0 5px 2px;}
+  .band-opt-label span{opacity:.75;}
+  .band-opt input{width:100%; box-sizing:border-box; background:#0a0e16; border:1px solid var(--line);
+    border-radius:9px; color:var(--text); padding:10px 13px; font-size:14px; font-family:'Barlow',sans-serif;}
+  .band-opt input:focus{outline:none; border-color:var(--gold);}
   .consent{display:flex; gap:9px; align-items:flex-start; text-align:left; margin-top:13px;
     font-size:12.5px; color:var(--muted);}
   .consent input{margin-top:2px; accent-color:var(--gold); width:16px; height:16px; flex:none;}
@@ -411,12 +417,15 @@
         <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
         <button id="join">Notify Me</button>
       </div>
+      <div class="band-opt">
+        <label class="band-opt-label" for="hub-band">Want a specific band? <span>(optional)</span></label>
+        <input id="hub-band" type="text" autocomplete="off" placeholder="e.g. Tom Petty">
+      </div>
       <label class="consent">
         <input type="checkbox" id="consent">
         <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="./privacy.html">privacy policy</a>.</span>
       </label>
       <div class="msg" id="msg" role="status" aria-live="polite"></div>
-      <div class="note" style="color:var(--muted)">Want a specific band? Put it in the email field after a comma — we read every request.</div>
     </section>
 
     <footer>
@@ -444,6 +453,7 @@
 
   $('join').onclick = async () => {
     const email = $('email').value.trim();
+    const band = ($('hub-band').value || '').trim();
     const consent = $('consent').checked;
     const msg = $('msg');
     const ok = /^[^@\s]+@[^@\s]+\.[^@\s]+/.test(email);
@@ -452,16 +462,18 @@
     const btn = $('join'); btn.disabled = true; btn.textContent = 'Saving…';
     // capture locally first so nothing is lost even if the network hangs
     try { localStorage.setItem('cyc-hub-email', email); } catch(e){}
-    const write = db ? addDoc(collection(db,'hub_signups'), {
-      email, consent:true, consent_at:serverTimestamp(), source:'hub', created_at:serverTimestamp()
-    }) : Promise.resolve();
+    if (band){ try { localStorage.setItem('cyc-band-req', band); } catch(e){} }
+    const rec = { email, consent:true, consent_at:serverTimestamp(), source:'hub', created_at:serverTimestamp() };
+    if (band) rec.requested_band = band;
+    const write = db ? addDoc(collection(db,'hub_signups'), rec) : Promise.resolve();
     try {
       await Promise.race([ write, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000)) ]);
     } catch(e){ console.warn('signup write', e); }
     msg.className='msg ok'; msg.textContent="You're on the list — watch your inbox. 👑";
-    btn.textContent='Done ✓'; $('email').value='';
+    btn.textContent='Done ✓'; $('email').value=''; $('hub-band').value='';
   };
   $('email').addEventListener('keydown', e=>{ if(e.key==='Enter') $('join').click(); });
+  $('hub-band').addEventListener('keydown', e=>{ if(e.key==='Enter') $('join').click(); });
 
   // Band request -> logged to the same hub_signups collection (tagged), reliable on every device
   var brBtn = $('band-req-btn');
