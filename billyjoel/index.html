@@ -3,7 +3,7 @@
 <head>
 <!-- Google Analytics 4 (GA4) — owner-only measurement, see privacy.html -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-29YE8MYY3C"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-29YE8MYY3C');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-29YE8MYY3C');window.cycEvt=function(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}};</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crown Your Champion — Billy Joel Madness</title>
@@ -2603,6 +2603,7 @@ const TOTAL_PICKS = 63;
 function pick(el, targetId) {
     const text = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(el);
     if (!text || text === '--') return;
+    if(!window.__cycStarted){ window.__cycStarted=1; try{cycEvt('bracket_started',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){} }
 
     // Mark winner in this matchup
     el.parentElement.querySelectorAll('.slot').forEach(s => s.classList.remove('winner'));
@@ -2793,6 +2794,7 @@ function updateCrownButton() {
 function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
+    try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 2800); // email capture after the celebration plays
 }
@@ -2893,6 +2895,7 @@ async function submitEmail() {
 
     statusEl.innerText = '✓ Saved! We\'ll keep you posted on new tournaments.';
     statusEl.className = 'em-status success';
+    try{cycEvt('email_signup',{source:'champion',band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     submitBtn.disabled = false;
     submitBtn.innerText = 'Submit';
     setTimeout(() => {
@@ -2937,6 +2940,7 @@ async function submitHubSignup(){
         await Promise.race([w,new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },6000); })]);
     }catch(e){ console.warn('hub signup write',e); }
     statusEl.textContent="✓ You're on the list — watch your inbox. 👑"; statusEl.className='em-status success';
+    try{cycEvt('email_signup',{source:'header',band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     btn.textContent='Done ✓';
     setTimeout(closeHubSignup,1600);
 }
@@ -3146,6 +3150,7 @@ function openHowto(){ document.getElementById('howtoModal').classList.add('open'
 function closeHowto(){ document.getElementById('howtoModal').classList.remove('open'); }
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=document.getElementById('howtoModal'); if(m) m.classList.remove('open'); } });
 function openShare() {
+    try{cycEvt('share_click',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     const regions = {
         'Brenda & Eddies': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
         'Oyster Bay': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],

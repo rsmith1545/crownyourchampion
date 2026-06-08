@@ -3,7 +3,7 @@
 <head>
 <!-- Google Analytics 4 (GA4) — owner-only measurement, see privacy.html -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-29YE8MYY3C"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-29YE8MYY3C');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-29YE8MYY3C');window.cycEvt=function(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}};</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="qWp_C_GW0vI8Dj8h6aIAfakf_ZyuwuQ_3yVF931aJRw" />
@@ -473,6 +473,7 @@
       await Promise.race([ write, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000)) ]);
     } catch(e){ console.warn('signup write', e); }
     msg.className='msg ok'; msg.textContent="You're on the list — watch your inbox. 👑";
+    cycEvt('email_signup',{source:'hub'});
     btn.textContent='Done ✓'; $('email').value=''; $('hub-band').value='';
   };
   $('email').addEventListener('keydown', e=>{ if(e.key==='Enter') $('join').click(); });
