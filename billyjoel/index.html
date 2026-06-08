@@ -4248,7 +4248,7 @@ updateProgress();
     var cards=document.querySelectorAll('.region-card'); if(cards.length<2) return;
     injectCss();
     var wrap=document.createElement('div'); wrap.className='region-jump'; wrap.id='regionJump';
-    var lbl=document.createElement('span'); lbl.className='mode-label'; lbl.textContent='Regions:'; wrap.appendChild(lbl);
+    var lbl=document.createElement('span'); lbl.className='mode-label'; lbl.style.fontSize='13px'; lbl.textContent='Regions:'; wrap.appendChild(lbl);
     cards.forEach(function(c,i){
       var hdr=c.querySelector('.region-header');
       var b=document.createElement('button'); b.className='mode-btn'; b.type='button';
