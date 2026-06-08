@@ -251,6 +251,12 @@
             color: #000;
         }
         .btn-share:hover { background: #ffc107; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(240,165,0,0.4); }
+        .btn-signup {
+            background: rgba(240,165,0,0.15);
+            color: var(--dmb-gold);
+            border: 1px solid rgba(240,165,0,0.55);
+        }
+        .btn-signup:hover { background: rgba(240,165,0,0.3); }
 
         /* PROGRESS BAR */
         .progress-bar-wrap {
@@ -904,6 +910,17 @@
             line-height: 1.3;
         }
         .em-optin input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--dmb-gold); cursor: pointer; flex-shrink: 0; }
+        /* HUB SIGNUP MODAL (shared by header Sign Up button) */
+        .hub-modal { position: relative; }
+        .hub-x { position: absolute; top: 6px; right: 12px; background: none; border: none; color: var(--dmb-muted); font-size: 26px; line-height: 1; cursor: pointer; padding: 0 4px; font-family: inherit; }
+        .hub-x:hover { color: var(--dmb-text); }
+        .hub-modal .hub-field { width: 100%; box-sizing: border-box; display: block; }
+        .hub-modal #hubEmail { margin: 0; }
+        .hub-band-row { margin: 12px 0 0; text-align: left; }
+        .hub-band-label { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 0.5px; color: var(--dmb-muted); margin: 0 0 5px 2px; text-transform: none; }
+        .hub-band-label span { opacity: 0.75; }
+        .hub-modal .hub-band { font-size: 14px; padding: 8px 12px; }
+        .hub-notify { width: 100%; margin-top: 16px; padding: 12px; font-size: 16px; letter-spacing: 0.08em; border-radius: 3px; }
 
         /* ── CONCERT MODAL ── */
         .concert-modal-overlay {
@@ -1473,6 +1490,7 @@
         <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
         <button class="btn btn-share" onclick="openShare()">Share ↗</button>
         <button class="btn btn-reset" onclick="confirmReset()" style="margin-left:18px;">↺ Reset</button>
+        <button class="btn btn-signup" onclick="openHubSignup()">🔔 Sign Up</button>
     </div>
 </header>
 
@@ -1815,6 +1833,24 @@
         <div class="em-status" id="emailStatus"></div>
         <button class="em-skip" onclick="skipEmail()">No thanks, just crown it</button>
         <div class="em-privacy">🔒 We'll never sell or share your email. Unsubscribe anytime. <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
+    </div>
+</div>
+
+<!-- HUB SIGNUP MODAL — shared by the header Sign Up button (desktop + mobile) -->
+<div class="email-modal-overlay" id="hubSignupModal">
+    <div class="email-modal hub-modal">
+        <button class="hub-x" onclick="closeHubSignup()" aria-label="Close">×</button>
+        <div class="em-title">Get the Next Bracket First</div>
+        <div class="em-desc">One email when a new artist tournament drops. No spam, ever.</div>
+        <input type="email" class="email-input hub-field" id="hubEmail" placeholder="you@email.com" autocomplete="email">
+        <div class="hub-band-row">
+            <label class="hub-band-label" for="hubBand">Want a specific band? <span>(optional)</span></label>
+            <input type="text" class="email-input hub-field hub-band" id="hubBand" placeholder="e.g. Tom Petty" autocomplete="off">
+        </div>
+        <button class="btn btn-submit hub-notify" id="hubNotifyBtn" onclick="submitHubSignup()">Notify Me</button>
+        <label class="em-optin"><input type="checkbox" id="hubConsent"> <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.</span></label>
+        <div class="em-status" id="hubStatus"></div>
+        <div class="em-privacy">🔒 One email, no spam. Unsubscribe anytime.</div>
     </div>
 </div>
 
@@ -2865,6 +2901,46 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('emailInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') submitEmail();
     });
+});
+
+// ─── HUB SIGNUP MODAL (header Sign Up button) ───────────────────────
+function openHubSignup(){
+    var s=document.getElementById('hubStatus'); if(s){ s.textContent=''; s.className='em-status'; }
+    var b=document.getElementById('hubNotifyBtn'); if(b){ b.disabled=false; b.textContent='Notify Me'; }
+    document.getElementById('hubSignupModal').classList.add('open');
+    setTimeout(function(){ try{ document.getElementById('hubEmail').focus(); }catch(e){} }, 300);
+}
+function closeHubSignup(){ document.getElementById('hubSignupModal').classList.remove('open'); }
+async function submitHubSignup(){
+    var email=(document.getElementById('hubEmail').value||'').trim();
+    var band=(document.getElementById('hubBand').value||'').trim();
+    var consent=document.getElementById('hubConsent').checked;
+    var statusEl=document.getElementById('hubStatus');
+    var btn=document.getElementById('hubNotifyBtn');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ statusEl.textContent='Please enter a valid email.'; statusEl.className='em-status error'; document.getElementById('hubEmail').focus(); return; }
+    if(!consent){ statusEl.textContent='Please tick the box so we can email you.'; statusEl.className='em-status error'; return; }
+    btn.disabled=true; btn.textContent='Saving…'; statusEl.textContent=''; statusEl.className='em-status';
+    try{ localStorage.setItem('cyc-hub-email',email); }catch(e){}
+    if(band){ try{ localStorage.setItem('cyc-band-req',band); }catch(e){} }
+    try{
+        var fs=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        var fa=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+        var db=fs.getFirestore(fa.getApp());
+        var rec={email:email,consent:true,consent_at:fs.serverTimestamp(),source:'header',band:(location.pathname.replace(/\//g,'')||'home'),created_at:fs.serverTimestamp()};
+        if(band) rec.requested_band=band;
+        var w=fs.addDoc(fs.collection(db,'hub_signups'),rec);
+        await Promise.race([w,new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },6000); })]);
+    }catch(e){ console.warn('hub signup write',e); }
+    statusEl.textContent="✓ You're on the list — watch your inbox. 👑"; statusEl.className='em-status success';
+    btn.textContent='Done ✓';
+    setTimeout(closeHubSignup,1600);
+}
+document.addEventListener('DOMContentLoaded', function(){
+    var he=document.getElementById('hubEmail'), hb=document.getElementById('hubBand');
+    if(he) he.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitHubSignup(); } });
+    if(hb) hb.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitHubSignup(); } });
+    var ov=document.getElementById('hubSignupModal');
+    if(ov) ov.addEventListener('click', function(e){ if(e.target===ov) closeHubSignup(); });
 });
 
 // ─── CELEBRATION: confetti + encore fanfare + flourish ────────────
@@ -4184,43 +4260,7 @@ updateProgress();
   if(isIOS){ setTimeout(function(){ if(standalone()) return; if(isIOSChrome) showIOSChrome(); else if(isIOSSafari) showIOSSafari(); }, 2500); }
 })();
 </script>
-<script>
-/* cycHeaderSignup v1 — compact desktop email capture below header buttons. Self-contained. */
-(function(){
-  if(window.__cycHdrSig) return; window.__cycHdrSig=1;
-  function init(){
-    try{ if(localStorage.getItem('cyc-hub-email')) return; }catch(e){}
-    var act=document.querySelector('.site-header .header-actions')||document.querySelector('.header-actions');
-    if(!act) return;
-    var st=document.createElement('style');
-    st.textContent="@media (min-width:1081px){.header-actions{flex-wrap:wrap;justify-content:flex-end;}}@media (max-width:1080px){.header-actions{flex-wrap:wrap;justify-content:flex-start;}}#cycHdrSig{flex-basis:100%;display:flex;gap:6px;align-items:center;justify-content:flex-end;margin-top:6px;}#cycHdrSig input{background:rgba(255,255,255,.06);border:1px solid rgba(240,165,0,.4);color:#fff;border-radius:6px;padding:6px 10px;font-size:16px;width:185px;outline:none;font-family:inherit;}#cycHdrSig input::placeholder{color:rgba(255,255,255,.45);font-size:13px;}#cycHdrSig input:focus{border-color:rgba(240,165,0,.8);}#cycHdrSig button{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:rgba(240,165,0,.15);border:1px solid rgba(240,165,0,.55);color:var(--dmb-gold,#f0a500);border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap;}#cycHdrSig button:hover{background:rgba(240,165,0,.3);}#cycHdrSig .ok{color:var(--dmb-gold,#f0a500);font-size:13px;font-weight:700;}@media (max-width:1080px){#cycHdrSig{justify-content:flex-start;margin-top:8px;}#cycHdrSig input{flex:1;max-width:250px;width:auto;}}@media(max-width:600px){#cycHdrSig{flex:0 1 auto;flex-basis:auto;margin-top:0;min-width:0;}#cycHdrSig input{display:none;}#cycHdrSig button{width:auto;font-size:11px;padding:7px 8px;letter-spacing:.5px;}#cycHdrSig.cyc-open{flex:1 1 100%;flex-basis:100%;margin-top:8px;}#cycHdrSig.cyc-open input{display:block;flex:1;min-width:0;}#cycHdrSig.cyc-open button{width:auto;}}";
-    document.head.appendChild(st);
-    var wrap=document.createElement('div'); wrap.id='cycHdrSig';
-    var inp=document.createElement('input'); inp.type='email'; inp.placeholder='Email for new artist drops';
-    inp.setAttribute('aria-label','Email for new bracket announcements');
-    inp.title="We'll never sell or share your email. Unsubscribe anytime.";
-    var btn=document.createElement('button'); btn.textContent='🔔 Sign Up';
-    wrap.appendChild(inp); wrap.appendChild(btn); act.appendChild(wrap);
-    async function go(){
-      var email=(inp.value||'').trim();
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ inp.style.borderColor='#e25555'; inp.focus(); return; }
-      btn.disabled=true; btn.textContent='Sending…';
-      try{ localStorage.setItem('cyc-hub-email',email); }catch(e){}
-      try{
-        var fs=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-        var fa=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-        var db=fs.getFirestore(fa.getApp());
-        var w=fs.addDoc(fs.collection(db,'hub_signups'),{email:email,consent:true,consent_at:fs.serverTimestamp(),source:'header',band:(location.pathname.replace(/\//g,'')||'home'),created_at:fs.serverTimestamp()});
-        await Promise.race([w,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},6000);})]);
-      }catch(e){ console.warn('header signup write',e); }
-      wrap.innerHTML='<span class="ok">✓ You’re on the list — watch your inbox 👑</span>';
-    }
-    btn.addEventListener('click',function(){ if(window.matchMedia('(max-width:600px)').matches && !wrap.classList.contains('cyc-open')){ wrap.classList.add('cyc-open'); setTimeout(function(){ try{inp.focus();}catch(e){} },20); return; } go(); });
-    inp.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
-  }
-  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
-})();
-</script>
+
 <script>
 /* cycRegionNav — desktop region jump buttons on the right of the Auto-Fill row (band-agnostic) */
 (function(){
