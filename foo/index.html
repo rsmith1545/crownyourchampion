@@ -4228,5 +4228,43 @@ updateProgress();
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
+<script>
+/* cycRegionNav — desktop region jump buttons on the right of the Auto-Fill row (band-agnostic) */
+(function(){
+  if(window.__cycRegionNav) return; window.__cycRegionNav=1;
+  function injectCss(){
+    if(document.getElementById('cycRegionNavCss')) return;
+    var st=document.createElement('style'); st.id='cycRegionNavCss';
+    st.textContent=".region-jump{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}"
+     +".region-jump .rj-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-muted,#6b7a99);margin-right:2px;white-space:nowrap;}"
+     +".region-jump .rj-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:7px 12px;border:1px solid rgba(240,165,0,.4);border-radius:3px;background:var(--dmb-card,#1a2332);color:var(--dmb-gold,#f0a500);cursor:pointer;white-space:nowrap;transition:all .2s;}"
+     +".region-jump .rj-btn:hover{background:rgba(240,165,0,.12);border-color:var(--dmb-gold,#f0a500);}"
+     +"@media(max-width:1080px){.region-jump{display:none;}}";
+    document.head.appendChild(st);
+  }
+  function jump(i){
+    var cards=document.querySelectorAll('.region-card'); var el=cards[i]; if(!el) return;
+    var off=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sticky-top-h'))||200;
+    var y=el.getBoundingClientRect().top+window.pageYOffset-off-12;
+    window.scrollTo({top:y,behavior:'smooth'});
+  }
+  function build(){
+    var mb=document.querySelector('.mode-bar'); if(!mb||document.getElementById('regionJump')) return;
+    var cards=document.querySelectorAll('.region-card'); if(cards.length<2) return;
+    injectCss();
+    var wrap=document.createElement('div'); wrap.className='region-jump'; wrap.id='regionJump';
+    var lbl=document.createElement('span'); lbl.className='rj-label'; lbl.textContent='Regions:'; wrap.appendChild(lbl);
+    cards.forEach(function(c,i){
+      var hdr=c.querySelector('.region-header');
+      var b=document.createElement('button'); b.className='rj-btn'; b.type='button';
+      b.textContent=hdr?hdr.textContent.trim():('Region '+(i+1));
+      b.addEventListener('click',function(){jump(i);});
+      wrap.appendChild(b);
+    });
+    mb.appendChild(wrap);
+  }
+  if(document.readyState!=='loading') build(); else document.addEventListener('DOMContentLoaded',build);
+})();
+</script>
 </body>
 </html>
