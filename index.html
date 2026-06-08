@@ -203,6 +203,7 @@
     padding:13px 22px; border-radius:9px; cursor:pointer; transition:filter .2s,transform .1s;}
   .signup-go:hover{filter:brightness(1.08);} .signup-go:active{transform:scale(.98);}
   .signup-go:disabled{opacity:.55; cursor:default;}
+  .signup-done{display:inline-flex; align-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.06em; text-transform:uppercase; color:#5fbf6a; border:1px solid rgba(95,191,106,.42); background:rgba(95,191,106,.10); padding:12px 22px; border-radius:9px; cursor:default; user-select:none;}
   .band-opt{margin-top:10px; text-align:left;}
   .band-opt-label{display:block; font-size:12px; letter-spacing:.3px; color:var(--muted); margin:0 0 5px 2px;}
   .band-opt-label span{opacity:.75;}
@@ -586,6 +587,20 @@
     bar.appendChild(ok); document.body.appendChild(bar);
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cyc: returning subscribers see "On the list" instead of the signup form */
+(function(){
+  var has=false; try{ has=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
+  if(!has) return;
+  function done(){
+    var sec=document.querySelector('.signup'); if(!sec) return;
+    ['.row','.band-opt','.consent','.msg','#join'].forEach(function(sel){ var el=sec.querySelector(sel); if(el) el.style.display='none'; });
+    var p=sec.querySelector('p'); if(p) p.textContent="You're already subscribed — we'll email you when the next bracket drops.";
+    if(!sec.querySelector('.signup-done')){ var d=document.createElement('div'); d.style.marginTop='14px'; d.innerHTML='<span class="signup-done">✓ On the list</span>'; sec.appendChild(d); }
+  }
+  if(document.readyState!=='loading') done(); else document.addEventListener('DOMContentLoaded',done);
 })();
 </script>
 </body>

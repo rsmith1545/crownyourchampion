@@ -260,6 +260,8 @@
             border: 1px solid rgba(240,165,0,0.55);
         }
         .btn-signup:hover { background: rgba(240,165,0,0.3); }
+        .signup-done { display: inline-flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 14px; border-radius: 3px; color: #5fbf6a; border: 1px solid rgba(95,191,106,0.42); background: rgba(95,191,106,0.10); white-space: nowrap; cursor: default; user-select: none; line-height: 1.1; }
+        @media (max-width: 600px) { .site-header .header-actions .signup-done { font-size: 11px; padding: 7px 8px; letter-spacing: 0; } }
 
         /* PROGRESS BAR */
         .progress-bar-wrap {
@@ -4333,6 +4335,21 @@ updateProgress();
     bar.appendChild(ok); document.body.appendChild(bar);
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cyc: returning subscribers see an "On the list" status in the Sign Up slot */
+(function(){
+  if(window.__cycSignupState) return; window.__cycSignupState=1;
+  function apply(){
+    var has=false; try{ has=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
+    if(!has) return;
+    var b=document.querySelector('.btn-signup'); if(!b||!b.parentNode) return;
+    var s=document.createElement('span'); s.className='signup-done'; s.textContent='✓ On the list';
+    s.setAttribute('role','status'); s.setAttribute('aria-label','You are already on the email list');
+    b.parentNode.replaceChild(s,b);
+  }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded',apply);
 })();
 </script>
 </body>
