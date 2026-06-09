@@ -202,7 +202,9 @@
         }
 
         /* Sticky zone: header + progress + auto-fill stay pinned while scrolling */
-        .sticky-top {
+        /* brand block scrolls away; only the functional bar stays pinned */
+        .header-scroll { position: relative; z-index: 90; }
+        .sticky-bar {
             position: sticky;
             top: 0;
             z-index: 100;
@@ -283,7 +285,7 @@
         .progress-bar-wrap {
             background: #000;
             border-bottom: 1px solid var(--dmb-border);
-            padding: 6px 20px;
+            padding: 4px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -702,7 +704,8 @@
                 grid-template-columns: minmax(0, 1fr);
             }
             /* On phones, let everything scroll normally — sticky would eat the screen */
-            .sticky-top { position: static; }
+            .sticky-bar { position: static; }
+            .header-scroll { position: static; }
             .center-col {
                 position: static; top: auto;
                 max-height: none; overflow-y: visible;
@@ -1201,10 +1204,10 @@
         .mode-bar {
             background: var(--dmb-panel);
             border-bottom: 1px solid var(--dmb-border);
-            padding: 12px 20px;
+            padding: 8px 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 7px;
             align-items: center;
         }
         .mode-label {
@@ -1523,7 +1526,7 @@
 <body>
 
 <!-- HEADER -->
-<div class="sticky-top">
+<div class="header-scroll">
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
@@ -1538,7 +1541,9 @@
         <button class="btn btn-signup" onclick="openHubSignup()">🔔 Sign Up</button>
     </div>
 </header>
+</div><!-- /header-scroll -->
 
+<div class="sticky-bar" id="stickyBar">
 <!-- PROGRESS -->
 <div class="progress-bar-wrap">
     <span class="progress-label">Progress</span>
@@ -1570,7 +1575,7 @@
     <button class="era-btn" onclick="selectEra('Invisible Llama')">Invisible Llama</button>
     <button class="era-btn" onclick="selectEra('Lost Evenings')">Lost Evenings</button>
 </div>
-</div><!-- /sticky-top -->
+</div><!-- /sticky-bar -->
 
 
 
@@ -2853,12 +2858,12 @@ function submitAndCrown() {
 
 // Keep the sticky championship column aligned just under the sticky header zone
 function setStickyTopHeight() {
-    const st = document.querySelector('.sticky-top');
+    const st = document.querySelector('.sticky-bar');
     if (st) document.documentElement.style.setProperty('--sticky-top-h', st.offsetHeight + 'px');
 }
 document.addEventListener('DOMContentLoaded', () => {
     setStickyTopHeight();
-    const st = document.querySelector('.sticky-top');
+    const st = document.querySelector('.sticky-bar');
     if (st && 'ResizeObserver' in window) new ResizeObserver(setStickyTopHeight).observe(st);
 });
 window.addEventListener('load', setStickyTopHeight);
