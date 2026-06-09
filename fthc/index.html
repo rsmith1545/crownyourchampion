@@ -4502,6 +4502,43 @@ updateProgress();
 })();
 </script>
 <script>
+/* cycAudit — admin QA overlay (?audit=1): annotates every matchup slot with its real crowd vote count
+   from leaderboard/mv_all, so you can verify Crowd's Picks advanced the higher-voted song. Self-contained. */
+(function(){
+  if(window.__cycAudit) return; window.__cycAudit=1;
+  if(!/[?&]audit=1/.test(location.search) && !window.__CROWD_AUDIT) return;
+  var SAN=function(s){ return String(s||'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,''); };
+  var MM={}, obs=null, grid=null;
+  function destOf(el){ var m=(el.getAttribute('onclick')||'').match(/pick(?:Final)?\(this,'([^']+)'\)/); return m?m[1]:null; }
+  function songOf(el){ var c=el.cloneNode(true); var a=c.querySelector('.cyc-auditn'); if(a)a.remove(); var sd=c.querySelector('.seed'); if(sd)sd.remove(); return (c.textContent||'').trim(); }
+  function annotate(){
+    if(obs) obs.disconnect();
+    try{
+      document.querySelectorAll('.slot, .final-slot').forEach(function(el){
+        var dest=destOf(el); var old=el.querySelector('.cyc-auditn');
+        var song=dest?songOf(el):'';
+        if(!dest || !song || song==='--' || song==='---' || /Winner$/.test(song)){ if(old) old.remove(); return; }
+        var n=(MM[dest]||{})[SAN(song)]; n=(typeof n==='number')?n:0;
+        var sp=old; if(!sp){ sp=document.createElement('span'); sp.className='cyc-auditn'; sp.style.cssText='margin-left:6px;padding:0 5px;border-radius:4px;background:rgba(240,210,122,.16);color:#f0d27a;font-weight:800;font-size:.82em;letter-spacing:.02em;'; el.appendChild(sp); }
+        sp.textContent=n;
+      });
+    }catch(e){}
+    if(obs&&grid) obs.observe(grid,{subtree:true,childList:true,characterData:true});
+  }
+  function load(){ try{ if(typeof window.getCrowdTally==='function'){ window.getCrowdTally().then(function(t){ MM=(t&&t.matchups)||{}; annotate(); }).catch(annotate); return; } }catch(e){} annotate(); }
+  function init(){
+    var b=document.createElement('div'); b.id='cycAuditBadge';
+    b.textContent='\uD83D\uDD0E CROWD AUDIT — matchup vote counts (from mv_all)';
+    b.style.cssText='position:fixed;bottom:10px;left:10px;z-index:99998;background:#1a1205;color:#f0d27a;border:1px solid #f0d27a;border-radius:6px;padding:6px 12px;font:700 12px system-ui,-apple-system,sans-serif;letter-spacing:.03em;box-shadow:0 3px 14px rgba(0,0,0,.5);';
+    document.body.appendChild(b);
+    grid=document.querySelector('.master-grid')||document.body;
+    obs=new MutationObserver(function(){ clearTimeout(window.__cycAuditDeb); window.__cycAuditDeb=setTimeout(annotate,180); });
+    load();
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
 /* cyc cookie notice — notify-only, dismissible (see privacy.html) */
 (function(){
   if(window.__cycCookie) return; window.__cycCookie=1;
