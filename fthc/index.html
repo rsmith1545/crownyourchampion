@@ -4196,10 +4196,10 @@ updateProgress();
   if(!document.getElementById('cycChampCss')){
     var st=document.createElement('style'); st.id='cycChampCss';
     st.textContent='#champBanner{display:none !important;}'+
-      '#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,.86) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.66) 100%);}'+
+      '#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(6,10,18,.985) 0%, rgba(3,5,11,.99) 60%, rgba(3,5,11,.975) 100%);}'+
       '#cycCelebScrim.show{display:block;animation:cycScrimFade 5.8s ease forwards;}'+
       '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}'+
-      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(32px,6.5vw,66px);color:#fff;line-height:1.04;margin-top:12px;text-shadow:0 2px 22px rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;gap:14px;}'+
+      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(32px,6.5vw,66px);color:#fff;line-height:1.04;margin-top:34px;padding-top:6px;text-shadow:0 2px 22px rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;gap:14px;}'+
       '.celebrate-text .ct-champ img{height:.82em;width:auto;}';
     document.head.appendChild(st);
   }
@@ -4239,6 +4239,7 @@ updateProgress();
   }
   function init(){
     addMobileShare(); addHeaderChip(); showMobShare(); autoShareAfterEmail();
+    try{ showHeaderChamp(); }catch(e){}   // restore the green champion chip when a crowned bracket is reloaded (e.g. back from the quiz)
     var _cel=window.celebrate;
     window.celebrate=function(){
       try{ var n=champName(), e=document.getElementById('ctChamp'); if(e) e.innerHTML = n ? ('<img src="crown.png" alt=""> '+n+' <img src="crown.png" alt="">') : '';
