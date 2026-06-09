@@ -4519,7 +4519,7 @@ updateProgress();
         var song=dest?songOf(el):'';
         if(!dest || !song || song==='--' || song==='---' || /Winner$/.test(song)){ if(old) old.remove(); return; }
         var n=(MM[dest]||{})[SAN(song)]; n=(typeof n==='number')?n:0;
-        var sp=old; if(!sp){ sp=document.createElement('span'); sp.className='cyc-auditn'; sp.style.cssText='margin-left:6px;padding:0 5px;border-radius:4px;background:rgba(240,210,122,.16);color:#f0d27a;font-weight:800;font-size:.82em;letter-spacing:.02em;'; el.appendChild(sp); }
+        var sp=old; if(!sp){ sp=document.createElement('span'); sp.className='cyc-auditn'; sp.style.cssText='margin-left:6px;padding:0 5px;border-radius:4px;background:rgba(240,210,122,.16);color:#f0d27a;font-weight:800;font-size:.82em;letter-spacing:.02em;white-space:nowrap;display:inline-block;vertical-align:middle;'; el.appendChild(sp); }
         sp.textContent=n;
       });
     }catch(e){}
