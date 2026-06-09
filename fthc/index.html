@@ -4037,7 +4037,7 @@ updateProgress();
         var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
         img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
         img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
-        img.src='/card-bg.png?v=3';
+        img.src='/card-bg.png?v=4';
       });
     }
     if(champ && window.cycCrowdRead){ window.cycCrowdRead(champ, function(res){ go(res); }); } else go(null);
