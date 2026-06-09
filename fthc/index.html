@@ -2852,6 +2852,7 @@ function submitAndCrown() {
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
+    window.__cycPostCrownShare = true;           // arm the post-crown quiz funnel (fires when the share card closes)
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 3200); // bumped: give the celebration + crowd-% reveal a clean beat before the share prompt
 }
@@ -3995,9 +3996,9 @@ updateProgress();
 
     // bottom stack: [crowd?][concert?][challenge] anchored above the URL line
     var stack=[];
-    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.040)+'px Cinzel, Georgia, serif' });
+    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif' });
     if(layers.concert) stack.push({ text:layers.concert.text, icon:layers.concert.icon, goldText:layers.concert.goldText, color:layers.concert.color, font:'600 '+Math.round(H*0.032)+'px Cinzel, Georgia, serif' });
-    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'800 '+Math.round(H*0.038)+'px Cinzel, Georgia, serif' });
+    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'800 '+Math.round(H*0.042)+'px Cinzel, Georgia, serif' });
     var yChal=H*0.842, gap=H*0.064, n=stack.length, topY=yChal-(n-1)*gap;
 
     // hero song fits between the labels and the top of the stack
@@ -4455,6 +4456,49 @@ updateProgress();
     mb.appendChild(wrap);
   }
   if(document.readyState!=='loading') build(); else document.addEventListener('DOMContentLoaded',build);
+})();
+</script>
+<script>
+/* cycQuizFunnel — after the post-crown share card closes, invite the user to the band quiz (peak-engagement funnel),
+   then scroll back to the branded header if they decline. Self-contained; fires ONLY in the post-crown flow. */
+(function(){
+  if(window.__cycQuizFunnel) return; window.__cycQuizFunnel=1;
+  function band(){ var m=(document.title||'').match(/Champion\s*[\u2014-]\s*(.+?)\s+Madness/i); return m?m[1].trim():'the'; }
+  function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+  function ce(n){ try{ if(window.cycEvt) cycEvt(n,{band:slug()}); }catch(e){} }
+  function build(){
+    if(document.getElementById('cycQuizFunnel')) return;
+    var ov=document.createElement('div'); ov.className='modal-overlay'; ov.id='cycQuizFunnel';
+    ov.innerHTML='<div class="modal" style="text-align:center;max-width:460px;">'
+      +'<div style="font-size:48px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
+      +'<h2 style="margin:0 0 8px;">Think you\u2019re a real superfan?</h2>'
+      +'<p style="margin:0 0 20px;">Take the '+band()+' superfan quiz and find out where you rank.</p>'
+      +'<div class="modal-actions" style="justify-content:center;gap:10px;">'
+      +'<button class="btn btn-share" id="cycQuizGo">\uD83C\uDFAF Take the Quiz</button>'
+      +'<button class="btn btn-close" id="cycQuizLater">Maybe later</button>'
+      +'</div></div>';
+    document.body.appendChild(ov);
+    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); location.href='quiz.html'; };
+    document.getElementById('cycQuizLater').onclick=dismiss;
+    ov.addEventListener('click',function(e){ if(e.target===ov) dismiss(); });
+  }
+  function show(){ build(); var ov=document.getElementById('cycQuizFunnel'); if(ov){ ce('quiz_funnel_shown'); ov.classList.add('open'); } }
+  function dismiss(){ var ov=document.getElementById('cycQuizFunnel'); if(ov) ov.classList.remove('open'); setTimeout(function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } }, 120); }
+  function init(){
+    build();
+    var sm=document.getElementById('shareModal'); if(!sm) return;
+    var wasOpen=sm.classList.contains('open');
+    new MutationObserver(function(){
+      var open=sm.classList.contains('open');
+      if(wasOpen && !open && window.__cycPostCrownShare){   // the post-crown share card just closed
+        window.__cycPostCrownShare=false;
+        setTimeout(show, 350);                              // let it finish closing, then invite
+      }
+      wasOpen=open;
+    }).observe(sm,{attributes:true,attributeFilter:['class']});
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var ov=document.getElementById('cycQuizFunnel'); if(ov&&ov.classList.contains('open')) dismiss(); } });
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 <script>
