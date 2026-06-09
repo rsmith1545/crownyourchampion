@@ -483,6 +483,7 @@
             border: 2px solid var(--dmb-red);
             border-radius: 4px;
             overflow: hidden;
+            flex: 0 0 auto;
         }
         .finals-header {
             background: var(--dmb-red);
@@ -639,6 +640,10 @@
             border-radius: 4px;
             overflow: hidden;
             margin-top: 10px;
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
         }
         .lb-header {
             background: var(--dmb-gold);
@@ -649,7 +654,7 @@
             padding: 5px 10px;
             text-align: center;
         }
-        .lb-body { padding: 6px 8px; }
+        .lb-body { padding: 6px 8px; flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
         .lb-empty {
             font-size: 13px;
             color: var(--dmb-muted);
@@ -702,6 +707,9 @@
                 position: static; top: auto;
                 max-height: none; overflow-y: visible;
             }
+            .finals-card { flex: 0 0 auto; }
+            .leaderboard-card { display: block; flex: none; min-height: 0; }
+            .lb-body { overflow-y: visible; }
             .side-col { order: 2; min-width: 0; }
             .center-col { order: 3; min-width: 0; }
             .region-card { min-width: 0; }
