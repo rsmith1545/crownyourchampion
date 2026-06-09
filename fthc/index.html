@@ -1987,7 +1987,7 @@ const ALL_SONGS = [
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
 window.NAME_SEED = {};
-ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; });// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
+ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; }); window.ALL_SONGS = ALL_SONGS;// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
 // Picks winners through ALL rounds using a scoring function
 // scoreFn(songName) returns a number — higher wins
 function fillEntireBracket(scoreFn, randomTiebreak) {
@@ -3868,9 +3868,36 @@ updateProgress();
     var to=setTimeout(function(){ fin(null); }, TIMEOUT);
     fsRead().then(function(c){ clearTimeout(to); fin(compute(c,champ)); }).catch(function(e){ clearTimeout(to); console.warn('[cyc] crowd read failed', e); fin(null); });
   };
-  // legacy console helpers — no longer needed (test mode is client-side now)
-  window.cycSeedCrowd=function(){ console.log('%c[cyc] No seeding needed anymore — test mode is client-side. Open the page with ?crowdtest=1 (populated) or ?crowdtest=low (below-threshold), then crown. Remove the flag for live data.','color:#0a0;font-weight:700'); };
-  window.cycWipeCrowd=function(){ console.log('%c[cyc] Nothing to wipe — client-side test mode makes ZERO Firebase writes. Just remove ?crowdtest from the URL.','color:#0a0;font-weight:700'); };
+  // ── QA volume seeder: simulate N semi-random brackets -> real champion distribution in live ft_leaderboard ──
+  // Weighted by real Spotify streams (^2.2) so it's realistically skewed (one clear favorite, a mid cluster, a long tail).
+  window.cycSeedBrackets=async function(n){
+    n=n||1000;
+    var songs=(window.ALL_SONGS||[]); if(!songs.length){ console.warn('[cyc] ALL_SONGS not ready yet — wait for the page to finish loading.'); return; }
+    var k=2.2, cum=[], acc=0;
+    songs.forEach(function(s){ acc+=Math.pow((s.spotify||1), k); cum.push([acc, s.name]); });
+    var tot=acc;
+    function pick(){ var r=Math.random()*tot; for(var i=0;i<cum.length;i++){ if(r<=cum[i][0]) return cum[i][1]; } return cum[cum.length-1][1]; }
+    var tally={}; for(var i=0;i<n;i++){ var c=pick(); tally[c]=(tally[c]||0)+1; }
+    var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+    var keys=Object.keys(tally), ok=0;
+    for(var j=0;j<keys.length;j++){ try{ await fs.setDoc(fs.doc(db,'ft_leaderboard',keys[j]), {name:keys[j], count:tally[keys[j]], seeded:true}); ok++; }catch(e){ console.error('[cyc] write failed:', keys[j], e); } }
+    cache=null;
+    var top=Object.keys(tally).sort(function(a,b){return tally[b]-tally[a];}).slice(0,5).map(function(x){return x+' '+Math.round(tally[x]/n*100)+'%';});
+    console.log('%c[cyc] Seeded '+n+' simulated brackets -> '+ok+' champions in live ft_leaderboard. Top: '+top.join(', ')+'. Reload to QA in normal mode; run cycResetCrowd() before launch.','color:#0a0;font-weight:700');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
+    return tally;
+  };
+  // ── Reset: clear all seeded/real crown data so launch starts clean ──
+  window.cycResetCrowd=async function(){
+    var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+    var snap=await fs.getDocs(fs.collection(db,'ft_leaderboard')); var del=0, blocked=0;
+    for(const d of snap.docs){ try{ await fs.deleteDoc(d.ref); del++; }catch(e){ blocked++; } }
+    try{ await fs.deleteDoc(fs.doc(db,'leaderboard','mv_all')); }catch(e){}
+    cache=null;
+    if(blocked) console.warn('%c[cyc] Deleted '+del+' docs, but '+blocked+' were blocked by Firestore rules — finish by clearing ft_leaderboard in the Firebase console.','color:#c60;font-weight:700');
+    else console.log('%c[cyc] Reset complete — deleted '+del+' champion docs. Live crowd data is clean.','color:#0a0;font-weight:700');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
+  };
 })();
 
 </script>
