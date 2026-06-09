@@ -2104,6 +2104,7 @@ let selectedFavorites = [];
 
 function toggleModes(){ var mb=document.querySelector('.mode-bar'); if(!mb) return; mb.classList.toggle('modes-open'); var t=mb.querySelector('.mode-toggle'); if(t) t.setAttribute('aria-expanded', mb.classList.contains('modes-open')); }
 function setMode(mode) {
+    if(mode!=='manual'){ try{cycEvt('mode_selected',{mode:mode,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){} }
     // Update active button
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     const btn = document.querySelector(`.mode-${mode === 'favorites' ? 'fav' : mode}`);
@@ -2519,6 +2520,7 @@ async function searchConcertMode() {
 }
 
 function applyConcertBracket(setlist, date, venue, city) {
+    try{cycEvt('concert_used',{band:(location.pathname.split('/').filter(Boolean)[0]||'home'),venue:venue,date:date});}catch(e){}
     closeConcertModeModal();
     let concertSongs = getSetlistSongs(setlist);
     if (concertSongs.length < 8) {
@@ -3432,6 +3434,7 @@ function formatDate(rawDate) {
 
 function printConcert() {
     if (!selectedConcert) return;
+    try{cycEvt('concert_printed',{band:(location.pathname.split('/').filter(Boolean)[0]||'home'),song:currentChampSong});}catch(e){}
     // Build a full print page and open print dialog
     const name1 = document.getElementById('concertName1').value.trim().toUpperCase();
     const name2 = document.getElementById('concertName2').value.trim().toUpperCase();
@@ -3656,6 +3659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startPlayback(name, btn, url) {
+        try{cycEvt('song_preview_play',{song:name,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
         var a = getAudio();
         a.src = url;
         dbg('play() called for ' + name + ' <' + a.tagName + '>');
@@ -4283,7 +4287,7 @@ updateProgress();
   function showAndroid(){
     var b=banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add Crown Your Champion</b><span>Not a download — it pins the site like an app (works offline).</span></div><button class="ci-go" id="ciGo">Add to home</button><button class="ci-x" aria-label="Dismiss">&times;</button>');
     if(!b) return;
-    b.querySelector('#ciGo').onclick=async function(){ if(!deferred) return; deferred.prompt(); try{ await deferred.userChoice; }catch(e){} deferred=null; dismiss(); };
+    b.querySelector('#ciGo').onclick=async function(){ if(!deferred) return; deferred.prompt(); var __ch; try{ __ch=await deferred.userChoice; }catch(e){} try{cycEvt('pwa_install',{outcome:(__ch&&__ch.outcome)||'prompted'});}catch(e){} deferred=null; dismiss(); };
   }
   function showIOSSafari(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add to your Home Screen</b><span>Not a download! Tap <b style="color:#f0a500">Share</b>, then <b style="color:#f0a500">Add to Home Screen</b>.</span></div><span class="ci-arrow">&#x2935;&#xFE0F;</span><button class="ci-x" aria-label="Dismiss">&times;</button>'); }
   function showIOSChrome(){ banner('<img class="ci" src="/icon-192.png?v=3" alt=""><div class="ci-tx"><b>Add it to your Home Screen</b><span>Not a download — open this page in <b style="color:#f0a500">Safari</b> first (Apple only allows it there), then Share &rarr; Add to Home Screen.</span></div><button class="ci-x" aria-label="Dismiss">&times;</button>'); }

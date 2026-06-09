@@ -132,6 +132,7 @@
   }
 
   function begin(srcPool, name){
+    try{cycEvt('quiz_started',{mode:name,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
   }
 
@@ -167,6 +168,7 @@
   function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
 
   function result(){
+    try{cycEvt('quiz_completed',{mode:modeName,score:score,total:round.length,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     var pct=Math.round((score/round.length)*100);
     var r=rankFor(pct);
     var shareText='I scored '+score+'/'+round.length+' on the Foo Fighters Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
