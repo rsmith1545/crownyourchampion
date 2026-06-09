@@ -1901,7 +1901,7 @@
 <div class="modal-overlay" id="shareModal">
     <div class="modal">
         <h2>Share Your Bracket</h2>
-        <p>Copy your picks below and share with fellow Frank Turner fans to settle the debate.</p>
+        <p>Share your champion card below — or copy your full picks to settle the debate.</p>
         <div class="share-text" id="shareText"></div>
         <div class="modal-actions">
             <button class="btn btn-close" onclick="closeShare()">Close</button>
@@ -2552,12 +2552,14 @@ function applyConcertBracket(setlist, date, venue, city) {
         };
         fillEntireBracket(scoreFn, false);
         document.querySelector('.mode-btn.mode-concert')?.classList.add('active');
+        try{window.__cycConcert={venue:venue,date:date};}catch(e){}
         showToast(`🎵 ${venue} · ${date} — bracket filled from that night!`);
     }, 200);
 }
 
 // ─── SILENT RESET (for mode application) ─────────────────────────
 function silentReset() {
+    try{window.__cycConcert=null;}catch(e){}
     try { localStorage.removeItem('ft-madness-v1-picks'); } catch(e) {}
     // Clear all advance slots (not the first round song slots)
     ALL_IDS.forEach(id => {
@@ -2815,8 +2817,9 @@ function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
+    try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
-    setTimeout(() => openEmailModal(champ), 1700); // email capture after the celebration plays
+    setTimeout(() => openEmailModal(champ), 3200); // bumped: give the celebration + crowd-% reveal a clean beat before the share prompt
 }
 
 // Keep the sticky championship column aligned just under the sticky header zone
@@ -2983,6 +2986,23 @@ function celebrate() {
         t.classList.add('show');
         setTimeout(() => t.classList.remove("show"), 5700);
     }
+    // Addendum 3 — sequenced crowd-% reveal: lands AFTER the confetti/hero, never on the peak; threshold-guarded
+    try {
+        var __champ = ((document.getElementById('champion')||{}).innerText||'').trim();
+        if (__champ && window.cycCrowdRead) {
+            var __t0 = Date.now();
+            window.cycCrowdRead(__champ, function(res){
+                if (!res || !res.show) return;
+                var host = document.getElementById('celebrateText'); if (!host) return;
+                var sEl = document.getElementById('cycCelebStat');
+                if (!sEl) { sEl = document.createElement('div'); sEl.id='cycCelebStat'; sEl.style.cssText="margin-top:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:clamp(15px,2.5vw,23px);color:#f0d27a;opacity:0;transition:opacity .6s ease;"; host.appendChild(sEl); }
+                sEl.textContent = res.kind==='fav' ? ('\uD83D\uDC51 You\u2019re with '+res.pct+'% of fans') : ('\uD83D\uDD25 Hot take \u2014 only '+res.pct+'% of fans agree');
+                var wait = Math.max(0, 1500-(Date.now()-__t0));
+                setTimeout(function(){ sEl.style.opacity='1'; }, wait);
+                setTimeout(function(){ sEl.style.opacity='0'; }, wait+3000);
+            });
+        }
+    } catch(e) {}
 }
 
 function fireConfetti() {
@@ -3815,133 +3835,197 @@ updateProgress();
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
     <script>
-/* cycShareCard v4 — branded champion card (card-bg.png + gold overlay) + 2-action share. Robust render. Self-contained. */
+/* cycCrowd — live crowd-% read (Firebase), threshold guard, timeout, cache; + isolated seed/wipe test tools.
+   Powers the share card (B3) AND the celebration % from ONE read. Reads ft_leaderboard (champion crown counts:
+   {name,count}). Test mode (?crowdtest=1 or window.__CROWD_TEST) points reads at ft_leaderboard_test so seeded
+   data never touches the live collection. */
+(function(){
+  if(window.__cycCrowd) return; window.__cycCrowd=1;
+  var MIN_CROWNS=30;          // below this total, never show a numeric % (avoids "100% (1 of 1)")
+  var FAV=0.18;               // champion share >= 18% of all crowns => "crowd favorite", else "hot take"
+  var TIMEOUT=3000;           // never hang the card/celebration on a slow Firebase read
+  var FF='https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  var FA='https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  var cache=null;            // { champ, res, t }
+
+  function liveColl(){ try{ if(window.__CROWD_TEST || /[?&]crowdtest=1/.test(location.search)) return 'ft_leaderboard_test'; }catch(e){} return 'ft_leaderboard'; }
+  function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,''); }
+
+  async function fsRead(coll){
+    var fs=await import(FF), fa=await import(FA);
+    var db=fs.getFirestore(fa.getApp());
+    var snap=await fs.getDocs(fs.collection(db,coll));
+    var counts={}, total=0;
+    snap.forEach(function(d){ var v=d.data(); if(v&&v.name){ counts[v.name]=v.count||0; total+=(v.count||0); } });
+    return {counts:counts,total:total};
+  }
+  function myCountOf(counts, champ){
+    if(champ in counts) return counts[champ];
+    var nk=norm(champ);
+    for(var k in counts){ if(norm(k)===nk) return counts[k]; }
+    return 0;
+  }
+  // -> cb({ total, myCount, pct, kind, show })  or  cb(null) on timeout/error.  Cached ~30s per champion.
+  window.cycCrowdRead=function(champ, cb){
+    champ=(champ||'').trim();
+    if(cache && cache.champ===champ && (Date.now()-cache.t)<30000){ cb(cache.res); return; }
+    var done=false; function fin(res){ if(done) return; done=true; cache={champ:champ,res:res,t:Date.now()}; try{cb(res);}catch(e){} }
+    var to=setTimeout(function(){ fin(null); }, TIMEOUT);
+    fsRead(liveColl()).then(function(d){
+      clearTimeout(to);
+      var total=d.total||0, my=myCountOf(d.counts, champ);
+      var show=total>=MIN_CROWNS;
+      var ratio=total? my/total : 0;
+      var pct=Math.max(1, Math.round(ratio*100));
+      fin({ total:total, myCount:my, pct:pct, kind: ratio>=FAV?'fav':'hot', show:show });
+    }).catch(function(e){ clearTimeout(to); console.warn('[cyc] crowd read failed', e); fin(null); });
+  };
+
+  // ── TEST TOOLS (Addendum 2): seed ~100 skewed crowns into ft_leaderboard_test, then wipe ──
+  var TEST_COLL='ft_leaderboard_test';
+  // realistic skewed distribution (sums to 100): a dominant pick, a mid cluster, a long tail + a 1-2 crown case
+  var SEED=[ ['Photosynthesis',31], ['I Still Believe',16], ['Recovery',12], ['If Ever I Stray',9],
+             ['Try This at Home',7], ['Get Better',6], ['The Road',5], ['Four Simple Words',4],
+             ['Long Live the Queen',3], ['Polaroid Picture',2], ['Wessex Boy',2], ['Be More Kind',1],
+             ['The Next Storm',1], ['Reasons Not to Be an Idiot',1] ];
+  window.cycSeedCrowd=async function(){
+    try{
+      var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+      for(var i=0;i<SEED.length;i++){ await fs.setDoc(fs.doc(db,TEST_COLL,SEED[i][0]), {name:SEED[i][0], count:SEED[i][1], test:true}); }
+      cache=null;
+      var tot=SEED.reduce(function(s,r){return s+r[1];},0);
+      console.log('%c[cyc] SEEDED '+tot+' test crowns into '+TEST_COLL+'. Add ?crowdtest=1 to the URL (or set window.__CROWD_TEST=true) to view, then crown a bracket.','color:#0a0');
+      return tot;
+    }catch(e){ console.error('[cyc] seed failed', e); }
+  };
+  window.cycWipeCrowd=async function(){
+    try{
+      var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+      var snap=await fs.getDocs(fs.collection(db,TEST_COLL)); var n=0;
+      for(const d of snap.docs){ await fs.deleteDoc(d.ref); n++; }
+      cache=null;
+      console.log('%c[cyc] WIPED '+n+' test crowns from '+TEST_COLL+'. Live ft_leaderboard untouched.','color:#0a0');
+      return n;
+    }catch(e){ console.error('[cyc] wipe failed', e); }
+  };
+})();
+
+</script>
+<script>
+/* cycShareCard v5 — champion card with crowd-%/concert/challenge layers + async crowd read. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
-  function bandName(){
-    var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i);
-    return m ? m[1].trim() : 'Crown Your Champion';
-  }
-  function getChamp(){
-    var el=document.getElementById('champion'); if(!el) return '';
-    var v=(el.innerText||'').trim();
-    return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : '';
-  }
+  function bandName(){ var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i); return m ? m[1].trim() : 'Frank Turner'; }
+  function getChamp(){ var el=document.getElementById('champion'); if(!el) return ''; var v=(el.innerText||'').trim(); return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : ''; }
   function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
-  function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
+  function shareText(){
+    var c=getChamp(); if(!c) return 'Crown your '+bandName()+' champion 👑';
+    var base='My '+bandName()+' champion is "'+c+'" 👑';
+    var cd=window.cycCrowdData;
+    if(cd && cd.show){ base += cd.kind==='fav' ? (' — crowd favorite, '+cd.pct+'% of fans agree.') : (' — only '+cd.pct+'% of fans agree (I said what I said).'); }
+    return base + ' Think you can beat my bracket? Crown yours:';
+  }
   function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
   function isMobileShare(){ try{ return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches; }catch(e){ return false; } }
-  function downloadCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){
-      if(!b){ toast('Could not build card — try again'); return; }
-      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png';
-      document.body.appendChild(a); a.click();
-      setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500);
-      toast('Card downloaded!');
-    });
-  }
-  function copyLink(){
-    var url=siteURL();
-    try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){}
-    try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){}
-  }
+
+  // designed icon accents (graceful: drawn only if the PNG actually loads; never emoji on the card)
+  var ICON={}; ['flame','note','swords','crown'].forEach(function(k){ var im=new Image(); im.src=(k==='crown'?'/crown.png?v=3':'/v2_'+k+'_512.png'); ICON[k]=im; });
+  function ic(k){ var im=ICON[k]; return (im && im.complete && im.naturalWidth>0)? im : null; }
 
   function once(fn){ var done=false; return function(){ if(done) return; done=true; return fn.apply(this,arguments); }; }
-  function withFonts(cb){
-    cb=once(cb);
-    try{
-      if(document.fonts && document.fonts.load){
-        Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')])
-          .then(function(){ return document.fonts.ready; }).then(cb).catch(cb);
-        setTimeout(cb, 1200);
-        return;
-      }
-    }catch(e){}
-    cb();
-  }
+  function withFonts(cb){ cb=once(cb); try{ if(document.fonts && document.fonts.load){ Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')]).then(function(){ return document.fonts.ready; }).then(cb).catch(cb); setTimeout(cb, 1200); return; } }catch(e){} cb(); }
   function gold(ctx,y0,y1){ var g=ctx.createLinearGradient(0,y0,0,y1); g.addColorStop(0,'#F7E6A4'); g.addColorStop(0.42,'#F1D382'); g.addColorStop(0.72,'#C5A059'); g.addColorStop(1,'#8E6F36'); return g; }
-  function tracked(x,text,cx,cy,sp){
-    var widths=[],total=0,i;
-    for(i=0;i<text.length;i++){ var wch=x.measureText(text[i]).width; widths.push(wch); total+=wch+(i<text.length-1?sp:0); }
-    var sx=cx-total/2, prev=x.textAlign; x.textAlign='left';
-    for(i=0;i<text.length;i++){ x.fillText(text[i], sx, cy); sx+=widths[i]+sp; }
-    x.textAlign=prev;
+  function tracked(x,text,cx,cy,sp){ var w=[],tot=0,i; for(i=0;i<text.length;i++){ var c=x.measureText(text[i]).width; w.push(c); tot+=c+(i<text.length-1?sp:0); } var sx=cx-tot/2,p=x.textAlign; x.textAlign='left'; for(i=0;i<text.length;i++){ x.fillText(text[i],sx,cy); sx+=w[i]+sp; } x.textAlign=p; }
+
+  function buildLayers(crowdRes){
+    var L={crowd:null, concert:null};
+    if(crowdRes && crowdRes.show){
+      L.crowd = crowdRes.kind==='fav'
+        ? { text:'CROWD FAVORITE · '+crowdRes.pct+'% AGREE', icon:'crown', goldText:true }
+        : { text:'ONLY '+crowdRes.pct+'% OF FANS AGREE', icon:'flame', goldText:true };
+    }
+    var cc=window.__cycConcert;
+    if(cc && cc.venue){ var d=cc.date?(', '+cc.date):''; L.concert={ text:('CROWNED LIVE — '+cc.venue+d).toUpperCase(), icon:'note', color:'#d8c79a' }; }
+    return L;
   }
 
-  function paint(x,W,H){
+  function drawLine(x,W,H,line,y){
+    x.font=line.font; x.textBaseline='alphabetic';
+    var tw=x.measureText(line.text).width;
+    var icon=ic(line.icon), isz=icon?Math.round(H*0.046):0, ig=icon?Math.round(H*0.014):0;
+    var tot=tw+isz+ig, sx=W/2-tot/2;
+    if(icon){ try{ x.drawImage(icon, sx, y-isz*0.82, isz, isz); }catch(e){} }
+    x.save();
+    if(line.goldText){ x.fillStyle=gold(x, y-H*0.028, y+H*0.004); } else { x.fillStyle=line.color||'#cdb88a'; }
+    x.textAlign='left'; x.fillText(line.text, sx+isz+ig, y); x.restore(); x.textAlign='center';
+  }
+
+  function paint(x,W,H,layers){
+    layers=layers||{};
     x.textAlign='center'; x.textBaseline='alphabetic';
-    x.fillStyle=gold(x,H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
-    x.fillText(bandName(), W/2, H*0.452);
-    x.fillStyle=gold(x,H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
-    tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
-    var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
+    x.fillStyle=gold(x,H*0.355,H*0.41); x.font='600 '+Math.round(H*0.040)+'px Cinzel, Georgia, serif';
+    x.fillText(bandName(), W/2, H*0.395);
+    x.fillStyle=gold(x,H*0.448,H*0.49); x.font='700 '+Math.round(H*0.026)+'px Cinzel, Georgia, serif';
+    tracked(x,'YOUR CHAMPION', W/2, H*0.468, Math.round(H*0.010));
+
+    // bottom stack: [crowd?][concert?][challenge] anchored above the URL line
+    var stack=[];
+    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.028)+'px Cinzel, Georgia, serif' });
+    if(layers.concert) stack.push({ text:layers.concert.text, icon:layers.concert.icon, goldText:layers.concert.goldText, color:layers.concert.color, font:'600 '+Math.round(H*0.025)+'px Cinzel, Georgia, serif' });
+    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'700 '+Math.round(H*0.027)+'px Cinzel, Georgia, serif' });
+    var yChal=H*0.808, gap=H*0.058, n=stack.length, topY=yChal-(n-1)*gap;
+
+    // hero song fits between the labels and the top of the stack
+    var availTop=H*0.515, availBot=topY-H*0.052;
+    var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.135), minS=Math.round(H*0.052);
     function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
+    function wrap(){ var ws=song.split(' '),Lz=[],cur=''; for(var i=0;i<ws.length;i++){ var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){Lz.push(cur);cur=ws[i];}else cur=t; } if(cur)Lz.push(cur); return Lz; }
     setF(size);
-    function wrap(){ var ws=song.split(' '),L=[],cur=''; for(var i=0;i<ws.length;i++){var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){L.push(cur);cur=ws[i];}else cur=t;} if(cur)L.push(cur); return L; }
     while(x.measureText(song).width>maxW && size>minS){ size-=6; setF(size); }
     var lines = x.measureText(song).width>maxW ? wrap() : [song];
     if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
-    var cy=H*0.725, lh=size*1.0;
-    x.save();
-    x.fillStyle=gold(x,cy-size*0.55, cy+size*0.55);
-    x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
-    x.textBaseline='middle';
-    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
-    x.restore();
-    x.fillStyle='#9c8a5e'; x.font='500 '+Math.round(H*0.026)+'px system-ui,-apple-system,sans-serif'; x.textBaseline='alphabetic';
-    x.fillText(bandName()+' · Fan-Voted All-Time Champion', W/2, H*0.838);
-  }
-  function fallbackBg(x,W,H){
-    var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f');
-    x.fillStyle=g; x.fillRect(0,0,W,H);
-    var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m);
-    x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m);
+    var avail=availBot-availTop;
+    while(lines.length*size > avail && size>minS){ size-=6; setF(size); lines = x.measureText(song).width>maxW? wrap():[song]; }
+    var lh=size, cy=(availTop+availBot)/2;
+    x.save(); x.fillStyle=gold(x,cy-size*0.55,cy+size*0.55); x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004; x.textBaseline='middle';
+    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy+(i-(lines.length-1)/2)*lh); }
+    x.restore(); x.textBaseline='alphabetic';
+
+    for(i=0;i<n;i++){ drawLine(x,W,H, stack[i], topY+i*gap); }
+    x.fillStyle='#9c8a5e'; x.font='600 '+Math.round(H*0.024)+'px system-ui,-apple-system,sans-serif'; x.textAlign='center';
+    x.fillText(siteURL().replace(/^https?:\/\//,'').replace(/\/+$/,''), W/2, H*0.872);
   }
 
+  function fallbackBg(x,W,H){ var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f'); x.fillStyle=g; x.fillRect(0,0,W,H); var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m); x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m); }
+
+  // async: crowd read (cached, 3s timeout) -> bg load -> paint
   function drawCard(cb){
     cb=once(cb);
-    withFonts(function(){
-      var W=1600,H=845;
-      var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
-      var finish=once(function(){
-        try{ paint(x,W,H); }catch(e){}
-        try{ c.toBlob(function(b){ cb(b,c); }, 'image/png'); }catch(e){ cb(null,c); }
+    var champ=getChamp();
+    function go(crowdRes){
+      window.cycCrowdData = crowdRes || null;
+      var layers=buildLayers(crowdRes);
+      withFonts(function(){
+        var W=1600,H=845,c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+        var finish=once(function(){ try{ paint(x,W,H,layers); }catch(e){} try{ c.toBlob(function(b){ cb(b,c); },'image/png'); }catch(e){ cb(null,c); } });
+        var img=new Image();
+        var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
+        img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
+        img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
+        img.src='/card-bg.png?v=3';
       });
-      var img=new Image();
-      var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
-      img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
-      img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
-      img.src='/card-bg.png?v=3';
-    });
+    }
+    if(champ && window.cycCrowdRead){ window.cycCrowdRead(champ, function(res){ go(res); }); } else go(null);
   }
 
-  function shareOrSave(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){
-      if(!b){ toast('Could not build card — try again'); return; }
-      var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL();
-      try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){}
-      try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){}
-      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); }
-      toast('Card saved & link copied!');
-    });
-  }
+  function downloadCard(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500); toast('Card downloaded!'); }); }
+  function copyLink(){ var url=siteURL(); try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){} try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){} }
+  function shareOrSave(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL(); try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){} try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){} var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); a.remove(); if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); } toast('Card saved & link copied!'); }); }
 
-  function renderPreview(){
-    var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn');
-    if(!img) return;
-    if(!getChamp()){ img.style.display='none'; if(hint){ hint.style.display='block'; hint.textContent='Crown a champion to unlock your shareable card.'; } if(btn) btn.style.display='none'; return; }
-    if(btn) btn.style.display='block';
-    if(hint){ hint.style.display='block'; hint.textContent='Building your champion card…'; }
-    drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } });
-  }
+  function renderPreview(){ var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn'); if(!img) return; if(!getChamp()){ img.style.display='none'; if(hint){ hint.style.display='block'; hint.textContent='Crown a champion to unlock your shareable card.'; } if(btn) btn.style.display='none'; return; } if(btn) btn.style.display='block'; if(hint){ hint.style.display='block'; hint.textContent='Building your champion card…'; } drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } }); }
 
   function inject(){
     var modal=document.getElementById('shareModal'); if(!modal || document.getElementById('cycCardWrap')) return;
-    /* widen the share modal so the card shows bigger */
     try{ var box=modal.querySelector('.modal'); if(box){ box.style.maxWidth='640px'; } }catch(e){}
     if(!document.getElementById('cycCinzel')){ var l=document.createElement('link'); l.id='cycCinzel'; l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap'; document.head.appendChild(l); }
     var st = modal.querySelector('#shareText') || modal.querySelector('.share-text');
@@ -3952,22 +4036,22 @@ updateProgress();
     wrap.appendChild(btn);
     if(st && st.parentNode){
       st.parentNode.insertBefore(wrap, st);
-      var picksH=document.createElement('div'); picksH.style.cssText='color:#7c89a6;font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;margin:16px 0 7px;';
-      picksH.textContent='Or copy your full bracket picks';
+      // A1: demote the wall-of-text — collapse behind a quiet toggle (feature kept, just hidden by default)
+      st.style.display='none';
+      var picksH=document.createElement('div'); picksH.id='cycPicksToggle'; picksH.style.cssText='color:#7c89a6;font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;margin:16px 0 7px;cursor:pointer;';
+      picksH.textContent='▾ or copy full picks as text';
+      picksH.onclick=function(){ var open=st.style.display!=='none'; st.style.display=open?'none':'block'; picksH.textContent=(open?'▾':'▴')+' or copy full picks as text'; };
       st.parentNode.insertBefore(picksH, st);
     } else { modal.appendChild(wrap); }
     var cb=modal.querySelector('.btn-copy'); if(cb) cb.textContent='📋 Copy Picks';
     if(cb && !isMobileShare() && !document.getElementById('cycCopyLinkBtn')){ var clk=document.createElement('button'); clk.id='cycCopyLinkBtn'; clk.className=cb.className; clk.textContent='🔗 Copy Link'; clk.style.cssText='background:transparent;color:#cdd6e6;border:1px solid #1e3a5f;'; clk.onclick=copyLink; cb.parentNode.insertBefore(clk, cb.nextSibling); }
-    try{
-      var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); });
-      mo.observe(modal,{attributes:true,attributeFilter:['class']});
-    }catch(e){}
-    var _os=window.openShare;
-    window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
+    try{ var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); }); mo.observe(modal,{attributes:true,attributeFilter:['class']}); }catch(e){}
+    var _os=window.openShare; window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
     if(modal.classList.contains('open')) setTimeout(renderPreview,40);
   }
   if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
+
 </script>
 <script>
 /* cycTabBar v2 — mobile-only sticky region/championship tab nav. Regions first, Final Four last. Self-contained. */
