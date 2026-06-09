@@ -54,7 +54,7 @@
             const champ = {}; let count = 0; let matchups = {};
             const SEEDS = window.NAME_SEED || {};
             try {
-                const lb = await getDocs(collection(db, "leaderboard"));
+                const lb = await getDocs(collection(db, "ff_leaderboard"));
                 lb.forEach(d => {
                     if (d.id === 'mv_all') { matchups = (d.data() || {}).mv || {}; return; }
                     const v = d.data(); if (v && v.name) { champ[v.name] = v.count || 0; if (SEEDS[v.name]) count += (v.count || 0); }
@@ -100,7 +100,7 @@
                     if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
                         (m['champion'] = m['champion'] || {})[SAN(champ)] = increment(1);
                     }
-                    await setDoc(doc(db, "leaderboard", "mv_all"), { mv: m }, { merge: true });
+                    await setDoc(doc(db, "ff_leaderboard", "mv_all"), { mv: m }, { merge: true });
                 } catch(e) { console.warn("matchup tally bump failed:", e); }
                 return { success: true };
             } catch(e) {
@@ -118,20 +118,36 @@
                 const rows = [];
                 snap.forEach(d => { const v = d.data(); if (v && v.name) rows.push({ name: v.name, count: v.count || 0 }); });
                 rows.sort((a,b) => b.count - a.count);
-                const top = rows.slice(0, 8);
+                const top = rows.slice(0, 10);
                 const upsetEl = document.getElementById('biggestUpset');
                 if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; if (upsetEl) upsetEl.innerHTML = ''; return; }
                 const max = top[0].count || 1;
                 const total = rows.reduce((s,r) => s + r.count, 0) || 1;
-                body.innerHTML = top.map((r,i) => {
-                    const pct = Math.round((r.count / total) * 100);
+                const mkRow = (r, rank, pinned) => {
+                    const pct = Math.round((r.count / total) * 100) || (r.count > 0 ? 1 : 0);
                     const w = Math.max(6, Math.round((r.count / max) * 100));
                     const nm = String(r.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-                    return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span>'
-                         + '<span class="lb-name">' + nm + '</span>'
+                    const gc = pinned ? 'color:#f0d27a;' : '';
+                    return '<div class="lb-row"' + (pinned ? ' style="border-top:1px solid #2a3550;margin-top:4px;padding-top:9px;"' : '') + '>'
+                         + '<span class="lb-rank" style="' + gc + '">' + rank + '</span>'
+                         + '<span class="lb-name" style="' + gc + '">' + nm + '</span>'
                          + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
-                         + '<span class="lb-count">' + pct + '%</span></div>';
-                }).join('');
+                         + '<span class="lb-count" style="' + gc + '">' + pct + '%</span></div>';
+                };
+                let html = top.map((r,i) => mkRow(r, i+1, false)).join('');
+                // Pinned row: always show the crowner THEIR champion, even when it's outside the top 10
+                const champEl = document.getElementById('champion');
+                const myChamp = champEl ? (champEl.innerText || '').trim() : '';
+                if (myChamp && myChamp !== '\u2014' && myChamp !== '-' && myChamp !== '--') {
+                    const myIdx = rows.findIndex(r => r.name === myChamp);
+                    if (myIdx < 0 || myIdx >= 10) {
+                        const myRow = myIdx >= 0 ? rows[myIdx] : { name: myChamp, count: 0 };
+                        const rankTxt = myIdx >= 0 ? (myIdx + 1) : '\u2014';
+                        html += '<div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7c89a6;margin:9px 0 1px;text-align:center">\u2026and your pick</div>'
+                              + mkRow(myRow, rankTxt, true);
+                    }
+                }
+                body.innerHTML = html;
                 // Biggest Cinderella: the highest seed number ever crowned
                 if (upsetEl) {
                     const seeds = window.NAME_SEED || {};
@@ -186,7 +202,9 @@
         }
 
         /* Sticky zone: header + progress + auto-fill stay pinned while scrolling */
-        .sticky-top {
+        /* brand block scrolls away; only the functional bar stays pinned */
+        .header-scroll { position: relative; z-index: 90; }
+        .sticky-bar {
             position: sticky;
             top: 0;
             z-index: 100;
@@ -267,7 +285,7 @@
         .progress-bar-wrap {
             background: #000;
             border-bottom: 1px solid var(--dmb-border);
-            padding: 6px 20px;
+            padding: 4px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -452,17 +470,22 @@
         .center-col {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             position: sticky;
             top: var(--sticky-top-h, 200px);
             align-self: start;
             z-index: 40;
+            max-height: calc(100vh - var(--sticky-top-h, 200px) - 16px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
         }
         .finals-card {
             background: var(--dmb-card);
             border: 2px solid var(--dmb-red);
             border-radius: 4px;
             overflow: hidden;
+            flex: 0 0 auto;
         }
         .finals-header {
             background: var(--dmb-red);
@@ -549,8 +572,8 @@
         }
         .crown-btn {
             display: block; width: 100%; margin-top: 8px;
-            padding: 9px 14px; border: 1px dashed #3a4150; border-radius: 8px;
-            font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px;
+            padding: 13px 16px; border: 1px dashed #3a4150; border-radius: 9px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 23px; letter-spacing: 2.5px;
             background: #232833; color: #6b7283; opacity: 0.85;
             cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
         }
@@ -609,17 +632,21 @@
             border-radius: 4px;
             overflow: hidden;
             margin-top: 10px;
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
         }
         .lb-header {
             background: var(--dmb-gold);
             color: #1a1205;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             letter-spacing: 3px;
-            padding: 6px 10px;
+            padding: 5px 10px;
             text-align: center;
         }
-        .lb-body { padding: 8px; }
+        .lb-body { padding: 6px 8px; flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
         .lb-empty {
             font-size: 13px;
             color: var(--dmb-muted);
@@ -627,16 +654,16 @@
             padding: 12px 6px;
             font-style: italic;
         }
-        .lb-row { display: flex; align-items: center; gap: 6px; padding: 7px 4px; font-size: 15px; }
+        .lb-row { display: flex; align-items: center; gap: 6px; padding: 4px 4px; font-size: 14px; }
         .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 18px; text-align: right; flex: none; }
         .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 152px; }
         .lb-track { flex: 1 1 50px; height: 11px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
         .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
         .lb-count { color: var(--dmb-muted); width: 40px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
         .lb-upset {
-            margin-top: 8px; padding-top: 8px;
+            margin-top: 6px; padding-top: 6px;
             border-top: 1px dashed var(--dmb-border);
-            font-size: 14px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
+            font-size: 13px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
         }
         .lb-upset:empty { display: none; }
         .lb-upset strong { color: var(--dmb-gold); }
@@ -667,11 +694,15 @@
                 grid-template-columns: minmax(0, 1fr);
             }
             /* On phones, let everything scroll normally — sticky would eat the screen */
-            .sticky-top { position: static; }
+            .sticky-bar { position: static; }
+            .header-scroll { position: static; }
             .center-col {
                 position: static; top: auto;
                 max-height: none; overflow-y: visible;
             }
+            .finals-card { flex: 0 0 auto; }
+            .leaderboard-card { display: block; flex: none; min-height: 0; }
+            .lb-body { overflow-y: visible; }
             .side-col { order: 2; min-width: 0; }
             .center-col { order: 3; min-width: 0; }
             .region-card { min-width: 0; }
@@ -1163,10 +1194,10 @@
         .mode-bar {
             background: var(--dmb-panel);
             border-bottom: 1px solid var(--dmb-border);
-            padding: 12px 20px;
+            padding: 8px 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 7px;
             align-items: center;
         }
         .mode-label {
@@ -1488,7 +1519,7 @@
 <body>
 
 <!-- HEADER -->
-<div class="sticky-top">
+<div class="header-scroll">
 <header class="site-header">
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
@@ -1503,7 +1534,9 @@
         <button class="btn btn-signup" onclick="openHubSignup()">🔔 Sign Up</button>
     </div>
 </header>
+</div><!-- /header-scroll -->
 
+<div class="sticky-bar" id="stickyBar">
 <!-- PROGRESS -->
 <div class="progress-bar-wrap">
     <span class="progress-label">Progress</span>
@@ -1535,7 +1568,7 @@
     <button class="era-btn" onclick="selectEra('2010s')">The 2010s</button>
     <button class="era-btn" onclick="selectEra('2020s')">The 2020s</button>
 </div>
-</div><!-- /sticky-top -->
+</div><!-- /sticky-bar -->
 
 
 
@@ -1891,7 +1924,7 @@
 <div class="modal-overlay" id="shareModal">
     <div class="modal">
         <h2>Share Your Bracket</h2>
-        <p>Copy your picks below and share with fellow Foo Fighters fans to settle the debate.</p>
+        <p>Share your champion card below — or copy your full picks to settle the debate.</p>
         <div class="share-text" id="shareText"></div>
         <div class="modal-actions">
             <button class="btn btn-close" onclick="closeShare()">Close</button>
@@ -1977,7 +2010,7 @@ const ALL_SONGS = [
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
 window.NAME_SEED = {};
-ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; });// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
+ALL_SONGS.forEach(s => { window.NAME_SEED[s.name] = s.seed; }); window.ALL_SONGS = ALL_SONGS;// ─── UNIVERSAL BRACKET FILLER ─────────────────────────────────────
 // Picks winners through ALL rounds using a scoring function
 // scoreFn(songName) returns a number — higher wins
 function fillEntireBracket(scoreFn, randomTiebreak) {
@@ -2542,12 +2575,14 @@ function applyConcertBracket(setlist, date, venue, city) {
         };
         fillEntireBracket(scoreFn, false);
         document.querySelector('.mode-btn.mode-concert')?.classList.add('active');
+        try{window.__cycConcert={venue:venue,date:date};}catch(e){}
         showToast(`🎵 ${venue} · ${date} — bracket filled from that night!`);
     }, 200);
 }
 
 // ─── SILENT RESET (for mode application) ─────────────────────────
 function silentReset() {
+    try{window.__cycConcert=null;}catch(e){}
     try { localStorage.removeItem('ff-madness-v1-picks'); } catch(e) {}
     // Clear all advance slots (not the first round song slots)
     ALL_IDS.forEach(id => {
@@ -2785,6 +2820,7 @@ function showChampion(name) {
     const banner = document.getElementById('champBanner');
     document.getElementById('champBannerName').innerText = name;
     banner.classList.add('visible');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
     updateCrownButton();
     // Draw attention to the now-active Submit & Crown button
     const btn = document.getElementById('crownBtn');
@@ -2805,18 +2841,20 @@ function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
+    try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
+    window.__cycPostCrownShare = true;
     celebrate();                                 // confetti + fanfare + "We don't say goodbye, we just say this..."
-    setTimeout(() => openEmailModal(champ), 2800); // email capture after the celebration plays
+    setTimeout(() => openEmailModal(champ), 3200); // email capture after the celebration plays
 }
 
 // Keep the sticky championship column aligned just under the sticky header zone
 function setStickyTopHeight() {
-    const st = document.querySelector('.sticky-top');
+    const st = document.querySelector('.sticky-bar');
     if (st) document.documentElement.style.setProperty('--sticky-top-h', st.offsetHeight + 'px');
 }
 document.addEventListener('DOMContentLoaded', () => {
     setStickyTopHeight();
-    const st = document.querySelector('.sticky-top');
+    const st = document.querySelector('.sticky-bar');
     if (st && 'ResizeObserver' in window) new ResizeObserver(setStickyTopHeight).observe(st);
 });
 window.addEventListener('load', setStickyTopHeight);
@@ -2973,6 +3011,23 @@ function celebrate() {
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 5900);
     }
+    // Addendum 3 — sequenced crowd-% reveal: lands AFTER the confetti/hero, never on the peak; threshold-guarded
+    try {
+        var __champ = ((document.getElementById('champion')||{}).innerText||'').trim();
+        if (__champ && window.cycCrowdRead) {
+            var __t0 = Date.now();
+            window.cycCrowdRead(__champ, function(res){
+                if (!res || !res.show) return;
+                var host = document.getElementById('celebrateText'); if (!host) return;
+                var sEl = document.getElementById('cycCelebStat');
+                if (!sEl) { sEl = document.createElement('div'); sEl.id='cycCelebStat'; sEl.style.cssText="margin-top:22px;font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(26px,5vw,46px);color:#ffd866;text-shadow:0 2px 18px rgba(0,0,0,.8);opacity:0;transition:opacity .6s ease;"; host.appendChild(sEl); }
+                sEl.textContent = res.kind==='fav' ? ('\uD83D\uDC51 You\u2019re with '+res.pct+'% of fans') : ('\uD83D\uDD25 Hot take \u2014 only '+res.pct+'% of fans agree');
+                var wait = Math.max(0, 1500-(Date.now()-__t0));
+                setTimeout(function(){ sEl.style.opacity='1'; }, wait);
+                setTimeout(function(){ sEl.style.opacity='0'; }, wait+3000);
+            });
+        }
+    } catch(e) {}
 }
 
 function fireConfetti() {
@@ -3808,133 +3863,187 @@ updateProgress();
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
     <script>
-/* cycShareCard v4 — branded champion card (card-bg.png + gold overlay) + 2-action share. Robust render. Self-contained. */
+/* cycCrowd — live crowd-% read (Firebase) + threshold/timeout/cache, powering the share card (B3) and the
+   celebration %. VERIFY MODE is client-side synthetic data (no Firebase writes — Firestore rules don't allow
+   a test collection, and this is safer): ?crowdtest=1 = populated (above threshold), ?crowdtest=low = below
+   threshold (guard hides %). Remove the flag for live data. */
+(function(){
+  if(window.__cycCrowd) return; window.__cycCrowd=1;
+  var MIN_CROWNS=30;     // below this total, never show a numeric % (avoids "100% (1 of 1)")
+  var FAV=0.18;          // champion share >= 18% of all crowns => "crowd favorite", else "hot take"
+  var TIMEOUT=3000;
+  var FF='https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  var FA='https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  var cache=null;
+
+  function testMode(){ try{ var m=/[?&]crowdtest=([a-z0-9]+)/i.exec(location.search); if(m) return m[1].toLowerCase(); if(window.__CROWD_TEST) return 'high'; }catch(e){} return null; }
+  // realistic skewed synthetic distributions (verify only; never written to Firebase)
+  var SYNTH_HIGH={'Photosynthesis':31,'I Still Believe':16,'Recovery':12,'If Ever I Stray':9,'Try This at Home':7,'Get Better':6,'The Road':5,'Four Simple Words':4,'Long Live the Queen':3,'Polaroid Picture':2,'Wessex Boy':2,'Be More Kind':1,'The Next Storm':1,'Reasons Not to Be an Idiot':1};
+  var SYNTH_LOW={'Photosynthesis':3,'Recovery':2,'I Still Believe':1}; // total 6 -> below threshold
+
+  function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,''); }
+  function myCountOf(c,champ){ if(champ in c) return c[champ]; var nk=norm(champ); for(var k in c){ if(norm(k)===nk) return c[k]; } return 0; }
+  function compute(counts,champ){ var total=0; for(var k in counts) total+=counts[k]; var my=myCountOf(counts,champ); var ratio=total?my/total:0; return { total:total, myCount:my, pct:Math.max(1,Math.round(ratio*100)), kind: ratio>=FAV?'fav':'hot', show: total>=MIN_CROWNS }; }
+  async function fsRead(){ var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp()); var snap=await fs.getDocs(fs.collection(db,'ff_leaderboard')); var c={}; snap.forEach(function(d){ var v=d.data(); if(v&&v.name) c[v.name]=v.count||0; }); return c; }
+
+  // -> cb({total,myCount,pct,kind,show}) | cb(null) on timeout/error. Cached ~30s. Test mode = synthetic (sync).
+  window.cycCrowdRead=function(champ, cb){
+    champ=(champ||'').trim();
+    var tm=testMode();
+    if(tm){ try{ cb(compute(tm==='low'?SYNTH_LOW:SYNTH_HIGH, champ)); }catch(e){ cb(null); } return; }
+    if(cache && cache.champ===champ && (Date.now()-cache.t)<30000){ cb(cache.res); return; }
+    var done=false; function fin(r){ if(done) return; done=true; cache={champ:champ,res:r,t:Date.now()}; try{cb(r);}catch(e){} }
+    var to=setTimeout(function(){ fin(null); }, TIMEOUT);
+    fsRead().then(function(c){ clearTimeout(to); fin(compute(c,champ)); }).catch(function(e){ clearTimeout(to); console.warn('[cyc] crowd read failed', e); fin(null); });
+  };
+  // ── QA volume seeder: simulate N semi-random brackets -> real champion distribution in live ff_leaderboard ──
+  // Weighted by real Spotify streams (^2.2) so it's realistically skewed (one clear favorite, a mid cluster, a long tail).
+  window.cycSeedBrackets=async function(n){
+    n=n||1000;
+    var songs=(window.ALL_SONGS||[]); if(!songs.length){ console.warn('[cyc] ALL_SONGS not ready yet — wait for the page to finish loading.'); return; }
+    var k=2.2, cum=[], acc=0;
+    songs.forEach(function(s){ acc+=Math.pow((s.spotify||1), k); cum.push([acc, s.name]); });
+    var tot=acc;
+    function pick(){ var r=Math.random()*tot; for(var i=0;i<cum.length;i++){ if(r<=cum[i][0]) return cum[i][1]; } return cum[cum.length-1][1]; }
+    var tally={}; for(var i=0;i<n;i++){ var c=pick(); tally[c]=(tally[c]||0)+1; }
+    var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+    var keys=Object.keys(tally), ok=0;
+    for(var j=0;j<keys.length;j++){ try{ await fs.setDoc(fs.doc(db,'ff_leaderboard',keys[j]), {name:keys[j], count:tally[keys[j]], seeded:true}); ok++; }catch(e){ console.error('[cyc] write failed:', keys[j], e); } }
+    cache=null;
+    var top=Object.keys(tally).sort(function(a,b){return tally[b]-tally[a];}).slice(0,5).map(function(x){return x+' '+Math.round(tally[x]/n*100)+'%';});
+    console.log('%c[cyc] Seeded '+n+' simulated brackets -> '+ok+' champions in live ff_leaderboard. Top: '+top.join(', ')+'. Reload to QA in normal mode; run cycResetCrowd() before launch.','color:#0a0;font-weight:700');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
+    return tally;
+  };
+  // ── Reset: clear all seeded/real crown data so launch starts clean ──
+  window.cycResetCrowd=async function(){
+    var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
+    var snap=await fs.getDocs(fs.collection(db,'ff_leaderboard')); var del=0, blocked=0;
+    for(const d of snap.docs){ try{ await fs.deleteDoc(d.ref); del++; }catch(e){ blocked++; } }
+    try{ await fs.deleteDoc(fs.doc(db,'ff_leaderboard','mv_all')); }catch(e){}
+    cache=null;
+    if(blocked) console.warn('%c[cyc] Deleted '+del+' docs, but '+blocked+' were blocked by Firestore rules — finish by clearing ff_leaderboard in the Firebase console.','color:#c60;font-weight:700');
+    else console.log('%c[cyc] Reset complete — deleted '+del+' champion docs. Live crowd data is clean.','color:#0a0;font-weight:700');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
+  };
+})();
+
+</script>
+<script>
+/* cycShareCard v5 — champion card with crowd-%/concert/challenge layers + async crowd read. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
-  function bandName(){
-    var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i);
-    return m ? m[1].trim() : 'Crown Your Champion';
-  }
-  function getChamp(){
-    var el=document.getElementById('champion'); if(!el) return '';
-    var v=(el.innerText||'').trim();
-    return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : '';
-  }
+  function bandName(){ var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i); return m ? m[1].trim() : 'Frank Turner'; }
+  function getChamp(){ var el=document.getElementById('champion'); if(!el) return ''; var v=(el.innerText||'').trim(); return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : ''; }
   function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
-  function shareText(){ var c=getChamp(); return c ? ('My '+bandName()+' champion is "'+c+'" 👑 Crown yours:') : ('Crown your '+bandName()+' champion 👑'); }
+  function shareText(){
+    var c=getChamp(); if(!c) return 'Crown your '+bandName()+' champion 👑';
+    var base='My '+bandName()+' champion is "'+c+'" 👑';
+    var cd=window.cycCrowdData;
+    if(cd && cd.show){ base += cd.kind==='fav' ? (' — crowd favorite, '+cd.pct+'% of fans agree.') : (' — only '+cd.pct+'% of fans agree (I said what I said).'); }
+    return base + ' Think you can beat my bracket? Crown yours:';
+  }
   function toast(m){ try{ if(window.showToast) showToast(m); }catch(e){} }
   function isMobileShare(){ try{ return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches; }catch(e){ return false; } }
-  function downloadCard(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){
-      if(!b){ toast('Could not build card — try again'); return; }
-      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png';
-      document.body.appendChild(a); a.click();
-      setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500);
-      toast('Card downloaded!');
-    });
-  }
-  function copyLink(){
-    var url=siteURL();
-    try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){}
-    try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){}
-  }
+
+  // designed icon accents (graceful: drawn only if the PNG actually loads; never emoji on the card)
+  var ICON={}; ['flame','note','swords','crown'].forEach(function(k){ var im=new Image(); im.src=(k==='crown'?'/crown.png?v=3':'/v2_'+k+'_512.png'); ICON[k]=im; });
+  function ic(k){ var im=ICON[k]; return (im && im.complete && im.naturalWidth>0)? im : null; }
 
   function once(fn){ var done=false; return function(){ if(done) return; done=true; return fn.apply(this,arguments); }; }
-  function withFonts(cb){
-    cb=once(cb);
-    try{
-      if(document.fonts && document.fonts.load){
-        Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')])
-          .then(function(){ return document.fonts.ready; }).then(cb).catch(cb);
-        setTimeout(cb, 1200);
-        return;
-      }
-    }catch(e){}
-    cb();
-  }
+  function withFonts(cb){ cb=once(cb); try{ if(document.fonts && document.fonts.load){ Promise.all([document.fonts.load('400 120px "Bebas Neue"'), document.fonts.load('700 60px "Cinzel"'), document.fonts.load('600 60px "Cinzel"')]).then(function(){ return document.fonts.ready; }).then(cb).catch(cb); setTimeout(cb, 1200); return; } }catch(e){} cb(); }
   function gold(ctx,y0,y1){ var g=ctx.createLinearGradient(0,y0,0,y1); g.addColorStop(0,'#F7E6A4'); g.addColorStop(0.42,'#F1D382'); g.addColorStop(0.72,'#C5A059'); g.addColorStop(1,'#8E6F36'); return g; }
-  function tracked(x,text,cx,cy,sp){
-    var widths=[],total=0,i;
-    for(i=0;i<text.length;i++){ var wch=x.measureText(text[i]).width; widths.push(wch); total+=wch+(i<text.length-1?sp:0); }
-    var sx=cx-total/2, prev=x.textAlign; x.textAlign='left';
-    for(i=0;i<text.length;i++){ x.fillText(text[i], sx, cy); sx+=widths[i]+sp; }
-    x.textAlign=prev;
+  function tracked(x,text,cx,cy,sp){ var w=[],tot=0,i; for(i=0;i<text.length;i++){ var c=x.measureText(text[i]).width; w.push(c); tot+=c+(i<text.length-1?sp:0); } var sx=cx-tot/2,p=x.textAlign; x.textAlign='left'; for(i=0;i<text.length;i++){ x.fillText(text[i],sx,cy); sx+=w[i]+sp; } x.textAlign=p; }
+
+  function buildLayers(crowdRes){
+    var L={crowd:null, concert:null};
+    if(crowdRes && crowdRes.show){
+      L.crowd = crowdRes.kind==='fav'
+        ? { text:'CROWD FAVORITE · '+crowdRes.pct+'% AGREE', icon:'crown', goldText:true }
+        : { text:'ONLY '+crowdRes.pct+'% OF FANS AGREE', icon:'flame', goldText:true };
+    }
+    var cc=window.__cycConcert;
+    if(cc && cc.venue){ var d=cc.date?(', '+cc.date):''; L.concert={ text:('CROWNED LIVE — '+cc.venue+d).toUpperCase(), icon:'note', color:'#d8c79a' }; }
+    return L;
   }
 
-  function paint(x,W,H){
+  function drawLine(x,W,H,line,y){
+    x.font=line.font; x.textBaseline='alphabetic';
+    var tw=x.measureText(line.text).width;
+    var icon=ic(line.icon), isz=icon?Math.round(H*0.052):0, ig=icon?Math.round(H*0.016):0;
+    var tot=tw+isz+ig, sx=W/2-tot/2;
+    if(icon){ try{ x.drawImage(icon, sx, y-isz*0.80, isz, isz); }catch(e){} }
+    x.save();
+    x.shadowColor='rgba(0,0,0,0.55)'; x.shadowBlur=H*0.007; x.shadowOffsetY=H*0.003;
+    if(line.goldText){ x.fillStyle=gold(x, y-H*0.036, y+H*0.006); } else { x.fillStyle=line.color||'#d8c79a'; }
+    x.textAlign='left'; x.fillText(line.text, sx+isz+ig, y); x.restore(); x.textAlign='center';
+  }
+
+  function paint(x,W,H,layers){
+    layers=layers||{};
     x.textAlign='center'; x.textBaseline='alphabetic';
-    x.fillStyle=gold(x,H*0.40,H*0.47); x.font='600 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif';
-    x.fillText(bandName(), W/2, H*0.452);
-    x.fillStyle=gold(x,H*0.60,H*0.655); x.font='700 '+Math.round(H*0.030)+'px Cinzel, Georgia, serif';
-    tracked(x,'YOUR CHAMPION', W/2, H*0.628, Math.round(H*0.011));
-    var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.145), minS=Math.round(H*0.062);
+    x.fillStyle=gold(x,H*0.355,H*0.41); x.font='600 '+Math.round(H*0.040)+'px Cinzel, Georgia, serif';
+    x.fillText(bandName(), W/2, H*0.395);
+    x.fillStyle=gold(x,H*0.448,H*0.49); x.font='700 '+Math.round(H*0.026)+'px Cinzel, Georgia, serif';
+    tracked(x,'YOUR CHAMPION', W/2, H*0.468, Math.round(H*0.010));
+
+    // bottom stack: [crowd?][concert?][challenge] anchored above the URL line
+    var stack=[];
+    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.044)+'px Cinzel, Georgia, serif' });
+    if(layers.concert) stack.push({ text:layers.concert.text, icon:layers.concert.icon, goldText:layers.concert.goldText, color:layers.concert.color, font:'600 '+Math.round(H*0.032)+'px Cinzel, Georgia, serif' });
+    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'800 '+Math.round(H*0.042)+'px Cinzel, Georgia, serif' });
+    var yChal=H*0.842, gap=H*0.064, n=stack.length, topY=yChal-(n-1)*gap;
+
+    // hero song fits between the labels and the top of the stack
+    var availTop=H*0.515, availBot=topY-H*0.052;
+    var song=(getChamp()||'—').toUpperCase(), maxW=W*0.84, size=Math.round(H*0.135), minS=Math.round(H*0.052);
     function setF(s){ x.font='400 '+s+'px "Bebas Neue", Impact, "Arial Narrow", sans-serif'; }
+    function wrap(){ var ws=song.split(' '),Lz=[],cur=''; for(var i=0;i<ws.length;i++){ var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){Lz.push(cur);cur=ws[i];}else cur=t; } if(cur)Lz.push(cur); return Lz; }
     setF(size);
-    function wrap(){ var ws=song.split(' '),L=[],cur=''; for(var i=0;i<ws.length;i++){var t=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(t).width>maxW&&cur){L.push(cur);cur=ws[i];}else cur=t;} if(cur)L.push(cur); return L; }
     while(x.measureText(song).width>maxW && size>minS){ size-=6; setF(size); }
     var lines = x.measureText(song).width>maxW ? wrap() : [song];
     if(lines.length>2){ while(lines.length>2 && size>minS){ size-=6; setF(size); lines=wrap(); } }
-    var cy=H*0.725, lh=size*1.0;
-    x.save();
-    x.fillStyle=gold(x,cy-size*0.55, cy+size*0.55);
-    x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004;
-    x.textBaseline='middle';
-    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy + (i-(lines.length-1)/2)*lh); }
-    x.restore();
-    x.fillStyle='#9c8a5e'; x.font='500 '+Math.round(H*0.026)+'px system-ui,-apple-system,sans-serif'; x.textBaseline='alphabetic';
-    x.fillText(bandName()+' · Fan-Voted All-Time Champion', W/2, H*0.838);
-  }
-  function fallbackBg(x,W,H){
-    var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f');
-    x.fillStyle=g; x.fillRect(0,0,W,H);
-    var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m);
-    x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m);
+    var avail=availBot-availTop;
+    while(lines.length*size > avail && size>minS){ size-=6; setF(size); lines = x.measureText(song).width>maxW? wrap():[song]; }
+    var lh=size, cy=(availTop+availBot)/2;
+    x.save(); x.fillStyle=gold(x,cy-size*0.55,cy+size*0.55); x.shadowColor='rgba(0,0,0,0.45)'; x.shadowBlur=H*0.008; x.shadowOffsetY=H*0.004; x.textBaseline='middle';
+    for(var i=0;i<lines.length;i++){ x.fillText(lines[i], W/2, cy+(i-(lines.length-1)/2)*lh); }
+    x.restore(); x.textBaseline='alphabetic';
+
+    for(i=0;i<n;i++){ drawLine(x,W,H, stack[i], topY+i*gap); }
+    // (no drawn URL — card-bg.png already carries the baked-in brand URL; the /fthc deep-link rides in the share caption)
   }
 
+  function fallbackBg(x,W,H){ var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f'); x.fillStyle=g; x.fillRect(0,0,W,H); var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m); x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m); }
+
+  // async: crowd read (cached, 3s timeout) -> bg load -> paint
   function drawCard(cb){
     cb=once(cb);
-    withFonts(function(){
-      var W=1600,H=845;
-      var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
-      var finish=once(function(){
-        try{ paint(x,W,H); }catch(e){}
-        try{ c.toBlob(function(b){ cb(b,c); }, 'image/png'); }catch(e){ cb(null,c); }
+    var champ=getChamp();
+    function go(crowdRes){
+      window.cycCrowdData = crowdRes || null;
+      var layers=buildLayers(crowdRes);
+      withFonts(function(){
+        var W=1600,H=845,c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+        var finish=once(function(){ try{ paint(x,W,H,layers); }catch(e){} try{ c.toBlob(function(b){ cb(b,c); },'image/png'); }catch(e){ cb(null,c); } });
+        var img=new Image();
+        var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
+        img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
+        img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
+        img.src='/card-bg.png?v=4';
       });
-      var img=new Image();
-      var timer=setTimeout(function(){ try{ fallbackBg(x,W,H); }catch(e){} finish(); }, 2500);
-      img.onload=function(){ clearTimeout(timer); try{ x.drawImage(img,0,0,W,H); }catch(e){ try{ fallbackBg(x,W,H); }catch(_){} } finish(); };
-      img.onerror=function(){ clearTimeout(timer); try{ fallbackBg(x,W,H); }catch(e){} finish(); };
-      img.src='/card-bg.png?v=3';
-    });
+    }
+    if(champ && window.cycCrowdRead){ window.cycCrowdRead(champ, function(res){ go(res); }); } else go(null);
   }
 
-  function shareOrSave(){
-    if(!getChamp()){ toast('Crown a champion first!'); return; }
-    drawCard(function(b){
-      if(!b){ toast('Could not build card — try again'); return; }
-      var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL();
-      try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){}
-      try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){}
-      var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='my-'+bandName().toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-champion.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); }
-      toast('Card saved & link copied!');
-    });
-  }
+  function downloadCard(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500); toast('Card downloaded!'); }); }
+  function copyLink(){ var url=siteURL(); try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){} try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){} }
+  function shareOrSave(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL(); try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){} try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){} var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); a.remove(); if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); } toast('Card saved & link copied!'); }); }
 
-  function renderPreview(){
-    var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn');
-    if(!img) return;
-    if(!getChamp()){ img.style.display='none'; if(hint){ hint.style.display='block'; hint.textContent='Crown a champion to unlock your shareable card.'; } if(btn) btn.style.display='none'; return; }
-    if(btn) btn.style.display='block';
-    if(hint){ hint.style.display='block'; hint.textContent='Building your champion card…'; }
-    drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } });
-  }
+  function renderPreview(){ var img=document.getElementById('cycCardImg'), hint=document.getElementById('cycCardHint'), btn=document.getElementById('cycShareBtn'); if(!img) return; if(!getChamp()){ img.style.display='none'; if(hint){ hint.style.display='block'; hint.textContent='Crown a champion to unlock your shareable card.'; } if(btn) btn.style.display='none'; return; } if(btn) btn.style.display='block'; if(hint){ hint.style.display='block'; hint.textContent='Building your champion card…'; } drawCard(function(b,c){ if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; if(hint) hint.style.display='none'; } }); }
 
   function inject(){
     var modal=document.getElementById('shareModal'); if(!modal || document.getElementById('cycCardWrap')) return;
-    /* widen the share modal so the card shows bigger */
     try{ var box=modal.querySelector('.modal'); if(box){ box.style.maxWidth='640px'; } }catch(e){}
     if(!document.getElementById('cycCinzel')){ var l=document.createElement('link'); l.id='cycCinzel'; l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap'; document.head.appendChild(l); }
     var st = modal.querySelector('#shareText') || modal.querySelector('.share-text');
@@ -3945,22 +4054,22 @@ updateProgress();
     wrap.appendChild(btn);
     if(st && st.parentNode){
       st.parentNode.insertBefore(wrap, st);
-      var picksH=document.createElement('div'); picksH.style.cssText='color:#7c89a6;font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;margin:16px 0 7px;';
-      picksH.textContent='Or copy your full bracket picks';
+      // A1: demote the wall-of-text — collapse behind a quiet toggle (feature kept, just hidden by default)
+      st.style.display='none';
+      var picksH=document.createElement('div'); picksH.id='cycPicksToggle'; picksH.style.cssText='color:#7c89a6;font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;margin:16px 0 7px;cursor:pointer;';
+      picksH.textContent='▾ or copy full picks as text';
+      picksH.onclick=function(){ var open=st.style.display!=='none'; st.style.display=open?'none':'block'; picksH.textContent=(open?'▾':'▴')+' or copy full picks as text'; };
       st.parentNode.insertBefore(picksH, st);
     } else { modal.appendChild(wrap); }
     var cb=modal.querySelector('.btn-copy'); if(cb) cb.textContent='📋 Copy Picks';
     if(cb && !isMobileShare() && !document.getElementById('cycCopyLinkBtn')){ var clk=document.createElement('button'); clk.id='cycCopyLinkBtn'; clk.className=cb.className; clk.textContent='🔗 Copy Link'; clk.style.cssText='background:transparent;color:#cdd6e6;border:1px solid #1e3a5f;'; clk.onclick=copyLink; cb.parentNode.insertBefore(clk, cb.nextSibling); }
-    try{
-      var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); });
-      mo.observe(modal,{attributes:true,attributeFilter:['class']});
-    }catch(e){}
-    var _os=window.openShare;
-    window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
+    try{ var mo=new MutationObserver(function(){ if(modal.classList.contains('open')) setTimeout(renderPreview,30); }); mo.observe(modal,{attributes:true,attributeFilter:['class']}); }catch(e){}
+    var _os=window.openShare; window.openShare=function(){ try{ if(_os) _os.apply(this,arguments); }catch(e){} setTimeout(renderPreview,40); };
     if(modal.classList.contains('open')) setTimeout(renderPreview,40);
   }
   if(document.readyState!=='loading') inject(); else document.addEventListener('DOMContentLoaded', inject);
 })();
+
 </script>
 <script>
 /* cycTabBar v2 — mobile-only sticky region/championship tab nav. Regions first, Final Four last. Self-contained. */
@@ -4080,10 +4189,10 @@ updateProgress();
   if(!document.getElementById('cycChampCss')){
     var st=document.createElement('style'); st.id='cycChampCss';
     st.textContent='#champBanner{display:none !important;}'+
-      '#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,.86) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.66) 100%);}'+
+      '#cycCelebScrim{position:fixed;inset:0;z-index:2147483645;display:none;pointer-events:none;background:radial-gradient(ellipse at center, rgba(6,10,18,.985) 0%, rgba(3,5,11,.99) 60%, rgba(3,5,11,.975) 100%);}'+
       '#cycCelebScrim.show{display:block;animation:cycScrimFade 5.8s ease forwards;}'+
       '@keyframes cycScrimFade{0%{opacity:0}9%{opacity:1}84%{opacity:1}100%{opacity:0}}'+
-      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(32px,6.5vw,66px);color:#fff;line-height:1.04;margin-top:12px;text-shadow:0 2px 22px rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;gap:14px;}'+
+      '.celebrate-text .ct-champ{font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;font-size:clamp(32px,6.5vw,66px);color:#fff;line-height:1.04;margin-top:34px;padding-top:6px;text-shadow:0 2px 22px rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;gap:14px;}'+
       '.celebrate-text .ct-champ img{height:.82em;width:auto;}';
     document.head.appendChild(st);
   }
@@ -4123,6 +4232,7 @@ updateProgress();
   }
   function init(){
     addMobileShare(); addHeaderChip(); showMobShare(); autoShareAfterEmail();
+    try{ showHeaderChamp(); }catch(e){}   // restore the green champion chip when a crowned bracket is reloaded (e.g. back from the quiz)
     var _cel=window.celebrate;
     window.celebrate=function(){
       try{ var n=champName(), e=document.getElementById('ctChamp'); if(e) e.innerHTML = n ? ('<img src="crown.png" alt=""> '+n+' <img src="crown.png" alt="">') : '';
@@ -4340,6 +4450,86 @@ updateProgress();
     mb.appendChild(wrap);
   }
   if(document.readyState!=='loading') build(); else document.addEventListener('DOMContentLoaded',build);
+})();
+</script>
+<script>
+/* cycQuizFunnel — after the post-crown share card closes, invite the user to the band quiz (peak-engagement funnel),
+   then scroll back to the branded header if they decline. Self-contained; fires ONLY in the post-crown flow. */
+(function(){
+  if(window.__cycQuizFunnel) return; window.__cycQuizFunnel=1;
+  function band(){ var m=(document.title||'').match(/Champion\s*[\u2014-]\s*(.+?)\s+Madness/i); return m?m[1].trim():'the'; }
+  function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+  function ce(n){ try{ if(window.cycEvt) cycEvt(n,{band:slug()}); }catch(e){} }
+  function build(){
+    if(document.getElementById('cycQuizFunnel')) return;
+    var ov=document.createElement('div'); ov.className='modal-overlay'; ov.id='cycQuizFunnel';
+    ov.innerHTML='<div class="modal" style="text-align:center;max-width:460px;">'
+      +'<div style="font-size:48px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
+      +'<h2 style="margin:0 0 8px;">Think you\u2019re a real superfan?</h2>'
+      +'<p style="margin:0 0 20px;">Take the '+band()+' superfan quiz and find out where you rank.</p>'
+      +'<div class="modal-actions" style="justify-content:center;gap:10px;">'
+      +'<button class="btn btn-share" id="cycQuizGo">\uD83C\uDFAF Take the Quiz</button>'
+      +'<button class="btn btn-close" id="cycQuizLater">Maybe later</button>'
+      +'</div></div>';
+    document.body.appendChild(ov);
+    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); location.href='quiz.html'; };
+    document.getElementById('cycQuizLater').onclick=dismiss;
+    ov.addEventListener('click',function(e){ if(e.target===ov) dismiss(); });
+  }
+  function show(){ build(); var ov=document.getElementById('cycQuizFunnel'); if(ov){ ce('quiz_funnel_shown'); ov.classList.add('open'); } }
+  function dismiss(){ var ov=document.getElementById('cycQuizFunnel'); if(ov) ov.classList.remove('open'); setTimeout(function(){ try{ window.scrollTo(0,0); document.documentElement.scrollTop=0; }catch(e){} }, 140); }
+  function init(){
+    build();
+    var sm=document.getElementById('shareModal'); if(!sm) return;
+    var wasOpen=sm.classList.contains('open');
+    new MutationObserver(function(){
+      var open=sm.classList.contains('open');
+      if(wasOpen && !open && window.__cycPostCrownShare){   // the post-crown share card just closed
+        window.__cycPostCrownShare=false;
+        setTimeout(show, 350);                              // let it finish closing, then invite
+      }
+      wasOpen=open;
+    }).observe(sm,{attributes:true,attributeFilter:['class']});
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var ov=document.getElementById('cycQuizFunnel'); if(ov&&ov.classList.contains('open')) dismiss(); } });
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cycAudit — admin QA overlay (?audit=1): annotates every matchup slot with its real crowd vote count
+   from leaderboard/mv_all, so you can verify Crowd's Picks advanced the higher-voted song. Self-contained. */
+(function(){
+  if(window.__cycAudit) return; window.__cycAudit=1;
+  if(!/[?&]audit=1/.test(location.search) && !window.__CROWD_AUDIT) return;
+  var SAN=function(s){ return String(s||'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,''); };
+  var MM={}, obs=null, grid=null;
+  function destOf(el){ var m=(el.getAttribute('onclick')||'').match(/pick(?:Final)?\(this,'([^']+)'\)/); return m?m[1]:null; }
+  function songOf(el){ var c=el.cloneNode(true); var a=c.querySelector('.cyc-auditn'); if(a)a.remove(); var sd=c.querySelector('.seed'); if(sd)sd.remove(); return (c.textContent||'').trim(); }
+  function annotate(){
+    if(obs) obs.disconnect();
+    try{
+      document.querySelectorAll('.slot, .final-slot').forEach(function(el){
+        var dest=destOf(el); var old=el.querySelector('.cyc-auditn');
+        var song=dest?songOf(el):'';
+        if(!dest || !song || song==='--' || song==='---' || /Winner$/.test(song)){ if(old) old.remove(); return; }
+        var n=(MM[dest]||{})[SAN(song)]; n=(typeof n==='number')?n:0;
+        var sp=old; if(!sp){ sp=document.createElement('span'); sp.className='cyc-auditn'; sp.style.cssText='margin-left:6px;padding:0 5px;border-radius:4px;background:rgba(240,210,122,.16);color:#f0d27a;font-weight:800;font-size:.82em;letter-spacing:.02em;white-space:nowrap;display:inline-block;vertical-align:middle;'; el.appendChild(sp); }
+        sp.textContent=n;
+      });
+    }catch(e){}
+    if(obs&&grid) obs.observe(grid,{subtree:true,childList:true,characterData:true});
+  }
+  function load(){ try{ if(typeof window.getCrowdTally==='function'){ window.getCrowdTally().then(function(t){ MM=(t&&t.matchups)||{}; annotate(); }).catch(annotate); return; } }catch(e){} annotate(); }
+  function init(){
+    var b=document.createElement('div'); b.id='cycAuditBadge';
+    b.textContent='\uD83D\uDD0E CROWD AUDIT — matchup vote counts (from mv_all)';
+    b.style.cssText='position:fixed;bottom:10px;left:10px;z-index:99998;background:#1a1205;color:#f0d27a;border:1px solid #f0d27a;border-radius:6px;padding:6px 12px;font:700 12px system-ui,-apple-system,sans-serif;letter-spacing:.03em;box-shadow:0 3px 14px rgba(0,0,0,.5);';
+    document.body.appendChild(b);
+    grid=document.querySelector('.master-grid')||document.body;
+    obs=new MutationObserver(function(){ clearTimeout(window.__cycAuditDeb); window.__cycAuditDeb=setTimeout(annotate,180); });
+    load();
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 <script>
