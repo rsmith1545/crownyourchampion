@@ -4483,7 +4483,7 @@ updateProgress();
     ov.addEventListener('click',function(e){ if(e.target===ov) dismiss(); });
   }
   function show(){ build(); var ov=document.getElementById('cycQuizFunnel'); if(ov){ ce('quiz_funnel_shown'); ov.classList.add('open'); } }
-  function dismiss(){ var ov=document.getElementById('cycQuizFunnel'); if(ov) ov.classList.remove('open'); setTimeout(function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } }, 120); }
+  function dismiss(){ var ov=document.getElementById('cycQuizFunnel'); if(ov) ov.classList.remove('open'); setTimeout(function(){ try{ window.scrollTo(0,0); document.documentElement.scrollTop=0; }catch(e){} }, 140); }
   function init(){
     build();
     var sm=document.getElementById('shareModal'); if(!sm) return;
