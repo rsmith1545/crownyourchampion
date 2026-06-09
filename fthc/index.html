@@ -54,7 +54,7 @@
             const champ = {}; let count = 0; let matchups = {};
             const SEEDS = window.NAME_SEED || {};
             try {
-                const lb = await getDocs(collection(db, "leaderboard"));
+                const lb = await getDocs(collection(db, "ft_leaderboard"));
                 lb.forEach(d => {
                     if (d.id === 'mv_all') { matchups = (d.data() || {}).mv || {}; return; }
                     const v = d.data(); if (v && v.name) { champ[v.name] = v.count || 0; if (SEEDS[v.name]) count += (v.count || 0); }
@@ -100,7 +100,7 @@
                     if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
                         (m['champion'] = m['champion'] || {})[SAN(champ)] = increment(1);
                     }
-                    await setDoc(doc(db, "leaderboard", "mv_all"), { mv: m }, { merge: true });
+                    await setDoc(doc(db, "ft_leaderboard", "mv_all"), { mv: m }, { merge: true });
                 } catch(e) { console.warn("matchup tally bump failed:", e); }
                 return { success: true };
             } catch(e) {
@@ -3927,7 +3927,7 @@ updateProgress();
     var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
     var snap=await fs.getDocs(fs.collection(db,'ft_leaderboard')); var del=0, blocked=0;
     for(const d of snap.docs){ try{ await fs.deleteDoc(d.ref); del++; }catch(e){ blocked++; } }
-    try{ await fs.deleteDoc(fs.doc(db,'leaderboard','mv_all')); }catch(e){}
+    try{ await fs.deleteDoc(fs.doc(db,'ft_leaderboard','mv_all')); }catch(e){}
     cache=null;
     if(blocked) console.warn('%c[cyc] Deleted '+del+' docs, but '+blocked+' were blocked by Firestore rules — finish by clearing ft_leaderboard in the Firebase console.','color:#c60;font-weight:700');
     else console.log('%c[cyc] Reset complete — deleted '+del+' champion docs. Live crowd data is clean.','color:#0a0;font-weight:700');
