@@ -130,7 +130,7 @@
                     const gc = pinned ? 'color:#f0d27a;' : '';
                     return '<div class="lb-row"' + (pinned ? ' style="border-top:1px solid #2a3550;margin-top:4px;padding-top:9px;"' : '') + '>'
                          + '<span class="lb-rank" style="' + gc + '">' + rank + '</span>'
-                         + '<span class="lb-name" style="' + gc + '">' + nm + (pinned ? ' <em style="font-style:normal;opacity:.75">\u00b7 your pick</em>' : '') + '</span>'
+                         + '<span class="lb-name" style="' + gc + '">' + nm + '</span>'
                          + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
                          + '<span class="lb-count" style="' + gc + '">' + pct + '%</span></div>';
                 };
@@ -468,11 +468,15 @@
         .center-col {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             position: sticky;
             top: var(--sticky-top-h, 200px);
             align-self: start;
             z-index: 40;
+            max-height: calc(100vh - var(--sticky-top-h, 200px) - 16px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
         }
         .finals-card {
             background: var(--dmb-card);
@@ -564,9 +568,9 @@
             letter-spacing: 1px; margin: 4px 0;
         }
         .crown-btn {
-            display: block; width: 100%; margin-top: 10px;
-            padding: 20px 18px; border: 1px dashed #3a4150; border-radius: 11px;
-            font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px;
+            display: block; width: 100%; margin-top: 8px;
+            padding: 13px 16px; border: 1px dashed #3a4150; border-radius: 9px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 23px; letter-spacing: 2.5px;
             background: #232833; color: #6b7283; opacity: 0.85;
             cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
         }
@@ -640,12 +644,12 @@
             background: var(--dmb-gold);
             color: #1a1205;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             letter-spacing: 3px;
-            padding: 6px 10px;
+            padding: 5px 10px;
             text-align: center;
         }
-        .lb-body { padding: 8px; }
+        .lb-body { padding: 6px 8px; }
         .lb-empty {
             font-size: 13px;
             color: var(--dmb-muted);
@@ -653,16 +657,16 @@
             padding: 12px 6px;
             font-style: italic;
         }
-        .lb-row { display: flex; align-items: center; gap: 6px; padding: 7px 4px; font-size: 15px; }
+        .lb-row { display: flex; align-items: center; gap: 6px; padding: 4px 4px; font-size: 14px; }
         .lb-rank { color: var(--dmb-gold); font-weight: 700; width: 18px; text-align: right; flex: none; }
         .lb-name { color: var(--dmb-text); font-weight: 700; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 152px; }
         .lb-track { flex: 1 1 50px; height: 11px; background: var(--dmb-panel); border-radius: 4px; overflow: hidden; }
         .lb-bar { display: block; height: 100%; background: linear-gradient(90deg, var(--dmb-blue), var(--dmb-gold)); border-radius: 4px; }
         .lb-count { color: var(--dmb-muted); width: 40px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
         .lb-upset {
-            margin-top: 8px; padding-top: 8px;
+            margin-top: 6px; padding-top: 6px;
             border-top: 1px dashed var(--dmb-border);
-            font-size: 14px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
+            font-size: 13px; color: var(--dmb-muted); text-align: center; line-height: 1.5;
         }
         .lb-upset:empty { display: none; }
         .lb-upset strong { color: var(--dmb-gold); }
