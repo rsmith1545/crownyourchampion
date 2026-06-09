@@ -326,6 +326,7 @@
 })();
 </script>
 
+
 <script>
 /* cycQuizShare — quiz RESULT card (recreates the on-screen results UI at card res) + platform-aware share */
 (function(){
@@ -393,7 +394,7 @@
       drawCard(d,function(b){
         try{ if(b&&navigator.canShare){ var f=new File([b],'quiz-result.png',{type:'image/png'}); if(navigator.canShare({files:[f]})){ navigator.share({files:[f],text:d.challenge,url:d.url}).catch(function(){}); return; } } }catch(e){}
         try{ if(navigator.share){ navigator.share({title:d.title,text:d.challenge,url:d.url}).catch(function(){}); return; } }catch(e){}
-        copyText(d.challenge+' '+d.url,'Copied — paste it anywhere!');
+        copyText(d.challenge,'Copied — paste it anywhere!');
       });
       return;
     }
@@ -402,7 +403,7 @@
     var blob=null;
     drawCard(d,function(b,c){ blob=b; if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; hint.style.display='none'; } });
     m.querySelector('#cycQDl').onclick=function(){ if(!blob){ toast('Card still rendering — one sec'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quiz-result.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1500); toast('Card downloaded!'); };
-    m.querySelector('#cycQCopy').onclick=function(){ copyText(d.challenge+' '+d.url,'Challenge copied!'); };
+    m.querySelector('#cycQCopy').onclick=function(){ copyText(d.challenge,'Challenge copied!'); };
     m.querySelector('#cycQLink').onclick=function(){ copyText(d.url,'Link copied!'); };
   };
 })();

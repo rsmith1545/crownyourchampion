@@ -187,8 +187,10 @@
       '</div>';
     document.getElementById('againBtn').onclick=startScreen;
     document.getElementById('shareBtn').onclick=function(){
-      if(navigator.share){ navigator.share({title:'Chili Peppers Superfan Quiz', text:shareText, url:url}).catch(function(){}); return; }
-      try{ navigator.clipboard.writeText(shareText+' '+url); toast('Copied — paste it anywhere!'); }catch(e){ toast(shareText); }
+      var band=(document.title.split(' Superfan Quiz')[0]||'').trim();
+      var challenge='I got '+r.name+' '+r.icon+' — '+score+'/'+round.length+' — on the '+band+' Superfan Quiz. Beat me: '+url;
+      if(window.cycQuizShare){ window.cycQuizShare({band:band,rankName:r.name,icon:r.icon,blurb:r.blurb,score:score,total:round.length,mode:modeName,title:band+' Superfan Quiz',url:url,challenge:challenge}); return; }
+      try{ navigator.clipboard.writeText(challenge); toast('Copied!'); }catch(e){}
     };
   }
 
@@ -211,6 +213,87 @@
     bar.appendChild(ok); document.body.appendChild(bar);
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cycQuizShare — quiz RESULT card (recreates the on-screen results UI at card res) + platform-aware share */
+(function(){
+  if(window.__cycQuizShare) return; window.__cycQuizShare=1;
+  function once(fn){ var d=false; return function(){ if(d) return; d=true; return fn.apply(this,arguments); }; }
+  function isMobileShare(){ try{ return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches; }catch(e){ return false; } }
+  function toast(m){ try{ var t=document.getElementById('cycQT'); if(!t){ t=document.createElement('div'); t.id='cycQT'; t.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1a2332;color:#fff;border:1px solid #f0a500;border-radius:8px;padding:10px 18px;font-family:Barlow,sans-serif;font-size:14px;z-index:100000;opacity:0;transition:opacity .2s;'; document.body.appendChild(t); } t.textContent=m; t.style.opacity='1'; clearTimeout(t._h); t._h=setTimeout(function(){ t.style.opacity='0'; },2200); }catch(e){} }
+  function copyText(t,msg){ try{ if(navigator.clipboard){ navigator.clipboard.writeText(t); toast(msg); return; } }catch(e){} try{ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast(msg); }catch(e){} }
+  function withFonts(cb){ cb=once(cb); try{ if(document.fonts&&document.fonts.load){ Promise.all([document.fonts.load('400 120px "Bebas Neue"'),document.fonts.load('700 50px "Barlow Condensed"'),document.fonts.load('400 30px "Barlow"')]).then(function(){ return document.fonts.ready; }).then(cb).catch(cb); setTimeout(cb,1200); return; } }catch(e){} cb(); }
+  function rr(x,a,b,w,h,r){ x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath(); }
+  function trk(x,t,cx,cy,sp){ var w=[],tot=0,i; for(i=0;i<t.length;i++){ var c=x.measureText(t[i]).width; w.push(c); tot+=c+(i<t.length-1?sp:0); } var sx=cx-tot/2,p=x.textAlign; x.textAlign='left'; for(i=0;i<t.length;i++){ x.fillText(t[i],sx,cy); sx+=w[i]+sp; } x.textAlign=p; }
+  function paint(x,W,H,d,logo){
+    x.fillStyle='#0a0a0f'; x.fillRect(0,0,W,H);
+    var g1=x.createRadialGradient(W*0.5,-H*0.05,0,W*0.5,-H*0.05,W*1.05); g1.addColorStop(0,'rgba(0,63,136,0.40)'); g1.addColorStop(0.6,'rgba(0,63,136,0)'); x.fillStyle=g1; x.fillRect(0,0,W,H);
+    var g2=x.createRadialGradient(W*0.92,H*1.04,0,W*0.92,H*1.04,W*0.85); g2.addColorStop(0,'rgba(240,165,0,0.13)'); g2.addColorStop(0.6,'rgba(240,165,0,0)'); x.fillStyle=g2; x.fillRect(0,0,W,H);
+    x.textAlign='center'; x.textBaseline='alphabetic';
+    if(logo){ var lw=W*0.56, lh=lw*(logo.naturalHeight/logo.naturalWidth); x.drawImage(logo,(W-lw)/2,H*0.065,lw,lh); }
+    x.fillStyle='#f0a500'; x.font='400 '+Math.round(H*0.037)+'px "Bebas Neue",sans-serif';
+    trk(x,(d.band+' SUPERFAN QUIZ').toUpperCase(), W/2, H*0.275, Math.round(H*0.004));
+    var px=W*0.085,pw=W-2*px,py=H*0.315,ph=H*0.55;
+    rr(x,px,py,pw,ph,30); x.fillStyle='rgba(17,21,33,0.94)'; x.fill(); x.lineWidth=2; x.strokeStyle='#26304a'; x.stroke();
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.017)+'px "Barlow Condensed",sans-serif';
+    trk(x,'YOUR RANK', W/2, py+ph*0.105, Math.round(H*0.006));
+    x.font=Math.round(H*0.10)+'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    x.fillText(d.icon||'🎧', W/2, py+ph*0.31);
+    var rank=(d.rankName||'').toUpperCase(), maxW=pw*0.86, size=Math.round(H*0.10), minS=Math.round(H*0.05);
+    function sf(s){ x.font='400 '+s+'px "Bebas Neue",Impact,sans-serif'; }
+    sf(size); while(x.measureText(rank).width>maxW&&size>minS){ size-=4; sf(size); }
+    x.fillStyle='#ffffff'; x.fillText(rank, W/2, py+ph*0.49);
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.029)+'px "Barlow Condensed",sans-serif';
+    trk(x, d.score+' / '+d.total+' CORRECT', W/2, py+ph*0.62, Math.round(H*0.004));
+    x.fillStyle='#9aa6bf'; x.font='400 '+Math.round(H*0.022)+'px "Barlow",sans-serif';
+    var ws=(d.blurb||'').split(' '),ln='',L=[],fw=pw*0.84;
+    for(var i=0;i<ws.length;i++){ var t=ln?ln+' '+ws[i]:ws[i]; if(x.measureText(t).width>fw&&ln){ L.push(ln); ln=ws[i]; } else ln=t; }
+    if(ln)L.push(ln); L=L.slice(0,3);
+    for(var j=0;j<L.length;j++){ x.fillText(L[j], W/2, py+ph*0.74+j*H*0.030); }
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.019)+'px "Barlow Condensed",sans-serif';
+    trk(x,'CROWNYOURCHAMPION.COM', W/2, py+ph+H*0.058, Math.round(H*0.004));
+  }
+  function drawCard(d, cb){
+    cb=once(cb);
+    withFonts(function(){
+      var W=1080,H=1350, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+      var logo=new Image();
+      var finish=once(function(){ try{ paint(x,W,H,d,(logo.complete&&logo.naturalWidth)?logo:null); }catch(e){} try{ c.toBlob(function(b){ cb(b,c); },'image/png'); }catch(e){ cb(null,c); } });
+      var t=setTimeout(finish,2600);
+      logo.onload=function(){ clearTimeout(t); finish(); };
+      logo.onerror=function(){ clearTimeout(t); finish(); };
+      logo.src='/cyc-logo.png?v=3';
+    });
+  }
+  function buildModal(){
+    if(document.getElementById('cycQM')) return document.getElementById('cycQM');
+    var css=document.createElement('style'); css.textContent='#cycQM{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;}#cycQM.open{display:flex;}#cycQM .box{background:#141a28;border:1px solid #2a3550;border-top:4px solid #f0a500;border-radius:10px;max-width:430px;width:100%;padding:20px;text-align:center;position:relative;font-family:Barlow,sans-serif;box-sizing:border-box;max-height:94vh;overflow:auto;}#cycQM .x{position:absolute;top:6px;right:12px;background:none;border:none;color:#8c9ab9;font-size:26px;cursor:pointer;line-height:1;}#cycQM .t{font-family:"Bebas Neue",sans-serif;font-size:22px;letter-spacing:2px;color:#f0a500;margin-bottom:10px;}#cycQM img{width:78%;border-radius:8px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);}#cycQM .hint{color:#7c89a6;font-size:13px;margin:8px 0 12px;}#cycQM button.act{display:block;width:100%;font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;border-radius:8px;padding:12px;margin-top:8px;cursor:pointer;border:none;box-sizing:border-box;}#cycQM .prim{background:#f0a500;color:#10131a;}#cycQM .sec{background:transparent;color:#cdd6e6;border:1px solid #2a3550;}';
+    document.head.appendChild(css);
+    var m=document.createElement('div'); m.id='cycQM';
+    m.innerHTML='<div class="box"><button class="x" aria-label="Close">×</button><div class="t">SHARE YOUR RANK</div><img id="cycQImg" alt="Your quiz result card"><div class="hint" id="cycQHint">Building your result card…</div><button class="act prim" id="cycQDl">📥 Download Result Card</button><button class="act sec" id="cycQCopy">📋 Copy Challenge Text</button><button class="act sec" id="cycQLink">🔗 Copy Link</button></div>';
+    document.body.appendChild(m);
+    m.querySelector('.x').onclick=function(){ m.classList.remove('open'); };
+    m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('open'); });
+    return m;
+  }
+  window.cycQuizShare=function(d){
+    if(isMobileShare()){
+      drawCard(d,function(b){
+        try{ if(b&&navigator.canShare){ var f=new File([b],'quiz-result.png',{type:'image/png'}); if(navigator.canShare({files:[f]})){ navigator.share({files:[f],text:d.challenge,url:d.url}).catch(function(){}); return; } } }catch(e){}
+        try{ if(navigator.share){ navigator.share({title:d.title,text:d.challenge,url:d.url}).catch(function(){}); return; } }catch(e){}
+        copyText(d.challenge,'Copied — paste it anywhere!');
+      });
+      return;
+    }
+    var m=buildModal(); m.classList.add('open');
+    var img=m.querySelector('#cycQImg'), hint=m.querySelector('#cycQHint'); img.style.display='none'; hint.style.display='block'; hint.textContent='Building your result card…';
+    var blob=null;
+    drawCard(d,function(b,c){ blob=b; if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; hint.style.display='none'; } });
+    m.querySelector('#cycQDl').onclick=function(){ if(!blob){ toast('Card still rendering — one sec'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quiz-result.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1500); toast('Card downloaded!'); };
+    m.querySelector('#cycQCopy').onclick=function(){ copyText(d.challenge,'Challenge copied!'); };
+    m.querySelector('#cycQLink').onclick=function(){ copyText(d.url,'Link copied!'); };
+  };
 })();
 </script>
 </body>
