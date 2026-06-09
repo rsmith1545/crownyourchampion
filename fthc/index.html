@@ -3835,79 +3835,42 @@ updateProgress();
 </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "150f390515b94882a362edd0cdaf23b9"}'></script>
     <script>
-/* cycCrowd — live crowd-% read (Firebase), threshold guard, timeout, cache; + isolated seed/wipe test tools.
-   Powers the share card (B3) AND the celebration % from ONE read. Reads ft_leaderboard (champion crown counts:
-   {name,count}). Test mode (?crowdtest=1 or window.__CROWD_TEST) points reads at ft_leaderboard_test so seeded
-   data never touches the live collection. */
+/* cycCrowd — live crowd-% read (Firebase) + threshold/timeout/cache, powering the share card (B3) and the
+   celebration %. VERIFY MODE is client-side synthetic data (no Firebase writes — Firestore rules don't allow
+   a test collection, and this is safer): ?crowdtest=1 = populated (above threshold), ?crowdtest=low = below
+   threshold (guard hides %). Remove the flag for live data. */
 (function(){
   if(window.__cycCrowd) return; window.__cycCrowd=1;
-  var MIN_CROWNS=30;          // below this total, never show a numeric % (avoids "100% (1 of 1)")
-  var FAV=0.18;               // champion share >= 18% of all crowns => "crowd favorite", else "hot take"
-  var TIMEOUT=3000;           // never hang the card/celebration on a slow Firebase read
+  var MIN_CROWNS=30;     // below this total, never show a numeric % (avoids "100% (1 of 1)")
+  var FAV=0.18;          // champion share >= 18% of all crowns => "crowd favorite", else "hot take"
+  var TIMEOUT=3000;
   var FF='https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
   var FA='https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  var cache=null;            // { champ, res, t }
+  var cache=null;
 
-  function liveColl(){ try{ if(window.__CROWD_TEST || /[?&]crowdtest=1/.test(location.search)) return 'ft_leaderboard_test'; }catch(e){} return 'ft_leaderboard'; }
+  function testMode(){ try{ var m=/[?&]crowdtest=([a-z0-9]+)/i.exec(location.search); if(m) return m[1].toLowerCase(); if(window.__CROWD_TEST) return 'high'; }catch(e){} return null; }
+  // realistic skewed synthetic distributions (verify only; never written to Firebase)
+  var SYNTH_HIGH={'Photosynthesis':31,'I Still Believe':16,'Recovery':12,'If Ever I Stray':9,'Try This at Home':7,'Get Better':6,'The Road':5,'Four Simple Words':4,'Long Live the Queen':3,'Polaroid Picture':2,'Wessex Boy':2,'Be More Kind':1,'The Next Storm':1,'Reasons Not to Be an Idiot':1};
+  var SYNTH_LOW={'Photosynthesis':3,'Recovery':2,'I Still Believe':1}; // total 6 -> below threshold
+
   function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,''); }
+  function myCountOf(c,champ){ if(champ in c) return c[champ]; var nk=norm(champ); for(var k in c){ if(norm(k)===nk) return c[k]; } return 0; }
+  function compute(counts,champ){ var total=0; for(var k in counts) total+=counts[k]; var my=myCountOf(counts,champ); var ratio=total?my/total:0; return { total:total, myCount:my, pct:Math.max(1,Math.round(ratio*100)), kind: ratio>=FAV?'fav':'hot', show: total>=MIN_CROWNS }; }
+  async function fsRead(){ var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp()); var snap=await fs.getDocs(fs.collection(db,'ft_leaderboard')); var c={}; snap.forEach(function(d){ var v=d.data(); if(v&&v.name) c[v.name]=v.count||0; }); return c; }
 
-  async function fsRead(coll){
-    var fs=await import(FF), fa=await import(FA);
-    var db=fs.getFirestore(fa.getApp());
-    var snap=await fs.getDocs(fs.collection(db,coll));
-    var counts={}, total=0;
-    snap.forEach(function(d){ var v=d.data(); if(v&&v.name){ counts[v.name]=v.count||0; total+=(v.count||0); } });
-    return {counts:counts,total:total};
-  }
-  function myCountOf(counts, champ){
-    if(champ in counts) return counts[champ];
-    var nk=norm(champ);
-    for(var k in counts){ if(norm(k)===nk) return counts[k]; }
-    return 0;
-  }
-  // -> cb({ total, myCount, pct, kind, show })  or  cb(null) on timeout/error.  Cached ~30s per champion.
+  // -> cb({total,myCount,pct,kind,show}) | cb(null) on timeout/error. Cached ~30s. Test mode = synthetic (sync).
   window.cycCrowdRead=function(champ, cb){
     champ=(champ||'').trim();
+    var tm=testMode();
+    if(tm){ try{ cb(compute(tm==='low'?SYNTH_LOW:SYNTH_HIGH, champ)); }catch(e){ cb(null); } return; }
     if(cache && cache.champ===champ && (Date.now()-cache.t)<30000){ cb(cache.res); return; }
-    var done=false; function fin(res){ if(done) return; done=true; cache={champ:champ,res:res,t:Date.now()}; try{cb(res);}catch(e){} }
+    var done=false; function fin(r){ if(done) return; done=true; cache={champ:champ,res:r,t:Date.now()}; try{cb(r);}catch(e){} }
     var to=setTimeout(function(){ fin(null); }, TIMEOUT);
-    fsRead(liveColl()).then(function(d){
-      clearTimeout(to);
-      var total=d.total||0, my=myCountOf(d.counts, champ);
-      var show=total>=MIN_CROWNS;
-      var ratio=total? my/total : 0;
-      var pct=Math.max(1, Math.round(ratio*100));
-      fin({ total:total, myCount:my, pct:pct, kind: ratio>=FAV?'fav':'hot', show:show });
-    }).catch(function(e){ clearTimeout(to); console.warn('[cyc] crowd read failed', e); fin(null); });
+    fsRead().then(function(c){ clearTimeout(to); fin(compute(c,champ)); }).catch(function(e){ clearTimeout(to); console.warn('[cyc] crowd read failed', e); fin(null); });
   };
-
-  // ── TEST TOOLS (Addendum 2): seed ~100 skewed crowns into ft_leaderboard_test, then wipe ──
-  var TEST_COLL='ft_leaderboard_test';
-  // realistic skewed distribution (sums to 100): a dominant pick, a mid cluster, a long tail + a 1-2 crown case
-  var SEED=[ ['Photosynthesis',31], ['I Still Believe',16], ['Recovery',12], ['If Ever I Stray',9],
-             ['Try This at Home',7], ['Get Better',6], ['The Road',5], ['Four Simple Words',4],
-             ['Long Live the Queen',3], ['Polaroid Picture',2], ['Wessex Boy',2], ['Be More Kind',1],
-             ['The Next Storm',1], ['Reasons Not to Be an Idiot',1] ];
-  window.cycSeedCrowd=async function(){
-    try{
-      var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
-      for(var i=0;i<SEED.length;i++){ await fs.setDoc(fs.doc(db,TEST_COLL,SEED[i][0]), {name:SEED[i][0], count:SEED[i][1], test:true}); }
-      cache=null;
-      var tot=SEED.reduce(function(s,r){return s+r[1];},0);
-      console.log('%c[cyc] SEEDED '+tot+' test crowns into '+TEST_COLL+'. Add ?crowdtest=1 to the URL (or set window.__CROWD_TEST=true) to view, then crown a bracket.','color:#0a0');
-      return tot;
-    }catch(e){ console.error('[cyc] seed failed', e); }
-  };
-  window.cycWipeCrowd=async function(){
-    try{
-      var fs=await import(FF), fa=await import(FA); var db=fs.getFirestore(fa.getApp());
-      var snap=await fs.getDocs(fs.collection(db,TEST_COLL)); var n=0;
-      for(const d of snap.docs){ await fs.deleteDoc(d.ref); n++; }
-      cache=null;
-      console.log('%c[cyc] WIPED '+n+' test crowns from '+TEST_COLL+'. Live ft_leaderboard untouched.','color:#0a0');
-      return n;
-    }catch(e){ console.error('[cyc] wipe failed', e); }
-  };
+  // legacy console helpers — no longer needed (test mode is client-side now)
+  window.cycSeedCrowd=function(){ console.log('%c[cyc] No seeding needed anymore — test mode is client-side. Open the page with ?crowdtest=1 (populated) or ?crowdtest=low (below-threshold), then crown. Remove the flag for live data.','color:#0a0;font-weight:700'); };
+  window.cycWipeCrowd=function(){ console.log('%c[cyc] Nothing to wipe — client-side test mode makes ZERO Firebase writes. Just remove ?crowdtest from the URL.','color:#0a0;font-weight:700'); };
 })();
 
 </script>
