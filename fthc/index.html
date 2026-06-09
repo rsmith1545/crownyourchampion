@@ -118,20 +118,36 @@
                 const rows = [];
                 snap.forEach(d => { const v = d.data(); if (v && v.name) rows.push({ name: v.name, count: v.count || 0 }); });
                 rows.sort((a,b) => b.count - a.count);
-                const top = rows.slice(0, 8);
+                const top = rows.slice(0, 10);
                 const upsetEl = document.getElementById('biggestUpset');
                 if (!top.length) { body.innerHTML = '<div class="lb-empty">Be the first to crown a champion!</div>'; if (upsetEl) upsetEl.innerHTML = ''; return; }
                 const max = top[0].count || 1;
                 const total = rows.reduce((s,r) => s + r.count, 0) || 1;
-                body.innerHTML = top.map((r,i) => {
-                    const pct = Math.round((r.count / total) * 100);
+                const mkRow = (r, rank, pinned) => {
+                    const pct = Math.round((r.count / total) * 100) || (r.count > 0 ? 1 : 0);
                     const w = Math.max(6, Math.round((r.count / max) * 100));
                     const nm = String(r.name).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-                    return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span>'
-                         + '<span class="lb-name">' + nm + '</span>'
+                    const gc = pinned ? 'color:#f0d27a;' : '';
+                    return '<div class="lb-row"' + (pinned ? ' style="border-top:1px solid #2a3550;margin-top:4px;padding-top:9px;"' : '') + '>'
+                         + '<span class="lb-rank" style="' + gc + '">' + rank + '</span>'
+                         + '<span class="lb-name" style="' + gc + '">' + nm + (pinned ? ' <em style="font-style:normal;opacity:.75">\u00b7 your pick</em>' : '') + '</span>'
                          + '<span class="lb-track"><span class="lb-bar" style="width:' + w + '%"></span></span>'
-                         + '<span class="lb-count">' + pct + '%</span></div>';
-                }).join('');
+                         + '<span class="lb-count" style="' + gc + '">' + pct + '%</span></div>';
+                };
+                let html = top.map((r,i) => mkRow(r, i+1, false)).join('');
+                // Pinned row: always show the crowner THEIR champion, even when it's outside the top 10
+                const champEl = document.getElementById('champion');
+                const myChamp = champEl ? (champEl.innerText || '').trim() : '';
+                if (myChamp && myChamp !== '\u2014' && myChamp !== '-' && myChamp !== '--') {
+                    const myIdx = rows.findIndex(r => r.name === myChamp);
+                    if (myIdx < 0 || myIdx >= 10) {
+                        const myRow = myIdx >= 0 ? rows[myIdx] : { name: myChamp, count: 0 };
+                        const rankTxt = myIdx >= 0 ? (myIdx + 1) : '\u2014';
+                        html += '<div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7c89a6;margin:9px 0 1px;text-align:center">\u2026and your pick</div>'
+                              + mkRow(myRow, rankTxt, true);
+                    }
+                }
+                body.innerHTML = html;
                 // Biggest Cinderella: the highest seed number ever crowned
                 if (upsetEl) {
                     const seeds = window.NAME_SEED || {};
@@ -548,9 +564,9 @@
             letter-spacing: 1px; margin: 4px 0;
         }
         .crown-btn {
-            display: block; width: 100%; margin-top: 8px;
-            padding: 9px 14px; border: 1px dashed #3a4150; border-radius: 8px;
-            font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px;
+            display: block; width: 100%; margin-top: 10px;
+            padding: 20px 18px; border: 1px dashed #3a4150; border-radius: 11px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px;
             background: #232833; color: #6b7283; opacity: 0.85;
             cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
         }
@@ -2797,6 +2813,7 @@ function showChampion(name) {
     const banner = document.getElementById('champBanner');
     document.getElementById('champBannerName').innerText = name;
     banner.classList.add('visible');
+    try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){}
     updateCrownButton();
     // Draw attention to the now-active Submit & Crown button
     const btn = document.getElementById('crownBtn');
@@ -2995,7 +3012,7 @@ function celebrate() {
                 if (!res || !res.show) return;
                 var host = document.getElementById('celebrateText'); if (!host) return;
                 var sEl = document.getElementById('cycCelebStat');
-                if (!sEl) { sEl = document.createElement('div'); sEl.id='cycCelebStat'; sEl.style.cssText="margin-top:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:clamp(15px,2.5vw,23px);color:#f0d27a;opacity:0;transition:opacity .6s ease;"; host.appendChild(sEl); }
+                if (!sEl) { sEl = document.createElement('div'); sEl.id='cycCelebStat'; sEl.style.cssText="margin-top:22px;font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(26px,5vw,46px);color:#ffd866;text-shadow:0 2px 18px rgba(0,0,0,.8);opacity:0;transition:opacity .6s ease;"; host.appendChild(sEl); }
                 sEl.textContent = res.kind==='fav' ? ('\uD83D\uDC51 You\u2019re with '+res.pct+'% of fans') : ('\uD83D\uDD25 Hot take \u2014 only '+res.pct+'% of fans agree');
                 var wait = Math.max(0, 1500-(Date.now()-__t0));
                 setTimeout(function(){ sEl.style.opacity='1'; }, wait);
@@ -3942,11 +3959,12 @@ updateProgress();
   function drawLine(x,W,H,line,y){
     x.font=line.font; x.textBaseline='alphabetic';
     var tw=x.measureText(line.text).width;
-    var icon=ic(line.icon), isz=icon?Math.round(H*0.046):0, ig=icon?Math.round(H*0.014):0;
+    var icon=ic(line.icon), isz=icon?Math.round(H*0.052):0, ig=icon?Math.round(H*0.016):0;
     var tot=tw+isz+ig, sx=W/2-tot/2;
-    if(icon){ try{ x.drawImage(icon, sx, y-isz*0.82, isz, isz); }catch(e){} }
+    if(icon){ try{ x.drawImage(icon, sx, y-isz*0.80, isz, isz); }catch(e){} }
     x.save();
-    if(line.goldText){ x.fillStyle=gold(x, y-H*0.028, y+H*0.004); } else { x.fillStyle=line.color||'#cdb88a'; }
+    x.shadowColor='rgba(0,0,0,0.55)'; x.shadowBlur=H*0.007; x.shadowOffsetY=H*0.003;
+    if(line.goldText){ x.fillStyle=gold(x, y-H*0.036, y+H*0.006); } else { x.fillStyle=line.color||'#d8c79a'; }
     x.textAlign='left'; x.fillText(line.text, sx+isz+ig, y); x.restore(); x.textAlign='center';
   }
 
@@ -3960,10 +3978,10 @@ updateProgress();
 
     // bottom stack: [crowd?][concert?][challenge] anchored above the URL line
     var stack=[];
-    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.028)+'px Cinzel, Georgia, serif' });
-    if(layers.concert) stack.push({ text:layers.concert.text, icon:layers.concert.icon, goldText:layers.concert.goldText, color:layers.concert.color, font:'600 '+Math.round(H*0.025)+'px Cinzel, Georgia, serif' });
-    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'700 '+Math.round(H*0.027)+'px Cinzel, Georgia, serif' });
-    var yChal=H*0.808, gap=H*0.058, n=stack.length, topY=yChal-(n-1)*gap;
+    if(layers.crowd) stack.push({ text:layers.crowd.text, icon:layers.crowd.icon, goldText:layers.crowd.goldText, color:layers.crowd.color, font:'700 '+Math.round(H*0.040)+'px Cinzel, Georgia, serif' });
+    if(layers.concert) stack.push({ text:layers.concert.text, icon:layers.concert.icon, goldText:layers.concert.goldText, color:layers.concert.color, font:'600 '+Math.round(H*0.032)+'px Cinzel, Georgia, serif' });
+    stack.push({ text:'THINK YOU KNOW BETTER?   BEAT MY BRACKET', icon:'swords', goldText:true, font:'800 '+Math.round(H*0.038)+'px Cinzel, Georgia, serif' });
+    var yChal=H*0.842, gap=H*0.064, n=stack.length, topY=yChal-(n-1)*gap;
 
     // hero song fits between the labels and the top of the stack
     var availTop=H*0.515, availBot=topY-H*0.052;
@@ -3982,8 +4000,7 @@ updateProgress();
     x.restore(); x.textBaseline='alphabetic';
 
     for(i=0;i<n;i++){ drawLine(x,W,H, stack[i], topY+i*gap); }
-    x.fillStyle='#9c8a5e'; x.font='600 '+Math.round(H*0.024)+'px system-ui,-apple-system,sans-serif'; x.textAlign='center';
-    x.fillText(siteURL().replace(/^https?:\/\//,'').replace(/\/+$/,''), W/2, H*0.872);
+    // (no drawn URL — card-bg.png already carries the baked-in brand URL; the /fthc deep-link rides in the share caption)
   }
 
   function fallbackBg(x,W,H){ var g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0d1326'); g.addColorStop(1,'#05070f'); x.fillStyle=g; x.fillRect(0,0,W,H); var m=H*0.045; x.strokeStyle='#C5A059'; x.lineWidth=Math.max(2,H*0.010); x.strokeRect(m,m,W-2*m,H-2*m); x.strokeStyle='rgba(247,230,164,0.35)'; x.lineWidth=Math.max(1,H*0.004); x.strokeRect(m*1.6,m*1.6,W-3.2*m,H-3.2*m); }
