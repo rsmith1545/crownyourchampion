@@ -288,6 +288,46 @@
   .nav3-social a:hover{transform:translateY(-1px); filter:brightness(1.18) drop-shadow(0 2px 6px rgba(0,0,0,.4));}
   .nav3-social svg{width:20px; height:20px; fill:currentColor;}
 
+  
+  /* === polish pass === */
+  /* modal band chips (accent-tinted) */
+  .qm-group{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
+  .qm-gh{grid-column:1 / -1;}
+  .qm-group a.qm-chip{display:block; color:var(--text); text-decoration:none; font-size:14.5px; font-weight:600; padding:8px 11px; border-radius:9px; background:var(--ink-2); border:1px solid var(--line); border-left:4px solid var(--ac,#888); transition:background .15s, transform .15s, color .15s;}
+  .qm-group a.qm-chip:hover{background:#1a2030; color:#fff; transform:translateX(2px);}
+  @media(max-width:480px){ .qm-group{grid-template-columns:1fr;} }
+  /* nav3 depth: per-box accent glow + tappable rows (scoped to row links so social icons are untouched) */
+  .nav3-box{position:relative; overflow:hidden;}
+  .nav3-box::after{content:""; position:absolute; width:210px; height:210px; border-radius:50%; top:-70px; right:-70px; filter:blur(42px); opacity:.16; pointer-events:none; z-index:0;}
+  .nav3-box.play::after{background:var(--gold);}
+  .nav3-box.explore::after{background:var(--blue-lt);}
+  .nav3-box.shape::after{background:var(--crimson-lt);}
+  .nav3-box > *{position:relative; z-index:1;}
+  .nav3-items > li > a{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 9px; border-radius:8px; transition:background .15s, transform .15s;}
+  .nav3-items > li > a:hover{background:rgba(255,255,255,.05); transform:translateX(2px); text-decoration:none;}
+  .nav3-items > li > a .arr{color:var(--muted); transition:color .15s, transform .15s;}
+  .nav3-items > li > a:hover .arr{color:var(--gold); transform:translateX(3px);}
+  .nav3-items .ni{display:flex; justify-content:space-between; align-items:center; padding:7px 9px;}
+  .newp{display:inline-block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.1em; font-size:9px; font-weight:700; color:#0a0a0f; background:var(--gold); padding:1px 6px; border-radius:999px; margin-left:2px; vertical-align:middle;}
+  .nav3-comm #commIcons{margin-top:9px; padding-left:9px;}
+  /* fan vote real section */
+  .fanvote .pick-label{margin:40px 0 6px;}
+  .fv-subhead{text-align:center; color:var(--muted); font-family:'Barlow Condensed',sans-serif; font-size:14px; letter-spacing:.03em; margin:0 0 22px;}
+  .fv-options{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
+  .fv-yr{color:var(--muted); font-weight:400; font-size:.85em;}
+  .fv-polls{margin-bottom:8px;}
+  @media(max-width:600px){ .fv-options{grid-template-columns:1fr;} }
+  /* featured tiles */
+  .new-badge.feat{background:linear-gradient(135deg,#ffd86b,#f0a500);}
+  .genre-group.featured .tile{box-shadow:0 0 0 1px rgba(240,165,0,.22), 0 8px 26px rgba(240,165,0,.10);}
+  /* mobile hero tighten */
+  @media(max-width:600px){
+    header.hero{padding:24px 0 10px;}
+    .crown-logo{height:clamp(72px,20vw,108px);}
+    .fan-note{margin-top:7px;}
+    .hero-cta{margin-top:14px;}
+  }
+
   </style>
 </head>
 <body>
@@ -308,7 +348,7 @@
       <h1>Settle The Debate</h1>
       <div class="subline">Build a 64-song bracket and crown your favorite band's greatest song — then see how your picks stack up against the crowd.</div>
       <div class="fan-note">Made by a fan, for fans. No affiliation, just love for the music.</div>
-      <a class="hero-cta" href="#tournaments">🏆 Pick Your Tournament</a>
+      <a class="hero-cta" href="#" id="heroBracketOpen">🏆 Pick Your Tournament</a>
     </header>
 
     <!-- 3-BOX NAV: PLAY / EXPLORE / SHAPE -->
@@ -317,9 +357,10 @@
         <div class="nav3-h">🎮 Play</div>
         <div class="nav3-sub">Jump in.</div>
         <ul class="nav3-items">
-          <li><a href="#" id="bracketPickOpen">Full Brackets</a></li>
-          <li><a href="#" id="quizPickOpen">Superfan Quiz</a></li>
-          <li><a href="#fanvote">Fan Vote</a></li>
+          <li><a href="#" id="bracketPickOpen">Full Brackets <span class="arr">→</span></a></li>
+          <li><a href="#" id="quizPickOpen">Superfan Quiz <span class="arr">→</span></a></li>
+          <li><a href="#" id="myConcertOpen">🎵 My Concert <em class="newp">new</em> <span class="arr">→</span></a></li>
+          <li><a href="#fanvote">Fan Vote <span class="arr">→</span></a></li>
           <li><span class="ni">Challenge a Friend <em class="soon">soon</em></span></li>
         </ul>
       </div>
@@ -330,31 +371,39 @@
           <li><span class="ni">Crowd Results <em class="soon">soon</em></span></li>
           <li><span class="ni">Hall of Champions <em class="soon">soon</em></span></li>
         </ul>
-        <div class="nav3-warming">Warming up…</div>
+        <div class="nav3-warming">Tallying every crowning right now — results open soon.</div>
       </div>
       <div class="nav3-box shape">
         <div class="nav3-h">✨ Shape</div>
         <div class="nav3-sub">Help build what's next.</div>
         <ul class="nav3-items">
-          <li><a href="#band-req">Suggest a Band</a></li>
-          <li class="nav3-social"><a href="https://www.facebook.com/crownyourchampion/" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook" style="color:#1877F2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.instagram.com/crownyourchampion/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igg" cx="0.3" cy="1" r="1.2"><stop offset="0" stop-color="#fdf497"/><stop offset="0.1" stop-color="#fdf497"/><stop offset="0.45" stop-color="#fd5949"/><stop offset="0.65" stop-color="#d6249f"/><stop offset="0.95" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#igg)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a><a href="https://x.com/CrownYourChamp" target="_blank" rel="noopener" title="X" aria-label="X" style="color:#ffffff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.tiktok.com/@crownyourchampion" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok" style="color:#ffffff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a><a href="https://www.youtube.com/@CrownYourChampion" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube" style="color:#FF0000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://www.reddit.com/r/CrownYourChampion/" target="_blank" rel="noopener" title="Reddit" aria-label="Reddit" style="color:#FF4500"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.529 1.811 1.31 2.273-.04.282-.061.568-.061.857 0 4.273 4.972 7.746 11.085 7.746 6.114 0 11.086-3.473 11.086-7.746 0-.288-.022-.572-.06-.853.79-.46 1.325-1.303 1.325-2.282zm-17.717 2.273c0-.838.69-1.518 1.539-1.518.85 0 1.539.68 1.539 1.518 0 .837-.69 1.518-1.539 1.518-.85 0-1.539-.681-1.539-1.518zm9.197 3.972c-.851.84-2.193 1.241-3.483 1.241-1.29 0-2.632-.401-3.483-1.241-.187-.184-.187-.485 0-.669.187-.184.491-.184.678 0 .527.52 1.529.862 2.805.862 1.276 0 2.278-.342 2.805-.862.187-.184.491-.184.678 0 .187.184.187.485 0 .669zm-.488-2.454c-.85 0-1.539-.681-1.539-1.518 0-.838.69-1.518 1.539-1.518.85 0 1.539.68 1.539 1.518 0 .837-.69 1.518-1.539 1.518z"/></svg></a></li>
+          <li><a href="#" id="suggestOpen">Suggest a Band <span class="arr">→</span></a></li>
+          <li class="nav3-comm"><a href="#" id="commToggle">Community <span class="arr">→</span></a><div class="nav3-social" id="commIcons" hidden><a href="https://www.facebook.com/crownyourchampion/" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook" style="color:#1877F2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.instagram.com/crownyourchampion/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igg" cx="0.3" cy="1" r="1.2"><stop offset="0" stop-color="#fdf497"/><stop offset="0.1" stop-color="#fdf497"/><stop offset="0.45" stop-color="#fd5949"/><stop offset="0.65" stop-color="#d6249f"/><stop offset="0.95" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#igg)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a><a href="https://x.com/CrownYourChamp" target="_blank" rel="noopener" title="X" aria-label="X" style="color:#ffffff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.tiktok.com/@crownyourchampion" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok" style="color:#ffffff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a><a href="https://www.youtube.com/@CrownYourChampion" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube" style="color:#FF0000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://www.reddit.com/r/CrownYourChampion/" target="_blank" rel="noopener" title="Reddit" aria-label="Reddit" style="color:#FF4500"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.529 1.811 1.31 2.273-.04.282-.061.568-.061.857 0 4.273 4.972 7.746 11.085 7.746 6.114 0 11.086-3.473 11.086-7.746 0-.288-.022-.572-.06-.853.79-.46 1.325-1.303 1.325-2.282zm-17.717 2.273c0-.838.69-1.518 1.539-1.518.85 0 1.539.68 1.539 1.518 0 .837-.69 1.518-1.539 1.518-.85 0-1.539-.681-1.539-1.518zm9.197 3.972c-.851.84-2.193 1.241-3.483 1.241-1.29 0-2.632-.401-3.483-1.241-.187-.184-.187-.485 0-.669.187-.184.491-.184.678 0 .527.52 1.529.862 2.805.862 1.276 0 2.278-.342 2.805-.862.187-.184.491-.184.678 0 .187.184.187.485 0 .669zm-.488-2.454c-.85 0-1.539-.681-1.539-1.518 0-.838.69-1.518 1.539-1.518.85 0 1.539.68 1.539 1.518 0 .837-.69 1.518-1.539 1.518z"/></svg></a></div></li>
           <li><span class="ni">Vote on what's next <em class="soon">soon</em></span></li>
         </ul>
       </div>
     </section>
 
+
+    <section class="whats-new slim">
+      <span class="wn-pill">✨ New</span>
+      <h2>🎵 My Concert — build your bracket from a show you were at</h2>
+      <p>Open any tournament, hit <b>🎵 My Concert</b>, search a show you attended, and we fill your bracket from that night's real setlist (via setlist.fm).</p>
+    </section>
+
     <!-- FAN VOTE -->
     <section class="fanvote" id="fanvote">
-      <div class="fv-head"><span class="fv-kick">⚡ Fan Vote</span> Tap your pick, see what the crowd says.</div>
+      <div class="pick-label fv-head">⚡ Fan Vote</div>
+      <div class="fv-subhead">Tap your pick — see what the crowd says. One vote per poll.</div>
       <div class="fv-polls">
         <div class="fv-poll" data-coll="ft_albumvote" data-poll="ft">
           <div class="fv-q">Best Frank Turner album?</div>
-          <div class="fv-options" data-albums="Sleep Is for the Week|Love Ire &amp; Song|Poetry of the Deed|England Keep My Bones|Tape Deck Heart|Positive Songs for Negative People|Be More Kind|No Man's Land|FTHC|Undefeated"></div>
+          <div class="fv-options" data-albums="Sleep Is for the Week::2007|Love Ire &amp; Song::2008|Poetry of the Deed::2009|England Keep My Bones::2011|Tape Deck Heart::2013|Positive Songs for Negative People::2015|Be More Kind::2018|No Man's Land::2019|FTHC::2022|Undefeated::2024"></div>
           <div class="fv-result" hidden></div>
         </div>
         <div class="fv-poll" data-coll="dmb_albumvote" data-poll="dmb">
           <div class="fv-q">Best Dave Matthews Band album?</div>
-          <div class="fv-options" data-albums="Under the Table and Dreaming|Crash|Before These Crowded Streets|Everyday|Busted Stuff|Stand Up|Big Whiskey and the GrooGrux King|Away from the World|Come Tomorrow|Walk Around the Moon"></div>
+          <div class="fv-options" data-albums="Under the Table and Dreaming::1994|Crash::1996|Before These Crowded Streets::1998|Everyday::2001|Busted Stuff::2002|Stand Up::2005|Big Whiskey and the GrooGrux King::2009|Away from the World::2012|Come Tomorrow::2018|Walk Around the Moon::2023"></div>
           <div class="fv-result" hidden></div>
         </div>
       </div>
@@ -365,6 +414,28 @@
     <div class="search-wrap">
       <input id="bracket-search" type="search" autocomplete="off" placeholder="Filter bands…" aria-label="Filter bands">
     </div>
+
+        <section class="genre-group featured">
+      <h2 class="section-head">⭐ Start Here</h2>
+      <div class="tiles">
+        <a class="tile dmb" href="./dmb/">
+          <span class="new-badge feat">Featured</span>
+          <div class="genre">Jam · Rock</div>
+          <div class="band">Dave Matthews Band</div>
+          <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 venue regions</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile frank" href="./fthc/">
+          <span class="new-badge feat">Featured</span>
+          <div class="genre">Folk · Punk</div>
+          <div class="band">Frank Turner</div>
+          <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
+          <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      </div>
+    </section>
 
     <section class="genre-group">
       <h2 class="section-head">Classic Rock</h2>
@@ -435,37 +506,11 @@
           <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
-      </div>
-    </section>
-
-    <section class="genre-group">
-      <h2 class="section-head">Funk &amp; Jam</h2>
-      <div class="tiles">
-        <a class="tile dmb" href="./dmb/">
-          <div class="genre">Jam · Rock</div>
-          <div class="band">Dave Matthews Band</div>
-          <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 venue regions</span><span class="chip">▶ previews</span></div>
-          <span class="enter">Enter the bracket <span class="arr">→</span></span>
-        </a>
         <a class="tile rhcp" href="./rhcp/">
           <div class="genre">Funk · Rock</div>
           <div class="band">Red Hot Chili Peppers</div>
           <div class="desc">Four decades of funk, seeded by what they actually play live — from "Give It Away" to "Under the Bridge."</div>
           <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
-          <span class="enter">Enter the bracket <span class="arr">→</span></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="genre-group">
-      <h2 class="section-head">Punk &amp; Folk</h2>
-      <div class="tiles">
-        <a class="tile frank" href="./fthc/">
-          <div class="genre">Folk · Punk</div>
-          <div class="band">Frank Turner</div>
-          <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile gd" href="./greenday/">
@@ -479,18 +524,6 @@
     </section>
 
     <div class="no-results" id="no-results">No bands match that — try another search.</div>
-
-    <section class="whats-new slim">
-      <span class="wn-pill">✨ New</span>
-      <h2>🎵 My Concert — build your bracket from a show you were at</h2>
-      <p>Open any tournament, hit <b>🎵 My Concert</b>, search a show you attended, and we fill your bracket from that night's real setlist (via setlist.fm). <span class="wn-mini">Also: the site installs to your home screen — full-screen, offline, no app store.</span></p>
-    </section>
-
-    <section class="missing">
-      <h2>🎸 Don't see your band?</h2>
-      <p>We're always adding artists with the catalog to fill a 64-song bracket. Tell us who's next — the deeper the discography, the better the tournament.</p>
-      <div class="req-row"><input id="band-req" type="text" autocomplete="off" placeholder="Which artist?" aria-label="Request a band"><button id="band-req-btn" class="missing-btn" type="button">Request</button></div><div class="req-msg" id="band-req-msg" role="status" aria-live="polite"></div>
-    </section>
 
     <section class="howto">
       <h2>How to Play</h2>
@@ -540,6 +573,15 @@
   </div>
 
 
+    <!-- SUGGEST A BAND MODAL -->
+    <div class="quizmodal" id="suggestModal" hidden>
+      <div class="qm-card">
+        <button class="qm-close" id="suggestClose" aria-label="Close">&times;</button>
+        <div class="qm-title">🎸 Suggest a Band</div>
+        <div class="qm-sub">Who should we crown next? The deeper the catalog, the better the bracket.</div>
+        <div class="req-row"><input id="band-req" type="text" autocomplete="off" placeholder="Which artist?" aria-label="Request a band"><button id="band-req-btn" class="missing-btn" type="button">Request</button></div><div class="req-msg" id="band-req-msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
     <!-- BRACKET PICKER MODAL (mirrors the quiz picker) -->
     <div class="quizmodal" id="bracketPickModal" hidden>
       <div class="qm-card">
@@ -548,30 +590,27 @@
         <div class="qm-sub">64 songs, one champion — or scroll down to browse the tiles.</div>
         <div class="qm-groups">
         <div class="qm-group">
+          <div class="qm-gh">⭐ Start Here</div>
+          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
+          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
+        </div>
+        <div class="qm-group">
           <div class="qm-gh">Classic Rock</div>
-          <a href="/billyjoel/">Billy Joel</a>
-          <a href="/bonjovi/">Bon Jovi</a>
-          <a href="/springsteen/">Bruce Springsteen</a>
-          <a href="/beatles/">The Beatles</a>
-          <a href="/stones/">The Rolling Stones</a>
+          <a class="qm-chip" style="--ac:#f5c518" href="/beatles/">The Beatles</a>
+          <a class="qm-chip" style="--ac:#6a4c93" href="/billyjoel/">Billy Joel</a>
+          <a class="qm-chip" style="--ac:#b87333" href="/bonjovi/">Bon Jovi</a>
+          <a class="qm-chip" style="--ac:#c0202a" href="/springsteen/">Bruce Springsteen</a>
+          <a class="qm-chip" style="--ac:#c41e7f" href="/stones/">The Rolling Stones</a>
         </div>
         <div class="qm-group">
           <div class="qm-gh">Alt &amp; Hard Rock</div>
-          <a href="/foo/">Foo Fighters</a>
-          <a href="/metallica/">Metallica</a>
-          <a href="/pearljam/">Pearl Jam</a>
+          <a class="qm-chip" style="--ac:#d4503f" href="/foo/">Foo Fighters</a>
+          <a class="qm-chip" style="--ac:#9aa3b2" href="/metallica/">Metallica</a>
+          <a class="qm-chip" style="--ac:#2f9fa6" href="/pearljam/">Pearl Jam</a>
+          <a class="qm-chip" style="--ac:#e2571e" href="/rhcp/">Red Hot Chili Peppers</a>
+          <a class="qm-chip" style="--ac:#e8336d" href="/greenday/">Green Day</a>
         </div>
-        <div class="qm-group">
-          <div class="qm-gh">Funk &amp; Jam</div>
-          <a href="/dmb/">Dave Matthews Band</a>
-          <a href="/rhcp/">Red Hot Chili Peppers</a>
-        </div>
-        <div class="qm-group">
-          <div class="qm-gh">Punk &amp; Folk</div>
-          <a href="/fthc/">Frank Turner</a>
-          <a href="/greenday/">Green Day</a>
-        </div>
-        </div>
+      </div>
       </div>
     </div>
 
@@ -580,33 +619,30 @@
       <div class="qm-card">
         <button class="qm-close" id="quizPickClose" aria-label="Close">&times;</button>
         <div class="qm-title">🎯 Pick a Superfan Quiz</div>
-        <div class="qm-sub">Casual or Superfan mode — fresh questions every play.</div>
+        <div class="qm-sub">Casual or Superfan — pick a band to start.</div>
         <div class="qm-groups">
         <div class="qm-group">
+          <div class="qm-gh">⭐ Start Here</div>
+          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/quiz.html">Dave Matthews Band</a>
+          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/quiz.html">Frank Turner</a>
+        </div>
+        <div class="qm-group">
           <div class="qm-gh">Classic Rock</div>
-          <a href="/billyjoel/quiz.html">Billy Joel</a>
-          <a href="/bonjovi/quiz.html">Bon Jovi</a>
-          <a href="/springsteen/quiz.html">Bruce Springsteen</a>
-          <a href="/beatles/quiz.html">The Beatles</a>
-          <a href="/stones/quiz.html">The Rolling Stones</a>
+          <a class="qm-chip" style="--ac:#f5c518" href="/beatles/quiz.html">The Beatles</a>
+          <a class="qm-chip" style="--ac:#6a4c93" href="/billyjoel/quiz.html">Billy Joel</a>
+          <a class="qm-chip" style="--ac:#b87333" href="/bonjovi/quiz.html">Bon Jovi</a>
+          <a class="qm-chip" style="--ac:#c0202a" href="/springsteen/quiz.html">Bruce Springsteen</a>
+          <a class="qm-chip" style="--ac:#c41e7f" href="/stones/quiz.html">The Rolling Stones</a>
         </div>
         <div class="qm-group">
           <div class="qm-gh">Alt &amp; Hard Rock</div>
-          <a href="/foo/quiz.html">Foo Fighters</a>
-          <a href="/metallica/quiz.html">Metallica</a>
-          <a href="/pearljam/quiz.html">Pearl Jam</a>
+          <a class="qm-chip" style="--ac:#d4503f" href="/foo/quiz.html">Foo Fighters</a>
+          <a class="qm-chip" style="--ac:#9aa3b2" href="/metallica/quiz.html">Metallica</a>
+          <a class="qm-chip" style="--ac:#2f9fa6" href="/pearljam/quiz.html">Pearl Jam</a>
+          <a class="qm-chip" style="--ac:#e2571e" href="/rhcp/quiz.html">Red Hot Chili Peppers</a>
+          <a class="qm-chip" style="--ac:#e8336d" href="/greenday/quiz.html">Green Day</a>
         </div>
-        <div class="qm-group">
-          <div class="qm-gh">Funk &amp; Jam</div>
-          <a href="/dmb/quiz.html">Dave Matthews Band</a>
-          <a href="/rhcp/quiz.html">Red Hot Chili Peppers</a>
-        </div>
-        <div class="qm-group">
-          <div class="qm-gh">Punk &amp; Folk</div>
-          <a href="/fthc/quiz.html">Frank Turner</a>
-          <a href="/greenday/quiz.html">Green Day</a>
-        </div>
-        </div>
+      </div>
       </div>
     </div>
 
@@ -687,9 +723,9 @@
     polls.forEach(function(poll){
       var coll=poll.getAttribute('data-coll'), pid=poll.getAttribute('data-poll'), key='cyc-fv-'+pid;
       var optsWrap=poll.querySelector('.fv-options'), resWrap=poll.querySelector('.fv-result');
-      var albums=(optsWrap.getAttribute('data-albums')||'').split('|').map(function(s){return s.trim();}).filter(Boolean);
+      var albums=(optsWrap.getAttribute('data-albums')||'').split('|').map(function(s){var p=s.split('::');return {name:p[0].trim(), year:(p[1]||'').trim()};}).filter(function(x){return x.name;});
       var voted=null; try{ voted=localStorage.getItem(key); }catch(e){}
-      albums.forEach(function(a){ var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.textContent=a; b.onclick=function(){ vote(a); }; optsWrap.appendChild(b); });
+      albums.forEach(function(a){ var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">\u00b7 '+a.year+'</span>':''); b.onclick=function(){ vote(a.name); }; optsWrap.appendChild(b); });
       function vote(album){
         try{ localStorage.setItem(key, album); }catch(e){}
         fvWrite(coll, album);
@@ -698,11 +734,11 @@
       }
       function render(t, mine){
         var total=0; for(var k in t) total+=t[k];
-        var rows=albums.map(function(a){ return {a:a, n:t[SAN(a)]||0}; }).sort(function(x,y){ return y.n-x.n; });
+        var rows=albums.map(function(a){ return {name:a.name, year:a.year, n:t[SAN(a.name)]||0}; }).sort(function(x,y){ return y.n-x.n; });
         optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML=''; var minePct=0;
-        rows.forEach(function(r){ var pct=total?Math.round(r.n/total*100):0; if(r.a===mine) minePct=pct;
-          var row=document.createElement('div'); row.className='fv-row'+(r.a===mine?' mine':'');
-          row.innerHTML='<span class="fv-fill" style="width:'+pct+'%"></span><span>'+esc(r.a)+'</span><span class="fv-pct">'+pct+'%</span>';
+        rows.forEach(function(r){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
+          var row=document.createElement('div'); row.className='fv-row'+(r.name===mine?' mine':'');
+          row.innerHTML='<span class="fv-fill" style="width:'+pct+'%"></span><span>'+esc(r.name)+(r.year?' <span class="fv-yr">\u00b7 '+r.year+'</span>':'')+'</span><span class="fv-pct">'+pct+'%</span>';
           resWrap.appendChild(row); });
         if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent="👑 You're with "+minePct+"% — picked "+mine; resWrap.appendChild(y); }
       }
@@ -830,6 +866,11 @@
     }
     wire('quizPickOpen','quizPickModal','quizPickClose');
     wire('bracketPickOpen','bracketPickModal','bracketPickClose');
+    wire('heroBracketOpen','bracketPickModal','bracketPickClose');
+    wire('myConcertOpen','bracketPickModal','bracketPickClose');
+    wire('suggestOpen','suggestModal','suggestClose');
+    var ct=document.getElementById('commToggle'), ci=document.getElementById('commIcons');
+    if(ct&&ci){ ct.addEventListener('click', function(e){ e.preventDefault(); ci.hidden=!ci.hidden; }); }
   })();
 </script>
 </body>
