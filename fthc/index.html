@@ -4573,5 +4573,18 @@ updateProgress();
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded',apply);
 })();
 </script>
+<script>
+/* CYC deep-link: /<band>/?mode=concert (or #myconcert) auto-opens My Concert mode */
+(function(){
+  try{
+    var p=new URLSearchParams(location.search||'');
+    var want=(p.get('mode')||'').toLowerCase()==='concert' || /(?:^|#)myconcert\b/i.test(location.hash||'');
+    if(!want) return;
+    function trigger(){ var t=0; (function go(){ if(typeof setMode==='function'){ try{ setMode('concert'); }catch(e){} return; } if(++t<40) setTimeout(go,150); })(); }
+    if(document.readyState==='complete') setTimeout(trigger,300);
+    else window.addEventListener('load', function(){ setTimeout(trigger,300); });
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
