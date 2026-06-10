@@ -268,6 +268,20 @@
     .fv-polls{grid-template-columns:1fr;}
   }
 
+  
+  /* --- quiz picker modal --- */
+  .quizmodal{position:fixed; inset:0; z-index:1000; background:rgba(4,6,12,.82); display:flex; align-items:center; justify-content:center; padding:20px;}
+  .quizmodal[hidden]{display:none;}
+  .qm-card{background:var(--card); border:1px solid var(--line); border-radius:16px; max-width:560px; width:100%; max-height:85vh; overflow-y:auto; padding:26px 24px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.6);}
+  .qm-close{position:absolute; top:10px; right:14px; background:none; border:none; color:var(--muted); font-size:28px; cursor:pointer; line-height:1;}
+  .qm-close:hover{color:#fff;}
+  .qm-title{font-family:'Bebas Neue',sans-serif; font-size:29px; color:#fff; letter-spacing:.02em; line-height:1;}
+  .qm-sub{font-family:'Barlow Condensed',sans-serif; color:var(--muted); font-size:14px; margin:3px 0 18px;}
+  .qm-groups{display:flex; flex-direction:column; gap:18px;}
+  .qm-gh{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--gold); border-bottom:1px solid var(--line); padding-bottom:5px; margin-bottom:6px;}
+  .qm-group a{display:block; color:var(--gold-soft); text-decoration:none; font-size:16px; padding:6px 2px; font-weight:600;}
+  .qm-group a:hover{color:var(--gold); text-decoration:underline;}
+
   </style>
 </head>
 <body>
@@ -298,7 +312,7 @@
         <div class="nav3-sub">Jump in.</div>
         <ul class="nav3-items">
           <li><a href="#tournaments">Full Brackets</a></li>
-          <li><a href="/fthc/quiz.html">Superfan Quiz</a></li>
+          <li><a href="#" id="quizPickOpen">Superfan Quiz</a></li>
           <li><a href="#fanvote">Fan Vote</a></li>
           <li><span class="ni">Challenge a Friend <em class="soon">soon</em></span></li>
         </ul>
@@ -519,7 +533,43 @@
     </footer>
   </div>
 
-<script type="module">
+
+    <!-- QUIZ PICKER MODAL -->
+    <div class="quizmodal" id="quizPickModal" hidden>
+      <div class="qm-card">
+        <button class="qm-close" id="quizPickClose" aria-label="Close">&times;</button>
+        <div class="qm-title">🎯 Pick a Superfan Quiz</div>
+        <div class="qm-sub">Casual or Superfan mode — fresh questions every play.</div>
+        <div class="qm-groups">
+        <div class="qm-group">
+          <div class="qm-gh">Classic Rock</div>
+          <a href="/billyjoel/quiz.html">Billy Joel</a>
+          <a href="/bonjovi/quiz.html">Bon Jovi</a>
+          <a href="/springsteen/quiz.html">Bruce Springsteen</a>
+          <a href="/beatles/quiz.html">The Beatles</a>
+          <a href="/stones/quiz.html">The Rolling Stones</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Alt &amp; Hard Rock</div>
+          <a href="/foo/quiz.html">Foo Fighters</a>
+          <a href="/metallica/quiz.html">Metallica</a>
+          <a href="/pearljam/quiz.html">Pearl Jam</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Funk &amp; Jam</div>
+          <a href="/dmb/quiz.html">Dave Matthews Band</a>
+          <a href="/rhcp/quiz.html">Red Hot Chili Peppers</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Punk &amp; Folk</div>
+          <a href="/fthc/quiz.html">Frank Turner</a>
+          <a href="/greenday/quiz.html">Green Day</a>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, serverTimestamp, doc, setDoc, getDocs, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   const firebaseConfig = {
@@ -724,6 +774,18 @@
   }
   if(document.readyState!=='loading') done(); else document.addEventListener('DOMContentLoaded',done);
 })();
+</script>
+<script>
+  (function(){
+    var open=document.getElementById('quizPickOpen'), modal=document.getElementById('quizPickModal'), close=document.getElementById('quizPickClose');
+    if(!open||!modal) return;
+    function show(e){ if(e) e.preventDefault(); modal.hidden=false; document.body.style.overflow='hidden'; }
+    function hide(){ modal.hidden=true; document.body.style.overflow=''; }
+    open.addEventListener('click', show);
+    if(close) close.addEventListener('click', hide);
+    modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
+  })();
 </script>
 </body>
 </html>
