@@ -4422,7 +4422,7 @@ updateProgress();
   function injectCss(){
     if(document.getElementById('cycRegionNavCss')) return;
     var st=document.createElement('style'); st.id='cycRegionNavCss';
-    st.textContent=".region-jump{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}"
+    st.textContent=".region-jump{width:100%;margin-left:0;margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-start;}"
      +".region-jump .rj-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-muted,#6b7a99);margin-right:2px;white-space:nowrap;}"
      +".region-jump .rj-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:7px 12px;border:1px solid rgba(240,165,0,.4);border-radius:3px;background:var(--dmb-card,#1a2332);color:var(--dmb-gold,#f0a500);cursor:pointer;white-space:nowrap;transition:all .2s;}"
      +".region-jump .rj-btn:hover{background:rgba(240,165,0,.12);border-color:var(--dmb-gold,#f0a500);}"
