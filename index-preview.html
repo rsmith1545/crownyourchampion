@@ -66,18 +66,19 @@
   .subline{color:var(--muted); font-size:15px; margin-top:6px; animation:rise .8s .26s both;}
 
   /* ── WHAT'S NEW CALLOUT ── */
-  .whats-new{position:relative; margin:30px 0 6px; padding:16px 20px; border-radius:12px;
-    background:linear-gradient(135deg, rgba(240,165,0,.13), rgba(20,25,39,.55));
-    border:1px solid var(--gold); box-shadow:0 8px 30px rgba(0,0,0,.35); animation:rise .8s .3s both;}
-  .whats-new .wn-pill{display:inline-block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;
-    letter-spacing:.2em; font-size:10px; font-weight:700; color:#0a0a0f; background:var(--gold);
-    padding:3px 10px; border-radius:999px; margin-bottom:9px;}
-  .whats-new .wn-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 30px; margin-top:2px;}
-  .whats-new .wn-item h3{font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:19px; letter-spacing:.02em; color:#fff; line-height:1.1; margin-bottom:5px;}
-  .whats-new .wn-item p{color:var(--muted); font-size:13px; line-height:1.5;}
-  .whats-new .wn-item p b{color:var(--gold-soft); font-weight:700;}
-  .whats-new .wn-item + .wn-item{padding-left:30px; border-left:1px solid var(--line);}
-  @media (max-width:600px){ .whats-new{padding:14px 15px;} .whats-new .wn-grid{grid-template-columns:1fr; gap:12px;} .whats-new .wn-item + .wn-item{padding-left:0; border-left:0; border-top:1px solid var(--line); padding-top:12px;} }
+  .whats-new{position:relative; margin:30px 0 6px;}
+  .whats-new .wn-eyebrow{display:inline-flex; align-items:center; gap:9px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.24em; font-size:12px; font-weight:700; color:var(--muted); margin-bottom:13px;}
+  .whats-new .wn-eyebrow::before{content:"✨"; letter-spacing:0;}
+  .whats-new .wn-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .whats-new .wn-card{position:relative; padding:17px 19px 16px; border-radius:13px; background:var(--card); border:1px solid var(--line); overflow:hidden; transition:border-color .18s, transform .18s;}
+  .whats-new .wn-card::after{content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, var(--wn-ac), transparent 70%); opacity:.13; pointer-events:none;}
+  .whats-new .wn-card{border-top:2px solid var(--wn-ac);}
+  .whats-new .wn-card:hover{transform:translateY(-2px); border-color:var(--wn-ac);}
+  .whats-new .wn-new{display:inline-block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:9px; font-weight:700; color:#0a0a0f; background:var(--wn-ac); padding:2px 9px; border-radius:999px; margin-bottom:10px;}
+  .whats-new .wn-card h3{font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:22px; letter-spacing:.02em; color:#fff; line-height:1.06; margin-bottom:6px;}
+  .whats-new .wn-card p{color:var(--muted); font-size:13px; line-height:1.5;}
+  .whats-new .wn-card p b{color:var(--wn-ac); font-weight:700; filter:brightness(1.25);}
+  @media (max-width:600px){ .whats-new .wn-grid{grid-template-columns:1fr; gap:12px;} }
   .get-app .ga-steps{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-top:16px;}
   .get-app .ga-step{background:rgba(0,0,0,.28); border:1px solid var(--line); border-radius:11px; padding:13px 15px; font-size:14.5px; color:var(--text); line-height:1.45;}
   .get-app .ga-step .ga-dev{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12px; color:var(--gold); margin-bottom:6px;}
@@ -392,15 +393,17 @@
 
 
     <section class="whats-new slim">
-      <span class="wn-pill">✨ What's New</span>
+      <div class="wn-eyebrow">What's New</div>
       <div class="wn-grid">
-        <div class="wn-item">
+        <div class="wn-card" style="--wn-ac:#f0a500">
+          <span class="wn-new">New</span>
           <h3>🎵 My Concert</h3>
           <p>Open any tournament, hit <b>My Concert</b>, search a show you attended, and we fill your bracket from that night's real setlist — via setlist.fm.</p>
         </div>
-        <div class="wn-item">
-          <h3>👑 Now Installable</h3>
-          <p>Add Crown Your Champion to your home screen — one tap and it opens full-screen like a real app. No store, no download.</p>
+        <div class="wn-card" style="--wn-ac:#2563aa">
+          <span class="wn-new">New</span>
+          <h3>📲 Now Installable</h3>
+          <p>Add Crown Your Champion to your <b>home screen</b> — one tap and it opens full-screen like a real app. No store, no download.</p>
         </div>
       </div>
     </section>
