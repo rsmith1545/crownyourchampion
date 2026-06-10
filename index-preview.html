@@ -317,7 +317,7 @@
         <div class="nav3-h">🎮 Play</div>
         <div class="nav3-sub">Jump in.</div>
         <ul class="nav3-items">
-          <li><a href="#tournaments">Full Brackets</a></li>
+          <li><a href="#" id="bracketPickOpen">Full Brackets</a></li>
           <li><a href="#" id="quizPickOpen">Superfan Quiz</a></li>
           <li><a href="#fanvote">Fan Vote</a></li>
           <li><span class="ni">Challenge a Friend <em class="soon">soon</em></span></li>
@@ -539,6 +539,41 @@
     </footer>
   </div>
 
+
+    <!-- BRACKET PICKER MODAL (mirrors the quiz picker) -->
+    <div class="quizmodal" id="bracketPickModal" hidden>
+      <div class="qm-card">
+        <button class="qm-close" id="bracketPickClose" aria-label="Close">&times;</button>
+        <div class="qm-title">🏆 Pick a Bracket</div>
+        <div class="qm-sub">64 songs, one champion — or scroll down to browse the tiles.</div>
+        <div class="qm-groups">
+        <div class="qm-group">
+          <div class="qm-gh">Classic Rock</div>
+          <a href="/billyjoel/">Billy Joel</a>
+          <a href="/bonjovi/">Bon Jovi</a>
+          <a href="/springsteen/">Bruce Springsteen</a>
+          <a href="/beatles/">The Beatles</a>
+          <a href="/stones/">The Rolling Stones</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Alt &amp; Hard Rock</div>
+          <a href="/foo/">Foo Fighters</a>
+          <a href="/metallica/">Metallica</a>
+          <a href="/pearljam/">Pearl Jam</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Funk &amp; Jam</div>
+          <a href="/dmb/">Dave Matthews Band</a>
+          <a href="/rhcp/">Red Hot Chili Peppers</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Punk &amp; Folk</div>
+          <a href="/fthc/">Frank Turner</a>
+          <a href="/greenday/">Green Day</a>
+        </div>
+        </div>
+      </div>
+    </div>
 
     <!-- QUIZ PICKER MODAL -->
     <div class="quizmodal" id="quizPickModal" hidden>
@@ -783,14 +818,18 @@
 </script>
 <script>
   (function(){
-    var open=document.getElementById('quizPickOpen'), modal=document.getElementById('quizPickModal'), close=document.getElementById('quizPickClose');
-    if(!open||!modal) return;
-    function show(e){ if(e) e.preventDefault(); modal.hidden=false; document.body.style.overflow='hidden'; }
-    function hide(){ modal.hidden=true; document.body.style.overflow=''; }
-    open.addEventListener('click', show);
-    if(close) close.addEventListener('click', hide);
-    modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
+    function wire(openId, modalId, closeId){
+      var open=document.getElementById(openId), modal=document.getElementById(modalId), close=document.getElementById(closeId);
+      if(!open||!modal) return;
+      function show(e){ if(e) e.preventDefault(); modal.hidden=false; document.body.style.overflow='hidden'; }
+      function hide(){ modal.hidden=true; document.body.style.overflow=''; }
+      open.addEventListener('click', show);
+      if(close) close.addEventListener('click', hide);
+      modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
+    }
+    wire('quizPickOpen','quizPickModal','quizPickClose');
+    wire('bracketPickOpen','bracketPickModal','bracketPickClose');
   })();
 </script>
 </body>
