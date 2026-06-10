@@ -888,6 +888,13 @@
     ['.row','.band-opt','.consent','.msg','#join'].forEach(function(sel){ var el=sec.querySelector(sel); if(el) el.style.display='none'; });
     var p=sec.querySelector('p'); if(p) p.textContent="You're already subscribed — we'll email you when the next bracket drops.";
     if(!sec.querySelector('.signup-done')){ var d=document.createElement('div'); d.style.marginTop='14px'; d.innerHTML='<span class="signup-done">✓ On the list</span>'; sec.appendChild(d); }
+    // mirror it inside the Get Notified modal so returning subscribers see the green check there too
+    var nm=document.getElementById('notifyModal');
+    if(nm){
+      ['.req-row','.consent','#m-msg'].forEach(function(sel){ var el=nm.querySelector(sel); if(el) el.style.display='none'; });
+      var nsub=nm.querySelector('.qm-sub'); if(nsub) nsub.textContent="You're already subscribed — we'll email you when the next bracket drops.";
+      if(!nm.querySelector('.signup-done')){ var card=nm.querySelector('.qm-card'); var nd=document.createElement('div'); nd.style.marginTop='14px'; nd.innerHTML='<span class="signup-done">✓ On the list</span>'; card.appendChild(nd); }
+    }
   }
   if(document.readyState!=='loading') done(); else document.addEventListener('DOMContentLoaded',done);
 })();
