@@ -353,6 +353,16 @@
   /* round2: fan vote per-band accent */
   .fv-poll{border-top:2px solid var(--fv-ac, var(--gold));}
   .fv-poll .fv-q{color:var(--fv-ac, #fff);}
+  
+  /* §11 fan vote: hide options once voted (class display was beating [hidden]); leaderboard polish */
+  .fv-options[hidden], .fv-result[hidden]{display:none;}
+  .fv-row{gap:10px;}
+  .fv-rank{font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--muted); font-size:13px; min-width:16px; text-align:center;}
+  .fv-name{flex:1; min-width:0;}
+  .fv-row.top .fv-rank{color:var(--gold-soft);}
+  .fv-row.top .fv-fill{background:rgba(240,165,0,.26);}
+  .fv-row.mine.top .fv-fill{background:rgba(240,165,0,.40);}
+  .fv-meta{text-align:center; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-size:11px; margin-bottom:8px;}
   </style>
 </head>
 <body>
@@ -803,13 +813,21 @@
       }
       function render(t, mine){
         var total=0; for(var k in t) total+=t[k];
+        var firming = total < 5;
         var rows=albums.map(function(a){ return {name:a.name, year:a.year, n:t[SAN(a.name)]||0}; }).sort(function(x,y){ return y.n-x.n; });
         optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML=''; var minePct=0;
-        rows.forEach(function(r){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
-          var row=document.createElement('div'); row.className='fv-row'+(r.name===mine?' mine':'');
-          row.innerHTML='<span class="fv-fill" style="width:'+pct+'%"></span><span>'+esc(r.name)+(r.year?' <span class="fv-yr">\u00b7 '+r.year+'</span>':'')+'</span><span class="fv-pct">'+pct+'%</span>';
+        var meta=document.createElement('div'); meta.className='fv-meta';
+        meta.textContent = total===0 ? 'Be the first to vote' : (total+(total===1?' vote':' votes'));
+        resWrap.appendChild(meta);
+        rows.forEach(function(r, i){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
+          var rank=i+1, isTop=(rank===1 && total>0);
+          var row=document.createElement('div'); row.className='fv-row'+(r.name===mine?' mine':'')+(isTop?' top':'');
+          var fill = firming ? '' : '<span class="fv-fill" style="width:'+pct+'%"></span>';
+          var pctc = firming ? '' : '<span class="fv-pct">'+pct+'%</span>';
+          row.innerHTML=fill+'<span class="fv-rank">'+rank+'</span><span class="fv-name">'+esc(r.name)+(r.year?' <span class="fv-yr">\u00b7 '+r.year+'</span>':'')+(isTop?' 👑':'')+'</span>'+pctc;
           resWrap.appendChild(row); });
-        if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent="👑 You're with "+minePct+"% — picked "+mine; resWrap.appendChild(y); }
+        if(firming && total>0){ var nt=document.createElement('div'); nt.className='fv-note'; nt.textContent='Early votes — results firming up.'; resWrap.appendChild(nt); }
+        if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent = firming ? ("👑 You picked "+mine) : ("👑 You're with "+minePct+"% — picked "+mine); resWrap.appendChild(y); }
       }
       function show(mine){
         fvRead(coll).then(function(t){ render(t,mine); }).catch(function(){ optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML='<div class="fv-note">✓ Vote recorded'+(mine?(' — '+mine):'')+'. Live results will load next time.</div>'; });
