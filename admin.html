@@ -59,11 +59,32 @@
     <div id="loading" class="loading">Loading data…</div>
 
     <div id="content" style="display:none">
+      <h2>Activity over time</h2>
+      <div id="byDay"></div>
+      <div class="muted" id="funnelNote" style="font-size:12.5px;margin-top:8px"></div>
+
+      <h2>Recent activity</h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">Latest brackets, signups, and band requests — newest first. (Fan votes are aggregate counts with no per-vote time, so they're summarized below, not here.)</div>
+      <table id="activityTable"><thead><tr><th>When</th><th>What</th><th>Detail</th></tr></thead><tbody></tbody></table>
+
       <h2>Brackets played by band</h2>
       <table id="bandTable">
         <thead><tr><th>Band</th><th class="num">Brackets</th><th>Top champion</th><th class="num">Crowns</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
+
+      <h2>Top champions — all bands</h2>
+      <table id="topChampsTable"><thead><tr><th>Song</th><th>Band</th><th class="num">Crowns</th></tr></thead><tbody></tbody></table>
+
+      <h2>Fan Vote — album polls</h2>
+      <div id="fanvotes"></div>
+
+      <h2>Band requests <span id="reqCount" class="muted" style="font-size:12px;text-transform:none;letter-spacing:0"></span> <button class="btn-sm" id="csvRequests" style="margin-left:8px">export CSV</button></h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">"Suggest a Band" submissions — demand for the next bracket, ranked by how often each artist was asked for.</div>
+      <table id="requestsTable"><thead><tr><th>Artist requested</th><th class="num">Requests</th><th>Last asked</th></tr></thead><tbody></tbody></table>
+
+      <h2>Signup sources</h2>
+      <table id="sourcesTable"><thead><tr><th>Source</th><th class="num">Count</th></tr></thead><tbody></tbody></table>
 
       <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button></h2>
       <div id="leaderboards"></div>
@@ -117,6 +138,12 @@ const BANDS = [
   ["Bon Jovi","bonjovi_brackets","bonjovi_leaderboard"],
 ];
 
+// Bands that have a Fan Vote album poll (homepage). Add more here as polls launch.
+const POLLS = [
+  ["Dave Matthews Band","dmb_albumvote"],
+  ["Frank Turner","ft_albumvote"],
+];
+
 const $ = id => document.getElementById(id);
 let allSubs = [], allSignups = [];
 
@@ -149,6 +176,7 @@ async function loadAll(){
   $("loading").style.display="block"; $("content").style.display="none";
   allSubs=[]; allSignups=[];
   const bandRows=[]; const lbHtml=[]; let totalBrackets=0, totalCrowns=0;
+  window.__allChamps=[];
 
   for (const [name, brCol, lbCol] of BANDS){
     let count=0, champs=[];
@@ -156,7 +184,7 @@ async function loadAll(){
       snap.forEach(d=>{ const v=d.data(); count++; allSubs.push({band:name, ...v}); });
     } catch(e){ console.warn(brCol, e.message); }
     try { const snap = await getDocs(collection(db, lbCol));
-      snap.forEach(d=>{ const v=d.data(); if(v&&v.name) champs.push({name:v.name, count:v.count||0}); });
+      snap.forEach(d=>{ const v=d.data(); if(v&&v.name){ champs.push({name:v.name, count:v.count||0}); window.__allChamps.push({band:name, name:v.name, count:v.count||0}); } });
     } catch(e){ console.warn(lbCol, e.message); }
     champs.sort((a,b)=>b.count-a.count);
     totalBrackets += count;
@@ -188,11 +216,86 @@ async function loadAll(){
   const emails = [...emailMap.values()].sort((a,b) => (b.first||0) - (a.first||0));
   window.__emails = emails;
 
+  // ---- Fan Vote polls ----
+  const polls=[]; let totalVotes=0;
+  for (const [pname, pcol] of POLLS){
+    let albums=[];
+    try { const snap = await getDocs(collection(db, pcol));
+      snap.forEach(d=>{ const v=d.data(); if(v&&v.album!=null) albums.push({album:v.album, count:v.count||0}); });
+    } catch(e){ console.warn(pcol, e.message); }
+    albums.sort((a,b)=>b.count-a.count);
+    const tot=albums.reduce((s,a)=>s+a.count,0); totalVotes+=tot;
+    polls.push({name:pname, albums, total:tot});
+  }
+  // ---- Band requests ----
+  let reqs=[];
+  try { const snap = await getDocs(collection(db, "band_requests"));
+    snap.forEach(d=>{ const v=d.data(); if(v&&v.band) reqs.push({band:String(v.band).trim(), ts:tsVal(v.created_at)}); });
+  } catch(e){ console.warn("band_requests", e.message); }
+  const reqMap=new Map();
+  reqs.forEach(r=>{ const k=r.band.toLowerCase(); let e=reqMap.get(k); if(!e){e={band:r.band,count:0,last:0};reqMap.set(k,e);} e.count++; if(r.ts>e.last)e.last=r.ts; });
+  const reqList=[...reqMap.values()].sort((a,b)=>b.count-a.count||b.last-a.last);
+  const totalRequests=reqs.length;
+  window.__reqList=reqList;
+
   $("cards").innerHTML =
-    card(totalBrackets,"Total brackets") +
+    card(totalBrackets,"Brackets completed") +
     card(emails.length,"Unique emails") +
     card(totalCrowns,"Champions crowned") +
+    card(totalVotes,"Fan votes") +
+    card(totalRequests,"Band requests") +
     card(BANDS.length,"Bands live");
+
+  // ---- Activity over time (by day, from completed brackets) ----
+  (function(){
+    const byDay={}; allSubs.forEach(s=>{ const t=tsVal(s.completed_at); if(!t)return; const d=new Date(t*1000); const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); byDay[key]=(byDay[key]||0)+1; });
+    const days=Object.keys(byDay).sort().slice(-14);
+    const max=Math.max(1,...days.map(d=>byDay[d]));
+    $("byDay").innerHTML = days.length ? '<table><thead><tr><th>Day</th><th class="num">Brackets</th><th></th></tr></thead><tbody>'+
+      days.map(d=>`<tr><td class="muted">${d}</td><td class="num">${byDay[d]}</td><td style="width:160px"><div class="barwrap"><div class="bar" style="width:${Math.round(byDay[d]/max*100)}%"></div></div></td></tr>`).join("")+'</tbody></table>'
+      : '<div class="muted">No completed brackets yet.</div>';
+    $("funnelNote").innerHTML = "Showing <b>completed</b> brackets (the only thing the database records). Brackets <i>started but abandoned</i> aren't stored here — that's a GA4 metric. Want a true started→completed funnel? I can wire a lightweight 'start' counter.";
+  })();
+
+  // ---- Recent activity feed ----
+  (function(){
+    const feed=[];
+    allSubs.forEach(s=>feed.push({ts:tsVal(s.completed_at), what:"Bracket", detail:(s.band||"")+(s.champion?" — 👑 "+s.champion:"")}));
+    allSignups.forEach(s=>feed.push({ts:tsVal(s.created_at), what:"Signup", detail:(s.email||"")+(s.source?" ("+s.source+")":"")}));
+    reqs.forEach(r=>feed.push({ts:r.ts, what:"Band request", detail:r.band}));
+    feed.sort((a,b)=>b.ts-a.ts);
+    document.querySelector("#activityTable tbody").innerHTML = feed.slice(0,50).map(x=>
+      `<tr><td class="muted">${x.ts?fmt({seconds:x.ts}):''}</td><td>${esc(x.what)}</td><td class="muted">${esc(x.detail)}</td></tr>`).join("")
+      || '<tr><td class="muted" colspan="3">No activity yet</td></tr>';
+  })();
+
+  // ---- Top champions across all bands ----
+  window.__allChamps.sort((a,b)=>b.count-a.count);
+  document.querySelector("#topChampsTable tbody").innerHTML = window.__allChamps.slice(0,15).map(c=>
+    `<tr><td>${esc(c.name)}</td><td class="muted">${esc(c.band)}</td><td class="num">${c.count}</td></tr>`).join("")
+    || '<tr><td class="muted" colspan="3">No champions crowned yet</td></tr>';
+
+  // ---- Fan Vote standings ----
+  $("fanvotes").innerHTML = polls.map(p=>{
+    const max=p.albums[0]?p.albums[0].count:1;
+    const rows=p.albums.map(a=>{ const pct=p.total?Math.round(a.count/p.total*100):0; return `<tr><td>${esc(a.album)}</td><td class="num">${a.count}</td><td class="num">${pct}%</td><td style="width:140px"><div class="barwrap"><div class="bar" style="width:${Math.round(a.count/max*100)}%"></div></div></td></tr>`; }).join("") || '<tr><td class="muted" colspan="4">No votes yet</td></tr>';
+    return `<details><summary><span>${esc(p.name)}</span><span class="c">${p.total} votes</span></summary><table><thead><tr><th>Album</th><th class="num">Votes</th><th class="num">Share</th><th></th></tr></thead><tbody>${rows}</tbody></table></details>`;
+  }).join("") || '<div class="muted">No Fan Vote polls configured.</div>';
+
+  // ---- Band requests table ----
+  $("reqCount").textContent = totalRequests ? ("— "+totalRequests+" total, "+reqList.length+" unique") : "";
+  document.querySelector("#requestsTable tbody").innerHTML = reqList.map(r=>
+    `<tr><td>${esc(r.band)}</td><td class="num">${r.count}</td><td class="muted">${r.last?fmt({seconds:r.last}):''}</td></tr>`).join("")
+    || '<tr><td class="muted" colspan="3">No band requests yet</td></tr>';
+
+  // ---- Signup sources ----
+  (function(){
+    const src={}; allSignups.forEach(s=>{ const k=(s.source||"hub").toString(); src[k]=(src[k]||0)+1; });
+    const subEmails=allSubs.filter(s=>s.email).length; if(subEmails) src["bracket-submit"]=(src["bracket-submit"]||0)+subEmails;
+    const rows=Object.entries(src).sort((a,b)=>b[1]-a[1]);
+    document.querySelector("#sourcesTable tbody").innerHTML = rows.map(([k,v])=>`<tr><td>${esc(k)}</td><td class="num">${v}</td></tr>`).join("")
+      || '<tr><td class="muted" colspan="2">No signups yet</td></tr>';
+  })();
 
   document.querySelector("#bandTable tbody").innerHTML = bandRows.join("");
   $("leaderboards").innerHTML = lbHtml.join("");
@@ -233,6 +336,8 @@ document.getElementById("csvSignups").onclick = () => {
   downloadCSV(only ? "cyc-emails-consented.csv" : "cyc-emails.csv",
     [["email","sources","consent","first_seen"]].concat(list.map(e=>[e.email,[...e.sources].join(" | "),e.consent,e.first?fmt({seconds:e.first}):""])));
 };
+document.getElementById("csvRequests").onclick = () => downloadCSV("cyc-band-requests.csv",
+  [["artist","requests","last_asked"]].concat((window.__reqList||[]).map(r=>[r.band,r.count,r.last?fmt({seconds:r.last}):""])));
 document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
   [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
    allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,(Array.isArray(s.final_four)?s.final_four.join(" | "):s.final_four),s.email,fmt(s.completed_at)])));
