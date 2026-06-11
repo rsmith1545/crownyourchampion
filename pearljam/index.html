@@ -64,6 +64,9 @@
         };
 
         // Save a completed bracket, then bump the crowned champion's tally
+                // lightweight per-band/per-day START counter (first pick) -> funnel. Stored in the leaderboard collection as a non-champion __starts__ doc (client-writable; readers ignore non-name docs).
+        window.cycStartWrite = function(){ try{ var day=new Date().toISOString().slice(0,10); setDoc(doc(db, "pj_leaderboard", "__starts__"), { starts: { [day]: increment(1) } }, { merge:true }); }catch(e){} };
+
         window.saveToFirebase = async function(email, bracketData, consent) {
             try {
                 await addDoc(collection(db, "pj_brackets"), {
@@ -2647,7 +2650,7 @@ const TOTAL_PICKS = 63;
 function pick(el, targetId) {
     const text = (function(s){var d=s.querySelector('.seed');var t=s.innerText;if(d){t=t.replace(d.innerText,'');}return t.trim();})(el);
     if (!text || text === '--') return;
-    if(!window.__cycStarted){ window.__cycStarted=1; try{cycEvt('bracket_started',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){} }
+    if(!window.__cycStarted){ window.__cycStarted=1; try{cycEvt('bracket_started',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){} try{ if(window.cycStartWrite) window.cycStartWrite(); }catch(e){} }
 
     // Mark winner in this matchup
     el.parentElement.querySelectorAll('.slot').forEach(s => s.classList.remove('winner'));

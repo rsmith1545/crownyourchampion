@@ -63,6 +63,10 @@
       <div id="byDay"></div>
       <div class="muted" id="funnelNote" style="font-size:12.5px;margin-top:8px"></div>
 
+      <h2>Started → completed funnel</h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">"Started" = a real first pick (not just a page view). Counted since this feature went live, so early ratios are rough.</div>
+      <table id="funnelTable"><thead><tr><th>Band</th><th class="num">Started</th><th class="num">Completed</th><th class="num">Completion</th></tr></thead><tbody></tbody></table>
+
       <h2>Recent activity</h2>
       <div class="muted" style="font-size:12.5px;margin-bottom:8px">Latest brackets, signups, and band requests — newest first. (Fan votes are aggregate counts with no per-vote time, so they're summarized below, not here.)</div>
       <table id="activityTable"><thead><tr><th>When</th><th>What</th><th>Detail</th></tr></thead><tbody></tbody></table>
@@ -177,18 +181,22 @@ async function loadAll(){
   allSubs=[]; allSignups=[];
   const bandRows=[]; const lbHtml=[]; let totalBrackets=0, totalCrowns=0;
   window.__allChamps=[];
+  const funnelRows=[]; let totalStarts=0;
 
   for (const [name, brCol, lbCol] of BANDS){
-    let count=0, champs=[];
+    let count=0, champs=[], starts=0;
     try { const snap = await getDocs(collection(db, brCol));
       snap.forEach(d=>{ const v=d.data(); count++; allSubs.push({band:name, ...v}); });
     } catch(e){ console.warn(brCol, e.message); }
     try { const snap = await getDocs(collection(db, lbCol));
-      snap.forEach(d=>{ const v=d.data(); if(v&&v.name){ champs.push({name:v.name, count:v.count||0}); window.__allChamps.push({band:name, name:v.name, count:v.count||0}); } });
+      snap.forEach(d=>{ const v=d.data()||{};
+        if(d.id==="__starts__"){ if(v.starts) starts=Object.values(v.starts).reduce((s,n)=>s+(Number(n)||0),0); return; }
+        if(v.name){ champs.push({name:v.name, count:v.count||0}); window.__allChamps.push({band:name, name:v.name, count:v.count||0}); } });
     } catch(e){ console.warn(lbCol, e.message); }
     champs.sort((a,b)=>b.count-a.count);
     totalBrackets += count;
     const crowns = champs.reduce((s,c)=>s+c.count,0); totalCrowns += crowns;
+    funnelRows.push({name, started:starts, completed:count}); totalStarts+=starts;
     const top = champs[0];
     bandRows.push(`<tr><td>${name}</td><td class="num">${count}</td><td>${top?top.name:'<span class="muted">—</span>'}</td><td class="num">${top?top.count:''}</td><td><a class="muted" href="#lb-${brCol}">view</a></td></tr>`);
     const max = top? top.count : 1;
@@ -239,6 +247,7 @@ async function loadAll(){
   window.__reqList=reqList;
 
   $("cards").innerHTML =
+    card(totalStarts,"Brackets started") +
     card(totalBrackets,"Brackets completed") +
     card(emails.length,"Unique emails") +
     card(totalCrowns,"Champions crowned") +
@@ -254,8 +263,14 @@ async function loadAll(){
     $("byDay").innerHTML = days.length ? '<table><thead><tr><th>Day</th><th class="num">Brackets</th><th></th></tr></thead><tbody>'+
       days.map(d=>`<tr><td class="muted">${d}</td><td class="num">${byDay[d]}</td><td style="width:160px"><div class="barwrap"><div class="bar" style="width:${Math.round(byDay[d]/max*100)}%"></div></div></td></tr>`).join("")+'</tbody></table>'
       : '<div class="muted">No completed brackets yet.</div>';
-    $("funnelNote").innerHTML = "Showing <b>completed</b> brackets (the only thing the database records). Brackets <i>started but abandoned</i> aren't stored here — that's a GA4 metric. Want a true started→completed funnel? I can wire a lightweight 'start' counter.";
+    $("funnelNote").innerHTML = "Bars show <b>completed</b> brackets per day. The <b>Started → completed funnel</b> below now tracks genuine starts (first pick). Raw page views (landed, never picked) stay in GA4.";
   })();
+
+  // ---- Started -> completed funnel ----
+  document.querySelector("#funnelTable tbody").innerHTML = funnelRows.filter(r=>r.started||r.completed).sort((a,b)=>(b.started+b.completed)-(a.started+a.completed)).map(r=>{
+    const pct = r.started ? Math.round(r.completed/r.started*100)+"%" : (r.completed?"—":"—");
+    return `<tr><td>${esc(r.name)}</td><td class="num">${r.started}</td><td class="num">${r.completed}</td><td class="num">${pct}</td></tr>`;
+  }).join("") || '<tr><td class="muted" colspan="4">No starts or completions yet</td></tr>';
 
   // ---- Recent activity feed ----
   (function(){
@@ -301,7 +316,7 @@ async function loadAll(){
   $("leaderboards").innerHTML = lbHtml.join("");
   renderEmails();
   document.querySelector("#subTable tbody").innerHTML = allSubs.slice(0,300).map(s=>{
-    const ff = Array.isArray(s.final_four)? s.final_four.join(", ") : (s.final_four||"");
+    const ff = ffStr(s.final_four);
     return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td></tr>`;
   }).join("") || '<tr><td class="muted" colspan="5">No submissions yet</td></tr>';
 
@@ -309,6 +324,7 @@ async function loadAll(){
 }
 
 function card(n,l){ return `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`; }
+function ffStr(ff, sep){ sep=sep||", "; if(!ff) return ""; if(Array.isArray(ff)) return ff.filter(Boolean).join(sep); if(typeof ff==="object"){ var o=[ff.f1,ff.f2,ff.f3,ff.f4].filter(Boolean); return (o.length?o:Object.values(ff).filter(Boolean)).join(sep); } return String(ff); }
 function esc(x){ return String(x==null?"":x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 function renderEmails(){
@@ -340,7 +356,7 @@ document.getElementById("csvRequests").onclick = () => downloadCSV("cyc-band-req
   [["artist","requests","last_asked"]].concat((window.__reqList||[]).map(r=>[r.band,r.count,r.last?fmt({seconds:r.last}):""])));
 document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
   [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
-   allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,(Array.isArray(s.final_four)?s.final_four.join(" | "):s.final_four),s.email,fmt(s.completed_at)])));
+   allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,ffStr(s.final_four," | "),s.email,fmt(s.completed_at)])));
 </script>
 </body>
 </html>
