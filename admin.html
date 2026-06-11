@@ -190,7 +190,7 @@ async function loadAll(){
     } catch(e){ console.warn(brCol, e.message); }
     try { const snap = await getDocs(collection(db, lbCol));
       snap.forEach(d=>{ const v=d.data()||{};
-        if(d.id==="__starts__"){ if(v.starts) starts=Object.values(v.starts).reduce((s,n)=>s+(Number(n)||0),0); return; }
+        if(d.id==="cyc_starts"){ if(v.starts) starts=Object.values(v.starts).reduce((s,n)=>s+(Number(n)||0),0); return; }
         if(v.name){ champs.push({name:v.name, count:v.count||0}); window.__allChamps.push({band:name, name:v.name, count:v.count||0}); } });
     } catch(e){ console.warn(lbCol, e.message); }
     champs.sort((a,b)=>b.count-a.count);

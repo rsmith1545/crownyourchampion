@@ -65,7 +65,7 @@
 
         // Save a completed bracket, then bump the crowned champion's tally
                 // lightweight per-band/per-day START counter (first pick) -> funnel. Stored in the leaderboard collection as a non-champion __starts__ doc (client-writable; readers ignore non-name docs).
-        window.cycStartWrite = function(){ try{ var day=new Date().toISOString().slice(0,10); setDoc(doc(db, "ff_leaderboard", "__starts__"), { starts: { [day]: increment(1) } }, { merge:true }); }catch(e){} };
+        window.cycStartWrite = function(){ try{ var day=new Date().toISOString().slice(0,10); setDoc(doc(db, "ff_leaderboard", "cyc_starts"), { starts: { [day]: increment(1) } }, { merge:true }); }catch(e){} };
 
         window.saveToFirebase = async function(email, bracketData, consent) {
             try {
