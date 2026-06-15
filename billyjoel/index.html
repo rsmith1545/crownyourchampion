@@ -4459,20 +4459,27 @@ updateProgress();
   function band(){ var m=(document.title||'').match(/Champion\s*[\u2014-]\s*(.+?)\s+Madness/i); return m?m[1].trim():'the'; }
   function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
   function ce(n){ try{ if(window.cycEvt) cycEvt(n,{band:slug()}); }catch(e){} }
+  // genre-adjacent next brackets (1-2 neighbors + See all fallback)
+  var NEXT={ line:"More classic songwriting? Settle another bracket \u2192", picks:[["Bruce Springsteen", "/springsteen/"], ["The Beatles", "/beatles/"]] };
   function build(){
     if(document.getElementById('cycQuizFunnel')) return;
     var ov=document.createElement('div'); ov.className='modal-overlay'; ov.id='cycQuizFunnel';
-    ov.innerHTML='<div class="modal" style="text-align:center;max-width:460px;">'
-      +'<div style="font-size:48px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
-      +'<h2 style="margin:0 0 8px;">Think you\u2019re a real superfan?</h2>'
-      +'<p style="margin:0 0 20px;">Take the '+band()+' superfan quiz and find out where you rank.</p>'
-      +'<div class="modal-actions" style="justify-content:center;gap:10px;">'
-      +'<button class="btn btn-share" id="cycQuizGo">\uD83C\uDFAF Take the Quiz</button>'
-      +'<button class="btn btn-close" id="cycQuizLater">Maybe later</button>'
-      +'</div></div>';
+    var picksHtml=NEXT.picks.map(function(p){return '<a data-cyc-next="'+p[1]+'" href="'+p[1]+'" style="display:inline-block;background:#2f80ed;color:#fff;border-radius:9px;padding:10px 16px;font-size:13.5px;font-weight:500;text-decoration:none;">'+p[0]+' \u2192</a>';}).join('');
+    ov.innerHTML='<div class="modal" style="text-align:center;max-width:480px;">'
+      +'<div style="font-size:44px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
+      +'<h2 style="margin:0 0 14px;">What\u2019s next?</h2>'
+      +'<p style="margin:0 0 8px;font-weight:600;">Think you\u2019re a real superfan?</p>'
+      +'<button class="btn btn-share" id="cycQuizGo" style="margin-bottom:20px;">\uD83C\uDFAF Take the '+band()+' Quiz</button>'
+      +'<p style="margin:0 0 10px;color:#9fb0c9;">'+NEXT.line+'</p>'
+      +'<div class="modal-actions" style="justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;">'+picksHtml+'</div>'
+      +'<a href="/" id="cycSeeAll" style="display:inline-block;font-size:13px;color:#9fb0c9;">See all brackets \u2192</a>'
+      +'<div style="margin-top:16px;"><button class="btn btn-close" id="cycQuizLater">Maybe later</button></div>'
+      +'</div>';
     document.body.appendChild(ov);
     document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); location.href='quiz.html'; };
     document.getElementById('cycQuizLater').onclick=dismiss;
+    var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(){ ce('see_all_click'); };
+    Array.prototype.forEach.call(ov.querySelectorAll('[data-cyc-next]'),function(a){ a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:slug(),to:a.getAttribute('data-cyc-next')}); }catch(e){} }); });
     ov.addEventListener('click',function(e){ if(e.target===ov) dismiss(); });
   }
   function show(){ build(); var ov=document.getElementById('cycQuizFunnel'); if(ov){ ce('quiz_funnel_shown'); ov.classList.add('open'); } }
