@@ -1529,6 +1529,7 @@
     </div>
     <div class="header-actions">
         <button class="btn btn-reset" onclick="openHowto()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">❓ How to Play</button>
+        <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
         <button class="btn btn-share" onclick="openShare()">Share ↗</button>
         <button class="btn btn-reset" onclick="confirmReset()" style="margin-left:18px;">↺ Reset</button>
         <button class="btn btn-signup" onclick="openHubSignup()">🔔 Sign Up</button>
@@ -4467,12 +4468,15 @@ updateProgress();
     ov.innerHTML='<div class="modal" style="text-align:center;max-width:480px;">'
       +'<div style="font-size:44px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
       +'<h2 style="margin:0 0 14px;">What\u2019s next?</h2>'
+      +'<p style="margin:0 0 8px;font-weight:600;">Think you\u2019re a real superfan?</p>'
+      +'<button class="btn btn-share" id="cycQuizGo" style="margin-bottom:20px;">\uD83C\uDFAF Take the '+band()+' Quiz</button>'
       +'<p style="margin:0 0 10px;color:#9fb0c9;">'+NEXT.line+'</p>'
       +'<div class="modal-actions" style="justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;">'+picksHtml+'</div>'
       +'<a href="/" id="cycSeeAll" style="display:inline-block;font-size:13px;color:#9fb0c9;">See all brackets \u2192</a>'
       +'<div style="margin-top:16px;"><button class="btn btn-close" id="cycQuizLater">Maybe later</button></div>'
       +'</div>';
     document.body.appendChild(ov);
+    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); location.href='quiz.html'; };
     document.getElementById('cycQuizLater').onclick=dismiss;
     var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(){ ce('see_all_click'); };
     Array.prototype.forEach.call(ov.querySelectorAll('[data-cyc-next]'),function(a){ a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:slug(),to:a.getAttribute('data-cyc-next')}); }catch(e){} }); });

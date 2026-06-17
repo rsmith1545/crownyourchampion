@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Analytics 4 (GA4) — owner-only measurement, see privacy.html -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-29YE8MYY3C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-29YE8MYY3C');window.cycEvt=function(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}};</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airborne Toxic Event Superfan Quiz — Crown Your Champion</title>
+<meta name="description" content="How big an Airborne Toxic Event fan are you? Casual or Superfan mode, fresh questions every time. Settle it.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crown Your Champion">
+<meta property="og:title" content="Airborne Toxic Event Superfan Quiz — How big a fan are you?">
+<meta property="og:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
+<meta property="og:url" content="https://crownyourchampion.com/ate/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Airborne Toxic Event Superfan Quiz">
+<meta name="twitter:description" content="Casual or Superfan mode. Fresh questions every play. Can you reach the top rank?">
+<meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="./manifest_ft.json">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#003f88; --gold:#f0a500; --gold-soft:#ffce5c; --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --green:#2e7d32; --red:#b3322c; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ font-family:'Barlow',sans-serif; background:var(--ink); color:var(--text); min-height:100vh; line-height:1.5;
+    background-image:radial-gradient(1100px 600px at 50% -8%, rgba(0,63,136,.38), transparent 60%), radial-gradient(800px 500px at 90% 110%, rgba(240,165,0,.10), transparent 55%);
+    -webkit-tap-highlight-color:transparent; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 18px 60px; }
+  .top{ text-align:center; margin-bottom:18px; }
+  .crown{ height:clamp(54px,11vw,92px); width:auto; filter:drop-shadow(0 4px 18px rgba(240,165,0,.28)); }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin:14px 0 4px; }
+  h1{ font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:clamp(34px,8vw,60px); letter-spacing:.01em; line-height:.95;
+    background:linear-gradient(180deg,#fff 0%, var(--gold) 130%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .card{ background:linear-gradient(135deg, rgba(20,25,39,.92), rgba(10,12,18,.92)); border:1px solid var(--line); border-radius:16px; padding:26px 22px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .lead{ text-align:center; color:var(--text); font-size:17px; margin:6px 0 4px; }
+  .sub{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:22px; }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:none; border-radius:11px; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+  .btn-go{ background:var(--gold); color:#0a0a0f; font-size:17px; padding:14px 30px; }
+  .btn-go:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(240,165,0,.35); }
+  .btn-ghost{ background:transparent; color:var(--muted); border:1px solid var(--line); font-size:14px; padding:11px 18px; }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold); }
+  .center{ text-align:center; }
+  .modes{ display:grid; gap:13px; max-width:420px; margin:0 auto; }
+  .mode{ text-align:left; background:#0e1320; border:1px solid var(--line); border-radius:13px; padding:16px 18px; cursor:pointer; transition:border-color .15s, transform .15s; }
+  .mode:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .mode .mt{ font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:#fff; }
+  .mode.superfan .mt{ color:var(--gold-soft); }
+  .mode .md{ color:var(--muted); font-size:13.5px; margin-top:2px; }
+  .qmeta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); }
+  .qmeta .score{ color:var(--gold); font-weight:700; }
+  .qmeta .mode-tag{ color:var(--gold-soft); }
+  .bar{ height:6px; background:#0c1018; border-radius:99px; overflow:hidden; margin-bottom:18px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0; transition:width .3s ease; }
+  .q{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:clamp(20px,4.4vw,26px); line-height:1.25; margin-bottom:18px; }
+  .opts{ display:grid; gap:11px; }
+  .opt{ width:100%; text-align:left; background:#0e1320; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:16px; font-family:'Barlow',sans-serif; cursor:pointer; transition:border-color .15s, background .15s; }
+  .opt:hover{ border-color:var(--gold); }
+  .opt.correct{ border-color:var(--green); background:rgba(46,125,50,.18); }
+  .opt.wrong{ border-color:var(--red); background:rgba(179,50,44,.16); }
+  .opt:disabled{ cursor:default; }
+  .explain{ margin-top:16px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:14.5px; display:none; }
+  .explain.show{ display:block; animation:fade .3s ease; }
+  .explain b{ color:var(--gold-soft); }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+  .next-row{ margin-top:18px; text-align:right; display:none; }
+  .next-row.show{ display:block; }
+  .rank{ font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,9vw,68px); letter-spacing:.02em; color:#fff; line-height:1; margin:8px 0 4px; }
+  .rank .crownico{ font-size:.7em; }
+  .scoreline{ font-family:'Barlow Condensed',sans-serif; font-size:22px; color:var(--gold); letter-spacing:.06em; margin-bottom:6px; }
+  .blurb{ color:var(--muted); font-size:15px; margin:8px auto 22px; max-width:460px; }
+  .result-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .cta{ margin-top:18px; text-align:center; }
+  .cta a{ color:var(--gold-soft); font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:15px; }
+  .foot{ text-align:center; margin-top:22px; color:var(--muted); font-size:13px; }
+  .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
+  .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
+    <div class="kicker">Airborne Toxic Event</div>
+    <h1>Superfan Quiz</h1>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="foot"><a href="./">&larr; Back to the Airborne Toxic Event bracket</a> &nbsp;&middot;&nbsp; <a href="../">All tournaments</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PER_ROUND = 12;
+
+  // Casual pool — the hits & basics. (Correct answer listed first; shuffled at runtime.)
+  var CASUAL = [
+{"q":"The Airborne Toxic Event is a rock band from which U.S. city?","a":["Los Angeles","San Francisco","Seattle","New York City"],"e":"<b>Los Angeles</b>. The Airborne Toxic Event formed in Los Angeles, California."},
+{"q":"Who is the lead singer and primary songwriter of The Airborne Toxic Event?","a":["Mikel Jollett","Steven Chen","Daren Taylor","Noah Harmon"],"e":"<b>Mikel Jollett</b>. He founded the band and writes most of its songs."},
+{"q":"What is widely considered The Airborne Toxic Event's breakout single?","a":["Sometime Around Midnight","Changing","Timeless","Gasoline"],"e":"<b>Sometime Around Midnight</b>. The 2008 song from the debut album became their signature hit."},
+{"q":"In what year was The Airborne Toxic Event formed?","a":["2006","2004","2008","2010"],"e":"<b>2006</b>. Mikel Jollett started the band in Los Angeles in 2006."},
+{"q":"The band's name comes from a section of which novel?","a":["White Noise","Infinite Jest","American Psycho","The Crying of Lot 49"],"e":"<b>White Noise</b>. Don DeLillo's novel contains a section titled 'The Airborne Toxic Event.'"},
+{"q":"Which author wrote the novel that inspired the band's name?","a":["Don DeLillo","Thomas Pynchon","David Foster Wallace","Bret Easton Ellis"],"e":"<b>Don DeLillo</b>. His 1985 novel White Noise gave the band its name."},
+{"q":"On which album does 'Sometime Around Midnight' appear?","a":["The Airborne Toxic Event","All at Once","Such Hot Blood","Hollywood Park"],"e":"<b>The Airborne Toxic Event</b>. The breakout single is from the 2008 self-titled debut."},
+{"q":"What is the title of the band's 2008 debut studio album?","a":["The Airborne Toxic Event","All at Once","Dope Machines","Glory"],"e":"<b>The Airborne Toxic Event</b>. The debut was self-titled."},
+{"q":"Mikel Jollett worked in which profession before forming the band?","a":["Writer and journalist","Lawyer","Schoolteacher","Film editor"],"e":"<b>Writer and journalist</b>. He was an essayist and freelance writer before turning to music."},
+{"q":"What is the title of Mikel Jollett's 2020 memoir?","a":["Hollywood Park","White Noise","Sometime Around Midnight","All at Once"],"e":"<b>Hollywood Park</b>. The memoir shares its title with the band's 2020 album."},
+{"q":"The band's 2020 album shares its name with which work by Mikel Jollett?","a":["His memoir","A short story","A documentary film","A poetry collection"],"e":"<b>His memoir</b>. The album Hollywood Park is a companion to Jollett's memoir of the same name."},
+{"q":"Which genre best describes The Airborne Toxic Event?","a":["Indie/alternative rock","Country","Hip hop","Heavy metal"],"e":"<b>Indie/alternative rock</b>. The band is generally classed as indie and alternative rock."},
+{"q":"Which of these is a studio album by The Airborne Toxic Event?","a":["All at Once","Hot Fuss","Funeral","Turn on the Bright Lights"],"e":"<b>All at Once</b>. It was the band's second studio album, released in 2011."},
+{"q":"Which song was The Airborne Toxic Event's highest-charting single on the U.S. Alternative chart?","a":["Changing","Sometime Around Midnight","Timeless","Numb"],"e":"<b>Changing</b>. It reached No. 4 on the U.S. Alternative Songs chart."},
+{"q":"The band frequently collaborates with which classical ensemble?","a":["The Calder Quartet","The Kronos Quartet","The Emerson Quartet","The Brodsky Quartet"],"e":"<b>The Calder Quartet</b>. The Los Angeles string quartet appears on many of the band's recordings."},
+{"q":"Which instrument is most associated with the band's orchestral indie-rock sound, beyond the standard rock setup?","a":["Violin","Saxophone","Banjo","Harp"],"e":"<b>Violin</b>. The band has long featured violin and string arrangements in its music."},
+{"q":"Mikel Jollett's memoir Hollywood Park describes his early childhood in what kind of organization?","a":["A cult (Synanon)","A circus","A monastery","A military academy"],"e":"<b>A cult (Synanon)</b>. He was born into Synanon, a rehab program that became an infamous cult."},
+{"q":"Which of these is a real Airborne Toxic Event album?","a":["Such Hot Blood","Cold War Kids","Neon Bible","In Rainbows"],"e":"<b>Such Hot Blood</b>. It was the band's third studio album, from 2013."},
+{"q":"Which song appears on the album All at Once?","a":["Changing","Timeless","Gasoline","California"],"e":"<b>Changing</b>. 'Changing' was a lead single from 2011's All at Once."},
+{"q":"Which song was an early single from the band's debut album?","a":["Gasoline","Changing","Timeless","Glory"],"e":"<b>Gasoline</b>. It was an early single from the 2008 self-titled debut."},
+{"q":"The Airborne Toxic Event released a 2024 album titled what?","a":["Glory","Triumph","Victory","Honor"],"e":"<b>Glory</b>. The single 'Glory' arrived in July 2024 ahead of the album."},
+{"q":"Which long-running member played violin and viola for the band from 2006 to 2019?","a":["Anna Bulbrook","Mimi Peschet","Daren Taylor","Adrian Rodriguez"],"e":"<b>Anna Bulbrook</b>. She was the band's violinist and multi-instrumentalist until 2019."},
+{"q":"On which 2013 album does the band's catalog include the single 'Timeless'?","a":["Such Hot Blood","All at Once","Dope Machines","Hollywood Park"],"e":"<b>Such Hot Blood</b>. 'Timeless' was the lead single from Such Hot Blood."},
+{"q":"Which of these instruments does Mikel Jollett play in the band?","a":["Guitar and keyboards","Drums","Bass guitar","Cello"],"e":"<b>Guitar and keyboards</b>. Jollett sings and plays guitar and keyboards."},
+{"q":"What kind of book is Mikel Jollett's Hollywood Park?","a":["A memoir","A novel","A cookbook","A travel guide"],"e":"<b>A memoir</b>. It is an autobiography centered on his unusual childhood."},
+{"q":"Which of these is NOT a member or former member of The Airborne Toxic Event?","a":["Win Butler","Mikel Jollett","Steven Chen","Daren Taylor"],"e":"<b>Win Butler</b>. He fronts Arcade Fire, not The Airborne Toxic Event."},
+{"q":"The Airborne Toxic Event's music has frequently appeared in what kind of media?","a":["Film and TV soundtracks","Video game cutscenes only","Opera productions","Radio dramas"],"e":"<b>Film and TV soundtracks</b>. Their songs have been licensed for many films and TV shows."},
+{"q":"Which 2011 single reached No. 4 on the U.S. Alternative Songs chart?","a":["Changing","Sometime Around Midnight","Numb","Hell and Back"],"e":"<b>Changing</b>. The 2011 single hit No. 4 on U.S. Alternative Songs."},
+{"q":"How many studio albums had The Airborne Toxic Event released as of 2024?","a":["Seven","Three","Five","Ten"],"e":"<b>Seven</b>. From the 2008 debut through Glory in 2024, the band released seven studio albums."},
+{"q":"The band's signature breakout song 'Sometime Around Midnight' earned which RIAA certification?","a":["Gold","Platinum","Diamond","Silver"],"e":"<b>Gold</b>. The single was certified Gold by the RIAA."}
+];
+
+  // Superfan pool — deep cuts & lore.
+  var SUPERFAN = [
+{"q":"Which label released The Airborne Toxic Event's 2008 self-titled debut album?","a":["Majordomo","Island","Epic","Rounder"],"e":"<b>Majordomo</b>. The indie LA label issued the debut in August 2008."},
+{"q":"What was the exact U.S. release date of the self-titled debut album?","a":["August 5, 2008","April 26, 2008","February 2, 2009","October 1, 2008"],"e":"<b>August 5, 2008</b>. The debut came out in the U.S. on that date."},
+{"q":"Which label released the band's second album, All at Once?","a":["Island","Majordomo","Epic","Little Tokyo"],"e":"<b>Island</b>. All at Once was an Island Records release in 2011."},
+{"q":"On what date was All at Once released in the U.S.?","a":["April 26, 2011","April 30, 2013","February 24, 2015","May 22, 2020"],"e":"<b>April 26, 2011</b>. The band's second album arrived on that date."},
+{"q":"Which label released both Dope Machines and Songs of God and Whiskey in 2015?","a":["Epic","Island","Rounder","Majordomo"],"e":"<b>Epic</b>. Both 2015 albums were Epic Records releases."},
+{"q":"On what date was Dope Machines released?","a":["February 24, 2015","April 28, 2015","April 30, 2013","July 16, 2024"],"e":"<b>February 24, 2015</b>. Dope Machines was the band's more electronic, synth-leaning album."},
+{"q":"On what date was the acoustic-leaning album Songs of God and Whiskey released?","a":["April 28, 2015","February 24, 2015","April 26, 2011","May 22, 2020"],"e":"<b>April 28, 2015</b>. It followed Dope Machines by roughly nine weeks."},
+{"q":"Which label released the band's 2020 album Hollywood Park?","a":["Rounder","Epic","Island","Little Tokyo"],"e":"<b>Rounder</b>. Rounder Records issued Hollywood Park in 2020."},
+{"q":"Which label is associated with the band's 2024 album Glory?","a":["Little Tokyo","Rounder","Epic","Majordomo"],"e":"<b>Little Tokyo</b>. Glory is tied to the band's Little Tokyo imprint."},
+{"q":"Which Airborne Toxic Event studio album charted highest on the U.S. Billboard 200?","a":["All at Once","The Airborne Toxic Event","Such Hot Blood","Dope Machines"],"e":"<b>All at Once</b>. It peaked at No. 17, the band's best Billboard 200 showing."},
+{"q":"What was the peak Billboard 200 position of All at Once?","a":["17","27","56","108"],"e":"<b>17</b>. All at Once reached No. 17 on the Billboard 200 in 2011."},
+{"q":"What was the peak U.S. Billboard 200 position of the self-titled debut album?","a":["108","17","27","56"],"e":"<b>108</b>. The 2008 debut peaked at No. 108 on the Billboard 200."},
+{"q":"What was the peak Billboard 200 position of Such Hot Blood?","a":["27","17","56","108"],"e":"<b>27</b>. The 2013 album reached No. 27 on the Billboard 200."},
+{"q":"What was the peak Billboard 200 position of Dope Machines?","a":["56","17","27","108"],"e":"<b>56</b>. Dope Machines peaked at No. 56 in 2015."},
+{"q":"On what date was Such Hot Blood released in the U.S.?","a":["April 30, 2013","April 26, 2011","April 28, 2015","May 22, 2020"],"e":"<b>April 30, 2013</b>. Such Hot Blood was the band's third studio album."},
+{"q":"On what date was Hollywood Park released?","a":["May 22, 2020","May 5, 2020","April 28, 2015","July 16, 2024"],"e":"<b>May 22, 2020</b>. The album followed Jollett's memoir of the same name."},
+{"q":"On what date was the single 'Glory' released?","a":["July 16, 2024","September 6, 2024","May 22, 2020","August 2, 2023"],"e":"<b>July 16, 2024</b>. The title single preceded the full Glory album."},
+{"q":"Who produced the single 'Sometime Around Midnight' and much of the debut album?","a":["Pete Min","Dave Sardy","Jacquire King","Rick Rubin"],"e":"<b>Pete Min</b>. The debut was recorded largely at Pete Min's home studio in Atwater Village."},
+{"q":"Who produced the album All at Once?","a":["Dave Sardy","Pete Min","Jacquire King","Steve Albini"],"e":"<b>Dave Sardy</b>. Sardy, known for work with Oasis and LCD Soundsystem, produced All at Once."},
+{"q":"Who produced Such Hot Blood?","a":["Jacquire King","Dave Sardy","Pete Min","Butch Vig"],"e":"<b>Jacquire King</b>. King produced the band's third album, Such Hot Blood."},
+{"q":"In which LA neighborhood was producer Pete Min's home studio, where the debut was largely recorded?","a":["Atwater Village","Echo Park","Silver Lake","Venice"],"e":"<b>Atwater Village</b>. Much of the debut was tracked at Min's home studio there."},
+{"q":"The band played its first show in October 2006 at which Los Angeles venue?","a":["The Echo","El Rey Theatre","The Greek Theatre","Walt Disney Concert Hall"],"e":"<b>The Echo</b>. They debuted at The Echo in Echo Park in October 2006."},
+{"q":"In December 2006, which magazine named the band one of the 'Top 25 Bands on MySpace'?","a":["Rolling Stone","Spin","Billboard","NME"],"e":"<b>Rolling Stone</b>. The early nod came from Rolling Stone in December 2006."},
+{"q":"Which guitarist and keyboardist has been in the band since 2006 and had known Jollett for years as a fellow writer?","a":["Steven Chen","Adrian Rodriguez","Noah Harmon","Daren Taylor"],"e":"<b>Steven Chen</b>. Chen and Jollett met as writers before the band formed."},
+{"q":"Who has been the band's drummer since its 2006 formation?","a":["Daren Taylor","Adrian Rodriguez","Steven Chen","Noah Harmon"],"e":"<b>Daren Taylor</b>. Taylor has drummed for the band since the beginning."},
+{"q":"Which bassist joined The Airborne Toxic Event in 2014?","a":["Adrian Rodriguez","Noah Harmon","Mimi Peschet","Steven Chen"],"e":"<b>Adrian Rodriguez</b>. Rodriguez took over on bass in 2014."},
+{"q":"Who was the band's original bassist, in the lineup from 2006 to 2014?","a":["Noah Harmon","Adrian Rodriguez","Steven Chen","Daren Taylor"],"e":"<b>Noah Harmon</b>. Harmon played bass and upright bass until 2014."},
+{"q":"Which member joined in 2020 on keyboards, violin, and backing vocals?","a":["Mimi Peschet","Anna Bulbrook","Adrian Rodriguez","Ashley Dzerigian"],"e":"<b>Mimi Peschet</b>. Miriam 'Mimi' Peschet joined the band in 2020."},
+{"q":"In what year did Anna Bulbrook's departure from the band get announced?","a":["2019","2014","2017","2020"],"e":"<b>2019</b>. Her exit was announced in September 2019."},
+{"q":"In what year did original bassist Noah Harmon leave the band?","a":["2014","2011","2016","2019"],"e":"<b>2014</b>. Harmon departed in 2014, replaced by Adrian Rodriguez."},
+{"q":"Don DeLillo's novel White Noise won which major U.S. literary award in 1985?","a":["National Book Award","Pulitzer Prize","Booker Prize","PEN/Faulkner Award"],"e":"<b>National Book Award</b>. White Noise won the 1985 U.S. National Book Award."},
+{"q":"Mikel Jollett met violinist Anna Bulbrook at which Silver Lake spot?","a":["El Gran Burrito","The Echo","Safari Sam's","El Rey Theatre"],"e":"<b>El Gran Burrito</b>. They met at the outdoor Mexican restaurant in Silver Lake."},
+{"q":"The band's string-quartet live album was recorded at which downtown LA venue?","a":["Walt Disney Concert Hall","The Greek Theatre","Gibson Amphitheatre","El Rey Theatre"],"e":"<b>Walt Disney Concert Hall</b>. The 2010 live album was taped at the Frank Gehry-designed hall."},
+{"q":"What is the full title of the band's 2010 live album recorded with the Calder Quartet?","a":["All I Ever Wanted: Live from Walt Disney Concert Hall","Live at the Greek","Such Hot Blood Live","The Secret Live"],"e":"<b>All I Ever Wanted: Live from Walt Disney Concert Hall</b>. It features the Calder Quartet."},
+{"q":"On what date was the Walt Disney Concert Hall show that became the 2010 live album recorded?","a":["December 4, 2009","September 28, 2010","August 2, 2023","January 16, 2009"],"e":"<b>December 4, 2009</b>. The sold-out show was recorded that night."},
+{"q":"The 2009 Walt Disney Concert Hall concert was the last of how many shows on the debut-album touring cycle?","a":["354","100","500","250"],"e":"<b>354</b>. It capped a marathon 354-show debut cycle."},
+{"q":"In which year did the band release the live double album Live at the Greek?","a":["2023","2010","2020","2015"],"e":"<b>2023</b>. Live at the Greek was recorded at the Greek Theatre."},
+{"q":"Andrew Bulbrook, who played violin in the Calder Quartet, is related to which former band member?","a":["Anna Bulbrook (her brother)","Mikel Jollett (his cousin)","Daren Taylor (his brother)","Steven Chen (his brother-in-law)"],"e":"<b>Anna Bulbrook (her brother)</b>. Andrew Bulbrook is Anna's brother, linking band and quartet."},
+{"q":"Which is the FIRST single released from the debut album?","a":["Gasoline","Sometime Around Midnight","Wishing Well","Does This Mean You're Moving On?"],"e":"<b>Gasoline</b>. 'Gasoline' preceded 'Sometime Around Midnight' as a debut single."},
+{"q":"On what date was 'Sometime Around Midnight' released as a single in the UK?","a":["February 2, 2009","August 5, 2008","April 30, 2009","December 1, 2007"],"e":"<b>February 2, 2009</b>. It was issued as the debut's second single."},
+{"q":"iTunes named 'Sometime Around Midnight' the No. 1 what of 2008?","a":["Alternative Song","Rock Song","Indie Song","Overall Song"],"e":"<b>Alternative Song</b>. iTunes ranked it the top Alternative song of 2008."},
+{"q":"What was the peak position of 'Sometime Around Midnight' on the U.S. Alternative Airplay chart?","a":["4","15","23","33"],"e":"<b>4</b>. It reached No. 4 on Billboard's U.S. Alternative Airplay chart."},
+{"q":"In which radio show did the band first premiere 'Sometime Around Midnight' live, in December 2007?","a":["Indie 103.1's Check One Two","KCRW's Morning Becomes Eclectic","BBC Radio 1's Live Lounge","Sirius XMU's Advanced Placement"],"e":"<b>Indie 103.1's Check One Two</b>. The song premiered there in December 2007."},
+{"q":"Which superstar band reportedly played 'Sometime Around Midnight' over stadium PA before taking the stage on their 360 Tour?","a":["U2","Coldplay","The Killers","Muse"],"e":"<b>U2</b>. U2 used the song as walk-on music during their 360 Tour."},
+{"q":"'Sometime Around Midnight' was featured in an episode of which CW teen drama in 2009?","a":["90210","Gossip Girl","One Tree Hill","The Vampire Diaries"],"e":"<b>90210</b>. The song appeared in the 2009 90210 episode 'Off the Rails.'"},
+{"q":"Who directed the original 2008 music video for 'Sometime Around Midnight'?","a":["Jason Wishnow","D.J. Caruso","Jon Danovic","Silvia Grav"],"e":"<b>Jason Wishnow</b>. He directed the first, literal video for the song."},
+{"q":"Who directed the second, more surreal 2009 video for 'Sometime Around Midnight'?","a":["D.J. Caruso","Jason Wishnow","Jon Danovic","Billy Johnson"],"e":"<b>D.J. Caruso</b>. The film director helmed the abstract second video."},
+{"q":"Which actress starred as the love interest in the 2009 'Sometime Around Midnight' video?","a":["Anita Briem","Drew Barrymore","Anna Kendrick","Emmy Rossum"],"e":"<b>Anita Briem</b>. She played the love interest in the D.J. Caruso video."},
+{"q":"In which European country did the band's 'Changing' single chart as the North American lead single while 'Numb' led in Europe?","a":["United States (Changing was the North American lead single)","France","Germany","Italy"],"e":"<b>United States</b>. 'Changing' led in North America and 'Numb' led in Europe."},
+{"q":"Which song was released as the European lead single from All at Once?","a":["Numb","Changing","All I Ever Wanted","Half of Something Else"],"e":"<b>Numb</b>. 'Numb' was the European lead single while 'Changing' led North America."},
+{"q":"On which album does the song 'All I Ever Wanted' appear?","a":["All at Once","The Airborne Toxic Event","Such Hot Blood","Dope Machines"],"e":"<b>All I Ever Wanted</b> appears on <b>All at Once</b> (2011)."},
+{"q":"The video and song 'All I Ever Wanted' are loosely based on a short story by which author?","a":["Milan Kundera","Don DeLillo","Raymond Carver","Haruki Murakami"],"e":"<b>Milan Kundera</b>. They draw on Kundera's story 'The Hitchhiking Game.'"},
+{"q":"The band performed 'All I Ever Wanted' with the Calder Quartet on which late-night show in September 2011?","a":["The Tonight Show with Jay Leno","Late Show with David Letterman","Jimmy Kimmel Live!","Conan"],"e":"<b>The Tonight Show with Jay Leno</b>. They performed it with the Calder Quartet on Leno."},
+{"q":"The band's 2010 charity single 'Neda' honored an Iranian protester and benefited which organization?","a":["Amnesty International","Doctors Without Borders","Red Cross","UNICEF"],"e":"<b>Amnesty International</b>. Proceeds from 'Neda' went to Amnesty International."},
+{"q":"On what date was the single 'Neda' released?","a":["June 7, 2010","December 4, 2009","February 2, 2009","April 26, 2011"],"e":"<b>June 7, 2010</b>. It marked the one-year anniversary of Neda Agha-Soltan's death."},
+{"q":"The band's song 'Hell and Back' was featured in which Oscar-winning 2013 film?","a":["Dallas Buyers Club","12 Years a Slave","Her","Gravity"],"e":"<b>Dallas Buyers Club</b>. 'Hell and Back' appeared in the film."},
+{"q":"Which song was the lead single from Such Hot Blood?","a":["Timeless","The Storm","Hell and Back","Changing"],"e":"<b>Timeless</b>. 'Timeless' led the 2013 album Such Hot Blood."},
+{"q":"From which album is the 2015 single 'California'?","a":["Songs of God and Whiskey","Dope Machines","Such Hot Blood","Hollywood Park"],"e":"<b>Songs of God and Whiskey</b>. 'California' came from the 2015 acoustic album."},
+{"q":"From which album is the single 'Wrong' (2014/2015)?","a":["Dope Machines","Songs of God and Whiskey","Such Hot Blood","All at Once"],"e":"<b>Dope Machines</b>. 'Wrong' was an advance single from Dope Machines."},
+{"q":"From which album is the 2020 single 'Come on Out'?","a":["Hollywood Park","Glory","Dope Machines","Such Hot Blood"],"e":"<b>Come on Out</b> is from <b>Hollywood Park</b> (2020)."},
+{"q":"In which year did the band release the non-album single 'America'?","a":["2016","2014","2020","2022"],"e":"<b>2016</b>. 'America' was released in October 2016 ahead of a 2017 tour."},
+{"q":"In which year did the band release the non-album single 'Faithless'?","a":["2022","2016","2024","2020"],"e":"<b>2022</b>. 'Faithless' was a standalone single in 2022."},
+{"q":"What is the title of the band's first EP, self-released in 2007?","a":["Does This Mean You're Moving On?","Happiness Is Overrated","The Secret","Glory"],"e":"<b>Does This Mean You're Moving On?</b>. It was self-released in 2007."},
+{"q":"Which 2009 EP did the band release on Universal?","a":["Happiness Is Overrated","Does This Mean You're Moving On?","The Secret","All at Once"],"e":"<b>Happiness Is Overrated</b>. The EP came out on Universal in 2009."},
+{"q":"What is the title of the band's 2013 EP released on Island Records?","a":["The Secret","Happiness Is Overrated","Does This Mean You're Moving On?","The Storm"],"e":"<b>The Secret</b>. The EP was released March 11, 2013 on Island."},
+{"q":"On what date was The Secret EP released?","a":["March 11, 2013","April 30, 2013","February 24, 2015","June 7, 2010"],"e":"<b>March 11, 2013</b>. The Secret preceded the album Such Hot Blood."},
+{"q":"Which cover did the band contribute to the 2012 Bob Dylan tribute album Chimes of Freedom?","a":["Boots of Spanish Leather","Like a Rolling Stone","Tangled Up in Blue","Knockin' on Heaven's Door"],"e":"<b>Boots of Spanish Leather</b>. They covered it for the Dylan tribute."},
+{"q":"Which Paul McCartney song did the band cover for the 2014 album The Art of McCartney?","a":["No More Lonely Nights","Maybe I'm Amazed","Band on the Run","Live and Let Die"],"e":"<b>No More Lonely Nights</b>. They covered it for The Art of McCartney."},
+{"q":"Which song did the band contribute to Muppets: The Green Album in 2011?","a":["Wishing Song","Rainbow Connection","Movin' Right Along","Bein' Green"],"e":"<b>Wishing Song</b>. The band recorded 'Wishing Song' for the Muppets tribute."},
+{"q":"Which Q Lazzarus song is among the famous covers the band performed live on the Walt Disney Concert Hall release?","a":["Goodbye Horses","Heaven","Tainted Love","Bizarre Love Triangle"],"e":"<b>Goodbye Horses</b>. The Q Lazzarus cover featured in the live set."},
+{"q":"Which Magnetic Fields song did the band cover at the Walt Disney Concert Hall show?","a":["The Book of Love","Papa Was a Rodeo","All My Little Words","I Don't Believe in the Sun"],"e":"<b>The Book of Love</b>. It was among the live covers on the 2010 release."},
+{"q":"Which Ramones song did the band cover during the Walt Disney Concert Hall performance?","a":["Do You Remember Rock 'n' Roll Radio?","Blitzkrieg Bop","I Wanna Be Sedated","Sheena Is a Punk Rocker"],"e":"<b>Do You Remember Rock 'n' Roll Radio?</b>. It was part of the live covers set."},
+{"q":"Mikel Jollett's memoir Hollywood Park was published by which imprint?","a":["Celadon Books","Penguin Press","Knopf","Riverhead Books"],"e":"<b>Celadon Books</b>. Celadon published the memoir in 2020."},
+{"q":"The title 'Hollywood Park' refers to what real-world place from Jollett's childhood?","a":["A horse-racing track","An amusement park","A movie studio lot","A public swimming pool"],"e":"<b>A horse-racing track</b>. His father took him to the California racetrack."},
+{"q":"The cult Jollett was born into and writes about in Hollywood Park began as what kind of program?","a":["A drug-rehabilitation program","A religious commune","A wilderness camp","A political movement"],"e":"<b>A drug-rehabilitation program</b>. Synanon began as drug rehab before becoming a cult."},
+{"q":"In summer 2008, McSweeney's published Jollett's short story 'The Crack,' running alongside a story by which famous author?","a":["Stephen King","Dave Eggers","Michael Chabon","George Saunders"],"e":"<b>Stephen King</b>. Jollett's story ran near a Stephen King piece in McSweeney's Issue 27."},
+{"q":"Pitchfork's reviewer gave the band's 2008 debut a notoriously low score of what?","a":["1.6/10","4.5/10","6.0/10","2.9/10"],"e":"<b>1.6/10</b>. The harsh review prompted the band to publish an open response."},
+{"q":"The band's UK breakthrough came via a 2008 tour billed as how many shows in how many days?","a":["30 Shows in 30 Days","20 Shows in 20 Days","50 Shows in 50 Days","10 Shows in 10 Days"],"e":"<b>30 Shows in 30 Days</b>. The November 2008 UK tour boosted their profile."},
+{"q":"During the 2008 UK run, the band held a residency at which Camden, London venue?","a":["Dublin Castle","The Roundhouse","The 100 Club","Koko"],"e":"<b>Dublin Castle</b>. They had a residency at the Dublin Castle in Camden."},
+{"q":"The band made its national TV debut in April 2008 on which program?","a":["Last Call with Carson Daly","The Late Show with David Letterman","Conan","Jimmy Kimmel Live!"],"e":"<b>Last Call with Carson Daly</b>. The NBC late-night show was their TV debut."},
+{"q":"The band's January 16, 2009 Late Show performance, which boosted 'Sometime Around Midnight,' was on whose show?","a":["David Letterman","Jay Leno","Conan O'Brien","Craig Ferguson"],"e":"<b>David Letterman</b>. The Late Show appearance featured the Calder Quartet."},
+{"q":"The LA Times named the band a top LA band to watch in 2008, a list previously highlighting which two acts?","a":["Cold War Kids and Silversun Pickups","The Killers and Interpol","Phantom Planet and Rilo Kiley","Local Natives and Grouplove"],"e":"<b>Cold War Kids and Silversun Pickups</b>. Both were earlier LA Times picks."},
+{"q":"The band performed 'All I Ever Wanted' with the Calder Quartet on the 30th-anniversary special of which show in 2012?","a":["The Late Show with David Letterman","The Tonight Show with Jay Leno","Saturday Night Live","Austin City Limits"],"e":"<b>The Late Show with David Letterman</b>. The performance aired February 1, 2012."},
+{"q":"Which director helmed the music videos for both 'Changing' and 'Numb' in 2011?","a":["Jon Danovic","Jason Wishnow","D.J. Caruso","Silvia Grav"],"e":"<b>Jon Danovic</b>. Danovic directed both All at Once singles' videos."},
+{"q":"Drummer Daren Taylor was previously in a band from which California area?","a":["Fresno (band called Pinkeye)","San Diego","Sacramento","Long Beach"],"e":"<b>Fresno</b>. Taylor had played in a Fresno-area band called Pinkeye."},
+{"q":"Original bassist Noah Harmon was a graduate of which music school?","a":["Herb Alpert School of Music at CalArts","Berklee College of Music","Juilliard","USC Thornton School of Music"],"e":"<b>Herb Alpert School of Music at CalArts</b>. Harmon trained there."},
+{"q":"Before being lead guitarist, Steven Chen was first asked by Jollett to play which instrument?","a":["Keyboard","Bass","Drums","Violin"],"e":"<b>Keyboard</b>. Jollett asked Chen to play keyboard; Chen revealed he played guitar."},
+{"q":"Jollett and Chen had known each other for years before the band, having met as writers in which city?","a":["San Francisco","Los Angeles","New York City","Portland"],"e":"<b>San Francisco</b>. The two met as writers in San Francisco."},
+{"q":"Which song, an early Jollett-Taylor rehearsal track, ended up on the debut album?","a":["Wishing Well","Changing","Timeless","Gasoline"],"e":"<b>Wishing Well</b>. It was among the first songs they rehearsed in 2006."},
+{"q":"The All at Once promotional series of one-take acoustic videos was given what nickname?","a":["Bombastic","Acoustic Sessions","The Living Room Tapes","Stripped"],"e":"<b>Bombastic</b>. The All at Once one-take video series was dubbed 'Bombastic.'"},
+{"q":"Which producer was associated with the band's full-orchestra-friendly second album, praised by Music Week as 'confident, ambitious and radio-friendly'?","a":["Dave Sardy","Pete Min","Jacquire King","Brendan O'Brien"],"e":"<b>Dave Sardy</b>. Music Week praised Sardy's production on All at Once."},
+{"q":"The band performed with which orchestra at Red Rocks in September 2012, alongside DeVotchKa?","a":["Colorado Symphony Orchestra","Louisville Orchestra","San Francisco Symphony","Los Angeles Philharmonic"],"e":"<b>Colorado Symphony Orchestra</b>. The Red Rocks show paired them with the CSO and DeVotchKa."},
+{"q":"The Calder Quartet first played with the band at the debut's record-release show at which LA theatre?","a":["El Rey Theatre","Walt Disney Concert Hall","The Greek Theatre","The Echo"],"e":"<b>El Rey Theatre</b>. They first joined the band at the El Rey release show in 2008."},
+{"q":"Besides 'Sometime Around Midnight,' the Calder Quartet appeared in the one-take acoustic video for which debut song?","a":["Innocence","Gasoline","Wishing Well","Missy"],"e":"<b>Innocence</b>. The quartet featured in the one-take video for 'Innocence.'"},
+{"q":"Which violinist was a member of the classic Calder Quartet lineup alongside Andrew Bulbrook?","a":["Benjamin Jacobson","Mikel Jollett","Eric Byers","Jonathan Moerschel"],"e":"<b>Benjamin Jacobson</b>. He played violin in the Calder Quartet."},
+{"q":"In the Calder Quartet's classic lineup, who played cello?","a":["Eric Byers","Andrew Bulbrook","Benjamin Jacobson","Jonathan Moerschel"],"e":"<b>Eric Byers</b>. Byers was the quartet's cellist."},
+{"q":"Which song did the band contribute to NCIS: The Official TV Soundtrack in 2009?","a":["I Don't Want to Be on TV","Sometime Around Midnight","Gasoline","Wishing Well"],"e":"<b>I Don't Want to Be on TV</b>. The track appeared on the NCIS soundtrack."},
+{"q":"In which year did the band announce it was recording its third album with Jacquire King?","a":["2012","2010","2014","2008"],"e":"<b>2012</b>. The Such Hot Blood sessions were announced in July 2012."},
+{"q":"What was the peak position of 'Changing' on the U.S. Alternative Songs chart?","a":["4","12","17","27"],"e":"<b>4</b>. 'Changing' reached No. 4, matching the band's Alternative high."},
+{"q":"The band promoted the debut album with one-take acoustic videos filmed around which city?","a":["Los Angeles","London","New York","San Francisco"],"e":"<b>Los Angeles</b>. The acoustic video series was shot around LA."},
+{"q":"Which 2015 album was described as synth-pop and more electronic in direction?","a":["Dope Machines","Songs of God and Whiskey","Such Hot Blood","Hollywood Park"],"e":"<b>Dope Machines</b>. It marked a more electronic, synth-driven sound."},
+{"q":"Which 2015 album was the more acoustic, rock-and-roll-leaning counterpart, made of songs written over the prior decade?","a":["Songs of God and Whiskey","Dope Machines","All at Once","Such Hot Blood"],"e":"<b>Songs of God and Whiskey</b>. It contrasted the synth-heavy Dope Machines."},
+{"q":"Jollett's traumatic week in March 2006 that spurred his songwriting included a breakup, his mother's cancer diagnosis, and his own diagnosis of what?","a":["A genetic autoimmune disease","Diabetes","A heart condition","Tinnitus"],"e":"<b>A genetic autoimmune disease</b>. The diagnosis led to alopecia areata and vitiligo."},
+{"q":"Hollywood Park (the memoir) was named one of which magazine's 30 most anticipated books of 2020?","a":["O, The Oprah Magazine","Time","Vanity Fair","The New Yorker"],"e":"<b>O, The Oprah Magazine</b>. It made Oprah's most-anticipated list and became a NYT bestseller."},
+{"q":"What was the peak UK Albums Chart position of the self-titled debut?","a":["36","17","49","32"],"e":"<b>36</b>. The debut reached No. 36 in the UK."},
+{"q":"What was the peak UK Albums Chart position of Hollywood Park?","a":["32","36","49","17"],"e":"<b>32</b>. Hollywood Park reached No. 32 on the UK chart."},
+{"q":"On which album does the song 'Innocence' appear?","a":["The Airborne Toxic Event","All at Once","Such Hot Blood","Dope Machines"],"e":"<b>The Airborne Toxic Event</b>. 'Innocence' was an early rehearsal song that made the debut."},
+{"q":"On which album does 'Numb' appear?","a":["All at Once","Such Hot Blood","The Airborne Toxic Event","Dope Machines"],"e":"<b>Numb</b> is from <b>All at Once</b> (2011)."},
+{"q":"On which album does 'Half of Something Else' appear?","a":["All at Once","Such Hot Blood","The Airborne Toxic Event","Songs of God and Whiskey"],"e":"<b>Half of Something Else</b> is from <b>All at Once</b>."},
+{"q":"The band's Walt Disney Concert Hall live album also charted on which UK chart?","a":["UK Video","UK Singles","UK Albums","UK Indie"],"e":"<b>UK Video</b>. It reached No. 41 on the UK Video chart as a DVD/Blu-ray."},
+{"q":"What genre label, alongside indie and alternative rock, is often applied to the band's sound?","a":["Post-punk revival","Shoegaze","Dream pop","Garage rock"],"e":"<b>Post-punk revival</b>. The band is frequently tagged as post-punk revival."},
+{"q":"The band signed to its first major label, Island Records, in which year?","a":["2009","2008","2011","2006"],"e":"<b>2009</b>. After Majordomo, they signed with Island Records in 2009."},
+{"q":"In which year did the band move to Epic Records?","a":["2015","2013","2011","2009"],"e":"<b>2015</b>. The 2015 albums Dope Machines and Songs of God and Whiskey were on Epic."},
+{"q":"How many songs are on the 2024 Glory album?","a":["9","12","7","15"],"e":"<b>9</b>. The full Glory album, released in September 2024, contains nine songs."},
+{"q":"The band's debut album spawned how many official music videos for 'Sometime Around Midnight' alone?","a":["Two","One","Three","Four"],"e":"<b>Two</b>. There were two videos: the 2008 Wishnow version and the 2009 Caruso version."},
+{"q":"Before becoming a songwriter, Jollett contributed writing to outlets including NPR and which newspaper?","a":["The Los Angeles Times","The New York Times","The Washington Post","The Guardian"],"e":"<b>The Los Angeles Times</b>. He wrote for NPR, the LA Times, Filter, and Men's Health."},
+{"q":"At her first band rehearsal, Anna Bulbrook reportedly brought which instrument to the rock practice instead of her pricier violin?","a":["A viola","A cello","A keyboard","A mandolin"],"e":"<b>A viola</b>. She brought a viola rather than risk her more expensive violin."},
+{"q":"The band's 2008 debut had 14 tracks recorded, of which how many made the album?","a":["10","12","8","14"],"e":"<b>10</b>. Of 14 recorded songs, 10 made the final debut album."},
+{"q":"Which of these films featured an Airborne Toxic Event song on its soundtrack?","a":["Dallas Buyers Club","La La Land","Whiplash","Birdman"],"e":"<b>Dallas Buyers Club</b>. 'Hell and Back' appeared in the 2013 film."},
+{"q":"What was the peak UK Singles Chart position of 'Sometime Around Midnight'?","a":["33","14","4","15"],"e":"<b>33</b>. The single peaked at No. 33 on the UK Singles Chart."},
+{"q":"An acoustic version of 'Sometime Around Midnight' was selected as a 'Pick of the Week' by which retailer?","a":["Starbucks","Best Buy","Target","Amazon"],"e":"<b>Starbucks</b>. The acoustic version was a Starbucks iTunes Pick of the Week."},
+{"q":"What is the B-side listed with the 'Sometime Around Midnight' single?","a":["Innocence (Live)","Gasoline","Wishing Well","Does This Mean You're Moving On?"],"e":"<b>Innocence (Live)</b>. A live 'Innocence' and an acoustic version were B-sides."},
+{"q":"Who wrote 'Sometime Around Midnight'?","a":["Mikel Jollett","Steven Chen","Pete Min","Daren Taylor"],"e":"<b>Mikel Jollett</b>. Jollett is credited as the song's sole songwriter."},
+{"q":"The 2009 Letterman appearance pushed 'Sometime Around Midnight' into the top 10 of which chart?","a":["US Alternative","US Hot 100","UK Singles","US Country"],"e":"<b>US Alternative</b>. The performance helped lift it into the Alternative top 10."},
+{"q":"Which of these is one of the major festivals the band has played?","a":["Coachella","Burning Man","South by Southwest only","Woodstock"],"e":"<b>Coachella</b>. Their festival history includes Coachella, Lollapalooza, and Reading & Leeds."},
+{"q":"Which UK/Ireland festival is among those the band has performed at?","a":["Reading & Leeds","Glastonbury Pyramid headline","Download","Creamfields"],"e":"<b>Reading & Leeds</b>. The band's festival appearances include Reading & Leeds and T in the Park."},
+{"q":"Which Japanese festival has the band appeared at?","a":["Fuji Rock","Summer Sonic only","Rock in Japan","Hostess Club"],"e":"<b>Fuji Rock</b>. Fuji Rock is among the international festivals they have played."},
+{"q":"In the novel White Noise, the 'airborne toxic event' is caused by what?","a":["A chemical spill from a railcar","A factory explosion","A volcanic eruption","A nuclear accident"],"e":"<b>A chemical spill from a railcar</b>. The release forms a poisonous cloud over the town."},
+{"q":"After Noah Harmon's 2014 exit, which bassist was briefly announced as a temporary replacement before Adrian Rodriguez took over?","a":["Ashley Dzerigian","Mimi Peschet","Anna Bulbrook","Steven Chen"],"e":"<b>Ashley Dzerigian</b>. She was announced as a temp replacement but dropped out."},
+{"q":"Which member of the band is credited with lead vocals, guitar, AND keyboards?","a":["Mikel Jollett","Steven Chen","Adrian Rodriguez","Daren Taylor"],"e":"<b>Mikel Jollett</b>. He handles lead vocals, guitar, and keyboards."},
+{"q":"How many official studio albums make up the band's discography through 2024, per Wikipedia?","a":["7","6","8","5"],"e":"<b>7</b>. The studio discography totals seven albums from 2008 to 2024."},
+{"q":"What was the peak U.S. Alternative Albums chart position of All at Once?","a":["4","8","9","14"],"e":"<b>4</b>. All at Once reached No. 4 on the U.S. Alternative Albums chart."},
+{"q":"On which album does 'Gasoline' appear?","a":["The Airborne Toxic Event","All at Once","Such Hot Blood","Dope Machines"],"e":"<b>Gasoline</b> is from the 2008 self-titled debut."},
+{"q":"Mikel Jollett's memoir was released how close to the band's album of the same name?","a":["A few days before the album","A year before","On the same day","A month after"],"e":"<b>A few days before the album</b>. The book came out in early May 2020, just before the album."},
+{"q":"The 'America' single in 2016 was released in preparation for which year's tour?","a":["2017","2016","2018","2015"],"e":"<b>2017</b>. The band issued 'America' ahead of their 2017 tour."},
+{"q":"The Calder Quartet is based in which city?","a":["Los Angeles","New York","Chicago","San Francisco"],"e":"<b>Los Angeles</b>. The Calder Quartet, like the band, is LA-based."}
+];
+
+  var RANKS = [{"pct":100,"name":"White Noise Scholar","icon":"👑","blurb":"Flawless — you know this band down to the railcar. Bow down."},{"pct":80,"name":"Calder Quartet Caliber","icon":"🎻","blurb":"Serious fan: deep cuts, lineup changes, the whole catalog down cold."},{"pct":55,"name":"Midnight Singalong","icon":"🎫","blurb":"Solid — you know the hits and then some; a few gaps to fill."},{"pct":30,"name":"Hollywood Park Drifter","icon":"🍻","blurb":"Here for 'Sometime Around Midnight' and a good time. Respect."},{"pct":0,"name":"Casual Listener","icon":"🎧","blurb":"Dig into the catalog — then come settle the bracket."}];
+
+  var C=document.getElementById('card');
+  var pool, modeName, round, idx, score, answered;
+
+  function toast(m){ var t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },1800); }
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  function buildRound(srcPool){
+    var picked=shuffle(srcPool).slice(0, Math.min(PER_ROUND, srcPool.length));
+    return picked.map(function(item){
+      var correct=item.a[0];
+      var opts=shuffle(item.a);
+      return { q:item.q, opts:opts, correct:correct, e:item.e };
+    });
+  }
+
+  function startScreen(){
+    C.innerHTML=
+      '<div class="center"><p class="lead">How big an Airborne Toxic Event fan are you?</p>'+
+      '<p class="sub">Pick your level — fresh questions every time you play.</p></div>'+
+      '<div class="modes">'+
+      '<div class="mode" id="mCasual"><div class="mt">🎧 Casual</div><div class="md">The hits and the basics — albums, members, the essentials.</div></div>'+
+      '<div class="mode superfan" id="mSuper"><div class="mt">👑 Superfan</div><div class="md">Deep cuts &amp; lore — producers, the Lillywhite Sessions, records.</div></div>'+
+      '</div>';
+    document.getElementById('mCasual').onclick=function(){ begin(CASUAL,'Casual'); };
+    document.getElementById('mSuper').onclick=function(){ begin(SUPERFAN,'Superfan'); };
+  }
+
+  function begin(srcPool, name){
+    try{cycEvt('quiz_started',{mode:name,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
+    pool=srcPool; modeName=name; round=buildRound(srcPool); idx=0; score=0; render();
+  }
+
+  function render(){
+    answered=false;
+    var item=round[idx];
+    C.innerHTML=
+      '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
+      '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
+      '<div class="q">'+item.q+'</div>'+
+      '<div class="opts" id="opts"></div>'+
+      '<div class="explain" id="explain"></div>'+
+      '<div class="next-row" id="nextRow"><button class="btn btn-go" id="nextBtn">'+(idx===round.length-1?'See My Rank':'Next')+'</button></div>';
+    var opts=document.getElementById('opts');
+    item.opts.forEach(function(text){
+      var b=document.createElement('button'); b.className='opt'; b.textContent=text; b.onclick=function(){ choose(text,b); };
+      opts.appendChild(b);
+    });
+    document.getElementById('nextBtn').onclick=function(){ if(idx<round.length-1){ idx++; render(); } else { result(); } };
+  }
+
+  function choose(text, btn){
+    if(answered) return; answered=true;
+    var item=round[idx];
+    document.querySelectorAll('.opt').forEach(function(b){ b.disabled=true; if(b.textContent===item.correct) b.classList.add('correct'); });
+    var ok=(text===item.correct);
+    if(ok){ score++; } else { btn.classList.add('wrong'); }
+    var ex=document.getElementById('explain'); ex.innerHTML=(ok?'✅ Correct. ':'❌ Not quite. ')+item.e; ex.classList.add('show');
+    document.getElementById('nextRow').classList.add('show');
+    var sc=document.querySelector('.qmeta .score'); if(sc) sc.textContent='Score '+score;
+  }
+
+  function rankFor(pct){ for(var i=0;i<RANKS.length;i++){ if(pct>=RANKS[i].pct) return RANKS[i]; } return RANKS[RANKS.length-1]; }
+
+  function result(){
+    try{cycEvt('quiz_completed',{mode:modeName,score:score,total:round.length,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
+    var pct=Math.round((score/round.length)*100);
+    var r=rankFor(pct);
+    var shareText='I scored '+score+'/'+round.length+' on the Airborne Toxic Event Superfan Quiz ('+modeName+' mode) — I\'m a '+r.name+' '+r.icon+'. Think you can beat me?';
+    var url='https://crownyourchampion.com/ate/quiz.html';
+    C.innerHTML=
+      '<div class="center">'+
+      '<div class="kicker" style="color:var(--muted)">'+modeName+' Mode &middot; Your Rank</div>'+
+      '<div class="rank">'+r.name+' <span class="crownico">'+r.icon+'</span></div>'+
+      '<div class="scoreline">'+score+' / '+round.length+' correct</div>'+
+      '<p class="blurb">'+r.blurb+'</p>'+
+      '<div class="result-actions">'+
+        '<button class="btn btn-go" id="shareBtn">📤 Share My Rank</button>'+
+        '<button class="btn btn-ghost" id="againBtn">↺ Play Again</button>'+
+      '</div>'+
+      '<div class="cta"><a href="./">🏆 Now crown your Airborne Toxic Event champion →</a></div>'+
+      '</div>';
+    document.getElementById('againBtn').onclick=startScreen;
+    document.getElementById('shareBtn').onclick=function(){
+      var band=(document.title.split(' Superfan Quiz')[0]||'').trim();
+      var challenge='I got '+r.name+' '+r.icon+' — '+score+'/'+round.length+' — on the '+band+' Superfan Quiz. Beat me: '+url;
+      if(window.cycQuizShare){ window.cycQuizShare({band:band,rankName:r.name,icon:r.icon,blurb:r.blurb,score:score,total:round.length,mode:modeName,title:band+' Superfan Quiz',url:url,challenge:challenge}); return; }
+      try{ navigator.clipboard.writeText(challenge); toast('Copied!'); }catch(e){}
+    };
+  }
+
+  startScreen();
+})();
+</script>
+<script>
+/* cyc cookie notice — notify-only, dismissible (see privacy.html) */
+(function(){
+  if(window.__cycCookie) return; window.__cycCookie=1;
+  function init(){
+    try{ if(localStorage.getItem('cyc-cookie-ok')) return; }catch(e){}
+    if(document.getElementById('cycCookie')) return;
+    var bar=document.createElement('div'); bar.id='cycCookie';
+    bar.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#0c1320;border-top:1px solid #1e3a5f;color:#cdd6e6;font-family:system-ui,-apple-system,sans-serif;font-size:13px;line-height:1.45;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;box-shadow:0 -4px 18px rgba(0,0,0,.45);';
+    bar.innerHTML='<span>We use cookies to measure site traffic. By using the site you agree. <a href="/privacy.html" style="color:#f0a500;">Privacy</a></span>';
+    var ok=document.createElement('button'); ok.type='button'; ok.textContent='OK';
+    ok.style.cssText='background:#f0a500;color:#000;border:none;border-radius:5px;font-weight:700;font-family:inherit;font-size:13px;letter-spacing:.04em;padding:7px 20px;cursor:pointer;flex:none;';
+    ok.addEventListener('click',function(){ try{localStorage.setItem('cyc-cookie-ok','1');}catch(e){} bar.parentNode&&bar.parentNode.removeChild(bar); });
+    bar.appendChild(ok); document.body.appendChild(bar);
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<script>
+/* cycQuizShare — quiz RESULT card (recreates the on-screen results UI at card res) + platform-aware share */
+(function(){
+  if(window.__cycQuizShare) return; window.__cycQuizShare=1;
+  function once(fn){ var d=false; return function(){ if(d) return; d=true; return fn.apply(this,arguments); }; }
+  function isMobileShare(){ try{ return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia('(pointer: coarse)').matches; }catch(e){ return false; } }
+  function toast(m){ try{ var t=document.getElementById('cycQT'); if(!t){ t=document.createElement('div'); t.id='cycQT'; t.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1a2332;color:#fff;border:1px solid #f0a500;border-radius:8px;padding:10px 18px;font-family:Barlow,sans-serif;font-size:14px;z-index:100000;opacity:0;transition:opacity .2s;'; document.body.appendChild(t); } t.textContent=m; t.style.opacity='1'; clearTimeout(t._h); t._h=setTimeout(function(){ t.style.opacity='0'; },2200); }catch(e){} }
+  function copyText(t,msg){ try{ if(navigator.clipboard){ navigator.clipboard.writeText(t); toast(msg); return; } }catch(e){} try{ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast(msg); }catch(e){} }
+  function withFonts(cb){ cb=once(cb); try{ if(document.fonts&&document.fonts.load){ Promise.all([document.fonts.load('400 120px "Bebas Neue"'),document.fonts.load('700 50px "Barlow Condensed"'),document.fonts.load('400 30px "Barlow"')]).then(function(){ return document.fonts.ready; }).then(cb).catch(cb); setTimeout(cb,1200); return; } }catch(e){} cb(); }
+  function rr(x,a,b,w,h,r){ x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath(); }
+  function trk(x,t,cx,cy,sp){ var w=[],tot=0,i; for(i=0;i<t.length;i++){ var c=x.measureText(t[i]).width; w.push(c); tot+=c+(i<t.length-1?sp:0); } var sx=cx-tot/2,p=x.textAlign; x.textAlign='left'; for(i=0;i<t.length;i++){ x.fillText(t[i],sx,cy); sx+=w[i]+sp; } x.textAlign=p; }
+  function paint(x,W,H,d,logo){
+    x.fillStyle='#0a0a0f'; x.fillRect(0,0,W,H);
+    var g1=x.createRadialGradient(W*0.5,-H*0.05,0,W*0.5,-H*0.05,W*1.05); g1.addColorStop(0,'rgba(0,63,136,0.40)'); g1.addColorStop(0.6,'rgba(0,63,136,0)'); x.fillStyle=g1; x.fillRect(0,0,W,H);
+    var g2=x.createRadialGradient(W*0.92,H*1.04,0,W*0.92,H*1.04,W*0.85); g2.addColorStop(0,'rgba(240,165,0,0.13)'); g2.addColorStop(0.6,'rgba(240,165,0,0)'); x.fillStyle=g2; x.fillRect(0,0,W,H);
+    x.textAlign='center'; x.textBaseline='alphabetic';
+    if(logo){ var lw=W*0.56, lh=lw*(logo.naturalHeight/logo.naturalWidth); x.drawImage(logo,(W-lw)/2,H*0.065,lw,lh); }
+    x.fillStyle='#f0a500'; x.font='400 '+Math.round(H*0.037)+'px "Bebas Neue",sans-serif';
+    trk(x,(d.band+' SUPERFAN QUIZ').toUpperCase(), W/2, H*0.275, Math.round(H*0.004));
+    var px=W*0.085,pw=W-2*px,py=H*0.315,ph=H*0.55;
+    rr(x,px,py,pw,ph,30); x.fillStyle='rgba(17,21,33,0.94)'; x.fill(); x.lineWidth=2; x.strokeStyle='#26304a'; x.stroke();
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.017)+'px "Barlow Condensed",sans-serif';
+    trk(x,'YOUR RANK', W/2, py+ph*0.105, Math.round(H*0.006));
+    x.font=Math.round(H*0.10)+'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    x.fillText(d.icon||'🎧', W/2, py+ph*0.31);
+    var rank=(d.rankName||'').toUpperCase(), maxW=pw*0.86, size=Math.round(H*0.10), minS=Math.round(H*0.05);
+    function sf(s){ x.font='400 '+s+'px "Bebas Neue",Impact,sans-serif'; }
+    sf(size); while(x.measureText(rank).width>maxW&&size>minS){ size-=4; sf(size); }
+    x.fillStyle='#ffffff'; x.fillText(rank, W/2, py+ph*0.49);
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.029)+'px "Barlow Condensed",sans-serif';
+    trk(x, d.score+' / '+d.total+' CORRECT', W/2, py+ph*0.62, Math.round(H*0.004));
+    x.fillStyle='#9aa6bf'; x.font='400 '+Math.round(H*0.022)+'px "Barlow",sans-serif';
+    var ws=(d.blurb||'').split(' '),ln='',L=[],fw=pw*0.84;
+    for(var i=0;i<ws.length;i++){ var t=ln?ln+' '+ws[i]:ws[i]; if(x.measureText(t).width>fw&&ln){ L.push(ln); ln=ws[i]; } else ln=t; }
+    if(ln)L.push(ln); L=L.slice(0,3);
+    for(var j=0;j<L.length;j++){ x.fillText(L[j], W/2, py+ph*0.74+j*H*0.030); }
+    x.fillStyle='#f0a500'; x.font='700 '+Math.round(H*0.019)+'px "Barlow Condensed",sans-serif';
+    trk(x,'CROWNYOURCHAMPION.COM', W/2, py+ph+H*0.058, Math.round(H*0.004));
+  }
+  function drawCard(d, cb){
+    cb=once(cb);
+    withFonts(function(){
+      var W=1080,H=1350, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+      var logo=new Image();
+      var finish=once(function(){ try{ paint(x,W,H,d,(logo.complete&&logo.naturalWidth)?logo:null); }catch(e){} try{ c.toBlob(function(b){ cb(b,c); },'image/png'); }catch(e){ cb(null,c); } });
+      var t=setTimeout(finish,2600);
+      logo.onload=function(){ clearTimeout(t); finish(); };
+      logo.onerror=function(){ clearTimeout(t); finish(); };
+      logo.src='/cyc-logo.png?v=3';
+    });
+  }
+  function buildModal(){
+    if(document.getElementById('cycQM')) return document.getElementById('cycQM');
+    var css=document.createElement('style'); css.textContent='#cycQM{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;}#cycQM.open{display:flex;}#cycQM .box{background:#141a28;border:1px solid #2a3550;border-top:4px solid #f0a500;border-radius:10px;max-width:430px;width:100%;padding:20px;text-align:center;position:relative;font-family:Barlow,sans-serif;box-sizing:border-box;max-height:94vh;overflow:auto;}#cycQM .x{position:absolute;top:6px;right:12px;background:none;border:none;color:#8c9ab9;font-size:26px;cursor:pointer;line-height:1;}#cycQM .t{font-family:"Bebas Neue",sans-serif;font-size:22px;letter-spacing:2px;color:#f0a500;margin-bottom:10px;}#cycQM img{width:78%;border-radius:8px;display:none;box-shadow:0 6px 24px rgba(0,0,0,.55);}#cycQM .hint{color:#7c89a6;font-size:13px;margin:8px 0 12px;}#cycQM button.act{display:block;width:100%;font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;border-radius:8px;padding:12px;margin-top:8px;cursor:pointer;border:none;box-sizing:border-box;}#cycQM .prim{background:#f0a500;color:#10131a;}#cycQM .sec{background:transparent;color:#cdd6e6;border:1px solid #2a3550;}';
+    document.head.appendChild(css);
+    var m=document.createElement('div'); m.id='cycQM';
+    m.innerHTML='<div class="box"><button class="x" aria-label="Close">×</button><div class="t">SHARE YOUR RANK</div><img id="cycQImg" alt="Your quiz result card"><div class="hint" id="cycQHint">Building your result card…</div><button class="act prim" id="cycQDl">📥 Download Result Card</button><button class="act sec" id="cycQCopy">📋 Copy Challenge Text</button><button class="act sec" id="cycQLink">🔗 Copy Link</button></div>';
+    document.body.appendChild(m);
+    m.querySelector('.x').onclick=function(){ m.classList.remove('open'); };
+    m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('open'); });
+    return m;
+  }
+  window.cycQuizShare=function(d){
+    if(isMobileShare()){
+      drawCard(d,function(b){
+        try{ if(b&&navigator.canShare){ var f=new File([b],'quiz-result.png',{type:'image/png'}); if(navigator.canShare({files:[f]})){ navigator.share({files:[f],text:d.challenge,url:d.url}).catch(function(){}); return; } } }catch(e){}
+        try{ if(navigator.share){ navigator.share({title:d.title,text:d.challenge,url:d.url}).catch(function(){}); return; } }catch(e){}
+        copyText(d.challenge,'Copied — paste it anywhere!');
+      });
+      return;
+    }
+    var m=buildModal(); m.classList.add('open');
+    var img=m.querySelector('#cycQImg'), hint=m.querySelector('#cycQHint'); img.style.display='none'; hint.style.display='block'; hint.textContent='Building your result card…';
+    var blob=null;
+    drawCard(d,function(b,c){ blob=b; if(c){ img.src=c.toDataURL('image/png'); img.style.display='block'; hint.style.display='none'; } });
+    m.querySelector('#cycQDl').onclick=function(){ if(!blob){ toast('Card still rendering — one sec'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quiz-result.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{URL.revokeObjectURL(a.href);}catch(e){} a.remove(); },1500); toast('Card downloaded!'); };
+    m.querySelector('#cycQCopy').onclick=function(){ copyText(d.challenge,'Challenge copied!'); };
+    m.querySelector('#cycQLink').onclick=function(){ copyText(d.url,'Link copied!'); };
+  };
+})();
+</script>
+</body>
+</html>
