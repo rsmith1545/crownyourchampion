@@ -65,7 +65,38 @@
             var optsWrap=poll.querySelector('.fv-options'), resWrap=poll.querySelector('.fv-result');
             var albums=(optsWrap.getAttribute('data-albums')||'').split('|').map(function(s){var p=s.split('::');return {name:p[0].trim(), year:(p[1]||'').trim()};}).filter(function(x){return x.name;});
             var voted=null; try{ voted=localStorage.getItem(key); }catch(e){}
-            albums.forEach(function(a){ var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':''); b.onclick=function(){ vote(a.name); }; optsWrap.appendChild(b); });
+            var TRACKS=null, tracksReq=null;
+            function loadTracks(cb){
+              if(TRACKS){ cb(TRACKS); return; }
+              if(!tracksReq){ tracksReq=fetch('album-tracks.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};}).then(function(j){ TRACKS=j||{}; return TRACKS; }); }
+              tracksReq.then(cb);
+            }
+            albums.forEach(function(a){
+              var row=document.createElement('div'); row.className='fv-opt-row';
+              var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':''); b.onclick=function(){ vote(a.name); };
+              var ex=document.createElement('button'); ex.type='button'; ex.className='fv-exp'; ex.setAttribute('aria-label','Show tracklist for '+a.name); ex.innerHTML='<span class="fv-exp-lbl">Album Tracks</span><span class="fv-exp-ico">▾</span>';
+              var tl=document.createElement('div'); tl.className='fv-tracks'; tl.hidden=true; var built=false;
+              ex.onclick=function(e){ e.stopPropagation();
+                if(!tl.hidden){ tl.hidden=true; ex.classList.remove('open'); return; }
+                tl.hidden=false; ex.classList.add('open');
+                if(built) return; built=true;
+                tl.innerHTML='<div class="fv-tl-load">Loading tracks…</div>';
+                loadTracks(function(j){ var list=(j&&j[a.name])||[]; tl.innerHTML='';
+                  if(!list.length){ tl.innerHTML='<div class="fv-tl-load">Tracklist coming soon.</div>'; return; }
+                  list.forEach(function(tr, ti){ var t=document.createElement('div'); t.className='fv-track';
+                    var nm=document.createElement('span'); nm.className='fv-tk-name'; nm.textContent=(ti+1)+'. '+tr.n;
+                    var pb=document.createElement('span'); pb.className='play-btn'; pb.setAttribute('role','button'); pb.setAttribute('tabindex','0'); pb.setAttribute('aria-label','Play preview of '+tr.n);
+                    if(!tr.u) pb.classList.add('unavailable');
+                    (function(name,url,btn){ if(url&&window.cycSeedPreview) cycSeedPreview(name,url);
+                      btn.addEventListener('click',function(ev){ ev.stopPropagation(); if(window.cycPlayPreview) cycPlayPreview(name,btn,ev); });
+                      btn.addEventListener('keydown',function(ev){ if((ev.key==='Enter'||ev.key===' ')&&window.cycPlayPreview){ cycPlayPreview(name,btn,ev); } });
+                    })(tr.n, tr.u, pb);
+                    t.appendChild(nm); t.appendChild(pb); tl.appendChild(t);
+                  });
+                });
+              };
+              row.appendChild(b); row.appendChild(ex); optsWrap.appendChild(row); optsWrap.appendChild(tl);
+            });
             function vote(album){
               try{ localStorage.setItem(key, album); }catch(e){}
               fvWrite(coll, album);
@@ -3910,6 +3941,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
         setTimeout(prefetchPreviews, 2500);   // warm the cache in background via title-anchored lookups
     }
+    // Expose the preview engine so the Best Album tracklist can reuse the SAME Apple Music playback.
+    window.cycPlayPreview = function(name, btn, e){ onPlayClick(name, btn, e || {stopPropagation:function(){}, preventDefault:function(){}}); };
+    window.cycSeedPreview = function(name, url){ if(name && url && cache[name]===undefined) cache[name]=url; };
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);
     } else {
@@ -4672,6 +4706,21 @@ updateProgress();
 .fv-opt:hover{border-color:#f0a500; background:rgba(240,165,0,.12); color:#f3c97a;}
 .fv-opt:active{border-color:#f0a500; background:rgba(240,165,0,.20);}
 #cycBestAlbumModal .qm-card{ border-top:3px solid #f0a500; }
+.fv-opt-row{display:flex; gap:7px; align-items:stretch;}
+.fv-opt-row .fv-opt{flex:1 1 auto; min-width:0; white-space:normal; overflow-wrap:break-word;}
+.fv-exp{flex:0 0 auto; min-width:62px; padding:6px 9px; background:#121a2b; border:1px solid rgba(255,255,255,.10); border-radius:9px; color:#8a99b2; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; transition:border-color .15s, color .15s;}
+.fv-exp-lbl{font-family:'Barlow Condensed',sans-serif; font-size:9.5px; line-height:1; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;}
+.fv-exp:hover{border-color:#f0a500; color:#f0a500;}
+.fv-exp.open{color:#f0a500; border-color:#f0a500;}
+.fv-exp .fv-exp-ico{transition:transform .2s; font-size:13px; line-height:1;}
+.fv-exp.open .fv-exp-ico{transform:rotate(180deg);}
+.fv-tracks{background:#0c121e; border:1px solid rgba(255,255,255,.08); border-radius:9px; padding:3px 9px; margin-top:1px;}
+.fv-tracks[hidden]{display:none;}
+.fv-track{display:flex; align-items:center; gap:9px; padding:6px 2px; border-bottom:1px solid rgba(255,255,255,.05); font-family:'Barlow',sans-serif; font-size:13px; color:#c9d3e0;}
+.fv-track:last-child{border-bottom:none;}
+.fv-tk-name{flex:1 1 auto; min-width:0; line-height:1.25;}
+.fv-track .play-btn{margin-left:0;}
+.fv-tl-load{color:#8a99b2; font-size:12.5px; padding:9px 4px; text-align:center;}
 .fv-yr{color:#8a99b2; font-weight:400; font-size:.85em;}
 .fv-result{display:flex; flex-direction:column; gap:6px;}
 .fv-options[hidden], .fv-result[hidden]{display:none;}

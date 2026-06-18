@@ -1,0 +1,630 @@
+{
+ "Ten": [
+  {
+   "n": "Once",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8e/fb/57/8efb573b-8862-fc4d-366e-bcd75e2cba7a/mzaf_8337848446590743324.plus.aac.p.m4a"
+  },
+  {
+   "n": "Even Flow",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/da/80/24/da8024c0-1a8b-4b49-cb83-6f8503f3ed29/mzaf_16656260325224733599.plus.aac.p.m4a"
+  },
+  {
+   "n": "Alive",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/37/7f/14/377f14d3-61d3-471f-d21b-2f11f49467cc/mzaf_6667861949058372764.plus.aac.p.m4a"
+  },
+  {
+   "n": "Why Go",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/52/3d/a7523d22-0e36-314b-60c0-c3f45d29dac2/mzaf_10490450244714867859.plus.aac.p.m4a"
+  },
+  {
+   "n": "Black",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/98/a4/a798a4a2-dc88-1dcc-8afa-c14998734b1c/mzaf_8383293445281438560.plus.aac.p.m4a"
+  },
+  {
+   "n": "Jeremy",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/fc/d1/71fcd10a-4f96-b74d-6e0f-a698511bd275/mzaf_14342018487207443547.plus.aac.p.m4a"
+  },
+  {
+   "n": "Oceans",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ff/37/25/ff372592-c0cb-b2f4-b194-09bb4903af68/mzaf_654106054064139591.plus.aac.p.m4a"
+  },
+  {
+   "n": "Porch",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/e8/83/02e88338-4aaf-bd4a-7cc4-ae3386d6f58e/mzaf_7679975303503822367.plus.aac.p.m4a"
+  },
+  {
+   "n": "Garden",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/64/9c/a7/649ca77f-27fc-c34e-16f5-c5323c9045d0/mzaf_15938001031559843216.plus.aac.p.m4a"
+  },
+  {
+   "n": "Deep",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/c5/6d/90c56d10-f4f0-1880-430c-e82cc419cd3c/mzaf_4044349078945668781.plus.aac.p.m4a"
+  },
+  {
+   "n": "Release",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dc/f5/7c/dcf57c35-9f71-9f51-3557-1275c2ae30c0/mzaf_17384952027976519121.plus.aac.p.m4a"
+  }
+ ],
+ "Vs.": [
+  {
+   "n": "Go (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/28/2b/8d/282b8d4a-582a-ea3a-a650-6ddaebb0e4c4/mzaf_14937391330770321836.plus.aac.p.m4a"
+  },
+  {
+   "n": "Animal (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/78/08/fe/7808fec5-2fcc-51b6-253d-3bfcb2d38bb0/mzaf_13774525366365981999.plus.aac.p.m4a"
+  },
+  {
+   "n": "Daughter (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/70/93/e8/7093e886-d2e0-b87d-38e7-9cd41dc6e440/mzaf_10135859842921467404.plus.aac.p.m4a"
+  },
+  {
+   "n": "Glorified G (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/31/d9/00/31d90012-7fc5-4098-0a1d-88f01beed537/mzaf_169133031713878601.plus.aac.p.m4a"
+  },
+  {
+   "n": "Dissident (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bf/af/83/bfaf8345-344b-fdc6-34a5-6851c68ad6b3/mzaf_8834641639533711681.plus.aac.p.m4a"
+  },
+  {
+   "n": "W.M.A. (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5f/d6/68/5fd66875-27a6-68a5-6a77-d9eecabac460/mzaf_3725402345743024711.plus.aac.p.m4a"
+  },
+  {
+   "n": "Blood (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8d/71/8e/8d718ed2-6583-720c-a544-e2b63de17e31/mzaf_13354739976397476139.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rearviewmirror (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/9d/f6/5c9df66c-a150-6f64-0fd5-78978f1237d0/mzaf_12068951917174363709.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rats (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/56/03/d5/5603d53e-20ff-430b-4af2-a848e76e7c6c/mzaf_9147441914989723046.plus.aac.p.m4a"
+  },
+  {
+   "n": "Elderly Woman Behind the Counter in a Small Town (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e5/7c/4e/e57c4efc-9a1e-eee6-369d-81c9e01f0e55/mzaf_2017666674377899904.plus.aac.p.m4a"
+  },
+  {
+   "n": "Leash (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/9c/55/419c55a5-998a-81d1-6bbf-475de822948b/mzaf_12869535274103947940.plus.aac.p.m4a"
+  },
+  {
+   "n": "Indifference (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/5e/85/d75e8506-02dc-3f6a-7b2d-1ae033b1e6c3/mzaf_17908867373421361336.plus.aac.p.m4a"
+  },
+  {
+   "n": "Crazy Mary (Remastered)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0b/d6/a2/0bd6a271-e679-35c2-53bd-94b756f2a845/mzaf_12981097488200120936.plus.aac.p.m4a"
+  }
+ ],
+ "Vitalogy": [
+  {
+   "n": "Last Exit",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/af/18/0d/af180d08-c5e0-fb8b-a344-723017fb4b82/mzaf_11634031674877954599.plus.aac.p.m4a"
+  },
+  {
+   "n": "Spin the Black Circle",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/45/d9/2b/45d92b17-96c0-e23b-2e0a-0ce4f2f10dbc/mzaf_3670649704844955764.plus.aac.p.m4a"
+  },
+  {
+   "n": "Not for You",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/fe/db/bffedbb2-0884-69b2-19e9-66e110bc1cf9/mzaf_188725373082529898.plus.aac.p.m4a"
+  },
+  {
+   "n": "Tremor Christ",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/07/22/59/07225992-8b47-7bb9-447b-9ba54566ea38/mzaf_15697396131690469559.plus.aac.p.m4a"
+  },
+  {
+   "n": "Nothingman",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3f/20/bd/3f20bd4c-6214-bed4-0ede-f87f83875bd3/mzaf_12557597181260327801.plus.aac.p.m4a"
+  },
+  {
+   "n": "Whipping",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cc/74/6d/cc746df2-aa85-b6bf-ffcd-0866c75740cd/mzaf_16374437462100317824.plus.aac.p.m4a"
+  },
+  {
+   "n": "Pry, To",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/26/67/e1/2667e1ca-cb35-d420-1d77-818ab15f03a9/mzaf_9277602485936906589.plus.aac.p.m4a"
+  },
+  {
+   "n": "Corduroy",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ab/7e/d5/ab7ed598-6a35-b376-faf1-e97d7f4f0c1c/mzaf_17282297730500150267.plus.aac.p.m4a"
+  },
+  {
+   "n": "Bugs",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/62/2d/f0/622df05d-c022-fd20-e78a-582c74c1632d/mzaf_4942541309908585929.plus.aac.p.m4a"
+  },
+  {
+   "n": "Satan's Bed",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/4a/ae/9e4aae68-93f6-5699-703b-2eb3032cbf8b/mzaf_17169167039071193249.plus.aac.p.m4a"
+  },
+  {
+   "n": "Better Man",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ad/c9/c4/adc9c4af-f4bd-a75d-06c3-f8a2fe45f5e3/mzaf_14010432126061261188.plus.aac.p.m4a"
+  },
+  {
+   "n": "Aya Davanita",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f9/13/3e/f9133e5c-7ba6-e43e-441e-b80cf4c4e09b/mzaf_16852544786841851420.plus.aac.p.m4a"
+  },
+  {
+   "n": "Immortality",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/93/7d/66937df2-61d2-ce8f-bc3b-5404f2b81c8c/mzaf_13073143153805522860.plus.aac.p.m4a"
+  },
+  {
+   "n": "Stupidmop",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/81/5e/69/815e695e-fb4e-7e6b-fc91-ab4669aeefd1/mzaf_7226848762526039202.plus.aac.p.m4a"
+  }
+ ],
+ "No Code": [
+  {
+   "n": "Sometimes",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/8c/4c/668c4ce8-69b3-3273-5ec7-d6264a906c58/mzaf_11772143856056658354.plus.aac.p.m4a"
+  },
+  {
+   "n": "Hail, Hail",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0b/79/c8/0b79c862-9d73-075d-cc86-3d2fd1a5cea4/mzaf_5062919198871137520.plus.aac.p.m4a"
+  },
+  {
+   "n": "Who You Are",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fc/1a/be/fc1abefa-5747-f828-e5fb-17a11040d71a/mzaf_10367339807274668051.plus.aac.p.m4a"
+  },
+  {
+   "n": "In My Tree",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/01/80/54/018054e5-8d38-3f79-20f9-094c012d3959/mzaf_14260050442105238060.plus.aac.p.m4a"
+  },
+  {
+   "n": "Smile",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/2c/4b/442c4b8b-5e73-16d1-d8cf-01a17b285d41/mzaf_7796033035287712696.plus.aac.p.m4a"
+  },
+  {
+   "n": "Off He Goes",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8a/d0/ab/8ad0abad-f4dc-e743-128c-6829e98e161c/mzaf_9179216033621144815.plus.aac.p.m4a"
+  },
+  {
+   "n": "Habit",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/e3/99/71e39990-552a-7e1c-404b-dfccbe57c386/mzaf_13870759839331307597.plus.aac.p.m4a"
+  },
+  {
+   "n": "Red Mosquito",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/72/20/fc/7220fce2-b8b0-2998-f85a-d42e155b1243/mzaf_13218554332773856799.plus.aac.p.m4a"
+  },
+  {
+   "n": "Lukin",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0f/b5/e9/0fb5e913-e566-52fd-a365-2b366f1fff83/mzaf_4333394331628193279.plus.aac.p.m4a"
+  },
+  {
+   "n": "Present Tense",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a3/26/dd/a326dd97-a50e-24b0-6475-0ccb281a6bd6/mzaf_12822644081269722392.plus.aac.p.m4a"
+  },
+  {
+   "n": "Mankind",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2b/0e/43/2b0e43c9-b5c5-4a1e-6753-1ed01c863cb2/mzaf_6513538277662208943.plus.aac.p.m4a"
+  },
+  {
+   "n": "I'm Open",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/60/e8/1d/60e81d4a-e4c2-9d08-f27f-f58ff181d037/mzaf_18195432567044216135.plus.aac.p.m4a"
+  },
+  {
+   "n": "Around the Bend",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b2/f9/33/b2f933d4-6b8a-524a-147d-ab85869e2aaf/mzaf_3990141209348862871.plus.aac.p.m4a"
+  }
+ ],
+ "Yield": [
+  {
+   "n": "Brain of J.",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cd/66/62/cd66623c-3d10-3b0f-0add-9c3dfb38efcd/mzaf_3900833224697714379.plus.aac.p.m4a"
+  },
+  {
+   "n": "Faithful",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a9/9b/9e/a99b9ed6-ccae-50d3-e85b-24d04194a98a/mzaf_12777279928935248995.plus.aac.p.m4a"
+  },
+  {
+   "n": "No Way",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/52/e4/e8/52e4e8c3-e4ab-03a7-5263-40f4c9c1e011/mzaf_6853176307608533092.plus.aac.p.m4a"
+  },
+  {
+   "n": "Given to Fly",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/35/f0/06/35f00648-1490-2c5a-ab52-615f33fff3bd/mzaf_10102855587134837155.plus.aac.p.m4a"
+  },
+  {
+   "n": "Wishlist",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/64/2f/12/642f1296-2ee1-bf55-b0b0-ccf09a1467fe/mzaf_18342839769666737099.plus.aac.p.m4a"
+  },
+  {
+   "n": "Pilate",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2e/6b/9d/2e6b9de4-8592-c403-6b6e-3ad51ca99ea0/mzaf_1714671645373697616.plus.aac.p.m4a"
+  },
+  {
+   "n": "Do the Evolution",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ca/4a/40/ca4a40c9-716a-849a-6b3d-81813d461941/mzaf_9566059838278022503.plus.aac.p.m4a"
+  },
+  {
+   "n": "Red Bar",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d2/14/a1/d214a15b-6dd3-11b3-55cf-925b272b7e50/mzaf_6038393353035860862.plus.aac.p.m4a"
+  },
+  {
+   "n": "MFC",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/a0/2e/d3a02ecc-4eb5-3799-1de2-016c4623a86d/mzaf_4052578178678050591.plus.aac.p.m4a"
+  },
+  {
+   "n": "Low Light",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/48/04/d1/4804d1fd-668c-f887-8eeb-bd2a6ec57126/mzaf_10077809937317715652.plus.aac.p.m4a"
+  },
+  {
+   "n": "In Hiding",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ff/50/80/ff508062-2833-8440-675c-be6afce8a856/mzaf_16656217467513952907.plus.aac.p.m4a"
+  },
+  {
+   "n": "Push Me, Pull Me",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/29/10/c1/2910c1d7-5821-268f-3243-7bbc076b41ad/mzaf_2435281209297433519.plus.aac.p.m4a"
+  },
+  {
+   "n": "All Those Yesterdays",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/db/16/9edb1624-070a-524e-8a8b-4d4793ee79b8/mzaf_4680434049555185409.plus.aac.p.m4a"
+  }
+ ],
+ "Binaural": [
+  {
+   "n": "Breakerfall",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4b/4b/06/4b4b064d-b949-8946-57b6-aa963bcb7c1c/mzaf_11501100672757292556.plus.aac.p.m4a"
+  },
+  {
+   "n": "Gods' Dice",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/51/32/16/5132166d-0aa8-3e26-f437-19304ff87e35/mzaf_17381938127257486643.plus.aac.p.m4a"
+  },
+  {
+   "n": "Evacuation",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/de/df/ac/dedfac64-8c48-88ae-13b8-d02de6ba8fdb/mzaf_17948608199422396021.plus.aac.p.m4a"
+  },
+  {
+   "n": "Light Years",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ec/ba/9d/ecba9dde-db95-bb07-6b07-9f621eb558ff/mzaf_12159202132784309135.plus.aac.p.m4a"
+  },
+  {
+   "n": "Nothing As It Seems",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f3/23/b3/f323b389-e37b-c606-ff14-25f3d447b719/mzaf_16141259361261055884.plus.aac.p.m4a"
+  },
+  {
+   "n": "Thin Air",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/67/0a/aa/670aaa6f-6078-8772-0c92-359e8d580884/mzaf_2784339604204037981.plus.aac.p.m4a"
+  },
+  {
+   "n": "Insignificance",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ec/22/eb/ec22ebb9-af12-95be-21c8-88ebf47b6d82/mzaf_6001429835143717229.plus.aac.p.m4a"
+  },
+  {
+   "n": "Of the Girl",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/de/96/49de9673-8cf2-f55b-47b2-1e547bc15acf/mzaf_13880678210768943486.plus.aac.p.m4a"
+  },
+  {
+   "n": "Grievance",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9c/7c/bd/9c7cbd86-1ee2-aefc-be9f-b7e7afaa51e6/mzaf_15748171911845318912.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rival",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2e/91/8a/2e918a4d-451a-fc0e-86e4-4fc11d3e6fb0/mzaf_12273654284016122721.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sleight of Hand",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/73/38/01/73380133-d16b-67b4-25b0-cb75b38d088b/mzaf_17685307561646366750.plus.aac.p.m4a"
+  },
+  {
+   "n": "Soon Forget",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2e/b1/8f/2eb18f3d-e2ee-bbd3-24d2-3d70501a239e/mzaf_2739463847828983999.plus.aac.p.m4a"
+  },
+  {
+   "n": "Parting Ways",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/86/d5/d386d5e0-f329-ed0a-0d0a-6c2b67cf88d2/mzaf_11090104082066509513.plus.aac.p.m4a"
+  }
+ ],
+ "Riot Act": [
+  {
+   "n": "Can't Keep",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/14/b4/53/14b453b2-9090-1921-4ffc-df4963f26688/mzaf_17789008521381267779.plus.aac.p.m4a"
+  },
+  {
+   "n": "Save You",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b4/66/84/b4668406-a700-afb5-aca7-75ddabc496a1/mzaf_1666206829238346300.plus.aac.p.m4a"
+  },
+  {
+   "n": "Love Boat Captain",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4f/b2/b5/4fb2b5bd-d4cc-ae1b-f5a7-28cb4fd29603/mzaf_9939874251397269914.plus.aac.p.m4a"
+  },
+  {
+   "n": "Cropduster",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4b/7a/d0/4b7ad0d4-c830-88f7-9519-ed15aaaf2c97/mzaf_143332864407007068.plus.aac.p.m4a"
+  },
+  {
+   "n": "Ghost",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d0/46/85/d046857d-02c9-775f-037b-1fba549a3d78/mzaf_18333754202768242344.plus.aac.p.m4a"
+  },
+  {
+   "n": "I Am Mine",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8f/dd/8a/8fdd8a01-a01b-4178-d82a-e50f10d666b4/mzaf_9011365065243331994.plus.aac.p.m4a"
+  },
+  {
+   "n": "Thumbing My Way",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ae/c6/da/aec6da57-cf88-45f3-c4d4-3f6c5fb47979/mzaf_6888050815161669306.plus.aac.p.m4a"
+  },
+  {
+   "n": "You Are",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d0/af/75/d0af75bf-58c5-124c-115d-823151887658/mzaf_13931980066605392252.plus.aac.p.m4a"
+  },
+  {
+   "n": "Get Right",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/49/3e/3c/493e3c44-a4fe-04ad-5476-38279fb05afc/mzaf_9805088137035402381.plus.aac.p.m4a"
+  },
+  {
+   "n": "Green Disease",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bb/55/63/bb556329-817f-f7c7-c644-4f7318208b55/mzaf_7955344146650906838.plus.aac.p.m4a"
+  },
+  {
+   "n": "Help Help",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/69/7a/a2/697aa2b9-a814-a6ad-fba7-d382222f4f3a/mzaf_8917534799918099544.plus.aac.p.m4a"
+  },
+  {
+   "n": "Bu$Hleaguer",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3e/02/8b/3e028b83-9b60-e28a-2cfc-2b6a0692e9f1/mzaf_10319612561749343821.plus.aac.p.m4a"
+  },
+  {
+   "n": "1/2 Full",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/be/f7/c4/bef7c43a-976c-382b-d349-5416b723ac5d/mzaf_902393246416241603.plus.aac.p.m4a"
+  },
+  {
+   "n": "Arc",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0b/4e/22/0b4e2298-6c83-f679-1162-c0f01e7118f0/mzaf_7625492085839225735.plus.aac.p.m4a"
+  },
+  {
+   "n": "All or None",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/60/e8/d2/60e8d20d-1a0f-9611-66d3-927820680197/mzaf_13302943227664939866.plus.aac.p.m4a"
+  }
+ ],
+ "Pearl Jam": [
+  {
+   "n": "Life Wasted",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/65/a6/9d65a63a-0890-2972-84ec-378985b86dbc/mzaf_12592542507118365215.plus.aac.p.m4a"
+  },
+  {
+   "n": "World Wide Suicide",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3e/fe/08/3efe0821-deb2-1328-af92-ac090f172eba/mzaf_15980729461656275594.plus.aac.p.m4a"
+  },
+  {
+   "n": "Comatose",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/32/53/25/325325f5-466c-9fe3-f6f1-0523860ee099/mzaf_14863300668688683873.plus.aac.p.m4a"
+  },
+  {
+   "n": "Severed Hand",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f9/b9/67/f9b967be-e8b2-c330-389d-fffbbbb408ca/mzaf_6633716200975162399.plus.aac.p.m4a"
+  },
+  {
+   "n": "Marker In the Sand",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/77/b5/8377b5b9-639b-36e3-aa91-2509b48f9f91/mzaf_10261679436589106486.plus.aac.p.m4a"
+  },
+  {
+   "n": "Parachutes",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fd/f7/2c/fdf72c11-1ad8-ceaa-1b62-6bcd1850124d/mzaf_11589935284628798944.plus.aac.p.m4a"
+  },
+  {
+   "n": "Unemployable",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ec/41/89/ec418945-cce7-9254-7b5d-e5a097bb3260/mzaf_17033438002916855331.plus.aac.p.m4a"
+  },
+  {
+   "n": "Big Wave",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bb/d2/56/bbd256be-8a03-b7c7-49e6-9ea1f37626f7/mzaf_7690978726435080613.plus.aac.p.m4a"
+  },
+  {
+   "n": "Gone",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/4e/68/0c4e68c6-256d-04f7-2b07-b777d3f628bf/mzaf_15715971711233941606.plus.aac.p.m4a"
+  },
+  {
+   "n": "Wasted Reprise",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/60/47/56/6047560f-a75a-3c04-914e-2424172da9b6/mzaf_4453112791458752474.plus.aac.p.m4a"
+  },
+  {
+   "n": "Army Reserve",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/90/5a/0c/905a0cab-6bfe-b179-36bf-1cb69969f0f3/mzaf_17713188483033307695.plus.aac.p.m4a"
+  },
+  {
+   "n": "Come Back",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c4/e3/38/c4e338a7-4bab-001d-c35d-fe7368ac9499/mzaf_2514730010865751595.plus.aac.p.m4a"
+  },
+  {
+   "n": "Inside Job",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9b/2d/ed/9b2ded5f-4e0b-bf4b-7e89-8bf870610b03/mzaf_11428909669313329371.plus.aac.p.m4a"
+  }
+ ],
+ "Backspacer": [
+  {
+   "n": "Gonna See My Friend",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c9/f7/cf/c9f7cfc5-cf50-8891-12ad-3fdb831ecd20/mzaf_5928472238805949636.plus.aac.p.m4a"
+  },
+  {
+   "n": "Got Some",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f4/75/b0/f475b043-118a-c4a9-9fa2-582ab6170db4/mzaf_4354258543208456335.plus.aac.p.m4a"
+  },
+  {
+   "n": "Johnny Guitar",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b4/6b/e5/b46be51c-ee3d-fd87-0504-b776abd6d5f2/mzaf_1642321876209992787.plus.aac.p.m4a"
+  },
+  {
+   "n": "Just Breathe",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/26/a5/59/26a559fe-d2e7-66b3-1eca-d4be06679e54/mzaf_16599909871210149550.plus.aac.p.m4a"
+  },
+  {
+   "n": "Amongst the Waves",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/1a/52/18/1a5218b3-dad8-7bd6-3ea8-6e92cb748dc9/mzaf_15688393003239868357.plus.aac.p.m4a"
+  },
+  {
+   "n": "Unthought Known",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/17/ee/24/17ee24de-fb0c-2d0e-f7b0-ce334008b8e3/mzaf_10811151857696690870.plus.aac.p.m4a"
+  },
+  {
+   "n": "Supersonic",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c8/f9/e6/c8f9e6b2-25ad-cbce-533d-73444189f61f/mzaf_3538728287290353805.plus.aac.p.m4a"
+  },
+  {
+   "n": "Speed of Sound",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/28/42/d3/2842d3d6-142f-4f03-56ea-49d28c0474e1/mzaf_3335187303918921577.plus.aac.p.m4a"
+  },
+  {
+   "n": "Force of Nature",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2b/a7/7e/2ba77e79-8ec7-82ca-3b93-8fe49e36b2c4/mzaf_14269458824116148682.plus.aac.p.m4a"
+  },
+  {
+   "n": "The End",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f0/ab/9c/f0ab9ca7-7ef0-8675-1cc9-b810f480497f/mzaf_4476092900622102571.plus.aac.p.m4a"
+  },
+  {
+   "n": "Better Man (Live)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b8/bd/87/b8bd876e-1708-548c-abb7-369cc4ef58f6/mzaf_509223828875293362.plus.aac.p.m4a"
+  }
+ ],
+ "Lightning Bolt": [
+  {
+   "n": "Getaway",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9d/d3/73/9dd37373-2a9d-f586-e61c-82ff442f74e1/mzaf_420704655956010368.plus.aac.p.m4a"
+  },
+  {
+   "n": "Mind Your Manners",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/f4/42/38f442dd-57c3-bd29-7f2d-be1cfeb832b5/mzaf_15930046795291178411.plus.aac.p.m4a"
+  },
+  {
+   "n": "My Father’s Son",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/30/65/02/30650283-b8e2-5e22-e532-c55e87f0357d/mzaf_4935532363191911314.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sirens",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1f/a9/d4/1fa9d44d-d1ac-0730-4c8d-17f1c88d1f7a/mzaf_4644587272776395904.plus.aac.p.m4a"
+  },
+  {
+   "n": "Lightning Bolt",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/cf/df/dbcfdfd3-e013-0ef2-7721-63407eec2296/mzaf_4729124784414456187.plus.aac.p.m4a"
+  },
+  {
+   "n": "Infallible",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/56/4b/0b/564b0bd0-5fbb-b18b-12cf-186098014031/mzaf_9848604439057051554.plus.aac.p.m4a"
+  },
+  {
+   "n": "Pendulum",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c6/e0/e3/c6e0e3a1-f4d1-a077-a9aa-a7fc7807c127/mzaf_4534080649735430666.plus.aac.p.m4a"
+  },
+  {
+   "n": "Swallowed Whole",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/87/e7/cf/87e7cfb7-8769-a27d-49c6-086fe92785d4/mzaf_4634002734613792547.plus.aac.p.m4a"
+  },
+  {
+   "n": "Let The Records Play",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/14/c6/e1/14c6e1da-5174-03bf-0d5a-6083f2c68efa/mzaf_3359247828217110856.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sleeping By Myself",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/03/d7/4403d700-2776-a0b7-2281-2eea6ea443c9/mzaf_14010763506522586049.plus.aac.p.m4a"
+  },
+  {
+   "n": "Yellow Moon",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e7/6a/66/e76a66b5-2360-df66-42ba-cdb51192e942/mzaf_2318954147072147720.plus.aac.p.m4a"
+  },
+  {
+   "n": "Future Days",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2a/40/59/2a405908-2801-2e2a-fd40-ee8078062c3b/mzaf_5293139706378582703.plus.aac.p.m4a"
+  }
+ ],
+ "Gigaton": [
+  {
+   "n": "Who Ever Said",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/49/29/53/492953b5-c0d6-3cc7-b683-4be0c48250bd/mzaf_11198603902356038388.plus.aac.p.m4a"
+  },
+  {
+   "n": "Superblood Wolfmoon",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ad/8d/c3/ad8dc35e-ba88-5f1e-cf6c-5b8afcfbfcfb/mzaf_12987325472132696930.plus.aac.p.m4a"
+  },
+  {
+   "n": "Dance Of The Clairvoyants",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/52/94/74/5294741a-d73b-ac4d-5ea9-f154c9e11efe/mzaf_18261559156302302517.plus.aac.p.m4a"
+  },
+  {
+   "n": "Quick Escape",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/a6/c0/0ca6c0ec-2ba3-a588-2fe8-53b71cb04cf8/mzaf_13970774491345672453.plus.aac.p.m4a"
+  },
+  {
+   "n": "Alright",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a1/23/4e/a1234ef7-b748-e327-7499-78a6538ce61e/mzaf_12687493873214446713.plus.aac.p.m4a"
+  },
+  {
+   "n": "Seven O'Clock",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/0b/6a/950b6a0c-b3a6-00e0-e00d-0db9eb0b97e6/mzaf_15212697155772051206.plus.aac.p.m4a"
+  },
+  {
+   "n": "Never Destination",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a3/ef/69/a3ef694a-7fa8-f6cf-99c2-957be874c6f7/mzaf_10472499414347020213.plus.aac.p.m4a"
+  },
+  {
+   "n": "Take The Long Way",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/80/d7/0c/80d70c90-007e-cf5a-c03c-de3886d6d085/mzaf_5817989519328752100.plus.aac.p.m4a"
+  },
+  {
+   "n": "Buckle Up",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3c/9b/fb/3c9bfb37-802d-4eb1-1c41-8c3b423fff4d/mzaf_8372732586911359775.plus.aac.p.m4a"
+  },
+  {
+   "n": "Comes Then Goes",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a1/45/ca/a145ca72-0d86-4d6d-dfdb-00df0e8c51ed/mzaf_7511577142761638527.plus.aac.p.m4a"
+  },
+  {
+   "n": "Retrograde",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6d/1d/d9/6d1dd912-cf78-8a4c-a6a7-27215ad84493/mzaf_7740864607461639125.plus.aac.p.m4a"
+  },
+  {
+   "n": "River Cross",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5c/8c/27/5c8c2761-dd3c-9b0b-bd8a-d12382848035/mzaf_2228775331750960471.plus.aac.p.m4a"
+  }
+ ],
+ "Dark Matter": [
+  {
+   "n": "Scared Of Fear",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/7f/95/fb7f95bd-b7ff-fae0-21ae-2e0b51e9f619/mzaf_7102594575635154223.plus.aac.p.m4a"
+  },
+  {
+   "n": "React, Respond",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/18/d4/b2/18d4b2e9-6022-16cb-94fe-928971c9174a/mzaf_8616395048655629843.plus.aac.p.m4a"
+  },
+  {
+   "n": "Wreckage",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/60/2b/e3/602be381-a2b7-0392-968c-c3461e2beea2/mzaf_6041019539422399327.plus.aac.p.m4a"
+  },
+  {
+   "n": "Dark Matter",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5c/55/b5/5c55b55c-56c5-b621-f2f5-594ea2b0d172/mzaf_14953328176266409420.plus.aac.p.m4a"
+  },
+  {
+   "n": "Won't Tell",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e4/4c/83/e44c8355-75d7-60f7-88bc-f42ab77445fd/mzaf_10288193281282004141.plus.aac.p.m4a"
+  },
+  {
+   "n": "Upper Hand",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a2/0a/18/a20a18a2-b6a1-647d-207f-f9191acd74d5/mzaf_16813974561547974619.plus.aac.p.m4a"
+  },
+  {
+   "n": "Waiting For Stevie",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/51/70/d2/5170d277-6597-857e-5009-72f1154c185e/mzaf_7312375841084487459.plus.aac.p.m4a"
+  },
+  {
+   "n": "Running",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e5/a3/df/e5a3df7f-58c9-613b-0d8b-3b7fe1beb069/mzaf_8311129947938768008.plus.aac.p.m4a"
+  },
+  {
+   "n": "Something Special",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bd/4b/0f/bd4b0f21-cdb3-468c-ccf6-1c2f41121a62/mzaf_663743783693907070.plus.aac.p.m4a"
+  },
+  {
+   "n": "Got To Give",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6c/16/88/6c1688c0-2dfb-f30e-c273-8880d6c7c6e5/mzaf_15147016146294294369.plus.aac.p.m4a"
+  },
+  {
+   "n": "Setting Sun",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1e/03/62/1e03627a-24d7-e5da-a4d4-92fb247040c0/mzaf_12632672367366638830.plus.aac.p.m4a"
+  }
+ ]
+}
