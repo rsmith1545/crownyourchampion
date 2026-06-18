@@ -80,7 +80,7 @@
       <h2>Top champions — all bands</h2>
       <table id="topChampsTable"><thead><tr><th>Song</th><th>Band</th><th class="num">Crowns</th></tr></thead><tbody></tbody></table>
 
-      <h2>Fan Vote — album polls</h2>
+      <h2>Best Album votes — by bracket</h2>
       <div id="fanvotes"></div>
 
       <h2>Band requests <span id="reqCount" class="muted" style="font-size:12px;text-transform:none;letter-spacing:0"></span> <button class="btn-sm" id="csvRequests" style="margin-left:8px">export CSV</button></h2>
@@ -146,7 +146,19 @@ const BANDS = [
 // Bands that have a Fan Vote album poll (homepage). Add more here as polls launch.
 const POLLS = [
   ["Dave Matthews Band","dmb_albumvote"],
-  ["Frank Turner","ft_albumvote"],
+  ["Foo Fighters","foo_albumvote"],
+  ["Frank Turner","fthc_albumvote"],
+  ["Bruce Springsteen","springsteen_albumvote"],
+  ["Pearl Jam","pearljam_albumvote"],
+  ["Billy Joel","billyjoel_albumvote"],
+  ["Green Day","greenday_albumvote"],
+  ["Red Hot Chili Peppers","rhcp_albumvote"],
+  ["The Beatles","beatles_albumvote"],
+  ["Metallica","metallica_albumvote"],
+  ["The Rolling Stones","stones_albumvote"],
+  ["Bon Jovi","bonjovi_albumvote"],
+  ["The Airborne Toxic Event","ate_albumvote"],
+  ["Frank Turner — legacy homepage poll","ft_albumvote"],
 ];
 
 const $ = id => document.getElementById(id);
@@ -252,7 +264,7 @@ async function loadAll(){
     card(totalBrackets,"Brackets completed") +
     card(emails.length,"Unique emails") +
     card(totalCrowns,"Champions crowned") +
-    card(totalVotes,"Fan votes") +
+    card(totalVotes,"Album votes") +
     card(totalRequests,"Band requests") +
     card(BANDS.length,"Bands live");
 
@@ -292,7 +304,7 @@ async function loadAll(){
     || '<tr><td class="muted" colspan="3">No champions crowned yet</td></tr>';
 
   // ---- Fan Vote standings ----
-  $("fanvotes").innerHTML = polls.map(p=>{
+  $("fanvotes").innerHTML = polls.slice().sort((a,b)=>b.total-a.total).map(p=>{
     const max=p.albums[0]?p.albums[0].count:1;
     const rows=p.albums.map(a=>{ const pct=p.total?Math.round(a.count/p.total*100):0; return `<tr><td>${esc(a.album)}</td><td class="num">${a.count}</td><td class="num">${pct}%</td><td style="width:140px"><div class="barwrap"><div class="bar" style="width:${Math.round(a.count/max*100)}%"></div></div></td></tr>`; }).join("") || '<tr><td class="muted" colspan="4">No votes yet</td></tr>';
     return `<details><summary><span>${esc(p.name)}</span><span class="c">${p.total} votes</span></summary><table><thead><tr><th>Album</th><th class="num">Votes</th><th class="num">Share</th><th></th></tr></thead><tbody>${rows}</tbody></table></details>`;
