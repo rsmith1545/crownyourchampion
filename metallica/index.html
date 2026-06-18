@@ -71,14 +71,25 @@
               if(!tracksReq){ tracksReq=fetch('album-tracks.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};}).then(function(j){ TRACKS=j||{}; return TRACKS; }); }
               tracksReq.then(cb);
             }
+            var selected=null, openEx=null, openTL=null, confirmBtn=null;
+            function fvDelta(album, d){ if(!db) return; try{ setDoc(doc(db,coll,SAN(album)), {album:album, count:increment(d)}, {merge:true}); }catch(e){ console.warn('fv delta',e); } }
+            function setSelected(name, tile){
+              selected=name||null;
+              Array.prototype.forEach.call(optsWrap.querySelectorAll('.fv-opt.sel'), function(el){ el.classList.remove('sel'); el.setAttribute('aria-pressed','false'); });
+              if(tile){ tile.classList.add('sel'); tile.setAttribute('aria-pressed','true'); }
+              if(confirmBtn){ confirmBtn.disabled = (!selected || selected===voted);
+                confirmBtn.textContent = voted ? (selected && selected!==voted ? 'Update my vote' : 'This is your pick') : 'Confirm vote'; }
+            }
             albums.forEach(function(a){
               var row=document.createElement('div'); row.className='fv-opt-row';
-              var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':''); b.onclick=function(){ vote(a.name); };
+              var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.setAttribute('aria-pressed','false'); b.dataset.fvName=a.name; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':'');
+              b.onclick=function(){ setSelected(a.name, b); };
               var ex=document.createElement('button'); ex.type='button'; ex.className='fv-exp'; ex.setAttribute('aria-label','Show tracklist for '+a.name); ex.innerHTML='<span class="fv-exp-lbl">Album Tracks</span><span class="fv-exp-ico">▾</span>';
               var tl=document.createElement('div'); tl.className='fv-tracks'; tl.hidden=true; var built=false;
               ex.onclick=function(e){ e.stopPropagation();
-                if(!tl.hidden){ tl.hidden=true; ex.classList.remove('open'); return; }
-                tl.hidden=false; ex.classList.add('open');
+                if(!tl.hidden){ tl.hidden=true; ex.classList.remove('open'); openEx=null; openTL=null; return; }
+                if(openTL && openTL!==tl){ openTL.hidden=true; if(openEx) openEx.classList.remove('open'); }
+                tl.hidden=false; ex.classList.add('open'); openEx=ex; openTL=tl;
                 if(built) return; built=true;
                 tl.innerHTML='<div class="fv-tl-load">Loading tracks…</div>';
                 loadTracks(function(j){ var list=(j&&j[a.name])||[]; tl.innerHTML='';
@@ -97,11 +108,18 @@
               };
               row.appendChild(b); row.appendChild(ex); optsWrap.appendChild(row); optsWrap.appendChild(tl);
             });
-            function vote(album){
+            var bar=document.createElement('div'); bar.className='fv-confirm-bar';
+            confirmBtn=document.createElement('button'); confirmBtn.type='button'; confirmBtn.className='fv-confirm'; confirmBtn.disabled=true; confirmBtn.textContent='Confirm vote';
+            confirmBtn.onclick=function(){ if(selected && selected!==voted) commit(selected); };
+            bar.appendChild(confirmBtn); optsWrap.appendChild(bar);
+            function preselect(name){ var tiles=optsWrap.querySelectorAll('.fv-opt'), hit=null; for(var i=0;i<tiles.length;i++){ if(tiles[i].dataset.fvName===name){ hit=tiles[i]; break; } } setSelected(name||null, hit); }
+            function showOptions(pre){ resWrap.hidden=true; resWrap.innerHTML=''; optsWrap.hidden=false; preselect(pre||null); }
+            function commit(album){
+              var prev=voted;
+              if(prev && prev!==album){ fvDelta(prev,-1); fvDelta(album,1); try{ if(window.cycEvt) cycEvt('fan_vote_change',{poll:pid, from:prev, to:album}); }catch(e){} }
+              else if(!prev){ fvDelta(album,1); try{ if(window.cycEvt) cycEvt('fan_vote',{poll:pid, album:album}); }catch(e){} }
               try{ localStorage.setItem(key, album); }catch(e){}
-              fvWrite(coll, album);
-              try{ if(window.cycEvt) cycEvt('fan_vote',{poll:pid, album:album}); }catch(e){}
-              show(album);
+              voted=album; show(album);
             }
             function render(t, mine){
               var total=0; for(var k in t) total+=t[k];
@@ -113,13 +131,14 @@
               resWrap.appendChild(meta);
               rows.forEach(function(r, i){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
                 var rank=i+1, isTop=(rank===1 && total>0);
-                var row=document.createElement('div'); row.className='fv-row'+(r.name===mine?' mine':'')+(isTop?' top':'');
+                var rrow=document.createElement('div'); rrow.className='fv-row'+(r.name===mine?' mine':'')+(isTop?' top':'');
                 var fill = firming ? '' : '<span class="fv-fill" style="width:'+pct+'%"></span>';
                 var pctc = firming ? '' : '<span class="fv-pct">'+pct+'%</span>';
-                row.innerHTML=fill+'<span class="fv-rank">'+rank+'</span><span class="fv-name">'+esc(r.name)+(r.year?' <span class="fv-yr">· '+r.year+'</span>':'')+(isTop?' 👑':'')+'</span>'+pctc;
-                resWrap.appendChild(row); });
+                rrow.innerHTML=fill+'<span class="fv-rank">'+rank+'</span><span class="fv-name">'+esc(r.name)+(r.year?' <span class="fv-yr">· '+r.year+'</span>':'')+(isTop?' 👑':'')+'</span>'+pctc;
+                resWrap.appendChild(rrow); });
               if(firming && total>0){ var nt=document.createElement('div'); nt.className='fv-note'; nt.textContent='Early votes — results firming up.'; resWrap.appendChild(nt); }
-              if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent = firming ? ("👑 You picked "+mine) : ("👑 You're with "+minePct+"% — picked "+mine); resWrap.appendChild(y); }
+              if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent = firming ? ("👑 You picked "+mine) : ("👑 You're with "+minePct+"% — picked "+mine); resWrap.appendChild(y);
+                var chg=document.createElement('button'); chg.type='button'; chg.className='fv-change'; chg.textContent='↩ Change my pick'; chg.onclick=function(){ showOptions(mine); }; resWrap.appendChild(chg); }
             }
             function show(mine){
               fvRead(coll).then(function(t){ render(t,mine); }).catch(function(){ optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML='<div class="fv-note">✓ Vote recorded'+(mine?(' — '+mine):'')+'. Live results will load next time.</div>'; });
@@ -4709,6 +4728,13 @@ updateProgress();
 .fv-tk-name{flex:1 1 auto; min-width:0; line-height:1.25;}
 .fv-track .play-btn{margin-left:0;}
 .fv-tl-load{color:#8a99b2; font-size:12.5px; padding:9px 4px; text-align:center;}
+.fv-opt.sel{border-color:#f0a500 !important; background:rgba(240,165,0,.16); color:#fff; box-shadow:inset 0 0 0 1px #f0a500;}
+.fv-confirm-bar{position:sticky; bottom:0; padding:9px 0 2px; margin-top:3px; background:linear-gradient(180deg, rgba(18,26,43,0), #121a2b 45%); z-index:2;}
+.fv-confirm{width:100%; padding:11px 14px; border-radius:10px; border:1px solid #f0a500; background:#f0a500; color:#1a1205; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.04em; text-transform:uppercase; cursor:pointer; transition:opacity .15s, background .15s, color .15s;}
+.fv-confirm:disabled{opacity:.5; cursor:default; background:transparent; color:#8a99b2; border-color:rgba(255,255,255,.14);}
+.fv-confirm:not(:disabled):hover{background:#ffc107;}
+.fv-change{display:block; margin:12px auto 2px; background:none; border:1px solid rgba(255,255,255,.16); color:#c4cedd; font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:.03em; text-transform:uppercase; padding:7px 16px; border-radius:8px; cursor:pointer; transition:border-color .15s,color .15s;}
+.fv-change:hover{border-color:#f0a500; color:#f0a500;}
 .fv-yr{color:#8a99b2; font-weight:400; font-size:.85em;}
 .fv-result{display:flex; flex-direction:column; gap:6px;}
 .fv-options[hidden], .fv-result[hidden]{display:none;}
