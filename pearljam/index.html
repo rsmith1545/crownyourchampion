@@ -49,6 +49,54 @@
         const app = initializeApp(firebaseConfig);
         const db  = getFirestore(app);
 
+        // ---- Best Album vote (same mechanic as homepage Fan Vote; runs post-parse so .fv-poll exists) ----
+        (function(){
+          var polls=document.querySelectorAll('.fv-poll'); if(!polls.length) return;
+          var SAN=function(s){ return String(s||'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,120); };
+          function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+          function fvWrite(coll, album){ if(!db) return; try{ setDoc(doc(db,coll,SAN(album)), {album:album, count:increment(1)}, {merge:true}); }catch(e){ console.warn('fv write',e); } }
+          function fvRead(coll){
+            if(!db) return Promise.reject(new Error('no db'));
+            var p=getDocs(collection(db,coll)).then(function(snap){ var t={}; snap.forEach(function(d){ var v=d.data(); t[d.id]=(v&&v.count)||0; }); return t; });
+            return Promise.race([ p, new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },3000); }) ]);
+          }
+          polls.forEach(function(poll){
+            var coll=poll.getAttribute('data-coll'), pid=poll.getAttribute('data-poll'), key='cyc-fv-'+pid;
+            var optsWrap=poll.querySelector('.fv-options'), resWrap=poll.querySelector('.fv-result');
+            var albums=(optsWrap.getAttribute('data-albums')||'').split('|').map(function(s){var p=s.split('::');return {name:p[0].trim(), year:(p[1]||'').trim()};}).filter(function(x){return x.name;});
+            var voted=null; try{ voted=localStorage.getItem(key); }catch(e){}
+            albums.forEach(function(a){ var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':''); b.onclick=function(){ vote(a.name); }; optsWrap.appendChild(b); });
+            function vote(album){
+              try{ localStorage.setItem(key, album); }catch(e){}
+              fvWrite(coll, album);
+              try{ if(window.cycEvt) cycEvt('fan_vote',{poll:pid, album:album}); }catch(e){}
+              show(album);
+            }
+            function render(t, mine){
+              var total=0; for(var k in t) total+=t[k];
+              var firming = total < 5;
+              var rows=albums.map(function(a){ return {name:a.name, year:a.year, n:t[SAN(a.name)]||0}; }).sort(function(x,y){ return y.n-x.n; });
+              optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML=''; var minePct=0;
+              var meta=document.createElement('div'); meta.className='fv-meta';
+              meta.textContent = total===0 ? 'Be the first to vote' : (total+(total===1?' vote':' votes'));
+              resWrap.appendChild(meta);
+              rows.forEach(function(r, i){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
+                var rank=i+1, isTop=(rank===1 && total>0);
+                var row=document.createElement('div'); row.className='fv-row'+(r.name===mine?' mine':'')+(isTop?' top':'');
+                var fill = firming ? '' : '<span class="fv-fill" style="width:'+pct+'%"></span>';
+                var pctc = firming ? '' : '<span class="fv-pct">'+pct+'%</span>';
+                row.innerHTML=fill+'<span class="fv-rank">'+rank+'</span><span class="fv-name">'+esc(r.name)+(r.year?' <span class="fv-yr">· '+r.year+'</span>':'')+(isTop?' 👑':'')+'</span>'+pctc;
+                resWrap.appendChild(row); });
+              if(firming && total>0){ var nt=document.createElement('div'); nt.className='fv-note'; nt.textContent='Early votes — results firming up.'; resWrap.appendChild(nt); }
+              if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent = firming ? ("👑 You picked "+mine) : ("👑 You're with "+minePct+"% — picked "+mine); resWrap.appendChild(y); }
+            }
+            function show(mine){
+              fvRead(coll).then(function(t){ render(t,mine); }).catch(function(){ optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML='<div class="fv-note">✓ Vote recorded'+(mine?(' — '+mine):'')+'. Live results will load next time.</div>'; });
+            }
+            if(voted) show(voted);
+          });
+        })();
+
         // Crowd's Picks data — champion-crowning frequency from the readable leaderboard aggregate (no PII)
         window.getCrowdTally = async function() {
             const champ = {}; let count = 0; let matchups = {};
@@ -755,6 +803,7 @@
             .brand-logo { height: clamp(60px, 19vw, 92px) !important; }
             .mode-btn { font-size: 9.5px; padding: 5px 9px; letter-spacing: .8px; }
             .mode-bar { padding: 8px 12px; gap: 6px; }
+            .main-wrap { padding-top: 6px; }  /* close oversized gap above region tabs; match header-stack rhythm */
             .mode-bar .mode-label { display: none; }
             .mode-bar .mode-toggle { display: inline-block; }
             .mode-bar .mode-btns { display: none; width: 100%; }
@@ -1527,12 +1576,18 @@
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
         <div class="header-tagline">Settle the debate: the greatest Pearl Jam song ever</div>
     </div>
-    <div class="header-actions">
-        <button class="btn btn-reset" onclick="openHowto()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">❓ How to Play</button>
+    <div class="header-actions header-actions-2row">
+      <div class="ha-row ha-row-play">
+        <button class="btn btn-reset" onclick="cycOpenAllBrackets()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🗂 All Brackets</button>
+        <button class="btn btn-reset" onclick="cycOpenBestAlbum()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">💿 Vote: Best Album</button>
         <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
-        <button class="btn btn-share" onclick="openShare()">Share ↗</button>
-        <button class="btn btn-reset" onclick="confirmReset()" style="margin-left:18px;">↺ Reset</button>
-        <button class="btn btn-signup" onclick="openHubSignup()">🔔 Sign Up</button>
+      </div>
+      <div class="ha-row ha-row-util">
+        <button class="btn cyc-t3" onclick="openHowto()">❓ How to Play</button>
+        <button class="btn cyc-t1" onclick="openShare()">Share ↗</button>
+        <button class="btn cyc-t3" onclick="confirmReset()">↺ Reset</button>
+        <button class="btn cyc-t2" onclick="openHubSignup()">🔔 Sign Up</button>
+      </div>
     </div>
 </header>
 </div><!-- /header-scroll -->
@@ -4585,5 +4640,122 @@ updateProgress();
   }catch(e){}
 })();
 </script>
+<style id="cyc-pop-css">
+.quizmodal{position:fixed; inset:0; z-index:3000; background:rgba(4,6,12,.82); display:flex; align-items:center; justify-content:center; padding:20px;}
+.quizmodal[hidden]{display:none;}
+.qm-card{background:#121a2b; border:1px solid rgba(255,255,255,.10); border-radius:16px; max-width:560px; width:100%; max-height:85vh; overflow-y:auto; padding:26px 24px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.qm-close{position:absolute; top:10px; right:14px; background:none; border:none; color:#8a99b2; font-size:28px; cursor:pointer; line-height:1;}
+.qm-close:hover{color:#fff;}
+.qm-title{font-family:'Bebas Neue',sans-serif; font-size:29px; color:#fff; letter-spacing:.02em; line-height:1; display:flex; align-items:center; gap:10px;}
+.qm-title svg{width:26px; height:26px; flex:none;}
+.qm-sub{font-family:'Barlow Condensed',sans-serif; color:#8a99b2; font-size:14px; margin:3px 0 18px;}
+.qm-groups{display:flex; flex-direction:column; gap:18px;}
+.qm-group{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
+.qm-gh{grid-column:1 / -1; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:#f0a500; border-bottom:1px solid rgba(255,255,255,.10); padding-bottom:5px; margin-bottom:6px;}
+.qm-group a.qm-chip{display:block; color:#d7e0ee; text-decoration:none; font-size:14.5px; font-weight:600; padding:8px 11px; border-radius:9px; background:#0e1622; border:1px solid rgba(255,255,255,.10); border-left:4px solid var(--ac,#888); transition:background .15s, transform .15s, color .15s;}
+.qm-group a.qm-chip:hover{background:#1a2030; color:#fff; transform:translateX(2px);}
+.fv-poll{background:#0e1622; border:1px solid rgba(255,255,255,.10); border-top:2px solid var(--fv-ac,#f0a500); border-radius:14px; padding:16px; margin-top:4px;}
+.fv-options{display:grid; grid-template-columns:1fr; gap:7px;}
+.fv-opt{display:block; width:100%; text-align:left; background:#121a2b; border:1px solid rgba(255,255,255,.10); color:#d7e0ee; font-family:'Barlow',sans-serif; font-size:14px; padding:9px 13px; border-radius:9px; cursor:pointer; transition:border-color .15s, background .15s;}
+.fv-opt:hover{border-color:#f0a500; background:rgba(240,165,0,.12); color:#f3c97a;}
+.fv-opt:active{border-color:#f0a500; background:rgba(240,165,0,.20);}
+#cycBestAlbumModal .qm-card{ border-top:3px solid #f0a500; }
+.fv-yr{color:#8a99b2; font-weight:400; font-size:.85em;}
+.fv-result{display:flex; flex-direction:column; gap:6px;}
+.fv-options[hidden], .fv-result[hidden]{display:none;}
+.fv-meta{text-align:center; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.1em; color:#8a99b2; font-size:11px; margin-bottom:8px;}
+.fv-row{position:relative; background:#121a2b; border:1px solid rgba(255,255,255,.10); border-radius:9px; overflow:hidden; padding:8px 12px; font-size:14px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+.fv-row .fv-fill{position:absolute; top:0; bottom:0; left:0; background:rgba(240,165,0,.15); z-index:0; transition:width .5s ease;}
+.fv-row.mine{border-color:#f0a500;}
+.fv-row.mine .fv-fill{background:rgba(240,165,0,.33);}
+.fv-row.top .fv-fill{background:rgba(240,165,0,.26);}
+.fv-row.mine.top .fv-fill{background:rgba(240,165,0,.40);}
+.fv-row span{position:relative; z-index:1;}
+.fv-rank{font-family:'Barlow Condensed',sans-serif; font-weight:700; color:#8a99b2; font-size:13px; min-width:16px; text-align:center;}
+.fv-row.top .fv-rank{color:#f3c97a;}
+.fv-name{flex:1; min-width:0;}
+.fv-row .fv-pct{color:#f3c97a; font-weight:700;}
+.fv-youwith{text-align:center; font-family:'Barlow Condensed',sans-serif; color:#f3c97a; font-size:13.5px; margin-top:9px; letter-spacing:.03em;}
+.fv-note{text-align:center; color:#8a99b2; font-size:12.5px; margin-top:8px;}
+.site-header .header-actions.header-actions-2row{ flex-direction:column; align-items:stretch; gap:6px; overflow:visible; width:auto; }
+.ha-row{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:8px; align-items:stretch; }
+.header-actions-2row .btn{ height:34px; box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center; text-align:center; gap:5px; padding:0 14px; white-space:nowrap; min-width:0; margin-left:0 !important; line-height:1; border:1px solid transparent; border-radius:6px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; transition:all .18s; }
+.header-actions-2row .btn.cyc-t1{ background:#f0a500; border-color:#f0a500; color:#1a1205; }
+.header-actions-2row .btn.cyc-t1:hover{ background:#ffc107; border-color:#ffc107; color:#1a1205; }
+.header-actions-2row .btn.cyc-t2{ background:transparent; border-color:#f0a500; color:#f0a500; }
+.header-actions-2row .btn.cyc-t2:hover{ background:rgba(240,165,0,.12); border-color:#ffc107; color:#ffce5a; }
+.header-actions-2row .btn.cyc-t3{ background:transparent; border-color:#566173; color:#9aa6b8; }
+.header-actions-2row .btn.cyc-t3:hover{ background:transparent; border-color:#7c8aa0; color:#c4cedd; }
+@media(max-width:600px){
+  .site-header .header-actions.header-actions-2row{ width:100%; }
+  .ha-row{ width:100%; }
+  .header-actions-2row .btn{ height:auto; min-height:30px; white-space:normal; font-size:10.5px; line-height:1.05; letter-spacing:.3px; padding:3px 6px; }
+  .qm-group{grid-template-columns:1fr;}
+}
+</style>
+<div class="quizmodal" id="cycAllBracketsModal" hidden>
+  <div class="qm-card">
+    <button class="qm-close" id="cycAllBracketsClose" aria-label="Close">&times;</button>
+    <div class="qm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7H8"/><path d="M3 17H8"/><path d="M8 7V17"/><path d="M8 12H15"/><circle cx="17.5" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>Pick a Bracket</div>
+    <div class="qm-sub">Jump to any band&#39;s tournament — 13 and counting.</div>
+    <div class="qm-groups">
+      <div class="qm-group">
+        <div class="qm-gh">⭐ Featured</div>
+          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
+          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
+      </div>
+      <div class="qm-group">
+        <div class="qm-gh">Classic Rock</div>
+          <a class="qm-chip" style="--ac:#f5c518" href="/beatles/">The Beatles</a>
+          <a class="qm-chip" style="--ac:#6a4c93" href="/billyjoel/">Billy Joel</a>
+          <a class="qm-chip" style="--ac:#b87333" href="/bonjovi/">Bon Jovi</a>
+          <a class="qm-chip" style="--ac:#c0202a" href="/springsteen/">Bruce Springsteen</a>
+          <a class="qm-chip" style="--ac:#c41e7f" href="/stones/">The Rolling Stones</a>
+      </div>
+      <div class="qm-group">
+        <div class="qm-gh">Alt &amp; Hard Rock</div>
+          <a class="qm-chip" style="--ac:#7b2d3a" href="/ate/">The Airborne Toxic Event</a>
+          <a class="qm-chip" style="--ac:#d4503f" href="/foo/">Foo Fighters</a>
+          <a class="qm-chip" style="--ac:#e8336d" href="/greenday/">Green Day</a>
+          <a class="qm-chip" style="--ac:#9aa3b2" href="/metallica/">Metallica</a>
+          <a class="qm-chip" style="--ac:#2f9fa6" href="/pearljam/">Pearl Jam</a>
+          <a class="qm-chip" style="--ac:#e2571e" href="/rhcp/">Red Hot Chili Peppers</a>
+      </div>
+      <div class="qm-group">
+        <div class="qm-gh">Jam &amp; Folk</div>
+          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
+          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="quizmodal" id="cycBestAlbumModal" hidden>
+  <div class="qm-card">
+    <button class="qm-close" id="cycBestAlbumClose" aria-label="Close">&times;</button>
+    <div class="qm-title">💿 Best Pearl Jam Album?</div>
+    <div class="qm-sub">Tap your pick — see what the crowd says. One vote, then back to your bracket.</div>
+    <div class="fv-poll" data-coll="pearljam_albumvote" data-poll="pearljam" style="--fv-ac:#f0a500">
+      <div class="fv-options" data-albums="Ten::1991|Vs.::1993|Vitalogy::1994|No Code::1996|Yield::1998|Binaural::2000|Riot Act::2002|Pearl Jam::2006|Backspacer::2009|Lightning Bolt::2013|Gigaton::2020|Dark Matter::2024"></div>
+      <div class="fv-result" hidden></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    function mk(modalId, closeId){
+      var modal=document.getElementById(modalId); if(!modal) return function(){};
+      var close=document.getElementById(closeId);
+      function show(){ modal.hidden=false; document.body.style.overflow='hidden'; }
+      function hide(){ modal.hidden=true; document.body.style.overflow=''; }
+      if(close) close.addEventListener('click', hide);
+      modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
+      return show;
+    }
+    window.cycOpenAllBrackets = mk('cycAllBracketsModal','cycAllBracketsClose');
+    window.cycOpenBestAlbum   = mk('cycBestAlbumModal','cycBestAlbumClose');
+  })();
+</script>
+
 </body>
 </html>
