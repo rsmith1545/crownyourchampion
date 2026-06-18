@@ -100,7 +100,7 @@
         <tbody></tbody>
       </table>
 
-      <h2>All bracket submissions <button class="btn-sm" id="csvBrackets" style="margin-left:8px">export CSV</button></h2>
+      <h2>All bracket submissions <button class="btn-sm" id="csvBrackets" style="margin-left:8px">export CSV</button> <button class="btn-sm" id="csvPicks" style="margin-left:8px">export every pick</button></h2>
       <div class="muted" style="font-size:12.5px;margin-bottom:8px">Newest first. Showing champion + final four; full picks are in the CSV.</div>
       <table id="subTable">
         <thead><tr><th>Band</th><th>Champion</th><th>Final Four</th><th>Email</th><th>When</th></tr></thead>
@@ -358,6 +358,28 @@ document.getElementById("csvRequests").onclick = () => downloadCSV("cyc-band-req
 document.getElementById("csvBrackets").onclick = () => downloadCSV("cyc-brackets.csv",
   [["band","champion","gorge_winner","westpalm_winner","spac_winner","camden_winner","final_four","email","completed_at"]].concat(
    allSubs.map(s=>[s.band,s.champion,s.gorge_winner,s.westpalm_winner,s.spac_winner,s.camden_winner,ffStr(s.final_four," | "),s.email,fmt(s.completed_at)])));
+document.getElementById("csvPicks").onclick = () => {
+  const R=['SP','AL','WP','DC'], slots=[];
+  R.forEach(r=>{for(let i=1;i<=8;i++)slots.push(r+'-R2-'+i);});   // round 1 winners (32)
+  R.forEach(r=>{for(let i=1;i<=4;i++)slots.push(r+'-R3-'+i);});   // round 2 winners (16)
+  R.forEach(r=>{for(let i=1;i<=2;i++)slots.push(r+'-R4-'+i);});   // round 3 winners (8)
+  R.forEach(r=>slots.push(r+'-WIN'));                              // region finals (4)
+  slots.push('c1','c2');                                          // finalists (2)
+  const hdr=['band','completed_at','email'];
+  for(let i=1;i<=32;i++)hdr.push('R1_'+String(i).padStart(2,'0'));
+  for(let i=1;i<=16;i++)hdr.push('R2_'+String(i).padStart(2,'0'));
+  for(let i=1;i<=8;i++)hdr.push('R3_'+String(i).padStart(2,'0'));
+  for(let i=1;i<=4;i++)hdr.push('RegionWinner_'+i);
+  hdr.push('Finalist_1','Finalist_2','Champion');
+  const rows=[hdr].concat(allSubs.map(s=>{
+    const ap=s.all_picks||{};
+    const row=[s.band, fmt(s.completed_at), s.email||''];
+    slots.forEach(sl=> row.push(ap[sl]!=null?ap[sl]:''));
+    row.push(s.champion!=null?s.champion:(ap.champion!=null?ap.champion:''));
+    return row;
+  }));
+  downloadCSV("cyc-every-pick.csv", rows);
+};
 </script>
 </body>
 </html>
