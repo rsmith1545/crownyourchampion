@@ -396,8 +396,8 @@
         <ul class="nav3-items">
           <li><a href="#" id="bracketPickOpen"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7H8"/><path d="M3 17H8"/><path d="M8 7V17"/><path d="M8 12H15"/><circle cx="17.5" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>Full Brackets</span><span class="arr">→</span></a></li>
           <li><a href="#" id="quizPickOpen"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Superfan Quiz</span><span class="arr">→</span></a></li>
+          <li><a href="#" id="bestAlbumPickOpen"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>Vote: Best Album <em class="newp">new</em></span><span class="arr">→</span></a></li>
           <li><a href="#" id="myConcertOpen"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>My Concert <em class="newp">new</em></span><span class="arr">→</span></a></li>
-          <li><a href="#fanvote"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>Fan Vote</span><span class="arr">→</span></a></li>
           <li><span class="ni"><span class="nav-lbl"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>Challenge a Friend</span><em class="soon">soon</em></span></li>
         </ul>
       </div>
@@ -439,23 +439,6 @@
       </div>
     </section>
 
-    <!-- FAN VOTE -->
-    <section class="fanvote" id="fanvote">
-      <h2 class="sec-head"><span class="sh-ico">⚡</span>Fan Vote</h2>
-      <div class="fv-subhead">Tap your pick — see what the crowd says. One vote per poll.</div>
-      <div class="fv-polls">
-        <div class="fv-poll" data-coll="dmb_albumvote" data-poll="dmb" style="--fv-ac:#2563aa">
-          <div class="fv-q">Best Dave Matthews Band album?</div>
-          <div class="fv-options" data-albums="Under the Table and Dreaming::1994|Crash::1996|Before These Crowded Streets::1998|Everyday::2001|Busted Stuff::2002|Stand Up::2005|Big Whiskey and the GrooGrux King::2009|Away from the World::2012|Come Tomorrow::2018|Walk Around the Moon::2023"></div>
-          <div class="fv-result" hidden></div>
-        </div>
-        <div class="fv-poll" data-coll="ft_albumvote" data-poll="ft" style="--fv-ac:#6aa84f">
-          <div class="fv-q">Best Frank Turner album?</div>
-          <div class="fv-options" data-albums="Sleep Is for the Week::2007|Love Ire &amp; Song::2008|Poetry of the Deed::2009|England Keep My Bones::2011|Tape Deck Heart::2013|Positive Songs for Negative People::2015|Be More Kind::2018|No Man's Land::2019|FTHC::2022|Undefeated::2024"></div>
-          <div class="fv-result" hidden></div>
-        </div>
-      </div>
-    </section>
 
     <h2 class="sec-head" id="tournaments"><span class="sh-ico">🏆</span>Choose Your Tournament</h2>
 
@@ -676,6 +659,11 @@
           <a class="qm-chip" style="--ac:#9aa3b2" href="/metallica/">Metallica</a>
           <a class="qm-chip" style="--ac:#2f9fa6" href="/pearljam/">Pearl Jam</a>
           <a class="qm-chip" style="--ac:#e2571e" href="/rhcp/">Red Hot Chili Peppers</a>
+        </div>
+        <div class="qm-group">
+          <div class="qm-gh">Jam &amp; Folk</div>
+          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
+          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
         </div>
       </div>
       </div>
@@ -974,6 +962,7 @@
     wire('bracketPickOpen','bracketPickModal','bracketPickClose');
     wire('heroBracketOpen','bracketPickModal','bracketPickClose');
     wire('myConcertOpen','bracketPickModal','bracketPickClose');
+    wire('bestAlbumPickOpen','bracketPickModal','bracketPickClose');
     wire('suggestOpen','suggestModal','suggestClose');
     wire('notifyOpen','notifyModal','notifyClose');
     // FIX2: My Concert opens the bracket picker with concert-framed copy; restore defaults for the others
@@ -983,11 +972,14 @@
     var BP_DEF_SUB = bpSub ? bpSub.textContent : '';
     var MC_TITLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Build From Your Concert';
     var MC_SUB = "Pick the band whose show you were at — then tap 🎵 My Concert inside to load that night's setlist.";
+    var BA_TITLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>Crown the Best Album';
+    var BA_SUB = "Pick a band, then tap 💿 Vote: Best Album to crown their greatest album.";
     function setBP(t,s){ if(bpTitle) bpTitle.innerHTML=t; if(bpSub) bpSub.textContent=s; }
     var bpChips=document.querySelectorAll('#bracketPickModal .qm-chip');
-    function setChipMode(concert){ bpChips.forEach(function(a){ var base=a.getAttribute('data-href'); if(!base){ base=a.getAttribute('href'); a.setAttribute('data-href', base); } a.setAttribute('href', concert ? (base+(base.indexOf('?')<0?'?':'&')+'mode=concert') : base); }); }
-    var mco=document.getElementById('myConcertOpen'); if(mco) mco.addEventListener('click', function(){ setBP(MC_TITLE, MC_SUB); setChipMode(true); });
-    ['bracketPickOpen','heroBracketOpen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click', function(){ setBP(BP_DEF_TITLE, BP_DEF_SUB); setChipMode(false); }); });
+    function setChipSuffix(suffix){ bpChips.forEach(function(a){ var base=a.getAttribute('data-href'); if(!base){ base=a.getAttribute('href'); a.setAttribute('data-href', base); } a.setAttribute('href', base + (suffix||'')); }); }
+    var mco=document.getElementById('myConcertOpen'); if(mco) mco.addEventListener('click', function(){ setBP(MC_TITLE, MC_SUB); setChipSuffix('?mode=concert'); });
+    var bao=document.getElementById('bestAlbumPickOpen'); if(bao) bao.addEventListener('click', function(){ setBP(BA_TITLE, BA_SUB); setChipSuffix('#bestalbum'); });
+    ['bracketPickOpen','heroBracketOpen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click', function(){ setBP(BP_DEF_TITLE, BP_DEF_SUB); setChipSuffix(''); }); });
   })();
 </script>
 </body>

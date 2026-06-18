@@ -1574,7 +1574,7 @@
     <div class="header-left">
         <h1 class="brand-h1"><a href="../" class="brand-link" title="Back to home" aria-label="Crown Your Champion — home"><img class="brand-logo" src="cyc-logo.png" alt="Crown Your Champion — Fan Bracket Tournament"></a></h1>
         <div class="subtitle">64 Songs · 4 Regions · 1 Champion</div>
-        <div class="header-tagline">Settle the debate: the greatest Green Day song ever</div>
+        <div class="header-tagline">Settle the debate: the greatest song ever</div>
     </div>
     <div class="header-actions header-actions-2row">
       <div class="ha-row ha-row-play">
@@ -4754,6 +4754,7 @@ updateProgress();
     }
     window.cycOpenAllBrackets = mk('cycAllBracketsModal','cycAllBracketsClose');
     window.cycOpenBestAlbum   = mk('cycBestAlbumModal','cycBestAlbumClose');
+    if(location.hash==='#bestalbum'){ document.addEventListener('DOMContentLoaded', function(){ try{ window.cycOpenBestAlbum(); }catch(e){} }); }
   })();
 </script>
 
