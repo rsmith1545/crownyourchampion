@@ -307,6 +307,7 @@
   function render(){
     answered=false;
     var item=round[idx];
+    try{ if(window.__cycReveal) window.__cycCorrect=item.correct; }catch(e){}
     C.innerHTML=
       '<div class="qmeta"><span><span class="mode-tag">'+modeName+'</span> &middot; Q '+(idx+1)+'/'+round.length+'</span><span class="score">Score '+score+'</span></div>'+
       '<div class="bar"><i style="width:'+Math.round((idx/round.length)*100)+'%"></i></div>'+
@@ -498,13 +499,17 @@
     }
     try{ document.documentElement.style.cursor='none'; }catch(e){}
     await beat('Prove it. 🎯',1400,{big:true});
+    try{ window.__cycReveal=true; }catch(e){}
     var sup=await waitFor(function(){return document.getElementById('mSuper')||document.getElementById('mCasual');},6000);
     if(sup) clickEl(sup); await sleep(800);
     showCap('Superfan-level questions...');
     var qn=0, guard=0;
     while(!document.querySelector('.scoreline') && guard++<16){
-      var opt=document.querySelector('#opts .opt'); if(opt) clickEl(opt);
-      qn++; if(qn===2) showCap('...how many can you '+g('get?'));
+      await waitFor(function(){return document.querySelector('#opts .opt');},3000);
+      var opts=document.querySelectorAll('#opts .opt'), pick=opts[0], ans=window.__cycCorrect;
+      if(ans){ for(var oi=0;oi<opts.length;oi++){ if(opts[oi].textContent===ans){ pick=opts[oi]; break; } } }
+      if(pick) clickEl(pick);
+      qn++; if(qn===2) showCap('...'+g('nailing every one')+' 💪');
       await sleep(1000);
       var nb=document.getElementById('nextBtn'); if(nb) nb.click();
       await sleep(750);
