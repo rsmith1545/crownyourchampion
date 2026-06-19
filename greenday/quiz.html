@@ -78,9 +78,15 @@
   .foot a{ color:#6fa3e0; text-decoration:none; } .foot a:hover{ text-decoration:underline; }
   .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* embed mode — when the quiz runs inside the in-page popup iframe, hide page chrome + dead-end exits */
+  html.cyc-embed .top, html.cyc-embed .foot{ display:none !important; }
+  html.cyc-embed .wrap{ padding:14px 14px 30px; }
+  html.cyc-embed #cycCookie{ display:none !important; }
 </style>
 </head>
 <body>
+<script>try{if(window.self!==window.top)document.documentElement.className+=' cyc-embed';}catch(e){document.documentElement.className+=' cyc-embed';}</script>
 <div class="wrap">
   <div class="top">
     <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>

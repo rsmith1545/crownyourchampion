@@ -1630,7 +1630,7 @@
       <div class="ha-row ha-row-play">
         <button class="btn btn-reset" onclick="cycOpenAllBrackets()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🗂 All Brackets</button>
         <button class="btn btn-reset" onclick="cycOpenBestAlbum()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">💿 Vote: Best Album</button>
-        <a class="btn btn-reset" href="quiz.html" style="text-decoration:none;color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</a>
+        <button class="btn btn-reset" onclick="cycOpenQuiz()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</button>
       </div>
       <div class="ha-row ha-row-util">
         <button class="btn cyc-t3" onclick="openHowto()">❓ How to Play</button>
@@ -4585,7 +4585,7 @@ updateProgress();
       +'<div style="margin-top:16px;"><button class="btn btn-close" id="cycQuizLater">Maybe later</button></div>'
       +'</div>';
     document.body.appendChild(ov);
-    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); location.href='quiz.html'; };
+    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); if(window.cycOpenQuiz){cycOpenQuiz();}else{location.href='quiz.html';} };
     document.getElementById('cycQuizLater').onclick=dismiss;
     var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(){ ce('see_all_click'); };
     Array.prototype.forEach.call(ov.querySelectorAll('[data-cyc-next]'),function(a){ a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:slug(),to:a.getAttribute('data-cyc-next')}); }catch(e){} }); });
@@ -4889,6 +4889,31 @@ updateProgress();
   })(); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(go,800); });
   else setTimeout(go,800);
+})();
+</script>
+
+<style id="cyc-quizpop-css">
+.quizpop{position:fixed; inset:0; z-index:4000; background:rgba(4,6,12,.86); display:flex; align-items:center; justify-content:center; padding:24px;}
+.quizpop[hidden]{display:none;}
+.quizpop-inner{position:relative; width:100%; max-width:680px; height:88vh; max-height:940px; background:#0a0c12; border:1px solid #1e2940; border-radius:16px; overflow:hidden; box-shadow:0 22px 70px rgba(0,0,0,.6);}
+.quizpop-x{position:absolute; top:8px; right:10px; z-index:3; width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,.2); background:rgba(10,12,18,.78); color:#fff; font-size:24px; line-height:36px; text-align:center; cursor:pointer; padding:0;}
+.quizpop-x:hover{ background:rgba(240,165,0,.22); border-color:#f0a500; }
+.quizpop iframe{ width:100%; height:100%; border:0; display:block; background:#0a0c12; }
+@media (max-width:640px){ .quizpop{ padding:0; } .quizpop-inner{ max-width:none; width:100%; height:100%; max-height:none; border:0; border-radius:0; } .quizpop-x{ top:6px; right:8px; } }
+</style>
+<div class="quizpop" id="quizPop" hidden>
+  <div class="quizpop-inner">
+    <button class="quizpop-x" id="quizPopX" aria-label="Close quiz">&times;</button>
+    <iframe id="quizPopFrame" title="Superfan Quiz" allow="clipboard-write; fullscreen"></iframe>
+  </div>
+</div>
+<script>
+(function(){ if(window.cycOpenQuiz) return;
+  function el(id){return document.getElementById(id);}
+  window.cycOpenQuiz=function(src){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p||!f)return; f.src=src||'quiz.html'; p.hidden=false; document.body.style.overflow='hidden'; try{if(window.cycEvt)cycEvt('quiz_open');}catch(e){} };
+  window.cycCloseQuiz=function(){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p)return; p.hidden=true; document.body.style.overflow=''; if(f)f.src='about:blank'; };
+  function init(){ var p=el('quizPop'),x=el('quizPopX'); if(x)x.addEventListener('click',window.cycCloseQuiz); if(p)p.addEventListener('click',function(e){if(e.target===p)window.cycCloseQuiz();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p&&!p.hidden)window.cycCloseQuiz();}); }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 </body>
