@@ -4834,5 +4834,63 @@ updateProgress();
   })();
 </script>
 
+<script>
+/* CYC video-demo resumer (Best Album) — INERT unless sessionStorage 'cyc-albumdemo'==='1' (set only by the marketing homepage script). Invisible to normal visitors. */
+(function(){
+  var run=false; try{ run = sessionStorage.getItem('cyc-albumdemo')==='1'; }catch(e){}
+  if(!run) return;
+  try{ sessionStorage.removeItem('cyc-albumdemo'); }catch(e){}
+  function go(){ (async function(){
+    var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms);});};
+    function BAND(){ var m=(document.title||'').match(/[—-]\s*(.+?)\s+(Madness|Superfan|Quiz)/i); return m?m[1].trim():''; }
+    async function waitFor(fn,to){ var t0=Date.now(); while(Date.now()-t0<(to||6000)){ var v; try{v=fn();}catch(e){} if(v)return v; await sleep(120);} return null; }
+    var _cap=null;
+    function showCap(html,opts){ opts=opts||{};
+      if(_cap){ var o=_cap; o.style.opacity='0'; setTimeout(function(){o.remove();},300); _cap=null; }
+      if(!html) return; var pos=opts.pos||'center'; var wrap=document.createElement('div');
+      wrap.style.cssText='position:fixed;z-index:2147483647;pointer-events:none;left:0;right:0;display:flex;justify-content:center;'+(pos==='top'?'top:7%;':pos==='bottom'?'bottom:9%;':'top:0;bottom:0;align-items:center;');
+      var box=document.createElement('div');
+      box.style.cssText='max-width:90%;text-align:center;font-family:\'Bebas Neue\',Anton,Oswald,Impact,sans-serif;font-weight:700;color:#fff;letter-spacing:.5px;line-height:1.12;background:rgba(8,8,14,.72);padding:.5em .9em;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.55);text-shadow:0 2px 10px rgba(0,0,0,.8);opacity:0;transition:opacity .35s ease;font-size:'+(opts.big?'min(9vw,56px)':'min(6.2vw,40px)')+';';
+      box.innerHTML=html; wrap.appendChild(box); document.body.appendChild(wrap); _cap=wrap;
+      requestAnimationFrame(function(){ box.style.opacity='1'; });
+    }
+    function g(s){ return '<span style="color:#f0a500">'+s+'</span>'; }
+    async function beat(html,ms,opts){ showCap(html,opts); await sleep(ms||1600); }
+    function flash(el){ if(!el)return; var p=el.style.boxShadow,t=el.style.transition; el.style.transition='box-shadow .1s'; el.style.boxShadow='0 0 0 3px #f0c75e,0 0 14px rgba(240,199,94,.85)'; setTimeout(function(){el.style.boxShadow=p;el.style.transition=t;},260); }
+    function clickEl(el){ if(!el) return false; try{el.scrollIntoView({block:'center',inline:'center'});}catch(e){} flash(el); el.click(); return true; }
+    function endCard(line){ if(_cap){ _cap.remove(); _cap=null; }
+      var el=document.createElement('div');
+      el.style.cssText='position:fixed;inset:0;z-index:2147483647;pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(8,8,14,.88);opacity:0;transition:opacity .45s ease;font-family:\'Bebas Neue\',Anton,Oswald,Impact,sans-serif;text-align:center;padding:6%;';
+      el.innerHTML='<div style="color:#f0a500;font-size:min(13vw,88px);font-weight:700;letter-spacing:2px;line-height:1;text-shadow:0 0 26px rgba(240,165,0,.45)">👑 Crown Your Champion</div><div style="color:#fff;font-size:min(6vw,38px);margin-top:16px;letter-spacing:1px">'+(line||'crownyourchampion.com')+'</div>';
+      document.body.appendChild(el); requestAnimationFrame(function(){ el.style.opacity='1'; });
+      function _clr(){ try{el.style.opacity='0'; setTimeout(function(){ try{el.remove();}catch(e){} },450);}catch(e){} try{document.documentElement.style.cursor='';}catch(e){} window.removeEventListener('keydown',_clrk); }
+      function _clrk(){ _clr(); } window.addEventListener('keydown',_clrk); setTimeout(_clr, 6000);
+    }
+    try{ document.documentElement.style.cursor='none'; }catch(e){}
+    var band=BAND()||'this band';
+    if(window.cycOpenBestAlbum){ try{ cycOpenBestAlbum(); }catch(e){} }
+    await waitFor(function(){ var m=document.getElementById('cycBestAlbumModal'); return (m && !m.hidden && m.querySelector('.fv-opt'))?m:null; },6000);
+    await beat('What\'s '+g(band)+'\'s<br>'+g('BEST')+' album?',1900,{big:true});
+    await beat('Harder than it '+g('sounds...'),1200,{big:true});
+    showCap('Forgot what\'s on each one?',{pos:'top'});
+    var ex=document.querySelector('#cycBestAlbumModal .fv-exp'); if(ex){ clickEl(ex); } await sleep(1400);
+    showCap('Tap to see every track —<br>'+g('and preview it'),{pos:'top'});
+    var pb=await waitFor(function(){return document.querySelector('#cycBestAlbumModal .fv-track .play-btn');},3000);
+    if(pb){ clickEl(pb); } await sleep(2400);
+    showCap('Then '+g('cast your vote'),{pos:'top'});
+    if(ex){ ex.click(); } await sleep(450);
+    var tile=document.querySelector('#cycBestAlbumModal .fv-opt'); if(tile){ clickEl(tile); } await sleep(950);
+    var conf=document.querySelector('#cycBestAlbumModal .fv-confirm'); if(conf && !conf.disabled){ clickEl(conf); } await sleep(1800);
+    showCap('See what the crowd says, '+g('instantly'),{pos:'top'});
+    await sleep(2400);
+    showCap('💿 Vote on '+g('every bracket page')+' too');
+    await sleep(2300);
+    endCard('Vote now · crownyourchampion.com');
+    await sleep(2800);
+  })(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(go,800); });
+  else setTimeout(go,800);
+})();
+</script>
 </body>
 </html>
