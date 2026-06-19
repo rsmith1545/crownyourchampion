@@ -79,15 +79,15 @@
   .toast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#111a2e; border:1px solid var(--gold); color:#fff; padding:11px 18px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .25s, transform .25s; z-index:50; }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* embed mode — runs inside the full-screen quiz popup: hide chrome, center the quiz */
+  /* embed mode — runs inside the in-page quiz popup box: hide chrome, shrink to content */
   html.cyc-embed .top, html.cyc-embed .foot{ display:none !important; }
   html.cyc-embed #cycCookie{ display:none !important; }
-  html.cyc-embed body{ min-height:100vh; margin:0; }
-  html.cyc-embed .wrap{ min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column; justify-content:safe center; padding:24px 18px; margin:0 auto; }
+  html.cyc-embed body{ min-height:0 !important; margin:0; background:transparent; }
+  html.cyc-embed .wrap{ min-height:0; padding:16px 16px 22px; margin:0 auto; max-width:680px; }
 </style>
 </head>
 <body>
-<script>(function(){ try{ if(window.self===window.top) return; }catch(e){} document.documentElement.className+=' cyc-embed'; })();</script>
+<script>(function(){ try{ if(window.self===window.top) return; }catch(e){} document.documentElement.className+=' cyc-embed'; function ph(){ try{ parent.postMessage({cycQuizH:Math.ceil(document.documentElement.getBoundingClientRect().height)},'*'); }catch(e){} } function go(){ ph(); try{ new ResizeObserver(ph).observe(document.documentElement); }catch(e){} try{ new MutationObserver(ph).observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true}); }catch(e){} window.addEventListener('resize',ph); setInterval(ph,400); } if(document.readyState!=='loading') go(); else window.addEventListener('DOMContentLoaded',go); })();</script>
 <div class="wrap">
   <div class="top">
     <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>

@@ -1210,13 +1210,13 @@
 </script>
 
 <style id="cyc-quizpop-css">
-.quizpop{position:fixed; inset:0; z-index:4000; background:#070910;}
+.quizpop{position:fixed; inset:0; z-index:4000; background:rgba(4,6,12,.86); display:flex; align-items:center; justify-content:center; padding:18px;}
 .quizpop[hidden]{display:none;}
-.quizpop-inner{position:absolute; inset:0; background:#0a0c12; overflow:hidden;}
+.quizpop-inner{position:relative; width:100%; max-width:640px; height:420px; max-height:92vh; background:#0a0c12; border:1px solid #1e2940; border-radius:16px; overflow:hidden; box-shadow:0 22px 70px rgba(0,0,0,.55); transition:height .18s ease;}
 .quizpop-x{position:absolute; top:12px; right:14px; z-index:3; width:42px; height:42px; border-radius:50%; border:1px solid rgba(255,255,255,.22); background:rgba(10,12,18,.82); color:#fff; font-size:25px; line-height:38px; text-align:center; cursor:pointer; padding:0;}
 .quizpop-x:hover{ background:rgba(240,165,0,.22); border-color:#f0a500; }
 .quizpop iframe{ width:100%; height:100%; border:0; display:block; background:#0a0c12; }
-/* full-screen on all viewports */
+@media (max-width:640px){ .quizpop{ padding:0; } .quizpop-inner{ max-width:none; width:100%; height:100%!important; max-height:none; border:0; border-radius:0; } .quizpop-x{ top:6px; right:8px; } }
 </style>
 <div class="quizpop" id="quizPop" hidden>
   <div class="quizpop-inner">
@@ -1227,7 +1227,8 @@
 <script>
 (function(){ if(window.cycOpenQuiz) return;
   function el(id){return document.getElementById(id);}
-  window.cycOpenQuiz=function(src){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p||!f)return; f.src=src||'quiz.html'; p.hidden=false; document.body.style.overflow='hidden'; try{if(window.cycEvt)cycEvt('quiz_open');}catch(e){} };
+  window.cycOpenQuiz=function(src){ var p=el('quizPop'),f=el('quizPopFrame'),inr=p&&p.querySelector('.quizpop-inner'); if(!p||!f)return; if(inr&&window.innerWidth>640){ inr.style.height=Math.min(420,Math.round(window.innerHeight*0.92))+'px'; } f.src=src||'quiz.html'; p.hidden=false; document.body.style.overflow='hidden'; try{if(window.cycEvt)cycEvt('quiz_open');}catch(e){} };
+  window.addEventListener('message', function(e){ var d=e&&e.data; if(d&&typeof d.cycQuizH==='number'){ var p=el('quizPop'),inr=p&&p.querySelector('.quizpop-inner'); if(inr && p && !p.hidden && window.innerWidth>640){ inr.style.height=Math.min(d.cycQuizH,Math.round(window.innerHeight*0.92))+'px'; } } });
   window.cycCloseQuiz=function(){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p)return; p.hidden=true; document.body.style.overflow=''; if(f)f.src='about:blank'; };
   function init(){ var p=el('quizPop'),x=el('quizPopX'); if(x)x.addEventListener('click',window.cycCloseQuiz); if(p)p.addEventListener('click',function(e){if(e.target===p)window.cycCloseQuiz();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p&&!p.hidden)window.cycCloseQuiz();}); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
