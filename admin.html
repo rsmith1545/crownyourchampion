@@ -111,7 +111,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const ADMIN_EMAIL = "rsmith1545@gmail.com";
@@ -125,6 +125,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+getRedirectResult(auth).catch(e=>{ const g=document.getElementById("gatemsg"); if(g) g.innerHTML='<span class="err">'+e.message+'</span>'; });
 const db = getFirestore(app);
 
 const BANDS = [
@@ -164,7 +165,7 @@ const POLLS = [
 const $ = id => document.getElementById(id);
 let allSubs = [], allSignups = [];
 
-document.getElementById("login").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e=>{ $("gatemsg").innerHTML='<span class="err">'+e.message+'</span>'; });
+document.getElementById("login").onclick = () => signInWithRedirect(auth, new GoogleAuthProvider());
 document.getElementById("logout").onclick = () => signOut(auth);
 document.getElementById("reload").onclick = () => loadAll();
 
