@@ -707,6 +707,109 @@
       </div>
     </div>
 
+<style id="hp-album-css">
+#hpAlbumModal .qm-card{ border-top:3px solid #f0a500; }
+#hpAlbumModal .fv-poll{background:#0e1622; border:1px solid rgba(255,255,255,.10); border-top:2px solid var(--fv-ac,#f0a500); border-radius:14px; padding:16px; margin-top:4px;}
+#hpAlbumModal .fv-options{display:grid; grid-template-columns:1fr; gap:7px;}
+#hpAlbumModal .fv-opt{display:block; width:100%; text-align:left; background:#121a2b; border:1px solid rgba(255,255,255,.10); color:#d7e0ee; font-family:'Barlow',sans-serif; font-size:14px; padding:9px 13px; border-radius:9px; cursor:pointer; transition:border-color .15s, background .15s;}
+#hpAlbumModal .fv-opt:hover{border-color:#f0a500; background:rgba(240,165,0,.12); color:#f3c97a;}
+#hpAlbumModal .fv-opt:active{border-color:#f0a500; background:rgba(240,165,0,.20);}
+#hpAlbumModal .fv-opt-row{display:flex; gap:7px; align-items:stretch;}
+#hpAlbumModal .fv-opt-row .fv-opt{flex:1 1 auto; min-width:0; white-space:normal; overflow-wrap:break-word;}
+#hpAlbumModal .fv-exp{flex:0 0 auto; min-width:62px; padding:6px 9px; background:#121a2b; border:1px solid rgba(255,255,255,.10); border-radius:9px; color:#8a99b2; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; transition:border-color .15s, color .15s;}
+#hpAlbumModal .fv-exp-lbl{font-family:'Barlow Condensed',sans-serif; font-size:9.5px; line-height:1; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;}
+#hpAlbumModal .fv-exp:hover{border-color:#f0a500; color:#f0a500;}
+#hpAlbumModal .fv-exp.open{color:#f0a500; border-color:#f0a500;}
+#hpAlbumModal .fv-exp .fv-exp-ico{transition:transform .2s; font-size:13px; line-height:1;}
+#hpAlbumModal .fv-exp.open .fv-exp-ico{transform:rotate(180deg);}
+#hpAlbumModal .fv-tracks{background:#0c121e; border:1px solid rgba(255,255,255,.08); border-radius:9px; padding:3px 9px; margin-top:1px;}
+#hpAlbumModal .fv-tracks[hidden]{display:none;}
+#hpAlbumModal .fv-track{display:flex; align-items:center; gap:9px; padding:6px 2px; border-bottom:1px solid rgba(255,255,255,.05); font-family:'Barlow',sans-serif; font-size:13px; color:#c9d3e0;}
+#hpAlbumModal .fv-track:last-child{border-bottom:none;}
+#hpAlbumModal .fv-tk-name{flex:1 1 auto; min-width:0; line-height:1.25;}
+#hpAlbumModal .fv-track .play-btn{margin-left:0;}
+#hpAlbumModal .fv-tl-load{color:#8a99b2; font-size:12.5px; padding:9px 4px; text-align:center;}
+#hpAlbumModal .fv-opt.sel{border-color:#f0a500 !important; background:rgba(240,165,0,.16); color:#fff; box-shadow:inset 0 0 0 1px #f0a500;}
+#hpAlbumModal .fv-confirm-bar{position:sticky; bottom:0; padding:9px 0 2px; margin-top:3px; background:linear-gradient(180deg, rgba(18,26,43,0), #121a2b 45%); z-index:2;}
+#hpAlbumModal .fv-confirm{width:100%; padding:11px 14px; border-radius:10px; border:1px solid #f0a500; background:#f0a500; color:#1a1205; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.04em; text-transform:uppercase; cursor:pointer; transition:opacity .15s, background .15s, color .15s;}
+#hpAlbumModal .fv-confirm:disabled{opacity:.5; cursor:default; background:transparent; color:#8a99b2; border-color:rgba(255,255,255,.14);}
+#hpAlbumModal .fv-confirm:not(:disabled):hover{background:#ffc107;}
+#hpAlbumModal .fv-change{display:block; margin:12px auto 2px; background:none; border:1px solid rgba(255,255,255,.16); color:#c4cedd; font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:.03em; text-transform:uppercase; padding:7px 16px; border-radius:8px; cursor:pointer; transition:border-color .15s,color .15s;}
+#hpAlbumModal .fv-change:hover{border-color:#f0a500; color:#f0a500;}
+#hpAlbumModal .fv-yr{color:#8a99b2; font-weight:400; font-size:.85em;}
+#hpAlbumModal .fv-result{display:flex; flex-direction:column; gap:6px;}
+#hpAlbumModal .fv-options[hidden], #hpAlbumModal .fv-result[hidden]{display:none;}
+#hpAlbumModal .fv-meta{text-align:center; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.1em; color:#8a99b2; font-size:11px; margin-bottom:8px;}
+#hpAlbumModal .fv-row{position:relative; background:#121a2b; border:1px solid rgba(255,255,255,.10); border-radius:9px; overflow:hidden; padding:8px 12px; font-size:14px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+#hpAlbumModal .fv-row .fv-fill{position:absolute; top:0; bottom:0; left:0; background:rgba(240,165,0,.15); z-index:0; transition:width .5s ease;}
+#hpAlbumModal .fv-row.mine{border-color:#f0a500;}
+#hpAlbumModal .fv-row.mine .fv-fill{background:rgba(240,165,0,.33);}
+#hpAlbumModal .fv-row.top .fv-fill{background:rgba(240,165,0,.26);}
+#hpAlbumModal .fv-row.mine.top .fv-fill{background:rgba(240,165,0,.40);}
+#hpAlbumModal .fv-row span{position:relative; z-index:1;}
+#hpAlbumModal .fv-rank{font-family:'Barlow Condensed',sans-serif; font-weight:700; color:#8a99b2; font-size:13px; min-width:16px; text-align:center;}
+#hpAlbumModal .fv-row.top .fv-rank{color:#f3c97a;}
+#hpAlbumModal .fv-name{flex:1; min-width:0;}
+#hpAlbumModal .fv-row .fv-pct{color:#f3c97a; font-weight:700;}
+#hpAlbumModal .fv-youwith{text-align:center; font-family:'Barlow Condensed',sans-serif; color:#f3c97a; font-size:13.5px; margin-top:9px; letter-spacing:.03em;}
+#hpAlbumModal .fv-note{text-align:center; color:#8a99b2; font-size:12.5px; margin-top:8px;}
+#hpAlbumModal .play-btn{
+            flex: 0 0 auto;
+            margin-left: auto;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 1px solid #f0a500;
+            background: rgba(240,165,0,0.12);
+            color: #f0a500;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; padding: 0;
+            font-size: 0; line-height: 0;
+            transition: background 0.15s, transform 0.1s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;}
+#hpAlbumModal .play-btn:hover{ background: rgba(240,165,0,0.28);}
+#hpAlbumModal .play-btn:active{ transform: scale(0.9);}
+#hpAlbumModal .play-btn::before{
+            content: "\25B6";            /* ▶ play */
+            font-size: 9px; line-height: 1;
+            margin-left: 1px;            /* optical centering of triangle */}
+#hpAlbumModal .play-btn.playing{
+            background: #f0a500;
+            color: #0a0a0f;}
+#hpAlbumModal .play-btn.playing::before{ content: "\23F8"; margin-left: 0;}
+#hpAlbumModal /* ⏸ pause */
+        .play-btn.loading::before{
+            content: "";
+            width: 9px; height: 9px; margin: 0;
+            border: 2px solid rgba(240,165,0,0.35);
+            border-top-color: #f0a500;
+            border-radius: 50%;}
+#hpAlbumModal .play-btn.unavailable{
+            border-color: #8a99b2;
+            background: transparent;
+            opacity: 0.5;}
+#hpAlbumModal .play-btn.unavailable::before{ content: "\2715"; color: #8a99b2; font-size: 8px; margin: 0;}
+</style>
+<div class="quizmodal" id="hpAlbumModal" hidden>
+  <div class="qm-card">
+    <button class="qm-close" id="hpAlbumClose" aria-label="Close">&times;</button>
+    <div class="qm-title" id="hpAlbumTitle">💿 Best Album?</div>
+    <div class="qm-sub">Tap your pick — see what the crowd says. One vote, change it anytime.</div>
+    <div id="hpAlbumPoll"></div>
+  </div>
+</div>
+<script>
+/* CYC homepage preview player — plays baked Apple Music preview URLs (one at a time, iOS-safe). */
+(function(){ if(window.cycPlayPreview) return;
+  var cache={}, audio=null, curBtn=null;
+  function getAudio(){ if(!audio){ audio=document.createElement('video'); audio.setAttribute('playsinline',''); audio.setAttribute('webkit-playsinline',''); audio.preload='auto'; audio.muted=false; audio.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;'; audio.addEventListener('ended',reset); audio.addEventListener('error',reset); (document.body||document.documentElement).appendChild(audio);} return audio; }
+  function reset(){ if(curBtn) curBtn.classList.remove('playing','loading'); curBtn=null; }
+  function stop(){ if(audio){ audio.pause(); try{audio.currentTime=0;}catch(e){} } reset(); }
+  function play(btn,url){ var a=getAudio(); a.src=url; var p=a.play(); curBtn=btn; btn.classList.remove('loading'); btn.classList.add('playing'); if(p&&p.catch) p.catch(function(){reset();}); }
+  function onClick(name,btn,e){ if(e){try{e.stopPropagation();e.preventDefault();}catch(_){}} if(curBtn===btn){ stop(); return; } stop(); var url=cache[name]; if(!url){ btn.classList.add('unavailable'); setTimeout(function(){btn.classList.remove('unavailable');},1400); return; } play(btn,url); }
+  window.cycSeedPreview=function(name,url){ if(name&&url) cache[name]=url; };
+  window.cycPlayPreview=function(name,btn,e){ onClick(name,btn,e); };
+})();
+</script>
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, serverTimestamp, doc, setDoc, getDocs, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -720,6 +823,115 @@
   };
   let db=null;
   try { db = getFirestore(initializeApp(firebaseConfig)); } catch(e){ console.warn("fb init", e); }
+  // ── In-page Best Album vote (any band, opened from the picker — stays on the homepage) ──
+  (function(){
+    var SAN=function(s){ return String(s||'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,120); };
+          function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+          function fvWrite(coll, album){ if(!db) return; try{ setDoc(doc(db,coll,SAN(album)), {album:album, count:increment(1)}, {merge:true}); }catch(e){ console.warn('fv write',e); } }
+          function fvRead(coll){
+            if(!db) return Promise.reject(new Error('no db'));
+            var p=getDocs(collection(db,coll)).then(function(snap){ var t={}; snap.forEach(function(d){ var v=d.data(); t[d.id]=(v&&v.count)||0; }); return t; });
+            return Promise.race([ p, new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },3000); }) ]);
+          }
+    function setupPoll(poll){
+
+            var coll=poll.getAttribute('data-coll'), pid=poll.getAttribute('data-poll'), key='cyc-fv-'+pid;
+            var optsWrap=poll.querySelector('.fv-options'), resWrap=poll.querySelector('.fv-result');
+            var albums=(optsWrap.getAttribute('data-albums')||'').split('|').map(function(s){var p=s.split('::');return {name:p[0].trim(), year:(p[1]||'').trim()};}).filter(function(x){return x.name;});
+            var voted=null; try{ voted=localStorage.getItem(key); }catch(e){}
+            var TRACKS=null, tracksReq=null;
+            function loadTracks(cb){
+              if(TRACKS){ cb(TRACKS); return; }
+              if(!tracksReq){ tracksReq=fetch('/'+pid+'/album-tracks.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};}).then(function(j){ TRACKS=j||{}; return TRACKS; }); }
+              tracksReq.then(cb);
+            }
+            var selected=null, openEx=null, openTL=null, confirmBtn=null;
+            function fvDelta(album, d){ if(!db) return; try{ setDoc(doc(db,coll,SAN(album)), {album:album, count:increment(d)}, {merge:true}); }catch(e){ console.warn('fv delta',e); } }
+            function setSelected(name, tile){
+              selected=name||null;
+              Array.prototype.forEach.call(optsWrap.querySelectorAll('.fv-opt.sel'), function(el){ el.classList.remove('sel'); el.setAttribute('aria-pressed','false'); });
+              if(tile){ tile.classList.add('sel'); tile.setAttribute('aria-pressed','true'); }
+              if(confirmBtn){ confirmBtn.disabled = (!selected || selected===voted);
+                confirmBtn.textContent = voted ? (selected && selected!==voted ? 'Update my vote' : 'This is your pick') : 'Confirm vote'; }
+            }
+            albums.forEach(function(a){
+              var row=document.createElement('div'); row.className='fv-opt-row';
+              var b=document.createElement('button'); b.type='button'; b.className='fv-opt'; b.setAttribute('aria-pressed','false'); b.dataset.fvName=a.name; b.innerHTML=esc(a.name)+(a.year?' <span class="fv-yr">· '+a.year+'</span>':'');
+              b.onclick=function(){ setSelected(a.name, b); };
+              var ex=document.createElement('button'); ex.type='button'; ex.className='fv-exp'; ex.setAttribute('aria-label','Show tracklist for '+a.name); ex.innerHTML='<span class="fv-exp-lbl">Album Tracks</span><span class="fv-exp-ico">▾</span>';
+              var tl=document.createElement('div'); tl.className='fv-tracks'; tl.hidden=true; var built=false;
+              ex.onclick=function(e){ e.stopPropagation();
+                if(!tl.hidden){ tl.hidden=true; ex.classList.remove('open'); openEx=null; openTL=null; return; }
+                if(openTL && openTL!==tl){ openTL.hidden=true; if(openEx) openEx.classList.remove('open'); }
+                tl.hidden=false; ex.classList.add('open'); openEx=ex; openTL=tl;
+                if(built) return; built=true;
+                tl.innerHTML='<div class="fv-tl-load">Loading tracks…</div>';
+                loadTracks(function(j){ var list=(j&&j[a.name])||[]; tl.innerHTML='';
+                  if(!list.length){ tl.innerHTML='<div class="fv-tl-load">Tracklist coming soon.</div>'; return; }
+                  list.forEach(function(tr, ti){ var t=document.createElement('div'); t.className='fv-track';
+                    var nm=document.createElement('span'); nm.className='fv-tk-name'; nm.textContent=(ti+1)+'. '+tr.n;
+                    var pb=document.createElement('span'); pb.className='play-btn'; pb.setAttribute('role','button'); pb.setAttribute('tabindex','0'); pb.setAttribute('aria-label','Play preview of '+tr.n);
+                    if(!tr.u) pb.classList.add('unavailable');
+                    (function(name,url,btn){ if(url&&window.cycSeedPreview) cycSeedPreview(name,url);
+                      btn.addEventListener('click',function(ev){ ev.stopPropagation(); if(window.cycPlayPreview) cycPlayPreview(name,btn,ev); });
+                      btn.addEventListener('keydown',function(ev){ if((ev.key==='Enter'||ev.key===' ')&&window.cycPlayPreview){ cycPlayPreview(name,btn,ev); } });
+                    })(tr.n, tr.u, pb);
+                    t.appendChild(nm); t.appendChild(pb); tl.appendChild(t);
+                  });
+                });
+              };
+              row.appendChild(b); row.appendChild(ex); optsWrap.appendChild(row); optsWrap.appendChild(tl);
+            });
+            var bar=document.createElement('div'); bar.className='fv-confirm-bar';
+            confirmBtn=document.createElement('button'); confirmBtn.type='button'; confirmBtn.className='fv-confirm'; confirmBtn.disabled=true; confirmBtn.textContent='Confirm vote';
+            confirmBtn.onclick=function(){ if(selected && selected!==voted) commit(selected); };
+            bar.appendChild(confirmBtn); optsWrap.appendChild(bar);
+            function preselect(name){ var tiles=optsWrap.querySelectorAll('.fv-opt'), hit=null; for(var i=0;i<tiles.length;i++){ if(tiles[i].dataset.fvName===name){ hit=tiles[i]; break; } } setSelected(name||null, hit); }
+            function showOptions(pre){ resWrap.hidden=true; resWrap.innerHTML=''; optsWrap.hidden=false; preselect(pre||null); }
+            function commit(album){
+              var prev=voted;
+              if(prev && prev!==album){ fvDelta(prev,-1); fvDelta(album,1); try{ if(window.cycEvt) cycEvt('fan_vote_change',{poll:pid, from:prev, to:album}); }catch(e){} }
+              else if(!prev){ fvDelta(album,1); try{ if(window.cycEvt) cycEvt('fan_vote',{poll:pid, album:album}); }catch(e){} }
+              try{ localStorage.setItem(key, album); }catch(e){}
+              voted=album; show(album);
+            }
+            function render(t, mine){
+              var total=0; for(var k in t) total+=t[k];
+              var firming = total < 5;
+              var rows=albums.map(function(a){ return {name:a.name, year:a.year, n:t[SAN(a.name)]||0}; }).sort(function(x,y){ return y.n-x.n; });
+              optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML=''; var minePct=0;
+              var meta=document.createElement('div'); meta.className='fv-meta';
+              meta.textContent = total===0 ? 'Be the first to vote' : (total+(total===1?' vote':' votes'));
+              resWrap.appendChild(meta);
+              rows.forEach(function(r, i){ var pct=total?Math.round(r.n/total*100):0; if(r.name===mine) minePct=pct;
+                var rank=i+1, isTop=(rank===1 && total>0);
+                var rrow=document.createElement('div'); rrow.className='fv-row'+(r.name===mine?' mine':'')+(isTop?' top':'');
+                var fill = firming ? '' : '<span class="fv-fill" style="width:'+pct+'%"></span>';
+                var pctc = firming ? '' : '<span class="fv-pct">'+pct+'%</span>';
+                rrow.innerHTML=fill+'<span class="fv-rank">'+rank+'</span><span class="fv-name">'+esc(r.name)+(r.year?' <span class="fv-yr">· '+r.year+'</span>':'')+(isTop?' 👑':'')+'</span>'+pctc;
+                resWrap.appendChild(rrow); });
+              if(firming && total>0){ var nt=document.createElement('div'); nt.className='fv-note'; nt.textContent='Early votes — results firming up.'; resWrap.appendChild(nt); }
+              if(mine){ var y=document.createElement('div'); y.className='fv-youwith'; y.textContent = firming ? ("👑 You picked "+mine) : ("👑 You're with "+minePct+"% — picked "+mine); resWrap.appendChild(y);
+                var chg=document.createElement('button'); chg.type='button'; chg.className='fv-change'; chg.textContent='↩ Change my pick'; chg.onclick=function(){ showOptions(mine); }; resWrap.appendChild(chg); }
+            }
+            function show(mine){
+              fvRead(coll).then(function(t){ render(t,mine); }).catch(function(){ optsWrap.hidden=true; resWrap.hidden=false; resWrap.innerHTML='<div class="fv-note">✓ Vote recorded'+(mine?(' — '+mine):'')+'. Live results will load next time.</div>'; });
+            }
+            if(voted) show(voted);
+    }
+    var BAND_ALBUMS={"dmb": "Under the Table and Dreaming::1994|Crash::1996|Before These Crowded Streets::1998|Everyday::2001|Busted Stuff::2002|Stand Up::2005|Big Whiskey and the GrooGrux King::2009|Away from the World::2012|Come Tomorrow::2018|Walk Around the Moon::2023", "foo": "Foo Fighters::1995|The Colour and the Shape::1997|There Is Nothing Left to Lose::1999|One by One::2002|In Your Honor::2005|Echoes, Silence, Patience & Grace::2007|Wasting Light::2011|Sonic Highways::2014|Concrete and Gold::2017|Medicine at Midnight::2021|But Here We Are::2023", "fthc": "Sleep Is for the Week::2007|Love Ire & Song::2008|Poetry of the Deed::2009|England Keep My Bones::2011|Tape Deck Heart::2013|Positive Songs for Negative People::2015|Be More Kind::2018|No Man's Land::2019|FTHC::2022|Undefeated::2024", "springsteen": "Greetings from Asbury Park, N.J.::1973|The Wild, the Innocent & the E Street Shuffle::1973|Born to Run::1975|Darkness on the Edge of Town::1978|The River::1980|Nebraska::1982|Born in the U.S.A.::1984|Tunnel of Love::1987|Human Touch::1992|Lucky Town::1992|The Ghost of Tom Joad::1995|The Rising::2002|Devils & Dust::2005|Magic::2007|Working on a Dream::2009|Wrecking Ball::2012|High Hopes::2014|Western Stars::2019|Letter to You::2020|Only the Strong Survive::2022", "pearljam": "Ten::1991|Vs.::1993|Vitalogy::1994|No Code::1996|Yield::1998|Binaural::2000|Riot Act::2002|Pearl Jam::2006|Backspacer::2009|Lightning Bolt::2013|Gigaton::2020|Dark Matter::2024", "billyjoel": "Cold Spring Harbor::1971|Piano Man::1973|Streetlife Serenade::1974|Turnstiles::1976|The Stranger::1977|52nd Street::1978|Glass Houses::1980|The Nylon Curtain::1982|An Innocent Man::1983|The Bridge::1986|Storm Front::1989|River of Dreams::1993", "greenday": "39/Smooth::1990|Kerplunk::1991|Dookie::1994|Insomniac::1995|Nimrod::1997|Warning::2000|American Idiot::2004|21st Century Breakdown::2009|¡Uno!::2012|¡Dos!::2012|¡Tré!::2012|Revolution Radio::2016|Father of All...::2020|Saviors::2024", "rhcp": "The Red Hot Chili Peppers::1984|Freaky Styley::1985|The Uplift Mofo Party Plan::1987|Mother's Milk::1989|Blood Sugar Sex Magik::1991|One Hot Minute::1995|Californication::1999|By the Way::2002|Stadium Arcadium::2006|I'm with You::2011|The Getaway::2016|Unlimited Love::2022|Return of the Dream Canteen::2022", "beatles": "Please Please Me::1963|With the Beatles::1963|A Hard Day's Night::1964|Beatles for Sale::1964|Help!::1965|Rubber Soul::1965|Revolver::1966|Sgt. Pepper's Lonely Hearts Club Band::1967|Magical Mystery Tour::1967|The Beatles (White Album)::1968|Yellow Submarine::1969|Abbey Road::1969|Let It Be::1970", "metallica": "Kill 'Em All::1983|Ride the Lightning::1984|Master of Puppets::1986|...And Justice for All::1988|Metallica (The Black Album)::1991|Load::1996|Reload::1997|St. Anger::2003|Death Magnetic::2008|Hardwired... to Self-Destruct::2016|72 Seasons::2023", "stones": "The Rolling Stones::1964|Aftermath::1966|Between the Buttons::1967|Their Satanic Majesties Request::1967|Beggars Banquet::1968|Let It Bleed::1969|Sticky Fingers::1971|Exile on Main St.::1972|Goats Head Soup::1973|It's Only Rock 'n Roll::1974|Black and Blue::1976|Some Girls::1978|Emotional Rescue::1980|Tattoo You::1981|Undercover::1983|Dirty Work::1986|Steel Wheels::1989|Voodoo Lounge::1994|Bridges to Babylon::1997|A Bigger Bang::2005|Hackney Diamonds::2023", "bonjovi": "Bon Jovi::1984|7800° Fahrenheit::1985|Slippery When Wet::1986|New Jersey::1988|Keep the Faith::1992|These Days::1995|Crush::2000|Bounce::2002|Have a Nice Day::2005|Lost Highway::2007|The Circle::2009|What About Now::2013|This House Is Not for Sale::2016|2020::2020|Forever::2024", "ate": "The Airborne Toxic Event::2008|All at Once::2011|Such Hot Blood::2013|Dope Machines::2015|Songs of God and Whiskey::2015|Hollywood Park::2020|Glory::2024"};
+    var ALBUM_NAMES={"dmb": "Dave Matthews Band", "foo": "Foo Fighters", "fthc": "Frank Turner", "springsteen": "Bruce Springsteen", "pearljam": "Pearl Jam", "billyjoel": "Billy Joel", "greenday": "Green Day", "rhcp": "Red Hot Chili Peppers", "beatles": "Beatles", "metallica": "Metallica", "stones": "Rolling Stones", "bonjovi": "Bon Jovi", "ate": "Airborne Toxic Event"};
+    window.cycOpenAlbumVote=function(slug){
+      var albums=BAND_ALBUMS[slug]; if(!albums) return;
+      var name=ALBUM_NAMES[slug]||slug;
+      var holder=document.getElementById('hpAlbumPoll'); if(!holder) return;
+      holder.innerHTML='<div class="fv-poll" data-coll="'+slug+'_albumvote" data-poll="'+slug+'" style="--fv-ac:#f0a500"><div class="fv-options" data-albums="'+albums.replace(/&/g,'&amp;')+'"></div><div class="fv-result" hidden></div></div>';
+      var t=document.getElementById('hpAlbumTitle'); if(t) t.innerHTML='\uD83D\uDCBF Best '+esc(name)+' Album?';
+      setupPoll(holder.querySelector('.fv-poll'));
+      var m=document.getElementById('hpAlbumModal'); if(m){ m.hidden=false; document.body.style.overflow='hidden'; }
+    };
+  })();
+
 
   const $ = id => document.getElementById(id);
   $('yr').textContent = new Date().getFullYear();
@@ -982,9 +1194,16 @@
     function setBP(t,s){ if(bpTitle) bpTitle.innerHTML=t; if(bpSub) bpSub.textContent=s; }
     var bpChips=document.querySelectorAll('#bracketPickModal .qm-chip');
     function setChipSuffix(suffix){ bpChips.forEach(function(a){ var base=a.getAttribute('data-href'); if(!base){ base=a.getAttribute('href'); a.setAttribute('data-href', base); } a.setAttribute('href', base + (suffix||'')); }); }
-    var mco=document.getElementById('myConcertOpen'); if(mco) mco.addEventListener('click', function(){ setBP(MC_TITLE, MC_SUB); setChipSuffix('?mode=concert'); });
-    var bao=document.getElementById('bestAlbumPickOpen'); if(bao) bao.addEventListener('click', function(){ setBP(BA_TITLE, BA_SUB); setChipSuffix('#bestalbum'); });
-    ['bracketPickOpen','heroBracketOpen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click', function(){ setBP(BP_DEF_TITLE, BP_DEF_SUB); setChipSuffix(''); }); });
+    var mco=document.getElementById('myConcertOpen'); if(mco) mco.addEventListener('click', function(){ setBP(MC_TITLE, MC_SUB); setChipSuffix('?mode=concert'); window.__cycAlbumMode=false; });
+    var bao=document.getElementById('bestAlbumPickOpen'); if(bao) bao.addEventListener('click', function(){ setBP(BA_TITLE, BA_SUB); setChipSuffix(''); window.__cycAlbumMode=true; });
+    var _bpm=document.getElementById('bracketPickModal');
+    if(_bpm) _bpm.addEventListener('click', function(e){ var chip=e.target.closest&&e.target.closest('.qm-chip'); if(chip&&window.__cycAlbumMode){ e.preventDefault(); var hr=chip.getAttribute('data-href')||chip.getAttribute('href')||''; var mm=hr.match(/\/([a-z0-9]+)\//); _bpm.hidden=true; document.body.style.overflow=''; if(mm&&window.cycOpenAlbumVote) cycOpenAlbumVote(mm[1]); } });
+    var _ham=document.getElementById('hpAlbumModal'), _hac=document.getElementById('hpAlbumClose');
+    function _hideAlbum(){ if(_ham){ _ham.hidden=true; document.body.style.overflow=''; } }
+    if(_hac) _hac.addEventListener('click', _hideAlbum);
+    if(_ham) _ham.addEventListener('click', function(e){ if(e.target===_ham) _hideAlbum(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&_ham&&!_ham.hidden) _hideAlbum(); });
+    ['bracketPickOpen','heroBracketOpen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click', function(){ setBP(BP_DEF_TITLE, BP_DEF_SUB); setChipSuffix(''); window.__cycAlbumMode=false; }); });
   })();
 </script>
 </body>
