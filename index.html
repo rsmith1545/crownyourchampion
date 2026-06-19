@@ -1227,7 +1227,7 @@
 <script>
 (function(){ if(window.cycOpenQuiz) return;
   function el(id){return document.getElementById(id);}
-  window.cycOpenQuiz=function(src){ var p=el('quizPop'),f=el('quizPopFrame'),inr=p&&p.querySelector('.quizpop-inner'); if(!p||!f)return; if(inr&&window.innerWidth>640){ inr.style.height=Math.min(460,Math.round(window.innerHeight*0.92))+'px'; } var _u=src||'quiz.html'; _u+=(_u.indexOf('?')<0?'?':'&')+'qv=4'; f.src=_u; p.hidden=false; document.body.style.overflow='hidden'; try{if(window.cycEvt)cycEvt('quiz_open');}catch(e){} };
+  window.cycOpenQuiz=function(src){ var p=el('quizPop'),f=el('quizPopFrame'),inr=p&&p.querySelector('.quizpop-inner'); if(!p||!f)return; if(inr&&window.innerWidth>640){ inr.style.height=Math.min(460,Math.round(window.innerHeight*0.92))+'px'; } var _u=src||'quiz.html'; _u+=(_u.indexOf('?')<0?'?':'&')+'qv=5'; f.src=_u; p.hidden=false; document.body.style.overflow='hidden'; try{if(window.cycEvt)cycEvt('quiz_open');}catch(e){} };
   window.addEventListener('message', function(e){ var d=e&&e.data; if(d&&typeof d.cycQuizH==='number'){ var p=el('quizPop'),inr=p&&p.querySelector('.quizpop-inner'); if(inr && p && !p.hidden && window.innerWidth>640){ inr.style.height=Math.min(d.cycQuizH+2,Math.round(window.innerHeight*0.92))+'px'; } } });
   window.cycCloseQuiz=function(){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p)return; p.hidden=true; document.body.style.overflow=''; if(f)f.src='about:blank'; };
   function init(){ var p=el('quizPop'),x=el('quizPopX'); if(x)x.addEventListener('click',window.cycCloseQuiz); if(p)p.addEventListener('click',function(e){if(e.target===p)window.cycCloseQuiz();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p&&!p.hidden)window.cycCloseQuiz();}); }
