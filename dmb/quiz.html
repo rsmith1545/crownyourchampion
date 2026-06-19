@@ -90,7 +90,7 @@
 </style>
 </head>
 <body>
-<script>(function(){ try{ if(window.self===window.top) return; }catch(e){} document.documentElement.className+=' cyc-embed'; function ph(){ try{ var h=Math.max(document.body.scrollHeight, document.documentElement.scrollHeight); parent.postMessage({cycQuizH:h},'*'); }catch(e){} } function go(){ ph(); try{ new ResizeObserver(ph).observe(document.body); }catch(e){} try{ new MutationObserver(ph).observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true}); }catch(e){} window.addEventListener('resize',ph); setInterval(ph,400); } if(document.readyState!=='loading') go(); else window.addEventListener('DOMContentLoaded',go); })();</script>
+<script>(function(){ try{ if(window.self===window.top) return; }catch(e){} document.documentElement.className+=' cyc-embed'; function mh(){ var w=document.querySelector('.wrap'); return w?Math.ceil(w.getBoundingClientRect().height):Math.max(document.body.scrollHeight,document.documentElement.scrollHeight); } function ph(){ try{ parent.postMessage({cycQuizH:mh()},'*'); }catch(e){} } function go(){ ph(); try{ var w=document.querySelector('.wrap'); new ResizeObserver(ph).observe(w||document.body); }catch(e){} try{ new MutationObserver(ph).observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true}); }catch(e){} window.addEventListener('resize',ph); setInterval(ph,500); } if(document.readyState!=='loading') go(); else window.addEventListener('DOMContentLoaded',go); })();</script>
 <div class="wrap">
   <div class="top">
     <a href="../" aria-label="Crown Your Champion — home"><img class="crown" src="cyc-logo.png" alt="Crown Your Champion"></a>
