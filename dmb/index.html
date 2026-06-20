@@ -4920,7 +4920,7 @@ updateProgress();
 </script>
 
 <style id="cyc-dmb-mobchrome">
-#cycMobSignup, #cycMobNav, #cycMobToolsWrap, #cycMobTagline { display:none; }
+#cycMobNav, #cycMobToolsWrap, #cycMobTagline { display:none; }
 @media (max-width:1080px){
   .site-header .header-actions { display:none !important; }
   .site-header .header-tagline, .site-header .subtitle { display:none !important; }
@@ -4931,10 +4931,11 @@ updateProgress();
   .site-header { position:relative; flex-wrap:wrap; padding:10px 14px 9px; }
   .site-header .header-left { min-width:0; }
   .site-header .brand-h1 { margin:0; line-height:0; }
-  #cycMobSignup { position:absolute; top:10px; right:14px; display:flex; flex-direction:column; align-items:center; gap:1px; background:none; border:none; padding:0; margin:0;
-    color:#6fa3e0; font:600 12.5px system-ui,-apple-system,sans-serif; letter-spacing:.2px; line-height:1.1; opacity:.92; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-  #cycMobSignup .su-bell { font-size:17px; line-height:1; }
-  .site-header #cycMobTagline { display:block; flex:1 0 100%; margin:3px 0 0; line-height:1.22; }
+  #cycMobSignup { flex:0 0 auto; align-self:flex-start; display:inline-flex; align-items:center; gap:3px; background:none; border:none; padding:0; margin:1px 0 0;
+    color:#6fa3e0; font:600 12px system-ui,-apple-system,sans-serif; letter-spacing:.2px; line-height:1.1; opacity:.9; cursor:pointer; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
+  #cycMobSignup .su-bell { font-size:13px; line-height:1; }
+  .site-header #cycMobTagline { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex:1 0 100%; margin:3px 0 0; line-height:1.22; }
+  #cycMobTagline .tg-text { min-width:0; }
   #cycMobTagline .tg-lead { font-size:17px; font-style:italic; letter-spacing:1px; color:var(--dmb-gold); }
   #cycMobTagline .tg-stats { font-size:14px; letter-spacing:1.5px; color:var(--dmb-muted); }
   /* shaded nav band */
@@ -4968,14 +4969,12 @@ updateProgress();
     if(document.getElementById('cycMobNav')) return;
     var header=document.querySelector('.site-header'), sticky=document.querySelector('.sticky-bar'), grid=document.querySelector('.master-grid');
     if(!header||!grid) return;
-    if(!document.getElementById('cycMobSignup')){
-      var su=document.createElement('button'); su.id='cycMobSignup'; su.type='button'; su.innerHTML='<span class="su-bell">&#128276;</span><span>Sign Up</span>';
-      su.onclick=function(){ try{openHubSignup();}catch(e){} }; header.appendChild(su);
-    }
     if(!document.getElementById('cycMobTagline')){
       var tag=document.createElement('div'); tag.id='cycMobTagline';
-      tag.innerHTML='<span class="tg-lead">Settle the debate: </span><span class="tg-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span>';
+      tag.innerHTML='<span class="tg-text"><span class="tg-lead">Settle the debate: </span><span class="tg-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span></span>'+
+        '<button id="cycMobSignup" type="button"><span class="su-bell">&#128276;</span> Sign Up</button>';
       header.appendChild(tag);
+      var su=tag.querySelector('#cycMobSignup'); if(su) su.onclick=function(){ try{openHubSignup();}catch(e){} };
     }
     var ref=sticky||grid, P=ref.parentNode;
     var nav=document.createElement('nav'); nav.id='cycMobNav';
