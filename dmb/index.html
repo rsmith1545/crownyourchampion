@@ -4948,6 +4948,7 @@ updateProgress();
   .mt-chip { flex:0 0 auto; background:rgba(255,255,255,.05); border:1px solid rgba(197,160,89,.5); color:#d6deea;
     border-radius:18px; padding:7px 13px; font:700 13px 'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   .mt-chip.mt-on { border-color:var(--dmb-gold); color:var(--dmb-gold); background:rgba(240,165,0,.12); }
+  .mt-chip.mt-reset { border-color:rgba(255,255,255,.2); color:#9aa7bd; }
   #cycMobModes { display:flex; flex-wrap:wrap; gap:6px; padding:8px 0 2px; }
   #cycMobModes[hidden] { display:none; }
   #cycMobModes .mode-btn { flex:0 0 auto; font-size:12px; padding:7px 10px; }
@@ -4978,7 +4979,8 @@ updateProgress();
     tools.innerHTML='<div id="cycMobDiv"></div><div id="cycMobToolBand">'+
       '<div id="cycMobTools"><button class="mt-chip" id="mtHowto">&#10067; How to Play</button>'+
       '<button class="mt-chip" id="mtAuto">&#9889; Auto-fill</button>'+
-      '<button class="mt-chip" id="mtShare">Share &#8599;</button></div>'+
+      '<button class="mt-chip" id="mtShare">Share &#8599;</button>'+
+      '<button class="mt-chip mt-reset" id="mtReset">&#8634; Reset</button></div>'+
       '<div id="cycMobModes" hidden></div></div>';
     P.insertBefore(top, ref); P.insertBefore(nav, ref); P.insertBefore(tools, ref);
     wire('mnBrackets', function(){ cycOpenAllBrackets(); });
@@ -4986,6 +4988,7 @@ updateProgress();
     wire('mnQuiz', function(){ cycOpenQuiz(); });
     wire('mtHowto', function(){ openHowto(); });
     wire('mtShare', function(){ openShare(); });
+    wire('mtReset', function(){ confirmReset(); });
     var panel=tools.querySelector('#cycMobModes');
     var srcb=document.querySelectorAll('.mode-bar .mode-btns .mode-btn');
     for(var i=0;i<srcb.length;i++) panel.appendChild(srcb[i].cloneNode(true));
