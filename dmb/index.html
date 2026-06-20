@@ -291,6 +291,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html { -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; text-size-adjust: 100%; }
         body {
             font-family: 'Barlow Condensed', sans-serif;
             background: var(--dmb-dark);
@@ -517,6 +518,8 @@
         .slot {
             padding: 6px 8px;
             font-size: 14px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
             cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             min-height: var(--slot-h);
@@ -2011,7 +2014,8 @@
             <p><strong>2. Forget or don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
             <p><strong>3. Want a head start?</strong> Tap an auto-fill button up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
         </div>
-        <div class="howto-legend-title">Auto-fill modes</div>
+        <details class="howto-modes">
+        <summary class="howto-legend-title">Auto-fill modes <span class="hm-hint">&#9656; tap to expand</span></summary>
         <div class="fm-list howto-list">
             <div class="fm-item"><strong>&#128202; Most Streamed</strong> &mdash; the most-streamed songs on Spotify advance.</div>
             <div class="fm-item"><strong>&#127908; Most Played Live</strong> &mdash; the songs played most in concert advance.</div>
@@ -2022,6 +2026,7 @@
             <div class="fm-item"><strong>&#128293; Controversy</strong> &mdash; underdogs win every round-1 matchup, then chaos takes over (a different bracket every time).</div>
             <div class="fm-item"><strong>&#127922; Random</strong> &mdash; a completely random bracket, every time.</div>
         </div>
+        </details>
         <div class="modal-actions">
             <button class="btn btn-copy" onclick="closeHowto()">Got it</button>
         </div>
@@ -4935,9 +4940,9 @@ updateProgress();
     color:#6fa3e0; font:600 12px system-ui,-apple-system,sans-serif; letter-spacing:.2px; line-height:1.1; opacity:.9; cursor:pointer; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
   #cycMobSignup .su-bell { font-size:13px; line-height:1; }
   .site-header #cycMobTagline { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex:1 0 100%; margin:3px 0 0; line-height:1.22; }
-  #cycMobTagline .tg-text { min-width:0; }
-  #cycMobTagline .tg-lead { font-size:17px; font-style:italic; letter-spacing:1px; color:var(--dmb-gold); }
-  #cycMobTagline .tg-stats { font-size:14px; letter-spacing:1.5px; color:var(--dmb-muted); }
+  #cycMobTagline .tg-text { min-width:0; white-space:nowrap; overflow:hidden; }
+  #cycMobTagline .tg-lead { font-size:clamp(11px,3.5vw,17px); font-style:italic; letter-spacing:.5px; color:var(--dmb-gold); }
+  #cycMobTagline .tg-stats { font-size:clamp(9.5px,2.95vw,14px); letter-spacing:.8px; color:var(--dmb-muted); }
   /* shaded nav band */
   #cycMobNav { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:9px 13px;
     background:var(--dmb-panel); border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid var(--dmb-border); }
@@ -5005,6 +5010,44 @@ updateProgress();
   function apply(){ if(mobile()) build(); }
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
   window.addEventListener('resize', apply);
+})();
+</script>
+
+<style id="cyc-dmb-extra">
+.howto-modes summary.howto-legend-title { list-style:none; cursor:pointer; }
+.howto-modes summary::-webkit-details-marker { display:none; }
+.howto-modes .hm-hint { font-size:.78em; font-weight:400; opacity:.65; letter-spacing:0; }
+.howto-modes[open] .hm-hint { display:none; }
+@media (min-width:1081px){
+  /* desktop unchanged: auto-fill modes always shown, summary inert */
+  .howto-modes > .howto-list { display:grid !important; }
+  .howto-modes .hm-hint { display:none; }
+  .howto-modes summary { cursor:default; pointer-events:none; }
+}
+</style>
+<script>
+/* cycModalBack (DMB) — phone Back button closes an open modal/popup instead of leaving the page. */
+(function(){
+  if(window.__cycModalBack) return; window.__cycModalBack=1;
+  var SEL='.modal-overlay.open,.email-modal-overlay.open,.concert-modal-overlay.open,.concert-mode-overlay.open,.fav-modal-overlay.open,.quizmodal:not([hidden]),.quizpop:not([hidden])';
+  function openEls(){ return Array.prototype.slice.call(document.querySelectorAll(SEL)); }
+  var armed=false, busy=false;
+  function closeOne(el){
+    var b=el.querySelector('.quizpop-x,.qm-close'); if(b){ b.click(); return; }
+    if(el.classList.contains('open')) el.classList.remove('open'); else el.setAttribute('hidden','');
+    try{ document.body.style.overflow=''; }catch(e){}
+  }
+  function onChange(){
+    if(busy) return;
+    var open=openEls().length>0;
+    if(open && !armed){ armed=true; try{ history.pushState({cycModal:1},''); }catch(e){} }
+    else if(!open && armed){ armed=false; busy=true; try{ history.back(); }catch(e){} setTimeout(function(){ busy=false; },60); }
+  }
+  try{ new MutationObserver(onChange).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']}); }catch(e){}
+  window.addEventListener('popstate', function(){
+    var els=openEls();
+    if(els.length){ armed=false; busy=true; els.forEach(closeOne); setTimeout(function(){ busy=false; },60); }
+  });
 })();
 </script>
 </body>
