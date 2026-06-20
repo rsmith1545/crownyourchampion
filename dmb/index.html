@@ -4920,36 +4920,37 @@ updateProgress();
 </script>
 
 <style id="cyc-dmb-mobchrome">
-#cycMobSignup, #cycMobTop, #cycMobNav, #cycMobToolsWrap { display:none; }
+#cycMobSignup, #cycMobNav, #cycMobToolsWrap, #cycMobTagline { display:none; }
 @media (max-width:1080px){
   .site-header .header-actions { display:none !important; }
   .site-header .header-tagline, .site-header .subtitle { display:none !important; }
   .sticky-bar .progress-bar-wrap { display:none !important; }
   .sticky-bar .mode-bar, .sticky-bar .era-selector { display:none !important; }
   .sticky-bar { padding:0 !important; background:transparent !important; border:0 !important; min-height:0 !important; }
-  .site-header { position:relative; border-bottom:none !important; }
+  /* logo + hero share ONE background (the header itself); header's 3px gold border sits under the hero */
+  .site-header { position:relative; flex-wrap:wrap; padding:10px 14px 9px; }
   .site-header .header-left { min-width:0; }
+  .site-header .brand-h1 { margin:0; line-height:0; }
   #cycMobSignup { position:absolute; top:10px; right:14px; display:flex; flex-direction:column; align-items:center; gap:1px; background:none; border:none; padding:0; margin:0;
     color:#6fa3e0; font:600 12.5px system-ui,-apple-system,sans-serif; letter-spacing:.2px; line-height:1.1; opacity:.92; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   #cycMobSignup .su-bell { font-size:17px; line-height:1; }
-  /* HERO: one line, web colors (gold + muted), stays in flow (returns on scroll up) */
-  #cycMobTop { display:block; padding:7px 13px 9px; background:linear-gradient(135deg,#000810 0%,#001a3d 50%,#000810 100%); border-bottom:3px solid var(--dmb-gold); }
-  #cycMobTagline { line-height:1.25; }
+  .site-header #cycMobTagline { display:block; flex:1 0 100%; margin:3px 0 0; line-height:1.22; }
   #cycMobTagline .tg-lead { font-size:17px; font-style:italic; letter-spacing:1px; color:var(--dmb-gold); }
   #cycMobTagline .tg-stats { font-size:14px; letter-spacing:1.5px; color:var(--dmb-muted); }
-  /* SHADED NAV band (distinct from header/hero) */
+  /* shaded nav band */
   #cycMobNav { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:9px 13px;
     background:var(--dmb-panel); border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid var(--dmb-border); }
   #cycMobNav .mn-item { font-family:'Barlow Condensed',sans-serif; font-weight:400; font-size:15px; letter-spacing:.4px; color:#c3ccdb; cursor:pointer; -webkit-tap-highlight-color:transparent; white-space:nowrap; }
   #cycMobNav .mn-item.mn-active { font-weight:700; }
   #cycMobNav .mn-sep { color:#39414f; }
-  /* YELLOW line + SHADED tool band (sized like the nav/region rows) */
+  /* yellow line + shaded tool band; chips on ONE row, never wrap (scroll if needed) */
   #cycMobToolsWrap { display:block; }
   #cycMobDiv { height:2px; background:linear-gradient(90deg, transparent, var(--dmb-gold), transparent); opacity:.6; }
   #cycMobToolBand { background:var(--dmb-panel); border-bottom:1px solid var(--dmb-border); padding:8px 13px; }
-  #cycMobTools { display:flex; gap:8px; flex-wrap:wrap; }
-  .mt-chip { flex:0 0 auto; background:rgba(255,255,255,.05); border:1px solid rgba(197,160,89,.5); color:#d6deea;
-    border-radius:18px; padding:7px 13px; font:700 13px 'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  #cycMobTools { display:flex; gap:7px; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  #cycMobTools::-webkit-scrollbar { display:none; }
+  .mt-chip { flex:0 0 auto; white-space:nowrap; background:rgba(255,255,255,.05); border:1px solid rgba(197,160,89,.5); color:#d6deea;
+    border-radius:16px; padding:7px 11px; font:700 12px 'Barlow Condensed',sans-serif; letter-spacing:.4px; text-transform:uppercase; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   .mt-chip.mt-on { border-color:var(--dmb-gold); color:var(--dmb-gold); background:rgba(240,165,0,.12); }
   .mt-chip.mt-reset { border-color:rgba(255,255,255,.2); color:#9aa7bd; }
   #cycMobModes { display:flex; flex-wrap:wrap; gap:6px; padding:8px 0 2px; }
@@ -4964,16 +4965,19 @@ updateProgress();
   function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
   function wire(id,fn){ var el=document.getElementById(id); if(el) el.onclick=function(){ try{fn();}catch(e){} }; }
   function build(){
-    if(document.getElementById('cycMobTop')) return;
+    if(document.getElementById('cycMobNav')) return;
     var header=document.querySelector('.site-header'), sticky=document.querySelector('.sticky-bar'), grid=document.querySelector('.master-grid');
     if(!header||!grid) return;
     if(!document.getElementById('cycMobSignup')){
       var su=document.createElement('button'); su.id='cycMobSignup'; su.type='button'; su.innerHTML='<span class="su-bell">&#128276;</span><span>Sign Up</span>';
       su.onclick=function(){ try{openHubSignup();}catch(e){} }; header.appendChild(su);
     }
+    if(!document.getElementById('cycMobTagline')){
+      var tag=document.createElement('div'); tag.id='cycMobTagline';
+      tag.innerHTML='<span class="tg-lead">Settle the debate: </span><span class="tg-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span>';
+      header.appendChild(tag);
+    }
     var ref=sticky||grid, P=ref.parentNode;
-    var top=document.createElement('div'); top.id='cycMobTop';
-    top.innerHTML='<div id="cycMobTagline"><span class="tg-lead">Settle the debate: </span><span class="tg-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span></div>';
     var nav=document.createElement('nav'); nav.id='cycMobNav';
     nav.innerHTML='<a class="mn-item mn-active" id="mnBrackets">&#128451; All Brackets</a><span class="mn-sep">&middot;</span>'+
       '<a class="mn-item" id="mnAlbum">&#128191; Vote: Best Album</a><span class="mn-sep">&middot;</span>'+
@@ -4985,7 +4989,7 @@ updateProgress();
       '<button class="mt-chip" id="mtShare">Share &#8599;</button>'+
       '<button class="mt-chip mt-reset" id="mtReset">&#8634; Reset</button></div>'+
       '<div id="cycMobModes" hidden></div></div>';
-    P.insertBefore(top, ref); P.insertBefore(nav, ref); P.insertBefore(tools, ref);
+    P.insertBefore(nav, ref); P.insertBefore(tools, ref);
     wire('mnBrackets', function(){ cycOpenAllBrackets(); });
     wire('mnAlbum', function(){ cycOpenBestAlbum(); });
     wire('mnQuiz', function(){ cycOpenQuiz(); });
