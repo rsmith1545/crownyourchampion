@@ -809,25 +809,23 @@
             .region-card { min-width: 0; }
             .finals-card, .leaderboard-card { min-width: 0; }
             .bracket-row {
-                height: 624px;
+                height: auto;
                 flex-wrap: nowrap;
                 overflow: visible;
-                padding: 8px 4px;
-                gap: 2px;
+                padding: 6px 2px 12px;
+                gap: 1px;
                 position: relative;
+                align-items: stretch;
                 flex-direction: row !important;
             }
-            .round-col { min-width: 0; flex: 1 1 0; padding: 0 1px; }
-            .bracket-row > .round-col:nth-child(1) { flex: 2.25 1 0; }
-            .bracket-row > .round-col:nth-child(2) { flex: 1.35 1 0; }
+            .round-col { min-width: 0; flex: 1 1 0; padding: 0; }
+            .bracket-row > .round-col:nth-child(1) { flex: 1.5 1 0; }
+            .bracket-row > .round-col:nth-child(2) { flex: 1.15 1 0; }
             .bracket-row > .round-col:nth-child(3) { flex: 0.95 1 0; }
-            .bracket-row > .round-col:nth-child(4) { flex: 0.78 1 0; }
-            .slot { font-size: 11.5px; min-height: 26px; line-height: 1.1; padding: 4px 5px; }
-            .round-col:nth-child(1) .slot { font-size: 14px; min-height: 34px; padding: 6px 7px; }
-            .round-col:nth-child(2) .slot { font-size: 11px; }
-            .round-col:nth-child(3) .slot { font-size: 9.5px; padding: 4px 3px; }
-            .round-col:nth-child(4) .slot { font-size: 8.5px; letter-spacing: 0; padding: 4px 2px; }
-            .seed { font-size: 10px; min-width: 13px; margin-right: 3px; }
+            .bracket-row > .round-col:nth-child(4) { flex: 0.85 1 0; }
+            .matchup { margin: 1px 0; }
+            .slot { font-size: 17px; min-height: 48px; line-height: 1.12; padding: 7px 6px; word-break: break-word; letter-spacing: 0; }
+            .seed { font-size: 11px; min-width: 12px; margin-right: 4px; opacity: 0.62; font-weight: 600; }
 
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
@@ -4192,7 +4190,7 @@ updateProgress();
       secs.push({el:regions[i],label:label||('Region '+(i+1))});
     }
     var center=document.querySelector('.center-col');
-    if(center) secs.push({el:center,label:'👑 Final Four'});
+    if(center) secs.push({el:center,label:'👑 Finals'});
     if(secs.length<2) return;
     var bar=document.createElement('div'); bar.id='cycTabBar';
     bar.style.cssText='position:sticky;top:0;z-index:850;display:none;overflow-x:auto;'+
@@ -4912,6 +4910,98 @@ updateProgress();
   window.cycCloseQuiz=function(){ var p=el('quizPop'),f=el('quizPopFrame'); if(!p)return; p.hidden=true; document.body.style.overflow=''; if(f)f.src='about:blank'; };
   function init(){ var p=el('quizPop'),x=el('quizPopX'); if(x)x.addEventListener('click',window.cycCloseQuiz); if(p)p.addEventListener('click',function(e){if(e.target===p)window.cycCloseQuiz();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p&&!p.hidden)window.cycCloseQuiz();}); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+
+<style id="cyc-dmb-mobchrome">
+/* default (desktop): mobile chrome hidden */
+#cycMobSignup, #cycMobTop, #cycMobToolsWrap { display:none; }
+@media (max-width:1080px){
+  /* hide desktop chrome on mobile */
+  .site-header .header-actions { display:none !important; }
+  .site-header .header-tagline, .site-header .subtitle { display:none !important; }
+  .sticky-bar .progress-bar-wrap { display:none !important; }
+  .sticky-bar .mode-bar, .sticky-bar .era-selector { display:none !important; }
+  .sticky-bar { padding:0 !important; background:transparent !important; border:0 !important; min-height:0 !important; }
+  /* top bar: logo left, faint Sign Up right */
+  .site-header { position:relative; }
+  #cycMobSignup { display:inline-block; position:absolute; top:12px; right:14px; background:none; border:none; padding:4px 6px;
+    color:#6fa3e0; font:600 13.5px system-ui,-apple-system,sans-serif; letter-spacing:.3px; opacity:.85; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  /* hook + nav */
+  #cycMobTop { display:block; padding:4px 13px 0; }
+  #cycMobHook { display:flex; flex-wrap:wrap; align-items:baseline; gap:9px; margin:2px 0 9px; }
+  #cycMobHook .mh-lead { font-family:'Bebas Neue',sans-serif; letter-spacing:1px; font-size:21px; line-height:1; color:var(--dmb-gold); }
+  #cycMobHook .mh-sub { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:.6px; color:#9c8a5e; text-transform:uppercase; }
+  #cycMobNav { display:flex; align-items:center; gap:9px; flex-wrap:wrap; padding:2px 0 9px; border-bottom:1px solid rgba(255,255,255,.07); }
+  #cycMobNav .mn-item { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.6px; text-transform:uppercase; color:#7c89a6; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  #cycMobNav .mn-item.mn-active { color:var(--dmb-gold); }
+  #cycMobNav .mn-sep { color:#39414f; }
+  /* tools row: light outline chips */
+  #cycMobToolsWrap { display:block; padding:10px 13px 0; }
+  #cycMobTools { display:flex; gap:9px; flex-wrap:wrap; }
+  .mt-chip { flex:0 0 auto; background:transparent; border:1px solid rgba(197,160,89,.5); color:#d6deea;
+    border-radius:19px; padding:9px 15px; font:700 13.5px 'Barlow Condensed',sans-serif; letter-spacing:.7px;
+    text-transform:uppercase; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .mt-chip.mt-on { border-color:var(--dmb-gold); color:var(--dmb-gold); background:rgba(240,165,0,.08); }
+  #cycMobModes { display:flex; flex-wrap:wrap; gap:6px; padding:9px 0 2px; }
+  #cycMobModes[hidden] { display:none; }
+  #cycMobModes .mode-btn { flex:0 0 auto; font-size:12px; padding:8px 11px; }
+  #cycMobDiv { height:2px; background:linear-gradient(90deg, transparent, var(--dmb-gold), transparent); opacity:.55; margin:11px 0 2px; }
+}
+</style>
+<script>
+/* cycMobileChrome (DMB) — mobile-only top stack: logo+faint Sign Up, one-line hook, plain-text nav, outline tool chips. Desktop untouched. */
+(function(){
+  if(window.__cycMobChrome) return; window.__cycMobChrome=1;
+  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function wire(id,fn){ var el=document.getElementById(id); if(el) el.onclick=function(){ try{fn();}catch(e){} }; }
+  function build(){
+    if(document.getElementById('cycMobTop')) return;
+    var header=document.querySelector('.site-header'), sticky=document.querySelector('.sticky-bar'), grid=document.querySelector('.master-grid');
+    if(!header||!grid) return;
+    if(!document.getElementById('cycMobSignup')){
+      var su=document.createElement('button'); su.id='cycMobSignup'; su.type='button'; su.textContent='Sign Up';
+      su.onclick=function(){ try{openHubSignup();}catch(e){} }; header.appendChild(su);
+    }
+    var top=document.createElement('div'); top.id='cycMobTop';
+    top.innerHTML='<div id="cycMobHook"><span class="mh-lead">Settle the debate</span><span class="mh-sub">64 songs &middot; 4 regions &middot; 1 champion</span></div>'+
+      '<nav id="cycMobNav"><a class="mn-item mn-active" id="mnBrackets">Brackets</a><span class="mn-sep">&middot;</span>'+
+      '<a class="mn-item" id="mnAlbum">Vote: Best Album</a><span class="mn-sep">&middot;</span>'+
+      '<a class="mn-item" id="mnQuiz">Superfan Quiz</a></nav>';
+    (sticky||grid).parentNode.insertBefore(top, (sticky||grid));
+    wire('mnBrackets', function(){ cycOpenAllBrackets(); });
+    wire('mnAlbum', function(){ cycOpenBestAlbum(); });
+    wire('mnQuiz', function(){ cycOpenQuiz(); });
+    var tools=document.createElement('div'); tools.id='cycMobToolsWrap';
+    tools.innerHTML='<div id="cycMobTools"><button class="mt-chip" id="mtHowto">&#10067; How to Play</button>'+
+      '<button class="mt-chip" id="mtAuto">&#9889; Auto-fill</button>'+
+      '<button class="mt-chip" id="mtShare">Share &#8599;</button></div>'+
+      '<div id="cycMobModes" hidden></div><div id="cycMobDiv"></div>';
+    // clone the 8 auto-fill modes (inline onclick preserved -> setMode)
+    var panel=tools.querySelector('#cycMobModes');
+    var src=document.querySelectorAll('.mode-bar .mode-btns .mode-btn');
+    for(var i=0;i<src.length;i++) panel.appendChild(src[i].cloneNode(true));
+    wire('mtHowto', function(){ openHowto(); });
+    wire('mtShare', function(){ openShare(); });
+    var auto=tools.querySelector('#mtAuto');
+    auto.onclick=function(){ if(panel.hasAttribute('hidden')){ panel.removeAttribute('hidden'); auto.classList.add('mt-on'); } else { panel.setAttribute('hidden',''); auto.classList.remove('mt-on'); } };
+    panel.addEventListener('click', function(e){ if(e.target.closest('.mode-btn')){ panel.setAttribute('hidden',''); auto.classList.remove('mt-on'); } });
+    // place tools right AFTER the region tab bar (or before the bracket until tabs exist)
+    function place(tries){
+      var tb=document.getElementById('cycTabBar');
+      if(tb){ if(tools.previousElementSibling!==tb) tb.parentNode.insertBefore(tools, tb.nextSibling); }
+      else { if(!tools.parentNode) grid.parentNode.insertBefore(tools, grid); if((tries||0)<25) setTimeout(function(){ place((tries||0)+1); },100); }
+    }
+    place(0);
+    // collapse hook once the user engages
+    var hook=top.querySelector('#cycMobHook'), done=false;
+    function collapse(){ if(done||!hook) return; done=true; hook.style.display='none'; }
+    window.addEventListener('scroll', function(){ if(window.scrollY>110) collapse(); }, {passive:true});
+    document.addEventListener('click', function(e){ if(e.target.closest && (e.target.closest('#cycTabBar')||e.target.closest('.slot'))) collapse(); });
+  }
+  function apply(){ if(mobile()) build(); }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('resize', apply);
 })();
 </script>
 </body>
