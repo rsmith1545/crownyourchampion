@@ -2029,12 +2029,12 @@
         </div>
         <div class="howto-mobile">
         <div class="howto-steps">
-            <p><strong>1. Pick a winner in every matchup.</strong> Tap the song you like better. Do that through all four regions &mdash; Gorge, West Palm, SPAC, Camden &mdash; and each region crowns a winner.</p>
+            <p><strong>1. Pick a winner in every matchup.</strong> Tap the song you like better. Do that through all four regions &mdash; <span id="howtoRegions">Gorge, West Palm, SPAC, Camden</span> &mdash; and each region crowns a winner.</p>
             <p><strong>2. Then hit the Finals tab to crown your champion.</strong> Your four region winners meet there &mdash; pick your way through the Final Four and the final, and lock in the one song that wins it all. That's the finish line.</p>
             <p><strong>3. Don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
             <p><strong>4. Want a head start?</strong> Tap Auto-Fill up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
         </div>
-        <button class="btn btn-howto-modes" id="howtoModesBtn" onclick="closeHowto();openAutofillModes();">How Auto-Fill works &#9656;</button>
+        <button class="btn btn-howto-modes" id="howtoModesBtn" onclick="openAutofillModes();">How Auto-Fill works &#9656;</button>
         </div>
         <div class="modal-actions">
             <button class="btn btn-copy" onclick="closeHowto()">Got it</button>
@@ -2042,7 +2042,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="autofillModesModal" onclick="if(event.target===this)closeAutofillModes()">
+<div class="modal-overlay" id="autofillModesModal" style="z-index:1200" onclick="if(event.target===this)closeAutofillModes()">
     <div class="modal howto-modal">
         <h2>How Auto-Fill Works</h2>
         <p style="margin:0 0 12px;color:var(--dmb-muted);font-size:14px;">Pick a mode and we fill the whole bracket instantly &mdash; then change anything you want.</p>
@@ -5060,28 +5060,33 @@ updateProgress();
   .btn-howto-modes { background:transparent; border:1px solid rgba(197,160,89,.55); color:var(--dmb-gold); border-radius:8px; padding:10px 15px; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.5px; text-transform:uppercase; font-size:13.5px; cursor:pointer; margin-top:4px; }
 </style>
 <script>
-/* cycModalBack (DMB) — phone Back button closes an open modal/popup instead of leaving the page. */
+/* cycModalBack (DMB) — phone Back button closes the TOP open modal one at a time (nested-aware). */
 (function(){
   if(window.__cycModalBack) return; window.__cycModalBack=1;
   var SEL='.modal-overlay.open,.email-modal-overlay.open,.concert-modal-overlay.open,.concert-mode-overlay.open,.fav-modal-overlay.open,.quizmodal:not([hidden]),.quizpop:not([hidden])';
   function openEls(){ return Array.prototype.slice.call(document.querySelectorAll(SEL)); }
-  var armed=false, busy=false;
   function closeOne(el){
     var b=el.querySelector('.quizpop-x,.qm-close'); if(b){ b.click(); return; }
     if(el.classList.contains('open')) el.classList.remove('open'); else el.setAttribute('hidden','');
     try{ document.body.style.overflow=''; }catch(e){}
   }
-  function onChange(){
-    if(busy) return;
-    var open=openEls().length>0;
-    if(open && !armed){ armed=true; try{ history.pushState({cycModal:1},''); }catch(e){} }
-    else if(!open && armed){ armed=false; busy=true; try{ history.back(); }catch(e){} setTimeout(function(){ busy=false; },60); }
+  var depth=0, ignore=false;
+  function sync(){
+    if(ignore) return;
+    var n=openEls().length;
+    if(n>depth){ for(var i=0;i<n-depth;i++){ try{ history.pushState({cycModal:1},''); }catch(e){} } depth=n; }
+    else if(n<depth){ var diff=depth-n; depth=n; ignore=true; try{ history.go(-diff); }catch(e){} setTimeout(function(){ ignore=false; },90); }
   }
-  try{ new MutationObserver(onChange).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']}); }catch(e){}
+  try{ new MutationObserver(sync).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','hidden']}); }catch(e){}
   window.addEventListener('popstate', function(){
-    var els=openEls();
-    if(els.length){ armed=false; busy=true; els.forEach(closeOne); setTimeout(function(){ busy=false; },60); }
+    if(ignore) return;
+    if(depth>0){ var els=openEls(); var t=els[els.length-1]; if(t){ ignore=true; closeOne(t); depth--; setTimeout(function(){ ignore=false; },90); } }
   });
+})();
+/* fill the How-to-Play region list from the page's actual region headers (band-agnostic) */
+(function(){
+  function fill(){ var hs=document.querySelectorAll('.region-card .region-header'); var names=[]; for(var i=0;i<hs.length;i++){ var t=(hs[i].textContent||'').trim(); if(t) names.push(t); if(names.length>=4) break; } var el=document.getElementById('howtoRegions'); if(el && names.length>=2) el.textContent=names.join(', '); }
+  if(document.readyState!=='loading') fill(); else document.addEventListener('DOMContentLoaded', fill);
 })();
 </script>
 </body>
