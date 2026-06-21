@@ -812,7 +812,8 @@
             .lb-body { overflow-y: visible; }
             .side-col { order: 2; min-width: 0; }
             .center-col { order: 3; min-width: 0; }
-            .region-card { min-width: 0; }
+            .region-card { min-width: 0; border-top-color: var(--dmb-gold) !important; }
+            .region-header { background: linear-gradient(180deg,#17223c,#0e1626) !important; color: var(--dmb-gold) !important; border-bottom: 1px solid rgba(240,165,0,.32); }
             .finals-card, .leaderboard-card { min-width: 0; }
             .bracket-row {
                 height: auto;
@@ -832,14 +833,14 @@
             .matchup { margin: 9px 0; box-sizing: border-box; overflow: hidden; }
             .round-col:nth-child(1) .matchup:first-child { margin-top: 2px; }
             .slot { box-sizing: border-box; }
-            .slot { font-size: 22px; min-height: 46px; line-height: 1.05; padding: 5px 6px 5px 7px; word-break: break-word; letter-spacing: 0; }
-            .round-col:nth-child(n+2) .slot { font-size: 15px; min-height: 40px; padding: 6px 5px; line-height: 1.12; }
+            .slot { font-size: 18px; min-height: 44px; line-height: 1.08; padding: 6px 6px 6px 7px; word-break: break-word; letter-spacing: 0; }
+            .round-col:nth-child(n+2) .slot { min-height: 40px; padding: 6px 5px; line-height: 1.12; }
             .seed { width: 15px; min-width: 15px; font-size: 12px; margin-right: 5px; opacity: 0.72; font-weight: 700; text-align: left; }
             .round-col:nth-child(n+2) .seed { width: auto; min-width: 0; font-size: 9.5px; margin-right: 3px; }
 
             /* Hint that the bracket scrolls sideways within each region */
             .region-header::after {
-                content: '\2193 scroll for all 8 matchups';
+                content: '\2193 scroll to see the full region';
                 display: block;
                 font-family: 'Barlow Condensed', sans-serif;
                 font-size: 10px; letter-spacing: 1px; font-weight: 400;
@@ -1874,17 +1875,6 @@
 
 
 <footer class="site-footer">
-    <div class="modes-title">How the Auto-Fill Modes Work</div>
-    <div class="fm-list">
-        <div class="fm-item"><strong>📊 Most Streamed</strong> — the most-streamed songs on Spotify advance.</div>
-        <div class="fm-item"><strong>🎤 Most Played Live</strong> — the songs played most in concert advance.</div>
-        <div class="fm-item"><strong>🌟 Highest Seed</strong> — our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
-        <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by what fans actually vote.</div>
-        <div class="fm-item"><strong>🎵 My Concert</strong> — search a show you attended; we fill your bracket from that night's real setlist and light it up across the board.</div>
-        <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
-        <div class="fm-item"><strong>🔥 Controversy</strong> — underdogs win every round-1 matchup, then chaos takes over (a different bracket every time).</div>
-        <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
-    </div>
     <div class="credits-title">Venue Photos · via Wikimedia Commons</div>
     <div class="credits-line">
         <a href="https://commons.wikimedia.org/wiki/File:Gorge_Amphitheatre.jpg" target="_blank" rel="noopener">Gorge</a> &mdash; Daniel (Calgary, Canada), CC BY 2.0 ·
@@ -5099,11 +5089,11 @@ updateProgress();
     width:24px; height:24px; vertical-align:middle; margin-left:10px; }
   .cyc-progress-glyph .cpg-q { background:rgba(255,255,255,.20); border-radius:2px; transition:background .25s ease; }
   .cyc-progress-glyph .cpg-q.on { background:var(--dmb-gold); }
-  .cyc-next-region { margin:16px auto 6px; padding:13px 24px; background:#e8761b; color:#160d02; border:none; border-radius:11px;
-    font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1.5px; cursor:pointer; box-shadow:0 4px 18px rgba(232,118,27,.45);
-    -webkit-tap-highlight-color:transparent; }
+  .cyc-next-region { position:absolute; top:50%; left:50%; transform:translate(-50%,32px); z-index:30; padding:9px 17px; background:#e8761b; color:#160d02; border:none; border-radius:10px;
+    font-family:'Bebas Neue',sans-serif; font-style:italic; font-size:17px; letter-spacing:1px; cursor:pointer; box-shadow:0 5px 16px rgba(232,118,27,.55);
+    white-space:nowrap; -webkit-tap-highlight-color:transparent; }
   .cyc-next-region.cnr-in { animation: cnrIn .42s ease both; }
-  @keyframes cnrIn { from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
+  @keyframes cnrIn { from{ opacity:0; transform:translate(-50%,44px);} to{ opacity:1; transform:translate(-50%,32px);} }
 }
 </style>
 <script>
@@ -5113,19 +5103,25 @@ updateProgress();
   function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
   var R=[];
   function done(r){ if(!r.win) return false; var t=(r.win.textContent||'').trim(); return !!t && t!=='--' && t!=='—' && !r.win.classList.contains('empty'); }
+  var lastKey='';
   function refresh(){
     if(!R.length) return;
-    var st=R.map(done);
-    R.forEach(function(r){ var q=r.glyph.children; for(var i=0;i<4;i++){ if(q[i]) q[i].classList.toggle('on', !!st[i]); } });
-    var anyOpen = st.indexOf(false)>=0, mob=mobile();
+    var st=R.map(done), key=st.join(',')+'|'+(mobile()?'m':'d');
+    if(key===lastKey) return;
+    lastKey=key;
+    var allDone=st.every(Boolean), anyOpen=st.indexOf(false)>=0, mob=mobile();
+    for(var n=0;n<R.length;n++){ var q=R[n].glyph.children; for(var i=0;i<4;i++){ if(q[i]) q[i].classList.toggle('on', !!st[i]); } }
     R.forEach(function(r,i){
-      var show = mob && st[i] && anyOpen;
-      if(show){ if(r.arrow.style.display!=='block'){ r.arrow.style.display='block'; r.arrow.classList.remove('cnr-in'); void r.arrow.offsetWidth; r.arrow.classList.add('cnr-in'); } }
-      else { r.arrow.style.display='none'; }
+      var show = mob && st[i] && (anyOpen || allDone);
+      r.arrow.innerHTML = allDone ? 'Go to Finals →' : 'Next Region →';
+      r.arrow.className = show ? 'cyc-next-region cnr-in' : 'cyc-next-region';
+      r.arrow.style.display = show ? 'block' : 'none';
     });
   }
   function goNext(from){
-    var st=R.map(done), n=R.length, t=-1;
+    var st=R.map(done);
+    if(st.every(Boolean)){ if(window.cycShowRegion) window.cycShowRegion(R.length); return; }
+    var n=R.length, t=-1;
     for(var k=1;k<=n;k++){ var j=(from+k)%n; if(!st[j]){ t=j; break; } }
     if(t>=0 && window.cycShowRegion){ window.cycShowRegion(t); }
   }
@@ -5135,18 +5131,20 @@ updateProgress();
     Array.prototype.forEach.call(cards, function(card,i){
       var header=card.querySelector('.region-header');
       var win=card.querySelector('.slot[id$="-WIN"]');
+      var row=win?win.closest('.bracket-row'):null;
       var g=document.createElement('span'); g.className='cyc-progress-glyph'; g.setAttribute('aria-hidden','true');
       for(var q=0;q<4;q++){ g.appendChild(document.createElement('i')).className='cpg-q'; }
       if(header) header.appendChild(g);
       var ar=document.createElement('button'); ar.type='button'; ar.className='cyc-next-region'; ar.innerHTML='Next Region →';
       ar.onclick=function(){ goNext(i); };
-      card.appendChild(ar);
+      (row||card).appendChild(ar);
       R.push({card:card,header:header,win:win,glyph:g,arrow:ar});
     });
     refresh();
-    try{ new MutationObserver(refresh).observe(document.querySelector('.master-grid')||document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']}); }catch(e){}
-    setInterval(refresh,700);
-    window.addEventListener('resize',refresh);
+    var raf; function sched(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(refresh); }
+    try{ new MutationObserver(sched).observe(document.querySelector('.master-grid')||document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']}); }catch(e){}
+    setInterval(refresh,1200);
+    window.addEventListener('resize',function(){ lastKey=''; sched(); });
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
