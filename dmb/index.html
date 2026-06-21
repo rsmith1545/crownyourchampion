@@ -808,26 +808,39 @@
             .side-col { order: 2; min-width: 0; }
             .center-col { order: 3; min-width: 0; }
             .region-card { min-width: 0; border-top-color: var(--dmb-gold) !important; }
-            .region-header { background: linear-gradient(180deg,#17223c,#0e1626) !important; color: var(--dmb-gold) !important; border-bottom: 1px solid rgba(240,165,0,.32); }
+            .region-header { background: linear-gradient(180deg,#0f1830,#06090f) !important; color: var(--dmb-gold) !important; border-bottom: 1px solid rgba(240,165,0,.30); }
+
+            /* Item 5 — crowned/submit state is GOLD not green on mobile; no pulse. */
+            .crown-btn.ready {
+                background: linear-gradient(135deg,#f0b21a,#c8860d) !important;
+                color: #1a1102 !important; border: 1px solid #f7c948 !important;
+                text-shadow: none !important; box-shadow: 0 4px 16px rgba(240,165,0,.40) !important;
+                animation: none !important;
+            }
+            .crown-btn.ready:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 22px rgba(240,165,0,.6) !important; }
+            .champion-slot { background: linear-gradient(135deg,#1c1606,#2a2008) !important; }
+            .champion-banner { background: linear-gradient(135deg,#1c1606,#2a2008) !important; }
             .finals-card, .leaderboard-card { min-width: 0; }
             .bracket-row {
                 height: auto;
                 display: grid !important;
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: 1.46fr 1.04fr 1.0fr 1.0fr;
                 overflow: visible;
-                padding: 5px 4px 14px;
-                gap: 3px;
+                padding: 5px 3px 14px;
+                gap: 2px;
                 position: relative;
                 align-items: stretch;
             }
+            /* neutralize the old horizontal-scroll spacer — as a grid container child it became a phantom 5th cell */
+            .bracket-row::after { content: none !important; display: none !important; }
             .round-col { min-width: 0; width: auto; padding: 0; box-sizing: border-box; }
-            .bracket-row > .round-col:nth-child(1) { justify-content: flex-start; }
+            .bracket-row > .round-col:nth-child(1) { justify-content: space-around; }
             /* Hide the standalone region-winner column on mobile: the winning song is
                already shown highlighted in the final matchup + in the Finals tab, and a
                lone single-song 5th column overflows off the right edge with no scroll. */
             .bracket-row > .round-col.cyc-winner-col { display: none !important; }
-            .matchup { margin: 5px 0; box-sizing: border-box; overflow: hidden; }
-            .round-col:nth-child(1) .matchup:first-child { margin-top: 2px; }
+            .matchup { margin: 4px 0; box-sizing: border-box; overflow: hidden; }
+            .play-btn { width: 19px; height: 19px; margin-left: 4px; }
             .slot { box-sizing: border-box; }
             .slot { font-size: 12px; min-height: 40px; line-height: 1.1; padding: 5px 3px 5px 4px; overflow-wrap: break-word; word-break: normal; letter-spacing: 0; hyphens: none; }
             .seed { width: 13px; min-width: 13px; font-size: 10px; margin-right: 3px; opacity: 0.7; font-weight: 700; text-align: left; }
@@ -2958,6 +2971,16 @@ function submitAndCrown() {
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
+    // MOBILE (DMB): collapse the 4-modal chain into one celebratory screen. Desktop path unchanged below.
+    var __mob=false; try{ __mob=window.matchMedia('(max-width:1080px)').matches; }catch(e){ __mob=innerWidth<=1080; }
+    if(__mob && window.cycShowWinScreen){
+        window.__cycPostCrownShare=false;                                    // suppress the desktop What's-next funnel
+        try{ saveBracketData(null,false).catch(function(){}); }catch(e){}    // record the crowned bracket (anonymous)
+        try{ fireConfetti(); }catch(e){}
+        try{ playFanfare(); }catch(e){}
+        setTimeout(function(){ window.cycShowWinScreen(champ); }, 650);
+        return;
+    }
     window.__cycPostCrownShare = true;
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 3200); // email capture after the celebration plays
@@ -4259,8 +4282,9 @@ updateProgress();
   function mus(col){ return Array.prototype.filter.call(col.children,function(m){return m.classList&&m.classList.contains('matchup');}); }
   function clear(row){ var s=row.querySelector(':scope > svg.cyc-lines'); if(s&&s.parentNode) s.parentNode.removeChild(s); }
   function build(row){
-    var cols=Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col');});
+    var cols=Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col')&&c.offsetParent!==null;});
     if(cols.length<2) return;
+    var MOB=false; try{ MOB=window.matchMedia('(max-width:1080px)').matches; }catch(e){}
     var svg=row.querySelector(':scope > svg.cyc-lines');
     if(!svg){ svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','cyc-lines'); row.appendChild(svg); }
     var W=row.scrollWidth,H=row.scrollHeight;
@@ -4280,8 +4304,8 @@ updateProgress();
         var midx=sx+(tx-sx)/2;
         var p=document.createElementNS(NS,'path');
         p.setAttribute('d','M '+sx+' '+sy+' H '+midx+' V '+ty+' H '+tx);
-        p.setAttribute('fill','none'); p.setAttribute('stroke','rgba(197,160,89,0.16)');
-        p.setAttribute('stroke-width','1.5'); p.setAttribute('stroke-linejoin','round');
+        p.setAttribute('fill','none'); p.setAttribute('stroke', MOB?'rgba(212,175,95,0.42)':'rgba(197,160,89,0.16)');
+        p.setAttribute('stroke-width', MOB?'1.25':'1.5'); p.setAttribute('stroke-linejoin','round');
         svg.appendChild(p);
       }
     }
@@ -4599,7 +4623,7 @@ updateProgress();
     document.body.appendChild(ov);
     document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); if(window.cycOpenQuiz){cycOpenQuiz();}else{location.href='quiz.html';} };
     document.getElementById('cycQuizLater').onclick=dismiss;
-    var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(){ ce('see_all_click'); };
+    var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault(); ce('see_all_click'); dismiss(); if(window.cycOpenAllBrackets){ setTimeout(function(){ try{cycOpenAllBrackets();}catch(_){ location.href='/'; } },140); } else { location.href='/'; } };
     Array.prototype.forEach.call(ov.querySelectorAll('[data-cyc-next]'),function(a){ a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:slug(),to:a.getAttribute('data-cyc-next')}); }catch(e){} }); });
     ov.addEventListener('click',function(e){ if(e.target===ov) dismiss(); });
   }
@@ -5073,11 +5097,11 @@ updateProgress();
     width:24px; height:24px; vertical-align:middle; margin-left:10px; }
   .cyc-progress-glyph .cpg-q { background:rgba(255,255,255,.20); border-radius:2px; transition:background .25s ease; }
   .cyc-progress-glyph .cpg-q.on { background:var(--dmb-gold); }
-  .cyc-next-region { position:absolute; top:50%; right:6px; transform:translateY(26px); z-index:30; padding:9px 17px; background:#e8761b; color:#160d02; border:none; border-radius:10px;
-    font-family:'Bebas Neue',sans-serif; font-style:italic; font-size:17px; letter-spacing:1px; cursor:pointer; box-shadow:0 5px 16px rgba(232,118,27,.55);
+  .cyc-next-region { position:absolute; right:8px; z-index:30; padding:7px 14px; background:#e8761b; color:#160d02; border:none; border-radius:9px;
+    font-family:'Bebas Neue',sans-serif; font-style:italic; font-size:15px; letter-spacing:1px; cursor:pointer; box-shadow:0 4px 13px rgba(232,118,27,.42);
     white-space:nowrap; -webkit-tap-highlight-color:transparent; }
-  .cyc-next-region.cnr-in { animation: cnrIn .42s ease both; }
-  @keyframes cnrIn { from{ opacity:0; transform:translateY(42px);} to{ opacity:1; transform:translateY(30px);} }
+  .cyc-next-region.cnr-in { animation: cnrIn .38s ease both; }
+  @keyframes cnrIn { from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
 }
 </style>
 <script>
@@ -5100,14 +5124,27 @@ updateProgress();
       r.arrow.innerHTML = allDone ? 'Go to Finals →' : 'Next Region →';
       r.arrow.className = show ? 'cyc-next-region cnr-in' : 'cyc-next-region';
       r.arrow.style.display = show ? 'block' : 'none';
+      if(show && r.row){
+        try{
+          var rowH=r.row.offsetHeight||0, mh=(r.fm&&r.fm.offsetHeight)||80;
+          r.arrow.style.top=Math.round(rowH/2 + mh/2 + 14)+'px';
+        }catch(e){}
+      }
     });
+  }
+  function scrollToTop(idx){
+    try{
+      var el = (idx>=R.length) ? document.querySelector('.finals-card') : (R[idx] && R[idx].card);
+      if(el){ var y = el.getBoundingClientRect().top + (window.pageYOffset||document.documentElement.scrollTop||0) - 64;
+        window.scrollTo({top:Math.max(0,y), behavior:'smooth'}); }
+    }catch(e){}
   }
   function goNext(from){
     var st=R.map(done);
-    if(st.every(Boolean)){ if(window.cycShowRegion) window.cycShowRegion(R.length); return; }
+    if(st.every(Boolean)){ if(window.cycShowRegion) window.cycShowRegion(R.length); setTimeout(function(){scrollToTop(R.length);},60); return; }
     var n=R.length, t=-1;
     for(var k=1;k<=n;k++){ var j=(from+k)%n; if(!st[j]){ t=j; break; } }
-    if(t>=0 && window.cycShowRegion){ window.cycShowRegion(t); }
+    if(t>=0 && window.cycShowRegion){ window.cycShowRegion(t); setTimeout(function(){scrollToTop(t);},60); }
   }
   function init(){
     var cards=document.querySelectorAll('.region-card');
@@ -5117,13 +5154,15 @@ updateProgress();
       var win=card.querySelector('.slot[id$="-WIN"]');
       var row=win?win.closest('.bracket-row'):null;
       var wcol=win?win.closest('.round-col'):null; if(wcol) wcol.classList.add('cyc-winner-col');
+      var finalCol=wcol?wcol.previousElementSibling:null;
+      var fm=finalCol?finalCol.querySelector('.matchup'):null;
       var g=document.createElement('span'); g.className='cyc-progress-glyph'; g.setAttribute('aria-hidden','true');
       for(var q=0;q<4;q++){ g.appendChild(document.createElement('i')).className='cpg-q'; }
       if(header) header.appendChild(g);
       var ar=document.createElement('button'); ar.type='button'; ar.className='cyc-next-region'; ar.innerHTML='Next Region →';
       ar.onclick=function(){ goNext(i); };
       (row||card).appendChild(ar);
-      R.push({card:card,header:header,win:win,glyph:g,arrow:ar});
+      R.push({card:card,header:header,win:win,glyph:g,arrow:ar,row:row,fm:fm});
     });
     refresh();
     var raf; function sched(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(refresh); }
@@ -5134,5 +5173,148 @@ updateProgress();
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
+<style id="cyc-winscreen-css">
+/* Item 6 — mobile one-screen post-submit flow (DMB mobile only). Reversible: remove this block + the script + the mobile branch in submitAndCrown. */
+.cyc-win { display:none; }
+@media (max-width:1080px){
+  .cyc-win { position:fixed; inset:0; z-index:99990; display:none;
+    background:radial-gradient(120% 80% at 50% 0%, #1a1305 0%, #0b0a07 55%, #060507 100%);
+    overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .cyc-win.open { display:block; }
+  .cyc-win .cw-inner { max-width:520px; margin:0 auto; padding:18px 16px 40px; min-height:100%; box-sizing:border-box; }
+  .cyc-win .cw-x { position:absolute; top:10px; right:12px; width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,.08); border:1px solid rgba(240,165,0,.35); color:#f0c860; font-size:22px; line-height:1;
+    cursor:pointer; z-index:2; -webkit-tap-highlight-color:transparent; }
+  /* 1 celebration */
+  .cyc-win .cw-celebrate { text-align:center; padding:26px 6px 18px; }
+  .cyc-win .cw-crown { font-size:46px; line-height:1; }
+  .cyc-win .cw-kicker { font-family:'Bebas Neue',sans-serif; letter-spacing:5px; font-size:13px; color:#caa14a; margin-top:8px; }
+  .cyc-win .cw-champ { font-family:'Bebas Neue',sans-serif; letter-spacing:1.5px; font-size:clamp(30px,8.5vw,46px); line-height:1.04;
+    color:#f7d774; text-shadow:0 2px 22px rgba(240,165,0,.35); margin-top:2px; }
+  .cyc-win .cw-hot { font-family:'Barlow Condensed','Bebas Neue',sans-serif; font-weight:700; letter-spacing:.04em;
+    font-size:16px; color:#ffd866; margin-top:10px; min-height:18px; }
+  /* 2 play another (primary) */
+  .cyc-win .cw-card { background:rgba(255,255,255,.04); border:1px solid rgba(240,165,0,.30); border-radius:14px; padding:16px 14px; margin-top:14px; }
+  .cyc-win .cw-play { border-color:rgba(240,165,0,.55); background:linear-gradient(180deg, rgba(240,165,0,.10), rgba(240,165,0,.03)); }
+  .cyc-win .cw-h { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:20px; color:#f3e3bd; text-align:center; margin-bottom:12px; }
+  .cyc-win .cw-picks { display:flex; flex-direction:column; gap:9px; }
+  .cyc-win .cw-pick { display:flex; align-items:center; justify-content:space-between; text-decoration:none;
+    background:#13233f; border:1px solid rgba(255,255,255,.10); border-radius:11px; padding:13px 15px;
+    color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; letter-spacing:.02em; }
+  .cyc-win .cw-pick .cw-go { color:#7fb2ff; font-size:18px; }
+  .cyc-win .cw-seeall { display:block; width:100%; margin-top:11px; background:transparent; border:none;
+    color:#e6b84e; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.03em; cursor:pointer; padding:6px; }
+  /* 3 share (secondary) */
+  .cyc-win .cw-row { margin-top:12px; }
+  .cyc-win .cw-share { display:block; width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16); border-radius:11px;
+    padding:13px; color:#e9eefb; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.03em; cursor:pointer; }
+  /* 4 notify (quiet) */
+  .cyc-win .cw-notify { margin-top:18px; padding:14px 4px 4px; border-top:1px solid rgba(255,255,255,.08); }
+  .cyc-win .cw-nlabel { color:#9fb0c9; font-family:'Barlow',sans-serif; font-size:13.5px; text-align:center; margin-bottom:9px; }
+  .cyc-win .cw-nrow { display:flex; gap:8px; }
+  .cyc-win .cw-nrow input { flex:1; min-width:0; background:#0e1422; border:1px solid rgba(255,255,255,.16); border-radius:9px;
+    color:#fff; font-size:15px; padding:11px 12px; -webkit-appearance:none; }
+  .cyc-win .cw-nrow button { flex:0 0 auto; background:#26334b; border:1px solid rgba(255,255,255,.18); border-radius:9px;
+    color:#e9eefb; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:.04em; padding:0 14px; cursor:pointer; }
+  .cyc-win .cw-nstatus { font-size:12.5px; text-align:center; margin-top:7px; min-height:14px; color:#7fd49a; }
+  .cyc-win .cw-nstatus.err { color:#ff9a9a; }
+  /* 5 concert (quiet link) */
+  .cyc-win .cw-concert { display:block; text-align:center; margin-top:18px; color:#8aa0bd; text-decoration:none;
+    font-family:'Barlow',sans-serif; font-size:13.5px; letter-spacing:.02em; }
+}
+</style>
+<div class="cyc-win" id="cycWin" role="dialog" aria-modal="true" aria-label="Bracket complete">
+  <div class="cw-inner">
+    <button class="cw-x" id="cwX" aria-label="Close">&times;</button>
+    <div class="cw-celebrate">
+      <div class="cw-crown">&#128081;</div>
+      <div class="cw-kicker">YOUR CHAMPION</div>
+      <div class="cw-champ" id="cwChamp">&mdash;</div>
+      <div class="cw-hot" id="cwHot"></div>
+    </div>
+    <div class="cw-card cw-play">
+      <div class="cw-h">&#127926; Play another bracket</div>
+      <div class="cw-picks" id="cwPicks"></div>
+      <button class="cw-seeall" id="cwSeeAll">See all brackets &rarr;</button>
+    </div>
+    <div class="cw-row">
+      <button class="cw-share" id="cwShare">&#128228; Share / save your bracket</button>
+    </div>
+    <div class="cw-notify" id="cwNotifyWrap">
+      <div class="cw-nlabel">&#128276; Get notified when new brackets drop</div>
+      <div class="cw-nrow">
+        <input type="email" id="cwEmail" inputmode="email" autocomplete="email" placeholder="you@email.com" />
+        <button id="cwNotifyBtn" type="button">Notify me</button>
+      </div>
+      <div class="cw-nstatus" id="cwNstatus"></div>
+    </div>
+    <a class="cw-concert" id="cwConcert" href="#">&#127928; Were you there? Make a concert keepsake &rarr;</a>
+  </div>
+</div>
+<script>
+/* cycWinScreen — DMB mobile one-screen post-submit. window.cycShowWinScreen(champ). Self-contained, reversible. */
+(function(){
+  if(window.__cycWinScreen) return; window.__cycWinScreen=1;
+  var PICKS=[['Pearl Jam','/pearljam/'],['Red Hot Chili Peppers','/rhcp/']];
+  function $(id){ return document.getElementById(id); }
+  function wired(){ return $('cycWin') && $('cycWin').__wired; }
+  function wire(){
+    var ov=$('cycWin'); if(!ov || ov.__wired) return; ov.__wired=1;
+    // play-another picks
+    var pk=$('cwPicks');
+    if(pk){ pk.innerHTML=''; PICKS.forEach(function(p){
+      var a=document.createElement('a'); a.className='cw-pick'; a.href=p[1];
+      a.innerHTML='<span>'+p[0]+'</span><span class="cw-go">&rarr;</span>';
+      a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:'dmb',to:p[1]}); }catch(e){} });
+      pk.appendChild(a);
+    }); }
+    // see all -> picker popup (not homepage)
+    var sa=$('cwSeeAll'); if(sa) sa.onclick=function(){ try{ if(window.cycEvt) cycEvt('see_all_click',{band:'dmb',src:'winscreen'}); }catch(e){}
+      if(window.cycOpenAllBrackets){ try{ cycOpenAllBrackets(); return; }catch(e){} } location.href='/'; };
+    // share
+    var sh=$('cwShare'); if(sh) sh.onclick=function(){ try{ window.__cycPostCrownShare=false; if(window.openShare) openShare(); }catch(e){} };
+    // notify (quiet email, not a gate)
+    var nb=$('cwNotifyBtn'); if(nb) nb.onclick=saveEmail;
+    var ei=$('cwEmail'); if(ei) ei.addEventListener('keydown',function(e){ if(e.key==='Enter') saveEmail(); });
+    // concert keepsake (on-demand)
+    var cc=$('cwConcert');
+    if(cc){
+      var ready=true; try{ ready=window.concertProxyReady?concertProxyReady():true; }catch(e){}
+      if(!ready){ cc.style.display='none'; }
+      cc.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault();
+        try{ var c=((document.getElementById('champion')||{}).innerText||'').trim(); if(window.openConcertModal) openConcertModal(c); }catch(_){} };
+    }
+    // close
+    var x=$('cwX'); if(x) x.onclick=hide;
+  }
+  function saveEmail(){
+    var ei=$('cwEmail'), st=$('cwNstatus'); if(!ei||!st) return;
+    var em=(ei.value||'').trim();
+    if(!em || em.indexOf('@')<0 || em.indexOf('.')<0){ st.className='cw-nstatus err'; st.textContent='Enter a valid email.'; ei.focus(); return; }
+    try{ localStorage.setItem('cyc-hub-email',em); localStorage.setItem('dmb-user-email',em); }catch(e){}
+    try{ if(window.saveBracketData) saveBracketData(em,true).catch(function(){}); }catch(e){}
+    try{ if(window.cycEvt) cycEvt('email_signup',{source:'winscreen',band:'dmb'}); }catch(e){}
+    try{ var hs=document.getElementById('cycHdrSig'); if(hs) hs.style.display='none'; }catch(e){}
+    st.className='cw-nstatus'; st.textContent='✓ You’re on the list — we’ll let you know.';
+    var nb=$('cwNotifyBtn'); if(nb){ nb.disabled=true; nb.textContent='✓'; }
+  }
+  function hide(){ var ov=$('cycWin'); if(ov) ov.classList.remove('open'); document.body.style.overflow='';
+    setTimeout(function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } },120); }
+  window.cycShowWinScreen=function(champ){
+    var ov=$('cycWin'); if(!ov) return;
+    wire();
+    var c=(champ||((document.getElementById('champion')||{}).innerText||'')).trim();
+    var ce=$('cwChamp'); if(ce) ce.textContent=c||'—';
+    var hot=$('cwHot'); if(hot){ hot.textContent='';
+      try{ if(window.cycCrowdRead && c){ window.cycCrowdRead(c,function(res){
+        if(!res||!res.show){ hot.textContent=''; return; }
+        hot.textContent = res.kind==='fav' ? ('👑 You’re with '+res.pct+'% of fans') : ('🔥 Hot take — only '+res.pct+'% of fans agree'); }); } }catch(e){}
+    }
+    ov.scrollTop=0;
+    ov.classList.add('open'); document.body.style.overflow='hidden';
+  };
+})();
+</script>
+
 </body>
 </html>
