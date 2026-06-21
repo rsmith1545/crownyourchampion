@@ -5082,10 +5082,11 @@ updateProgress();
 /* cycModalBack (DMB) — phone Back button closes the TOP open modal one at a time (nested-aware). */
 (function(){
   if(window.__cycModalBack) return; window.__cycModalBack=1;
-  var SEL='.modal-overlay.open,.email-modal-overlay.open,.concert-modal-overlay.open,.concert-mode-overlay.open,.fav-modal-overlay.open,.quizmodal:not([hidden]),.quizpop:not([hidden])';
-  function openEls(){ return Array.prototype.slice.call(document.querySelectorAll(SEL)); }
+  var SEL='.modal-overlay.open,.email-modal-overlay.open,.concert-modal-overlay.open,.concert-mode-overlay.open,.fav-modal-overlay.open,.quizmodal:not([hidden]),.quizpop:not([hidden]),.cyc-win.open';
+  function zof(el){ try{ return parseInt(getComputedStyle(el).zIndex,10)||0; }catch(e){ return 0; } }
+  function openEls(){ var a=Array.prototype.slice.call(document.querySelectorAll(SEL)); a.sort(function(x,y){ return zof(x)-zof(y); }); return a; }
   function closeOne(el){
-    var b=el.querySelector('.quizpop-x,.qm-close'); if(b){ b.click(); return; }
+    var b=el.querySelector('.quizpop-x,.qm-close,.cw-x'); if(b){ b.click(); return; }
     if(el.classList.contains('open')) el.classList.remove('open'); else el.setAttribute('hidden','');
     try{ document.body.style.overflow=''; }catch(e){}
   }
