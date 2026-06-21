@@ -822,6 +822,10 @@
             }
             .round-col { min-width: 0; width: auto; padding: 0; box-sizing: border-box; }
             .bracket-row > .round-col:nth-child(1) { justify-content: flex-start; }
+            /* Hide the standalone region-winner column on mobile: the winning song is
+               already shown highlighted in the final matchup + in the Finals tab, and a
+               lone single-song 5th column overflows off the right edge with no scroll. */
+            .bracket-row > .round-col.cyc-winner-col { display: none !important; }
             .matchup { margin: 5px 0; box-sizing: border-box; overflow: hidden; }
             .round-col:nth-child(1) .matchup:first-child { margin-top: 2px; }
             .slot { box-sizing: border-box; }
@@ -5112,6 +5116,7 @@ updateProgress();
       var header=card.querySelector('.region-header');
       var win=card.querySelector('.slot[id$="-WIN"]');
       var row=win?win.closest('.bracket-row'):null;
+      var wcol=win?win.closest('.round-col'):null; if(wcol) wcol.classList.add('cyc-winner-col');
       var g=document.createElement('span'); g.className='cyc-progress-glyph'; g.setAttribute('aria-hidden','true');
       for(var q=0;q<4;q++){ g.appendChild(document.createElement('i')).className='cpg-q'; }
       if(header) header.appendChild(g);
