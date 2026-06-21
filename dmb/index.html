@@ -834,7 +834,9 @@
             /* neutralize the old horizontal-scroll spacer — as a grid container child it became a phantom 5th cell */
             .bracket-row::after { content: none !important; display: none !important; }
             .round-col { min-width: 0; width: auto; padding: 0; box-sizing: border-box; }
-            .bracket-row > .round-col:nth-child(1) { justify-content: space-around; }
+            /* R1 is the compact spine (packed); later cols anchor their absolutely-centered cards (set by cycBracketCenter). */
+            .bracket-row > .round-col:nth-child(1) { justify-content: flex-start; }
+            .bracket-row > .round-col:nth-child(n+2) { position: relative; }
             /* Hide the standalone region-winner column on mobile: the winning song is
                already shown highlighted in the final matchup + in the Finals tab, and a
                lone single-song 5th column overflows off the right edge with no scroll. */
@@ -4314,6 +4316,7 @@ updateProgress();
     document.querySelectorAll('.bracket-row').forEach(function(row){ if(row.offsetParent!==null) build(row); else clear(row); });
   }catch(e){} }
   var raf; function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(function(){ setTimeout(run,0); }); }
+  window.__cycRedrawLines=schedule;
   function soon(){ setTimeout(schedule,70); setTimeout(schedule,420); }
   if(document.readyState!=='loading') schedule(); else document.addEventListener('DOMContentLoaded',schedule);
   window.addEventListener('load',schedule);
@@ -5112,25 +5115,29 @@ updateProgress();
   var R=[];
   function done(r){ if(!r.win) return false; var t=(r.win.textContent||'').trim(); return !!t && t!=='--' && t!=='—' && !r.win.classList.contains('empty'); }
   var lastKey='';
+  function positionArrows(){
+    if(!mobile()) return;
+    R.forEach(function(r){
+      if(!r.arrow || r.arrow.style.display==='none' || !r.row || !r.fm) return;
+      try{ var rr=r.row.getBoundingClientRect(), fr=r.fm.getBoundingClientRect();
+        if(fr.height>0) r.arrow.style.top=Math.round((fr.bottom-rr.top)+12)+'px'; }catch(e){}
+    });
+  }
   function refresh(){
     if(!R.length) return;
     var st=R.map(done), key=st.join(',')+'|'+(mobile()?'m':'d');
-    if(key===lastKey) return;
-    lastKey=key;
-    var allDone=st.every(Boolean), anyOpen=st.indexOf(false)>=0, mob=mobile();
-    for(var n=0;n<R.length;n++){ var q=R[n].glyph.children; for(var i=0;i<4;i++){ if(q[i]) q[i].classList.toggle('on', !!st[i]); } }
-    R.forEach(function(r,i){
-      var show = mob && st[i] && (anyOpen || allDone);
-      r.arrow.innerHTML = allDone ? 'Go to Finals →' : 'Next Region →';
-      r.arrow.className = show ? 'cyc-next-region cnr-in' : 'cyc-next-region';
-      r.arrow.style.display = show ? 'block' : 'none';
-      if(show && r.row){
-        try{
-          var rowH=r.row.offsetHeight||0, mh=(r.fm&&r.fm.offsetHeight)||80;
-          r.arrow.style.top=Math.round(rowH/2 + mh/2 + 14)+'px';
-        }catch(e){}
-      }
-    });
+    if(key!==lastKey){
+      lastKey=key;
+      var allDone=st.every(Boolean), anyOpen=st.indexOf(false)>=0, mob=mobile();
+      for(var n=0;n<R.length;n++){ var q=R[n].glyph.children; for(var i=0;i<4;i++){ if(q[i]) q[i].classList.toggle('on', !!st[i]); } }
+      R.forEach(function(r,i){
+        var show = mob && st[i] && (anyOpen || allDone);
+        r.arrow.innerHTML = allDone ? 'Go to Finals →' : 'Next Region →';
+        r.arrow.className = show ? 'cyc-next-region cnr-in' : 'cyc-next-region';
+        r.arrow.style.display = show ? 'block' : 'none';
+      });
+    }
+    positionArrows();
   }
   function scrollToTop(idx){
     try{
@@ -5313,6 +5320,56 @@ updateProgress();
     ov.scrollTop=0;
     ov.classList.add('open'); document.body.style.overflow='hidden';
   };
+})();
+</script>
+
+<script>
+/* cycBracketCenter (DMB mobile) — Option B: each later-round matchup is kept COMPACT and positioned at the
+   vertical midpoint between its two feeder cards, so you can trace which two songs produced it. Mobile-only;
+   clears its inline styles on desktop. Throttled (load/resize/click + rAF) — no tight observer. Reversible. */
+(function(){
+  if(window.__cycBracketCenter) return; window.__cycBracketCenter=1;
+  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function mus(col){ return Array.prototype.filter.call(col.children,function(m){return m.classList&&m.classList.contains('matchup');}); }
+  function vcols(row){ return Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col')&&c.offsetParent!==null;}); }
+  function clearRow(row){
+    Array.prototype.forEach.call(row.children,function(col){
+      if(!(col.classList&&col.classList.contains('round-col'))) return;
+      mus(col).forEach(function(m){ m.style.position=''; m.style.top=''; m.style.left=''; m.style.right=''; m.style.margin=''; });
+    });
+  }
+  function applyRow(row){
+    var cols=vcols(row); if(cols.length<2) return;
+    for(var c=1;c<cols.length;c++){
+      var src=mus(cols[c-1]), dst=mus(cols[c]); if(!dst.length) continue;
+      var colRect=cols[c-1].getBoundingClientRect();
+      for(var j=0;j<dst.length;j++){
+        var a=src[2*j], b=src[2*j+1]; if(!a||!b) continue;
+        var ar=a.getBoundingClientRect(), br=b.getBoundingClientRect();
+        var ca=(ar.top-colRect.top)+ar.height/2, cb=(br.top-colRect.top)+br.height/2, mid=(ca+cb)/2;
+        var m=dst[j];
+        m.style.position='absolute'; m.style.left='0'; m.style.right='0'; m.style.margin='0';
+        m.style.top=Math.round(mid - m.offsetHeight/2)+'px';
+      }
+    }
+  }
+  function run(){
+    try{
+      var mob=mobile();
+      document.querySelectorAll('.region-card .bracket-row').forEach(function(row){
+        if(!mob || row.offsetParent===null){ clearRow(row); return; }
+        applyRow(row);
+      });
+      if(window.__cycRedrawLines) window.__cycRedrawLines();
+    }catch(e){}
+  }
+  var raf; function sched(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(run); }
+  function soon(){ sched(); setTimeout(sched,90); setTimeout(sched,380); }
+  window.cycCenterNow=soon;
+  if(document.readyState!=='loading') soon(); else document.addEventListener('DOMContentLoaded',soon);
+  window.addEventListener('load',soon);
+  window.addEventListener('resize',soon);
+  document.addEventListener('click',function(){ setTimeout(soon,0); });
 })();
 </script>
 
