@@ -812,6 +812,14 @@
 
             /* Item 5 (reversed) — Submit & Crown STAYS GREEN (reserved peak-moment accent); only kill the pulse on mobile. */
             .crown-btn.ready { animation: none !important; box-shadow: 0 4px 16px rgba(34,197,94,.40) !important; }
+            /* Post-submit: the crowned button is a SETTLED state + re-entry to the post-submit screen (not a live CTA). */
+            .crown-btn.cyc-crowned {
+                background: linear-gradient(135deg,#10331c,#0c2616) !important;
+                color: #d3ead9 !important; border: 1px solid #2f8f57 !important;
+                opacity: 1 !important; cursor: pointer !important; box-shadow: none !important; animation: none !important;
+                font-size: 19px !important; letter-spacing: 1.5px !important;
+            }
+            .crown-btn.cyc-crowned:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(47,143,87,.35) !important; }
             .crown-btn.ready:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 22px rgba(34,197,94,.6) !important; }
             /* Demote the Share-Your-Bracket button (was solid gold, competing with green) to a gold-outline ghost. */
             #cycMobShare.btn-share {
@@ -2967,6 +2975,16 @@ function updateCrownButton() {
     btn.innerHTML = ready ? '👑 Submit &amp; Crown' : '🔒 Pick your champion first';
 }
 
+// MOBILE: after crowning, the Submit & Crown button must stop being a live CTA. It becomes a settled crowned
+// chip AND a re-entry point that re-opens the one-screen post-submit popup (so a closed popup never strands the user).
+function cycTransformCrownBtn(champ){
+    var btn=document.getElementById('crownBtn'); if(!btn) return;
+    try{ btn.dataset.cycChamp = champ || ((document.getElementById('champion')||{}).innerText||'').trim(); }catch(e){}
+    btn.classList.remove('ready'); btn.classList.add('cyc-crowned');
+    btn.disabled=false;
+    btn.innerHTML='\uD83D\uDC51 Crowned \u00B7 What\u2019s Next \u2192';
+    btn.onclick=function(){ var c=(btn.dataset.cycChamp||'').trim(); if(window.cycShowWinScreen) window.cycShowWinScreen(c); };
+}
 function submitAndCrown() {
     const champ = (document.getElementById('champion').innerText || '').trim();
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
@@ -2977,6 +2995,7 @@ function submitAndCrown() {
     if(__mob && window.cycShowWinScreen){
         window.__cycPostCrownShare=false;                                    // suppress the desktop What's-next funnel
         try{ saveBracketData(null,false).catch(function(){}); }catch(e){}    // record the crowned bracket (anonymous)
+        try{ cycTransformCrownBtn(champ); }catch(e){}                        // button is now a settled re-entry, not a live CTA
         if(window.cycMobileCelebrate){ cycMobileCelebrate(champ, function(){ window.cycShowWinScreen(champ); }); }
         else { try{ fireConfetti(); }catch(e){} setTimeout(function(){ window.cycShowWinScreen(champ); }, 650); }
         return;
