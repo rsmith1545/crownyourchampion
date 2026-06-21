@@ -4197,7 +4197,7 @@ updateProgress();
       secs.push({el:regions[i],label:label||('Region '+(i+1))});
     }
     var center=document.querySelector('.center-col');
-    if(center) secs.push({el:center,label:'👑 Final Four'});
+    if(center) secs.push({el:center,label:'👑 Finals'});
     if(secs.length<2) return;
     var bar=document.createElement('div'); bar.id='cycTabBar';
     bar.style.cssText='position:sticky;top:0;z-index:850;display:none;overflow-x:auto;'+
@@ -4210,7 +4210,7 @@ updateProgress();
         'border:1px solid rgba(197,160,89,.45);border-radius:18px;background:transparent;'+
         'color:#cdd6e6;font:700 13.5px system-ui,-apple-system,sans-serif;letter-spacing:.4px;'+
         'cursor:pointer;-webkit-tap-highlight-color:transparent;';
-      t.onclick=function(){ var y=sec.el.getBoundingClientRect().top+window.scrollY-bar.offsetHeight-6; window.scrollTo({top:y,behavior:'smooth'}); };
+      (function(ix){ t.onclick=function(){ showOnly(ix); }; })(tabs.length);
       bar.appendChild(t); tabs.push({t:t,sec:sec});
     });
     grid.parentNode.insertBefore(bar, grid);
@@ -4220,12 +4220,14 @@ updateProgress();
         else { o.t.style.background='transparent'; o.t.style.color='#cdd6e6'; o.t.style.borderColor='rgba(197,160,89,.45)'; }
       });
     }
+    var activeIdx=0;
+    function applyIso(){ for(var i=0;i<secs.length;i++){ secs[i].el.style.display=(i===activeIdx?'':'none'); } setActive(activeIdx); }
+    function clearIso(){ for(var i=0;i<secs.length;i++){ secs[i].el.style.display=''; } }
+    function showOnly(idx){ activeIdx=idx; applyIso(); try{ var g=document.querySelector('.master-grid'), bb=document.getElementById('cycTabBar'); if(g){ var y=g.getBoundingClientRect().top+window.scrollY-((bb?bb.offsetHeight:0)+4); window.scrollTo({top:Math.max(0,y),behavior:'auto'}); } else { window.scrollTo({top:0}); } }catch(e){} setTimeout(function(){ try{window.dispatchEvent(new Event('resize'));}catch(e){} },30); }
+    window.cycShowRegion=showOnly;
     function upd(){
-      if(!isMobile() || modalOpen()){ bar.style.display='none'; return; }
-      bar.style.display='block';
-      var probe=bar.offsetHeight+24, best=0, bestTop=-1e9;
-      for(var i=0;i<secs.length;i++){ var top=secs[i].el.getBoundingClientRect().top; if(top-probe<=0 && top>bestTop){ bestTop=top; best=i; } }
-      setActive(best);
+      if(!isMobile() || modalOpen()){ bar.style.display='none'; clearIso(); return; }
+      bar.style.display='block'; applyIso();
     }
     window.addEventListener('scroll',upd,{passive:true});
     window.addEventListener('resize',upd);
