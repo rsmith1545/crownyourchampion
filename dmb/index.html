@@ -2977,9 +2977,8 @@ function submitAndCrown() {
     if(__mob && window.cycShowWinScreen){
         window.__cycPostCrownShare=false;                                    // suppress the desktop What's-next funnel
         try{ saveBracketData(null,false).catch(function(){}); }catch(e){}    // record the crowned bracket (anonymous)
-        try{ fireConfetti(); }catch(e){}
-        try{ playFanfare(); }catch(e){}
-        setTimeout(function(){ window.cycShowWinScreen(champ); }, 650);
+        if(window.cycMobileCelebrate){ cycMobileCelebrate(champ, function(){ window.cycShowWinScreen(champ); }); }
+        else { try{ fireConfetti(); }catch(e){} setTimeout(function(){ window.cycShowWinScreen(champ); }, 650); }
         return;
     }
     window.__cycPostCrownShare = true;
@@ -5183,7 +5182,13 @@ updateProgress();
 /* Item 6 — mobile one-screen post-submit flow (DMB mobile only). Reversible: remove this block + the script + the mobile branch in submitAndCrown. */
 .cyc-win { display:none; }
 @media (max-width:1080px){
-  .cyc-win { position:fixed; inset:0; z-index:99990; display:none;
+  /* Fix dead links: the modals the win screen opens (share 200, concert 300, all-brackets 3000, vote 3000, quiz 4000)
+   were rendering BEHIND the win screen (99990). Raise them above it on mobile so they actually appear. */
+@media (max-width:1080px){
+  #shareModal.modal-overlay, #concertModal.concert-modal-overlay,
+  #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop { z-index:100040 !important; }
+}
+.cyc-win { position:fixed; inset:0; z-index:99990; display:none;
     background:radial-gradient(120% 80% at 50% 0%, #1a1305 0%, #0b0a07 55%, #060507 100%);
     overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .cyc-win.open { display:block; }
@@ -5197,8 +5202,10 @@ updateProgress();
   .cyc-win .cw-kicker { font-family:'Bebas Neue',sans-serif; letter-spacing:5px; font-size:13px; color:#caa14a; margin-top:8px; }
   .cyc-win .cw-champ { font-family:'Bebas Neue',sans-serif; letter-spacing:1.5px; font-size:clamp(30px,8.5vw,46px); line-height:1.04;
     color:#f7d774; text-shadow:0 2px 22px rgba(240,165,0,.35); margin-top:2px; }
-  .cyc-win .cw-hot { font-family:'Barlow Condensed','Bebas Neue',sans-serif; font-weight:700; letter-spacing:.04em;
-    font-size:16px; color:#ffd866; margin-top:10px; min-height:18px; }
+  .cyc-win .cw-hot { font-family:'Barlow Condensed','Bebas Neue',sans-serif; font-weight:800; letter-spacing:.03em;
+    font-size:22px; line-height:1.15; color:#ffd866; margin-top:14px; min-height:24px; }
+  .cyc-win .cw-hot.has { display:inline-block; padding:7px 15px; border:1px solid rgba(255,216,102,.5);
+    border-radius:999px; background:rgba(255,216,102,.10); text-shadow:0 1px 10px rgba(0,0,0,.4); }
   /* 2 play another (primary) */
   .cyc-win .cw-card { background:rgba(255,255,255,.04); border:1px solid rgba(240,165,0,.30); border-radius:14px; padding:16px 14px; margin-top:14px; }
   .cyc-win .cw-play { border-color:rgba(240,165,0,.55); background:linear-gradient(180deg, rgba(240,165,0,.10), rgba(240,165,0,.03)); }
@@ -5210,6 +5217,13 @@ updateProgress();
   .cyc-win .cw-pick .cw-go { color:#7fb2ff; font-size:18px; }
   .cyc-win .cw-seeall { display:block; width:100%; margin-top:11px; background:transparent; border:none;
     color:#e6b84e; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:.03em; cursor:pointer; padding:6px; }
+  /* 2b tiered cross-sell — quieter "or try something else" row (quiz + album vote) */
+  .cyc-win .cw-altrow { text-align:center; margin-top:11px; color:#8aa0bd; font-family:'Barlow',sans-serif; font-size:13px; line-height:1.9; }
+  .cyc-win .cw-altlbl { color:#7587a0; margin-right:4px; }
+  .cyc-win .cw-altlink { background:none; border:none; padding:0 2px; color:#a9bcd9; font-family:'Barlow Condensed',sans-serif;
+    font-weight:700; font-size:14px; letter-spacing:.02em; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .cyc-win .cw-altlink:active { color:#fff; }
+  .cyc-win .cw-altsep { color:#4a5570; padding:0 3px; }
   /* 3 share (secondary) */
   .cyc-win .cw-row { margin-top:12px; }
   .cyc-win .cw-share { display:block; width:100%; background:transparent; border:1px solid var(--dmb-gold); border-radius:11px;
@@ -5242,6 +5256,12 @@ updateProgress();
       <div class="cw-h">&#127926; Play another bracket</div>
       <div class="cw-picks" id="cwPicks"></div>
       <button class="cw-seeall" id="cwSeeAll">See all brackets &rarr;</button>
+    </div>
+    <div class="cw-altrow">
+      <span class="cw-altlbl">or try something else:</span>
+      <button class="cw-altlink" id="cwQuiz" type="button">&#127919; Take the Quiz</button>
+      <span class="cw-altsep">&middot;</span>
+      <button class="cw-altlink" id="cwVote" type="button">&#128191; Vote: Best Album</button>
     </div>
     <div class="cw-row">
       <button class="cw-share" id="cwShare">&#128228; Share / save your bracket</button>
@@ -5290,6 +5310,11 @@ updateProgress();
       cc.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault();
         try{ var c=((document.getElementById('champion')||{}).innerText||'').trim(); if(window.openConcertModal) openConcertModal(c); }catch(_){} };
     }
+    // tiered cross-sell: quiz + album vote (quieter than play-another). Open over the win screen (z-index fixed in CSS).
+    var qz=$('cwQuiz'); if(qz) qz.onclick=function(){ try{ if(window.cycEvt) cycEvt('winscreen_quiz_click',{band:'dmb'}); }catch(e){}
+      if(window.cycOpenQuiz){ try{ cycOpenQuiz(); return; }catch(e){} } location.href='quiz.html'; };
+    var vt=$('cwVote'); if(vt) vt.onclick=function(){ try{ if(window.cycEvt) cycEvt('winscreen_vote_click',{band:'dmb'}); }catch(e){}
+      if(window.cycOpenBestAlbum){ try{ cycOpenBestAlbum(); return; }catch(e){} } location.href='#bestalbum'; };
     // close
     var x=$('cwX'); if(x) x.onclick=hide;
   }
@@ -5311,13 +5336,37 @@ updateProgress();
     wire();
     var c=(champ||((document.getElementById('champion')||{}).innerText||'')).trim();
     var ce=$('cwChamp'); if(ce) ce.textContent=c||'—';
-    var hot=$('cwHot'); if(hot){ hot.textContent='';
+    var hot=$('cwHot'); if(hot){ hot.textContent=''; hot.classList.remove('has');
       try{ if(window.cycCrowdRead && c){ window.cycCrowdRead(c,function(res){
-        if(!res||!res.show){ hot.textContent=''; return; }
-        hot.textContent = res.kind==='fav' ? ('👑 You’re with '+res.pct+'% of fans') : ('🔥 Hot take — only '+res.pct+'% of fans agree'); }); } }catch(e){}
+        if(!res||!res.show){ hot.textContent=''; hot.classList.remove('has'); return; }
+        hot.textContent = res.kind==='fav' ? ('👑 You’re with '+res.pct+'% of fans') : ('🔥 Only '+res.pct+'% of fans agree');
+        hot.classList.add('has'); }); } }catch(e){}
     }
     ov.scrollTop=0;
     ov.classList.add('open'); document.body.style.overflow='hidden';
+  };
+  /* Read-paced, tap-to-skip celebration intro: confetti + slogan show-closer, THEN settle into the win screen.
+     Auto-advances at ~4.8s (long enough to read the longest slogan) but a tap anywhere advances early. */
+  window.cycMobileCelebrate=function(champ, done){
+    try{ if(window.fireConfetti) fireConfetti(); }catch(e){}
+    try{ if(window.playFanfare) playFanfare(); }catch(e){}
+    var t=document.getElementById('celebrateText');
+    try{ var ec=document.getElementById('ctChamp'); if(ec) ec.innerHTML = champ ? ('<img src="crown.png" alt=""> '+champ+' <img src="crown.png" alt="">') : ''; }catch(_){}
+    if(t){ t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); }
+    var cap=document.createElement('div'); cap.id='cycCelebCatch';
+    cap.style.cssText='position:fixed;inset:0;z-index:100060;background:radial-gradient(120% 90% at 50% 40%, rgba(10,8,4,.78), rgba(5,5,8,.95));cursor:pointer;';
+    var hint=document.createElement('div'); hint.textContent='tap to continue';
+    hint.style.cssText='position:fixed;left:0;right:0;bottom:40px;text-align:center;z-index:100061;color:rgba(255,255,255,.66);font-family:\'Barlow Condensed\',sans-serif;letter-spacing:.14em;text-transform:uppercase;font-size:13px;pointer-events:none;opacity:0;transition:opacity .6s ease;';
+    document.body.appendChild(cap); document.body.appendChild(hint);
+    setTimeout(function(){ hint.style.opacity='1'; }, 1300);
+    var fin=false, tm;
+    function finish(){ if(fin) return; fin=true; try{clearTimeout(tm);}catch(e){}
+      if(t) t.classList.remove('show');
+      try{ cap.remove(); }catch(e){} try{ hint.remove(); }catch(e){}
+      if(done) done();
+    }
+    cap.addEventListener('click', finish);
+    tm=setTimeout(finish, 4800);
   };
 })();
 </script>
