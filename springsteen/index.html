@@ -1875,18 +1875,6 @@
 
 
 <footer class="site-footer">
-    <div class="modes-title">How the Auto-Fill Modes Work</div>
-    <div class="fm-list">
-        <div class="fm-item"><strong>📊 Most Streamed</strong> — the most-streamed songs on Spotify advance.</div>
-        <div class="fm-item"><strong>🎤 Most Played Live</strong> — the songs played most in concert advance.</div>
-        <div class="fm-item"><strong>🌟 Highest Seed</strong> — our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
-        <div class="fm-item"><strong>🏆 Crowd's Picks</strong> — every matchup decided by what fans actually vote.</div>
-        <div class="fm-item"><strong>🎵 My Concert</strong> — search a show you attended; we fill your bracket from that night's real setlist and light it up across the board.</div>
-        <div class="fm-item"><strong>❤️ Your Favorites</strong> — your top 5 songs, seeded #1 to defend their crown.</div>
-        <div class="fm-item"><strong>🔥 Controversy</strong> — underdogs win every round-1 matchup, then chaos takes over (a different bracket every time).</div>
-        <div class="fm-item"><strong>🎲 Random</strong> — a completely random bracket, every time.</div>
-    </div>
-    
     <div class="credits-line">Crown Your Champion is a fan project, not affiliated with or endorsed by Bruce Springsteen.</div>
     <div class="credits-line"><a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
 </footer>
@@ -2005,12 +1993,43 @@
 <div class="modal-overlay" id="howtoModal" onclick="if(event.target===this)closeHowto()">
     <div class="modal howto-modal">
         <h2>How to Play</h2>
+        <div class="howto-desktop">
         <div class="howto-steps">
             <p><strong>1. Pick your way to a champion.</strong> Tap a song in each matchup to advance it. The part most people miss: the center Championship box stays locked until you work through the four regions — fill those out and the Final Four (then the final) unlock in the middle. Crown your winner there.</p>
             <p><strong>2. Forget or don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
-            <p><strong>3. Want a head start?</strong> Tap an auto-fill button up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
+            <p><strong>3. Want a head start?</strong> Tap an Auto-Fill button up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
         </div>
-        <div class="howto-legend-title">Auto-fill modes</div>
+        <div class="howto-legend-title">Auto-Fill modes</div>
+        <div class="fm-list howto-list">
+            <div class="fm-item"><strong>&#128202; Most Streamed</strong> &mdash; the most-streamed songs on Spotify advance.</div>
+            <div class="fm-item"><strong>&#127908; Most Played Live</strong> &mdash; the songs played most in concert advance.</div>
+            <div class="fm-item"><strong>&#127775; Highest Seed</strong> &mdash; our seeding: streams &amp; live plays, weighted for what matters most to fans.</div>
+            <div class="fm-item"><strong>&#127942; Crowd's Picks</strong> &mdash; every matchup decided by what fans actually vote.</div>
+            <div class="fm-item"><strong>&#127925; My Concert</strong> &mdash; search a show you attended; we fill your bracket from that night's real setlist and light it up across the board.</div>
+            <div class="fm-item"><strong>&#10084;&#65039; Your Favorites</strong> &mdash; your top 5 songs, seeded #1 to defend their crown.</div>
+            <div class="fm-item"><strong>&#128293; Controversy</strong> &mdash; underdogs win every round-1 matchup, then chaos takes over (a different bracket every time).</div>
+            <div class="fm-item"><strong>&#127922; Random</strong> &mdash; a completely random bracket, every time.</div>
+        </div>
+        </div>
+        <div class="howto-mobile">
+        <div class="howto-steps">
+            <p><strong>1. Pick a winner in every matchup.</strong> Tap the song you like better. Do that through all four regions &mdash; <span id="howtoRegions">the four regions</span> &mdash; and each region crowns a winner.</p>
+            <p><strong>2. Then hit the Finals tab to crown your champion.</strong> Your four region winners meet there &mdash; pick your way through the Final Four and the final, and lock in the one song that wins it all. That's the finish line.</p>
+            <p><strong>3. Don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
+            <p><strong>4. Want a head start?</strong> Tap Auto-Fill up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
+        </div>
+        <button class="btn btn-howto-modes" id="howtoModesBtn" onclick="openAutofillModes();">How Auto-Fill works &#9656;</button>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-copy" onclick="closeHowto()">Got it</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="autofillModesModal" style="z-index:1200" onclick="if(event.target===this)closeAutofillModes()">
+    <div class="modal howto-modal">
+        <h2>How Auto-Fill Works</h2>
+        <p style="margin:0 0 12px;color:var(--dmb-muted);font-size:14px;">Pick a mode and we fill the whole bracket instantly &mdash; then change anything you want.</p>
         <div class="fm-list howto-list">
             <div class="fm-item"><strong>&#128202; Most Streamed</strong> &mdash; the most-streamed songs on Spotify advance.</div>
             <div class="fm-item"><strong>&#127908; Most Played Live</strong> &mdash; the songs played most in concert advance.</div>
@@ -2022,7 +2041,7 @@
             <div class="fm-item"><strong>&#127922; Random</strong> &mdash; a completely random bracket, every time.</div>
         </div>
         <div class="modal-actions">
-            <button class="btn btn-copy" onclick="closeHowto()">Got it</button>
+            <button class="btn btn-copy" onclick="closeAutofillModes()">Got it</button>
         </div>
     </div>
 </div>
@@ -5241,6 +5260,21 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
 })();
 </script>
 <!-- ===== /CYC MOBILE TREATMENT ===== -->
+
+<style id="cyc-howto-parity">
+.howto-mobile{ display:none; }
+@media (max-width:1080px){ .howto-modal .howto-desktop{ display:none; } .howto-modal .howto-mobile{ display:block; } }
+.btn-howto-modes{ background:transparent; border:1px solid rgba(197,160,89,.55); color:var(--dmb-gold); border-radius:8px; padding:10px 15px; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.5px; text-transform:uppercase; font-size:13.5px; cursor:pointer; margin-top:4px; }
+</style>
+<script>
+/* How-to-Play parity (matches DMB): auto-fill modes popup + dynamic region names. */
+window.openAutofillModes=function(){ var m=document.getElementById('autofillModesModal'); if(m) m.classList.add('open'); };
+window.closeAutofillModes=function(){ var m=document.getElementById('autofillModesModal'); if(m) m.classList.remove('open'); };
+(function(){
+  function fill(){ var hs=document.querySelectorAll('.region-card .region-header'); var names=[]; for(var i=0;i<hs.length;i++){ var n=hs[i].childNodes[0]; var t=((n&&n.textContent)||hs[i].textContent||'').trim(); if(t) names.push(t); if(names.length>=4) break; } var el=document.getElementById('howtoRegions'); if(el && names.length>=2) el.textContent=names.join(', '); }
+  if(document.readyState!=='loading') fill(); else document.addEventListener('DOMContentLoaded', fill);
+})();
+</script>
 
 </body>
 </html>
