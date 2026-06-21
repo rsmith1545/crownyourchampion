@@ -385,7 +385,10 @@
       <h1>Settle The Debate</h1>
       <div class="subline">Build a 64-song bracket and crown your favorite band's greatest song — then see how your picks stack up against the crowd.</div>
       <div class="fan-note">Made by a fan, for fans. No affiliation, just love for the music.</div>
-      <a class="hero-cta" href="#" id="heroBracketOpen">🏆 Pick Your Tournament</a>
+      <div class="hero-cta-row">
+        <a class="hero-cta" href="#" id="heroBracketOpen">🏆 Pick Your Tournament</a>
+        <a class="hero-share" href="#" id="heroShareOpen" onclick="cycShareSite(event)">Share this site ↗</a>
+      </div>
     </header>
 
     <!-- 3-BOX NAV: PLAY / EXPLORE / SHAPE -->
@@ -1233,6 +1236,23 @@
   function init(){ var p=el('quizPop'),x=el('quizPopX'); if(x)x.addEventListener('click',window.cycCloseQuiz); if(p)p.addEventListener('click',function(e){if(e.target===p)window.cycCloseQuiz();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p&&!p.hidden)window.cycCloseQuiz();}); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
 })();
+</script>
+
+<style id="cyc-hero-share-css">
+.hero-cta-row{ display:inline-flex; align-items:center; justify-content:center; gap:18px; margin-top:20px; flex-wrap:wrap; }
+.hero-cta-row .hero-cta{ margin-top:0; }
+.hero-share{ color:#cbb877; text-decoration:none; font-weight:600; font-size:13px; letter-spacing:.05em; text-transform:uppercase; border-bottom:1px solid rgba(240,165,0,.45); padding-bottom:1px; white-space:nowrap; }
+.hero-share:hover{ color:#f0c75e; }
+@media (max-width:600px){ .hero-cta-row{ flex-direction:column; gap:12px; } }
+</style>
+<script>
+function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
+  var url='https://crownyourchampion.com/';
+  var data={title:'Crown Your Champion', text:'Settle the debate \u2014 build a 64-song bracket and crown your favorite band\u2019s greatest song.', url:url};
+  try{ if(navigator.share){ navigator.share(data).catch(function(){}); return; } }catch(_){}
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(function(){ alert('Link copied \u2014 paste it anywhere to share:\n'+url); }).catch(function(){ window.prompt('Copy this link to share:', url); }); return; } }catch(_){}
+  window.prompt('Copy this link to share:', url);
+}
 </script>
 </body>
 </html>
