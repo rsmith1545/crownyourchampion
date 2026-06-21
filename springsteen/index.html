@@ -5276,5 +5276,93 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 
+<style id="cyc-dmb-mobchrome">
+#cycMobNav, #cycMobToolsWrap, #cycMobTagline { display:none; }
+@media (max-width:1080px){
+  .site-header .header-actions { display:none !important; }
+  .site-header .header-tagline, .site-header .subtitle { display:none !important; }
+  .sticky-bar .progress-bar-wrap { display:none !important; }
+  .sticky-bar .mode-bar, .sticky-bar .era-selector { display:none !important; }
+  .sticky-bar { padding:0 !important; background:transparent !important; border:0 !important; min-height:0 !important; }
+  /* logo + hero share ONE background (the header itself); header's 3px gold border sits under the hero */
+  .site-header { position:relative; flex-wrap:wrap; padding:10px 14px 9px; }
+  .site-header .header-left { min-width:0; }
+  .site-header .brand-h1 { margin:0; line-height:0; }
+  #cycMobSignup { flex:0 0 auto; align-self:flex-start; display:inline-flex; align-items:center; gap:3px; background:none; border:none; padding:0; margin:1px 0 0;
+    color:#6fa3e0; font:600 12px system-ui,-apple-system,sans-serif; letter-spacing:.2px; line-height:1.1; opacity:.9; cursor:pointer; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
+  #cycMobSignup .su-bell { font-size:13px; line-height:1; }
+  .site-header #cycMobTagline { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex:1 0 100%; margin:3px 0 0; line-height:1.22; }
+  #cycMobTagline .tg-text { min-width:0; white-space:nowrap; overflow:hidden; }
+  #cycMobTagline .tg-lead { font-size:clamp(11px,3.5vw,17px); font-style:italic; letter-spacing:.5px; color:var(--dmb-gold); }
+  #cycMobTagline .tg-stats { font-size:clamp(9.5px,2.95vw,14px); letter-spacing:.8px; color:var(--dmb-muted); }
+  /* shaded nav band */
+  #cycMobNav { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:9px 13px;
+    background:var(--dmb-panel); border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid var(--dmb-border); }
+  #cycMobNav .mn-item { font-family:'Barlow Condensed',sans-serif; font-weight:400; font-size:15px; letter-spacing:.4px; color:#c3ccdb; cursor:pointer; -webkit-tap-highlight-color:transparent; white-space:nowrap; }
+  #cycMobNav .mn-item.mn-active { font-weight:700; }
+  #cycMobNav .mn-sep { color:#39414f; }
+  /* yellow line + shaded tool band; chips on ONE row, never wrap (scroll if needed) */
+  #cycMobToolsWrap { display:block; }
+  #cycMobDiv { height:2px; background:linear-gradient(90deg, transparent, var(--dmb-gold), transparent); opacity:.6; }
+  #cycMobToolBand { background:var(--dmb-panel); border-bottom:1px solid var(--dmb-border); padding:8px 13px; }
+  #cycMobTools { display:flex; gap:7px; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  #cycMobTools::-webkit-scrollbar { display:none; }
+  .mt-chip { flex:0 0 auto; white-space:nowrap; background:rgba(255,255,255,.05); border:1px solid rgba(197,160,89,.5); color:#d6deea;
+    border-radius:16px; padding:7px 11px; font:700 12px 'Barlow Condensed',sans-serif; letter-spacing:.4px; text-transform:uppercase; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .mt-chip.mt-on { border-color:var(--dmb-gold); color:var(--dmb-gold); background:rgba(240,165,0,.12); }
+  .mt-chip.mt-reset { border-color:rgba(255,255,255,.2); color:#9aa7bd; }
+  #cycMobModes { display:flex; flex-wrap:wrap; gap:6px; padding:8px 0 2px; }
+  #cycMobModes[hidden] { display:none; }
+  #cycMobModes .mode-btn { flex:0 0 auto; font-size:12px; padding:7px 10px; }
+}
+</style>
+<script>
+/* cycMobileChrome (DMB) — mobile-only top stack. Desktop untouched. */
+(function(){
+  if(window.__cycMobChrome) return; window.__cycMobChrome=1;
+  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function wire(id,fn){ var el=document.getElementById(id); if(el) el.onclick=function(){ try{fn();}catch(e){} }; }
+  function build(){
+    if(document.getElementById('cycMobNav')) return;
+    var header=document.querySelector('.site-header'), sticky=document.querySelector('.sticky-bar'), grid=document.querySelector('.master-grid');
+    if(!header||!grid) return;
+    if(!document.getElementById('cycMobTagline')){
+      var tag=document.createElement('div'); tag.id='cycMobTagline';
+      tag.innerHTML='<span class="tg-text"><span class="tg-lead">Settle the debate: </span><span class="tg-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span></span>'+
+        '<button id="cycMobSignup" type="button"><span class="su-bell">&#128276;</span> Sign Up</button>';
+      header.appendChild(tag);
+      var su=tag.querySelector('#cycMobSignup'); if(su) su.onclick=function(){ try{openHubSignup();}catch(e){} };
+    }
+    var ref=sticky||grid, P=ref.parentNode;
+    var nav=document.createElement('nav'); nav.id='cycMobNav';
+    nav.innerHTML='<a class="mn-item mn-active" id="mnBrackets">&#128451; All Brackets</a><span class="mn-sep">&middot;</span>'+
+      '<a class="mn-item" id="mnAlbum">&#128191; Vote: Best Album</a><span class="mn-sep">&middot;</span>'+
+      '<a class="mn-item" id="mnQuiz">&#127919; Superfan Quiz</a>';
+    var tools=document.createElement('div'); tools.id='cycMobToolsWrap';
+    tools.innerHTML='<div id="cycMobDiv"></div><div id="cycMobToolBand">'+
+      '<div id="cycMobTools"><button class="mt-chip" id="mtHowto">&#10067; How to Play</button>'+
+      '<button class="mt-chip" id="mtAuto">&#9889; Auto-Fill</button>'+
+      '<button class="mt-chip" id="mtShare">Share &#8599;</button>'+
+      '<button class="mt-chip mt-reset" id="mtReset">&#8634; Reset</button></div>'+
+      '<div id="cycMobModes" hidden></div></div>';
+    P.insertBefore(nav, ref); P.insertBefore(tools, ref);
+    wire('mnBrackets', function(){ cycOpenAllBrackets(); });
+    wire('mnAlbum', function(){ cycOpenBestAlbum(); });
+    wire('mnQuiz', function(){ cycOpenQuiz(); });
+    wire('mtHowto', function(){ openHowto(); });
+    wire('mtShare', function(){ openShare(); });
+    wire('mtReset', function(){ confirmReset(); });
+    var panel=tools.querySelector('#cycMobModes');
+    var srcb=document.querySelectorAll('.mode-bar .mode-btns .mode-btn');
+    for(var i=0;i<srcb.length;i++) panel.appendChild(srcb[i].cloneNode(true));
+    var auto=tools.querySelector('#mtAuto');
+    auto.onclick=function(){ if(panel.hasAttribute('hidden')){ panel.removeAttribute('hidden'); auto.classList.add('mt-on'); } else { panel.setAttribute('hidden',''); auto.classList.remove('mt-on'); } };
+    panel.addEventListener('click', function(e){ if(e.target.closest('.mode-btn')){ panel.setAttribute('hidden',''); auto.classList.remove('mt-on'); } });
+  }
+  function apply(){ if(mobile()) build(); }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('resize', apply);
+})();
+</script>
 </body>
 </html>
