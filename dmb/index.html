@@ -814,12 +814,14 @@
             .crown-btn.ready { animation: none !important; box-shadow: 0 4px 16px rgba(34,197,94,.40) !important; }
             /* Post-submit: the crowned button is a SETTLED state + re-entry to the post-submit screen (not a live CTA). */
             .crown-btn.cyc-crowned {
-                background: linear-gradient(135deg,#10331c,#0c2616) !important;
-                color: #d3ead9 !important; border: 1px solid #2f8f57 !important;
-                opacity: 1 !important; cursor: pointer !important; box-shadow: none !important; animation: none !important;
+                background: linear-gradient(135deg,#1ba84f,#13863f) !important;   /* brighter, saturated green so it reads as tappable */
+                color: #ffffff !important; border: 1px solid #4adf86 !important;
+                opacity: 1 !important; cursor: pointer !important;
+                box-shadow: 0 3px 16px rgba(40,200,100,.42) !important;          /* gentle glow the calm champion box doesn't have */
+                animation: none !important;
                 font-size: 19px !important; letter-spacing: 1.5px !important;
             }
-            .crown-btn.cyc-crowned:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(47,143,87,.35) !important; }
+            .crown-btn.cyc-crowned:hover { transform: translateY(-1px); box-shadow: 0 5px 20px rgba(40,200,100,.6) !important; }
             .crown-btn.ready:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 6px 22px rgba(34,197,94,.6) !important; }
             /* Demote the Share-Your-Bracket button (was solid gold, competing with green) to a gold-outline ghost. */
             #cycMobShare.btn-share {
