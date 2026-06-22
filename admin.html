@@ -101,10 +101,10 @@
         <tbody></tbody>
       </table>
 
-      <h2>All bracket submissions <button class="btn-sm" id="csvBrackets" style="margin-left:8px">export CSV</button> <button class="btn-sm" id="csvPicks" style="margin-left:8px">export every pick</button></h2>
+      <h2>All bracket submissions <button class="btn-sm" id="delAllTest" style="margin-left:8px;color:#e88">&#128465; delete test/my subs</button> <button class="btn-sm" id="csvBrackets" style="margin-left:8px">export CSV</button> <button class="btn-sm" id="csvPicks" style="margin-left:8px">export every pick</button></h2>
       <div class="muted" style="font-size:12.5px;margin-bottom:8px">Newest first. Showing champion + final four; full picks are in the CSV.</div>
       <table id="subTable">
-        <thead><tr><th>Band</th><th>Champion</th><th>Final Four</th><th>Email</th><th>When</th></tr></thead>
+        <thead><tr><th>Band</th><th>Champion</th><th>Final Four</th><th>Email</th><th>When</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -113,7 +113,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const ADMIN_EMAIL = "rsmith1545@gmail.com";
 const firebaseConfig = {
@@ -184,6 +184,28 @@ document.getElementById("login").onclick = () => {
 document.getElementById("logout").onclick = () => signOut(auth);
 document.getElementById("reload").onclick = () => loadAll();
 document.getElementById("hideTest").onclick = () => loadAll();
+document.getElementById("delAllTest").onclick = () => cycDeleteAllTest();
+window.cycDeleteSub = async function(col,id,btn){
+  if(!col||!id){ alert('Missing document reference'); return; }
+  if(!confirm('Delete this submission permanently? This cannot be undone.')) return;
+  try{ await deleteDoc(doc(db,col,id)); if(btn){ const tr=btn.closest('tr'); if(tr){ tr.style.opacity=.4; tr.querySelector('td:last-child').textContent='deleted'; } } }
+  catch(e){ alert('Delete failed: '+(e.code||'')+' '+e.message+'\n\nIf this is a permissions error, your Firestore rules don\'t allow client deletes — delete in the Firebase console instead, or add an admin delete rule.'); }
+};
+window.cycDeleteAllTest = async function(){
+  let targets=[];
+  for (const [name, brCol] of BANDS){
+    try { const snap = await getDocs(collection(db, brCol));
+      snap.forEach(d=>{ if(isTestSub(d.data())) targets.push([brCol, d.id]); });
+    } catch(e){ console.warn(brCol, e.message); }
+  }
+  if(!targets.length){ alert('No test / your-email submissions found to delete.'); return; }
+  if(!confirm('Delete '+targets.length+' test / your-email bracket submission(s) across all bands? This cannot be undone.')) return;
+  let ok=0, fail=0, firstErr='';
+  for(const [c,id] of targets){ try{ await deleteDoc(doc(db,c,id)); ok++; }catch(e){ fail++; if(!firstErr) firstErr=(e.code||'')+' '+e.message; } }
+  alert('Deleted '+ok+' submission(s).'+(fail?(' '+fail+' failed: '+firstErr+'\n(Permissions error? Use the Firebase console or add an admin delete rule.)'):''));
+  loadAll();
+};
+
 
 onAuthStateChanged(auth, user => {
   if (user && user.email === ADMIN_EMAIL) {
@@ -216,7 +238,7 @@ async function loadAll(){
   for (const [name, brCol, lbCol] of BANDS){
     let count=0, champs=[], starts=0;
     try { const snap = await getDocs(collection(db, brCol));
-      snap.forEach(d=>{ const v=d.data(); if(hideTestOn() && isTestSub(v)) return; count++; allSubs.push({band:name, ...v}); });
+      snap.forEach(d=>{ const v=d.data(); if(hideTestOn() && isTestSub(v)) return; count++; allSubs.push({band:name, __col:brCol, __id:d.id, ...v}); });
     } catch(e){ console.warn(brCol, e.message); }
     try { const snap = await getDocs(collection(db, lbCol));
       snap.forEach(d=>{ const v=d.data()||{};
@@ -347,8 +369,8 @@ async function loadAll(){
   renderEmails();
   document.querySelector("#subTable tbody").innerHTML = allSubs.slice(0,300).map(s=>{
     const ff = ffStr(s.final_four);
-    return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td></tr>`;
-  }).join("") || '<tr><td class="muted" colspan="5">No submissions yet</td></tr>';
+    return `<tr><td>${esc(s.band)}</td><td>${esc(s.champion||'')}</td><td class="muted">${esc(ff)}</td><td class="muted">${esc(s.email||'')}</td><td class="muted">${fmt(s.completed_at)}</td><td>${s.__col&&s.__id?`<button class="btn-sm" title="Delete this submission" onclick="cycDeleteSub('${s.__col}','${s.__id}',this)">&#128465;</button>`:''}</td></tr>`;
+  }).join("") || '<tr><td class="muted" colspan="6">No submissions yet</td></tr>';
 
   $("loading").style.display="none"; $("content").style.display="block";
 }
