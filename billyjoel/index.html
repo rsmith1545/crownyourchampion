@@ -163,7 +163,7 @@
 
         // Save a completed bracket, then bump the crowned champion's tally
                 // lightweight per-band/per-day START counter (first pick) -> funnel. Stored in the leaderboard collection as a non-champion __starts__ doc (client-writable; readers ignore non-name docs).
-        window.cycStartWrite = function(){ try{ var day=new Date().toISOString().slice(0,10); setDoc(doc(db, "bj_leaderboard", "cyc_starts"), { starts: { [day]: increment(1) } }, { merge:true }); }catch(e){} };
+        window.cycStartWrite = function(){ if(window.__cycTester) return; try{ var day=new Date().toISOString().slice(0,10); setDoc(doc(db, "bj_leaderboard", "cyc_starts"), { starts: { [day]: increment(1) } }, { merge:true }); }catch(e){} };
 
         window.saveToFirebase = async function(email, bracketData, consent) {
             try {
@@ -171,6 +171,7 @@
                     email:      email,
                     consent:    !!consent,
                     consent_at: consent ? serverTimestamp() : null,
+                    test:       !!window.__cycTester,
                     champion:   bracketData.champion,
                     gorge_winner:      bracketData.gorge,
                     westpalm_winner:   bracketData.westpalm,
@@ -180,6 +181,7 @@
                     all_picks:         bracketData.allPicks,
                     completed_at:      serverTimestamp()
                 });
+                if (window.__cycTester) { try{ if(window.loadLeaderboard) window.loadLeaderboard(); }catch(e){} return { success: true }; }
                 const champ = (bracketData.champion || '').trim();
                 if (champ && champ !== '\u2014' && champ !== '-' && champ !== '---') {
                     try {
@@ -5365,6 +5367,16 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
   window.addEventListener('resize', apply);
 })();
+</script>
+<script>
+/* cyc tester mode — visit any bracket with ?test=1 to tag THIS browser's submissions test:true (and skip live stats). ?test=0 to clear. */
+(function(){ try{
+  var u=new URLSearchParams(location.search);
+  if(u.get('test')==='1'){ localStorage.setItem('cyc_tester','1'); }
+  else if(u.get('test')==='0'){ localStorage.removeItem('cyc_tester'); }
+  window.__cycTester = localStorage.getItem('cyc_tester')==='1';
+  if(window.__cycTester){ try{ console.log('%c[cyc] TESTER MODE ON — your bracket submissions are tagged test:true and excluded from live stats.','color:#e8761b;font-weight:700'); }catch(e){} }
+}catch(e){} })();
 </script>
 </body>
 </html>

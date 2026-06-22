@@ -51,6 +51,7 @@
     <div class="topbar">
       <div class="who" id="who"></div>
       <div>
+        <label class="muted" style="font-size:12.5px;text-transform:none;letter-spacing:0;margin:0 10px"><input type="checkbox" id="hideTest" checked> hide test / my submissions</label>
         <button class="btn-sm" id="reload">&#8635; Reload</button>
         <button class="btn-sm" id="logout">Sign out</button>
       </div>
@@ -164,6 +165,9 @@ const POLLS = [
 
 const $ = id => document.getElementById(id);
 let allSubs = [], allSignups = [];
+const CYC_TEST_EMAILS = new Set(["rsmith1545@gmail.com","crownyourchampion@gmail.com"]);
+function isTestSub(v){ return !!v && (v.test===true || CYC_TEST_EMAILS.has(String(v.email||'').trim().toLowerCase())); }
+function hideTestOn(){ const c=document.getElementById('hideTest'); return !c || c.checked; }
 
 document.getElementById("login").onclick = () => {
   const g=document.getElementById("gatemsg"); if(g) g.textContent="";
@@ -179,6 +183,7 @@ document.getElementById("login").onclick = () => {
 };
 document.getElementById("logout").onclick = () => signOut(auth);
 document.getElementById("reload").onclick = () => loadAll();
+document.getElementById("hideTest").onclick = () => loadAll();
 
 onAuthStateChanged(auth, user => {
   if (user && user.email === ADMIN_EMAIL) {
@@ -211,7 +216,7 @@ async function loadAll(){
   for (const [name, brCol, lbCol] of BANDS){
     let count=0, champs=[], starts=0;
     try { const snap = await getDocs(collection(db, brCol));
-      snap.forEach(d=>{ const v=d.data(); count++; allSubs.push({band:name, ...v}); });
+      snap.forEach(d=>{ const v=d.data(); if(hideTestOn() && isTestSub(v)) return; count++; allSubs.push({band:name, ...v}); });
     } catch(e){ console.warn(brCol, e.message); }
     try { const snap = await getDocs(collection(db, lbCol));
       snap.forEach(d=>{ const v=d.data()||{};
