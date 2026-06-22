@@ -111,7 +111,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const ADMIN_EMAIL = "rsmith1545@gmail.com";
@@ -165,7 +165,18 @@ const POLLS = [
 const $ = id => document.getElementById(id);
 let allSubs = [], allSignups = [];
 
-document.getElementById("login").onclick = () => signInWithRedirect(auth, new GoogleAuthProvider());
+document.getElementById("login").onclick = () => {
+  const g=document.getElementById("gatemsg"); if(g) g.textContent="";
+  const provider=new GoogleAuthProvider();
+  signInWithPopup(auth, provider).catch(e=>{
+    // Popup blocked or unsupported -> fall back to redirect; otherwise show the real error code.
+    if(e && (e.code==="auth/popup-blocked" || e.code==="auth/operation-not-supported-in-this-environment" || e.code==="auth/cancelled-popup-request")){
+      signInWithRedirect(auth, provider).catch(err=>{ if(g) g.innerHTML='<span class="err">'+(err.code||"")+' — '+err.message+'</span>'; });
+    } else if(e && e.code!=="auth/popup-closed-by-user"){
+      if(g) g.innerHTML='<span class="err">'+(e.code||"")+' — '+e.message+'</span>';
+    }
+  });
+};
 document.getElementById("logout").onclick = () => signOut(auth);
 document.getElementById("reload").onclick = () => loadAll();
 
