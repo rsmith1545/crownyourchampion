@@ -5559,28 +5559,34 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     try{ new MutationObserver(sched).observe(document.querySelector('.master-grid')||document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']}); }catch(e){}
     setInterval(refresh,1200);
 
-    /* ===== Scope B — Submit & Crown reveal (web) ===== */
+    /* ===== Scope B — Submit & Crown reveal (web) =====
+       Crowned == user clicked Submit & Crown (persisted per band). NOT merely "champion picked"
+       (auto-fill / picking a finalist sets the champ banner but is NOT a crown). */
     var slot=document.querySelector('.finals-card .champion-slot');
-    var crownBtn=document.getElementById('crownBtn');
-    if(slot && crownBtn && crownBtn.parentNode){ crownBtn.parentNode.insertBefore(slot, crownBtn.nextSibling); } /* B3: move green box below button */
+    var crownBtn0=document.getElementById('crownBtn');
+    if(slot && crownBtn0 && crownBtn0.parentNode){ crownBtn0.parentNode.insertBefore(slot, crownBtn0.nextSibling); } /* B3: green box below the button */
+    function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+    var CKEY='cyc-crowned-'+slug();
     function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---')?v:''; }
-    function styleCrownBtn(){
-      if(!desk()) return; var btn=document.getElementById('crownBtn'); if(!btn) return;
-      if(document.body.classList.contains('cyc-web-crowned')){
-        btn.classList.add('cyc-wcrowned'); btn.classList.remove('ready'); btn.innerHTML='👑 Crowned'; return;
-      }
+    function crownedFlag(){ try{ return localStorage.getItem(CKEY)==='1'; }catch(e){ return false; } }
+    function isCrowned(){ return crownedFlag() && !!champNow(); }
+    function syncCrownState(){
+      if(!desk()) return;
+      var crowned=isCrowned();
+      document.body.classList.toggle('cyc-web-crowned', crowned);
+      var btn=document.getElementById('crownBtn'); if(!btn) return;
+      if(crowned){ btn.classList.add('cyc-wcrowned'); btn.classList.remove('ready'); btn.innerHTML='👑 Crowned'; return; }
+      btn.classList.remove('cyc-wcrowned');
       var c=champNow();
       if(c && !btn.disabled){ btn.innerHTML='<span class="cb-champ">Your Champion: '+c+'</span><span class="cb-action">👑 Submit &amp; Crown</span>'; }
+      if(crownedFlag() && !c){ try{ localStorage.removeItem(CKEY); }catch(e){} } /* stale flag after reset */
     }
     var _ucb=window.updateCrownButton;
-    window.updateCrownButton=function(){ var r; try{ r=_ucb&&_ucb.apply(this,arguments); }catch(e){} try{ styleCrownBtn(); }catch(e){} return r; };
-    function markCrowned(){ document.body.classList.add('cyc-web-crowned'); try{ styleCrownBtn(); }catch(e){} }
+    window.updateCrownButton=function(){ var r; try{ r=_ucb&&_ucb.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
     var _sc=window.submitAndCrown;
-    window.submitAndCrown=function(){ var r; try{ r=_sc&&_sc.apply(this,arguments); }catch(e){} markCrowned(); return r; };
-    var cbn=document.getElementById('champBanner');
-    if(cbn){ if(cbn.classList.contains('visible')) markCrowned();
-      try{ new MutationObserver(function(){ if(cbn.classList.contains('visible')) markCrowned(); }).observe(cbn,{attributes:true,attributeFilter:['class']}); }catch(e){} }
-    try{ styleCrownBtn(); }catch(e){}
+    window.submitAndCrown=function(){ try{ localStorage.setItem(CKEY,'1'); }catch(e){} var r; try{ r=_sc&&_sc.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
+    syncCrownState();
+    setInterval(syncCrownState,1200);
   }
   function apply(){ if(desk()) build(); }
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
