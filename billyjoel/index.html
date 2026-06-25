@@ -5378,5 +5378,111 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   if(window.__cycTester){ try{ console.log('%c[cyc] TESTER MODE ON — your bracket submissions are tagged test:true and excluded from live stats.','color:#e8761b;font-weight:700'); }catch(e){} }
 }catch(e){} })();
 </script>
+<style id="cycWebHead">
+/* ===== cycWebHeader — WEB ONLY (>=1081px). Mobile (<=1080) untouched. ===== */
+@media (max-width:1080px){
+  #cycWebControls, #cycWebSignup, #cycWebTag { display:none !important; }
+}
+@media (min-width:1081px){
+  /* Row 1 brand bar: drop the old stacked actions + old subtitle/tagline, rebuild */
+  .site-header .header-actions { display:none !important; }
+  .site-header .subtitle, .site-header .header-tagline { display:none !important; }
+  .site-header { align-items:center; }
+  .site-header .header-left { display:flex; align-items:center; gap:18px; flex:1 1 auto; min-width:0; }
+  #cycWebTag { min-width:0; line-height:1.18; max-width:560px; }
+  #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.6px; color:var(--dmb-gold); }
+  #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:16px; letter-spacing:1.1px; text-transform:uppercase; color:var(--dmb-muted); }
+  #cycWebSignup { flex:0 0 auto; align-self:center; display:inline-flex; align-items:center; gap:5px; background:none; border:none; padding:0; margin:0 2px 0 12px;
+     color:#6fa3e0; font:600 14px system-ui,-apple-system,sans-serif; letter-spacing:.2px; cursor:pointer; white-space:nowrap; opacity:.92; transition:opacity .15s,color .15s; }
+  #cycWebSignup:hover { opacity:1; color:#9cc3f2; }
+  #cycWebSignup.signup-done { color:#5fbf6a; cursor:default; opacity:1; }
+  #cycWebSignup .su-bell { font-size:15px; line-height:1; }
+
+  /* Row 2 control cluster: one band, NAV group + visible seam + TOOLS group */
+  #cycWebControls { display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:9px 20px;
+     background:var(--dmb-panel); border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid var(--dmb-border); }
+  #cycWebControls .cwc-nav { display:flex; align-items:center; gap:12px; }
+  #cycWebControls .cwc-nav-item { display:inline-flex; align-items:center; gap:5px; background:none; border:none; cursor:pointer;
+     font-family:'Barlow Condensed',sans-serif; font-weight:400; font-size:16px; letter-spacing:.4px; color:#c3ccdb; white-space:nowrap; padding:2px 0; transition:color .15s; }
+  #cycWebControls .cwc-nav-item:hover { color:#fff; }
+  #cycWebControls .cwc-nsep { color:#39414f; user-select:none; }
+  #cycWebControls .cwc-seam { width:1px; align-self:stretch; min-height:18px; margin:0 4px; background:linear-gradient(180deg,transparent,rgba(255,255,255,.18),transparent); }
+  #cycWebControls .cwc-tools { display:flex; align-items:center; gap:8px; }
+  #cycWebControls .cwc-tool { display:inline-flex; align-items:center; gap:5px; cursor:pointer; white-space:nowrap;
+     background:rgba(255,255,255,.05); border:1px solid rgba(197,160,89,.5); color:#d6deea; border-radius:16px; padding:6px 13px;
+     font:700 12px 'Barlow Condensed',sans-serif; letter-spacing:.6px; text-transform:uppercase; transition:all .15s; }
+  #cycWebControls .cwc-tool:hover { border-color:var(--dmb-gold); color:var(--dmb-gold); }
+  #cycWebControls .cwc-tool.cwc-on { border-color:var(--dmb-gold); color:var(--dmb-gold); background:rgba(240,165,0,.12); }
+  #cycWebControls .cwc-tool.cwc-reset { background:none; border-color:rgba(255,255,255,.16); color:#8d9bb1; }
+  #cycWebControls .cwc-tool.cwc-reset:hover { border-color:var(--dmb-red); color:var(--dmb-red); }
+
+  /* Auto-Fill moved into the cluster -> collapse the desktop mode-bar; expand on demand */
+  .sticky-bar .mode-bar .mode-label { display:none !important; }
+  .sticky-bar .mode-bar .mode-btns { display:none !important; }
+  .sticky-bar .mode-bar.modes-open .mode-btns { display:flex !important; flex-wrap:wrap; gap:7px; }
+  .sticky-bar .mode-bar { padding-top:0 !important; padding-bottom:0 !important; border-bottom:0 !important; }
+  .sticky-bar .mode-bar.modes-open { padding-top:8px !important; padding-bottom:8px !important; border-bottom:1px solid var(--dmb-border) !important; }
+}
+</style>
+<script>
+/* cycWebHeader (desktop >=1081) — restructured web header. Mobile (<=1080) untouched. Reversible: remove this style+script + un-hide old chrome. */
+(function(){
+  if(window.__cycWebHead) return; window.__cycWebHead=1;
+  function desk(){ try{ return window.matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
+  function signedUp(){ try{ return !!localStorage.getItem('cyc-hub-email'); }catch(e){ return false; } }
+  function build(){
+    if(document.getElementById('cycWebControls')) return;
+    var header=document.querySelector('.site-header');
+    var left=header && header.querySelector('.header-left');
+    var sticky=document.getElementById('stickyBar');
+    if(!header||!left||!sticky) return;
+    /* Row 1: tagline beside logo */
+    if(!document.getElementById('cycWebTag')){
+      var tag=document.createElement('div'); tag.id='cycWebTag';
+      tag.innerHTML='<span class="wt-lead">Settle the debate: </span><span class="wt-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span>';
+      left.appendChild(tag);
+    }
+    /* Row 1: light Sign Up, right-anchored */
+    if(!document.getElementById('cycWebSignup')){
+      var su=document.createElement('button'); su.id='cycWebSignup'; su.type='button';
+      if(signedUp()){ su.className='signup-done'; su.textContent='✓ On the list'; su.setAttribute('aria-label','You are already on the email list'); }
+      else { su.innerHTML='<span class="su-bell">&#128276;</span> Sign Up'; su.onclick=function(){ try{ openHubSignup(); }catch(e){} }; }
+      header.appendChild(su);
+    }
+    /* Row 2: control cluster */
+    var ctl=document.createElement('div'); ctl.id='cycWebControls';
+    ctl.innerHTML=
+      '<div class="cwc-nav">'+
+        '<button class="cwc-nav-item" data-act="brackets">&#128451; All Brackets</button>'+
+        '<span class="cwc-nsep">&middot;</span>'+
+        '<button class="cwc-nav-item" data-act="album">&#128191; Vote: Best Album</button>'+
+        '<span class="cwc-nsep">&middot;</span>'+
+        '<button class="cwc-nav-item" data-act="quiz">&#127919; Superfan Quiz</button>'+
+      '</div>'+
+      '<div class="cwc-seam" aria-hidden="true"></div>'+
+      '<div class="cwc-tools">'+
+        '<button class="cwc-tool" data-act="howto">&#10067; How to Play</button>'+
+        '<button class="cwc-tool" id="cycWebAuto" data-act="auto">&#9889; Auto-Fill</button>'+
+        '<button class="cwc-tool" data-act="share">Share &#8599;</button>'+
+        '<button class="cwc-tool cwc-reset" data-act="reset">&#8634; Reset</button>'+
+      '</div>';
+    sticky.parentNode.insertBefore(ctl, sticky);
+    var acts={
+      brackets:function(){ cycOpenAllBrackets(); },
+      album:function(){ cycOpenBestAlbum(); },
+      quiz:function(){ cycOpenQuiz(); },
+      howto:function(){ openHowto(); },
+      share:function(){ openShare(); },
+      reset:function(){ confirmReset(); },
+      auto:function(){ try{ toggleModes(); }catch(e){} var mb=document.querySelector('.sticky-bar .mode-bar'); var a=document.getElementById('cycWebAuto'); if(a) a.classList.toggle('cwc-on', !!(mb && mb.classList.contains('modes-open'))); }
+    };
+    ctl.addEventListener('click', function(e){ var b=e.target.closest('[data-act]'); if(!b) return; var f=acts[b.getAttribute('data-act')]; if(f){ try{ f(); }catch(err){} } });
+  }
+  function apply(){ if(desk()) build(); }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('resize', apply);
+})();
+</script>
+
 </body>
 </html>
