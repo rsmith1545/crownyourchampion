@@ -5392,8 +5392,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
-  .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:16px; line-height:1.1; white-space:nowrap; }
+  .site-header .header-left { display:flex; align-items:center; gap:20px; flex:1 1 auto; min-width:0; }
+  #cycWebTag { min-width:0; padding-bottom:0; line-height:1.1; white-space:nowrap; transform:translateY(6px); }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
   #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
@@ -5453,14 +5453,14 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
 
   /* Item 3 (V5): region headers = completed-box dark-green + gold trim (distinct from blue picks AND championship gold) */
-  .region-card .region-header { background:linear-gradient(135deg,#0a1a0a,#1a3a1a) !important; color:var(--dmb-gold,#f0a500) !important; border-bottom:2px solid var(--dmb-gold,#f0a500) !important; text-shadow:none !important; }
+  .region-card .region-header { background:linear-gradient(180deg,#0a1730,#060d1c) !important; color:#e8eefb !important; border-bottom:1px solid rgba(120,150,205,.28) !important; text-shadow:none !important; }
   /* Item 4: lock region bracket card positions — advancing slots keep blank-layout height (picks fill in place) */
   .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px; overflow:hidden; }
   /* Item 6: Championship cluster FITS names (wrap, no clip) with reserved height so picks don't shift it */
   .finals-card { overflow:visible !important; }
-  .sf-pairs { grid-template-rows:minmax(74px,auto) auto minmax(74px,auto) !important; }
-  .sf-pair .final-slot { min-height:74px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
-  .finals-pair .final-slot { min-height:74px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
+  .sf-pairs { grid-template-rows:minmax(76px,auto) auto minmax(76px,auto) !important; }
+  .sf-pair .final-slot { min-height:76px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
+  .finals-pair .final-slot { min-height:86px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
   .finals-header { font-size:18px !important; }
   .final-section-label { font-size:13px !important; letter-spacing:2.5px !important; }
   .final-hint { font-size:12px !important; }
