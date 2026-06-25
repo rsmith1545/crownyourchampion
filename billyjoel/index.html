@@ -5393,7 +5393,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:7px; line-height:1.1; white-space:nowrap; }
+  #cycWebTag { min-width:0; padding-bottom:16px; line-height:1.1; white-space:nowrap; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
   #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
@@ -5448,17 +5448,24 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   .finals-card .champion-slot { display:none; }
   body.cyc-web-crowned .finals-card .champion-slot { display:block; }
   /* B2: two-line Submit & Crown button (finalist name + action), pulse kept via .ready */
-  #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:4px; }
+  #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:5px; }
   #crownBtn .cb-action { display:block; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; line-height:1; }
   #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
 
-  /* Item 7: region headers GOLD (distinct from blue selected picks, harmonizes w/ gold accents) */
-  .region-card .region-header { background:linear-gradient(180deg,#f0a500,#caa000) !important; color:#1a1205 !important; border-bottom:1px solid rgba(0,0,0,.30) !important; text-shadow:none !important; }
-  /* Item 5: lock card positions — advancing-round slots keep their blank-layout height so picks fill in place (no shift) */
-  .region-card .round-col:not(:first-child) .slot { height:50px; min-height:50px; overflow:hidden; }
-  .sf-pairs { grid-template-rows:46px auto 46px !important; }
-  .sf-pair .final-slot { height:46px !important; min-height:46px !important; overflow:hidden; }
-  .finals-pair .final-slot { height:40px !important; min-height:40px !important; overflow:hidden; }
+  /* Item 3 (V5): region headers = completed-box dark-green + gold trim (distinct from blue picks AND championship gold) */
+  .region-card .region-header { background:linear-gradient(135deg,#0a1a0a,#1a3a1a) !important; color:var(--dmb-gold,#f0a500) !important; border-bottom:2px solid var(--dmb-gold,#f0a500) !important; text-shadow:none !important; }
+  /* Item 4: lock region bracket card positions — advancing slots keep blank-layout height (picks fill in place) */
+  .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px; overflow:hidden; }
+  /* Item 6: Championship cluster FITS names (wrap, no clip) with reserved height so picks don't shift it */
+  .finals-card { overflow:visible !important; }
+  .sf-pairs { grid-template-rows:minmax(64px,auto) auto minmax(64px,auto) !important; }
+  .sf-pair .final-slot { min-height:64px !important; height:auto !important; overflow:visible !important; white-space:normal !important; line-height:1.2 !important; word-break:break-word; }
+  .finals-pair .final-slot { min-height:48px !important; height:auto !important; overflow:visible !important; white-space:normal !important; line-height:1.2 !important; word-break:break-word; }
+  .finals-header { font-size:18px !important; }
+  .final-section-label { font-size:13px !important; letter-spacing:2.5px !important; }
+  .final-hint { font-size:12px !important; }
+  /* Item 6: champion payoff line MUCH bigger (near FTHC champion-box scale) */
+  .champion-slot .champ-name { font-size:32px !important; line-height:1.05 !important; min-height:0 !important; }
   /* Item 9: Biggest Cinderella line a touch larger */
   .lb-upset { font-size:14.5px; }
 }
