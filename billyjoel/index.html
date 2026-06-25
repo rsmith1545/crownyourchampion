@@ -5393,46 +5393,48 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:7px; line-height:1.1; }
-  #cycWebTag .wt-main { display:block; }
-  #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:26px; letter-spacing:.5px; color:var(--dmb-gold); }
-  #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:21px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
-  #cycWebTag .wt-sub { display:block; font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:16px; letter-spacing:.4px; color:#cf9b3a; opacity:.95; margin-top:2px; }
-  #cycWebSignup { align-self:flex-end; flex:0 0 auto; display:inline-flex; align-items:center; gap:5px; background:none; border:none; padding:0; margin:0 2px 9px 14px;
-     color:#6fa3e0; font:600 14px system-ui,-apple-system,sans-serif; letter-spacing:.2px; cursor:pointer; white-space:nowrap; opacity:.92; transition:opacity .15s,color .15s; }
+  #cycWebTag { min-width:0; padding-bottom:7px; line-height:1.1; white-space:nowrap; }
+  #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
+  #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
+  #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
+  #cycWebSignup { align-self:flex-end; flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; background:none; border:none; padding:0; margin:0 2px 7px 14px;
+     color:#7fb0ea; font:700 15px system-ui,-apple-system,sans-serif; letter-spacing:.3px; cursor:pointer; white-space:nowrap; opacity:.95; transition:opacity .15s,color .15s; }
   #cycWebSignup:hover { opacity:1; color:#9cc3f2; }
   #cycWebSignup.signup-done { color:#5fbf6a; cursor:default; opacity:1; }
-  #cycWebSignup .su-bell { font-size:15px; line-height:1; }
+  #cycWebSignup .su-bell { font-size:16px; line-height:1; }
 
   /* ===== Control zone — compact, NO divider lines, NO boxes ===== */
   /* Row 1: merged nav + tools, plain */
   #cycWebControls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:5px 20px; background:var(--dmb-panel); border:0; }
-  #cycWebControls .cwc-item { display:inline-flex; align-items:center; gap:5px; background:none; border:none; cursor:pointer;
-     font-family:'Barlow Condensed',sans-serif; font-weight:400; font-size:15px; letter-spacing:.4px; color:#c3ccdb; white-space:nowrap; padding:1px 0; transition:color .15s; }
+  #cycWebControls .cwc-item { display:inline-flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+     font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:16px; letter-spacing:.4px; color:#dbe3ef; white-space:nowrap; padding:1px 0; transition:color .15s; }
   #cycWebControls .cwc-item:hover { color:#fff; }
   #cycWebControls .cwc-sep { color:#39414f; user-select:none; }
-  #cycWebControls .cwc-seam { width:14px; }
-  #cycWebControls .cwc-reset { color:#7f8ba0; font-size:13.5px; }
+  #cycWebControls .cwc-seam { width:16px; }
+  /* tools (How to Play / Share / Reset) read as actions, not destinations: lighter weight + muted color */
+  #cycWebControls .cwc-tool { font-weight:400; color:#93a0b5; }
+  #cycWebControls .cwc-tool:hover { color:#e3e9f2; }
+  #cycWebControls .cwc-reset { font-weight:400; font-size:16px; color:#76808f; }
   #cycWebControls .cwc-reset:hover { color:var(--dmb-red); }
 
   /* Row 2: Auto-Fill — label + ALL options inline, NO box, compact */
   .sticky-bar .mode-bar { background:var(--dmb-panel); border:0 !important; align-items:center; gap:8px; padding:4px 20px; }
-  .sticky-bar .mode-bar .mode-label { display:inline !important; font-size:10px; }
+  .sticky-bar .mode-bar .mode-label { display:inline !important; font-size:11px; }
   .sticky-bar .mode-bar .mode-toggle { display:none !important; }
   .sticky-bar .mode-bar .mode-btns { display:flex !important; flex-wrap:wrap; gap:6px; align-items:center; border:0; padding:0; background:transparent; }
-  .sticky-bar .mode-bar .mode-btn { padding:5px 10px; font-size:10.5px; }
+  .sticky-bar .mode-bar .mode-btn { padding:6px 11px; font-size:12px; }
 
   /* Row 3: Regions — label + plain pills (NO box) + glyph, compact */
   #cycWebRegions { display:flex; align-items:center; gap:9px; flex-wrap:wrap; padding:5px 20px; background:var(--dmb-panel); border:0; }
-  #cycWebRegions .cwr-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#8c9ab9; white-space:nowrap; }
+  #cycWebRegions .cwr-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#8c9ab9; white-space:nowrap; }
   #cycWebRegions .cwr-box { display:flex; align-items:center; gap:7px; flex-wrap:wrap; border:0; padding:0; }
   #cycWebRegions .cwr-pill { display:inline-flex; align-items:center; gap:6px; cursor:pointer; white-space:nowrap;
-     background:transparent; border:1px solid rgba(99,140,200,.40); color:#c3ccdb; border-radius:6px; padding:4px 10px;
-     font:700 11.5px 'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; transition:all .15s; }
+     background:transparent; border:1px solid rgba(99,140,200,.40); color:#c3ccdb; border-radius:6px; padding:5px 12px;
+     font:700 13px 'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; transition:all .15s; }
   #cycWebRegions .cwr-pill:hover { border-color:#6f9fe0; color:#fff; }
-  #cycWebRegions .cwr-pill .cwr-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.22); transition:background .2s; }
+  #cycWebRegions .cwr-pill .cwr-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.22); transition:background .2s; }
   #cycWebRegions .cwr-pill.done .cwr-dot { background:var(--dmb-gold); }
-  #cycWebRegions .cwr-glyph { display:inline-grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; width:20px; height:20px; margin-left:2px; }
+  #cycWebRegions .cwr-glyph { display:inline-grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; width:22px; height:22px; margin-left:2px; }
   #cycWebRegions .cwr-glyph i { background:rgba(255,255,255,.20); border-radius:2px; transition:background .25s; }
   #cycWebRegions .cwr-glyph i.on { background:var(--dmb-gold); }
 
@@ -5446,9 +5448,19 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   .finals-card .champion-slot { display:none; }
   body.cyc-web-crowned .finals-card .champion-slot { display:block; }
   /* B2: two-line Submit & Crown button (finalist name + action), pulse kept via .ready */
-  #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; opacity:.92; line-height:1.1; margin-bottom:3px; }
+  #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:4px; }
   #crownBtn .cb-action { display:block; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; line-height:1; }
   #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
+
+  /* Item 7: region headers GOLD (distinct from blue selected picks, harmonizes w/ gold accents) */
+  .region-card .region-header { background:linear-gradient(180deg,#f0a500,#caa000) !important; color:#1a1205 !important; border-bottom:1px solid rgba(0,0,0,.30) !important; text-shadow:none !important; }
+  /* Item 5: lock card positions — advancing-round slots keep their blank-layout height so picks fill in place (no shift) */
+  .region-card .round-col:not(:first-child) .slot { height:50px; min-height:50px; overflow:hidden; }
+  .sf-pairs { grid-template-rows:46px auto 46px !important; }
+  .sf-pair .final-slot { height:46px !important; min-height:46px !important; overflow:hidden; }
+  .finals-pair .final-slot { height:40px !important; min-height:40px !important; overflow:hidden; }
+  /* Item 9: Biggest Cinderella line a touch larger */
+  .lb-upset { font-size:14.5px; }
 }
 </style>
 <script>
@@ -5481,8 +5493,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     if(!document.getElementById('cycWebTag')){
       var sub=subFromTagline();
       var tag=document.createElement('div'); tag.id='cycWebTag';
-      tag.innerHTML='<span class="wt-main"><span class="wt-lead">Settle the debate: </span><span class="wt-stats">64 Songs &middot; 4 Regions &middot; 1 Champion</span></span>'+
-        (sub?('<span class="wt-sub">'+sub+'</span>'):'');
+      tag.innerHTML='<span class="wt-lead">Settle the debate: </span>'+
+        (sub?('<span class="wt-sub">'+sub+' </span>'):'')+
+        '<span class="wt-stats">&mdash; 64 Songs &middot; 4 Regions &middot; 1 Champion</span>';
       left.appendChild(tag);
     }
     /* Row 1: light Sign Up */
@@ -5502,9 +5515,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       '<span class="cwc-sep">&middot;</span>'+
       '<button class="cwc-item" data-act="quiz">&#127919; Superfan Quiz</button>'+
       '<span class="cwc-seam" aria-hidden="true"></span>'+
-      '<button class="cwc-item" data-act="howto">&#10067; How to Play</button>'+
+      '<button class="cwc-item cwc-tool" data-act="howto">&#10067; How to Play</button>'+
       '<span class="cwc-sep">&middot;</span>'+
-      '<button class="cwc-item" data-act="share">Share &#8599;</button>'+
+      '<button class="cwc-item cwc-tool" data-act="share">Share &#8599;</button>'+
       '<span class="cwc-sep">&middot;</span>'+
       '<button class="cwc-item cwc-reset" data-act="reset">&#8634; Reset</button>';
     sb.insertBefore(ctl, modebar);
@@ -5513,6 +5526,19 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       howto:function(){ openHowto(); }, share:function(){ openShare(); }, reset:function(){ confirmReset(); }
     };
     ctl.addEventListener('click', function(e){ var b=e.target.closest('[data-act]'); if(!b) return; var f=acts[b.getAttribute('data-act')]; if(f){ try{ f(); }catch(err){} } });
+
+    /* Item 4: web How-to uses the mobile copy + inline auto-fill modes (no expand step) */
+    (function(){
+      var hm=document.querySelector('.howto-modal'); if(!hm) return;
+      var dsk=hm.querySelector('.howto-desktop'), mob=hm.querySelector('.howto-mobile'); if(!mob) return;
+      var legend=dsk&&dsk.querySelector('.howto-legend-title'), list=dsk&&dsk.querySelector('.fm-list');
+      var expand=mob.querySelector('.btn-howto-modes');
+      mob.style.display='block';
+      if(dsk) dsk.style.display='none';
+      if(expand) expand.style.display='none';
+      if(legend) mob.appendChild(legend);
+      if(list) mob.appendChild(list);
+    })();
 
     /* Control zone Row 3 (regions) */
     var cards=Array.prototype.slice.call(document.querySelectorAll('.region-card')).slice(0,4);
