@@ -5626,7 +5626,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var CKEY='cyc-crowned-'+slug();
     function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---')?v:''; }
     function crownedFlag(){ try{ return localStorage.getItem(CKEY)==='1'; }catch(e){ return false; } }
-    function isCrowned(){ return crownedFlag() && !!champNow(); }
+    function isCrowned(){ return crownedFlag(); }
     function syncCrownState(){
       if(!desk()) return;
       var crowned=isCrowned();
@@ -5636,7 +5636,6 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       btn.classList.remove('cyc-wcrowned');
       var c=champNow();
       if(c && !btn.disabled){ btn.innerHTML='<span class="cb-champ">Your Champion: '+c+'</span><span class="cb-action">👑 Submit &amp; Crown</span>'; }
-      if(crownedFlag() && !c){ try{ localStorage.removeItem(CKEY); }catch(e){} } /* stale flag after reset */
     }
     var _ucb=window.updateCrownButton;
     window.updateCrownButton=function(){ var r; try{ r=_ucb&&_ucb.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
