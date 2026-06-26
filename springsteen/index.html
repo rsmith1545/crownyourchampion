@@ -4163,7 +4163,9 @@ updateProgress();
     if(champ && window.cycCrowdRead){ window.cycCrowdRead(champ, function(res){ go(res); }); } else go(null);
   }
 
+  window.cycDrawCard=drawCard;
   function downloadCard(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500); toast('Card downloaded!'); }); }
+  window.cycDownloadCard=downloadCard;
   function copyLink(){ var url=siteURL(); try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){} try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){} }
   function shareOrSave(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL(); try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){} try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){} var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); a.remove(); if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); } toast('Card saved & link copied!'); }); }
 
@@ -4972,7 +4974,7 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
   .region-header{ background:linear-gradient(180deg,#0f1830,#06090f) !important; color:var(--dmb-gold,#f0a500) !important; border-bottom:1px solid rgba(240,165,0,.30) !important; }
   .region-header::after{ content:'\2193 scroll to see the full region' !important; display:block !important; font-family:'Barlow Condensed',sans-serif !important; font-size:10px !important; letter-spacing:1px !important; font-weight:400 !important; opacity:.72 !important; margin:3px 0 0 0 !important; }
   /* ---- Submit & Crown stays GREEN (no pulse); crowned = settled, distinct, tappable re-entry ---- */
-  .crown-btn.ready{ animation:none !important; box-shadow:0 4px 16px rgba(34,197,94,.40) !important; }
+  .crown-btn.ready{ animation:crownPulse 1.2s ease-in-out infinite !important; box-shadow:0 4px 16px rgba(34,197,94,.40) !important; }
   .crown-btn.ready:hover{ transform:translateY(-1px) scale(1.01); box-shadow:0 6px 22px rgba(34,197,94,.6) !important; }
   .crown-btn.cyc-crowned{ background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; opacity:1 !important; cursor:pointer !important; box-shadow:0 3px 16px rgba(40,200,100,.42) !important; animation:none !important; font-size:19px !important; letter-spacing:1.5px !important; }
   .crown-btn.cyc-crowned:hover{ transform:translateY(-1px); box-shadow:0 5px 20px rgba(40,200,100,.6) !important; }
@@ -5375,6 +5377,372 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   window.__cycTester = localStorage.getItem('cyc_tester')==='1';
   if(window.__cycTester){ try{ console.log('%c[cyc] TESTER MODE ON — your bracket submissions are tagged test:true and excluded from live stats.','color:#e8761b;font-weight:700'); }catch(e){} }
 }catch(e){} })();
+</script>
+<style id="cycWebHead">
+/* ===== cycWebHeader V3 — WEB ONLY (>=1081px). Mobile (<=1080) untouched. Reversible. ===== */
+@media (max-width:1080px){
+  #cycWebControls, #cycWebSignup, #cycWebTag, #cycWebRegions { display:none !important; }
+}
+@media (min-width:1081px){
+  /* drop legacy chrome on web */
+  .site-header .header-actions { display:none !important; }
+  .site-header .subtitle, .site-header .header-tagline { display:none !important; }
+  /* supersede the legacy desktop region-jump bar (avoid duplicate Regions row) */
+  #regionJump, .region-jump { display:none !important; }
+
+  /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
+  .site-header { align-items:flex-end; }
+  .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:0 0 auto; min-width:0; }
+  #cycWebTag { min-width:0; padding-bottom:24px; line-height:1.1; white-space:nowrap; }
+  #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
+  #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
+  #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
+  #cycWebSignup { align-self:center; flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; background:rgba(111,163,224,.10); border:1px solid rgba(111,163,224,.55); padding:9px 18px; margin:0 4px 0 14px; border-radius:24px;
+     color:#a8cdf6; font:700 18px system-ui,-apple-system,sans-serif; letter-spacing:.4px; cursor:pointer; white-space:nowrap; opacity:1; transition:all .15s; }
+  #cycWebSignup:hover { background:rgba(111,163,224,.22); border-color:#a8cdf6; color:#fff; }
+  #cycWebSignup.signup-done { color:#7fe0a0; border-color:rgba(95,191,106,.5); background:rgba(95,191,106,.10); cursor:default; }
+  #cycWebSignup .su-bell { font-size:20px; line-height:1; }
+
+  /* ===== Control zone — compact, NO divider lines, NO boxes ===== */
+  /* Row 1: merged nav + tools, plain */
+  #cycWebControls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:5px 20px; background:var(--dmb-panel); border:0; }
+  #cycWebControls .cwc-item { display:inline-flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+     font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:16px; letter-spacing:.4px; color:#dbe3ef; white-space:nowrap; padding:1px 0; transition:color .15s; }
+  #cycWebControls .cwc-item:hover { color:#fff; }
+  #cycWebControls .cwc-sep { color:#39414f; user-select:none; }
+  #cycWebControls .cwc-seam { width:16px; }
+  /* tools (How to Play / Share / Reset) read as actions, not destinations: lighter weight + muted color */
+  #cycWebControls .cwc-tool { font-weight:400; color:#93a0b5; }
+  #cycWebControls .cwc-tool:hover { color:#e3e9f2; }
+  #cycWebControls .cwc-reset { font-weight:400; font-size:15px; color:#8fa3c4; border:1px solid rgba(99,140,200,.6); border-radius:7px; padding:4px 13px; }
+  #cycWebControls .cwc-reset:hover { color:var(--dmb-red); border-color:var(--dmb-red); }
+  /* Share = a 'spread the word' growth action: warmer + a touch bolder so it invites a click; Reset stays the quietest (destructive) */
+  #cycWebControls .cwc-tool[data-act="share"] { color:#d3a94e; font-weight:600; }
+  #cycWebControls .cwc-tool[data-act="share"]:hover { color:#f1c463; }
+  /* Larger Pick-a-Bracket / Best Album popup text on web (match the homepage feel) */
+  #cycAllBracketsModal .qm-title, #cycBestAlbumModal .qm-title { font-size:33px !important; }
+  #cycAllBracketsModal .qm-sub, #cycBestAlbumModal .qm-sub { font-size:16px !important; }
+  #cycAllBracketsModal .qm-gh, #cycBestAlbumModal .qm-gh { font-size:13px !important; }
+  #cycAllBracketsModal .qm-group a.qm-chip, #cycBestAlbumModal .qm-group a.qm-chip { font-size:17.5px !important; padding:11px 14px !important; }
+  /* Larger How to Play text on web */
+  .howto-modal h2 { font-size:33px !important; }
+  .howto-modal .howto-steps p { font-size:17.5px !important; line-height:1.6 !important; }
+  .howto-modal .howto-list .fm-item { font-size:16px !important; line-height:1.55 !important; }
+  .howto-modal .howto-legend-title { font-size:22px !important; }
+
+  /* Row 2: Auto-Fill — label + ALL options inline, NO box, compact */
+  .sticky-bar .mode-bar { background:var(--dmb-panel); border:0 !important; align-items:center; gap:8px; padding:4px 20px; }
+  .sticky-bar .mode-bar .mode-label { display:inline !important; font-size:11px; }
+  .sticky-bar .mode-bar .mode-toggle { display:none !important; }
+  .sticky-bar .mode-bar .mode-btns { display:flex !important; flex-wrap:wrap; gap:6px; align-items:center; border:0; padding:0; background:transparent; }
+  .sticky-bar .mode-bar .mode-btn { padding:6px 11px; font-size:12px; }
+
+  /* Row 3: Regions — label + plain pills (NO box) + glyph, compact */
+  #cycWebRegions { display:flex; align-items:center; gap:9px; flex-wrap:wrap; padding:5px 20px; background:var(--dmb-panel); border:0; }
+  #cycWebRegions .cwr-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#8c9ab9; white-space:nowrap; }
+  #cycWebRegions .cwr-box { display:flex; align-items:center; gap:7px; flex-wrap:wrap; border:0; padding:0; }
+  #cycWebRegions .cwr-pill { display:inline-flex; align-items:center; gap:6px; cursor:pointer; white-space:nowrap;
+     background:transparent; border:1px solid rgba(99,140,200,.40); color:#c3ccdb; border-radius:6px; padding:5px 12px;
+     font:700 13px 'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; transition:all .15s; }
+  #cycWebRegions .cwr-pill:hover { border-color:#6f9fe0; color:#fff; }
+  #cycWebRegions .cwr-pill .cwr-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.22); transition:background .2s; }
+  #cycWebRegions .cwr-pill.done .cwr-dot { background:var(--dmb-gold); }
+  #cycWebRegions .cwr-glyph { display:inline-grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; width:22px; height:22px; margin-left:2px; }
+  #cycWebRegions .cwr-glyph i { background:rgba(255,255,255,.20); border-radius:2px; transition:background .25s; }
+  #cycWebRegions .cwr-glyph i.on { background:var(--dmb-gold); }
+
+  /* A4: subtle blue, italic, bracketed next-region cue — sits under the lone winner card */
+  .cyc-web-next { display:block; text-align:center; margin:7px auto 3px; padding:2px 4px; background:none; border:none; cursor:pointer;
+     font-family:'Barlow Condensed',sans-serif; font-weight:600; font-style:italic; font-size:13.5px; letter-spacing:.4px; color:#6f9fe0; transition:color .15s; white-space:nowrap; }
+  .cyc-web-next:hover { color:#a8c8f5; }
+  /* keep the region-winner ("advances to Final Four") card anchored: float the cue below it (absolute) so space-around doesn't push the card up */
+  .region-card .cyc-winner-col { position:relative; }
+  .region-card .cyc-winner-col .cyc-web-next { position:absolute; left:0; right:0; top:calc(50% + 30px); margin:0; }
+
+  /* ===== Scope B — Submit & Crown / champion reveal (web) ===== */
+  /* B1: no pre-submit champion box; B3: green box only after crowning, BELOW the button */
+  .finals-card .champion-slot { display:none; }
+  body.cyc-web-crowned .finals-card .champion-slot { display:block; }
+  /* B2: two-line Submit & Crown button (finalist name + action), pulse kept via .ready */
+  #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:5px; }
+  #crownBtn .cb-action { display:block; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; line-height:1; }
+  /* V7 #4: tighten header so the gold line + control zone sit closer to the logo (kill dead space) */
+  .site-header { padding-top:9px !important; padding-bottom:6px !important; }
+  /* V7 #5: keep the All Brackets icon rendered in color */
+  #cycWebControls .cwc-ico { font-size:16px; line-height:1; }
+  #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
+
+  /* Item 3 (V5): region headers = completed-box dark-green + gold trim (distinct from blue picks AND championship gold) */
+  .region-card .region-header { background:linear-gradient(180deg,#0a1730,#060d1c) !important; color:#e8eefb !important; border-top:2px solid rgba(70,130,210,.65) !important; border-bottom:2px solid rgba(240,165,0,.42) !important; text-shadow:none !important; }
+  /* Item 4: lock region bracket card positions — advancing slots keep blank-layout height (picks fill in place) */
+  .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px; overflow:hidden; }
+  /* Item 6: Championship cluster FITS names (wrap, no clip) with reserved height so picks don't shift it */
+  .finals-card { overflow:visible !important; }
+  .sf-pairs { grid-template-rows:minmax(74px,auto) auto minmax(74px,auto) !important; }
+  .sf-pair .final-slot { min-height:74px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
+  .finals-pair .final-slot { min-height:74px !important; height:auto !important; overflow:visible !important; white-space:normal !important; font-size:14px !important; line-height:1.15 !important; word-break:break-word; }
+  .finals-header { font-size:18px !important; }
+  .final-section-label { font-size:13px !important; letter-spacing:2.5px !important; }
+  .final-hint { font-size:12px !important; }
+  /* Item 6: champion payoff line MUCH bigger (near FTHC champion-box scale) */
+  .champion-slot .champ-name { font-size:32px !important; line-height:1.05 !important; min-height:0 !important; }
+  /* Item 9: Biggest Cinderella line a touch larger */
+  .lb-upset { font-size:14.5px; }
+}
+</style>
+<script>
+/* cycWebHeader V3 (desktop >=1081) — control-zone cleanup + Submit/Crown reveal. Mobile (<=1080) untouched. */
+(function(){
+  if(window.__cycWebHead) return; window.__cycWebHead=1;
+  function desk(){ try{ return window.matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
+  function signedUp(){ try{ return !!localStorage.getItem('cyc-hub-email'); }catch(e){ return false; } }
+  function subFromTagline(){
+    try{ var el=document.querySelector('.site-header .header-tagline'); if(!el) return '';
+      var t=(el.textContent||'').trim(); var m=t.replace(/^settle the debate:\s*/i,'').trim();
+      if(m && m.toLowerCase()!==t.toLowerCase()) return m; }catch(e){}
+    return '';
+  }
+  function winSlot(card){ return card.querySelector('.slot[id$="-WIN"]'); }
+  function regionDone(card){ var w=winSlot(card); if(!w) return false; return card.querySelectorAll('.slot.empty').length===0; }
+  function regionName(card){ var h=card.querySelector('.region-header'); if(!h) return ''; var n=h.childNodes[0]; return ((n&&n.textContent)||h.textContent||'').trim(); }
+  function scrollToEl(el){ if(!el) return; try{ var y=el.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop||0)-90; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }catch(e){} }
+
+  function build(){
+    if(document.getElementById('cycWebControls')) return;
+    var header=document.querySelector('.site-header');
+    var left=header&&header.querySelector('.header-left');
+    var sb=document.getElementById('stickyBar');
+    if(!header||!left||!sb) return;
+    var modebar=sb.querySelector('.mode-bar');
+    if(!modebar) return;
+
+    /* Row 1: tagline beside logo */
+    if(!document.getElementById('cycWebTag')){
+      var sub=subFromTagline();
+      var tag=document.createElement('div'); tag.id='cycWebTag';
+      tag.innerHTML='<span class="wt-lead">Settle the debate: </span>'+
+        (sub?('<span class="wt-sub">'+sub+' </span>'):'')+
+        '<span class="wt-stats">&mdash; 64 Songs &middot; 4 Regions &middot; 1 Champion</span>';
+      left.appendChild(tag);
+    }
+    /* Row 1: light Sign Up */
+    if(!document.getElementById('cycWebSignup')){
+      var su=document.createElement('button'); su.id='cycWebSignup'; su.type='button';
+      if(signedUp()){ su.className='signup-done'; su.textContent='✓ On the list'; su.setAttribute('aria-label','You are already on the email list'); }
+      else { su.innerHTML='<span class="su-bell">&#128276;</span> Sign Up'; su.onclick=function(){ try{ openHubSignup(); }catch(e){} }; }
+      header.appendChild(su);
+    }
+
+    /* Control zone Row 1 (nav + tools) */
+    var ctl=document.createElement('div'); ctl.id='cycWebControls';
+    ctl.innerHTML=
+      '<button class="cwc-item" data-act="brackets"><span class="cwc-ico">&#128451;&#65039;</span> All Brackets</button>'+
+      '<span class="cwc-sep">&middot;</span>'+
+      '<button class="cwc-item" data-act="album">&#128191; Vote: Best Album</button>'+
+      '<span class="cwc-sep">&middot;</span>'+
+      '<button class="cwc-item" data-act="quiz">&#127919; Superfan Quiz</button>'+
+      '<span class="cwc-seam" aria-hidden="true"></span>'+
+      '<button class="cwc-item cwc-tool" data-act="howto">&#10067; How to Play</button>'+
+      '<span class="cwc-sep">&middot;</span>'+
+      '<button class="cwc-item cwc-tool" data-act="share">Share &#8599;</button>'+
+      '<span class="cwc-sep">&middot;</span>'+
+      '<button class="cwc-item cwc-reset" data-act="reset">&#8634; Reset</button>';
+    sb.insertBefore(ctl, modebar);
+    var acts={
+      brackets:function(){ cycOpenAllBrackets(); }, album:function(){ cycOpenBestAlbum(); }, quiz:function(){ cycOpenQuiz(); },
+      howto:function(){ openHowto(); }, share:function(){ openShare(); }, reset:function(){ confirmReset(); }
+    };
+    ctl.addEventListener('click', function(e){ var b=e.target.closest('[data-act]'); if(!b) return; var f=acts[b.getAttribute('data-act')]; if(f){ try{ f(); }catch(err){} } });
+
+    /* Item 4: web How-to uses the mobile copy + inline auto-fill modes (no expand step) */
+    (function(){
+      var hm=document.querySelector('.howto-modal'); if(!hm) return;
+      var dsk=hm.querySelector('.howto-desktop'), mob=hm.querySelector('.howto-mobile'); if(!mob) return;
+      var legend=dsk&&dsk.querySelector('.howto-legend-title'), list=dsk&&dsk.querySelector('.fm-list');
+      var expand=mob.querySelector('.btn-howto-modes');
+      mob.style.display='block';
+      if(dsk) dsk.style.display='none';
+      if(expand) expand.style.display='none';
+      if(legend) mob.appendChild(legend);
+      if(list) mob.appendChild(list);
+    })();
+
+    /* Control zone Row 3 (regions) */
+    var cards=Array.prototype.slice.call(document.querySelectorAll('.region-card')).slice(0,4);
+    var reg=document.createElement('div'); reg.id='cycWebRegions';
+    var pillsHTML='';
+    cards.forEach(function(c,i){ pillsHTML+='<button class="cwr-pill" data-ri="'+i+'"><span class="cwr-dot"></span>'+regionName(c)+'</button>'; });
+    reg.innerHTML='<span class="cwr-label">Regions:</span><div class="cwr-box">'+pillsHTML+'</div>'+
+      '<span class="cwr-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
+    sb.insertBefore(reg, modebar.nextSibling);
+    reg.addEventListener('click', function(e){ var b=e.target.closest('[data-ri]'); if(!b) return; var i=+b.getAttribute('data-ri'); if(cards[i]) scrollToEl(cards[i]); });
+
+    /* A4/A5: next-region cue under each region's lone winner card; smart Go-to-Finals */
+    var finals=document.querySelector('.finals-card');
+    function goNext(from){
+      var st=cards.map(regionDone);
+      if(st.every(Boolean)){ scrollToEl(finals); return; }
+      for(var k=1;k<=cards.length;k++){ var j=(from+k)%cards.length; if(!st[j]){ scrollToEl(cards[j]); return; } }
+    }
+    cards.forEach(function(c,i){
+      var win=winSlot(c); var host=(win&&win.closest('.round-col'))||c;
+      var cue=document.createElement('button'); cue.type='button'; cue.className='cyc-web-next'; cue.style.display='none';
+      host.appendChild(cue);
+      cue.onclick=function(){ goNext(i); };
+    });
+
+    /* glyph + pill state + cue labels/visibility (mirror mobile logic) */
+    var glyph=reg.querySelector('.cwr-glyph');
+    var pills=reg.querySelectorAll('.cwr-pill');
+    var cues=document.querySelectorAll('.cyc-web-next');
+    var lastKey='';
+    function refresh(){
+      var st=cards.map(regionDone); var key=st.join(',');
+      if(key===lastKey) return; lastKey=key;
+      var allDone=st.every(Boolean), anyOpen=st.indexOf(false)>=0;
+      for(var i=0;i<4;i++){ if(glyph.children[i]) glyph.children[i].classList.toggle('on', !!st[i]); if(pills[i]) pills[i].classList.toggle('done', !!st[i]); }
+      cues.forEach(function(cue,i){
+        var show = !!st[i] && (anyOpen || allDone);
+        cue.textContent = allDone ? '[Go to Finals]' : '[Next Region]';
+        cue.style.display = show ? 'block' : 'none';
+      });
+    }
+    refresh();
+    var raf; function sched(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(refresh); }
+    try{ new MutationObserver(sched).observe(document.querySelector('.master-grid')||document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']}); }catch(e){}
+    setInterval(refresh,1200);
+
+    /* ===== Scope B — Submit & Crown reveal (web) =====
+       Crowned == user clicked Submit & Crown (persisted per band). NOT merely "champion picked"
+       (auto-fill / picking a finalist sets the champ banner but is NOT a crown). */
+    var slot=document.querySelector('.finals-card .champion-slot');
+    var crownBtn0=document.getElementById('crownBtn');
+    if(slot && crownBtn0 && crownBtn0.parentNode){ crownBtn0.parentNode.insertBefore(slot, crownBtn0.nextSibling); } /* B3: green box below the button */
+    function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+    var CKEY='cyc-crowned-'+slug();
+    function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---')?v:''; }
+    function crownedFlag(){ try{ return localStorage.getItem(CKEY)==='1'; }catch(e){ return false; } }
+    function isCrowned(){ return crownedFlag(); }
+    function syncCrownState(){
+      if(!desk()) return;
+      var crowned=isCrowned();
+      document.body.classList.toggle('cyc-web-crowned', crowned);
+      var btn=document.getElementById('crownBtn'); if(!btn) return;
+      if(crowned){ btn.classList.add('cyc-wcrowned'); btn.classList.remove('ready'); btn.innerHTML='👑 Crowned'; return; }
+      btn.classList.remove('cyc-wcrowned');
+      var c=champNow();
+      if(c && !btn.disabled){ btn.innerHTML='<span class="cb-champ">Your Champion: '+c+'</span><span class="cb-action">👑 Submit &amp; Crown</span>'; }
+    }
+    var _ucb=window.updateCrownButton;
+    window.updateCrownButton=function(){ var r; try{ r=_ucb&&_ucb.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
+    var _sc=window.submitAndCrown;
+    window.submitAndCrown=function(){ try{ localStorage.setItem(CKEY,'1'); }catch(e){} var r; try{ r=_sc&&_sc.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
+    syncCrownState();
+    setInterval(syncCrownState,1200);
+
+    /* Combine the 4 post-submit popups into the single mobile-style one-screen on web */
+    if(!window.__cycOEMHook && typeof window.openEmailModal==='function'){
+      window.__cycOEMHook=1;
+      var _oem=window.openEmailModal;
+      window.openEmailModal=function(champ){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(champ); }catch(e){} return; } return _oem.apply(this,arguments); };
+    }
+    /* Widen the green champion banner so it starts right after the tagline */
+    if(!document.getElementById('cycHdrChampWide')){ var hw=document.createElement('style'); hw.id='cycHdrChampWide';
+      hw.textContent='@media(min-width:1081px){'+
+        ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; min-height:0 !important; max-height:clamp(54px,8.5vw,140px) !important; padding:6px 22px !important; overflow:hidden !important; box-sizing:border-box !important; gap:1px !important; }'+
+        ' #cycHdrChampName{ font-size:clamp(20px,2.3vw,34px) !important; line-height:1.04 !important; }'+
+        ' .cyc-win{ background:rgba(4,6,11,.86) !important; }'+
+        ' .cyc-win.open{ display:flex !important; align-items:flex-start; justify-content:center; padding:3vh 0; }'+
+        ' .cyc-win .cw-inner{ position:relative !important; max-width:620px !important; width:92%; min-height:0 !important; max-height:94vh !important; overflow-y:auto !important; margin:0 auto !important; background:linear-gradient(180deg,#101a2e,#0a1120) !important; border:1px solid rgba(240,165,0,.35) !important; border-radius:18px !important; box-shadow:0 24px 80px rgba(0,0,0,.65) !important; padding:14px 30px 22px !important; }'+
+        ' .cyc-win .cw-celebrate{ padding:4px 6px 8px !important; }'+
+        ' .cyc-win .cw-crown{ font-size:38px !important; }'+
+        ' #cwCardWrap2{ margin:10px auto 6px !important; text-align:center; }'+
+        ' .cyc-win .cw-altrow{ font-size:15px !important; }'+
+        ' .cyc-win .cw-altlink{ font-size:17.5px !important; }'+
+        ' .cyc-win .cw-altsep{ font-size:16px !important; }'+
+        '}';
+      document.head.appendChild(hw); }
+    /* Show the champion CARD inside the one-page + kill the redundant what's-next-after-share; banner reopens the one-page */
+    if(!window.__cycWinCardHook && typeof window.cycShowWinScreen==='function'){
+      window.__cycWinCardHook=1;
+      var _sw=window.cycShowWinScreen;
+      window.cycShowWinScreen=function(champ){
+        var r; try{ r=_sw.apply(this,arguments); }catch(e){}
+        try{ window.__cycPostCrownShare=false; }catch(e){}
+        try{ cycInjectWinCard(); }catch(e){}
+        return r;
+      };
+    }
+    function cycInjectWinCard(){
+      var ov=document.getElementById('cycWin'); if(!ov) return;
+      var inner=ov.querySelector('.cw-inner'); if(!inner) return;
+      var wrap=document.getElementById('cwCardWrap2');
+      if(!wrap){
+        wrap=document.createElement('div'); wrap.id='cwCardWrap2';
+        wrap.innerHTML='<img id="cwCardImg2" alt="Your champion card" style="width:100%;max-width:540px;border-radius:12px;display:none;box-shadow:0 10px 34px rgba(0,0,0,.6)">';
+        var cel=inner.querySelector('.cw-celebrate');
+        if(cel && cel.nextSibling) inner.insertBefore(wrap, cel.nextSibling); else inner.insertBefore(wrap, inner.firstChild);
+      }
+      var img=document.getElementById('cwCardImg2');
+      if(window.cycDrawCard && img){ try{ window.cycDrawCard(function(b,c){ if(c&&img){ img.src=c.toDataURL('image/png'); img.style.display='block'; } }); }catch(e){} }
+    }
+    (function(){ var tries=0; (function setBanner(){ var hc=document.getElementById('cycHdrChamp'); if(hc){ hc.onclick=function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(); return; }catch(e){} } }; } else if(++tries<25){ setTimeout(setBanner,200); } })(); })();
+  }
+  function apply(){ if(desk()) build(); }
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('resize', apply);
+})();
+</script>
+
+<script>
+/* cycMobCrown — port the validated WEB Submit&Crown / champion-reveal to MOBILE (<=1080). Web untouched.
+   Pre-submit: no green champion box; finalist name on the pulsing Submit&Crown button.
+   Post-submit: green champion box appears on return; button shows the crowned state. */
+(function(){
+  if(window.__cycMobCrown) return; window.__cycMobCrown=1;
+  function mob(){ try{ return window.matchMedia('(max-width:1080px)').matches; }catch(e){ return innerWidth<=1080; } }
+  function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+  var CKEY='cyc-crowned-'+slug();
+  function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='\u2014'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
+  function crowned(){ if(!champNow()) return false;
+    var btn=document.getElementById('crownBtn'); if(btn && btn.classList.contains('cyc-crowned')) return true;
+    try{ return localStorage.getItem(CKEY)==='1'; }catch(e){ return false; } }
+
+  if(!document.getElementById('cycMobCrownCss')){
+    var st=document.createElement('style'); st.id='cycMobCrownCss';
+    st.textContent='@media (max-width:1080px){'+
+      ' .finals-card .champion-slot{ display:none; }'+
+      ' body.cyc-mob-crowned .finals-card .champion-slot{ display:block; }'+
+      " #crownBtn .cb-champ{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; opacity:.97; line-height:1.1; margin-bottom:5px; }"+
+      " #crownBtn .cb-action{ display:block; font-family:'Bebas Neue',sans-serif; font-size:21px; letter-spacing:1.5px; line-height:1; }"+
+      '}';
+    document.head.appendChild(st);
+  }
+  function moveSlot(){ var slot=document.querySelector('.finals-card .champion-slot'), btn=document.getElementById('crownBtn'); if(slot&&btn&&btn.parentNode&&slot!==btn.nextElementSibling){ btn.parentNode.insertBefore(slot, btn.nextSibling); } }
+  function sync(){
+    if(!mob()) return;
+    var btn=document.getElementById('crownBtn'); if(!btn) return;
+    if(crowned()){
+      document.body.classList.add('cyc-mob-crowned');
+      if(!btn.classList.contains('cyc-crowned') && window.cycTransformCrownBtn){ try{ cycTransformCrownBtn(champNow()); }catch(e){} }
+      return;
+    }
+    document.body.classList.remove('cyc-mob-crowned');
+    var c=champNow();
+    if(c && !btn.disabled && !btn.classList.contains('cyc-crowned')){
+      btn.innerHTML='<span class="cb-champ">Your Champion: '+c+'</span><span class="cb-action">\uD83D\uDC51 Submit &amp; Crown</span>';
+    }
+  }
+  var _t=window.cycTransformCrownBtn;
+  if(typeof _t==='function'){ window.cycTransformCrownBtn=function(champ){ try{ localStorage.setItem(CKEY,'1'); document.body.classList.add('cyc-mob-crowned'); }catch(e){} return _t.apply(this,arguments); }; }
+  var _u=window.updateCrownButton;
+  if(typeof _u==='function'){ window.updateCrownButton=function(){ var r; try{ r=_u.apply(this,arguments);}catch(e){} try{ sync(); }catch(e){} return r; }; }
+  var _r=window.confirmReset;
+  if(typeof _r==='function'){ window.confirmReset=function(){ var r; try{ r=_r.apply(this,arguments);}catch(e){} try{ localStorage.removeItem(CKEY); document.body.classList.remove('cyc-mob-crowned'); }catch(e){} return r; }; }
+  function wireSlotClick(){ var slot=document.querySelector('.finals-card .champion-slot'); if(!slot||slot.__cycClick) return; slot.__cycClick=1; slot.style.cursor='pointer'; slot.title='See your champion'; slot.addEventListener('click', function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(champNow()); }catch(e){ try{ cycShowWinScreen(); }catch(_){} } } }); }
+  function init(){ moveSlot(); sync(); wireSlotClick(); setInterval(function(){ try{ moveSlot(); sync(); wireSlotClick(); }catch(e){} },1200); }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
 </script>
 </body>
 </html>
