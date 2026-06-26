@@ -1,5 +1,6 @@
 {
   "name": "Crown Your Champion — Fan Bracket Tournaments",
+  "id": "/",
   "short_name": "Crown",
   "description": "Interactive 64-song bracket tournaments — settle the debate, crown a champion.",
   "start_url": "./",

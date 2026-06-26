@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-var cacheName = 'crown-champion-hub-v3';
+var cacheName = 'crown-champion-hub-v4';
 var assets = [
   './',
   './index.html',
@@ -26,6 +26,9 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', function(event) {
   var req = event.request;
+  var _u; try { _u = new URL(req.url); } catch(e) { _u = null; }
+  // Leave the Admin PWA's scope + assets entirely to sw_admin / network.
+  if (_u && _u.origin === location.origin && (_u.pathname.indexOf('/admin') === 0 || _u.pathname === '/manifest_admin.json' || _u.pathname === '/sw_admin.js')) { return; }
   var isHTML = req.mode === 'navigate' || (req.headers.get('accept') || '').indexOf('text/html') !== -1;
   if (isHTML) {
     // Network-first, bypass HTTP cache so deploys show immediately
