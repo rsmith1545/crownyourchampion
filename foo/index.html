@@ -3119,7 +3119,7 @@ async function submitHubSignup(){
         var w=fs.addDoc(fs.collection(db,'hub_signups'),rec);
         await Promise.race([w,new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },6000); })]);
     }catch(e){ console.warn('hub signup write',e); }
-    statusEl.textContent="✓ You're on the list — watch your inbox. 👑"; statusEl.className='em-status success';
+    statusEl.textContent="✓ You're on the list — watch your inbox. 👑"; statusEl.className='em-status success'; try{ if(window.cycMarkOnList) setTimeout(window.cycMarkOnList,60); }catch(e){}
     try{cycEvt('email_signup',{source:'header',band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     btn.textContent='Done ✓';
     setTimeout(closeHubSignup,1600);
@@ -4703,12 +4703,17 @@ updateProgress();
   function apply(){
     var has=false; try{ has=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
     if(!has) return;
-    var b=document.querySelector('.btn-signup'); if(!b||!b.parentNode) return;
-    var s=document.createElement('span'); s.className='signup-done'; s.textContent='✓ On the list';
-    s.setAttribute('role','status'); s.setAttribute('aria-label','You are already on the email list');
-    b.parentNode.replaceChild(s,b);
+    var nodes=document.querySelectorAll('button[onclick*="openHubSignup"], #cycMobSignup, .btn-signup');
+    Array.prototype.forEach.call(nodes, function(b){
+      if(!b||!b.parentNode||b.getAttribute('data-cyc-onlist')) return;
+      var s=document.createElement('span'); s.className='signup-done'; s.textContent='✓ On the list';
+      s.setAttribute('data-cyc-onlist','1'); s.setAttribute('role','status'); s.setAttribute('aria-label','You are already on the email list');
+      b.parentNode.replaceChild(s,b);
+    });
   }
-  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded',apply);
+  window.cycMarkOnList=apply;
+  [0,500,1500,3000].forEach(function(t){ setTimeout(apply,t); });
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply);
 })();
 </script>
 <script>
@@ -5755,7 +5760,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 <script>
 /* cycCelebFix v3.2 (force fixed-position popup) — popup renders above the celebration; SKIP is a small non-blocking button (never a full-screen overlay), plus a global tap-backstop so a celebration overlay can never freeze the page. Band-agnostic. */
 (function(){
-  if(window.__cycCelebFix) return; window.__cycCelebFix=1;
+  if(window.__cycCelebFix) return; window.__cycCelebFix=1; try{ if(!document.getElementById('cycModalLift')){ var __ml=document.createElement('style'); __ml.id='cycModalLift'; __ml.textContent='#shareModal,#concertModal,#emailModal,#cycAllBracketsModal,#cycBestAlbumModal,#quizPop{ z-index:100050 !important; }'; document.head.appendChild(__ml); } }catch(e){}
   function desk(){ try{ return matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
   function champNow(){ try{ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }catch(e){ return ''; } }
   function killCeleb(){
@@ -5768,7 +5773,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var _sw=window.cycShowWinScreen;
     window.cycShowWinScreen=function(){
       var r=_sw.apply(this,arguments);
-      try{ var ov=document.getElementById('cycWin'); if(ov){ ov.style.position='fixed'; ov.style.inset='0'; ov.style.zIndex='2147483647'; } killCeleb(); var sb=document.getElementById('cycCelebSkip'); if(sb) sb.remove(); var cc=document.getElementById('cycCelebCatch'); if(cc) cc.remove(); }catch(e){}
+      try{ var ov=document.getElementById('cycWin'); if(ov){ ov.style.position='fixed'; ov.style.inset='0'; ov.style.zIndex='100000'; } killCeleb(); var sb=document.getElementById('cycCelebSkip'); if(sb) sb.remove(); var cc=document.getElementById('cycCelebCatch'); if(cc) cc.remove(); }catch(e){}
       return r;
     };
   }
