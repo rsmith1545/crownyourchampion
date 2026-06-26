@@ -5442,6 +5442,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   .cyc-web-next { display:block; text-align:center; margin:7px auto 3px; padding:2px 4px; background:none; border:none; cursor:pointer;
      font-family:'Barlow Condensed',sans-serif; font-weight:600; font-style:italic; font-size:13.5px; letter-spacing:.4px; color:#6f9fe0; transition:color .15s; white-space:nowrap; }
   .cyc-web-next:hover { color:#a8c8f5; }
+  /* keep the region-winner ("advances to Final Four") card anchored: float the cue below it (absolute) so space-around doesn't push the card up */
+  .region-card .cyc-winner-col { position:relative; }
+  .region-card .cyc-winner-col .cyc-web-next { position:absolute; left:0; right:0; top:calc(50% + 30px); margin:0; }
 
   /* ===== Scope B — Submit & Crown / champion reveal (web) ===== */
   /* B1: no pre-submit champion box; B3: green box only after crowning, BELOW the button */
