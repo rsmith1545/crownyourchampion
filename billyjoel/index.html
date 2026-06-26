@@ -5414,11 +5414,21 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* tools (How to Play / Share / Reset) read as actions, not destinations: lighter weight + muted color */
   #cycWebControls .cwc-tool { font-weight:400; color:#93a0b5; }
   #cycWebControls .cwc-tool:hover { color:#e3e9f2; }
-  #cycWebControls .cwc-reset { font-weight:400; font-size:16px; color:#76808f; }
-  #cycWebControls .cwc-reset:hover { color:var(--dmb-red); }
+  #cycWebControls .cwc-reset { font-weight:400; font-size:15px; color:#8fa3c4; border:1px solid rgba(99,140,200,.6); border-radius:7px; padding:4px 13px; }
+  #cycWebControls .cwc-reset:hover { color:var(--dmb-red); border-color:var(--dmb-red); }
   /* Share = a 'spread the word' growth action: warmer + a touch bolder so it invites a click; Reset stays the quietest (destructive) */
   #cycWebControls .cwc-tool[data-act="share"] { color:#d3a94e; font-weight:600; }
   #cycWebControls .cwc-tool[data-act="share"]:hover { color:#f1c463; }
+  /* Larger Pick-a-Bracket / Best Album popup text on web (match the homepage feel) */
+  #cycAllBracketsModal .qm-title, #cycBestAlbumModal .qm-title { font-size:33px !important; }
+  #cycAllBracketsModal .qm-sub, #cycBestAlbumModal .qm-sub { font-size:16px !important; }
+  #cycAllBracketsModal .qm-gh, #cycBestAlbumModal .qm-gh { font-size:13px !important; }
+  #cycAllBracketsModal .qm-group a.qm-chip, #cycBestAlbumModal .qm-group a.qm-chip { font-size:17.5px !important; padding:11px 14px !important; }
+  /* Larger How to Play text on web */
+  .howto-modal h2 { font-size:33px !important; }
+  .howto-modal .howto-steps p { font-size:17.5px !important; line-height:1.6 !important; }
+  .howto-modal .howto-list .fm-item { font-size:16px !important; line-height:1.55 !important; }
+  .howto-modal .howto-legend-title { font-size:22px !important; }
 
   /* Row 2: Auto-Fill — label + ALL options inline, NO box, compact */
   .sticky-bar .mode-bar { background:var(--dmb-panel); border:0 !important; align-items:center; gap:8px; padding:4px 20px; }
