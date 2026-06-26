@@ -5688,6 +5688,14 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       }
       var img=document.getElementById('cwCardImg2');
       if(window.cycDrawCard && img){ try{ window.cycDrawCard(function(b,c){ if(c&&img){ img.src=c.toDataURL('image/png'); img.style.display='block'; } }); }catch(e){} }
+      /* already subscribed? carry the 'on the list' state into the popup instead of asking again */
+      try{
+        var subbed=false; try{ subbed=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
+        var nw=document.getElementById('cwNotifyWrap');
+        if(nw){
+          if(subbed){ nw.innerHTML='<div class="cw-nlabel" style="margin:0;color:#7fe0a0">\u2713 You\u2019re on the list \u2014 we\u2019ll let you know when new brackets drop.</div>'; }
+        }
+      }catch(e){}
     }
     (function(){ var tries=0; (function setBanner(){ var hc=document.getElementById('cycHdrChamp'); if(hc){ hc.onclick=function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(); return; }catch(e){} } }; } else if(++tries<25){ setTimeout(setBanner,200); } })(); })();
   }
