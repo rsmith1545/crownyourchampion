@@ -1062,6 +1062,13 @@
         .hub-band-label span { opacity: 0.75; }
         .hub-modal .hub-band { font-size: 14px; padding: 8px 12px; }
         .hub-notify { width: 100%; margin-top: 16px; padding: 12px; font-size: 16px; letter-spacing: 0.08em; border-radius: 3px; }
+        .hub-band-block { margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(120,140,175,.20); text-align:left; }
+        .hub-band-q { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:.5px; color:#ffd54a; margin:0 0 8px 2px; }
+        .hub-band-row2 { display:flex; gap:8px; }
+        .hub-band-row2 .hub-band { flex:1; margin:0; }
+        .hub-reqbtn { flex:0 0 auto; background:transparent; color:#ffd54a; border:1px solid rgba(255,213,74,.55); border-radius:3px; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:14px; padding:0 16px; cursor:pointer; white-space:nowrap; }
+        .hub-reqbtn:hover { background:rgba(255,213,74,.12); }
+        .hub-reqbtn:disabled { opacity:.5; cursor:not-allowed; }
 
         /* ── CONCERT MODAL ── */
         .concert-modal-overlay {
@@ -1976,15 +1983,18 @@
 <div class="email-modal-overlay" id="hubSignupModal">
     <div class="email-modal hub-modal">
         <button class="hub-x" onclick="closeHubSignup()" aria-label="Close">×</button>
-        <div class="em-title">Get the Next Bracket First</div>
+        <div class="em-title">Get Notified</div>
         <div class="em-desc">One email when a new artist tournament drops. No spam, ever.</div>
         <input type="email" class="email-input hub-field" id="hubEmail" placeholder="you@email.com" autocomplete="email">
-        <div class="hub-band-row">
-            <label class="hub-band-label" for="hubBand">Want a specific band? <span>(optional)</span></label>
-            <input type="text" class="email-input hub-field hub-band" id="hubBand" placeholder="e.g. Tom Petty" autocomplete="off">
-        </div>
-        <button class="btn btn-submit hub-notify" id="hubNotifyBtn" onclick="submitHubSignup()">Notify Me</button>
         <label class="em-optin"><input type="checkbox" id="hubConsent"> <span>Yes, email me when new brackets launch. I can unsubscribe anytime. See the <a href="/privacy.html" target="_blank" rel="noopener">privacy policy</a>.</span></label>
+        <button class="btn btn-submit hub-notify" id="hubNotifyBtn" onclick="submitHubSignup()">Sign Me Up</button>
+        <div class="hub-band-block">
+            <div class="hub-band-q">Want a specific band?</div>
+            <div class="hub-band-row2">
+                <input type="text" class="email-input hub-field hub-band" id="hubBand" placeholder="e.g. Tom Petty" autocomplete="off">
+                <button class="btn hub-reqbtn" id="hubBandBtn" onclick="submitHubBand()">Notify Me</button>
+            </div>
+        </div>
         <div class="em-status" id="hubStatus"></div>
         <div class="em-privacy">🔒 One email, no spam. Unsubscribe anytime.</div>
     </div>
@@ -3089,7 +3099,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── HUB SIGNUP MODAL (header Sign Up button) ───────────────────────
 function openHubSignup(){
     var s=document.getElementById('hubStatus'); if(s){ s.textContent=''; s.className='em-status'; }
-    var b=document.getElementById('hubNotifyBtn'); if(b){ b.disabled=false; b.textContent='Notify Me'; }
+    var b=document.getElementById('hubNotifyBtn'); if(b){ b.disabled=false; b.textContent='Sign Me Up'; }
+    var bb=document.getElementById('hubBandBtn'); if(bb){ bb.disabled=false; bb.textContent='Notify Me'; }
+    try{ var saved=localStorage.getItem('cyc-hub-email'); var he=document.getElementById('hubEmail'); if(saved&&he&&!he.value){ he.value=saved; var hc=document.getElementById('hubConsent'); if(hc) hc.checked=true; } }catch(e){}
     document.getElementById('hubSignupModal').classList.add('open');
     setTimeout(function(){ try{ document.getElementById('hubEmail').focus(); }catch(e){} }, 300);
 }
@@ -3119,10 +3131,36 @@ async function submitHubSignup(){
     btn.textContent='Done ✓';
     setTimeout(closeHubSignup,1600);
 }
+async function submitHubBand(){
+    var band=(document.getElementById('hubBand').value||'').trim();
+    var email=(document.getElementById('hubEmail').value||'').trim();
+    if(!email){ try{ email=localStorage.getItem('cyc-hub-email')||''; }catch(e){} }
+    var consent=document.getElementById('hubConsent').checked;
+    var statusEl=document.getElementById('hubStatus');
+    var btn=document.getElementById('hubBandBtn');
+    if(!band){ statusEl.textContent='Type the artist you want first.'; statusEl.className='em-status error'; document.getElementById('hubBand').focus(); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ statusEl.textContent='Add your email above so we can notify you.'; statusEl.className='em-status error'; document.getElementById('hubEmail').focus(); return; }
+    if(!consent){ statusEl.textContent='Please tick the box so we can email you.'; statusEl.className='em-status error'; return; }
+    btn.disabled=true; btn.textContent='\u2026'; statusEl.textContent=''; statusEl.className='em-status';
+    try{ localStorage.setItem('cyc-hub-email',email); localStorage.setItem('cyc-band-req',band); }catch(e){}
+    try{
+        var fs=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        var fa=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+        var db=fs.getFirestore(fa.getApp());
+        var rec={email:email,consent:true,consent_at:fs.serverTimestamp(),source:'header-band',band:(location.pathname.replace(/\//g,'')||'home'),requested_band:band,created_at:fs.serverTimestamp()};
+        var w=fs.addDoc(fs.collection(db,'hub_signups'),rec);
+        await Promise.race([w,new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },6000); })]);
+    }catch(e){ console.warn('hub band write',e); }
+    statusEl.textContent='\u2713 Got it \u2014 we\u2019ll notify you about '+band+'. \uD83D\uDC51'; statusEl.className='em-status success';
+    try{ if(window.cycMarkOnList) setTimeout(window.cycMarkOnList,60); }catch(e){}
+    try{ cycEvt('band_request',{band_requested:band}); }catch(e){}
+    btn.textContent='\u2713';
+    setTimeout(closeHubSignup,1800);
+}
 document.addEventListener('DOMContentLoaded', function(){
     var he=document.getElementById('hubEmail'), hb=document.getElementById('hubBand');
     if(he) he.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitHubSignup(); } });
-    if(hb) hb.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitHubSignup(); } });
+    if(hb) hb.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitHubBand(); } });
     var ov=document.getElementById('hubSignupModal');
     if(ov) ov.addEventListener('click', function(e){ if(e.target===ov) closeHubSignup(); });
 });
