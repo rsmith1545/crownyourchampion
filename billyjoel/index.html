@@ -5709,7 +5709,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
   var CKEY='cyc-crowned-'+slug();
   function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='\u2014'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
-  function crowned(){ try{ return localStorage.getItem(CKEY)==='1' && !!champNow(); }catch(e){ return false; } }
+  function crowned(){ if(!champNow()) return false;
+    var btn=document.getElementById('crownBtn'); if(btn && btn.classList.contains('cyc-crowned')) return true;
+    try{ return localStorage.getItem(CKEY)==='1'; }catch(e){ return false; } }
 
   if(!document.getElementById('cycMobCrownCss')){
     var st=document.createElement('style'); st.id='cycMobCrownCss';
