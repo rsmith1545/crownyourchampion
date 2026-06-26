@@ -5393,7 +5393,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:14px; line-height:1.1; white-space:nowrap; }
+  #cycWebTag { min-width:0; padding-bottom:19px; line-height:1.1; white-space:nowrap; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
   #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
@@ -5452,14 +5452,12 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #crownBtn .cb-action { display:block; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; line-height:1; }
   /* V7 #4: tighten header so the gold line + control zone sit closer to the logo (kill dead space) */
   .site-header { padding-top:9px !important; padding-bottom:6px !important; }
-  /* V7 #1: faint gold line under each region song-pair (keeps the blue border on top/sides) */
-  .region-card .matchup { border-bottom:1.5px solid rgba(240,165,0,.32) !important; }
   /* V7 #5: keep the All Brackets icon rendered in color */
   #cycWebControls .cwc-ico { font-size:16px; line-height:1; }
   #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
 
   /* Item 3 (V5): region headers = completed-box dark-green + gold trim (distinct from blue picks AND championship gold) */
-  .region-card .region-header { background:linear-gradient(180deg,#0a1730,#060d1c) !important; color:#e8eefb !important; border-bottom:1px solid rgba(120,150,205,.28) !important; text-shadow:none !important; }
+  .region-card .region-header { background:linear-gradient(180deg,#0a1730,#060d1c) !important; color:#e8eefb !important; border-top:2px solid rgba(70,130,210,.65) !important; border-bottom:2px solid rgba(240,165,0,.42) !important; text-shadow:none !important; }
   /* Item 4: lock region bracket card positions — advancing slots keep blank-layout height (picks fill in place) */
   .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px; overflow:hidden; }
   /* Item 6: Championship cluster FITS names (wrap, no clip) with reserved height so picks don't shift it */
@@ -5522,7 +5520,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     /* Control zone Row 1 (nav + tools) */
     var ctl=document.createElement('div'); ctl.id='cycWebControls';
     ctl.innerHTML=
-      '<button class="cwc-item" data-act="brackets"><span class="cwc-ico">&#128450;&#65039;</span> All Brackets</button>'+
+      '<button class="cwc-item" data-act="brackets"><span class="cwc-ico">&#128451;&#65039;</span> All Brackets</button>'+
       '<span class="cwc-sep">&middot;</span>'+
       '<button class="cwc-item" data-act="album">&#128191; Vote: Best Album</button>'+
       '<span class="cwc-sep">&middot;</span>'+
