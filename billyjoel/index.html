@@ -5392,16 +5392,16 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
-  .site-header .header-left { display:flex; align-items:center; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:0; line-height:1.1; white-space:nowrap; transform:translateY(6px); }
+  .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
+  #cycWebTag { min-width:0; padding-bottom:14px; line-height:1.1; white-space:nowrap; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
   #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
-  #cycWebSignup { align-self:flex-end; flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; background:none; border:none; padding:0; margin:0 2px 7px 14px;
-     color:#7fb0ea; font:700 15px system-ui,-apple-system,sans-serif; letter-spacing:.3px; cursor:pointer; white-space:nowrap; opacity:.95; transition:opacity .15s,color .15s; }
-  #cycWebSignup:hover { opacity:1; color:#9cc3f2; }
-  #cycWebSignup.signup-done { color:#5fbf6a; cursor:default; opacity:1; }
-  #cycWebSignup .su-bell { font-size:16px; line-height:1; }
+  #cycWebSignup { align-self:center; flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; background:rgba(111,163,224,.10); border:1px solid rgba(111,163,224,.55); padding:9px 18px; margin:0 4px 0 14px; border-radius:24px;
+     color:#a8cdf6; font:700 18px system-ui,-apple-system,sans-serif; letter-spacing:.4px; cursor:pointer; white-space:nowrap; opacity:1; transition:all .15s; }
+  #cycWebSignup:hover { background:rgba(111,163,224,.22); border-color:#a8cdf6; color:#fff; }
+  #cycWebSignup.signup-done { color:#7fe0a0; border-color:rgba(95,191,106,.5); background:rgba(95,191,106,.10); cursor:default; }
+  #cycWebSignup .su-bell { font-size:20px; line-height:1; }
 
   /* ===== Control zone — compact, NO divider lines, NO boxes ===== */
   /* Row 1: merged nav + tools, plain */
@@ -5450,6 +5450,12 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* B2: two-line Submit & Crown button (finalist name + action), pulse kept via .ready */
   #crownBtn .cb-champ { display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:5px; }
   #crownBtn .cb-action { display:block; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; line-height:1; }
+  /* V7 #4: tighten header so the gold line + control zone sit closer to the logo (kill dead space) */
+  .site-header { padding-top:9px !important; padding-bottom:6px !important; }
+  /* V7 #1: faint gold line under each region song-pair (keeps the blue border on top/sides) */
+  .region-card .matchup { border-bottom:1.5px solid rgba(240,165,0,.32) !important; }
+  /* V7 #5: keep the All Brackets icon rendered in color */
+  #cycWebControls .cwc-ico { font-size:16px; line-height:1; }
   #crownBtn.cyc-wcrowned { animation:none !important; background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; cursor:default; box-shadow:0 3px 16px rgba(40,200,100,.35) !important; }
 
   /* Item 3 (V5): region headers = completed-box dark-green + gold trim (distinct from blue picks AND championship gold) */
@@ -5516,7 +5522,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     /* Control zone Row 1 (nav + tools) */
     var ctl=document.createElement('div'); ctl.id='cycWebControls';
     ctl.innerHTML=
-      '<button class="cwc-item" data-act="brackets">&#128451; All Brackets</button>'+
+      '<button class="cwc-item" data-act="brackets"><span class="cwc-ico">&#128450;&#65039;</span> All Brackets</button>'+
       '<span class="cwc-sep">&middot;</span>'+
       '<button class="cwc-item" data-act="album">&#128191; Vote: Best Album</button>'+
       '<span class="cwc-sep">&middot;</span>'+
