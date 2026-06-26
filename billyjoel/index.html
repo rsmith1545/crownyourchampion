@@ -4165,7 +4165,9 @@ updateProgress();
     if(champ && window.cycCrowdRead){ window.cycCrowdRead(champ, function(res){ go(res); }); } else go(null);
   }
 
+  window.cycDrawCard=drawCard;
   function downloadCard(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(e){} a.remove(); }, 1500); toast('Card downloaded!'); }); }
+  window.cycDownloadCard=downloadCard;
   function copyLink(){ var url=siteURL(); try{ if(navigator.clipboard){ navigator.clipboard.writeText(url); toast('Link copied!'); return; } }catch(e){} try{ var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); toast('Link copied!'); }catch(e){} }
   function shareOrSave(){ if(!getChamp()){ toast('Crown a champion first!'); return; } drawCard(function(b){ if(!b){ toast('Could not build card — try again'); return; } var file=new File([b],'champion.png',{type:'image/png'}), txt=shareText(), url=siteURL(); try{ if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],text:txt,url:url}).catch(function(){}); return; } }catch(e){} try{ if(navigator.share){ navigator.share({title:'Crown Your Champion',text:txt,url:url}).catch(function(){}); return; } }catch(e){} var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='champion.png'; document.body.appendChild(a); a.click(); a.remove(); if(navigator.clipboard){ navigator.clipboard.writeText(txt+' '+url); } toast('Card saved & link copied!'); }); }
 
@@ -5649,8 +5651,38 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     }
     /* Widen the green champion banner so it starts right after the tagline */
     if(!document.getElementById('cycHdrChampWide')){ var hw=document.createElement('style'); hw.id='cycHdrChampWide';
-      hw.textContent='@media(min-width:1081px){ #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; } }';
+      hw.textContent='@media(min-width:1081px){'+
+        ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; }'+
+        ' .cyc-win{ background:rgba(4,6,11,.86) !important; }'+
+        ' .cyc-win .cw-inner{ max-width:620px !important; margin:4vh auto !important; background:linear-gradient(180deg,#101a2e,#0a1120) !important; border:1px solid rgba(240,165,0,.35) !important; border-radius:18px !important; box-shadow:0 24px 80px rgba(0,0,0,.65) !important; padding:22px 30px 30px !important; }'+
+        ' #cwCardWrap2{ margin:10px auto 6px !important; text-align:center; }'+
+        '}';
       document.head.appendChild(hw); }
+    /* Show the champion CARD inside the one-page + kill the redundant what's-next-after-share; banner reopens the one-page */
+    if(!window.__cycWinCardHook && typeof window.cycShowWinScreen==='function'){
+      window.__cycWinCardHook=1;
+      var _sw=window.cycShowWinScreen;
+      window.cycShowWinScreen=function(champ){
+        var r; try{ r=_sw.apply(this,arguments); }catch(e){}
+        try{ window.__cycPostCrownShare=false; }catch(e){}
+        try{ cycInjectWinCard(); }catch(e){}
+        return r;
+      };
+    }
+    function cycInjectWinCard(){
+      var ov=document.getElementById('cycWin'); if(!ov) return;
+      var inner=ov.querySelector('.cw-inner'); if(!inner) return;
+      var wrap=document.getElementById('cwCardWrap2');
+      if(!wrap){
+        wrap=document.createElement('div'); wrap.id='cwCardWrap2';
+        wrap.innerHTML='<img id="cwCardImg2" alt="Your champion card" style="width:100%;max-width:540px;border-radius:12px;display:none;box-shadow:0 10px 34px rgba(0,0,0,.6)">';
+        var cel=inner.querySelector('.cw-celebrate');
+        if(cel && cel.nextSibling) inner.insertBefore(wrap, cel.nextSibling); else inner.insertBefore(wrap, inner.firstChild);
+      }
+      var img=document.getElementById('cwCardImg2');
+      if(window.cycDrawCard && img){ try{ window.cycDrawCard(function(b,c){ if(c&&img){ img.src=c.toDataURL('image/png'); img.style.display='block'; } }); }catch(e){} }
+    }
+    (function(){ var tries=0; (function setBanner(){ var hc=document.getElementById('cycHdrChamp'); if(hc){ hc.onclick=function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(); return; }catch(e){} } }; } else if(++tries<25){ setTimeout(setBanner,200); } })(); })();
   }
   function apply(){ if(desk()) build(); }
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
