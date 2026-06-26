@@ -91,7 +91,7 @@
       <h2>Signup sources</h2>
       <table id="sourcesTable"><thead><tr><th>Source</th><th class="num">Count</th></tr></thead><tbody></tbody></table>
 
-      <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button></h2>
+      <h2>Champion leaderboards <button class="btn-sm" id="expandAll" style="margin-left:8px">expand all</button> <button class="btn-sm" id="wipeSeedLB" style="margin-left:8px;color:#e88">&#9888; reset 12 seeding leaderboards</button></h2>
       <div id="leaderboards"></div>
 
       <h2>All emails — hub + bracket signups <span id="emailCount" class="muted" style="font-size:12px;text-transform:none;letter-spacing:0"></span> <label class="muted" style="font-size:12.5px;text-transform:none;letter-spacing:0;margin:0 8px"><input type="checkbox" id="consentOnly"> consented only</label> <button class="btn-sm" id="csvSignups" style="margin-left:8px">export CSV</button></h2>
@@ -185,6 +185,7 @@ document.getElementById("logout").onclick = () => signOut(auth);
 document.getElementById("reload").onclick = () => loadAll();
 document.getElementById("hideTest").onclick = () => loadAll();
 document.getElementById("delAllTest").onclick = () => cycDeleteAllTest();
+document.getElementById("wipeSeedLB").onclick = () => cycWipeSeedingLeaderboards();
 window.cycDeleteSub = async function(col,id,btn){
   if(!col||!id){ alert('Missing document reference'); return; }
   if(!confirm('Delete this submission permanently? This cannot be undone.')) return;
@@ -206,6 +207,26 @@ window.cycDeleteAllTest = async function(){
   loadAll();
 };
 
+
+
+window.cycWipeSeedingLeaderboards = async function(){
+  const COLS = ["bs_leaderboard","beatles_leaderboard","bj_leaderboard","bonjovi_leaderboard","ff_leaderboard","ft_leaderboard","gd_leaderboard","dmb_leaderboard","metallica_leaderboard","pj_leaderboard","rhcp_leaderboard","stones_leaderboard"];
+  // HARD SAFETY: every target must be a *_leaderboard collection; never *_brackets or hub_signups, never ate.
+  if(COLS.some(c=>!/^[a-z]+_leaderboard$/.test(c)) || COLS.some(c=>/brackets|signup/i.test(c)) || COLS.includes("ate_leaderboard")){ alert("Safety check failed — aborting, nothing deleted."); return; }
+  if(!confirm("Reset (wipe ALL docs in) these 12 leaderboard collections?\n\n"+COLS.join("\n")+"\n\nEmails are NOT touched (hub_signups and every *_brackets collection are left alone). This cannot be undone.")) return;
+  if(prompt("Type RESET to confirm wiping the 12 champion/crowd leaderboards:")!=="RESET"){ alert("Cancelled — nothing deleted."); return; }
+  const report=[];
+  for(const col of COLS){
+    try{
+      const snap = await getDocs(collection(db,col));
+      let n=0, fail=0, err="";
+      for(const dd of snap.docs){ try{ await deleteDoc(doc(db,col,dd.id)); n++; }catch(e){ fail++; if(!err) err=(e.code||"")+" "+e.message; } }
+      report.push(col+": deleted "+n+(fail?(" / "+fail+" FAILED ("+err+")"):" ✓"));
+    }catch(e){ report.push(col+": ERROR "+(e.code||"")+" "+e.message); }
+  }
+  alert("Leaderboard reset result:\n\n"+report.join("\n")+"\n\n(If you see 'permission-denied', the rules block client deletes — tell me and we'll use the console or add an admin rule.)");
+  loadAll();
+};
 
 onAuthStateChanged(auth, user => {
   if (user && user.email === ADMIN_EMAIL) {
