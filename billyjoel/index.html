@@ -4993,9 +4993,9 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
 }
 .cyc-progress-glyph{ display:none; }
 .cyc-next-region{ display:none; }
-/* ---- Post-submit one-screen + raise its sub-modals above it ---- */
-@media (max-width:1080px){
-  #shareModal.modal-overlay, #concertModal.concert-modal-overlay, #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop{ z-index:100040 !important; }
+/* ---- Post-submit one-screen + raise its sub-modals above it (all widths) ---- */
+@media (min-width:1px){
+  #shareModal.modal-overlay, #concertModal.concert-modal-overlay, #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop, #emailModal.email-modal-overlay{ z-index:100040 !important; }
 }
 .cyc-win{ display:none; }
 @media (min-width:1px){
@@ -5654,8 +5654,10 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       hw.textContent='@media(min-width:1081px){'+
         ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; }'+
         ' .cyc-win{ background:rgba(4,6,11,.86) !important; }'+
-        ' .cyc-win.open{ display:flex !important; align-items:flex-start; justify-content:center; padding:4vh 0; }'+
-        ' .cyc-win .cw-inner{ position:relative !important; max-width:620px !important; width:92%; min-height:0 !important; margin:0 auto !important; background:linear-gradient(180deg,#101a2e,#0a1120) !important; border:1px solid rgba(240,165,0,.35) !important; border-radius:18px !important; box-shadow:0 24px 80px rgba(0,0,0,.65) !important; padding:22px 30px 30px !important; }'+
+        ' .cyc-win.open{ display:flex !important; align-items:flex-start; justify-content:center; padding:3vh 0; }'+
+        ' .cyc-win .cw-inner{ position:relative !important; max-width:620px !important; width:92%; min-height:0 !important; max-height:94vh !important; overflow-y:auto !important; margin:0 auto !important; background:linear-gradient(180deg,#101a2e,#0a1120) !important; border:1px solid rgba(240,165,0,.35) !important; border-radius:18px !important; box-shadow:0 24px 80px rgba(0,0,0,.65) !important; padding:14px 30px 22px !important; }'+
+        ' .cyc-win .cw-celebrate{ padding:4px 6px 8px !important; }'+
+        ' .cyc-win .cw-crown{ font-size:38px !important; }'+
         ' #cwCardWrap2{ margin:10px auto 6px !important; text-align:center; }'+
         ' .cyc-win .cw-altrow{ font-size:15px !important; }'+
         ' .cyc-win .cw-altlink{ font-size:17.5px !important; }'+
