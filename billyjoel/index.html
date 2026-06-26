@@ -2973,7 +2973,7 @@ function submitAndCrown() {
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
     window.__cycPostCrownShare = true;
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
-    setTimeout(() => openEmailModal(champ), 3200); // email capture after the celebration plays
+    setTimeout(() => openEmailModal(champ), 4600); // celebration plays, then the one combined popup
 }
 
 // Keep the sticky championship column aligned just under the sticky header zone
@@ -4996,7 +4996,7 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
   #shareModal.modal-overlay, #concertModal.concert-modal-overlay, #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop{ z-index:100040 !important; }
 }
 .cyc-win{ display:none; }
-@media (max-width:1080px){
+@media (min-width:1px){
   .cyc-win{ position:fixed; inset:0; z-index:99990; display:none; background:radial-gradient(120% 80% at 50% 0%, #1a1305 0%, #0b0a07 55%, #060507 100%); overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .cyc-win.open{ display:block; }
   .cyc-win .cw-inner{ max-width:520px; margin:0 auto; padding:18px 16px 40px; min-height:100%; box-sizing:border-box; }
@@ -5392,7 +5392,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
-  .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
+  .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:0 1 auto; min-width:0; }
   #cycWebTag { min-width:0; padding-bottom:24px; line-height:1.1; white-space:nowrap; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
@@ -5640,6 +5640,17 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     window.submitAndCrown=function(){ try{ localStorage.setItem(CKEY,'1'); }catch(e){} var r; try{ r=_sc&&_sc.apply(this,arguments); }catch(e){} try{ syncCrownState(); }catch(e){} return r; };
     syncCrownState();
     setInterval(syncCrownState,1200);
+
+    /* Combine the 4 post-submit popups into the single mobile-style one-screen on web */
+    if(!window.__cycOEMHook && typeof window.openEmailModal==='function'){
+      window.__cycOEMHook=1;
+      var _oem=window.openEmailModal;
+      window.openEmailModal=function(champ){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(champ); }catch(e){} return; } return _oem.apply(this,arguments); };
+    }
+    /* Widen the green champion banner so it starts right after the tagline */
+    if(!document.getElementById('cycHdrChampWide')){ var hw=document.createElement('style'); hw.id='cycHdrChampWide';
+      hw.textContent='@media(min-width:1081px){ #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; } }';
+      document.head.appendChild(hw); }
   }
   function apply(){ if(desk()) build(); }
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
