@@ -5186,7 +5186,7 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
     try{ if(window.saveBracketData) saveBracketData(em,true).catch(function(){}); }catch(e){}
     try{ if(window.cycEvt) cycEvt('email_signup',{source:'winscreen',band:slug()}); }catch(e){}
     st.className='cw-nstatus'; st.textContent='✓ You’re on the list — we’ll let you know.';
-    var nb=$('cwNotifyBtn'); if(nb){ nb.disabled=true; nb.textContent='✓'; }
+    var nb=$('cwNotifyBtn'); if(nb){ nb.disabled=true; nb.textContent='✓'; } try{ if(window.cycMarkOnList) setTimeout(window.cycMarkOnList,40); }catch(e){}
   }
   function hide(){ var ov=$('cycWin'); if(ov) ov.classList.remove('open'); document.body.style.overflow=''; setTimeout(function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } },120); }
   window.cycShowWinScreen=function(champ){
