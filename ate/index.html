@@ -3100,12 +3100,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ─── HUB SIGNUP MODAL (header Sign Up button) ───────────────────────
 function openHubSignup(){
-    var s=document.getElementById('hubStatus'); if(s){ s.textContent=''; s.className='em-status'; }
+    var s=document.getElementById('hubStatus');
     var b=document.getElementById('hubNotifyBtn'); if(b){ b.disabled=false; b.textContent='Sign Me Up'; }
     var bb=document.getElementById('hubBandBtn'); if(bb){ bb.disabled=false; bb.textContent='Notify Me'; }
-    try{ var saved=localStorage.getItem('cyc-hub-email'); var he=document.getElementById('hubEmail'); if(saved&&he&&!he.value){ he.value=saved; var hc=document.getElementById('hubConsent'); if(hc) hc.checked=true; } }catch(e){}
+    var saved=''; try{ saved=localStorage.getItem('cyc-hub-email')||''; }catch(e){}
+    var he=document.getElementById('hubEmail'), hc=document.getElementById('hubConsent');
+    if(saved){
+        if(he&&!he.value) he.value=saved;
+        if(hc) hc.checked=true;
+        if(s){ s.textContent='\u2713 You\u2019re on the list \u2014 we\u2019ll email you when new brackets drop.'; s.className='em-status success'; }
+        if(b){ b.textContent='\u2713 On the list'; b.disabled=true; }
+    } else { if(s){ s.textContent=''; s.className='em-status'; } }
     document.getElementById('hubSignupModal').classList.add('open');
-    setTimeout(function(){ try{ document.getElementById('hubEmail').focus(); }catch(e){} }, 300);
+    setTimeout(function(){ try{ (saved?document.getElementById('hubBand'):document.getElementById('hubEmail')).focus(); }catch(e){} }, 300);
 }
 function closeHubSignup(){ document.getElementById('hubSignupModal').classList.remove('open'); }
 async function submitHubSignup(){
