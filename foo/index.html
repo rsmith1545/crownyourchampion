@@ -5752,5 +5752,57 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
+<script>
+/* cycCelebFix — post-crown popup must appear ABOVE the celebration; adds web click-to-continue. Band-agnostic. */
+(function(){
+  if(window.__cycCelebFix) return; window.__cycCelebFix=1;
+  function desk(){ try{ return matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
+  function killCeleb(){
+    try{ var c=document.getElementById('confettiCanvas'); if(c) c.style.display='none'; }catch(e){}
+    try{ var t=document.getElementById('celebrateText'); if(t) t.classList.remove('show'); }catch(e){}
+    try{ var s=document.getElementById('cycCelebStat'); if(s) s.style.display='none'; }catch(e){}
+  }
+  /* Popup sits above celebration layers (confetti z=2147483646, text z=2147483647).
+     __cycSkipArmed swallows the page's delayed auto-open after a manual skip, so a
+     skipped+closed popup is not reopened by the original setTimeout. */
+  if(typeof window.cycShowWinScreen==='function'){
+    var _sw=window.cycShowWinScreen;
+    window.cycShowWinScreen=function(){
+      if(window.__cycSkipArmed){ window.__cycSkipArmed=false; return; }
+      var r=_sw.apply(this,arguments);
+      try{ var ov=document.getElementById('cycWin'); if(ov) ov.style.zIndex='2147483647'; killCeleb(); }catch(e){}
+      return r;
+    };
+  }
+  /* WEB: click-to-continue catch so users can skip the celebration straight to the popup. */
+  function wrapSAC(){
+    var cur=window.submitAndCrown; if(typeof cur!=='function' || cur.__celebSkip) return;
+    var w=function(){ var r=cur.apply(this,arguments);
+      try{ if(desk()){ var champ=((document.getElementById('champion')||{}).innerText||'').trim(); if(champ&&champ!=='—'&&champ!=='-') showSkip(champ); } }catch(e){}
+      return r; };
+    w.__celebSkip=1; window.submitAndCrown=w;
+  }
+  function showSkip(champ){
+    if(document.getElementById('cycCelebSkip')) return;
+    var cap=document.createElement('div'); cap.id='cycCelebSkip';
+    cap.style.cssText='position:fixed;inset:0;z-index:2147483647;cursor:pointer;background:transparent;';
+    var hint=document.createElement('div'); hint.textContent='click to continue';
+    hint.style.cssText='position:fixed;left:0;right:0;bottom:42px;text-align:center;z-index:2147483647;color:rgba(255,255,255,.72);font-family:\'Barlow Condensed\',sans-serif;letter-spacing:.16em;text-transform:uppercase;font-size:14px;opacity:0;transition:opacity .5s ease;pointer-events:none;';
+    document.body.appendChild(cap); document.body.appendChild(hint);
+    setTimeout(function(){ hint.style.opacity='1'; },800);
+    var done=false;
+    function clean(){ try{cap.remove();}catch(e){} try{hint.remove();}catch(e){} }
+    function go(){ if(done) return; done=true; clean(); killCeleb();
+      try{ if(window.openEmailModal) openEmailModal(champ); }catch(e){}
+      window.__cycSkipArmed=true; setTimeout(function(){ window.__cycSkipArmed=false; },9000);
+    }
+    cap.addEventListener('click', go);
+    var iv=setInterval(function(){ var ov=document.getElementById('cycWin'); if(ov&&ov.classList.contains('open')){ clearInterval(iv); done=true; clean(); } },200);
+    setTimeout(function(){ clearInterval(iv); clean(); },10000);
+  }
+  if(document.readyState!=='loading') wrapSAC(); else document.addEventListener('DOMContentLoaded',wrapSAC);
+  setTimeout(wrapSAC,0); setTimeout(wrapSAC,1500); setTimeout(wrapSAC,3500);
+})();
+</script>
 </body>
 </html>
