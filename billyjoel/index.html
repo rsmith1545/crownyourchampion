@@ -5652,7 +5652,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     /* Widen the green champion banner so it starts right after the tagline */
     if(!document.getElementById('cycHdrChampWide')){ var hw=document.createElement('style'); hw.id='cycHdrChampWide';
       hw.textContent='@media(min-width:1081px){'+
-        ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; }'+
+        ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; min-height:0 !important; max-height:clamp(54px,8.5vw,140px) !important; padding:6px 22px !important; overflow:hidden !important; box-sizing:border-box !important; gap:1px !important; }'+
+        ' #cycHdrChampName{ font-size:clamp(20px,2.3vw,34px) !important; line-height:1.04 !important; }'+
         ' .cyc-win{ background:rgba(4,6,11,.86) !important; }'+
         ' .cyc-win.open{ display:flex !important; align-items:flex-start; justify-content:center; padding:3vh 0; }'+
         ' .cyc-win .cw-inner{ position:relative !important; max-width:620px !important; width:92%; min-height:0 !important; max-height:94vh !important; overflow-y:auto !important; margin:0 auto !important; background:linear-gradient(180deg,#101a2e,#0a1120) !important; border:1px solid rgba(240,165,0,.35) !important; border-radius:18px !important; box-shadow:0 24px 80px rgba(0,0,0,.65) !important; padding:14px 30px 22px !important; }'+
