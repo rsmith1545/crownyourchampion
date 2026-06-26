@@ -5188,6 +5188,8 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
   function hide(){ var ov=$('cycWin'); if(ov) ov.classList.remove('open'); document.body.style.overflow=''; setTimeout(function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } },120); }
   window.cycShowWinScreen=function(champ){
     var ov=$('cycWin'); if(!ov) return; wire();
+    try{ var nw=$('cwNotifyWrap'); var subbed=false; try{ subbed=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
+      if(nw && subbed){ nw.innerHTML='<div class="cw-nlabel" style="margin:0;color:#7fe0a0">\u2713 You\u2019re on the list \u2014 we\u2019ll let you know when new brackets drop.</div>'; } }catch(e){}
     var c=(champ||((document.getElementById('champion')||{}).innerText||'')).trim();
     var ce=$('cwChamp'); if(ce) ce.textContent=c||'—';
     var hot=$('cwHot'); if(hot){ hot.textContent=''; hot.classList.remove('has');
@@ -5688,14 +5690,6 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       }
       var img=document.getElementById('cwCardImg2');
       if(window.cycDrawCard && img){ try{ window.cycDrawCard(function(b,c){ if(c&&img){ img.src=c.toDataURL('image/png'); img.style.display='block'; } }); }catch(e){} }
-      /* already subscribed? carry the 'on the list' state into the popup instead of asking again */
-      try{
-        var subbed=false; try{ subbed=!!localStorage.getItem('cyc-hub-email'); }catch(e){}
-        var nw=document.getElementById('cwNotifyWrap');
-        if(nw){
-          if(subbed){ nw.innerHTML='<div class="cw-nlabel" style="margin:0;color:#7fe0a0">\u2713 You\u2019re on the list \u2014 we\u2019ll let you know when new brackets drop.</div>'; }
-        }
-      }catch(e){}
     }
     (function(){ var tries=0; (function setBanner(){ var hc=document.getElementById('cycHdrChamp'); if(hc){ hc.onclick=function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(); return; }catch(e){} } }; } else if(++tries<25){ setTimeout(setBanner,200); } })(); })();
   }
