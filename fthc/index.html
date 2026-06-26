@@ -5759,7 +5759,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 <script>
-/* cycCelebFix v3 — popup renders above the celebration; SKIP is a small non-blocking button (never a full-screen overlay), plus a global tap-backstop so a celebration overlay can never freeze the page. Band-agnostic. */
+/* cycCelebFix v3.1 — popup renders above the celebration; SKIP is a small non-blocking button (never a full-screen overlay), plus a global tap-backstop so a celebration overlay can never freeze the page. Band-agnostic. */
 (function(){
   if(window.__cycCelebFix) return; window.__cycCelebFix=1;
   function desk(){ try{ return matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
@@ -5774,7 +5774,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var _sw=window.cycShowWinScreen;
     window.cycShowWinScreen=function(){
       var r=_sw.apply(this,arguments);
-      try{ var ov=document.getElementById('cycWin'); if(ov) ov.style.zIndex='2147483647'; killCeleb(); }catch(e){}
+      try{ var ov=document.getElementById('cycWin'); if(ov) ov.style.zIndex='2147483647'; killCeleb(); var sb=document.getElementById('cycCelebSkip'); if(sb) sb.remove(); var cc=document.getElementById('cycCelebCatch'); if(cc) cc.remove(); }catch(e){}
       return r;
     };
   }
