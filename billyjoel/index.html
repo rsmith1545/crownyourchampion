@@ -4976,7 +4976,7 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
   .region-header{ background:linear-gradient(180deg,#0f1830,#06090f) !important; color:var(--dmb-gold,#f0a500) !important; border-bottom:1px solid rgba(240,165,0,.30) !important; }
   .region-header::after{ content:'\2193 scroll to see the full region' !important; display:block !important; font-family:'Barlow Condensed',sans-serif !important; font-size:10px !important; letter-spacing:1px !important; font-weight:400 !important; opacity:.72 !important; margin:3px 0 0 0 !important; }
   /* ---- Submit & Crown stays GREEN (no pulse); crowned = settled, distinct, tappable re-entry ---- */
-  .crown-btn.ready{ animation:none !important; box-shadow:0 4px 16px rgba(34,197,94,.40) !important; }
+  .crown-btn.ready{ animation:crownPulse 1.2s ease-in-out infinite !important; box-shadow:0 4px 16px rgba(34,197,94,.40) !important; }
   .crown-btn.ready:hover{ transform:translateY(-1px) scale(1.01); box-shadow:0 6px 22px rgba(34,197,94,.6) !important; }
   .crown-btn.cyc-crowned{ background:linear-gradient(135deg,#1ba84f,#13863f) !important; color:#fff !important; border:1px solid #4adf86 !important; opacity:1 !important; cursor:pointer !important; box-shadow:0 3px 16px rgba(40,200,100,.42) !important; animation:none !important; font-size:19px !important; letter-spacing:1.5px !important; }
   .crown-btn.cyc-crowned:hover{ transform:translateY(-1px); box-shadow:0 5px 20px rgba(40,200,100,.6) !important; }
@@ -5699,5 +5699,52 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 
+<script>
+/* cycMobCrown — port the validated WEB Submit&Crown / champion-reveal to MOBILE (<=1080). Web untouched.
+   Pre-submit: no green champion box; finalist name on the pulsing Submit&Crown button.
+   Post-submit: green champion box appears on return; button shows the crowned state. */
+(function(){
+  if(window.__cycMobCrown) return; window.__cycMobCrown=1;
+  function mob(){ try{ return window.matchMedia('(max-width:1080px)').matches; }catch(e){ return innerWidth<=1080; } }
+  function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
+  var CKEY='cyc-crowned-'+slug();
+  function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='\u2014'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
+  function crowned(){ try{ return localStorage.getItem(CKEY)==='1' && !!champNow(); }catch(e){ return false; } }
+
+  if(!document.getElementById('cycMobCrownCss')){
+    var st=document.createElement('style'); st.id='cycMobCrownCss';
+    st.textContent='@media (max-width:1080px){'+
+      ' .finals-card .champion-slot{ display:none; }'+
+      ' body.cyc-mob-crowned .finals-card .champion-slot{ display:block; }'+
+      " #crownBtn .cb-champ{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:3px; }"+
+      " #crownBtn .cb-action{ display:block; font-family:'Bebas Neue',sans-serif; font-size:21px; letter-spacing:1.5px; line-height:1; }"+
+      '}';
+    document.head.appendChild(st);
+  }
+  function moveSlot(){ var slot=document.querySelector('.finals-card .champion-slot'), btn=document.getElementById('crownBtn'); if(slot&&btn&&btn.parentNode&&slot!==btn.nextElementSibling){ btn.parentNode.insertBefore(slot, btn.nextSibling); } }
+  function sync(){
+    if(!mob()) return;
+    var btn=document.getElementById('crownBtn'); if(!btn) return;
+    if(crowned()){
+      document.body.classList.add('cyc-mob-crowned');
+      if(!btn.classList.contains('cyc-crowned') && window.cycTransformCrownBtn){ try{ cycTransformCrownBtn(champNow()); }catch(e){} }
+      return;
+    }
+    document.body.classList.remove('cyc-mob-crowned');
+    var c=champNow();
+    if(c && !btn.disabled && !btn.classList.contains('cyc-crowned')){
+      btn.innerHTML='<span class="cb-champ">Your Champion: '+c+'</span><span class="cb-action">\uD83D\uDC51 Submit &amp; Crown</span>';
+    }
+  }
+  var _t=window.cycTransformCrownBtn;
+  if(typeof _t==='function'){ window.cycTransformCrownBtn=function(champ){ try{ localStorage.setItem(CKEY,'1'); document.body.classList.add('cyc-mob-crowned'); }catch(e){} return _t.apply(this,arguments); }; }
+  var _u=window.updateCrownButton;
+  if(typeof _u==='function'){ window.updateCrownButton=function(){ var r; try{ r=_u.apply(this,arguments);}catch(e){} try{ sync(); }catch(e){} return r; }; }
+  var _r=window.confirmReset;
+  if(typeof _r==='function'){ window.confirmReset=function(){ var r; try{ r=_r.apply(this,arguments);}catch(e){} try{ localStorage.removeItem(CKEY); document.body.classList.remove('cyc-mob-crowned'); }catch(e){} return r; }; }
+  function init(){ moveSlot(); sync(); setInterval(function(){ try{ moveSlot(); sync(); }catch(e){} },1200); }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 </body>
 </html>
