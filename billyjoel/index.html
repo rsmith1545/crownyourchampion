@@ -5393,7 +5393,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:1 1 auto; min-width:0; }
-  #cycWebTag { min-width:0; padding-bottom:19px; line-height:1.1; white-space:nowrap; }
+  #cycWebTag { min-width:0; padding-bottom:24px; line-height:1.1; white-space:nowrap; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
   #cycWebTag .wt-stats { font-family:'Barlow Condensed',sans-serif; font-size:18px; letter-spacing:1px; text-transform:uppercase; color:var(--dmb-muted); }
@@ -5416,6 +5416,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #cycWebControls .cwc-tool:hover { color:#e3e9f2; }
   #cycWebControls .cwc-reset { font-weight:400; font-size:16px; color:#76808f; }
   #cycWebControls .cwc-reset:hover { color:var(--dmb-red); }
+  /* Share = a 'spread the word' growth action: warmer + a touch bolder so it invites a click; Reset stays the quietest (destructive) */
+  #cycWebControls .cwc-tool[data-act="share"] { color:#d3a94e; font-weight:600; }
+  #cycWebControls .cwc-tool[data-act="share"]:hover { color:#f1c463; }
 
   /* Row 2: Auto-Fill — label + ALL options inline, NO box, compact */
   .sticky-bar .mode-bar { background:var(--dmb-panel); border:0 !important; align-items:center; gap:8px; padding:4px 20px; }
@@ -5490,7 +5493,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     return '';
   }
   function winSlot(card){ return card.querySelector('.slot[id$="-WIN"]'); }
-  function regionDone(card){ var w=winSlot(card); if(!w) return false; var t=(w.textContent||'').trim(); return !!t && t!=='--' && t!=='—' && !w.classList.contains('empty'); }
+  function regionDone(card){ var w=winSlot(card); if(!w) return false; return card.querySelectorAll('.slot.empty').length===0; }
   function regionName(card){ var h=card.querySelector('.region-header'); if(!h) return ''; var n=h.childNodes[0]; return ((n&&n.textContent)||h.textContent||'').trim(); }
   function scrollToEl(el){ if(!el) return; try{ var y=el.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop||0)-90; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }catch(e){} }
 
