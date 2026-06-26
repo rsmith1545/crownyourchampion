@@ -5718,7 +5718,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     st.textContent='@media (max-width:1080px){'+
       ' .finals-card .champion-slot{ display:none; }'+
       ' body.cyc-mob-crowned .finals-card .champion-slot{ display:block; }'+
-      " #crownBtn .cb-champ{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:.95; line-height:1.1; margin-bottom:3px; }"+
+      " #crownBtn .cb-champ{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; opacity:.95; line-height:1.12; margin-bottom:4px; }"+
       " #crownBtn .cb-action{ display:block; font-family:'Bebas Neue',sans-serif; font-size:21px; letter-spacing:1.5px; line-height:1; }"+
       '}';
     document.head.appendChild(st);
@@ -5744,7 +5744,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   if(typeof _u==='function'){ window.updateCrownButton=function(){ var r; try{ r=_u.apply(this,arguments);}catch(e){} try{ sync(); }catch(e){} return r; }; }
   var _r=window.confirmReset;
   if(typeof _r==='function'){ window.confirmReset=function(){ var r; try{ r=_r.apply(this,arguments);}catch(e){} try{ localStorage.removeItem(CKEY); document.body.classList.remove('cyc-mob-crowned'); }catch(e){} return r; }; }
-  function init(){ moveSlot(); sync(); setInterval(function(){ try{ moveSlot(); sync(); }catch(e){} },1200); }
+  function wireSlotClick(){ var slot=document.querySelector('.finals-card .champion-slot'); if(!slot||slot.__cycClick) return; slot.__cycClick=1; slot.style.cursor='pointer'; slot.title='See your champion'; slot.addEventListener('click', function(){ if(window.cycShowWinScreen){ try{ cycShowWinScreen(champNow()); }catch(e){ try{ cycShowWinScreen(); }catch(_){} } } }); }
+  function init(){ moveSlot(); sync(); wireSlotClick(); setInterval(function(){ try{ moveSlot(); sync(); wireSlotClick(); }catch(e){} },1200); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
