@@ -5926,5 +5926,17 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 #cycPeHint{ display:none; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:.5px; color:var(--dmb-gold,#f0a500); opacity:.85; padding:6px 10px 2px; }
 </style>
 
+<style id="cycMobFit">
+/* Keep the mobile bracket within the viewport: cap grid tracks so a column can't
+   force the page wider (which pushed round 4 + the header pill off-screen). */
+@media (max-width:1080px){
+  .region-card .bracket-row{ grid-template-columns: minmax(0,1.46fr) minmax(0,1.04fr) minmax(0,1fr) minmax(0,1fr) !important; }
+  .region-card .bracket-row > .round-col:nth-child(5){ display:none !important; } /* region-winner col: hidden by position too, not just JS class */
+  .master-grid, .region-card, .main-wrap{ max-width:100%; }
+  html, body{ overflow-x:clip; }                       /* sticky-safe: kills the residual 7px right-scroll */
+  .site-header #cycMobTagline{ min-width:0 !important; }/* let the tagline+pill row shrink instead of overflowing */
+  #cycSetlistBackdrop{ max-width:100vw; }               /* dont let the fixed backdrop stretch to an inflated width */
+}
+</style>
 </body>
 </html>
