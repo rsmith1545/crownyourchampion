@@ -6007,5 +6007,22 @@ updateProgress();
   .master-grid, .region-card, .main-wrap{ max-width:100%; }
 }
 </style>
+<script>
+/* TEMP diagnostic: shows what is pushing the mobile page wide. Remove after. */
+(function(){ if(window.__cycDiag) return; window.__cycDiag=1;
+ function chain(el){var a=[];for(var i=0;i<5&&el;i++){var r=el.getBoundingClientRect();a.push(el.tagName.toLowerCase()+(el.id?'#'+el.id:'')+(el.className&&(''+el.className).trim()?'.'+(''+el.className).trim().split(/\s+/)[0]:'')+'['+Math.round(r.right)+']');el=el.parentElement;}return a.join(' < ');}
+ function run(){ try{
+  var vw=document.documentElement.clientWidth, out=['vw='+vw+' docSW='+document.documentElement.scrollWidth];
+  var off=[]; document.querySelectorAll('body *').forEach(function(el){var r=el.getBoundingClientRect();if(r.right>vw+1&&r.width>2){var p=el.parentElement,pr=p?p.getBoundingClientRect():null;if(!pr||r.right>pr.right+1)off.push(el);}});
+  off.sort(function(a,b){return b.getBoundingClientRect().right-a.getBoundingClientRect().right;});
+  off.slice(0,4).forEach(function(el){out.push(chain(el));});
+  var d=document.getElementById('cycDiagBox')||document.createElement('div'); d.id='cycDiagBox';
+  d.style.cssText='position:fixed;left:3px;top:3px;z-index:2147483647;background:#000;color:#0f0;font:10px/1.25 monospace;padding:5px 6px;max-width:97vw;border:1px solid #0f0;white-space:pre-wrap;word-break:break-all;';
+  d.textContent=out.join('\n'); document.body.appendChild(d);
+ }catch(e){} }
+ setTimeout(run,1400); setTimeout(run,3000);
+ document.addEventListener('click',function(e){ if(e.target&&e.target.id==='cycDiagBox') run(); });
+})();
+</script>
 </body>
 </html>
