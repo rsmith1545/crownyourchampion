@@ -2010,7 +2010,7 @@
         <div class="howto-desktop">
         <div class="howto-steps">
             <p><strong>1. Pick your way to a champion.</strong> Tap a song in each matchup to advance it. The part most people miss: the center Championship box stays locked until you work through the four regions — fill those out and the Final Four (then the final) unlock in the middle. Crown your winner there.</p>
-            <p><strong>2. Forget or don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
+            <p><strong>2. Forget or don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; or on a phone, <strong>press &amp; hold</strong> any song (works in every round). Great for jogging your memory or comparing two you don&#39;t know.</p>
             <p><strong>3. Want a head start?</strong> Tap an Auto-Fill button up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
         </div>
         <div class="howto-legend-title">Auto-Fill modes</div>
@@ -2029,7 +2029,7 @@
         <div class="howto-steps">
             <p><strong>1. Pick a winner in every matchup.</strong> Tap the song you like better. Do that through all four regions &mdash; <span id="howtoRegions">the four regions</span> &mdash; and each region crowns a winner.</p>
             <p><strong>2. Then hit the Finals tab to crown your champion.</strong> Your four region winners meet there &mdash; pick your way through the Final Four and the final, and lock in the one song that wins it all. That's the finish line.</p>
-            <p><strong>3. Don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; to jog your memory, or just relive it.</p>
+            <p><strong>3. Don't know a song?</strong> Hit <strong>&#9654;</strong> on any song for a quick preview &mdash; or on a phone, <strong>press &amp; hold</strong> any song (works in every round). Great for jogging your memory or comparing two you don&#39;t know.</p>
             <p><strong>4. Want a head start?</strong> Tap Auto-Fill up top to fill the whole bracket instantly, then change any pick you disagree with.</p>
         </div>
         <button class="btn btn-howto-modes" id="howtoModesBtn" onclick="openAutofillModes();">How Auto-Fill works &#9656;</button>
@@ -5855,5 +5855,72 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   setTimeout(wrapSAC,0); setTimeout(wrapSAC,1500); setTimeout(wrapSAC,3500);
 })();
 </script>
+<script>
+/* cycPreviewEverywhere v1 — preview at every pick.
+   Web: hover-reveal ▶ on rounds 2+, Final Four, champion (round 1 stays always-on).
+   Mobile: press-and-hold any song to preview (a quick tap still picks). */
+(function(){
+  if(window.__cycPreviewEverywhere) return; window.__cycPreviewEverywhere=1;
+  function isWeb(){ try{return window.matchMedia('(min-width:1081px)').matches;}catch(e){return true;} }
+  function songText(el){ var c=el.cloneNode(true), n;
+    ['.play-btn','.seed','.cyc-auditn'].forEach(function(sel){ while((n=c.querySelector(sel))) n.remove(); });
+    return (c.textContent||'').trim(); }
+  function known(t){ return !!(t && window.NAME_SEED && Object.prototype.hasOwnProperty.call(window.NAME_SEED,t)); }
+  function decorate(){
+    var slots=document.querySelectorAll('.slot, .final-slot'), i, s, t, b;
+    for(i=0;i<slots.length;i++){ s=slots[i];
+      if(s.querySelector('.play-btn')) continue;
+      t=songText(s); if(!known(t)) continue;
+      b=document.createElement('span'); b.className='play-btn cyc-pe-btn';
+      b.setAttribute('role','button'); b.setAttribute('tabindex','0'); b.setAttribute('aria-label','Play 30 second preview of '+t);
+      (function(name,btn){
+        btn.addEventListener('click',function(e){ e.stopPropagation(); if(window.cycPlayPreview) cycPlayPreview(name,btn,e); });
+        btn.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(window.cycPlayPreview) cycPlayPreview(name,btn,e); } });
+      })(t,b);
+      s.appendChild(b);
+    }
+  }
+  ['pick','pickFinal'].forEach(function(fn){
+    if(typeof window[fn]!=='function') return;
+    var orig=window[fn];
+    window[fn]=function(){ if(window.__cycSuppressPick) return; var r=orig.apply(this,arguments); try{setTimeout(decorate,0);}catch(e){} return r; };
+  });
+  function addHint(){ if(document.getElementById('cycPeHint')) return; var mg=document.querySelector('.master-grid'); if(!mg) return;
+    var d=document.createElement('div'); d.id='cycPeHint'; d.innerHTML='📱 Tip: press &amp; hold any song to hear a 30-sec preview'; mg.parentNode.insertBefore(d,mg); }
+  setTimeout(function(){ decorate(); addHint(); },400); setTimeout(decorate,1600);
+  // long-press (mobile only)
+  var LP=450, MOVE=12, timer=null, sx=0, sy=0, fired=false;
+  function clr(){ if(timer){clearTimeout(timer);timer=null;} }
+  document.addEventListener('touchstart',function(e){
+    if(isWeb()) return;
+    var s=e.target.closest&&e.target.closest('.slot, .final-slot'); if(!s) return;
+    if(e.target.closest('.play-btn')) return;
+    var t=songText(s); if(!known(t)) return;
+    fired=false; sx=e.touches[0].clientX; sy=e.touches[0].clientY;
+    timer=setTimeout(function(){ fired=true; window.__cycSuppressPick=true;
+      try{ if(navigator.vibrate) navigator.vibrate(25); }catch(_){}
+      var btn=s.querySelector('.play-btn')||document.createElement('span');
+      if(window.cycPlayPreview) cycPlayPreview(t,btn,{stopPropagation:function(){},preventDefault:function(){}});
+    },LP);
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){ if(timer && (Math.abs(e.touches[0].clientX-sx)>MOVE||Math.abs(e.touches[0].clientY-sy)>MOVE)) clr(); },{passive:true});
+  document.addEventListener('touchend',function(e){ clr(); if(fired){ try{e.preventDefault();}catch(_){} } setTimeout(function(){window.__cycSuppressPick=false;},350); });
+  document.addEventListener('touchcancel',function(){ clr(); });
+})();
+</script>
+<style>
+.slot, .final-slot{ -webkit-touch-callout:none !important; -webkit-user-select:none !important; -moz-user-select:none !important; -ms-user-select:none !important; user-select:none !important; }
+@media (min-width:1081px){
+  .round-col:not(:first-child) .play-btn, .final-slot .play-btn{ opacity:0; transition:opacity .12s ease; }
+  .round-col:not(:first-child) .slot:hover .play-btn, .final-slot:hover .play-btn,
+  .round-col:not(:first-child) .play-btn:focus, .final-slot .play-btn:focus{ opacity:1 !important; }
+}
+@media (max-width:1080px){
+  .round-col:not(:first-child) .play-btn, .final-slot .play-btn{ display:none !important; }
+  #cycPeHint{ display:block !important; }
+}
+#cycPeHint{ display:none; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:.5px; color:var(--dmb-gold,#f0a500); opacity:.85; padding:6px 10px 2px; }
+</style>
+
 </body>
 </html>
