@@ -39,6 +39,12 @@
   tr.cut:hover td{background:rgba(240,165,0,.07);}
   .muted{color:var(--muted);} .err{color:#e0683c;}
   .loading{color:var(--muted); padding:20px 0;}
+  .pb{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-right:7px;border:1px solid var(--line);border-radius:50%;color:var(--gold);font-size:9px;line-height:1;cursor:pointer;vertical-align:middle;flex:0 0 auto;}
+  .pb:hover{background:rgba(240,165,0,.20);border-color:var(--gold);}
+  .pb::before{content:"\25B6";margin-left:1px;}
+  .pb.playing{background:var(--gold);color:#10131a;} .pb.playing::before{content:"\23F8";margin:0;}
+  .pb.loading{color:var(--muted);} .pb.loading::before{content:"\2026";margin:0;}
+  .pb.na{border-color:#e0683c;color:#e0683c;} .pb.na::before{content:"\2715";margin:0;}
 </style>
 </head>
 <body>
@@ -81,6 +87,21 @@
   var DATA=[], W={s:0.5,d:0.3,l:0.2}, sortK='seed', sortDir=1;
   var DESC={total:1,daily:1,live:1,spread:1};
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+
+  function escA(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  var _audio=null,_curBtn=null,_pcache={},_idc=0;
+  function _stop(){ if(_audio){try{_audio.pause();}catch(e){}_audio=null;} if(_curBtn){_curBtn.classList.remove("playing","loading");_curBtn=null;} }
+  function _start(url,btn){ _stop(); _audio=new Audio(url); _audio.play().catch(function(){}); btn.classList.add("playing"); _curBtn=btn; _audio.onended=_stop; }
+  function _flash(btn){ btn.classList.add("na"); setTimeout(function(){btn.classList.remove("na");},1000); }
+  function _lookup(a,s,btn){ var k=a+"\u0001"+s;
+    if(_pcache[k]===null){_flash(btn);return;} if(_pcache[k]){_start(_pcache[k],btn);return;}
+    btn.classList.add("loading"); var cb="itcb"+(_idc++); var sc=document.createElement("script");
+    window[cb]=function(d){ try{delete window[cb];}catch(e){} if(sc.parentNode)sc.remove(); btn.classList.remove("loading");
+      var r=d&&d.results&&d.results[0]; if(r&&r.previewUrl){_pcache[k]=r.previewUrl;_start(r.previewUrl,btn);} else {_pcache[k]=null;_flash(btn);} };
+    sc.onerror=function(){ try{delete window[cb];}catch(e){} btn.classList.remove("loading"); _flash(btn); };
+    sc.src="https://itunes.apple.com/search?callback="+cb+"&limit=1&entity=song&term="+encodeURIComponent(a+" "+s);
+    document.body.appendChild(sc); }
+  function _onPb(btn){ if(_curBtn===btn){_stop();return;} _lookup(btn.getAttribute("data-a"),btn.getAttribute("data-s"),btn); }
   function fmt(n){return (n==null||n===""||isNaN(n))?"":Number(n).toLocaleString();}
   function num(v){v=Number(v);return isNaN(v)?0:v;}
   function $(id){return document.getElementById(id);}
@@ -119,7 +140,7 @@
       var tr=document.createElement("tr");
       if(showCut && r._seed>64) tr.className="dim";
       tr.innerHTML='<td class="seed">'+r._seed+'</td>'+
-        '<td>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
+        '<td><span class="pb" data-a="'+escA(r.artist)+'" data-s="'+escA(r.song)+'"></span>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
         '<td class="muted">'+esc(r.album)+'</td>'+
         '<td class="num">'+fmt(r.total)+'</td><td class="num">'+fmt(r.daily)+'</td><td class="num">'+fmt(r.live)+'</td>'+
         '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>';
@@ -143,6 +164,7 @@
     DATA=Array.isArray(j)?j:(j.songs||[]); computeSeeds();
     var sel=$("artist");sel.innerHTML='<option>(all)</option>'+arts().map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
     sel.onchange=render;$("search").oninput=render;$("csv").onclick=csv;
+    $("t").querySelector("tbody").addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".pb"); if(b)_onPb(b);});
     $("stArtists").textContent=arts().length;$("stSongs").textContent=DATA.length;
     if(j.updated)$("upd").textContent="Updated "+j.updated+".";
     render();
