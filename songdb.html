@@ -79,7 +79,8 @@
       <th class="num" data-k="rd" title="Rank by daily">R&middot;Day</th>
       <th class="num" data-k="rl" title="Rank by live plays">R&middot;Live</th>
       <th class="num" data-k="w" title="Weighted score (lower = better)">Weighted</th>
-      <th class="num" data-k="spread" title="Max rank − min rank across the 3 metrics (disagreement)">Spread</th>
+      <th class="num" data-k="spread" title="|stream rank − live rank| — streams vs live disagreement">Spread</th>
+      <th class="num" data-k="dvs" title="Stream rank − weighted seed (+ = live/daily lifted it above its streams rank)">Δ vs Str</th>
     </tr></thead>
     <tbody><tr><td colspan="12" class="loading">Loading&hellip;</td></tr></tbody>
   </table>
@@ -145,7 +146,7 @@
         '<td><span class="pb" data-a="'+escA(r.artist)+'" data-s="'+escA(r.song)+'"></span>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
         '<td class="muted">'+esc(r.album)+'</td>'+
         '<td class="num">'+fmt(r.total)+'</td><td class="num">'+fmt(r.daily)+'</td><td class="num">'+fmt(r.live)+'</td>'+
-        '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>';
+        '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>';
       tb.appendChild(tr);
       if(showCut && r._seed===64){var d=document.createElement("tr");d.className="cut";
         d.innerHTML='<td colspan="12">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
