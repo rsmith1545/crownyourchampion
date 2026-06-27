@@ -33,6 +33,7 @@
   td.seed{text-align:center; font-weight:700; color:var(--gold); width:42px;}
   td.r{text-align:right; color:var(--muted); font-variant-numeric:tabular-nums;}
   td.sp{text-align:right; font-variant-numeric:tabular-nums;}
+  td.dv{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
   tr:hover td{background:rgba(255,255,255,.02);}
   tr.dim td{opacity:.45;}
   tr.cut td{color:var(--gold); text-align:center; font-size:11px; letter-spacing:2px; text-transform:uppercase; border-top:2px solid var(--gold); background:rgba(240,165,0,.07); cursor:default;}
@@ -65,7 +66,7 @@
     <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:150px;max-width:260px">
     <button class="btn-sm" id="csv">&#11015; Export CSV</button>
   </div>
-  <div class="wnote">Seed = weighted rank of <b>50%</b> streams + <b>30%</b> daily + <b>20%</b> live (within each artist). <b>Spread</b> = how much those three ranks disagree (high = streams &amp; live tell different stories — your judgment call). Pick an artist to see the <b>top-64 bracket cutoff</b> line. Click any column to sort.</div>
+  <div class="wnote">Seed = weighted rank of <b>50%</b> streams + <b>30%</b> daily + <b>20%</b> live (within each artist). <b>Spread</b> = |stream rank &minus; live rank| (high = streams &amp; live disagree — your judgment call). <b>&Delta; vs Str</b> = seed spots gained/lost vs the pure-streams order. Pick an artist to see the <b>top-64 bracket cutoff</b> line. Click any column to sort.</div>
   <table id="t">
     <thead><tr>
       <th class="num" data-k="seed" title="Weighted seed (1 = best)">Seed</th>
@@ -80,12 +81,12 @@
       <th class="num" data-k="w" title="Weighted score (lower = better)">Weighted</th>
       <th class="num" data-k="spread" title="Max rank − min rank across the 3 metrics (disagreement)">Spread</th>
     </tr></thead>
-    <tbody><tr><td colspan="11" class="loading">Loading&hellip;</td></tr></tbody>
+    <tbody><tr><td colspan="12" class="loading">Loading&hellip;</td></tr></tbody>
   </table>
 <script>
 (function(){
   var DATA=[], W={s:0.5,d:0.3,l:0.2}, sortK='seed', sortDir=1;
-  var DESC={total:1,daily:1,live:1,spread:1};
+  var DESC={total:1,daily:1,live:1,spread:1,dvs:1};
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
   function escA(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
@@ -115,12 +116,13 @@
       var rows=byA[a], rs=rankWithin(rows,'total'), rd=rankWithin(rows,'daily'), rl=rankWithin(rows,'live');
       rows.forEach(function(r,i){ r._rs=rs[i]; r._rd=rd[i]; r._rl=rl[i];
         r._w=Math.round((W.s*rs[i]+W.d*rd[i]+W.l*rl[i])*100)/100;
-        r._spread=Math.max(rs[i],rd[i],rl[i])-Math.min(rs[i],rd[i],rl[i]); });
+        r._spread=Math.abs(rs[i]-rl[i]); });
       var widx=rows.map(function(_,i){return i;}).sort(function(a,b){return rows[a]._w-rows[b]._w;});
       widx.forEach(function(orig,pos){ rows[orig]._seed=pos+1; });
+      rows.forEach(function(r){ r._dvs=r._rs-r._seed; });
     });
   }
-  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,spread:r._spread};return (k in m)?m[k]:r[k];}
+  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,spread:r._spread,dvs:r._dvs};return (k in m)?m[k]:r[k];}
   function filtered(){var a=$("artist").value,q=$("search").value.trim().toLowerCase();
     return DATA.filter(function(r){ if(a&&a!=="(all)"&&r.artist!==a)return false;
       if(q&&String(r.song||"").toLowerCase().indexOf(q)<0&&String(r.artist||"").toLowerCase().indexOf(q)<0)return false; return true;});}
@@ -133,7 +135,7 @@
       if(c===0){ if(x.artist!==y.artist) return x.artist<y.artist?-1:1; return x._seed-y._seed; }
       return c;});
     var tb=$("t").querySelector("tbody");tb.innerHTML="";
-    if(!rows.length){tb.innerHTML='<tr><td colspan="11" class="loading">No songs.</td></tr>';$("stShown").textContent=0;return;}
+    if(!rows.length){tb.innerHTML='<tr><td colspan="12" class="loading">No songs.</td></tr>';$("stShown").textContent=0;return;}
     var single=$("artist").value && $("artist").value!=="(all)";
     var showCut=single && sortK==="seed" && sortDir===1;
     rows.forEach(function(r){
@@ -146,14 +148,14 @@
         '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>';
       tb.appendChild(tr);
       if(showCut && r._seed===64){var d=document.createElement("tr");d.className="cut";
-        d.innerHTML='<td colspan="11">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
+        d.innerHTML='<td colspan="12">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
     });
     $("stShown").textContent=rows.length;
     document.querySelectorAll("#t thead th").forEach(function(th){th.classList.toggle("act",th.getAttribute("data-k")===sortK);});
   }
   function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
-    var out=[["Artist","Seed","Song","Album","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted","Spread"]];
-    rows.forEach(function(r){out.push([r.artist,r._seed,r.song,r.album,r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._spread]);});
+    var out=[["Artist","Seed","Song","Album","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted","Spread","Delta vs Streams"]];
+    rows.forEach(function(r){out.push([r.artist,r._seed,r.song,r.album,r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._spread,r._dvs]);});
     var s=out.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\n");
     var a=$("artist").value,el=document.createElement("a");el.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));
     el.download="songdb-"+((a&&a!=="(all)")?a.replace(/[^a-z0-9]+/gi,"_").toLowerCase():"all")+".csv";document.body.appendChild(el);el.click();el.remove();}
@@ -168,7 +170,7 @@
     $("stArtists").textContent=arts().length;$("stSongs").textContent=DATA.length;
     if(j.updated)$("upd").textContent="Updated "+j.updated+".";
     render();
-  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="11" class="err">Could not load songdb.json</td></tr>';});
+  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="12" class="err">Could not load songdb.json</td></tr>';});
 })();
 </script>
 </body>
