@@ -114,6 +114,14 @@
         <thead><tr><th>Band</th><th>Champion</th><th>Final Four</th><th>Email</th><th>When</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
+      <h2>Song Database <span id="sdbCount" class="muted" style="font-size:12px;text-transform:none;letter-spacing:0"></span>
+        <label class="muted" style="font-size:12.5px;text-transform:none;letter-spacing:0;margin:0 8px">artist <select id="sdbArtist" style="margin-left:4px"></select></label>
+        <button class="btn-sm" id="sdbCsv" style="margin-left:8px">export CSV</button></h2>
+      <div class="muted" style="font-size:12.5px;margin-bottom:8px">Weighted-seed source data — streams (Kworb) + live plays (setlist.fm). Pick an artist, export CSV, paste into the Excel Universal Analytics / SongDB.</div>
+      <table id="sdbTable">
+        <thead><tr><th>Song</th><th>Album</th><th class="num">Total Streams</th><th class="num">Daily Streams</th><th class="num">Live Plays</th></tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
 
@@ -500,6 +508,29 @@ document.getElementById("csvPicks").onclick = () => {
   window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred=e; setTimeout(showAndroid,1500); });
   window.addEventListener('appinstalled', dismiss);
   if(isIOS){ setTimeout(function(){ if(standalone()) return; if(isIOSChrome) showIOSChrome(); else if(isIOSSafari) showIOSSafari(); }, 2500); }
+})();
+</script>
+
+<script>
+/* Song Database tab — reads /songdb.json (static), filter + CSV export. */
+(function(){ var DATA=[];
+  function fmt(n){return (n==null||n==="")?"":Number(n).toLocaleString();}
+  function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function arts(){var o={};DATA.forEach(function(r){if(r.artist)o[r.artist]=1;});return Object.keys(o).sort();}
+  function sel(){return document.getElementById("sdbArtist");}
+  function pick(){var a=sel()?sel().value:"(all)";return DATA.filter(function(r){return !a||a==="(all)"||r.artist===a;});}
+  function render(){var rows=pick(),tb=document.querySelector("#sdbTable tbody");if(!tb)return;tb.innerHTML="";
+    rows.forEach(function(r){var tr=document.createElement("tr");tr.innerHTML="<td>"+esc(r.song)+"</td><td class=\"muted\">"+esc(r.album)+"</td><td class=\"num\">"+fmt(r.total)+"</td><td class=\"num\">"+fmt(r.daily)+"</td><td class=\"num\">"+fmt(r.live)+"</td>";tb.appendChild(tr);});
+    var c=document.getElementById("sdbCount");if(c)c.textContent=rows.length+" songs \u00b7 "+arts().length+" artists";}
+  function csv(){var rows=pick(),out=[["Artist","Song","Album","Total Streams","Daily Streams","Live Plays"]];
+    rows.forEach(function(r){out.push([r.artist,r.song,r.album,r.total,r.daily,r.live]);});
+    var s=out.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\n");
+    var a=sel()?sel().value:"all",el=document.createElement("a");el.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));el.download="songdb-"+((a&&a!=="(all)")?a.replace(/[^a-z0-9]+/gi,"_"):"all")+".csv";document.body.appendChild(el);el.click();el.remove();}
+  fetch("/songdb.json",{cache:"no-store"}).then(function(r){return r.ok?r.json():{};}).then(function(j){
+    DATA=Array.isArray(j)?j:(j.songs||[]);var s=sel();if(!s)return;
+    s.innerHTML="<option>(all)</option>"+arts().map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
+    s.onchange=render;var b=document.getElementById("sdbCsv");if(b)b.onclick=csv;render();
+  }).catch(function(){});
 })();
 </script>
 
