@@ -2981,7 +2981,7 @@ function submitAndCrown() {
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
-    window.__cycPostCrownShare = true;
+    window.__cycPostCrownShare = true; try{ if(window.saveBracketData) saveBracketData(null,false).catch(function(){}); }catch(e){}
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 4600); // celebration plays, then the one combined popup
 }

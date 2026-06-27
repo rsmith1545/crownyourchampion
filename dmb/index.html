@@ -3014,7 +3014,7 @@ function submitAndCrown() {
         else { try{ fireConfetti(); }catch(e){} setTimeout(function(){ window.cycShowWinScreen(champ); }, 650); }
         return;
     }
-    window.__cycPostCrownShare = true;
+    window.__cycPostCrownShare = true; try{ if(window.saveBracketData) saveBracketData(null,false).catch(function(){}); }catch(e){}
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 3200); // email capture after the celebration plays
 }
@@ -5257,7 +5257,7 @@ updateProgress();
 <style id="cyc-winscreen-css">
 /* Item 6 — mobile one-screen post-submit flow (DMB mobile only). Reversible: remove this block + the script + the mobile branch in submitAndCrown. */
 .cyc-win { display:none; }
-@media (max-width:1080px){
+@media (min-width:1px){
   /* Fix dead links: the modals the win screen opens (share 200, concert 300, all-brackets 3000, vote 3000, quiz 4000)
    were rendering BEHIND the win screen (99990). Raise them above it on mobile so they actually appear. */
 @media (max-width:1080px){

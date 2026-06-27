@@ -2993,7 +2993,7 @@ function submitAndCrown() {
     if (!champ || champ === '—') return;        // safety: shouldn't be clickable yet
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
-    window.__cycPostCrownShare = true;           // arm the post-crown quiz funnel (fires when the share card closes)
+    window.__cycPostCrownShare = true; try{ if(window.saveBracketData) saveBracketData(null,false).catch(function(){}); }catch(e){}           // arm the post-crown quiz funnel (fires when the share card closes)
     celebrate();                                 // confetti + fanfare + "Thank you very much. Goodnight!"
     setTimeout(() => openEmailModal(champ), 3200); // bumped: give the celebration + crowd-% reveal a clean beat before the share prompt
 }
@@ -5060,7 +5060,7 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
   #shareModal.modal-overlay, #concertModal.concert-modal-overlay, #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop{ z-index:100040 !important; }
 }
 .cyc-win{ display:none; }
-@media (max-width:1080px){
+@media (min-width:1px){
   .cyc-win{ position:fixed; inset:0; z-index:99990; display:none; background:radial-gradient(120% 80% at 50% 0%, #1a1305 0%, #0b0a07 55%, #060507 100%); overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .cyc-win.open{ display:block; }
   .cyc-win .cw-inner{ max-width:520px; margin:0 auto; padding:18px 16px 40px; min-height:100%; box-sizing:border-box; }
