@@ -8,26 +8,31 @@
 <style>
   :root{ --ink:#0a0a0f; --card:#141927; --line:#1f2738; --text:#e8eaf0; --muted:#7c89a6; --gold:#f0a500; --green:#5fd17a; }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; background:var(--ink); color:var(--text); line-height:1.5; padding:24px; max-width:1100px; margin:0 auto;}
+  body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif; background:var(--ink); color:var(--text); line-height:1.5; padding:24px; max-width:1180px; margin:0 auto;}
   a{color:var(--gold); text-decoration:none;}
   h1{font-size:22px; margin-bottom:2px;} h1 .crown{color:var(--gold);}
-  .sub{color:var(--muted); font-size:13px; margin-bottom:18px;}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:16px;}
   button{font-family:inherit; cursor:pointer; border:0; border-radius:8px; font-weight:600;}
   .btn-sm{background:#1e2737; color:var(--text); border:1px solid var(--line); padding:6px 12px; font-size:12.5px;}
   .btn-sm:hover{border-color:var(--gold);}
   select,input[type=text]{background:#1e2737; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:13px; font-family:inherit;}
-  .topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
-  .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
+  .topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
+  .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;}
   .controls label{color:var(--muted); font-size:12.5px;}
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:20px;}
-  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
-  .stat .n{font-size:26px; font-weight:700; color:var(--gold); line-height:1;}
-  .stat .l{color:var(--muted); font-size:12px; margin-top:6px; text-transform:uppercase; letter-spacing:.05em;}
-  table{width:100%; border-collapse:collapse; font-size:13.5px;}
-  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
-  th{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.04em; cursor:pointer; user-select:none;}
+  .wnote{color:var(--muted); font-size:12px; margin-bottom:12px;}
+  .wnote b{color:var(--gold);}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-bottom:18px;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px;}
+  .stat .n{font-size:24px; font-weight:700; color:var(--gold); line-height:1;}
+  .stat .l{color:var(--muted); font-size:11.5px; margin-top:6px; text-transform:uppercase; letter-spacing:.05em;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th,td{text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.03em; cursor:pointer; user-select:none; white-space:nowrap;}
+  th:hover{color:var(--gold);}
+  th.act{color:var(--gold);}
   td.num,th.num{text-align:right; font-variant-numeric:tabular-nums;}
-  td.rk{color:var(--muted); text-align:right; width:34px;}
+  td.seed{text-align:center; font-weight:700; color:var(--gold); width:42px;}
+  td.r{text-align:right; color:var(--muted); font-variant-numeric:tabular-nums;}
   tr:hover td{background:rgba(255,255,255,.02);}
   .muted{color:var(--muted);} .err{color:#e0683c;}
   .loading{color:var(--muted); padding:20px 0;}
@@ -37,7 +42,7 @@
   <div class="topbar">
     <div>
       <h1><span class="crown">&#9819;</span> Song Database</h1>
-      <div class="sub">Weighted-seed source data &mdash; streams summed across studio versions (Kworb), live recordings excluded. <span id="upd"></span></div>
+      <div class="sub">Streams summed across studio versions (Kworb) · live plays (setlist.fm) · live recordings excluded. <span id="upd"></span></div>
     </div>
     <div><a class="btn-sm" href="/admin.html">&larr; Admin</a></div>
   </div>
@@ -48,52 +53,98 @@
   </div>
   <div class="controls">
     <label>Artist <select id="artist"><option>(all)</option></select></label>
-    <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:160px;max-width:280px">
+    <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:150px;max-width:260px">
     <button class="btn-sm" id="csv">&#11015; Export CSV</button>
-    <span class="muted" id="hint" style="font-size:12px"></span>
   </div>
+  <div class="wnote">Seed = weighted rank of <b>50%</b> total-stream rank + <b>30%</b> daily-stream rank + <b>20%</b> live-play rank, computed within each artist. Default order is seed (1&rarr;N). Click any column to re-sort.</div>
   <table id="t">
     <thead><tr>
-      <th class="rk">#</th><th data-k="song">Song</th><th data-k="album">Album</th>
-      <th class="num" data-k="total">Total Streams</th><th class="num" data-k="daily">Daily Streams</th><th class="num" data-k="live">Live Plays</th>
+      <th class="num" data-k="seed" title="Weighted seed (1 = best)">Seed</th>
+      <th data-k="song">Song</th>
+      <th data-k="album">Album</th>
+      <th class="num" data-k="total">Total Streams</th>
+      <th class="num" data-k="daily">Daily</th>
+      <th class="num" data-k="live">Live Plays</th>
+      <th class="num" data-k="rs" title="Rank by total streams">R&middot;Str</th>
+      <th class="num" data-k="rd" title="Rank by daily streams">R&middot;Day</th>
+      <th class="num" data-k="rl" title="Rank by live plays">R&middot;Live</th>
+      <th class="num" data-k="w" title="Weighted score (lower = better)">Weighted</th>
     </tr></thead>
-    <tbody><tr><td colspan="6" class="loading">Loading&hellip;</td></tr></tbody>
+    <tbody><tr><td colspan="10" class="loading">Loading&hellip;</td></tr></tbody>
   </table>
 <script>
 (function(){
-  var DATA=[], sortK='total', sortDir=-1;
+  var DATA=[], W={s:0.5,d:0.3,l:0.2}, sortK='seed', sortDir=1;
+  var DESC={total:1,daily:1,live:1}; // these default to descending on click
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
   function fmt(n){return (n==null||n===""||isNaN(n))?"":Number(n).toLocaleString();}
-  function arts(){var o={};DATA.forEach(function(r){if(r.artist)o[r.artist]=1;});return Object.keys(o).sort();}
+  function num(v){v=Number(v);return isNaN(v)?0:v;}
   function $(id){return document.getElementById(id);}
+  function arts(){var o={};DATA.forEach(function(r){if(r.artist)o[r.artist]=1;});return Object.keys(o).sort();}
+  function rankWithin(rows,key){ // 1 = highest value; unique (stable)
+    var idx=rows.map(function(_,i){return i;});
+    idx.sort(function(a,b){return num(rows[b][key])-num(rows[a][key]);});
+    var out=[]; idx.forEach(function(orig,pos){out[orig]=pos+1;}); return out;
+  }
+  function computeSeeds(){
+    var byA={}; DATA.forEach(function(r){(byA[r.artist]=byA[r.artist]||[]).push(r);});
+    Object.keys(byA).forEach(function(a){
+      var rows=byA[a], rs=rankWithin(rows,'total'), rd=rankWithin(rows,'daily'), rl=rankWithin(rows,'live');
+      rows.forEach(function(r,i){ r._rs=rs[i]; r._rd=rd[i]; r._rl=rl[i];
+        r._w=Math.round((W.s*rs[i]+W.d*rd[i]+W.l*rl[i])*100)/100; });
+      var widx=rows.map(function(_,i){return i;}).sort(function(a,b){return rows[a]._w-rows[b]._w;});
+      widx.forEach(function(orig,pos){ rows[orig]._seed=pos+1; });
+    });
+  }
+  function val(r,k){ return ({seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w})[k] !== undefined ? ({seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w})[k] : r[k]; }
   function filtered(){var a=$("artist").value,q=$("search").value.trim().toLowerCase();
     return DATA.filter(function(r){ if(a&&a!=="(all)"&&r.artist!==a)return false;
       if(q&&String(r.song||"").toLowerCase().indexOf(q)<0&&String(r.artist||"").toLowerCase().indexOf(q)<0)return false; return true;});}
-  function render(){var rows=filtered().slice();
-    rows.sort(function(x,y){var a=x[sortK],b=y[sortK];
-      if(sortK==="song"||sortK==="album"){a=String(a||"").toLowerCase();b=String(b||"").toLowerCase();return a<b?-sortDir:a>b?sortDir:0;}
-      a=Number(a)||0;b=Number(b)||0;return (a-b)*sortDir;});
+  function render(){
+    var rows=filtered().slice();
+    rows.sort(function(x,y){
+      var a=val(x,sortK), b=val(y,sortK), c;
+      if(sortK==="song"||sortK==="album"){a=String(a||"").toLowerCase();b=String(b||"").toLowerCase();c=a<b?-1:a>b?1:0;}
+      else {c=(num(a)-num(b));}
+      c*=sortDir;
+      if(c===0 && sortK!=="artist"){ // keep artists grouped + stable seed order
+        if(x.artist!==y.artist) return x.artist<y.artist?-1:1;
+        return x._seed-y._seed;
+      }
+      return c;
+    });
     var tb=$("t").querySelector("tbody");tb.innerHTML="";
-    if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="loading">No songs.</td></tr>';}
-    rows.forEach(function(r,i){var tr=document.createElement("tr");
-      tr.innerHTML='<td class="rk">'+(i+1)+'</td><td>'+esc(r.song)+'</td><td class="muted">'+esc(r.album)+'</td><td class="num">'+fmt(r.total)+'</td><td class="num">'+fmt(r.daily)+'</td><td class="num">'+fmt(r.live)+'</td>';
+    if(!rows.length){tb.innerHTML='<tr><td colspan="10" class="loading">No songs.</td></tr>';}
+    var single=$("artist").value && $("artist").value!=="(all)";
+    rows.forEach(function(r){var tr=document.createElement("tr");
+      tr.innerHTML='<td class="seed">'+r._seed+'</td>'+
+        '<td>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
+        '<td class="muted">'+esc(r.album)+'</td>'+
+        '<td class="num">'+fmt(r.total)+'</td><td class="num">'+fmt(r.daily)+'</td><td class="num">'+fmt(r.live)+'</td>'+
+        '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td>';
       tb.appendChild(tr);});
-    $("stShown").textContent=rows.length;}
-  function csv(){var rows=filtered(),out=[["Artist","Song","Album","Total Streams","Daily Streams","Live Plays"]];
-    rows.forEach(function(r){out.push([r.artist,r.song,r.album,r.total,r.daily,r.live]);});
+    $("stShown").textContent=rows.length;
+    document.querySelectorAll("#t thead th").forEach(function(th){th.classList.toggle("act",th.getAttribute("data-k")===sortK);});
+  }
+  function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
+    var out=[["Artist","Seed","Song","Album","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted"]];
+    rows.forEach(function(r){out.push([r.artist,r._seed,r.song,r.album,r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w]);});
     var s=out.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\n");
     var a=$("artist").value,el=document.createElement("a");el.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));
     el.download="songdb-"+((a&&a!=="(all)")?a.replace(/[^a-z0-9]+/gi,"_").toLowerCase():"all")+".csv";document.body.appendChild(el);el.click();el.remove();}
   document.querySelectorAll("#t thead th[data-k]").forEach(function(th){
-    th.onclick=function(){var k=th.getAttribute("data-k");if(sortK===k)sortDir=-sortDir;else{sortK=k;sortDir=(k==="song"||k==="album")?1:-1;}render();};});
+    th.onclick=function(){var k=th.getAttribute("data-k");
+      if(sortK===k){sortDir=-sortDir;}
+      else{sortK=k; sortDir=(k==="song"||k==="album")?1:(DESC[k]?-1:1);}
+      render();};});
   fetch("/songdb.json",{cache:"no-store"}).then(function(r){return r.ok?r.json():{};}).then(function(j){
-    DATA=Array.isArray(j)?j:(j.songs||[]);
+    DATA=Array.isArray(j)?j:(j.songs||[]); computeSeeds();
     var sel=$("artist");sel.innerHTML='<option>(all)</option>'+arts().map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
     sel.onchange=render;$("search").oninput=render;$("csv").onclick=csv;
     $("stArtists").textContent=arts().length;$("stSongs").textContent=DATA.length;
     if(j.updated)$("upd").textContent="Updated "+j.updated+".";
-    $("hint").textContent="Click a column to sort · pick an artist → Export CSV for Excel.";render();
-  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="6" class="err">Could not load songdb.json</td></tr>';});
+    render();
+  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="10" class="err">Could not load songdb.json</td></tr>';});
 })();
 </script>
 </body>
