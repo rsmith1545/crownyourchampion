@@ -118,8 +118,10 @@
     var byA={}; DATA.forEach(function(r){(byA[r.artist]=byA[r.artist]||[]).push(r);});
     Object.keys(byA).forEach(function(a){
       var rows=byA[a], w=wFor(a), rs=rankWithin(rows,'total'), rd=rankWithin(rows,'daily'), rl=rankWithin(rows,'live');
-      rows.forEach(function(r,i){ r._rs=rs[i]; r._rd=rd[i]; r._rl=rl[i];
-        r._w=Math.round((w.s*rs[i]+w.d*rd[i]+w.l*rl[i])*100)/100;
+      var hasDaily=rows.some(function(r){return num(r.daily)>0;});
+      var ws=w.s, wd=w.d, wl=w.l; if(!hasDaily){var t=w.s+w.l; ws=w.s/t; wd=0; wl=w.l/t;}
+      rows.forEach(function(r,i){ r._rs=rs[i]; r._rd=hasDaily?rd[i]:null; r._rl=rl[i]; r._noDaily=!hasDaily;
+        r._w=Math.round((ws*rs[i]+wd*(hasDaily?rd[i]:0)+wl*rl[i])*100)/100;
         r._spread=Math.abs(rs[i]-rl[i]); });
       var widx=rows.map(function(_,i){return i;}).sort(function(a,b){return rows[a]._w-rows[b]._w;});
       widx.forEach(function(orig,pos){ rows[orig]._seed=pos+1; });
@@ -148,14 +150,14 @@
       tr.innerHTML='<td class="seed">'+r._seed+'</td>'+
         '<td><span class="pb" data-a="'+escA(r.artist)+'" data-s="'+escA(r.song)+'"></span>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
         '<td class="muted">'+esc(r.album)+'</td>'+
-        '<td class="num">'+fmt(r.total)+'</td><td class="num">'+fmt(r.daily)+'</td><td class="num">'+fmt(r.live)+'</td>'+
-        '<td class="r">'+r._rs+'</td><td class="r">'+r._rd+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>';
+        '<td class="num">'+fmt(r.total)+'</td><td class="num">'+(r._noDaily?'\u2013':fmt(r.daily))+'</td><td class="num">'+fmt(r.live)+'</td>'+
+        '<td class="r">'+r._rs+'</td><td class="r">'+(r._noDaily?'\u2013':r._rd)+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>';
       tb.appendChild(tr);
       if(showCut && r._seed===64){var d=document.createElement("tr");d.className="cut";
         d.innerHTML='<td colspan="12">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
     });
     $("stShown").textContent=rows.length;
-    (function(){var a=$("artist").value,p=$("wprof");if(!p)return; if(a&&a!=="(all)"){var w=wFor(a),j=(WMODE==="jam"||(WMODE==="auto"&&JAM[a]));p.textContent=(j?"Jam":"Standard")+" weighting · "+(w.s*100)+"/"+(w.d*100)+"/"+(w.l*100)+(WMODE==="auto"&&JAM[a]?" (auto)":"");}else{p.textContent="";}})();
+    (function(){var a=$("artist").value,p=$("wprof");if(!p)return; if(a&&a!=="(all)"){var w=wFor(a),j=(WMODE==="jam"||(WMODE==="auto"&&JAM[a])),nd=!DATA.some(function(r){return r.artist===a&&num(r.daily)>0;});if(nd){var t=w.s+w.l;p.textContent="Streams + Live · "+Math.round(w.s/t*100)+"/"+Math.round(w.l/t*100)+" (no daily data)";}else{p.textContent=(j?"Jam":"Standard")+" weighting · "+(w.s*100)+"/"+(w.d*100)+"/"+(w.l*100)+(WMODE==="auto"&&JAM[a]?" (auto)":"");}}else{p.textContent="";}})();
     document.querySelectorAll("#t thead th").forEach(function(th){th.classList.toggle("act",th.getAttribute("data-k")===sortK);});
   }
   function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
