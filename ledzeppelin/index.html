@@ -5946,8 +5946,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   }
   function run(){
     var bn=bandName(); if(!bn) return;
-    var cs=document.querySelector('.champion-slot');
-    if(cs && !cs.querySelector('.cyc-champ-band')){ var d=document.createElement('div'); d.className='cyc-champ-band'; d.textContent=bn; cs.insertBefore(d, cs.firstChild); }
+    var fh=document.querySelector('.finals-card .finals-header');
+    if(fh && !fh.querySelector('.cyc-champ-band')){ var d=document.createElement('div'); d.className='cyc-champ-band'; d.textContent=bn; fh.insertBefore(d, fh.firstChild); }
     var heads=document.querySelectorAll('.region-card .region-header');
     Array.prototype.forEach.call(heads, function(rh){
       if(rh.nextElementSibling && rh.nextElementSibling.className==='cyc-rgn-sub') return;
