@@ -139,7 +139,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Is It Over Now?",
-"album": 1989,
+"album": "1989",
 "total": 591516224,
 "daily": 153512,
 "live": 5
@@ -201,7 +201,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Blank Space",
-"album": 1989,
+"album": "1989",
 "total": 2850191998,
 "daily": 1250732,
 "live": 315
@@ -227,7 +227,7 @@
 {
 "artist": "Taylor Swift",
 "song": "I Know Places",
-"album": 1989,
+"album": "1989",
 "total": 269508498,
 "daily": 54746,
 "live": 87
@@ -388,7 +388,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Clean",
-"album": 1989,
+"album": "1989",
 "total": 400809301,
 "daily": 134959,
 "live": 89
@@ -558,7 +558,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Wildest Dreams",
-"album": 1989,
+"album": "1989",
 "total": 2235322434,
 "daily": 768292,
 "live": 226
@@ -773,7 +773,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Bad Blood",
-"album": 1989,
+"album": "1989",
 "total": 912845794,
 "daily": 303429,
 "live": 236
@@ -790,7 +790,7 @@
 {
 "artist": "Taylor Swift",
 "song": "New Romantics",
-"album": 1989,
+"album": "1989",
 "total": 558438916,
 "daily": 146375,
 "live": 88
@@ -816,7 +816,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Style",
-"album": 1989,
+"album": "1989",
 "total": 2237337126,
 "daily": 1183457,
 "live": 243
@@ -896,7 +896,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Wonderland",
-"album": 1989,
+"album": "1989",
 "total": 293373864,
 "daily": 62613,
 "live": 6
@@ -949,7 +949,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Now That We Don't Talk",
-"album": 1989,
+"album": "1989",
 "total": 437943988,
 "daily": 105249,
 "live": 1
@@ -1299,7 +1299,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Out of the Woods",
-"album": 1989,
+"album": "1989",
 "total": 641751685,
 "daily": 254290,
 "live": 100
@@ -1324,7 +1324,7 @@
 },
 {
 "artist": "Taylor Swift",
-"song": 22,
+"song": "22",
 "album": "Red",
 "total": 886047718,
 "daily": 218521,
@@ -1487,7 +1487,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Suburban Legends",
-"album": 1989,
+"album": "1989",
 "total": 162116304,
 "daily": 38992,
 "live": 1
@@ -1513,7 +1513,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Slut!",
-"album": 1989,
+"album": "1989",
 "total": 455675618,
 "daily": 162150,
 "live": 4
@@ -1611,7 +1611,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Say Don't Go",
-"album": 1989,
+"album": "1989",
 "total": 289678812,
 "daily": 96742,
 "live": 4
@@ -1628,7 +1628,7 @@
 {
 "artist": "Taylor Swift",
 "song": "How You Get The Girl",
-"album": 1989,
+"album": "1989",
 "total": 321912638,
 "daily": 85307,
 "live": 89
@@ -1636,7 +1636,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Shake it Off",
-"album": 1989,
+"album": "1989",
 "total": 2146499350,
 "daily": 928077,
 "live": 341
@@ -1752,7 +1752,7 @@
 {
 "artist": "Taylor Swift",
 "song": "I Wish You Would",
-"album": 1989,
+"album": "1989",
 "total": 310737936,
 "daily": 68528,
 "live": 86
@@ -1760,7 +1760,7 @@
 {
 "artist": "Taylor Swift",
 "song": "All You Had to do Was Stay",
-"album": 1989,
+"album": "1989",
 "total": 411772613,
 "daily": 96042,
 "live": 43
@@ -1840,7 +1840,7 @@
 {
 "artist": "Taylor Swift",
 "song": "Welcome to New York",
-"album": 1989,
+"album": "1989",
 "total": 493432162,
 "daily": 168043,
 "live": 95
@@ -1875,7 +1875,7 @@
 {
 "artist": "Taylor Swift",
 "song": "This Love",
-"album": 1989,
+"album": "1989",
 "total": 501308993,
 "daily": 166646,
 "live": 36
@@ -1883,7 +1883,7 @@
 {
 "artist": "Taylor Swift",
 "song": "You Are In Love",
-"album": 1989,
+"album": "1989",
 "total": 328607750,
 "daily": 118727,
 "live": 29
@@ -15295,7 +15295,7 @@
 "album": "",
 "total": 220400438,
 "daily": 121583,
-"live": 0
+"live": 825
 },
 {
 "artist": "The Offspring",
@@ -15647,7 +15647,7 @@
 "album": "",
 "total": 15580651,
 "daily": 8282,
-"live": 0
+"live": 825
 },
 {
 "artist": "The Offspring",
@@ -15879,7 +15879,7 @@
 "album": "",
 "total": 7235688,
 "daily": 1935,
-"live": 0
+"live": 1112
 },
 {
 "artist": "The Offspring",
@@ -15991,7 +15991,7 @@
 "album": "",
 "total": 5718533,
 "daily": 1696,
-"live": 0
+"live": 1128
 },
 {
 "artist": "The Offspring",
