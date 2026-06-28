@@ -5902,8 +5902,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     },LP);
   },{passive:true});
   document.addEventListener('touchmove',function(e){ if(timer && (Math.abs(e.touches[0].clientX-sx)>MOVE||Math.abs(e.touches[0].clientY-sy)>MOVE)) clr(); },{passive:true});
-  document.addEventListener('touchend',function(e){ clr(); if(fired){ try{e.preventDefault();}catch(_){} } setTimeout(function(){window.__cycSuppressPick=false;},350); });
-  document.addEventListener('touchcancel',function(){ clr(); });
+  function cycEndLP(e){ clr(); if(fired){ try{e&&e.preventDefault&&e.preventDefault();}catch(_){} } fired=false; setTimeout(function(){window.__cycSuppressPick=false;},350); }
+  document.addEventListener('touchend',cycEndLP);
+  document.addEventListener('touchcancel',cycEndLP);
 })();
 </script>
 <style>
