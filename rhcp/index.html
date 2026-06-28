@@ -5935,5 +5935,58 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #cycSetlistBackdrop{ max-width:100vw; }               /* dont let the fixed backdrop stretch to an inflated width */
 }
 </style>
+<script>
+/* cycBandMarks v2 — band name (web: big, above CHAMPIONSHIP; mobile: big gold over faint region + tip, filling dead space) + footer signup confirmation */
+(function(){
+  if(window.__cycBandMarks) return; window.__cycBandMarks=1;
+  function bandName(){
+    var t=(document.querySelector('.champion-banner .champ-label')||{}).textContent||'';
+    var m=t.match(/Your\s+(.+?)\s+Champion/i); if(m) return m[1].trim();
+    m=(document.title||'').match(/[—-]\s*(.+?)\s+Madness/); return m?m[1].trim():'';
+  }
+  function run(){
+    var bn=bandName(); if(!bn) return;
+    var fh=document.querySelector('.finals-card .finals-header');
+    if(fh && !fh.querySelector('.cyc-champ-band')){ var d=document.createElement('div'); d.className='cyc-champ-band'; d.textContent=bn; fh.insertBefore(d, fh.firstChild); }
+    var cards=document.querySelectorAll('.region-card');
+    Array.prototype.forEach.call(cards, function(card){
+      if(card.querySelector('.cyc-rgn-info')) return;
+      var rh=card.querySelector('.region-header'); if(!rh) return;
+      var rname=(rh.textContent||'').trim();
+      var info=document.createElement('div'); info.className='cyc-rgn-info';
+      info.innerHTML='<div class="cri-band">'+bn+'</div><div class="cri-rgn">'+rname+'</div><div class="cri-tip">▶ Press &amp; hold to play / close song preview</div>';
+      card.appendChild(info);
+    });
+    var ph=document.getElementById('cycPeHint'); if(ph) ph.parentNode&&ph.parentNode.removeChild(ph);
+    try{
+      var on=!!localStorage.getItem('cyc-hub-email');
+      var ft=document.querySelector('.site-footer');
+      if(on && ft && !document.getElementById('cycFootOnList')){
+        var c=document.createElement('div'); c.id='cycFootOnList'; c.textContent='✓ On the list';
+        ft.insertBefore(c, ft.firstChild);
+      }
+    }catch(e){}
+  }
+  var st=document.createElement('style');
+  st.textContent=
+   '.cyc-champ-band{font-family:"Bebas Neue",sans-serif;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold,#f0a500);font-size:24px;line-height:1;margin-bottom:2px;}'+
+   '.cyc-rgn-info{display:none;}'+
+   '#cycFootOnList{display:none;}'+
+   '@media(max-width:1080px){'+
+     '.region-card::after{display:none !important;}.bracket-row{padding-top:2px !important;}.region-card .region-header{font-size:14px !important;letter-spacing:2px !important;}.region-card .region-header::after{display:inline !important;margin:0 0 0 8px !important;font-size:9px !important;vertical-align:baseline !important;}'+              /* replaced by cyc-rgn-info */
+     '#cycPeHint{display:none !important;}'+
+     '.cyc-rgn-info{display:block;position:absolute;top:48px;right:10px;z-index:1;pointer-events:none;text-align:right;max-width:64%;}'+
+     '.cri-band{font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:2px;line-height:.9;color:var(--dmb-gold,#f0a500);text-transform:uppercase;}'+
+     '.cri-rgn{font-family:"Bebas Neue",sans-serif;font-size:16px;letter-spacing:1px;line-height:1.05;color:rgba(255,255,255,.20);text-transform:uppercase;margin-top:5px;}'+
+     '.cri-tip{font-family:"Barlow Condensed",sans-serif;font-size:10px;letter-spacing:.3px;color:#9aa3b2;margin-top:6px;max-width:150px;margin-left:auto;line-height:1.3;}'+
+     '.site-header .signup-done{display:none !important;}'+
+     '#cycFootOnList{display:inline-block;color:#5fbf6a;opacity:.85;font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.5px;font-size:11px;padding:2px 0;margin:0 auto 6px;}'+
+     '.site-header .header-left{width:100%;}'+
+   '}';
+  document.head.appendChild(st);
+  if(document.readyState!=='loading') setTimeout(run,250); else document.addEventListener('DOMContentLoaded',function(){setTimeout(run,250);});
+  setTimeout(run,1400);
+})();
+</script>
 </body>
 </html>
