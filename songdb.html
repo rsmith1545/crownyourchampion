@@ -133,11 +133,16 @@
         r._w=Math.round((ws*rs[i]+wd*(hasDaily?rd[i]:0)+wl*rl[i])*100)/100;
         r._spread=Math.abs(rs[i]-rl[i]); });
       var widx=rows.map(function(_,i){return i;}).sort(function(a,b){return rows[a]._w-rows[b]._w;});
-      widx.forEach(function(orig,pos){ rows[orig]._seed=pos+1; rows[orig]._wrank=pos+1; });
-      rows.forEach(function(r){ r._dvs=r._rs-r._seed; });
+      widx.forEach(function(orig,pos){ rows[orig]._wrank=pos+1; });
+      var hasCanon=rows.some(function(r){return typeof r.seed==='number';});
+      rows.forEach(function(r){
+        if(hasCanon){ r._hasSeed=(typeof r.seed==='number'); r._seed=r._hasSeed?r.seed:9999; }
+        else { r._hasSeed=true; r._seed=r._wrank; }
+        r._dvs=r._hasSeed?(r._rs-r._seed):null;
+      });
     });
   }
-  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,wrank:r._wrank,spread:r._spread,dvs:r._dvs,t64:(r._seed<=64?1:0)};return (k in m)?m[k]:r[k];}
+  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,wrank:r._wrank,spread:r._spread,dvs:r._dvs,t64:(r._hasSeed&&r._seed<=64?1:0)};return (k in m)?m[k]:r[k];}
   function filtered(){var a=$("artist").value,c=$("cat").value,q=$("search").value.trim().toLowerCase();
     return DATA.filter(function(r){ if(c&&c!=="(all)"&&catFor(r.artist)!==c)return false; if(a&&a!=="(all)"&&r.artist!==a)return false;
       if(q&&String(r.song||"").toLowerCase().indexOf(q)<0&&String(r.artist||"").toLowerCase().indexOf(q)<0)return false; return true;});}
@@ -156,11 +161,11 @@
     rows.forEach(function(r){
       var tr=document.createElement("tr");
       if(showCut && r._seed>64) tr.className="dim";
-      tr.innerHTML='<td class="seed">'+r._seed+'</td>'+
+      tr.innerHTML='<td class="seed">'+(r._hasSeed?r._seed:'\u2014')+'</td>'+
         '<td><span class="pb" data-a="'+escA(r.artist)+'" data-s="'+escA(r.song)+'"></span>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
         '<td class="muted">'+esc(r.album)+'</td>'+'<td class="num">'+(r.year||"")+'</td>'+
         '<td class="num">'+fmt(r.total)+'</td><td class="num">'+(r._noDaily?'\u2013':fmt(r.daily))+'</td><td class="num">'+fmt(r.live)+'</td>'+
-        '<td class="r">'+r._rs+'</td><td class="r">'+(r._noDaily?'\u2013':r._rd)+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="r">'+r._wrank+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>'+'<td class="t64">'+(r._seed<=64?'Top 64':'')+'</td>';
+        '<td class="r">'+r._rs+'</td><td class="r">'+(r._noDaily?'\u2013':r._rd)+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="r">'+r._wrank+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs==null?'var(--muted)':(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)')))+'">'+(r._dvs==null?'\u2014':((r._dvs>0?'+':'')+r._dvs))+'</td>'+'<td class="t64">'+(r._hasSeed&&r._seed<=64?'Top 64':'')+'</td>';
       tb.appendChild(tr);
       if(showCut && r._seed===64){var d=document.createElement("tr");d.className="cut";
         d.innerHTML='<td colspan="15">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
@@ -171,7 +176,7 @@
   }
   function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
     var out=[["Artist","Category","Seed","Song","Album","Year","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted","Weighted Rank","Spread","Delta vs Streams","Top 64"]];
-    rows.forEach(function(r){out.push([r.artist,catFor(r.artist),r._seed,r.song,r.album,(r.year||""),r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._wrank,r._spread,r._dvs,(r._seed<=64?"Yes":"No")]);});
+    rows.forEach(function(r){out.push([r.artist,catFor(r.artist),(r._hasSeed?r._seed:""),r.song,r.album,(r.year||""),r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._wrank,r._spread,(r._dvs==null?"":r._dvs),(r._hasSeed&&r._seed<=64?"Yes":"No")]);});
     var s=out.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\n");
     var a=$("artist").value,el=document.createElement("a");el.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));
     el.download="songdb-"+((a&&a!=="(all)")?a.replace(/[^a-z0-9]+/gi,"_").toLowerCase():"all")+".csv";document.body.appendChild(el);el.click();el.remove();}
