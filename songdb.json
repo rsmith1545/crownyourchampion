@@ -21410,6 +21410,606 @@
 "daily": 0,
 "live": 20,
 "year": 2026
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Free Fallin'",
+"album": "",
+"total": 915647121,
+"daily": 306924,
+"live": 629
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "I Won't Back Down",
+"album": "",
+"total": 533120760,
+"daily": 185977,
+"live": 654
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Runnin' Down A Dream",
+"album": "",
+"total": 390509838,
+"daily": 82281,
+"live": 656
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Wildflowers",
+"album": "",
+"total": 236038865,
+"daily": 59015,
+"live": 106
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You Don't Know How It Feels",
+"album": "",
+"total": 177360366,
+"daily": 73405,
+"live": 418
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Love Is A Long Road",
+"album": "",
+"total": 101345458,
+"daily": 61043,
+"live": 178
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You Wreck Me",
+"album": "",
+"total": 72066768,
+"daily": 43983,
+"live": 508
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Yer So Bad",
+"album": "",
+"total": 47829463,
+"daily": 18569,
+"live": 311
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Time To Move On",
+"album": "",
+"total": 43063651,
+"daily": 22654,
+"live": 62
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "A Face In The Crowd",
+"album": "",
+"total": 31899796,
+"daily": 15767,
+"live": 80
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "It's Good To Be King",
+"album": "",
+"total": 26775225,
+"daily": 10762,
+"live": 289
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "While My Guitar Gently Weeps",
+"album": "",
+"total": 21319566,
+"daily": 11094,
+"live": 1
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Saving Grace",
+"album": "",
+"total": 20831925,
+"daily": 8704,
+"live": 94
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Crawling Back To You",
+"album": "",
+"total": 18796682,
+"daily": 13064,
+"live": 84
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Square One",
+"album": "",
+"total": 14359472,
+"daily": 3802,
+"live": 25
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Honey Bee",
+"album": "",
+"total": 12964049,
+"daily": 5140,
+"live": 141
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "The Apartment Song",
+"album": "",
+"total": 11747906,
+"daily": 2924,
+"live": 4
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Feel A Whole Lot Better",
+"album": "",
+"total": 10073503,
+"daily": 3096,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "To Find A Friend",
+"album": "",
+"total": 9604155,
+"daily": 2985,
+"live": 10
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Only A Broken Heart",
+"album": "",
+"total": 9221690,
+"daily": 2153,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "A Higher Place",
+"album": "",
+"total": 9076489,
+"daily": 1683,
+"live": 8
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Alright For Now",
+"album": "",
+"total": 8908898,
+"daily": 1864,
+"live": 71
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Zombie Zoo",
+"album": "",
+"total": 8830208,
+"daily": 1609,
+"live": 1
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Cabin Down Below",
+"album": "",
+"total": 8224805,
+"daily": 2822,
+"live": 92
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Don't Fade On Me",
+"album": "",
+"total": 7493600,
+"daily": 1602,
+"live": 4
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Depending On You",
+"album": "",
+"total": 6910901,
+"daily": 1826,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Wake Up Time",
+"album": "",
+"total": 6233890,
+"daily": 1473,
+"live": 7
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Down South",
+"album": "",
+"total": 6055768,
+"daily": 2630,
+"live": 15
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Hard On Me",
+"album": "",
+"total": 5722599,
+"daily": 1497,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You and Me",
+"album": "",
+"total": 5466173,
+"daily": 604,
+"live": 3
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Leave Virginia Alone",
+"album": "",
+"total": 5053798,
+"daily": 1152,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "House In The Woods",
+"album": "",
+"total": 4865911,
+"daily": 1065,
+"live": 2
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "A Mind With A Heart Of Its Own",
+"album": "",
+"total": 4842509,
+"daily": 1121,
+"live": 18
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Somewhere Under Heaven",
+"album": "",
+"total": 4451538,
+"daily": 783,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Flirting with Time",
+"album": "",
+"total": 4188995,
+"daily": 1120,
+"live": 3
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Gainesville",
+"album": "",
+"total": 3671185,
+"daily": 356,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Turn This Car Around",
+"album": "",
+"total": 3463332,
+"daily": 894,
+"live": 18
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "There Goes Angela (Dream Away)",
+"album": "",
+"total": 3249819,
+"daily": 1017,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Damaged by Love",
+"album": "",
+"total": 3185103,
+"daily": 611,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Big Weekend",
+"album": "",
+"total": 3167877,
+"daily": 817,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Jack",
+"album": "",
+"total": 2988604,
+"daily": 425,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Night Driver",
+"album": "",
+"total": 2914445,
+"daily": 800,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Something Could Happen",
+"album": "",
+"total": 2883394,
+"daily": 724,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "This Old Town",
+"album": "",
+"total": 2460130,
+"daily": 545,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Drivin' Down To Georgia",
+"album": "",
+"total": 2434057,
+"daily": 311,
+"live": 84
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Confusion Wheel",
+"album": "",
+"total": 2334623,
+"daily": 427,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "The Golden Rose",
+"album": "",
+"total": 2241699,
+"daily": 540,
+"live": 1
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Ankle Deep",
+"album": "",
+"total": 1996166,
+"daily": 576,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "When the Time Comes",
+"album": "",
+"total": 1937815,
+"daily": 598,
+"live": 18
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You Saw Me Comin'",
+"album": "",
+"total": 1888610,
+"daily": 738,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Harry Green",
+"album": "",
+"total": 1856093,
+"daily": 557,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Girl on LSD",
+"album": "",
+"total": 1746727,
+"daily": 1561,
+"live": 50
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Surrender",
+"album": "",
+"total": 1730083,
+"daily": 372,
+"live": 11
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You're Gonna Get It",
+"album": "",
+"total": 1485180,
+"daily": 365,
+"live": 16
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Keeping Me Alive",
+"album": "",
+"total": 1063484,
+"daily": 508,
+"live": 4
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Handle With Care",
+"album": "",
+"total": 970808,
+"daily": 106,
+"live": 142
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Hung Up and Overdue",
+"album": "",
+"total": 931058,
+"daily": 120,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Hope You Never",
+"album": "",
+"total": 913940,
+"daily": 220,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Lonesome Sundown",
+"album": "",
+"total": 906619,
+"daily": 177,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Climb That Hill Blues",
+"album": "",
+"total": 905140,
+"daily": 111,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Money Becomes King",
+"album": "",
+"total": 904520,
+"daily": 144,
+"live": 2
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Climb That Hill",
+"album": "",
+"total": 772419,
+"daily": 162,
+"live": 2
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "What Are You Doing in My Life",
+"album": "",
+"total": 478133,
+"daily": 70,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Don't Treat Me Like a Stranger",
+"album": "",
+"total": 475920,
+"daily": 58,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Lonesome Dave",
+"album": "",
+"total": 453558,
+"daily": 52,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "The Damage You've Done",
+"album": "",
+"total": 408423,
+"daily": 80,
+"live": 9
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Walkin' from the Fire",
+"album": "",
+"total": 401993,
+"daily": 89,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "You Can Still Change Your Mind",
+"album": "",
+"total": 353742,
+"daily": 46,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "There's a Break in the Rain (Have Love Will Travel)",
+"album": "",
+"total": 346109,
+"daily": 147,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Two Men Talking",
+"album": "",
+"total": 307764,
+"daily": 66,
+"live": 9
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "I Don't Belong",
+"album": "",
+"total": 301546,
+"daily": 46,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "A Feeling of Peace",
+"album": "",
+"total": 299985,
+"daily": 77,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Bus to Tampa Bay",
+"album": "",
+"total": 296046,
+"daily": 54,
+"live": 0
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "Like a Diamond",
+"album": "",
+"total": 261936,
+"daily": 36,
+"live": 8
+},
+{
+"artist": "Tom Petty and the Heartbreakers",
+"song": "For What It's Worth",
+"album": "",
+"total": 219073,
+"daily": 34,
+"live": 30
 }
 ]
 }
