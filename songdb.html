@@ -63,6 +63,7 @@
   </div>
   <div class="controls">
     <label>Artist <select id="artist"><option>(all)</option></select></label>
+    <label>Category <select id="cat"><option>(all)</option></select></label>
     <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:150px;max-width:260px">
     <label>Weighting <select id="wmode"><option value="auto">Auto (jam-aware)</option><option value="std">Standard 50/30/20</option><option value="jam">Jam 25/15/60</option></select></label>
     <button class="btn-sm" id="csv">&#11015; Export CSV</button>
@@ -74,6 +75,7 @@
       <th class="num" data-k="seed" title="Weighted seed (1 = best)">Seed</th>
       <th data-k="song">Song</th>
       <th data-k="album">Album</th>
+      <th class="num" data-k="year">Year</th>
       <th class="num" data-k="total">Total Streams</th>
       <th class="num" data-k="daily">Daily</th>
       <th class="num" data-k="live">Live Plays</th>
@@ -83,14 +85,15 @@
       <th class="num" data-k="w" title="Weighted score (lower = better)">Weighted</th>
       <th class="num" data-k="spread" title="|stream rank − live rank| — streams vs live disagreement">Spread</th>
       <th class="num" data-k="dvs" title="Stream rank − weighted seed (+ = live/daily lifted it above its streams rank)">Δ vs Str</th>
+      <th data-k="t64" title="In your top-64 seed">Top 64</th>
     </tr></thead>
-    <tbody><tr><td colspan="12" class="loading">Loading&hellip;</td></tr></tbody>
+    <tbody><tr><td colspan="14" class="loading">Loading&hellip;</td></tr></tbody>
   </table>
 <script>
 (function(){
   var DATA=[], WP={std:{s:0.5,d:0.3,l:0.2},jam:{s:0.25,d:0.15,l:0.6}}, JAM={"Grateful Dead":1,"Phish":1}, WMODE="auto", sortK='seed', sortDir=1;
   function wFor(a){ return WMODE==="std"?WP.std:(WMODE==="jam"?WP.jam:(JAM[a]?WP.jam:WP.std)); }
-  var DESC={total:1,daily:1,live:1,spread:1,dvs:1};
+  var DESC={total:1,daily:1,live:1,spread:1,dvs:1,t64:1};
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
   function escA(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
@@ -111,6 +114,10 @@
   function num(v){v=Number(v);return isNaN(v)?0:v;}
   function $(id){return document.getElementById(id);}
   function arts(){var o={};DATA.forEach(function(r){if(r.artist)o[r.artist]=1;});return Object.keys(o).sort();}
+  var CAT={"Taylor Swift":"Pop","Eagles":"Classic Rock","Led Zeppelin":"Classic Rock","Pink Floyd":"Classic Rock","Queen":"Classic Rock","Fleetwood Mac":"Classic Rock","The Who":"Classic Rock","Tom Petty and the Heartbreakers":"Classic Rock","The Doors":"Classic Rock","Creedence Clearwater Revival":"Classic Rock","Jimi Hendrix":"Classic Rock","The Beach Boys":"Classic Rock","Eric Clapton":"Classic Rock","David Bowie":"Classic Rock","The Police":"Classic Rock","U2":"Classic Rock","Bob Dylan":"Folk","Simon & Garfunkel":"Folk","Nirvana":"Alternative","The Smashing Pumpkins":"Alternative","Stone Temple Pilots":"Alternative","Oasis":"Alternative","The Offspring":"Punk","The Menzingers":"Punk","Grateful Dead":"Jam","Phish":"Jam"};
+  function catFor(a){return CAT[a]||"Other";}
+  function cats(){var o={};DATA.forEach(function(r){if(r.artist)o[catFor(r.artist)]=1;});return Object.keys(o).sort();}
+  function artsIn(c){var o={};DATA.forEach(function(r){if(r.artist&&(!c||c==="(all)"||catFor(r.artist)===c))o[r.artist]=1;});return Object.keys(o).sort();}
   function rankWithin(rows,key){var idx=rows.map(function(_,i){return i;});
     idx.sort(function(a,b){return num(rows[b][key])-num(rows[a][key]);});
     var out=[]; idx.forEach(function(orig,pos){out[orig]=pos+1;}); return out;}
@@ -128,9 +135,9 @@
       rows.forEach(function(r){ r._dvs=r._rs-r._seed; });
     });
   }
-  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,spread:r._spread,dvs:r._dvs};return (k in m)?m[k]:r[k];}
-  function filtered(){var a=$("artist").value,q=$("search").value.trim().toLowerCase();
-    return DATA.filter(function(r){ if(a&&a!=="(all)"&&r.artist!==a)return false;
+  function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,spread:r._spread,dvs:r._dvs,t64:(r._seed<=64?1:0)};return (k in m)?m[k]:r[k];}
+  function filtered(){var a=$("artist").value,c=$("cat").value,q=$("search").value.trim().toLowerCase();
+    return DATA.filter(function(r){ if(c&&c!=="(all)"&&catFor(r.artist)!==c)return false; if(a&&a!=="(all)"&&r.artist!==a)return false;
       if(q&&String(r.song||"").toLowerCase().indexOf(q)<0&&String(r.artist||"").toLowerCase().indexOf(q)<0)return false; return true;});}
   function render(){
     var rows=filtered().slice();
@@ -141,7 +148,7 @@
       if(c===0){ if(x.artist!==y.artist) return x.artist<y.artist?-1:1; return x._seed-y._seed; }
       return c;});
     var tb=$("t").querySelector("tbody");tb.innerHTML="";
-    if(!rows.length){tb.innerHTML='<tr><td colspan="12" class="loading">No songs.</td></tr>';$("stShown").textContent=0;return;}
+    if(!rows.length){tb.innerHTML='<tr><td colspan="14" class="loading">No songs.</td></tr>';$("stShown").textContent=0;return;}
     var single=$("artist").value && $("artist").value!=="(all)";
     var showCut=single && sortK==="seed" && sortDir===1;
     rows.forEach(function(r){
@@ -149,20 +156,20 @@
       if(showCut && r._seed>64) tr.className="dim";
       tr.innerHTML='<td class="seed">'+r._seed+'</td>'+
         '<td><span class="pb" data-a="'+escA(r.artist)+'" data-s="'+escA(r.song)+'"></span>'+esc(r.song)+(single?"":' <span class="muted" style="font-size:11px">· '+esc(r.artist)+'</span>')+'</td>'+
-        '<td class="muted">'+esc(r.album)+'</td>'+
+        '<td class="muted">'+esc(r.album)+'</td>'+'<td class="num">'+(r.year||"")+'</td>'+
         '<td class="num">'+fmt(r.total)+'</td><td class="num">'+(r._noDaily?'\u2013':fmt(r.daily))+'</td><td class="num">'+fmt(r.live)+'</td>'+
-        '<td class="r">'+r._rs+'</td><td class="r">'+(r._noDaily?'\u2013':r._rd)+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>';
+        '<td class="r">'+r._rs+'</td><td class="r">'+(r._noDaily?'\u2013':r._rd)+'</td><td class="r">'+r._rl+'</td><td class="r">'+r._w+'</td><td class="sp">'+r._spread+'</td>'+'<td class="dv" style="color:'+(r._dvs>0?'var(--green)':(r._dvs<0?'#e0683c':'var(--muted)'))+'">'+(r._dvs>0?'+':'')+r._dvs+'</td>'+'<td class="t64">'+(r._seed<=64?'Top 64':'')+'</td>';
       tb.appendChild(tr);
       if(showCut && r._seed===64){var d=document.createElement("tr");d.className="cut";
-        d.innerHTML='<td colspan="12">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
+        d.innerHTML='<td colspan="14">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
     });
     $("stShown").textContent=rows.length;
     (function(){var a=$("artist").value,p=$("wprof");if(!p)return; if(a&&a!=="(all)"){var w=wFor(a),j=(WMODE==="jam"||(WMODE==="auto"&&JAM[a])),nd=!DATA.some(function(r){return r.artist===a&&num(r.daily)>0;});if(nd){var t=w.s+w.l;p.textContent="Streams + Live · "+Math.round(w.s/t*100)+"/"+Math.round(w.l/t*100)+" (no daily data)";}else{p.textContent=(j?"Jam":"Standard")+" weighting · "+(w.s*100)+"/"+(w.d*100)+"/"+(w.l*100)+(WMODE==="auto"&&JAM[a]?" (auto)":"");}}else{p.textContent="";}})();
     document.querySelectorAll("#t thead th").forEach(function(th){th.classList.toggle("act",th.getAttribute("data-k")===sortK);});
   }
   function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
-    var out=[["Artist","Seed","Song","Album","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted","Spread","Delta vs Streams"]];
-    rows.forEach(function(r){out.push([r.artist,r._seed,r.song,r.album,r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._spread,r._dvs]);});
+    var out=[["Artist","Category","Seed","Song","Album","Year","Total Streams","Daily Streams","Live Plays","Rank Streams","Rank Daily","Rank Live","Weighted","Spread","Delta vs Streams","Top 64"]];
+    rows.forEach(function(r){out.push([r.artist,catFor(r.artist),r._seed,r.song,r.album,(r.year||""),r.total,r.daily,r.live,r._rs,r._rd,r._rl,r._w,r._spread,r._dvs,(r._seed<=64?"Yes":"No")]);});
     var s=out.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(",");}).join("\n");
     var a=$("artist").value,el=document.createElement("a");el.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));
     el.download="songdb-"+((a&&a!=="(all)")?a.replace(/[^a-z0-9]+/gi,"_").toLowerCase():"all")+".csv";document.body.appendChild(el);el.click();el.remove();}
@@ -171,14 +178,16 @@
       if(sortK===k){sortDir=-sortDir;} else{sortK=k; sortDir=(k==="song"||k==="album")?1:(DESC[k]?-1:1);} render();};});
   fetch("/songdb.json",{cache:"no-store"}).then(function(r){return r.ok?r.json():{};}).then(function(j){
     DATA=Array.isArray(j)?j:(j.songs||[]); computeSeeds();
-    var sel=$("artist");sel.innerHTML='<option>(all)</option>'+arts().map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
+    var sel=$("artist");sel.innerHTML='<option>(all)</option>'+artsIn("(all)").map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
+    var csel=$("cat");csel.innerHTML='<option>(all)</option>'+cats().map(function(c){return "<option>"+esc(c)+"</option>";}).join("");
+    csel.onchange=function(){var sv=$("artist");sv.innerHTML='<option>(all)</option>'+artsIn(this.value).map(function(a){return "<option>"+esc(a)+"</option>";}).join("");sv.value="(all)";render();};
     sel.onchange=render;$("search").oninput=render;$("csv").onclick=csv;
     $("wmode").onchange=function(){WMODE=this.value;computeSeeds();render();};
     $("t").querySelector("tbody").addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".pb"); if(b)_onPb(b);});
     $("stArtists").textContent=arts().length;$("stSongs").textContent=DATA.length;
     if(j.updated)$("upd").textContent="Updated "+j.updated+".";
     render();
-  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="12" class="err">Could not load songdb.json</td></tr>';});
+  }).catch(function(){$("t").querySelector("tbody").innerHTML='<tr><td colspan="14" class="err">Could not load songdb.json</td></tr>';});
 })();
 </script>
 </body>

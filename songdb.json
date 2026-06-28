@@ -7,7 +7,8 @@
 "album": "Red",
 "total": 1221725742,
 "daily": 542593,
-"live": 250
+"live": 250,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -15,7 +16,8 @@
 "album": "Evermore",
 "total": 835630701,
 "daily": 179263,
-"live": 149
+"live": 149,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -23,7 +25,8 @@
 "album": "Midnights",
 "total": 368082874,
 "daily": 78157,
-"live": 4
+"live": 4,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -31,7 +34,8 @@
 "album": "The Tortured Poets Department",
 "total": 442884124,
 "daily": 166267,
-"live": 66
+"live": 66,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -39,7 +43,8 @@
 "album": "Folklore",
 "total": 856488441,
 "daily": 388864,
-"live": 150
+"live": 150,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -47,7 +52,8 @@
 "album": "Lover",
 "total": 377818955,
 "daily": 95852,
-"live": 7
+"live": 7,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -55,7 +61,8 @@
 "album": "Lover",
 "total": 562290417,
 "daily": 158959,
-"live": 87
+"live": 87,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -63,7 +70,8 @@
 "album": "Speak Now",
 "total": 249556071,
 "daily": 58623,
-"live": 98
+"live": 98,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -71,7 +79,8 @@
 "album": "Reputation",
 "total": 928255748,
 "daily": 300833,
-"live": 56
+"live": 56,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -79,7 +88,8 @@
 "album": "Folklore",
 "total": 411084385,
 "daily": 78854,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -87,7 +97,8 @@
 "album": "Lover",
 "total": 2057791245,
 "daily": 683965,
-"live": 161
+"live": 161,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -95,7 +106,8 @@
 "album": "The Tortured Poets Department",
 "total": 219178007,
 "daily": 79544,
-"live": 2
+"live": 2,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -103,7 +115,8 @@
 "album": "Evermore",
 "total": 351966093,
 "daily": 61515,
-"live": 11
+"live": 11,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -111,7 +124,8 @@
 "album": "Lover",
 "total": 3383765456,
 "daily": 1215450,
-"live": 149
+"live": 149,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -119,7 +133,8 @@
 "album": "Midnights",
 "total": 875123713,
 "daily": 320906,
-"live": 6
+"live": 6,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -135,7 +150,8 @@
 "album": "Fearless",
 "total": 621062673,
 "daily": 197483,
-"live": 416
+"live": 416,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -143,7 +159,8 @@
 "album": "Midnights",
 "total": 2017260389,
 "daily": 412245,
-"live": 150
+"live": 150,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -151,7 +168,8 @@
 "album": "Lover",
 "total": 459631888,
 "daily": 153264,
-"live": 6
+"live": 6,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -159,7 +177,8 @@
 "album": "Folklore",
 "total": 459096841,
 "daily": 97163,
-"live": 151
+"live": 151,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -167,7 +186,8 @@
 "album": "Folklore",
 "total": 1807791048,
 "daily": 718541,
-"live": 150
+"live": 150,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -175,7 +195,8 @@
 "album": "Speak Now",
 "total": 1561147285,
 "daily": 596176,
-"live": 269
+"live": 269,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -191,7 +212,8 @@
 "album": "Reputation",
 "total": 1612814086,
 "daily": 434775,
-"live": 202
+"live": 202,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -199,7 +221,8 @@
 "album": "Lover",
 "total": 181294406,
 "daily": 32156,
-"live": 1
+"live": 1,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -215,7 +238,8 @@
 "album": "Speak Now",
 "total": 309664951,
 "daily": 76446,
-"live": 113
+"live": 113,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -223,7 +247,8 @@
 "album": "Speak Now",
 "total": 402686230,
 "daily": 97831,
-"live": 216
+"live": 216,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -231,7 +256,8 @@
 "album": "Midnights",
 "total": 620394403,
 "daily": 134240,
-"live": 4
+"live": 4,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -239,7 +265,8 @@
 "album": "The Tortured Poets Department",
 "total": 336961595,
 "daily": 109716,
-"live": 4
+"live": 4,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -247,7 +274,8 @@
 "album": "The Life of a Showgirl",
 "total": 360468038,
 "daily": 503988,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -255,7 +283,8 @@
 "album": "The Tortured Poets Department",
 "total": 347420350,
 "daily": 127751,
-"live": 66
+"live": 66,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -263,7 +292,8 @@
 "album": "The Hunger Games",
 "total": 84412828,
 "daily": 22070,
-"live": 15
+"live": 15,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -271,7 +301,8 @@
 "album": "Folklore",
 "total": 247727183,
 "daily": 48707,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -279,7 +310,8 @@
 "album": "Folklore",
 "total": 586072816,
 "daily": 189110,
-"live": 3
+"live": 3,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -287,7 +319,8 @@
 "album": "Evermore",
 "total": 321624940,
 "daily": 66835,
-"live": 149
+"live": 149,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -295,7 +328,8 @@
 "album": "The Life of a Showgirl",
 "total": 1444482941,
 "daily": 2806977,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -303,7 +337,8 @@
 "album": "Red",
 "total": 233725965,
 "daily": 51508,
-"live": 90
+"live": 90,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -311,7 +346,8 @@
 "album": "The Tortured Poets Department",
 "total": 430866606,
 "daily": 131920,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -319,7 +355,8 @@
 "album": "Reputation",
 "total": 276732696,
 "daily": 62942,
-"live": 6
+"live": 6,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -327,7 +364,8 @@
 "album": "Fearless",
 "total": 1958356195,
 "daily": 905000,
-"live": 532
+"live": 532,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -335,7 +373,8 @@
 "album": "The Tortured Poets Department",
 "total": 277017608,
 "daily": 135056,
-"live": 2
+"live": 2,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -343,7 +382,8 @@
 "album": "Folklore",
 "total": 625320255,
 "daily": 179957,
-"live": 150
+"live": 150,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -359,7 +399,8 @@
 "album": "The Tortured Poets Department",
 "total": 338908342,
 "daily": 119105,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -367,7 +408,8 @@
 "album": "Speak Now",
 "total": 126609037,
 "daily": 25335,
-"live": 2
+"live": 2,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -375,7 +417,8 @@
 "album": "The Tortured Poets Department",
 "total": 537147413,
 "daily": 198524,
-"live": 66
+"live": 66,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -383,7 +426,8 @@
 "album": "Folklore",
 "total": 238026521,
 "daily": 46096,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -391,7 +435,8 @@
 "album": "Midnights",
 "total": 383622441,
 "daily": 91418,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -399,7 +444,8 @@
 "album": "The Tortured Poets Department",
 "total": 1193869324,
 "daily": 571273,
-"live": 66
+"live": 66,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -407,7 +453,8 @@
 "album": "Reputation",
 "total": 594786146,
 "daily": 234245,
-"live": 57
+"live": 57,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -415,7 +462,8 @@
 "album": "Midnights",
 "total": 895006823,
 "daily": 142534,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -423,7 +471,8 @@
 "album": "Fearless",
 "total": 267765213,
 "daily": 46406,
-"live": 266
+"live": 266,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -431,7 +480,8 @@
 "album": "Fearless",
 "total": 211469135,
 "daily": 45643,
-"live": 136
+"live": 136,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -439,7 +489,8 @@
 "album": "Red",
 "total": 124201535,
 "daily": 21617,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -447,7 +498,8 @@
 "album": "The Tortured Poets Department",
 "total": 170779029,
 "daily": 69146,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -455,7 +507,8 @@
 "album": "The Tortured Poets Department",
 "total": 148487688,
 "daily": 44817,
-"live": 2
+"live": 2,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -463,7 +516,8 @@
 "album": "Lover",
 "total": 567637379,
 "daily": 139440,
-"live": 149
+"live": 149,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -471,7 +525,8 @@
 "album": "Speak Now",
 "total": 345020259,
 "daily": 149888,
-"live": 164
+"live": 164,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -479,7 +534,8 @@
 "album": "Reputation",
 "total": 1339207326,
 "daily": 373481,
-"live": 209
+"live": 209,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -487,7 +543,8 @@
 "album": "Red",
 "total": 180948856,
 "daily": 36638,
-"live": 92
+"live": 92,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -495,7 +552,8 @@
 "album": "Lover",
 "total": 515816274,
 "daily": 130366,
-"live": 2
+"live": 2,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -511,7 +569,8 @@
 "album": "Speak Now",
 "total": 815793814,
 "daily": 243216,
-"live": 123
+"live": 123,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -519,7 +578,8 @@
 "album": "Evermore",
 "total": 1093708675,
 "daily": 228021,
-"live": 149
+"live": 149,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -527,7 +587,8 @@
 "album": "The Tortured Poets Department",
 "total": 381448774,
 "daily": 255211,
-"live": 3
+"live": 3,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -535,7 +596,8 @@
 "album": "Speak Now",
 "total": 192589240,
 "daily": 62499,
-"live": 8
+"live": 8,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -543,7 +605,8 @@
 "album": "Fearless",
 "total": 107259269,
 "daily": 26599,
-"live": 4
+"live": 4,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -551,7 +614,8 @@
 "album": "The Hunger Games",
 "total": 51494411,
 "daily": 9202,
-"live": 6
+"live": 6,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -559,7 +623,8 @@
 "album": "Fifty Shades Darker",
 "total": 2149395635,
 "daily": 541358,
-"live": 8
+"live": 8,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -567,7 +632,8 @@
 "album": "Lover",
 "total": 382865476,
 "daily": 141193,
-"live": 5
+"live": 5,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -575,7 +641,8 @@
 "album": "Taylor Swift",
 "total": 257787896,
 "daily": 64603,
-"live": 309
+"live": 309,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -583,7 +650,8 @@
 "album": "The Tortured Poets Department",
 "total": 415539143,
 "daily": 156786,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -591,7 +659,8 @@
 "album": "Evermore",
 "total": 290351053,
 "daily": 57150,
-"live": 4
+"live": 4,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -599,7 +668,8 @@
 "album": "Fearless",
 "total": 2345980557,
 "daily": 986869,
-"live": 644
+"live": 644,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -607,7 +677,8 @@
 "album": "Fearless",
 "total": 111818781,
 "daily": 21900,
-"live": 122
+"live": 122,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -615,7 +686,8 @@
 "album": "Evermore",
 "total": 248487306,
 "daily": 64163,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -623,7 +695,8 @@
 "album": "Taylor Swift",
 "total": 159647870,
 "daily": 38341,
-"live": 302
+"live": 302,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -631,7 +704,8 @@
 "album": "The Life of a Showgirl",
 "total": 234945152,
 "daily": 205819,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -639,7 +713,8 @@
 "album": "The Tortured Poets Department",
 "total": 110962814,
 "daily": 42381,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -647,7 +722,8 @@
 "album": "Folklore",
 "total": 1102531505,
 "daily": 410300,
-"live": 5
+"live": 5,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -655,7 +731,8 @@
 "album": "Folklore",
 "total": 463874864,
 "daily": 89901,
-"live": 84
+"live": 84,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -663,7 +740,8 @@
 "album": "The Life of a Showgirl",
 "total": 765878449,
 "daily": 1522394,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -671,7 +749,8 @@
 "album": "Evermore",
 "total": 306003546,
 "daily": 71295,
-"live": 5
+"live": 5,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -679,7 +758,8 @@
 "album": "Midnights",
 "total": 393265518,
 "daily": 147774,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -687,7 +767,8 @@
 "album": "Taylor Swift",
 "total": 467827327,
 "daily": 147157,
-"live": 431
+"live": 431,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -703,7 +784,8 @@
 "album": "Reputation",
 "total": 586386963,
 "daily": 122142,
-"live": 55
+"live": 55,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -719,7 +801,8 @@
 "album": "Fearless",
 "total": 151813557,
 "daily": 30356,
-"live": 125
+"live": 125,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -727,7 +810,8 @@
 "album": "Red",
 "total": 1640642210,
 "daily": 591937,
-"live": 350
+"live": 350,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -743,7 +827,8 @@
 "album": "Fearless",
 "total": 285169023,
 "daily": 85053,
-"live": 139
+"live": 139,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -751,7 +836,8 @@
 "album": "Taylor Swift",
 "total": 59080685,
 "daily": 15813,
-"live": 2
+"live": 2,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -759,7 +845,8 @@
 "album": "Folklore",
 "total": 587076769,
 "daily": 148567,
-"live": 16
+"live": 16,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -767,7 +854,8 @@
 "album": "The Tortured Poets Department",
 "total": 590142464,
 "daily": 356433,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -775,7 +863,8 @@
 "album": "Fearless",
 "total": 682873168,
 "daily": 226401,
-"live": 106
+"live": 106,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -783,7 +872,8 @@
 "album": "Midnights",
 "total": 465633437,
 "daily": 104471,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -791,7 +881,8 @@
 "album": "Red",
 "total": 750579792,
 "daily": 235002,
-"live": 106
+"live": 106,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -799,7 +890,8 @@
 "album": "Speak Now",
 "total": 346806858,
 "daily": 94539,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -815,7 +907,8 @@
 "album": "Reputation",
 "total": 595231506,
 "daily": 435126,
-"live": 54
+"live": 54,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -823,7 +916,8 @@
 "album": "Reputation",
 "total": 286236864,
 "daily": 52028,
-"live": 1
+"live": 1,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -831,7 +925,8 @@
 "album": "The Tortured Poets Department",
 "total": 383239800,
 "daily": 150704,
-"live": 0
+"live": 0,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -839,7 +934,8 @@
 "album": "The Tortured Poets Department",
 "total": 833980527,
 "daily": 364754,
-"live": 66
+"live": 66,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -847,7 +943,8 @@
 "album": "Evermore",
 "total": 441793894,
 "daily": 96875,
-"live": 83
+"live": 83,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -863,7 +960,8 @@
 "album": "Red",
 "total": 304038062,
 "daily": 81089,
-"live": 12
+"live": 12,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -871,7 +969,8 @@
 "album": "Red",
 "total": 208583494,
 "daily": 34869,
-"live": 82
+"live": 82,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -879,7 +978,8 @@
 "album": "Red",
 "total": 241142093,
 "daily": 52499,
-"live": 3
+"live": 3,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -887,7 +987,8 @@
 "album": "Taylor Swift",
 "total": 68883328,
 "daily": 23628,
-"live": 120
+"live": 120,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -895,7 +996,8 @@
 "album": "Red",
 "total": 66839455,
 "daily": 13503,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -903,7 +1005,8 @@
 "album": "Lover",
 "total": 846169237,
 "daily": 223330,
-"live": 11
+"live": 11,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -911,7 +1014,8 @@
 "album": "Fearless",
 "total": 165006327,
 "daily": 30494,
-"live": 8
+"live": 8,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -919,7 +1023,8 @@
 "album": "Fearless",
 "total": 117532112,
 "daily": 28968,
-"live": 2
+"live": 2,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -927,7 +1032,8 @@
 "album": "Folklore",
 "total": 276483778,
 "daily": 48429,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -935,7 +1041,8 @@
 "album": "The Life of a Showgirl",
 "total": 231294981,
 "daily": 305814,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -943,7 +1050,8 @@
 "album": "Midnights",
 "total": 720602305,
 "daily": 157603,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -951,7 +1059,8 @@
 "album": "Folklore",
 "total": 274039000,
 "daily": 55037,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -959,7 +1068,8 @@
 "album": "Speak Now",
 "total": 438759312,
 "daily": 147203,
-"live": 113
+"live": 113,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -967,7 +1077,8 @@
 "album": "Midnights",
 "total": 292424272,
 "daily": 105092,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -975,7 +1086,8 @@
 "album": "Red",
 "total": 556368305,
 "daily": 160178,
-"live": 68
+"live": 68,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -983,7 +1095,8 @@
 "album": "Speak Now",
 "total": 118853344,
 "daily": 27718,
-"live": 2
+"live": 2,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -991,7 +1104,8 @@
 "album": "Where The Crawdads Sing",
 "total": 95707690,
 "daily": 21597,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -999,7 +1113,8 @@
 "album": "The Life of a Showgirl",
 "total": 215628614,
 "daily": 193537,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1007,7 +1122,8 @@
 "album": "Speak Now",
 "total": 283572343,
 "daily": 88202,
-"live": 94
+"live": 94,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1015,7 +1131,8 @@
 "album": "Speak Now",
 "total": 318513494,
 "daily": 70807,
-"live": 121
+"live": 121,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1023,7 +1140,8 @@
 "album": "Fearless",
 "total": 90660916,
 "daily": 18276,
-"live": 97
+"live": 97,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1031,7 +1149,8 @@
 "album": "The Life of a Showgirl",
 "total": 279780033,
 "daily": 329241,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1039,7 +1158,8 @@
 "album": "The Tortured Poets Department",
 "total": 222975049,
 "daily": 79567,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1047,7 +1167,8 @@
 "album": "Speak Now",
 "total": 537339628,
 "daily": 137900,
-"live": 139
+"live": 139,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1055,7 +1176,8 @@
 "album": "The Tortured Poets Department",
 "total": 262184452,
 "daily": 130530,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1063,7 +1185,8 @@
 "album": "Evermore",
 "total": 235940949,
 "daily": 63894,
-"live": 6
+"live": 6,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1071,7 +1194,8 @@
 "album": "Folklore",
 "total": 785928330,
 "daily": 209480,
-"live": 79
+"live": 79,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1079,7 +1203,8 @@
 "album": "Folklore",
 "total": 2003524317,
 "daily": 763988,
-"live": 150
+"live": 150,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1087,7 +1212,8 @@
 "album": "Midnights",
 "total": 408232894,
 "daily": 163829,
-"live": 3
+"live": 3,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1095,7 +1221,8 @@
 "album": "Red",
 "total": 144465044,
 "daily": 29389,
-"live": 5
+"live": 5,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1103,7 +1230,8 @@
 "album": "Red",
 "total": 150824967,
 "daily": 25658,
-"live": 88
+"live": 88,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1111,7 +1239,8 @@
 "album": "Speak Now",
 "total": 411779775,
 "daily": 109903,
-"live": 195
+"live": 195,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1119,7 +1248,8 @@
 "album": "The Tortured Poets Department",
 "total": 126551171,
 "daily": 36933,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1127,7 +1257,8 @@
 "album": "Lover",
 "total": 726572604,
 "daily": 475054,
-"live": 2
+"live": 2,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1135,7 +1266,8 @@
 "album": "Midnights",
 "total": 517414832,
 "daily": 84890,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1143,7 +1275,8 @@
 "album": "Lover",
 "total": 1019293976,
 "daily": 240435,
-"live": 151
+"live": 151,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1151,7 +1284,8 @@
 "album": "Evermore",
 "total": 511965932,
 "daily": 234843,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1159,7 +1293,8 @@
 "album": "Red",
 "total": 1298905510,
 "daily": 328269,
-"live": 368
+"live": 368,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1175,7 +1310,8 @@
 "album": "Red",
 "total": 196307933,
 "daily": 41538,
-"live": 5
+"live": 5,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1183,7 +1319,8 @@
 "album": "Midnights",
 "total": 1026726613,
 "daily": 215004,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1191,7 +1328,8 @@
 "album": "Red",
 "total": 886047718,
 "daily": 218521,
-"live": 248
+"live": 248,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1199,7 +1337,8 @@
 "album": "Taylor Swift",
 "total": 58048303,
 "daily": 19366,
-"live": 22
+"live": 22,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1207,7 +1346,8 @@
 "album": "Fearless",
 "total": 114885578,
 "daily": 44761,
-"live": 4
+"live": 4,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1215,7 +1355,8 @@
 "album": "the Beautiful Eyes",
 "total": 2945383,
 "daily": 223,
-"live": 1
+"live": 1,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1223,7 +1364,8 @@
 "album": "The Life of a Showgirl",
 "total": 243186179,
 "daily": 242209,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1231,7 +1373,8 @@
 "album": "Red",
 "total": 209956996,
 "daily": 97861,
-"live": 4
+"live": 4,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1239,7 +1382,8 @@
 "album": "Evermore",
 "total": 344222412,
 "daily": 53123,
-"live": 74
+"live": 74,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1247,7 +1391,8 @@
 "album": "Taylor Swift",
 "total": 42412246,
 "daily": 13475,
-"live": 24
+"live": 24,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1255,7 +1400,8 @@
 "album": "Taylor Swift",
 "total": 45952615,
 "daily": 12756,
-"live": 9
+"live": 9,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1263,7 +1409,8 @@
 "album": "Evermore",
 "total": 262518928,
 "daily": 68534,
-"live": 1
+"live": 1,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1271,7 +1418,8 @@
 "album": "Fearless",
 "total": 119350378,
 "daily": 39946,
-"live": 7
+"live": 7,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1279,7 +1427,8 @@
 "album": "Folklore",
 "total": 533132953,
 "daily": 162550,
-"live": 6
+"live": 6,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1287,7 +1436,8 @@
 "album": "Midnights",
 "total": 255033210,
 "daily": 58692,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1295,7 +1445,8 @@
 "album": "Speak Now",
 "total": 312054034,
 "daily": 59316,
-"live": 125
+"live": 125,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1303,7 +1454,8 @@
 "album": "Midnights",
 "total": 861966987,
 "daily": 189628,
-"live": 149
+"live": 149,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1311,7 +1463,8 @@
 "album": "The Tortured Poets Department",
 "total": 97241772,
 "daily": 33744,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1319,7 +1472,8 @@
 "album": "Reputation",
 "total": 376440349,
 "daily": 111065,
-"live": 56
+"live": 56,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1327,7 +1481,8 @@
 "album": "The Tortured Poets Department",
 "total": 177412099,
 "daily": 83940,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1343,7 +1498,8 @@
 "album": "Fearless",
 "total": 74085778,
 "daily": 15666,
-"live": 2
+"live": 2,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1351,7 +1507,8 @@
 "album": "Fearless",
 "total": 177623792,
 "daily": 38479,
-"live": 119
+"live": 119,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1367,7 +1524,8 @@
 "album": "The Life of a Showgirl",
 "total": 316141272,
 "daily": 302201,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1375,7 +1533,8 @@
 "album": "Red",
 "total": 131809029,
 "daily": 23333,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1383,7 +1542,8 @@
 "album": "Speak Now",
 "total": 168873804,
 "daily": 21525,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1391,7 +1551,8 @@
 "album": "Reputation",
 "total": 345187102,
 "daily": 67991,
-"live": 46
+"live": 46,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1399,7 +1560,8 @@
 "album": "Evermore",
 "total": 235710990,
 "daily": 41331,
-"live": 4
+"live": 4,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1407,7 +1569,8 @@
 "album": "Midnights",
 "total": 374000047,
 "daily": 85157,
-"live": 3
+"live": 3,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1415,7 +1578,8 @@
 "album": "Taylor Swift",
 "total": 168200964,
 "daily": 41383,
-"live": 316
+"live": 316,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1423,7 +1587,8 @@
 "album": "Taylor Swift",
 "total": 14603727,
 "daily": 1288,
-"live": 310
+"live": 310,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1431,7 +1596,8 @@
 "album": "Evermore",
 "total": 363247775,
 "daily": 56882,
-"live": 5
+"live": 5,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1439,7 +1605,8 @@
 "album": "Midnights",
 "total": 180244893,
 "daily": 41309,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1455,7 +1622,8 @@
 "album": "Red",
 "total": 290759196,
 "daily": 90509,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1479,7 +1647,8 @@
 "album": "The Tortured Poets Department",
 "total": 179650674,
 "daily": 53093,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1487,7 +1656,8 @@
 "album": "Speak Now",
 "total": 87513467,
 "daily": 20193,
-"live": 2
+"live": 2,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1495,7 +1665,8 @@
 "album": "The Tortured Poets Department",
 "total": 168048124,
 "daily": 69366,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1503,7 +1674,8 @@
 "album": "The Tortured Poets Department",
 "total": 190213530,
 "daily": 54780,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1511,7 +1683,8 @@
 "album": "Lover",
 "total": 350669224,
 "daily": 64065,
-"live": 12
+"live": 12,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1519,7 +1692,8 @@
 "album": "Taylor Swift",
 "total": 47576706,
 "daily": 13990,
-"live": 33
+"live": 33,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1527,7 +1701,8 @@
 "album": "Folklore",
 "total": 214012121,
 "daily": 47712,
-"live": 3
+"live": 3,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1535,7 +1710,8 @@
 "album": "Midnights",
 "total": 160401483,
 "daily": 28025,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1543,7 +1719,8 @@
 "album": "The Tortured Poets Department",
 "total": 179977238,
 "daily": 69129,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1551,7 +1728,8 @@
 "album": "Reputation",
 "total": 748437389,
 "daily": 145640,
-"live": 58
+"live": 58,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1559,7 +1737,8 @@
 "album": "Reputation",
 "total": 1442141309,
 "daily": 276622,
-"live": 208
+"live": 208,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1567,7 +1746,8 @@
 "album": "Speak Now",
 "total": 162665376,
 "daily": 32932,
-"live": 44
+"live": 44,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1591,7 +1771,8 @@
 "album": "The Tortured Poets Department",
 "total": 417837889,
 "daily": 291450,
-"live": 0
+"live": 0,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1599,7 +1780,8 @@
 "album": "The Tortured Poets Department",
 "total": 262271177,
 "daily": 121801,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1607,7 +1789,8 @@
 "album": "Reputation",
 "total": 1031246567,
 "daily": 279867,
-"live": 210
+"live": 210,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1615,7 +1798,8 @@
 "album": "Red",
 "total": 178679923,
 "daily": 30072,
-"live": 42
+"live": 42,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1623,7 +1807,8 @@
 "album": "Lover",
 "total": 440717642,
 "daily": 116402,
-"live": 4
+"live": 4,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1631,7 +1816,8 @@
 "album": "The Tortured Poets Department",
 "total": 139061953,
 "daily": 42500,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1639,7 +1825,8 @@
 "album": "Midnights",
 "total": 526441817,
 "daily": 81370,
-"live": 2
+"live": 2,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1647,7 +1834,8 @@
 "album": "Fearless",
 "total": 134230533,
 "daily": 19713,
-"live": 1
+"live": 1,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1663,7 +1851,8 @@
 "album": "Red",
 "total": 316458093,
 "daily": 113280,
-"live": 76
+"live": 76,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1671,7 +1860,8 @@
 "album": "The Life of a Showgirl",
 "total": 246065451,
 "daily": 235075,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1679,7 +1869,8 @@
 "album": "Fearless",
 "total": 65237040,
 "daily": 13966,
-"live": 2
+"live": 2,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1703,7 +1894,8 @@
 "album": "Red",
 "total": 209845162,
 "daily": 59659,
-"live": 0
+"live": 0,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1711,7 +1903,8 @@
 "album": "Red",
 "total": 182622662,
 "daily": 37445,
-"live": 7
+"live": 7,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1719,7 +1912,8 @@
 "album": "Lover",
 "total": 164069159,
 "daily": 24729,
-"live": 1
+"live": 1,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1727,7 +1921,8 @@
 "album": "The Tortured Poets Department",
 "total": 287228344,
 "daily": 133145,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1735,7 +1930,8 @@
 "album": "Speak Now",
 "total": 139668162,
 "daily": 55096,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1743,7 +1939,8 @@
 "album": "Red",
 "total": 232132367,
 "daily": 52238,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1751,7 +1948,8 @@
 "album": "Speak Now",
 "total": 131641841,
 "daily": 42531,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1759,7 +1957,8 @@
 "album": "The Life of a Showgirl",
 "total": 281792288,
 "daily": 324548,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1767,7 +1966,8 @@
 "album": "Midnights",
 "total": 366555187,
 "daily": 54637,
-"live": 1
+"live": 1,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1775,7 +1975,8 @@
 "album": "Hannah Montana: The Movie",
 "total": 148591222,
 "daily": 45935,
-"live": 1
+"live": 1,
+"year": 2009
 },
 {
 "artist": "Taylor Swift",
@@ -1783,7 +1984,8 @@
 "album": "Evermore",
 "total": 263135071,
 "daily": 47761,
-"live": 2
+"live": 2,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1791,7 +1993,8 @@
 "album": "Lover",
 "total": 484800,
 "daily": 106000,
-"live": 2
+"live": 2,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1799,7 +2002,8 @@
 "album": "Lover",
 "total": 420080052,
 "daily": 80133,
-"live": 2
+"live": 2,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1807,7 +2011,8 @@
 "album": "Speak Now",
 "total": 124729190,
 "daily": 31884,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1815,7 +2020,8 @@
 "album": "Fearless",
 "total": 74083127,
 "daily": 19214,
-"live": 55
+"live": 55,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1823,7 +2029,8 @@
 "album": "Reputation",
 "total": 250359782,
 "daily": 53671,
-"live": 9
+"live": 9,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1831,7 +2038,8 @@
 "album": "Evermore",
 "total": 152286765,
 "daily": 36941,
-"live": 1
+"live": 1,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -1839,7 +2047,8 @@
 "album": "Fearless",
 "total": 94581617,
 "daily": 20785,
-"live": 2
+"live": 2,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1847,7 +2056,8 @@
 "album": "Taylor Swift",
 "total": 64304233,
 "daily": 19218,
-"live": 31
+"live": 31,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1855,7 +2065,8 @@
 "album": "Red",
 "total": 168873804,
 "daily": 21525,
-"live": 2
+"live": 2,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1863,7 +2074,8 @@
 "album": "Lover",
 "total": 1141383522,
 "daily": 203933,
-"live": 161
+"live": 161,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1871,7 +2083,8 @@
 "album": "Taylor Swift",
 "total": 46840787,
 "daily": 12096,
-"live": 12
+"live": 12,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -1879,7 +2092,8 @@
 "album": "The Life of a Showgirl",
 "total": 198202922,
 "daily": 237237,
-"live": 0
+"live": 0,
+"year": 2025
 },
 {
 "artist": "Taylor Swift",
@@ -1887,7 +2101,8 @@
 "album": "Red",
 "total": 104983148,
 "daily": 19580,
-"live": 0
+"live": 0,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1895,7 +2110,8 @@
 "album": "Lover",
 "total": 985703924,
 "daily": 127091,
-"live": 16
+"live": 16,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -1903,7 +2119,8 @@
 "album": "Red",
 "total": 291264692,
 "daily": 111478,
-"live": 1
+"live": 1,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1911,7 +2128,8 @@
 "album": "Red",
 "total": 170888706,
 "daily": 63836,
-"live": 7
+"live": 7,
+"year": 2012
 },
 {
 "artist": "Taylor Swift",
@@ -1919,7 +2137,8 @@
 "album": "Fearless",
 "total": 76498155,
 "daily": 12939,
-"live": 0
+"live": 0,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1927,7 +2146,8 @@
 "album": "Speak Now",
 "total": 112325428,
 "daily": 24530,
-"live": 1
+"live": 1,
+"year": 2010
 },
 {
 "artist": "Taylor Swift",
@@ -1943,7 +2163,8 @@
 "album": "Midnights",
 "total": 245067581,
 "daily": 55302,
-"live": 2
+"live": 2,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1951,7 +2172,8 @@
 "album": "Midnights",
 "total": 204202157,
 "daily": 48454,
-"live": 2
+"live": 2,
+"year": 2022
 },
 {
 "artist": "Taylor Swift",
@@ -1967,7 +2189,8 @@
 "album": "Reputation",
 "total": 632243235,
 "daily": 139959,
-"live": 57
+"live": 57,
+"year": 2017
 },
 {
 "artist": "Taylor Swift",
@@ -1975,7 +2198,8 @@
 "album": "The Tortured Poets Department",
 "total": 135020044,
 "daily": 43498,
-"live": 1
+"live": 1,
+"year": 2024
 },
 {
 "artist": "Taylor Swift",
@@ -1983,7 +2207,8 @@
 "album": "Fearless",
 "total": 71729454,
 "daily": 12080,
-"live": 0
+"live": 0,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1991,7 +2216,8 @@
 "album": "Fearless",
 "total": 102010208,
 "daily": 19017,
-"live": 0
+"live": 0,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -1999,7 +2225,8 @@
 "album": "Taylor Swift",
 "total": 35528769,
 "daily": 10501,
-"live": 40
+"live": 40,
+"year": 2006
 },
 {
 "artist": "Taylor Swift",
@@ -2007,7 +2234,8 @@
 "album": "Fearless",
 "total": 478303270,
 "daily": 127628,
-"live": 3
+"live": 3,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -2023,7 +2251,8 @@
 "album": "Cats",
 "total": 20666440,
 "daily": 4364,
-"live": 1
+"live": 1,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -2031,7 +2260,8 @@
 "album": "the Beautiful Eyes",
 "total": 2,
 "daily": 2,
-"live": 5
+"live": 5,
+"year": 2008
 },
 {
 "artist": "Taylor Swift",
@@ -2039,7 +2269,8 @@
 "album": "Evermore",
 "total": 159057902,
 "daily": 26479,
-"live": 1
+"live": 1,
+"year": 2020
 },
 {
 "artist": "Taylor Swift",
@@ -2047,7 +2278,8 @@
 "album": "Cats",
 "total": 4413469,
 "daily": 1270,
-"live": 0
+"live": 0,
+"year": 2019
 },
 {
 "artist": "Taylor Swift",
@@ -20303,7 +20535,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 904703,
 "daily": 0,
-"live": 26
+"live": 26,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20311,7 +20544,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 647256,
 "daily": 0,
-"live": 4
+"live": 4,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20319,7 +20553,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 1645286,
 "daily": 0,
-"live": 95
+"live": 95,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20327,7 +20562,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 651808,
 "daily": 0,
-"live": 3
+"live": 3,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20335,7 +20571,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 461605,
 "daily": 0,
-"live": 13
+"live": 13,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20343,7 +20580,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 339508,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20351,7 +20589,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 441153,
 "daily": 0,
-"live": 2
+"live": 2,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20359,7 +20598,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 448434,
 "daily": 0,
-"live": 13
+"live": 13,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20367,7 +20607,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 667840,
 "daily": 0,
-"live": 21
+"live": 21,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20375,7 +20616,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 315113,
 "daily": 0,
-"live": 1
+"live": 1,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20383,7 +20625,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 459267,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20391,7 +20634,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 350421,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20399,7 +20643,8 @@
 "album": "A Lesson in the Abuse of Information Technology",
 "total": 570408,
 "daily": 0,
-"live": 1
+"live": 1,
+"year": 2007
 },
 {
 "artist": "The Menzingers",
@@ -20407,7 +20652,8 @@
 "album": "Hold On, Dodge (EP)",
 "total": 1082579,
 "daily": 0,
-"live": 67
+"live": 67,
+"year": 2009
 },
 {
 "artist": "The Menzingers",
@@ -20415,7 +20661,8 @@
 "album": "Hold On, Dodge (EP)",
 "total": 407584,
 "daily": 0,
-"live": 19
+"live": 19,
+"year": 2009
 },
 {
 "artist": "The Menzingers",
@@ -20423,7 +20670,8 @@
 "album": "Hold On, Dodge (EP)",
 "total": 605376,
 "daily": 0,
-"live": 24
+"live": 24,
+"year": 2009
 },
 {
 "artist": "The Menzingers",
@@ -20431,7 +20679,8 @@
 "album": "Hold On, Dodge (EP)",
 "total": 431198,
 "daily": 0,
-"live": 1
+"live": 1,
+"year": 2009
 },
 {
 "artist": "The Menzingers",
@@ -20439,7 +20688,8 @@
 "album": "Hold On, Dodge (EP)",
 "total": 336563,
 "daily": 0,
-"live": 8
+"live": 8,
+"year": 2009
 },
 {
 "artist": "The Menzingers",
@@ -20447,7 +20697,8 @@
 "album": "Chamberlain Waits",
 "total": 1983139,
 "daily": 0,
-"live": 160
+"live": 160,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20455,7 +20706,8 @@
 "album": "Chamberlain Waits",
 "total": 2056815,
 "daily": 0,
-"live": 237
+"live": 237,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20463,7 +20715,8 @@
 "album": "Chamberlain Waits",
 "total": 1065902,
 "daily": 0,
-"live": 60
+"live": 60,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20471,7 +20724,8 @@
 "album": "Chamberlain Waits",
 "total": 1114504,
 "daily": 0,
-"live": 67
+"live": 67,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20479,7 +20733,8 @@
 "album": "Chamberlain Waits",
 "total": 1975481,
 "daily": 0,
-"live": 128
+"live": 128,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20487,7 +20742,8 @@
 "album": "Chamberlain Waits",
 "total": 810607,
 "daily": 0,
-"live": 20
+"live": 20,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20495,7 +20751,8 @@
 "album": "Chamberlain Waits",
 "total": 905800,
 "daily": 0,
-"live": 6
+"live": 6,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20503,7 +20760,8 @@
 "album": "Chamberlain Waits",
 "total": 1070774,
 "daily": 0,
-"live": 46
+"live": 46,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20511,7 +20769,8 @@
 "album": "Chamberlain Waits",
 "total": 594532,
 "daily": 0,
-"live": 4
+"live": 4,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20519,7 +20778,8 @@
 "album": "Chamberlain Waits",
 "total": 1299946,
 "daily": 0,
-"live": 41
+"live": 41,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20527,7 +20787,8 @@
 "album": "Chamberlain Waits",
 "total": 536035,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20535,7 +20796,8 @@
 "album": "Chamberlain Waits",
 "total": 665150,
 "daily": 0,
-"live": 8
+"live": 8,
+"year": 2010
 },
 {
 "artist": "The Menzingers",
@@ -20543,7 +20805,8 @@
 "album": "On the Impossible Past",
 "total": 14617355,
 "daily": 0,
-"live": 722
+"live": 722,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20551,7 +20814,8 @@
 "album": "On the Impossible Past",
 "total": 5691050,
 "daily": 0,
-"live": 669
+"live": 669,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20559,7 +20823,8 @@
 "album": "On the Impossible Past",
 "total": 9447540,
 "daily": 0,
-"live": 707
+"live": 707,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20567,7 +20832,8 @@
 "album": "On the Impossible Past",
 "total": 8296528,
 "daily": 0,
-"live": 452
+"live": 452,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20575,7 +20841,8 @@
 "album": "On the Impossible Past",
 "total": 2583822,
 "daily": 0,
-"live": 274
+"live": 274,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20583,7 +20850,8 @@
 "album": "On the Impossible Past",
 "total": 2714773,
 "daily": 0,
-"live": 130
+"live": 130,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20591,7 +20859,8 @@
 "album": "On the Impossible Past",
 "total": 1898211,
 "daily": 0,
-"live": 130
+"live": 130,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20599,7 +20868,8 @@
 "album": "On the Impossible Past",
 "total": 3357198,
 "daily": 0,
-"live": 140
+"live": 140,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20607,7 +20877,8 @@
 "album": "On the Impossible Past",
 "total": 1677206,
 "daily": 0,
-"live": 67
+"live": 67,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20615,7 +20886,8 @@
 "album": "On the Impossible Past",
 "total": 3074253,
 "daily": 0,
-"live": 518
+"live": 518,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20623,7 +20895,8 @@
 "album": "On the Impossible Past",
 "total": 5637310,
 "daily": 0,
-"live": 477
+"live": 477,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20631,7 +20904,8 @@
 "album": "On the Impossible Past",
 "total": 2192128,
 "daily": 0,
-"live": 111
+"live": 111,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20639,7 +20913,8 @@
 "album": "On the Impossible Past",
 "total": 1537862,
 "daily": 0,
-"live": 34
+"live": 34,
+"year": 2012
 },
 {
 "artist": "The Menzingers",
@@ -20647,7 +20922,8 @@
 "album": "Rented World",
 "total": 29611407,
 "daily": 0,
-"live": 613
+"live": 613,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20655,7 +20931,8 @@
 "album": "Rented World",
 "total": 2639279,
 "daily": 0,
-"live": 69
+"live": 69,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20663,7 +20940,8 @@
 "album": "Rented World",
 "total": 3524382,
 "daily": 0,
-"live": 243
+"live": 243,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20671,7 +20949,8 @@
 "album": "Rented World",
 "total": 5127013,
 "daily": 0,
-"live": 116
+"live": 116,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20679,7 +20958,8 @@
 "album": "Rented World",
 "total": 2194899,
 "daily": 0,
-"live": 209
+"live": 209,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20687,7 +20967,8 @@
 "album": "Rented World",
 "total": 1855037,
 "daily": 0,
-"live": 27
+"live": 27,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20695,7 +20976,8 @@
 "album": "Rented World",
 "total": 2153651,
 "daily": 0,
-"live": 81
+"live": 81,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20703,7 +20985,8 @@
 "album": "Rented World",
 "total": 2370018,
 "daily": 0,
-"live": 26
+"live": 26,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20711,7 +20994,8 @@
 "album": "Rented World",
 "total": 1417093,
 "daily": 0,
-"live": 17
+"live": 17,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20719,7 +21003,8 @@
 "album": "Rented World",
 "total": 5691438,
 "daily": 0,
-"live": 465
+"live": 465,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20727,7 +21012,8 @@
 "album": "Rented World",
 "total": 1201507,
 "daily": 0,
-"live": 4
+"live": 4,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20735,7 +21021,8 @@
 "album": "Rented World",
 "total": 1207205,
 "daily": 0,
-"live": 3
+"live": 3,
+"year": 2014
 },
 {
 "artist": "The Menzingers",
@@ -20743,7 +21030,8 @@
 "album": "After the Party",
 "total": 12019908,
 "daily": 0,
-"live": 422
+"live": 422,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20751,7 +21039,8 @@
 "album": "After the Party",
 "total": 5773194,
 "daily": 0,
-"live": 447
+"live": 447,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20759,7 +21048,8 @@
 "album": "After the Party",
 "total": 13464991,
 "daily": 0,
-"live": 482
+"live": 482,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20767,7 +21057,8 @@
 "album": "After the Party",
 "total": 6848297,
 "daily": 0,
-"live": 135
+"live": 135,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20775,7 +21066,8 @@
 "album": "After the Party",
 "total": 4096228,
 "daily": 0,
-"live": 47
+"live": 47,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20783,7 +21075,8 @@
 "album": "After the Party",
 "total": 3728346,
 "daily": 0,
-"live": 482
+"live": 482,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20791,7 +21084,8 @@
 "album": "After the Party",
 "total": 3308088,
 "daily": 0,
-"live": 19
+"live": 19,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20799,7 +21093,8 @@
 "album": "After the Party",
 "total": 2809577,
 "daily": 0,
-"live": 27
+"live": 27,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20807,7 +21102,8 @@
 "album": "After the Party",
 "total": 4490122,
 "daily": 0,
-"live": 117
+"live": 117,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20815,7 +21111,8 @@
 "album": "After the Party",
 "total": 9306899,
 "daily": 0,
-"live": 210
+"live": 210,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20823,7 +21120,8 @@
 "album": "After the Party",
 "total": 2508724,
 "daily": 0,
-"live": 29
+"live": 29,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20831,7 +21129,8 @@
 "album": "After the Party",
 "total": 25814363,
 "daily": 0,
-"live": 487
+"live": 487,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20839,7 +21138,8 @@
 "album": "After the Party",
 "total": 2892079,
 "daily": 0,
-"live": 1
+"live": 1,
+"year": 2017
 },
 {
 "artist": "The Menzingers",
@@ -20847,7 +21147,8 @@
 "album": "The Freaks (single)",
 "total": 1611316,
 "daily": 0,
-"live": 55
+"live": 55,
+"year": 2018
 },
 {
 "artist": "The Menzingers",
@@ -20855,7 +21156,8 @@
 "album": "Toy Soldier (single)",
 "total": 2912981,
 "daily": 0,
-"live": 32
+"live": 32,
+"year": 2018
 },
 {
 "artist": "The Menzingers",
@@ -20863,7 +21165,8 @@
 "album": "Hello Exile",
 "total": 10149527,
 "daily": 0,
-"live": 265
+"live": 265,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20871,7 +21174,8 @@
 "album": "Hello Exile",
 "total": 12123317,
 "daily": 0,
-"live": 311
+"live": 311,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20879,7 +21183,8 @@
 "album": "Hello Exile",
 "total": 3140950,
 "daily": 0,
-"live": 46
+"live": 46,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20887,7 +21192,8 @@
 "album": "Hello Exile",
 "total": 2206894,
 "daily": 0,
-"live": 163
+"live": 163,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20895,7 +21201,8 @@
 "album": "Hello Exile",
 "total": 5826101,
 "daily": 0,
-"live": 117
+"live": 117,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20903,7 +21210,8 @@
 "album": "Hello Exile",
 "total": 2231573,
 "daily": 0,
-"live": 5
+"live": 5,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20911,7 +21219,8 @@
 "album": "Hello Exile",
 "total": 1616090,
 "daily": 0,
-"live": 121
+"live": 121,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20919,7 +21228,8 @@
 "album": "Hello Exile",
 "total": 4684486,
 "daily": 0,
-"live": 27
+"live": 27,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20927,7 +21237,8 @@
 "album": "Hello Exile",
 "total": 1553606,
 "daily": 0,
-"live": 8
+"live": 8,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20935,7 +21246,8 @@
 "album": "Hello Exile",
 "total": 1228504,
 "daily": 0,
-"live": 37
+"live": 37,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20943,7 +21255,8 @@
 "album": "Hello Exile",
 "total": 1308374,
 "daily": 0,
-"live": 13
+"live": 13,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20951,7 +21264,8 @@
 "album": "Hello Exile",
 "total": 1338473,
 "daily": 0,
-"live": 6
+"live": 6,
+"year": 2019
 },
 {
 "artist": "The Menzingers",
@@ -20959,7 +21273,8 @@
 "album": "Some of It Was True",
 "total": 3971858,
 "daily": 0,
-"live": 154
+"live": 154,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -20967,7 +21282,8 @@
 "album": "Some of It Was True",
 "total": 2555865,
 "daily": 0,
-"live": 129
+"live": 129,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -20975,7 +21291,8 @@
 "album": "Some of It Was True",
 "total": 936102,
 "daily": 0,
-"live": 94
+"live": 94,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -20983,7 +21300,8 @@
 "album": "Some of It Was True",
 "total": 1581747,
 "daily": 0,
-"live": 41
+"live": 41,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -20991,7 +21309,8 @@
 "album": "Some of It Was True",
 "total": 1722141,
 "daily": 0,
-"live": 156
+"live": 156,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -20999,7 +21318,8 @@
 "album": "Some of It Was True",
 "total": 2519830,
 "daily": 0,
-"live": 58
+"live": 58,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21007,7 +21327,8 @@
 "album": "Some of It Was True",
 "total": 1284044,
 "daily": 0,
-"live": 43
+"live": 43,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21015,7 +21336,8 @@
 "album": "Some of It Was True",
 "total": 675312,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21023,7 +21345,8 @@
 "album": "Some of It Was True",
 "total": 631582,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21031,7 +21354,8 @@
 "album": "Some of It Was True",
 "total": 648590,
 "daily": 0,
-"live": 6
+"live": 6,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21039,7 +21363,8 @@
 "album": "Some of It Was True",
 "total": 502741,
 "daily": 0,
-"live": 1
+"live": 1,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21047,7 +21372,8 @@
 "album": "Some of It Was True",
 "total": 448172,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21055,7 +21381,8 @@
 "album": "Some of It Was True",
 "total": 484160,
 "daily": 0,
-"live": 0
+"live": 0,
+"year": 2023
 },
 {
 "artist": "The Menzingers",
@@ -21063,7 +21390,8 @@
 "album": "Better Angels (single)",
 "total": 153867,
 "daily": 0,
-"live": 2
+"live": 2,
+"year": 2026
 },
 {
 "artist": "The Menzingers",
@@ -21071,7 +21399,8 @@
 "album": "Better Angels (single)",
 "total": 600679,
 "daily": 0,
-"live": 9
+"live": 9,
+"year": 2026
 },
 {
 "artist": "The Menzingers",
@@ -21079,7 +21408,8 @@
 "album": "Better Angels (single)",
 "total": 635872,
 "daily": 0,
-"live": 20
+"live": 20,
+"year": 2026
 }
 ]
 }
