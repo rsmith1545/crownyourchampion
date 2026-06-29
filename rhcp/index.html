@@ -3497,7 +3497,7 @@ function closeConcertModal() {
 
 function skipConcert() {
     closeConcertModal();
-    showToast('🏆 ' + currentChampSong + ' is your Red Hot Chili Peppers Champion!');
+    showToast('🏆 ' + (window.CYC_BAND||'Your') + ' champion: ' + currentChampSong + '!');
 }
 
 async function searchConcerts() {
@@ -4366,7 +4366,7 @@ updateProgress();
   if(window.__cycChampUX) return; window.__cycChampUX=1;
   function champName(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
   function share(){ try{ if(window.openShare) window.openShare(); }catch(e){} }
-  function bannerLabel(){ var b=document.querySelector('#champBanner .champ-label'); return b?b.textContent.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,'').trim():'Your Champion'; }
+  function bannerLabel(){ if(window.CYC_BAND) return window.CYC_BAND+' Champion'; var b=document.querySelector('#champBanner .champ-label'); return b?b.textContent.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,'').trim():'Your Champion'; }
   function bannerSub(){ var b=document.querySelector('#champBanner .champ-sub'); return b?b.textContent.trim():'Crown Your Champion · All-Time Greatest Song'; }
   if(!document.getElementById('cycChampCss')){
     var st=document.createElement('style'); st.id='cycChampCss';
