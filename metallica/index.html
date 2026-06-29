@@ -4110,7 +4110,8 @@ updateProgress();
 /* cycShareCard v5 — champion card with crowd-%/concert/challenge layers + async crowd read. Self-contained. */
 (function(){
   if (window.__cycShareCard) return; window.__cycShareCard = 1;
-  function bandName(){ var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i); return m ? m[1].trim() : 'Frank Turner'; }
+  function bandName(){
+    if(window.CYC_BAND) return window.CYC_BAND; var m=(document.title||'').match(/Champion\s*[—-]\s*(.+?)\s+Madness/i); return m ? m[1].trim() : 'Frank Turner'; }
   function getChamp(){ var el=document.getElementById('champion'); if(!el) return ''; var v=(el.innerText||'').trim(); return (v && v!=='—' && v!=='-' && v!=='--' && v!=='---') ? v : ''; }
   function siteURL(){ return location.origin + location.pathname.replace(/index\.html$/,''); }
   function shareText(){
@@ -5938,6 +5939,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #cycSetlistBackdrop{ max-width:100vw; }               /* dont let the fixed backdrop stretch to an inflated width */
 }
 </style>
+<script>window.CYC_BAND="Metallica";</script>
 <script>
 /* cycBandMarks v2 — band name (web: big, above CHAMPIONSHIP; mobile: big gold over faint region + tip, filling dead space) + footer signup confirmation */
 (function(){
@@ -5950,7 +5952,10 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   function run(){
     var bn=bandName(); if(!bn) return;
     var fh=document.querySelector('.finals-card .finals-header');
-    if(fh && !fh.querySelector('.cyc-champ-band')){ var d=document.createElement('div'); d.className='cyc-champ-band'; d.textContent=bn; fh.insertBefore(d, fh.firstChild); }
+    if(fh && !fh.querySelector('.cyc-champ-band')){
+      var raw=(fh.textContent||'').trim(); var word=raw.replace(/^[^A-Za-z]+/,'').trim()||'Championship';
+      fh.innerHTML='<div class="cyc-champ-band">'+bn+'</div><span class="cyc-champ-line"><span class="cyc-crown">\uD83D\uDC51</span>'+word+'</span>';
+    }
     var cards=document.querySelectorAll('.region-card');
     Array.prototype.forEach.call(cards, function(card){
       if(card.querySelector('.cyc-rgn-info')) return;
@@ -5972,7 +5977,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   }
   var st=document.createElement('style');
   st.textContent=
-   '.cyc-champ-band{font-family:"Bebas Neue",sans-serif;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold,#f0a500);font-size:24px;line-height:1;margin-bottom:2px;}'+
+   '.cyc-champ-band{font-family:"Bebas Neue",sans-serif;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold,#f0a500);font-size:24px;line-height:1;margin-bottom:2px;}.finals-header .cyc-champ-line{display:inline-block;position:relative;}.finals-header .cyc-crown{position:absolute;right:100%;margin-right:8px;}'+
    '.cyc-rgn-info{display:none;}'+
    '#cycFootOnList{display:none;}'+
    '@media(max-width:1080px){'+
