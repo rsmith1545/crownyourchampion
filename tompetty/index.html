@@ -5945,6 +5945,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 (function(){
   if(window.__cycBandMarks) return; window.__cycBandMarks=1;
   function bandName(){
+    if(window.CYC_BAND) return window.CYC_BAND;
     var t=(document.querySelector('.champion-banner .champ-label')||{}).textContent||'';
     var m=t.match(/Your\s+(.+?)\s+Champion/i); if(m) return m[1].trim();
     m=(document.title||'').match(/[—-]\s*(.+?)\s+Madness/); return m?m[1].trim():'';
