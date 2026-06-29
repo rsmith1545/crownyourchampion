@@ -66,7 +66,7 @@
     <label>Artist <select id="artist"><option>(all)</option></select></label>
     <label>Category <select id="cat"><option>(all)</option></select></label>
     <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:150px;max-width:260px">
-    <label>Weighting <select id="wmode"><option value="auto">Auto (jam-aware)</option><option value="std">Standard 50/30/20</option><option value="jam">Jam 25/15/60</option></select></label>
+    <label>Weighting <select id="wmode"><option value="auto">Auto (jam-aware)</option><option value="std">Standard 50/30/20</option><option value="jam">Jam 25/15/60</option><option value="bal">50/35/15</option></select></label>
     <button class="btn-sm" id="csv">&#11015; Export CSV</button>
     <span class="muted" id="wprof" style="font-size:12px"></span>
   </div>
@@ -93,8 +93,8 @@
   </table>
 <script>
 (function(){
-  var DATA=[], WP={std:{s:0.5,d:0.3,l:0.2},jam:{s:0.25,d:0.15,l:0.6}}, JAM={"Grateful Dead":1,"Phish":1}, WMODE="auto", sortK='seed', sortDir=1;
-  function wFor(a){ return WMODE==="std"?WP.std:(WMODE==="jam"?WP.jam:(JAM[a]?WP.jam:WP.std)); }
+  var DATA=[], WP={std:{s:0.5,d:0.3,l:0.2},jam:{s:0.25,d:0.15,l:0.6},bal:{s:0.5,d:0.35,l:0.15}}, JAM={"Grateful Dead":1,"Phish":1}, WMODE="auto", sortK='seed', sortDir=1;
+  function wFor(a){ return WMODE==="std"?WP.std:(WMODE==="jam"?WP.jam:(WMODE==="bal"?WP.bal:(JAM[a]?WP.jam:WP.std))); }
   var DESC={total:1,daily:1,live:1,spread:1,dvs:1,t64:1};
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
@@ -171,7 +171,7 @@
         d.innerHTML='<td colspan="15">&darr; top 64 &mdash; bracket cutoff &mdash; below = curation buffer &darr;</td>';tb.appendChild(d);}
     });
     $("stShown").textContent=rows.length;
-    (function(){var a=$("artist").value,p=$("wprof");if(!p)return; if(a&&a!=="(all)"){var w=wFor(a),j=(WMODE==="jam"||(WMODE==="auto"&&JAM[a])),nd=!DATA.some(function(r){return r.artist===a&&num(r.daily)>0;});if(nd){var t=w.s+w.l;p.textContent="Streams + Live · "+Math.round(w.s/t*100)+"/"+Math.round(w.l/t*100)+" (no daily data)";}else{p.textContent=(j?"Jam":"Standard")+" weighting · "+(w.s*100)+"/"+(w.d*100)+"/"+(w.l*100)+(WMODE==="auto"&&JAM[a]?" (auto)":"");}}else{p.textContent="";}})();
+    (function(){var a=$("artist").value,p=$("wprof");if(!p)return; if(a&&a!=="(all)"){var w=wFor(a),j=(WMODE==="jam"||(WMODE==="auto"&&JAM[a])),nd=!DATA.some(function(r){return r.artist===a&&num(r.daily)>0;});if(nd){var t=w.s+w.l;p.textContent="Streams + Live · "+Math.round(w.s/t*100)+"/"+Math.round(w.l/t*100)+" (no daily data)";}else{p.textContent=(j?"Jam":(WMODE==="bal"?"Custom":"Standard"))+" weighting · "+(w.s*100)+"/"+(w.d*100)+"/"+(w.l*100)+(WMODE==="auto"&&JAM[a]?" (auto)":"");}}else{p.textContent="";}})();
     document.querySelectorAll("#t thead th").forEach(function(th){th.classList.toggle("act",th.getAttribute("data-k")===sortK);});
   }
   function csv(){var rows=filtered().slice().sort(function(x,y){return x.artist===y.artist?x._seed-y._seed:(x.artist<y.artist?-1:1);});
