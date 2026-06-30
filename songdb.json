@@ -1,5 +1,5 @@
 {
-"updated": "2026-06-29",
+"updated": "2026-06-30",
 "songs": [
 {
 "artist": "Taylor Swift",
@@ -11565,14 +11565,6 @@
 },
 {
 "artist": "David Bowie",
-"song": "\"Heroes\"",
-"album": "",
-"total": 676052023,
-"daily": 394953,
-"live": 565
-},
-{
-"artist": "David Bowie",
 "song": "Let's Dance",
 "album": "",
 "total": 567728587,
@@ -11706,14 +11698,6 @@
 "total": 83748051,
 "daily": 15067,
 "live": 641
-},
-{
-"artist": "David Bowie",
-"song": "Heroes",
-"album": "",
-"total": 81579805,
-"daily": 33818,
-"live": 565
 },
 {
 "artist": "David Bowie",
@@ -26170,6 +26154,14 @@
 "total": 1858142,
 "daily": 648,
 "live": 0
+},
+{
+"artist": "David Bowie",
+"song": "Heroes",
+"album": "",
+"total": 757631828,
+"daily": 428771,
+"live": 565
 }
 ]
 }
