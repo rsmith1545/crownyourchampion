@@ -7901,26 +7901,10 @@
 },
 {
 "artist": "Creedence Clearwater Revival",
-"song": "Susie Q",
-"album": "",
-"total": 86727525,
-"daily": 32878,
-"live": 27
-},
-{
-"artist": "Creedence Clearwater Revival",
 "song": "Someday Never Comes",
 "album": "",
 "total": 59371551,
 "daily": 32986,
-"live": 0
-},
-{
-"artist": "Creedence Clearwater Revival",
-"song": "Suzie Q",
-"album": "",
-"total": 46806469,
-"daily": 15655,
 "live": 0
 },
 {
@@ -8189,14 +8173,6 @@
 },
 {
 "artist": "Creedence Clearwater Revival",
-"song": "Susie Q - Pt. 2",
-"album": "",
-"total": 8989641,
-"daily": 1231,
-"live": 0
-},
-{
-"artist": "Creedence Clearwater Revival",
 "song": "Cross-Tie Walker",
 "album": "",
 "total": 8758680,
@@ -8325,14 +8301,6 @@
 },
 {
 "artist": "Creedence Clearwater Revival",
-"song": "Suzie Q (Pt. 1)",
-"album": "",
-"total": 937553,
-"daily": 123,
-"live": 0
-},
-{
-"artist": "Creedence Clearwater Revival",
 "song": "Walking On The Water",
 "album": "",
 "total": 493703,
@@ -8346,14 +8314,6 @@
 "total": 437874,
 "daily": 68,
 "live": 10
-},
-{
-"artist": "Creedence Clearwater Revival",
-"song": "Suzie Q (Pt. 2)",
-"album": "",
-"total": 401607,
-"daily": 50,
-"live": 0
 },
 {
 "artist": "Jimi Hendrix",
@@ -26146,6 +26106,14 @@
 "total": 9283146,
 "daily": 1555,
 "live": 86
+},
+{
+"artist": "Creedence Clearwater Revival",
+"song": "Suzie Q",
+"album": "",
+"total": 143862795,
+"daily": 49937,
+"live": 27
 }
 ]
 }
