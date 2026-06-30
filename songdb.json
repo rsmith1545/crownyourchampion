@@ -7925,14 +7925,6 @@
 },
 {
 "artist": "Creedence Clearwater Revival",
-"song": "Good Golly Miss Molly",
-"album": "",
-"total": 41365373,
-"daily": 12673,
-"live": 10
-},
-{
-"artist": "Creedence Clearwater Revival",
 "song": "Hello Mary Lou",
 "album": "",
 "total": 37418956,
@@ -8306,14 +8298,6 @@
 "total": 493703,
 "daily": 57,
 "live": 6
-},
-{
-"artist": "Creedence Clearwater Revival",
-"song": "Good Golly, Miss Molly",
-"album": "",
-"total": 437874,
-"daily": 68,
-"live": 10
 },
 {
 "artist": "Jimi Hendrix",
@@ -26114,6 +26098,14 @@
 "total": 143862795,
 "daily": 49937,
 "live": 27
+},
+{
+"artist": "Creedence Clearwater Revival",
+"song": "Good Golly, Miss Molly",
+"album": "",
+"total": 41803247,
+"daily": 12741,
+"live": 10
 }
 ]
 }
