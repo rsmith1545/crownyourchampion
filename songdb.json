@@ -1,5 +1,5 @@
 {
-"updated": "2026-06-30",
+"updated": "2026-07-01",
 "songs": [
 {
 "artist": "Taylor Swift",
@@ -4512,806 +4512,6 @@
 "total": 12922304,
 "daily": 3837,
 "live": 194
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Dreams",
-"album": "",
-"total": 2736266128,
-"daily": 1928143,
-"live": 944
-},
-{
-"artist": "Fleetwood Mac",
-"song": "The Chain",
-"album": "",
-"total": 1765093824,
-"daily": 1138335,
-"live": 959
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Everywhere",
-"album": "",
-"total": 1445908523,
-"daily": 947694,
-"live": 404
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Go Your Own Way",
-"album": "",
-"total": 1392798617,
-"daily": 653351,
-"live": 963
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Landslide",
-"album": "",
-"total": 1102033620,
-"daily": 886824,
-"live": 964
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Little Lies",
-"album": "",
-"total": 704364798,
-"daily": 488382,
-"live": 380
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Rhiannon",
-"album": "",
-"total": 640939079,
-"daily": 333922,
-"live": 996
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Gypsy",
-"album": "",
-"total": 573680344,
-"daily": 387397,
-"live": 539
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Don't Stop",
-"album": "",
-"total": 555635219,
-"daily": 233473,
-"live": 874
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Silver Springs",
-"album": "",
-"total": 455968809,
-"daily": 671599,
-"live": 414
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Never Going Back Again",
-"album": "",
-"total": 418625016,
-"daily": 152477,
-"live": 529
-},
-{
-"artist": "Fleetwood Mac",
-"song": "You Make Loving Fun",
-"album": "",
-"total": 325839654,
-"daily": 185938,
-"live": 643
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Seven Wonders",
-"album": "",
-"total": 233423736,
-"daily": 143160,
-"live": 130
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Say You Love Me",
-"album": "",
-"total": 206341335,
-"daily": 192299,
-"live": 724
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Gold Dust Woman",
-"album": "",
-"total": 181830885,
-"daily": 80076,
-"live": 807
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Songbird",
-"album": "",
-"total": 177720289,
-"daily": 61526,
-"live": 524
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Sara",
-"album": "",
-"total": 169349576,
-"daily": 101466,
-"live": 352
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Second Hand News",
-"album": "",
-"total": 161082847,
-"daily": 70815,
-"live": 650
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Big Love",
-"album": "",
-"total": 141995041,
-"daily": 91295,
-"live": 450
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Tusk",
-"album": "",
-"total": 132904549,
-"daily": 49140,
-"live": 560
-},
-{
-"artist": "Fleetwood Mac",
-"song": "I Don't Want to Know",
-"album": "",
-"total": 127809898,
-"daily": 62060,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Hold Me",
-"album": "",
-"total": 118001366,
-"daily": 83897,
-"live": 97
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Albatross - 2018 Master",
-"album": "",
-"total": 104275642,
-"daily": 25314,
-"live": 45
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Over My Head",
-"album": "",
-"total": 68387967,
-"daily": 35783,
-"live": 314
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Black Magic Woman - 2018 Master",
-"album": "",
-"total": 61145366,
-"daily": 17054,
-"live": 126
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Monday Morning",
-"album": "",
-"total": 56358244,
-"daily": 20225,
-"live": 305
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Storms",
-"album": "",
-"total": 55248850,
-"daily": 30612,
-"live": 86
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Oh Daddy",
-"album": "",
-"total": 54047566,
-"daily": 17642,
-"live": 224
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Thrown Down",
-"album": "",
-"total": 50636394,
-"daily": 84339,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "As Long as You Follow",
-"album": "",
-"total": 50396997,
-"daily": 56436,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Sisters of the Moon",
-"album": "",
-"total": 43538509,
-"daily": 17949,
-"live": 306
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Hypnotized",
-"album": "",
-"total": 42264675,
-"daily": 40819,
-"live": 155
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Rhiannon (Will You Ever Win)",
-"album": "",
-"total": 41312525,
-"daily": 32171,
-"live": 996
-},
-{
-"artist": "Fleetwood Mac",
-"song": "World Turning",
-"album": "",
-"total": 32363948,
-"daily": 5229,
-"live": 933
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Think About Me",
-"album": "",
-"total": 30659619,
-"daily": 9019,
-"live": 33
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Peacekeeper",
-"album": "",
-"total": 29613673,
-"daily": 19934,
-"live": 140
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Need Your Love So Bad",
-"album": "",
-"total": 29354599,
-"daily": 14129,
-"live": 9
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Family Man",
-"album": "",
-"total": 28145963,
-"daily": 16572,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Oh Well (Pt. 1)",
-"album": "",
-"total": 26556535,
-"daily": 17817,
-"live": 760
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Tango in the Night",
-"album": "",
-"total": 25748306,
-"daily": 6635,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "I'm so Afraid",
-"album": "",
-"total": 24299066,
-"daily": 15294,
-"live": 759
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Over & Over",
-"album": "",
-"total": 23869927,
-"daily": 11246,
-"live": 21
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Say You Will",
-"album": "",
-"total": 23705788,
-"daily": 26228,
-"live": 139
-},
-{
-"artist": "Fleetwood Mac",
-"song": "No Questions Asked",
-"album": "",
-"total": 22316320,
-"daily": 19183,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Isn't It Midnight",
-"album": "",
-"total": 21694506,
-"daily": 16618,
-"live": 188
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Only over You",
-"album": "",
-"total": 21470217,
-"daily": 52863,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Mystified",
-"album": "",
-"total": 20409686,
-"daily": 14706,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "I Loved Another Woman",
-"album": "",
-"total": 20079118,
-"daily": 11633,
-"live": 171
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Emerald Eyes",
-"album": "",
-"total": 19259373,
-"daily": 13999,
-"live": 2
-},
-{
-"artist": "Fleetwood Mac",
-"song": "I Know I'm Not Wrong",
-"album": "",
-"total": 18339977,
-"daily": 1621,
-"live": 224
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Oh Diane",
-"album": "",
-"total": 17294180,
-"daily": 9725,
-"live": 1
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Caroline",
-"album": "",
-"total": 15521100,
-"daily": 5512,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Warm Ways",
-"album": "",
-"total": 13225200,
-"daily": 6530,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Skies the Limit",
-"album": "",
-"total": 13044494,
-"daily": 2266,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "That's Alright",
-"album": "",
-"total": 12572742,
-"daily": 12328,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Bleed to Love Her",
-"album": "",
-"total": 12488936,
-"daily": 14948,
-"live": 66
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Future Games",
-"album": "",
-"total": 12297870,
-"daily": 6886,
-"live": 67
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Man of the World",
-"album": "",
-"total": 12235096,
-"daily": 3059,
-"live": 25
-},
-{
-"artist": "Fleetwood Mac",
-"song": "I Do",
-"album": "",
-"total": 12077219,
-"daily": 573,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Angel",
-"album": "",
-"total": 11964124,
-"daily": 11541,
-"live": 100
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Crystal",
-"album": "",
-"total": 11415366,
-"daily": 4674,
-"live": 39
-},
-{
-"artist": "Fleetwood Mac",
-"song": "The Ledge",
-"album": "",
-"total": 10998624,
-"daily": 2161,
-"live": 2
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Blue Letter",
-"album": "",
-"total": 9872312,
-"daily": 3626,
-"live": 298
-},
-{
-"artist": "Fleetwood Mac",
-"song": "The Green Manalishi (With the Two Prong Crown)",
-"album": "",
-"total": 8662176,
-"daily": 3389,
-"live": 110
-},
-{
-"artist": "Fleetwood Mac",
-"song": "You and I, Pt. II",
-"album": "",
-"total": 8535389,
-"daily": 3132,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Sunny Side of Heaven",
-"album": "",
-"total": 8489027,
-"daily": 23492,
-"live": 13
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Love Is Dangerous",
-"album": "",
-"total": 8232120,
-"daily": 487,
-"live": 24
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Beautiful Child",
-"album": "",
-"total": 7959560,
-"daily": 3959,
-"live": 136
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Love in Store",
-"album": "",
-"total": 7845684,
-"daily": 3011,
-"live": 31
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Welcome to the Room... Sara",
-"album": "",
-"total": 7825164,
-"daily": 2942,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "What Makes You Think You're the One",
-"album": "",
-"total": 7818265,
-"daily": 1898,
-"live": 102
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Sugar Daddy",
-"album": "",
-"total": 7239427,
-"daily": 2300,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "When I See You Again",
-"album": "",
-"total": 7012220,
-"daily": 2130,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Love That Burns",
-"album": "",
-"total": 6884652,
-"daily": 1708,
-"live": 2
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Jewel Eyed Judy",
-"album": "",
-"total": 6042681,
-"daily": 2366,
-"live": 4
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Sentimental Lady",
-"album": "",
-"total": 6012755,
-"daily": 4201,
-"live": 41
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Planets of the Universe",
-"album": "",
-"total": 5988514,
-"daily": 1831,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Brown Eyes",
-"album": "",
-"total": 5525891,
-"daily": 5681,
-"live": 95
-},
-{
-"artist": "Fleetwood Mac",
-"song": "That's All for Everyone",
-"album": "",
-"total": 5006898,
-"daily": 1255,
-"live": 1
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Keep Me There",
-"album": "",
-"total": 4953690,
-"daily": 1395,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Honey Hi",
-"album": "",
-"total": 4914731,
-"daily": 1469,
-"live": 1
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Without You",
-"album": "",
-"total": 4727495,
-"daily": 2555,
-"live": 58
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Never Going Back Again - Acoustic Duet",
-"album": "",
-"total": 4571286,
-"daily": 1127,
-"live": 529
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Not That Funny",
-"album": "",
-"total": 4486225,
-"daily": 915,
-"live": 246
-},
-{
-"artist": "Fleetwood Mac",
-"song": "My Heart Beat Like a Hammer",
-"album": "",
-"total": 4468875,
-"daily": 1301,
-"live": 1
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Shake Your Moneymaker",
-"album": "",
-"total": 4305849,
-"daily": 889,
-"live": 22
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Save Me a Place",
-"album": "",
-"total": 4233469,
-"daily": 1299,
-"live": 97
-},
-{
-"artist": "Fleetwood Mac",
-"song": "What's the World Coming To",
-"album": "",
-"total": 4107696,
-"daily": 678,
-"live": 99
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Straight Back",
-"album": "",
-"total": 3998337,
-"daily": 3418,
-"live": 2
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Prove Your Love",
-"album": "",
-"total": 3723757,
-"daily": 4094,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Murrow Turning over in His Grave",
-"album": "",
-"total": 3465866,
-"daily": 590,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Where We Belong",
-"album": "",
-"total": 3446509,
-"daily": 388,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Doesn't Anything Last",
-"album": "",
-"total": 3356487,
-"daily": 743,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Wish You Were Here",
-"album": "",
-"total": 3229981,
-"daily": 1431,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Never Forget",
-"album": "",
-"total": 3185417,
-"daily": 946,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Rattlesnake Shake",
-"album": "",
-"total": 3038005,
-"daily": 962,
-"live": 118
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Can't Go Back",
-"album": "",
-"total": 3023775,
-"daily": 1117,
-"live": 0
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Looking for Somebody",
-"album": "",
-"total": 3011894,
-"daily": 761,
-"live": 3
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Save Me",
-"album": "",
-"total": 2990172,
-"daily": 1367,
-"live": 99
-},
-{
-"artist": "Fleetwood Mac",
-"song": "Say Goodbye",
-"album": "",
-"total": 2943433,
-"daily": 1100,
-"live": 193
 },
 {
 "artist": "The Who",
@@ -26106,6 +25306,806 @@
 "total": 41803247,
 "daily": 12741,
 "live": 10
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Dreams",
+"album": "",
+"total": 2736266128,
+"daily": 1928143,
+"live": 944
+},
+{
+"artist": "Fleetwood Mac",
+"song": "The Chain",
+"album": "",
+"total": 1765093824,
+"daily": 1138335,
+"live": 959
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Everywhere",
+"album": "",
+"total": 1445908523,
+"daily": 947694,
+"live": 404
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Go Your Own Way",
+"album": "",
+"total": 1392798617,
+"daily": 653351,
+"live": 963
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Landslide",
+"album": "",
+"total": 1102033620,
+"daily": 886824,
+"live": 964
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Little Lies",
+"album": "",
+"total": 704364798,
+"daily": 488382,
+"live": 380
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Rhiannon",
+"album": "",
+"total": 682251604,
+"daily": 366093,
+"live": 996
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Gypsy",
+"album": "",
+"total": 573680344,
+"daily": 387397,
+"live": 539
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Don't Stop",
+"album": "",
+"total": 555635219,
+"daily": 233473,
+"live": 874
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Silver Springs",
+"album": "",
+"total": 455968809,
+"daily": 671599,
+"live": 414
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Never Going Back Again",
+"album": "",
+"total": 423196302,
+"daily": 153604,
+"live": 529
+},
+{
+"artist": "Fleetwood Mac",
+"song": "You Make Loving Fun",
+"album": "",
+"total": 325839654,
+"daily": 185938,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Seven Wonders",
+"album": "",
+"total": 233423736,
+"daily": 143160,
+"live": 130
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Say You Love Me",
+"album": "",
+"total": 206341335,
+"daily": 192299,
+"live": 724
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Gold Dust Woman",
+"album": "",
+"total": 181830885,
+"daily": 80076,
+"live": 807
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Songbird",
+"album": "",
+"total": 177720289,
+"daily": 61526,
+"live": 524
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Sara",
+"album": "",
+"total": 169349576,
+"daily": 101466,
+"live": 352
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Second Hand News",
+"album": "",
+"total": 161082847,
+"daily": 70815,
+"live": 650
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Big Love",
+"album": "",
+"total": 141995041,
+"daily": 91295,
+"live": 450
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Tusk",
+"album": "",
+"total": 132535747,
+"daily": 49069,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "I Don't Want to Know",
+"album": "",
+"total": 127809898,
+"daily": 62060,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Hold Me",
+"album": "",
+"total": 118001366,
+"daily": 83897,
+"live": 97
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Albatross",
+"album": "",
+"total": 104275642,
+"daily": 25314,
+"live": 45
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Over My Head",
+"album": "",
+"total": 68387967,
+"daily": 35783,
+"live": 314
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Black Magic Woman",
+"album": "",
+"total": 61145366,
+"daily": 17054,
+"live": 126
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Monday Morning",
+"album": "",
+"total": 56358244,
+"daily": 20225,
+"live": 305
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Storms",
+"album": "",
+"total": 54650821,
+"daily": 30407,
+"live": 86
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Oh Daddy",
+"album": "",
+"total": 54047566,
+"daily": 17642,
+"live": 224
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Thrown Down",
+"album": "",
+"total": 50636394,
+"daily": 84339,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "As Long as You Follow",
+"album": "",
+"total": 50396997,
+"daily": 56436,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Sisters of the Moon",
+"album": "",
+"total": 43538509,
+"daily": 17949,
+"live": 306
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Hypnotized",
+"album": "",
+"total": 42264675,
+"daily": 40819,
+"live": 155
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Need Your Love So Bad",
+"album": "",
+"total": 33098652,
+"daily": 15375,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "World Turning",
+"album": "",
+"total": 32363948,
+"daily": 5229,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Think About Me",
+"album": "",
+"total": 30659619,
+"daily": 9019,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Peacekeeper",
+"album": "",
+"total": 29613673,
+"daily": 19934,
+"live": 140
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Family Man",
+"album": "",
+"total": 28145963,
+"daily": 16572,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Oh Well (Pt. 1)",
+"album": "",
+"total": 27465700,
+"daily": 18374,
+"live": 760
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Tango in the Night",
+"album": "",
+"total": 25748306,
+"daily": 6635,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "I'm so Afraid",
+"album": "",
+"total": 24299066,
+"daily": 15294,
+"live": 759
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Over & Over",
+"album": "",
+"total": 23869927,
+"daily": 11246,
+"live": 21
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Say You Will",
+"album": "",
+"total": 23705788,
+"daily": 26228,
+"live": 139
+},
+{
+"artist": "Fleetwood Mac",
+"song": "No Questions Asked",
+"album": "",
+"total": 22316320,
+"daily": 19183,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Isn't It Midnight",
+"album": "",
+"total": 21694506,
+"daily": 16618,
+"live": 188
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Only over You",
+"album": "",
+"total": 21470217,
+"daily": 52863,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Mystified",
+"album": "",
+"total": 20409686,
+"daily": 14706,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "I Loved Another Woman",
+"album": "",
+"total": 20079118,
+"daily": 11633,
+"live": 171
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Emerald Eyes",
+"album": "",
+"total": 19259373,
+"daily": 13999,
+"live": 2
+},
+{
+"artist": "Fleetwood Mac",
+"song": "I Know I'm Not Wrong",
+"album": "",
+"total": 18339977,
+"daily": 1621,
+"live": 224
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Oh Diane",
+"album": "",
+"total": 17294180,
+"daily": 9725,
+"live": 1
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Caroline",
+"album": "",
+"total": 15521100,
+"daily": 5512,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Warm Ways",
+"album": "",
+"total": 13225200,
+"daily": 6530,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Skies the Limit",
+"album": "",
+"total": 13044494,
+"daily": 2266,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "That's Alright",
+"album": "",
+"total": 12572742,
+"daily": 12328,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Bleed to Love Her",
+"album": "",
+"total": 12488936,
+"daily": 14948,
+"live": 66
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Future Games",
+"album": "",
+"total": 12297870,
+"daily": 6886,
+"live": 67
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Man of the World",
+"album": "",
+"total": 12235096,
+"daily": 3059,
+"live": 25
+},
+{
+"artist": "Fleetwood Mac",
+"song": "I Do",
+"album": "",
+"total": 12077219,
+"daily": 573,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Angel",
+"album": "",
+"total": 11964124,
+"daily": 11541,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Crystal",
+"album": "",
+"total": 11415366,
+"daily": 4674,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "The Ledge",
+"album": "",
+"total": 10998624,
+"daily": 2161,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Blue Letter",
+"album": "",
+"total": 9872312,
+"daily": 3626,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "The Green Manalishi (With the Two Prong Crown)",
+"album": "",
+"total": 8662176,
+"daily": 3389,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "You and I, Pt. II",
+"album": "",
+"total": 8535389,
+"daily": 3132,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Sunny Side of Heaven",
+"album": "",
+"total": 8489027,
+"daily": 23492,
+"live": 13
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Love Is Dangerous",
+"album": "",
+"total": 8232120,
+"daily": 487,
+"live": 24
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Beautiful Child",
+"album": "",
+"total": 7959560,
+"daily": 3959,
+"live": 136
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Love in Store",
+"album": "",
+"total": 7845684,
+"daily": 3011,
+"live": 31
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Welcome to the Room... Sara",
+"album": "",
+"total": 7825164,
+"daily": 2942,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "What Makes You Think You're the One",
+"album": "",
+"total": 7818265,
+"daily": 1898,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Sugar Daddy",
+"album": "",
+"total": 7239427,
+"daily": 2300,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "When I See You Again",
+"album": "",
+"total": 7012220,
+"daily": 2130,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Love That Burns",
+"album": "",
+"total": 6884652,
+"daily": 1708,
+"live": 2
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Jewel Eyed Judy",
+"album": "",
+"total": 6042681,
+"daily": 2366,
+"live": 4
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Sentimental Lady",
+"album": "",
+"total": 6012755,
+"daily": 4201,
+"live": 41
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Planets of the Universe",
+"album": "",
+"total": 5988514,
+"daily": 1831,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Brown Eyes",
+"album": "",
+"total": 5525891,
+"daily": 5681,
+"live": 95
+},
+{
+"artist": "Fleetwood Mac",
+"song": "That's All for Everyone",
+"album": "",
+"total": 5006898,
+"daily": 1255,
+"live": 1
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Keep Me There",
+"album": "",
+"total": 4953690,
+"daily": 1395,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Honey Hi",
+"album": "",
+"total": 4914731,
+"daily": 1469,
+"live": 1
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Without You",
+"album": "",
+"total": 4727495,
+"daily": 2555,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Not That Funny",
+"album": "",
+"total": 4486225,
+"daily": 915,
+"live": 246
+},
+{
+"artist": "Fleetwood Mac",
+"song": "My Heart Beat Like a Hammer",
+"album": "",
+"total": 4468875,
+"daily": 1301,
+"live": 1
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Shake Your Moneymaker",
+"album": "",
+"total": 4305849,
+"daily": 889,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Save Me a Place",
+"album": "",
+"total": 4233469,
+"daily": 1299,
+"live": 97
+},
+{
+"artist": "Fleetwood Mac",
+"song": "What's the World Coming To",
+"album": "",
+"total": 4107696,
+"daily": 678,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Straight Back",
+"album": "",
+"total": 3998337,
+"daily": 3418,
+"live": 2
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Prove Your Love",
+"album": "",
+"total": 3723757,
+"daily": 4094,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Murrow Turning over in His Grave",
+"album": "",
+"total": 3465866,
+"daily": 590,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Where We Belong",
+"album": "",
+"total": 3446509,
+"daily": 388,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Doesn't Anything Last",
+"album": "",
+"total": 3356487,
+"daily": 743,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Wish You Were Here",
+"album": "",
+"total": 3229981,
+"daily": 1431,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Never Forget",
+"album": "",
+"total": 3185417,
+"daily": 946,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Rattlesnake Shake",
+"album": "",
+"total": 3038005,
+"daily": 962,
+"live": 118
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Can't Go Back",
+"album": "",
+"total": 3023775,
+"daily": 1117,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Looking for Somebody",
+"album": "",
+"total": 3011894,
+"daily": 761,
+"live": 3
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Save Me",
+"album": "",
+"total": 2990172,
+"daily": 1367,
+"live": 99
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Say Goodbye",
+"album": "",
+"total": 2943433,
+"daily": 1100,
+"live": 193
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Miranda",
+"album": "",
+"total": 2917953,
+"daily": 697,
+"live": 0
+},
+{
+"artist": "Fleetwood Mac",
+"song": "Book of Love",
+"album": "",
+"total": 2892416,
+"daily": 1424,
+"live": 0
 }
 ]
 }
