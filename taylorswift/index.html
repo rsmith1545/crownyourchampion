@@ -5996,8 +5996,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 
 <style id="tsModeStyles">
   .mt-chip.mt-mode { background:#f0a500; border-color:#f0a500; color:#0a0a0f; font-weight:700; }
-  #cycWebControls .cwc-item.cwc-mode { color:#f0a500; font-weight:700; letter-spacing:.5px; }
-  #cycWebControls .cwc-item.cwc-mode:hover { color:#ffbf3f; }
+  #cycWebControls .cwc-item.cwc-mode { color:#f0a500; font-weight:700; letter-spacing:.5px; border:1px solid rgba(240,165,0,.6); background:rgba(240,165,0,.12); border-radius:20px; padding:5px 15px; }
+  #cycWebControls .cwc-item.cwc-mode:hover { color:#ffbf3f; background:rgba(240,165,0,.22); border-color:#f0a500; }
   #tsChooserOverlay { position:fixed; inset:0; z-index:2147483000; background:rgba(4,4,8,.82); backdrop-filter:blur(3px);
     display:none; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
   #tsChooserOverlay.ts-open { display:flex; }
@@ -6081,28 +6081,26 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
         '<button class="ts-card" type="button" data-mode="numbers">'+
           '<div class="ts-h"><span class="ts-ico">&#128202;</span>BY THE NUMBERS</div>'+
           '<div class="ts-sub">The People\'s Bracket</div>'+
-          '<div class="ts-desc">Seeded by what 100 million fans actually play.</div>'+
+          '<div class="ts-desc">Seeded by what 100 million real fans actually stream on Spotify daily.</div>'+
           '<div class="ts-cta">&rarr; Start with the hits</div>'+
         '</button>'+
         '<button class="ts-card" type="button" data-mode="superfan">'+
           '<div class="ts-h"><span class="ts-ico">&#127917;</span>SUPERFAN\'S CUT</div>'+
           '<div class="ts-sub">The Critics\' Bracket</div>'+
-          '<div class="ts-desc">All Too Well leads. Zero radio hits in the top 10.</div>'+
+          '<div class="ts-desc">Ranked by artistry — not airplay or mainstream popularity.</div>'+
           '<div class="ts-cta">&rarr; I know every word</div>'+
         '</button>'+
         '<button class="ts-card" type="button" data-mode="deepcuts">'+
           '<div class="ts-h"><span class="ts-ico">&#128373;&#65039;</span>DEEP CUTS</div>'+
           '<div class="ts-sub">For the Obsessed</div>'+
-          '<div class="ts-desc">Songs 65-128. If you know these, you\'re a scholar.</div>'+
+          '<div class="ts-desc">Songs 65-128 by daily Spotify streams. Know these? You\'re a die-hard.</div>'+
           '<div class="ts-cta">&rarr; Show me the vault</div>'+
         '</button>'+
         '<div class="ts-foot">Switch modes anytime inside.</div>'+
       '</div>';
     document.body.appendChild(ov);
     function closeDefault(){
-      // X dismiss -> default to numbers, mark selected
-      try{ if(!localStorage.getItem('ts_mode')) localStorage.setItem('ts_mode','numbers'); }catch(e){}
-      try{ localStorage.setItem('ts_mode_selected','1'); }catch(e){}
+      // one-tap dismiss -> keep the mode already applied on load
       ov.classList.remove('ts-open');
     }
     ov.querySelector('.ts-x').addEventListener('click', closeDefault);
@@ -6124,10 +6122,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     if(!window.TS_MODES[mode]) mode='numbers';
     // apply current mode (numbers = safe re-set of baked HTML)
     try{ window.applyTSMode(mode); }catch(e){}
-    // first-visit chooser
-    var selected=false;
-    try{ selected = !!localStorage.getItem('ts_mode_selected'); }catch(e){}
-    if(!selected){ window.openTSChooser(); }
+    // show chooser on every visit (instantly dismissible, one tap to proceed)
+    window.openTSChooser();
   }
 
   if(document.readyState!=='loading') init();
