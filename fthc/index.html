@@ -6025,7 +6025,8 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var tr=tools.getBoundingClientRect(), origin=tr.left, total=tr.width;
     if(total<10) return;
     var colL=items.map(function(it){ return it.getBoundingClientRect().left - origin; });
-    var widths=colL.map(function(l,i){ return (i<colL.length-1? colL[i+1]-l : total-l); });
+    var gap=parseFloat(getComputedStyle(tools).columnGap||getComputedStyle(tools).gap)||0;
+    var widths=colL.map(function(l,i){ return (i<colL.length-1? colL[i+1]-l-gap : total-l); });
     btns.forEach(function(b,i){ b.style.flex='0 0 '+Math.max(0,widths[i])+'px'; b.style.textAlign='left'; b.style.paddingLeft='11px'; });
     var navL=items.map(letterX), btnL=btns.map(letterX);
     btns.forEach(function(b,i){
