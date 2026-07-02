@@ -5990,49 +5990,6 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   setTimeout(run,1400);
 })();
 </script>
-<script>
-/* cycMobToolAlign — line up mobile Row-2 tool buttons under Row-1 nav items
-   (Auto-Fill↔All Brackets, Share↔Vote, Reset↔How to Play). Measures real letter
-   positions so text columns match even though Row 1 is content-width. Mobile only. */
-(function(){
-  if(window.__cycMobToolAlign) return; window.__cycMobToolAlign=1;
-  function letterX(el){
-    if(!el) return null;
-    var node=el.firstChild;
-    if(!node||node.nodeType!==3) return el.getBoundingClientRect().left;
-    var s=node.nodeValue||''; var i=s.search(/[A-Za-z0-9]/);
-    if(i<0) return el.getBoundingClientRect().left;
-    try{ var r=document.createRange(); r.setStart(node,i); r.setEnd(node,i+1);
-      return r.getBoundingClientRect().left; }catch(e){ return el.getBoundingClientRect().left; }
-  }
-  function align(){
-    var nav=document.getElementById('cycMobNav'), tools=document.getElementById('cycMobTools');
-    var btns=[document.getElementById('mtAuto'),document.getElementById('mtShare'),document.getElementById('mtReset')];
-    if(!nav||!tools) return;
-    if(getComputedStyle(nav).display==='none'){ btns.forEach(function(b){ if(b){b.style.flex='';b.style.paddingLeft='';b.style.textAlign='';} }); return; }
-    var items=[document.getElementById('mnBrackets'),document.getElementById('mnAlbum'),document.getElementById('mnHowto')];
-    if(items.indexOf(null)>=0||btns.indexOf(null)>=0) return;
-    var tr=tools.getBoundingClientRect(), origin=tr.left, total=tr.width;
-    if(total<10) return;
-    var colL=items.map(function(it){ return it.getBoundingClientRect().left - origin; });
-    var gap=parseFloat(getComputedStyle(tools).columnGap||getComputedStyle(tools).gap)||0;
-    var widths=colL.map(function(l,i){ return (i<colL.length-1? colL[i+1]-l-gap : total-l); });
-    btns.forEach(function(b,i){ b.style.flex='0 0 '+Math.max(0,widths[i])+'px'; b.style.textAlign='left'; b.style.paddingLeft='11px'; });
-    var navL=items.map(letterX), btnL=btns.map(letterX);
-    btns.forEach(function(b,i){
-      if(navL[i]==null||btnL[i]==null) return;
-      var cur=parseFloat(getComputedStyle(b).paddingLeft)||11;
-      var np=cur+(navL[i]-btnL[i]); if(np<2) np=2;
-      b.style.paddingLeft=np+'px';
-    });
-  }
-  function sched(){ requestAnimationFrame(function(){ requestAnimationFrame(align); }); }
-  if(document.readyState!=='loading') sched(); else document.addEventListener('DOMContentLoaded',sched);
-  window.addEventListener('load', sched);
-  window.addEventListener('resize', function(){ clearTimeout(window.__cmtaT); window.__cmtaT=setTimeout(align,120); });
-  var n=0, iv=setInterval(function(){ n++; if(document.getElementById('cycMobNav')){ align(); } if(n>45) clearInterval(iv); },150);
-})();
-</script>
 
 </body>
 </html>
