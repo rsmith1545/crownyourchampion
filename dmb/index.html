@@ -878,7 +878,7 @@
             .brand-logo { height: clamp(60px, 19vw, 92px) !important; }
             .mode-btn { font-size: 9.5px; padding: 5px 9px; letter-spacing: .8px; }
             .mode-bar { padding: 8px 12px; gap: 6px; }
-            .main-wrap { padding-top: 6px; }  /* close oversized gap above region tabs; match header-stack rhythm */
+            .main-wrap { padding-top: 0px; }  /* region-tab bar supplies its own top padding; keep 8/8 symmetric, matches Row 2 */
             .mode-bar .mode-label { display: none; }
             .mode-bar .mode-toggle { display: inline-block; }
             .mode-bar .mode-btns { display: none; width: 100%; }
@@ -4300,7 +4300,7 @@ updateProgress();
     if(secs.length<2) return;
     var bar=document.createElement('div'); bar.id='cycTabBar';
     bar.style.cssText='position:sticky;top:0;z-index:850;display:none;overflow-x:auto;'+
-      'padding:7px 8px;background:rgba(8,14,28,.97);border-bottom:1px solid rgba(197,160,89,.4);'+
+      'padding:8px 8px;background:rgba(8,14,28,.97);border-bottom:1px solid rgba(197,160,89,.4);'+
       'white-space:nowrap;-webkit-overflow-scrolling:touch;';
     var tabs=[];
     secs.forEach(function(sec){
