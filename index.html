@@ -141,6 +141,8 @@
   .tile.dmb{--accent:var(--blue-lt);}
   .tile.foo{--accent:var(--crimson-lt);}
   .tile.frank{--accent:#6aa84f;}
+  .tile.fthc{--accent:#6aa84f;}
+  .tile.gratefuldead{--accent:#e8336d;}
   .tile.boss{--accent:#c0202a;}
   .tile.pj{--accent:#2f9fa6;}
   .tile.bj{--accent:#6a4c93;}
@@ -153,6 +155,22 @@
   .tile.tompetty{--accent:#5e3a96;}
   .tile.ledzeppelin{--accent:#b5832b;}
   .tile.bonjovi{--accent:#b87333;}
+.tile.taylorswift{--accent:#b57edc;}
+.tile.beyonce{--accent:#c9a227;}
+.tile.ladygaga{--accent:#e91e8c;}
+.tile.newpopqueens{--accent:#ff4fa3;}
+.tile.bowie{--accent:#e23b6d;}
+.tile.ccr{--accent:#2f9e4f;}
+.tile.eagles{--accent:#b98b3a;}
+.tile.fleetwoodmac{--accent:#7a5cff;}
+.tile.hendrix{--accent:#8e33c0;}
+.tile.queen{--accent:#d4af37;}
+.tile.thewho{--accent:#c8102e;}
+.tile.u2{--accent:#e0522a;}
+.tile.nirvana{--accent:#d9c02b;}
+.tile.oasis{--accent:#3f8fd6;}
+.tile.smashingpumpkins{--accent:#b0122a;}
+.tile.stp{--accent:#6f8f3a;}
   .tile .genre{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.2em;
     font-size:12px; color:var(--accent); font-weight:700;}
   .tile .band{font-family:'Bebas Neue',sans-serif; font-size:clamp(30px,5vw,40px); line-height:1; margin:8px 0 10px;}
@@ -451,25 +469,38 @@
       <input id="bracket-search" type="search" autocomplete="off" placeholder="Filter bands…" aria-label="Filter bands">
     </div>
 
-        <section class="genre-group featured">
-      <h2 class="section-head">⭐ Featured</h2>
+    <section class="genre-group">
+      <h2 class="section-head">Pop</h2>
       <div class="tiles">
-        <a class="tile dmb" href="./dmb/">
-          <span class="new-badge feat">Featured</span>
-          <div class="genre">Jam · Rock</div>
-          <div class="band">Dave Matthews Band</div>
-          <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 venue regions</span><span class="chip">▶ previews</span></div>
+        <a class="tile beyonce" href="./beyonce/">
+          <span class="new-badge">New</span>
+          <div class="genre">Pop · R&amp;B</div>
+          <div class="band">Beyoncé</div>
+          <div class="desc">Destiny's Child to "Renaissance" — from "Crazy in Love" to "Cuff It," seeded by streams and what she plays live.</div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
-        <a class="tile frank" href="./fthc/">
-          <span class="new-badge feat">Featured</span>
-          <div class="genre">Folk · Punk</div>
-          <div class="band">Frank Turner</div>
-          <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">live-play seeded</span><span class="chip">▶ previews</span></div>
+        <a class="tile ladygaga" href="./ladygaga/">
+          <span class="new-badge">New</span>
+          <div class="genre">Pop · Dance</div>
+          <div class="band">Lady Gaga</div>
+          <div class="desc">A decade of spectacle — from "Bad Romance" to "Shallow," seeded by streams and what she plays live.</div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
+        <a class="tile newpopqueens" href="./newpopqueens/">
+          <span class="new-badge">New</span>
+          <div class="genre">Pop · Now</div>
+          <div class="band">New Pop Queens</div>
+          <div class="desc">The new class of chart-toppers head-to-head — the biggest pop hits of the moment, seeded by streams.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile taylorswift" href="./taylorswift/">
+          <span class="new-badge">New</span>
+          <div class="genre">Pop · Songwriter</div>
+          <div class="band">Taylor Swift</div>
+          <div class="desc">Every era in one bracket — from "Love Story" to "Anti-Hero," seeded by streams and what she plays live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      
       </div>
     </section>
 
@@ -481,14 +512,12 @@
           <div class="genre">Rock · Pop</div>
           <div class="band">The Beatles</div>
           <div class="desc">Fab Four, ranked by acclaim and streams — from "Here Comes the Sun" to "A Day in the Life."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">ranked by acclaim &amp; streams</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile bj" href="./billyjoel/">
           <div class="genre">Piano · Rock</div>
           <div class="band">Billy Joel</div>
           <div class="desc">Five decades of the Piano Man, seeded by what he plays live — from "Piano Man" to "Captain Jack."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile bonjovi" href="./bonjovi/">
@@ -496,14 +525,47 @@
           <div class="genre">Arena · Rock</div>
           <div class="band">Bon Jovi</div>
           <div class="desc">Four decades of arena anthems, seeded by what they actually play live — from "Livin' on a Prayer" to "Wanted Dead or Alive."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile boss" href="./springsteen/">
           <div class="genre">Heartland · Rock</div>
           <div class="band">Bruce Springsteen</div>
           <div class="desc">Fifty years of the E Street Band, seeded by what The Boss plays live — from "Born to Run" to "Jersey Girl."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile ccr" href="./ccr/">
+          <span class="new-badge">New</span>
+          <div class="genre">Roots · Rock</div>
+          <div class="band">Creedence Clearwater Revival</div>
+          <div class="desc">Bayou rock at its finest — from "Fortunate Son" to "Bad Moon Rising," seeded by streams and what they played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile bowie" href="./bowie/">
+          <span class="new-badge">New</span>
+          <div class="genre">Glam · Rock</div>
+          <div class="band">David Bowie</div>
+          <div class="desc">Five decades of reinvention — from "Heroes" to "Life on Mars?," seeded by streams and what he played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile eagles" href="./eagles/">
+          <span class="new-badge">New</span>
+          <div class="genre">Country · Rock</div>
+          <div class="band">Eagles</div>
+          <div class="desc">California harmony and grit — from "Hotel California" to "Take It Easy," seeded by streams and what they play live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile fleetwoodmac" href="./fleetwoodmac/">
+          <span class="new-badge">New</span>
+          <div class="genre">Soft · Rock</div>
+          <div class="band">Fleetwood Mac</div>
+          <div class="desc">The "Rumours" era and beyond — from "Dreams" to "Go Your Own Way," seeded by streams and what they played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile hendrix" href="./hendrix/">
+          <span class="new-badge">New</span>
+          <div class="genre">Psych · Rock</div>
+          <div class="band">Jimi Hendrix</div>
+          <div class="desc">The guitar reinvented — from "Purple Haze" to "All Along the Watchtower," seeded by streams and what he played live.</div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile ledzeppelin" href="./ledzeppelin/">
@@ -511,7 +573,13 @@
           <div class="genre">Hard Rock · Classic</div>
           <div class="band">Led Zeppelin</div>
           <div class="desc">The heaviest catalog in rock — from "Stairway to Heaven" to "Whole Lotta Love," seeded by streams and what they played live.</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">streams + live seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile queen" href="./queen/">
+          <span class="new-badge">New</span>
+          <div class="genre">Arena · Rock</div>
+          <div class="band">Queen</div>
+          <div class="desc">Opera-rock spectacle — from "Bohemian Rhapsody" to "Somebody to Love," seeded by streams and what they played live.</div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile stones" href="./stones/">
@@ -519,7 +587,6 @@
           <div class="genre">Rock · Blues</div>
           <div class="band">The Rolling Stones</div>
           <div class="desc">Sixty years of swagger, seeded by what they actually play live — from "Jumpin' Jack Flash" to "Tumbling Dice."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile tompetty" href="./tompetty/">
@@ -527,9 +594,23 @@
           <div class="genre">Rock · Heartland</div>
           <div class="band">Tom Petty</div>
           <div class="desc">The Heartbreakers and solo, all in one — from "Free Fallin'" to "American Girl," seeded by streams and what he played live.</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">streams + live seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
+        <a class="tile u2" href="./u2/">
+          <span class="new-badge">New</span>
+          <div class="genre">Anthem · Rock</div>
+          <div class="band">U2</div>
+          <div class="desc">Four decades of anthems — from "With or Without You" to "One," seeded by streams and what they play live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile thewho" href="./thewho/">
+          <span class="new-badge">New</span>
+          <div class="genre">Mod · Rock</div>
+          <div class="band">The Who</div>
+          <div class="desc">Windmills and smashed guitars — from "Baba O'Riley" to "My Generation," seeded by streams and what they play live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      
       </div>
     </section>
 
@@ -541,21 +622,18 @@
           <div class="genre">Indie · Rock</div>
           <div class="band">The Airborne Toxic Event</div>
           <div class="desc">Strings, heartbreak and all — from "Sometime Around Midnight" to "Changing," seeded by streams and what they play live.</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">streams + live seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile foo" href="./foo/">
           <div class="genre">Alt · Rock</div>
           <div class="band">Foo Fighters</div>
           <div class="desc">Four decades head-to-head — the '90s through the brand-new 2026 record. Can anything dethrone "Everlong"?</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">4 decade regions</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile gd" href="./greenday/">
           <div class="genre">Punk · Rock</div>
           <div class="band">Green Day</div>
           <div class="desc">Gilman Street to the stadiums, seeded by what they actually play live — from "Longview" to "Basket Case."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile metallica" href="./metallica/">
@@ -563,23 +641,75 @@
           <div class="genre">Thrash · Metal</div>
           <div class="band">Metallica</div>
           <div class="desc">Four decades of thrash, seeded by what they actually play live — from "Master of Puppets" to "One."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile nirvana" href="./nirvana/">
+          <span class="new-badge">New</span>
+          <div class="genre">Grunge · Rock</div>
+          <div class="band">Nirvana</div>
+          <div class="desc">The sound that defined a decade — from "Smells Like Teen Spirit" to "Come as You Are," seeded by streams and what they played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile oasis" href="./oasis/">
+          <span class="new-badge">New</span>
+          <div class="genre">Britpop · Rock</div>
+          <div class="band">Oasis</div>
+          <div class="desc">Britpop's biggest — from "Wonderwall" to "Don't Look Back in Anger," seeded by streams and what they played live.</div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile pj" href="./pearljam/">
           <div class="genre">Grunge · Rock</div>
           <div class="band">Pearl Jam</div>
           <div class="desc">Thirty years of bootlegs, seeded by what they actually play live — covers and all, from "Even Flow" to "Last Kiss."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
         <a class="tile rhcp" href="./rhcp/">
           <div class="genre">Funk · Rock</div>
           <div class="band">Red Hot Chili Peppers</div>
           <div class="desc">Four decades of funk, seeded by what they actually play live — from "Give It Away" to "Under the Bridge."</div>
-          <div class="meta"><span class="chip">64 songs</span><span class="chip">concert-play seeded</span><span class="chip">▶ previews</span></div>
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
+        <a class="tile smashingpumpkins" href="./smashingpumpkins/">
+          <span class="new-badge">New</span>
+          <div class="genre">Alt · Rock</div>
+          <div class="band">Smashing Pumpkins</div>
+          <div class="desc">Dreamy and heavy at once — from "1979" to "Tonight, Tonight," seeded by streams and what they play live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile stp" href="./stp/">
+          <span class="new-badge">New</span>
+          <div class="genre">Alt · Rock</div>
+          <div class="band">Stone Temple Pilots</div>
+          <div class="desc">'90s alt-rock powerhouse — from "Interstate Love Song" to "Plush," seeded by streams and what they played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      
+      </div>
+    </section>
+
+    <section class="genre-group">
+      <h2 class="section-head">Folk · Jam · Singer-songwriter · Indie</h2>
+      <div class="tiles">
+        <a class="tile dmb" href="./dmb/">
+          <div class="genre">Jam · Rock</div>
+          <div class="band">Dave Matthews Band</div>
+          <div class="desc">From "Ants Marching" to "Crash Into Me" — every era, seeded by the live data the fans live by.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile fthc" href="./fthc/">
+          <div class="genre">Folk · Punk</div>
+          <div class="band">Frank Turner</div>
+          <div class="desc">3,000+ shows and counting — seeded by what he actually plays live, from "Photosynthesis" all the way to "1933."</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+        <a class="tile gratefuldead" href="./gratefuldead/">
+          <span class="new-badge">New</span>
+          <div class="genre">Jam · Rock</div>
+          <div class="band">Grateful Dead</div>
+          <div class="desc">Endless jams and Dead heads — from "Ripple" to "Truckin'," seeded by what they actually played live.</div>
+          <span class="enter">Enter the bracket <span class="arr">→</span></span>
+        </a>
+      
       </div>
     </section>
 
@@ -660,9 +790,11 @@
         <div class="qm-sub">64 songs, one champion — or scroll down to browse the tiles.</div>
         <div class="qm-groups">
         <div class="qm-group">
-          <div class="qm-gh">⭐ Featured</div>
-          <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
-          <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
+          <div class="qm-gh">Pop</div>
+          <a class="qm-chip" style="--ac:#c9a227" href="/beyonce/">Beyoncé</a>
+          <a class="qm-chip" style="--ac:#e91e8c" href="/ladygaga/">Lady Gaga</a>
+          <a class="qm-chip" style="--ac:#ff4fa3" href="/newpopqueens/">New Pop Queens</a>
+          <a class="qm-chip" style="--ac:#b57edc" href="/taylorswift/">Taylor Swift</a>
         </div>
         <div class="qm-group">
           <div class="qm-gh">Classic Rock</div>
@@ -670,9 +802,17 @@
           <a class="qm-chip" style="--ac:#6a4c93" href="/billyjoel/">Billy Joel</a>
           <a class="qm-chip" style="--ac:#b87333" href="/bonjovi/">Bon Jovi</a>
           <a class="qm-chip" style="--ac:#c0202a" href="/springsteen/">Bruce Springsteen</a>
+          <a class="qm-chip" style="--ac:#2f9e4f" href="/ccr/">Creedence Clearwater Revival</a>
+          <a class="qm-chip" style="--ac:#e23b6d" href="/bowie/">David Bowie</a>
+          <a class="qm-chip" style="--ac:#b98b3a" href="/eagles/">Eagles</a>
+          <a class="qm-chip" style="--ac:#7a5cff" href="/fleetwoodmac/">Fleetwood Mac</a>
+          <a class="qm-chip" style="--ac:#8e33c0" href="/hendrix/">Jimi Hendrix</a>
           <a class="qm-chip" style="--ac:#b5832b" href="/ledzeppelin/">Led Zeppelin</a>
+          <a class="qm-chip" style="--ac:#d4af37" href="/queen/">Queen</a>
           <a class="qm-chip" style="--ac:#c41e7f" href="/stones/">The Rolling Stones</a>
+          <a class="qm-chip" style="--ac:#c8102e" href="/thewho/">The Who</a>
           <a class="qm-chip" style="--ac:#5e3a96" href="/tompetty/">Tom Petty</a>
+          <a class="qm-chip" style="--ac:#e0522a" href="/u2/">U2</a>
         </div>
         <div class="qm-group">
           <div class="qm-gh">Alt &amp; Hard Rock</div>
@@ -680,13 +820,18 @@
           <a class="qm-chip" style="--ac:#d4503f" href="/foo/">Foo Fighters</a>
           <a class="qm-chip" style="--ac:#e8336d" href="/greenday/">Green Day</a>
           <a class="qm-chip" style="--ac:#9aa3b2" href="/metallica/">Metallica</a>
+          <a class="qm-chip" style="--ac:#d9c02b" href="/nirvana/">Nirvana</a>
+          <a class="qm-chip" style="--ac:#3f8fd6" href="/oasis/">Oasis</a>
           <a class="qm-chip" style="--ac:#2f9fa6" href="/pearljam/">Pearl Jam</a>
           <a class="qm-chip" style="--ac:#e2571e" href="/rhcp/">Red Hot Chili Peppers</a>
+          <a class="qm-chip" style="--ac:#b0122a" href="/smashingpumpkins/">Smashing Pumpkins</a>
+          <a class="qm-chip" style="--ac:#6f8f3a" href="/stp/">Stone Temple Pilots</a>
         </div>
         <div class="qm-group">
-          <div class="qm-gh">Jam &amp; Folk</div>
+          <div class="qm-gh">Folk · Jam · Singer-songwriter · Indie</div>
           <a class="qm-chip" style="--ac:#2563aa" href="/dmb/">Dave Matthews Band</a>
           <a class="qm-chip" style="--ac:#6aa84f" href="/fthc/">Frank Turner</a>
+          <a class="qm-chip" style="--ac:#e8336d" href="/gratefuldead/">Grateful Dead</a>
         </div>
       </div>
       </div>
