@@ -1,0 +1,399 @@
+{
+ "name": "New Pop Queens",
+ "slug": "newpopqueens",
+ "category": "Pop",
+ "type": "popqueens_explicit_regions",
+ "region_names": [
+  "Avocados (Billie Eilish)",
+  "Livies (Olivia Rodrigo)",
+  "Carpenter Bees (Sabrina Carpenter)",
+  "Gracelander (Gracie Abrams)"
+ ],
+ "slogan": "Birds of a Feather flock together, stop being the BAD GUY or a Vampire, its Good 4 U to have an ESPRESSO and PLEASE PLEASE  CROWN YOUR CHAMPION …..That's so True",
+ "songs": [
+  {
+   "seed": 1,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "BIRDS OF A FEATHER"
+  },
+  {
+   "seed": 2,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "lovely (with Khalid)"
+  },
+  {
+   "seed": 3,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "ocean eyes"
+  },
+  {
+   "seed": 4,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "bad guy"
+  },
+  {
+   "seed": 5,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "when the party's over"
+  },
+  {
+   "seed": 6,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "Happier Than Ever"
+  },
+  {
+   "seed": 7,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "WILDFLOWER"
+  },
+  {
+   "seed": 8,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "everything i wanted"
+  },
+  {
+   "seed": 9,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "What Was I Made For? [From The Motion Picture \"Barbie\"]"
+  },
+  {
+   "seed": 10,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "CHIHIRO"
+  },
+  {
+   "seed": 11,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "bellyache"
+  },
+  {
+   "seed": 12,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "idontwannabeyouanymore"
+  },
+  {
+   "seed": 13,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "i love you"
+  },
+  {
+   "seed": 14,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "TV"
+  },
+  {
+   "seed": 15,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "Bored"
+  },
+  {
+   "seed": 16,
+   "artist": "Billy Eilish",
+   "region": "Region 1",
+   "song": "LUNCH"
+  },
+  {
+   "seed": 1,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "drivers license"
+  },
+  {
+   "seed": 2,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "traitor"
+  },
+  {
+   "seed": 3,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "deja vu"
+  },
+  {
+   "seed": 4,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "good 4 u"
+  },
+  {
+   "seed": 5,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "vampire"
+  },
+  {
+   "seed": 6,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "happier"
+  },
+  {
+   "seed": 7,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "favorite crime"
+  },
+  {
+   "seed": 8,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "jealousy, jealousy"
+  },
+  {
+   "seed": 9,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "All I Want - From \"High School Musical: The Musical: The Series\""
+  },
+  {
+   "seed": 10,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "bad idea right?"
+  },
+  {
+   "seed": 11,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "brutal"
+  },
+  {
+   "seed": 12,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "lacy"
+  },
+  {
+   "seed": 13,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "1 step forward, 3 steps back"
+  },
+  {
+   "seed": 14,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "get him back!"
+  },
+  {
+   "seed": 15,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "enough for you"
+  },
+  {
+   "seed": 16,
+   "artist": "Olivia Rodrigo",
+   "region": "Region 2",
+   "song": "Can't Catch Me Now - from The Hunger Games: The Ballad of Songbirds & Snakes"
+  },
+  {
+   "seed": 1,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Espresso"
+  },
+  {
+   "seed": 2,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Please Please Please"
+  },
+  {
+   "seed": 3,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Nonsense"
+  },
+  {
+   "seed": 4,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Taste"
+  },
+  {
+   "seed": 5,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Manchild"
+  },
+  {
+   "seed": 6,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Feather"
+  },
+  {
+   "seed": 7,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Juno"
+  },
+  {
+   "seed": 8,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Bed Chem"
+  },
+  {
+   "seed": 9,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Tears"
+  },
+  {
+   "seed": 10,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "because i liked a boy"
+  },
+  {
+   "seed": 11,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Busy Woman"
+  },
+  {
+   "seed": 12,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "When Did You Get Hot?"
+  },
+  {
+   "seed": 13,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Nobody's Son"
+  },
+  {
+   "seed": 14,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "House Tour"
+  },
+  {
+   "seed": 15,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Good Graces"
+  },
+  {
+   "seed": 16,
+   "artist": "Sabrina Carpenter",
+   "region": "Region 3",
+   "song": "Looking at Me"
+  },
+  {
+   "seed": 1,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "That's So True"
+  },
+  {
+   "seed": 2,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "I Love You, I'm Sorry"
+  },
+  {
+   "seed": 3,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "I miss you, I'm sorry"
+  },
+  {
+   "seed": 4,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Close To You"
+  },
+  {
+   "seed": 5,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Risk"
+  },
+  {
+   "seed": 6,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Mess It Up"
+  },
+  {
+   "seed": 7,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "I know it won't work"
+  },
+  {
+   "seed": 8,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "us. (feat. Taylor Swift)"
+  },
+  {
+   "seed": 9,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "21"
+  },
+  {
+   "seed": 10,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Feels Like"
+  },
+  {
+   "seed": 11,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "I Told You Things"
+  },
+  {
+   "seed": 12,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Blowing Smoke"
+  },
+  {
+   "seed": 13,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Free Now"
+  },
+  {
+   "seed": 14,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Stay"
+  },
+  {
+   "seed": 15,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Let It Happen"
+  },
+  {
+   "seed": 16,
+   "artist": "Gracie Abrams",
+   "region": "Region 4",
+   "song": "Tough Love"
+  }
+ ]
+}
