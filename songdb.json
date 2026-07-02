@@ -1,5 +1,5 @@
 {
-"updated": "2026-07-01",
+"updated": "2026-07-02",
 "songs": [
 {
 "artist": "Taylor Swift",
@@ -16516,806 +16516,6 @@
 "live": 0
 },
 {
-"artist": "Grateful Dead",
-"song": "Friend of the Devil",
-"album": "",
-"total": 140233639,
-"daily": 37702,
-"live": 313
-},
-{
-"artist": "Grateful Dead",
-"song": "Casey Jones",
-"album": "",
-"total": 110328724,
-"daily": 21483,
-"live": 325
-},
-{
-"artist": "Grateful Dead",
-"song": "Ripple",
-"album": "",
-"total": 105922453,
-"daily": 46264,
-"live": 42
-},
-{
-"artist": "Grateful Dead",
-"song": "Touch of Grey",
-"album": "",
-"total": 86473030,
-"daily": 32210,
-"live": 210
-},
-{
-"artist": "Grateful Dead",
-"song": "Althea",
-"album": "",
-"total": 74958743,
-"daily": 28441,
-"live": 273
-},
-{
-"artist": "Grateful Dead",
-"song": "Truckin'",
-"album": "",
-"total": 71677996,
-"daily": 20119,
-"live": 532
-},
-{
-"artist": "Grateful Dead",
-"song": "Scarlet Begonias",
-"album": "",
-"total": 55512076,
-"daily": 18018,
-"live": 317
-},
-{
-"artist": "Grateful Dead",
-"song": "Shakedown Street",
-"album": "",
-"total": 52109809,
-"daily": 17829,
-"live": 164
-},
-{
-"artist": "Grateful Dead",
-"song": "Fire on the Mountain",
-"album": "",
-"total": 51193737,
-"daily": 25152,
-"live": 254
-},
-{
-"artist": "Grateful Dead",
-"song": "Box of Rain",
-"album": "",
-"total": 47916205,
-"daily": 12636,
-"live": 163
-},
-{
-"artist": "Grateful Dead",
-"song": "Sugar Magnolia",
-"album": "",
-"total": 44186422,
-"daily": 13281,
-"live": 602
-},
-{
-"artist": "Grateful Dead",
-"song": "Uncle John's Band",
-"album": "",
-"total": 40369601,
-"daily": 12231,
-"live": 344
-},
-{
-"artist": "Grateful Dead",
-"song": "Franklin's Tower",
-"album": "",
-"total": 33461906,
-"daily": 17957,
-"live": 222
-},
-{
-"artist": "Grateful Dead",
-"song": "Eyes of the World",
-"album": "",
-"total": 25454260,
-"daily": 11426,
-"live": 382
-},
-{
-"artist": "Grateful Dead",
-"song": "New Speedway Boogie",
-"album": "",
-"total": 22253644,
-"daily": 7384,
-"live": 58
-},
-{
-"artist": "Grateful Dead",
-"song": "Brokedown Palace",
-"album": "",
-"total": 22222284,
-"daily": 8203,
-"live": 219
-},
-{
-"artist": "Grateful Dead",
-"song": "Dire Wolf",
-"album": "",
-"total": 20471837,
-"daily": 6275,
-"live": 229
-},
-{
-"artist": "Grateful Dead",
-"song": "Estimated Prophet",
-"album": "",
-"total": 18232232,
-"daily": 7503,
-"live": 390
-},
-{
-"artist": "Grateful Dead",
-"song": "Dark Star",
-"album": "",
-"total": 15812750,
-"daily": 2251,
-"live": 255
-},
-{
-"artist": "Grateful Dead",
-"song": "St. Stephen",
-"album": "",
-"total": 12137750,
-"daily": 3273,
-"live": 190
-},
-{
-"artist": "Grateful Dead",
-"song": "U.S. Blues",
-"album": "",
-"total": 11029169,
-"daily": 3276,
-"live": 324
-},
-{
-"artist": "Grateful Dead",
-"song": "Candyman",
-"album": "",
-"total": 10791831,
-"daily": 2778,
-"live": 276
-},
-{
-"artist": "Grateful Dead",
-"song": "Ship of Fools",
-"album": "",
-"total": 10633122,
-"daily": 3384,
-"live": 225
-},
-{
-"artist": "Grateful Dead",
-"song": "The Golden Road",
-"album": "",
-"total": 10595157,
-"daily": 2482,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Cumberland Blues",
-"album": "",
-"total": 10587459,
-"daily": 3265,
-"live": 235
-},
-{
-"artist": "Grateful Dead",
-"song": "Easy Wind",
-"album": "",
-"total": 9985641,
-"daily": 2906,
-"live": 43
-},
-{
-"artist": "Grateful Dead",
-"song": "Help on the Way / Slipknot!",
-"album": "",
-"total": 9753043,
-"daily": 3344,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Alabama Getaway",
-"album": "",
-"total": 9545120,
-"daily": 2541,
-"live": 143
-},
-{
-"artist": "Grateful Dead",
-"song": "Till the Morning Comes",
-"album": "",
-"total": 9112681,
-"daily": 2021,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Good Lovin'",
-"album": "",
-"total": 9107475,
-"daily": 2841,
-"live": 447
-},
-{
-"artist": "Grateful Dead",
-"song": "Operator",
-"album": "",
-"total": 8618737,
-"daily": 2162,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Unbroken Chain",
-"album": "",
-"total": 8518269,
-"daily": 939,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Terrapin Station Medley:, Pt. 1: Lady with a Fan, Terrapin Station, Terrapin, Terrapin Transit, at",
-"album": "",
-"total": 8001186,
-"daily": 2254,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "The Music Never Stopped",
-"album": "",
-"total": 7864379,
-"daily": 2673,
-"live": 235
-},
-{
-"artist": "Grateful Dead",
-"song": "Hell in a Bucket",
-"album": "",
-"total": 7756465,
-"daily": 2625,
-"live": 217
-},
-{
-"artist": "Grateful Dead",
-"song": "High Time",
-"album": "",
-"total": 7451319,
-"daily": 1585,
-"live": 137
-},
-{
-"artist": "Grateful Dead",
-"song": "Attics of My Life",
-"album": "",
-"total": 6727063,
-"daily": 1632,
-"live": 51
-},
-{
-"artist": "Grateful Dead",
-"song": "Black Peter",
-"album": "",
-"total": 5096444,
-"daily": 910,
-"live": 356
-},
-{
-"artist": "Grateful Dead",
-"song": "Deep Elem Blues",
-"album": "",
-"total": 5038580,
-"daily": 2918,
-"live": 52
-},
-{
-"artist": "Grateful Dead",
-"song": "Mississippi Half-Step Uptown Toodeloo",
-"album": "",
-"total": 4422442,
-"daily": 1925,
-"live": 236
-},
-{
-"artist": "Grateful Dead",
-"song": "Feel Like a Stranger",
-"album": "",
-"total": 4227684,
-"daily": 649,
-"live": 208
-},
-{
-"artist": "Grateful Dead",
-"song": "China Cat Sunflower",
-"album": "",
-"total": 4069330,
-"daily": 722,
-"live": 571
-},
-{
-"artist": "Grateful Dead",
-"song": "Dark Hollow",
-"album": "",
-"total": 4022877,
-"daily": 2043,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Loose Lucy",
-"album": "",
-"total": 3663572,
-"daily": 1667,
-"live": 99
-},
-{
-"artist": "Grateful Dead",
-"song": "I Need a Miracle",
-"album": "",
-"total": 3394326,
-"daily": 744,
-"live": 272
-},
-{
-"artist": "Grateful Dead",
-"song": "Throwing Stones",
-"album": "",
-"total": 3356689,
-"daily": 1332,
-"live": 267
-},
-{
-"artist": "Grateful Dead",
-"song": "West L.A. Fadeaway",
-"album": "",
-"total": 3207316,
-"daily": 1326,
-"live": 141
-},
-{
-"artist": "Grateful Dead",
-"song": "Cream Puff War",
-"album": "",
-"total": 3076138,
-"daily": 378,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Morning Dew",
-"album": "",
-"total": 3042980,
-"daily": 679,
-"live": 288
-},
-{
-"artist": "Grateful Dead",
-"song": "Black Muddy River",
-"album": "",
-"total": 2976514,
-"daily": 780,
-"live": 66
-},
-{
-"artist": "Grateful Dead",
-"song": "Samson and Delilah",
-"album": "",
-"total": 2974131,
-"daily": 1360,
-"live": 365
-},
-{
-"artist": "Grateful Dead",
-"song": "Mr. Charlie",
-"album": "",
-"total": 2722243,
-"daily": 1234,
-"live": 51
-},
-{
-"artist": "Grateful Dead",
-"song": "China Doll",
-"album": "",
-"total": 2615805,
-"daily": 736,
-"live": 115
-},
-{
-"artist": "Grateful Dead",
-"song": "Bird Song",
-"album": "",
-"total": 2585784,
-"daily": 831,
-"live": 301
-},
-{
-"artist": "Grateful Dead",
-"song": "Cold Rain and Snow",
-"album": "",
-"total": 2498586,
-"daily": 401,
-"live": 257
-},
-{
-"artist": "Grateful Dead",
-"song": "Crazy Fingers",
-"album": "",
-"total": 2214006,
-"daily": 697,
-"live": 145
-},
-{
-"artist": "Grateful Dead",
-"song": "Stella Blue",
-"album": "",
-"total": 2176711,
-"daily": 553,
-"live": 329
-},
-{
-"artist": "Grateful Dead",
-"song": "Viola Lee Blues",
-"album": "",
-"total": 2104619,
-"daily": 359,
-"live": 60
-},
-{
-"artist": "Grateful Dead",
-"song": "Standing on the Moon",
-"album": "",
-"total": 2034779,
-"daily": 528,
-"live": 76
-},
-{
-"artist": "Grateful Dead",
-"song": "Mexicali Blues",
-"album": "",
-"total": 2006219,
-"daily": 537,
-"live": 441
-},
-{
-"artist": "Grateful Dead",
-"song": "Beat It on down the Line",
-"album": "",
-"total": 1971453,
-"daily": 358,
-"live": 341
-},
-{
-"artist": "Grateful Dead",
-"song": "Born Cross-Eyed",
-"album": "",
-"total": 1942022,
-"daily": 257,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Pride of Cucamonga",
-"album": "",
-"total": 1855825,
-"daily": 574,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Cosmic Charlie",
-"album": "",
-"total": 1846956,
-"daily": 335,
-"live": 44
-},
-{
-"artist": "Grateful Dead",
-"song": "Row Jimmy",
-"album": "",
-"total": 1810958,
-"daily": 426,
-"live": 274
-},
-{
-"artist": "Grateful Dead",
-"song": "If I Had the World to Give",
-"album": "",
-"total": 1799063,
-"daily": 469,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Monkey and the Engineer",
-"album": "",
-"total": 1757447,
-"daily": 654,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "The Race Is On",
-"album": "",
-"total": 1712371,
-"daily": 706,
-"live": 60
-},
-{
-"artist": "Grateful Dead",
-"song": "It Must Have Been the Roses",
-"album": "",
-"total": 1698945,
-"daily": 602,
-"live": 159
-},
-{
-"artist": "Grateful Dead",
-"song": "New, New Minglewood Blues",
-"album": "",
-"total": 1684816,
-"daily": 272,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Doin' That Rag",
-"album": "",
-"total": 1671266,
-"daily": 260,
-"live": 42
-},
-{
-"artist": "Grateful Dead",
-"song": "Dancin' in the Streets",
-"album": "",
-"total": 1537824,
-"daily": 460,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "France",
-"album": "",
-"total": 1515592,
-"daily": 510,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Sittin' on Top of the World",
-"album": "",
-"total": 1510973,
-"daily": 240,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Good Morning Little School Girl",
-"album": "",
-"total": 1483028,
-"daily": 220,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Here Comes Sunshine",
-"album": "",
-"total": 1472540,
-"daily": 346,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "On the Road Again",
-"album": "",
-"total": 1392021,
-"daily": 595,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Sunrise",
-"album": "",
-"total": 1391017,
-"daily": 311,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Passenger",
-"album": "",
-"total": 1380428,
-"daily": 522,
-"live": 100
-},
-{
-"artist": "Grateful Dead",
-"song": "Terrapin Station",
-"album": "",
-"total": 1378713,
-"daily": 128,
-"live": 302
-},
-{
-"artist": "Grateful Dead",
-"song": "To Lay Me Down",
-"album": "",
-"total": 1353104,
-"daily": 448,
-"live": 64
-},
-{
-"artist": "Grateful Dead",
-"song": "Weather Report Suite",
-"album": "",
-"total": 1334051,
-"daily": 315,
-"live": 46
-},
-{
-"artist": "Grateful Dead",
-"song": "Foolish Heart",
-"album": "",
-"total": 1317786,
-"daily": 369,
-"live": 88
-},
-{
-"artist": "Grateful Dead",
-"song": "Mountains of the Moon",
-"album": "",
-"total": 1315386,
-"daily": 260,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "King Solomon's Marbles",
-"album": "",
-"total": 1305493,
-"daily": 331,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "New Potato Caboose",
-"album": "",
-"total": 1297709,
-"daily": 247,
-"live": 37
-},
-{
-"artist": "Grateful Dead",
-"song": "Rosemary",
-"album": "",
-"total": 1290446,
-"daily": 259,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Dupree's Diamond Blues",
-"album": "",
-"total": 1285949,
-"daily": 223,
-"live": 82
-},
-{
-"artist": "Grateful Dead",
-"song": "Oh Babe It Ain't No Lie",
-"album": "",
-"total": 1281872,
-"daily": 501,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Alligator",
-"album": "",
-"total": 1265942,
-"daily": 234,
-"live": 86
-},
-{
-"artist": "Grateful Dead",
-"song": "All New Minglewood Blues",
-"album": "",
-"total": 1240619,
-"daily": 359,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Let Me Sing Your Blues Away",
-"album": "",
-"total": 1230190,
-"daily": 372,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "That's It for the Other One (Cryptical Envelopment / Quadlibet for Tender Feet / The Faster We Go,",
-"album": "",
-"total": 1208757,
-"daily": 339,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Rosalie McFall",
-"album": "",
-"total": 1205808,
-"daily": 492,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Stagger Lee",
-"album": "",
-"total": 1198443,
-"daily": 297,
-"live": 146
-},
-{
-"artist": "Grateful Dead",
-"song": "Jack-A-Roe",
-"album": "",
-"total": 1192254,
-"daily": 458,
-"live": 116
-},
-{
-"artist": "Grateful Dead",
-"song": "Serengetti",
-"album": "",
-"total": 1154489,
-"daily": 252,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Been All Around This World",
-"album": "",
-"total": 1129433,
-"daily": 476,
-"live": 0
-},
-{
-"artist": "Grateful Dead",
-"song": "Deal",
-"album": "",
-"total": 1118886,
-"daily": 402,
-"live": 429
-},
-{
-"artist": "Grateful Dead",
-"song": "That's It for the Other One: Cryptical Envelopment I / The Other One / Cryptical Envelopment II - 2",
-"album": "",
-"total": 1117871,
-"daily": 123,
-"live": 0
-},
-{
 "artist": "Phish",
 "song": "Farmhouse",
 "album": "",
@@ -25994,6 +25194,790 @@
 "total": 576652,
 "daily": 237,
 "live": 0
+},
+{
+"artist": "Grateful Dead",
+"song": "Sugar Magnolia",
+"album": "",
+"total": 50311373,
+"daily": 14996,
+"live": 602
+},
+{
+"artist": "Grateful Dead",
+"song": "Truckin'",
+"album": "",
+"total": 76014031,
+"daily": 21371,
+"live": 532
+},
+{
+"artist": "Grateful Dead",
+"song": "China Cat Sunflower",
+"album": "",
+"total": 25810543,
+"daily": 9179,
+"live": 571
+},
+{
+"artist": "Grateful Dead",
+"song": "Jack Straw",
+"album": "",
+"total": 21703579,
+"daily": 8176,
+"live": 477
+},
+{
+"artist": "Grateful Dead",
+"song": "I Know You Rider",
+"album": "",
+"total": 15204511,
+"daily": 5289,
+"live": 570
+},
+{
+"artist": "Grateful Dead",
+"song": "Bertha",
+"album": "",
+"total": 23450692,
+"daily": 7051,
+"live": 401
+},
+{
+"artist": "Grateful Dead",
+"song": "Tennessee Jed",
+"album": "",
+"total": 16013100,
+"daily": 5163,
+"live": 435
+},
+{
+"artist": "Grateful Dead",
+"song": "Deal",
+"album": "",
+"total": 17342925,
+"daily": 5360,
+"live": 429
+},
+{
+"artist": "Grateful Dead",
+"song": "Minglewood Blues",
+"album": "",
+"total": 12746243,
+"daily": 4425,
+"live": 445
+},
+{
+"artist": "Grateful Dead",
+"song": "Eyes of the World",
+"album": "",
+"total": 32716397,
+"daily": 13850,
+"live": 382
+},
+{
+"artist": "Grateful Dead",
+"song": "Estimated Prophet",
+"album": "",
+"total": 24704845,
+"daily": 10095,
+"live": 390
+},
+{
+"artist": "Grateful Dead",
+"song": "Good Lovin'",
+"album": "",
+"total": 11797308,
+"daily": 3251,
+"live": 447
+},
+{
+"artist": "Grateful Dead",
+"song": "Brown-Eyed Women",
+"album": "",
+"total": 42079767,
+"daily": 16525,
+"live": 346
+},
+{
+"artist": "Grateful Dead",
+"song": "Casey Jones",
+"album": "",
+"total": 111328477,
+"daily": 21793,
+"live": 325
+},
+{
+"artist": "Grateful Dead",
+"song": "Uncle John's Band",
+"album": "",
+"total": 40836799,
+"daily": 12536,
+"live": 344
+},
+{
+"artist": "Grateful Dead",
+"song": "Friend of the Devil",
+"album": "",
+"total": 140950744,
+"daily": 37958,
+"live": 313
+},
+{
+"artist": "Grateful Dead",
+"song": "Playing in the Band",
+"album": "",
+"total": 6098639,
+"daily": 1918,
+"live": 639
+},
+{
+"artist": "Grateful Dead",
+"song": "Scarlet Begonias",
+"album": "",
+"total": 64238169,
+"daily": 21039,
+"live": 317
+},
+{
+"artist": "Grateful Dead",
+"song": "Me and My Uncle",
+"album": "",
+"total": 5833002,
+"daily": 1811,
+"live": 635
+},
+{
+"artist": "Grateful Dead",
+"song": "Sugaree",
+"album": "",
+"total": 13727940,
+"daily": 3185,
+"live": 364
+},
+{
+"artist": "Grateful Dead",
+"song": "Althea",
+"album": "",
+"total": 84268740,
+"daily": 31714,
+"live": 273
+},
+{
+"artist": "Grateful Dead",
+"song": "Ramble On Rose",
+"album": "",
+"total": 16386439,
+"daily": 5530,
+"live": 318
+},
+{
+"artist": "Grateful Dead",
+"song": "Not Fade Away",
+"album": "",
+"total": 3851155,
+"daily": 1253,
+"live": 561
+},
+{
+"artist": "Grateful Dead",
+"song": "Wharf Rat",
+"album": "",
+"total": 7384287,
+"daily": 2837,
+"live": 399
+},
+{
+"artist": "Grateful Dead",
+"song": "Loser",
+"album": "",
+"total": 9077210,
+"daily": 2413,
+"live": 353
+},
+{
+"artist": "Grateful Dead",
+"song": "Cassidy",
+"album": "",
+"total": 8380884,
+"daily": 5321,
+"live": 339
+},
+{
+"artist": "Grateful Dead",
+"song": "He's Gone",
+"album": "",
+"total": 11230822,
+"daily": 3071,
+"live": 329
+},
+{
+"artist": "Grateful Dead",
+"song": "U.S. Blues",
+"album": "",
+"total": 11510279,
+"daily": 3395,
+"live": 324
+},
+{
+"artist": "Grateful Dead",
+"song": "Fire on the Mountain",
+"album": "",
+"total": 60947950,
+"daily": 28759,
+"live": 254
+},
+{
+"artist": "Grateful Dead",
+"song": "One More Saturday Night",
+"album": "",
+"total": 8959557,
+"daily": 2944,
+"live": 338
+},
+{
+"artist": "Grateful Dead",
+"song": "Mexicali Blues",
+"album": "",
+"total": 3708201,
+"daily": 976,
+"live": 441
+},
+{
+"artist": "Grateful Dead",
+"song": "Mama Tried",
+"album": "",
+"total": 11684665,
+"daily": 3534,
+"live": 307
+},
+{
+"artist": "Grateful Dead",
+"song": "El Paso",
+"album": "",
+"total": 5263129,
+"daily": 1512,
+"live": 396
+},
+{
+"artist": "Grateful Dead",
+"song": "Morning Dew",
+"album": "",
+"total": 12553553,
+"daily": 3607,
+"live": 288
+},
+{
+"artist": "Grateful Dead",
+"song": "The Other One",
+"album": "",
+"total": 2846701,
+"daily": 691,
+"live": 496
+},
+{
+"artist": "Grateful Dead",
+"song": "Samson and Delilah",
+"album": "",
+"total": 4406083,
+"daily": 1691,
+"live": 365
+},
+{
+"artist": "Grateful Dead",
+"song": "Black Peter",
+"album": "",
+"total": 6097831,
+"daily": 1149,
+"live": 356
+},
+{
+"artist": "Grateful Dead",
+"song": "Touch of Grey",
+"album": "",
+"total": 87370260,
+"daily": 32492,
+"live": 210
+},
+{
+"artist": "Grateful Dead",
+"song": "Candyman",
+"album": "",
+"total": 12012903,
+"daily": 3157,
+"live": 276
+},
+{
+"artist": "Grateful Dead",
+"song": "Franklin's Tower",
+"album": "",
+"total": 39542489,
+"daily": 20190,
+"live": 222
+},
+{
+"artist": "Grateful Dead",
+"song": "Dark Star",
+"album": "",
+"total": 20814410,
+"daily": 3498,
+"live": 255
+},
+{
+"artist": "Grateful Dead",
+"song": "Dire Wolf",
+"album": "",
+"total": 22730417,
+"daily": 6823,
+"live": 229
+},
+{
+"artist": "Grateful Dead",
+"song": "Bird Song",
+"album": "",
+"total": 8649646,
+"daily": 2391,
+"live": 301
+},
+{
+"artist": "Grateful Dead",
+"song": "Promised Land",
+"album": "",
+"total": 2305214,
+"daily": 643,
+"live": 432
+},
+{
+"artist": "Grateful Dead",
+"song": "Cumberland Blues",
+"album": "",
+"total": 14889328,
+"daily": 4951,
+"live": 235
+},
+{
+"artist": "Grateful Dead",
+"song": "Brokedown Palace",
+"album": "",
+"total": 22222284,
+"daily": 8203,
+"live": 219
+},
+{
+"artist": "Grateful Dead",
+"song": "Shakedown Street",
+"album": "",
+"total": 53656901,
+"daily": 18142,
+"live": 164
+},
+{
+"artist": "Grateful Dead",
+"song": "Row Jimmy",
+"album": "",
+"total": 8754854,
+"daily": 2507,
+"live": 274
+},
+{
+"artist": "Grateful Dead",
+"song": "The Music Never Stopped",
+"album": "",
+"total": 12342749,
+"daily": 3761,
+"live": 235
+},
+{
+"artist": "Grateful Dead",
+"song": "Looks Like Rain",
+"album": "",
+"total": 1807062,
+"daily": 730,
+"live": 415
+},
+{
+"artist": "Grateful Dead",
+"song": "Turn On Your Love Light",
+"album": "",
+"total": 3215026,
+"daily": 598,
+"live": 378
+},
+{
+"artist": "Grateful Dead",
+"song": "Box of Rain",
+"album": "",
+"total": 49360640,
+"daily": 12945,
+"live": 163
+},
+{
+"artist": "Grateful Dead",
+"song": "St. Stephen",
+"album": "",
+"total": 23135329,
+"daily": 6624,
+"live": 190
+},
+{
+"artist": "Grateful Dead",
+"song": "Ship of Fools",
+"album": "",
+"total": 11509024,
+"daily": 3542,
+"live": 225
+},
+{
+"artist": "Grateful Dead",
+"song": "Terrapin Station",
+"album": "",
+"total": 4692602,
+"daily": 1140,
+"live": 302
+},
+{
+"artist": "Grateful Dead",
+"song": "Mississippi Half-Step Uptown Toodeloo",
+"album": "",
+"total": 7887962,
+"daily": 3344,
+"live": 236
+},
+{
+"artist": "Grateful Dead",
+"song": "Big River",
+"album": "",
+"total": 1543863,
+"daily": 623,
+"live": 400
+},
+{
+"artist": "Grateful Dead",
+"song": "Beat It on Down the Line",
+"album": "",
+"total": 3111382,
+"daily": 518,
+"live": 341
+},
+{
+"artist": "Grateful Dead",
+"song": "They Love Each Other",
+"album": "",
+"total": 9056968,
+"daily": 3055,
+"live": 226
+},
+{
+"artist": "Grateful Dead",
+"song": "Going Down the Road Feeling Bad",
+"album": "",
+"total": 3510980,
+"daily": 661,
+"live": 302
+},
+{
+"artist": "Grateful Dead",
+"song": "Throwing Stones",
+"album": "",
+"total": 4300062,
+"daily": 1691,
+"live": 267
+},
+{
+"artist": "Grateful Dead",
+"song": "Peggy-O",
+"album": "",
+"total": 4175881,
+"daily": 1793,
+"live": 265
+},
+{
+"artist": "Grateful Dead",
+"song": "Stella Blue",
+"album": "",
+"total": 2176711,
+"daily": 553,
+"live": 329
+},
+{
+"artist": "Grateful Dead",
+"song": "Hell in a Bucket",
+"album": "",
+"total": 8303047,
+"daily": 2771,
+"live": 217
+},
+{
+"artist": "Grateful Dead",
+"song": "I Need a Miracle",
+"album": "",
+"total": 3394326,
+"daily": 744,
+"live": 272
+},
+{
+"artist": "Grateful Dead",
+"song": "Cold Rain and Snow",
+"album": "",
+"total": 3559386,
+"daily": 808,
+"live": 257
+},
+{
+"artist": "Grateful Dead",
+"song": "Feel Like a Stranger",
+"album": "",
+"total": 7391991,
+"daily": 1606,
+"live": 208
+},
+{
+"artist": "Grateful Dead",
+"song": "Alabama Getaway",
+"album": "",
+"total": 9545120,
+"daily": 2541,
+"live": 143
+},
+{
+"artist": "Grateful Dead",
+"song": "Don't Ease Me In",
+"album": "",
+"total": 1535764,
+"daily": 481,
+"live": 322
+},
+{
+"artist": "Grateful Dead",
+"song": "Greatest Story Ever Told",
+"album": "",
+"total": 1564620,
+"daily": 539,
+"live": 283
+},
+{
+"artist": "Grateful Dead",
+"song": "Dancing in the Street",
+"album": "",
+"total": 6696230,
+"daily": 2090,
+"live": 134
+},
+{
+"artist": "Grateful Dead",
+"song": "West L.A. Fadeaway",
+"album": "",
+"total": 4843211,
+"daily": 2026,
+"live": 141
+},
+{
+"artist": "Grateful Dead",
+"song": "Big Railroad Blues",
+"album": "",
+"total": 2956020,
+"daily": 1314,
+"live": 176
+},
+{
+"artist": "Grateful Dead",
+"song": "High Time",
+"album": "",
+"total": 7451319,
+"daily": 1585,
+"live": 137
+},
+{
+"artist": "Grateful Dead",
+"song": "It Must Have Been the Roses",
+"album": "",
+"total": 3439628,
+"daily": 998,
+"live": 159
+},
+{
+"artist": "Grateful Dead",
+"song": "Around and Around",
+"album": "",
+"total": 0,
+"daily": 0,
+"live": 419
+},
+{
+"artist": "Grateful Dead",
+"song": "Supplication",
+"album": "",
+"total": 3412465,
+"daily": 1155,
+"live": 123
+},
+{
+"artist": "Grateful Dead",
+"song": "Crazy Fingers",
+"album": "",
+"total": 2214006,
+"daily": 697,
+"live": 145
+},
+{
+"artist": "Grateful Dead",
+"song": "China Doll",
+"album": "",
+"total": 3995972,
+"daily": 854,
+"live": 115
+},
+{
+"artist": "Grateful Dead",
+"song": "Johnny B. Goode",
+"album": "",
+"total": 1097669,
+"daily": 242,
+"live": 283
+},
+{
+"artist": "Grateful Dead",
+"song": "Lazy Lightning",
+"album": "",
+"total": 3794851,
+"daily": 1322,
+"live": 111
+},
+{
+"artist": "Grateful Dead",
+"song": "Iko Iko",
+"album": "",
+"total": 1664210,
+"daily": 490,
+"live": 185
+},
+{
+"artist": "Grateful Dead",
+"song": "Loose Lucy",
+"album": "",
+"total": 3663572,
+"daily": 1667,
+"live": 99
+},
+{
+"artist": "Grateful Dead",
+"song": "New Speedway Boogie",
+"album": "",
+"total": 22253644,
+"daily": 7384,
+"live": 58
+},
+{
+"artist": "Grateful Dead",
+"song": "Jack-A-Roe",
+"album": "",
+"total": 2641209,
+"daily": 1169,
+"live": 116
+},
+{
+"artist": "Grateful Dead",
+"song": "Black-Throated Wind",
+"album": "",
+"total": 1570243,
+"daily": 503,
+"live": 158
+},
+{
+"artist": "Grateful Dead",
+"song": "When I Paint My Masterpiece",
+"album": "",
+"total": 1407639,
+"daily": 521,
+"live": 146
+},
+{
+"artist": "Grateful Dead",
+"song": "The Wheel",
+"album": "",
+"total": 673620,
+"daily": 244,
+"live": 259
+},
+{
+"artist": "Grateful Dead",
+"song": "Ripple",
+"album": "",
+"total": 106684251,
+"daily": 46618,
+"live": 42
+},
+{
+"artist": "Grateful Dead",
+"song": "Me and Bobby McGee",
+"album": "",
+"total": 1743891,
+"daily": 410,
+"live": 125
+},
+{
+"artist": "Grateful Dead",
+"song": "The Little Red Rooster",
+"album": "",
+"total": 538638,
+"daily": 121,
+"live": 275
+},
+{
+"artist": "Grateful Dead",
+"song": "Saint of Circumstance",
+"album": "",
+"total": 710473,
+"daily": 243,
+"live": 224
+},
+{
+"artist": "Grateful Dead",
+"song": "Stagger Lee",
+"album": "",
+"total": 1198443,
+"daily": 297,
+"live": 146
+},
+{
+"artist": "Grateful Dead",
+"song": "Man Smart, Woman Smarter",
+"album": "",
+"total": 732223,
+"daily": 254,
+"live": 199
+},
+{
+"artist": "Grateful Dead",
+"song": "Let It Grow",
+"album": "",
+"total": 588661,
+"daily": 205,
+"live": 233
+},
+{
+"artist": "Grateful Dead",
+"song": "Standing on the Moon",
+"album": "",
+"total": 2713707,
+"daily": 739,
+"live": 76
+},
+{
+"artist": "Grateful Dead",
+"song": "Here Comes Sunshine",
+"album": "",
+"total": 3492243,
+"daily": 1085,
+"live": 66
+},
+{
+"artist": "Grateful Dead",
+"song": "Good Morning, School Girl",
+"album": "",
+"total": 1965829,
+"daily": 313,
+"live": 96
 }
 ]
 }
