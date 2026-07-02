@@ -3819,8 +3819,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // JSONP lookup — appends a <script> with a callback param.
     var SOLO_SONGS = { 'Some Devil':1, 'So Damn Lucky':1, 'Gravedigger':1, 'Stay or Leave':1 };
-    function itunesLookup(name, cb) {
-        var artist = 'New Pop Queens ';
+    window.NPQ_ARTIST = {"BIRDS OF A FEATHER": "Billie Eilish", "lovely (with Khalid)": "Billie Eilish", "ocean eyes": "Billie Eilish", "bad guy": "Billie Eilish", "when the party's over": "Billie Eilish", "Happier Than Ever": "Billie Eilish", "WILDFLOWER": "Billie Eilish", "everything i wanted": "Billie Eilish", "What Was I Made For? [From The Motion Picture \"Barbie\"]": "Billie Eilish", "CHIHIRO": "Billie Eilish", "bellyache": "Billie Eilish", "idontwannabeyouanymore": "Billie Eilish", "i love you": "Billie Eilish", "TV": "Billie Eilish", "Bored": "Billie Eilish", "LUNCH": "Billie Eilish", "drivers license": "Olivia Rodrigo", "traitor": "Olivia Rodrigo", "deja vu": "Olivia Rodrigo", "good 4 u": "Olivia Rodrigo", "vampire": "Olivia Rodrigo", "happier": "Olivia Rodrigo", "favorite crime": "Olivia Rodrigo", "jealousy, jealousy": "Olivia Rodrigo", "All I Want - From \"High School Musical: The Musical: The Series\"": "Olivia Rodrigo", "bad idea right?": "Olivia Rodrigo", "brutal": "Olivia Rodrigo", "lacy": "Olivia Rodrigo", "1 step forward, 3 steps back": "Olivia Rodrigo", "get him back!": "Olivia Rodrigo", "enough for you": "Olivia Rodrigo", "Can't Catch Me Now - from The Hunger Games: The Ballad of Songbirds & Snakes": "Olivia Rodrigo", "Espresso": "Sabrina Carpenter", "Please Please Please": "Sabrina Carpenter", "Nonsense": "Sabrina Carpenter", "Taste": "Sabrina Carpenter", "Manchild": "Sabrina Carpenter", "Feather": "Sabrina Carpenter", "Juno": "Sabrina Carpenter", "Bed Chem": "Sabrina Carpenter", "Tears": "Sabrina Carpenter", "because i liked a boy": "Sabrina Carpenter", "Busy Woman": "Sabrina Carpenter", "When Did You Get Hot?": "Sabrina Carpenter", "Nobody's Son": "Sabrina Carpenter", "House Tour": "Sabrina Carpenter", "Good Graces": "Sabrina Carpenter", "Looking at Me": "Sabrina Carpenter", "That's So True": "Gracie Abrams", "I Love You, I'm Sorry": "Gracie Abrams", "I miss you, I'm sorry": "Gracie Abrams", "Close To You": "Gracie Abrams", "Risk": "Gracie Abrams", "Mess It Up": "Gracie Abrams", "I know it won't work": "Gracie Abrams", "us. (feat. Taylor Swift)": "Gracie Abrams", "21": "Gracie Abrams", "Feels Like": "Gracie Abrams", "I Told You Things": "Gracie Abrams", "Blowing Smoke": "Gracie Abrams", "Free Now": "Gracie Abrams", "Stay": "Gracie Abrams", "Let It Happen": "Gracie Abrams", "Tough Love": "Gracie Abrams"};
+        function itunesLookup(name, cb) {
+        var artist = ((window.NPQ_ARTIST && window.NPQ_ARTIST[name]) || 'New Pop Queens') + ' ';
         var term = artist + (SONG_TERMS[name] || name);
         var cbName = 'itpv_' + Math.random().toString(36).slice(2);
         var done = false;
@@ -3840,7 +3841,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var url = null;
             var results = (data && data.results) || [];
             // Title-anchored matching: play the RIGHT song or nothing at all.
-            var AR = /new pop queens/i;
+            var AR = new RegExp((window.NPQ_ARTIST && window.NPQ_ARTIST[name]) ? window.NPQ_ARTIST[name].replace(/[.*+?^${}()|[\]\\]/g,'\\$&') : 'new pop queens', 'i');
             var want = String(term).replace(artist, '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, '');
             function tn(r) { return String(r.trackName || '').toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/\band\b/g, ' ').replace(/[^a-z0-9]/g, ''); }
             function pickR(f) { for (var i = 0; i < results.length; i++) { var r = results[i]; if (r.previewUrl && f(r)) return r; } return null; }
