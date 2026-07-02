@@ -10,14 +10,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Crown Your Champion">
   <meta property="og:title" content="Billy Joel — Crown Your Champion">
-  <meta property="og:description" content="Crown Billy Joel's greatest song, ace the Superfan Quiz, and vote the best album — see how your picks stack up against the crowd.">
+  <meta property="og:description" content="Crown Billy Joel's greatest song and vote the best album — see how your picks stack up against the crowd.">
   <meta property="og:image" content="https://crownyourchampion.com/card-bg.png">
   <meta property="og:image:width" content="1600">
   <meta property="og:image:height" content="845">
   <meta property="og:url" content="https://crownyourchampion.com/billyjoel/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Billy Joel — Crown Your Champion">
-  <meta name="twitter:description" content="Crown Billy Joel's greatest song, ace the Superfan Quiz, and vote the best album — see how your picks stack up against the crowd.">
+  <meta name="twitter:description" content="Crown Billy Joel's greatest song and vote the best album — see how your picks stack up against the crowd.">
   <meta name="twitter:image" content="https://crownyourchampion.com/card-bg.png">
     <link rel="manifest" href="./manifest_bj.json">
 <meta name="theme-color" content="#0a0a0f">
@@ -1639,7 +1639,6 @@
       <div class="ha-row ha-row-play">
         <button class="btn btn-reset" onclick="cycOpenAllBrackets()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🗂 All Brackets</button>
         <button class="btn btn-reset" onclick="cycOpenBestAlbum()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">💿 Vote: Best Album</button>
-        <button class="btn btn-reset" onclick="cycOpenQuiz()" style="color:var(--dmb-gold);border-color:rgba(240,165,0,.55);">🎯 Superfan Quiz</button>
       </div>
       <div class="ha-row ha-row-util">
         <button class="btn cyc-t3" onclick="openHowto()">❓ How to Play</button>
@@ -4651,15 +4650,12 @@ updateProgress();
     ov.innerHTML='<div class="modal" style="text-align:center;max-width:480px;">'
       +'<div style="font-size:44px;line-height:1;margin-bottom:4px;">\uD83D\uDC51</div>'
       +'<h2 style="margin:0 0 14px;">What\u2019s next?</h2>'
-      +'<p style="margin:0 0 8px;font-weight:600;">Think you\u2019re a real superfan?</p>'
-      +'<button class="btn btn-share" id="cycQuizGo" style="margin-bottom:20px;">\uD83C\uDFAF Take the '+band()+' Quiz</button>'
       +'<p style="margin:0 0 10px;color:#9fb0c9;">'+NEXT.line+'</p>'
       +'<div class="modal-actions" style="justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;">'+picksHtml+'</div>'
       +'<a href="/" id="cycSeeAll" style="display:inline-block;font-size:13px;color:#9fb0c9;">See all brackets \u2192</a>'
       +'<div style="margin-top:16px;"><button class="btn btn-close" id="cycQuizLater">Maybe later</button></div>'
       +'</div>';
     document.body.appendChild(ov);
-    document.getElementById('cycQuizGo').onclick=function(){ ce('quiz_funnel_click'); if(window.cycOpenQuiz){cycOpenQuiz();}else{location.href='quiz.html';} };
     document.getElementById('cycQuizLater').onclick=dismiss;
     var sa=document.getElementById('cycSeeAll'); if(sa) sa.onclick=function(){ ce('see_all_click'); };
     Array.prototype.forEach.call(ov.querySelectorAll('[data-cyc-next]'),function(a){ a.addEventListener('click',function(){ try{ if(window.cycEvt) cycEvt('next_bracket_click',{band:slug(),to:a.getAttribute('data-cyc-next')}); }catch(e){} }); });
@@ -5105,8 +5101,6 @@ html,body,.bracket-row,.round-col,.matchup,.slot,.seed{ -webkit-text-size-adjust
     </div>
     <div class="cw-altrow">
       <span class="cw-altlbl">or try something else:</span>
-      <button class="cw-altlink" id="cwQuiz" type="button">&#127919; Take the Quiz</button>
-      <span class="cw-altsep">&middot;</span>
       <button class="cw-altlink" id="cwVote" type="button">&#128191; Vote: Best Album</button>
     </div>
     <div class="cw-row">
@@ -5401,10 +5395,10 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var nav=document.createElement('nav'); nav.id='cycMobNav';
     nav.innerHTML='<a class="mn-item mn-active" id="mnBrackets">&#128451; All Brackets</a><span class="mn-sep">&middot;</span>'+
       '<a class="mn-item" id="mnAlbum">&#128191; Vote: Best Album</a><span class="mn-sep">&middot;</span>'+
-      '<a class="mn-item" id="mnQuiz">&#127919; Superfan Quiz</a>';
+      '<a class="mn-item" id="mnHowto">&#10067; How to Play</a>';
     var tools=document.createElement('div'); tools.id='cycMobToolsWrap';
     tools.innerHTML='<div id="cycMobDiv"></div><div id="cycMobToolBand">'+
-      '<div id="cycMobTools"><button class="mt-chip" id="mtHowto">&#10067; How to Play</button>'+
+      '<div id="cycMobTools">'+
       '<button class="mt-chip" id="mtAuto">&#9889; Auto-Fill</button>'+
       '<button class="mt-chip" id="mtShare">Share &#8599;</button>'+
       '<button class="mt-chip mt-reset" id="mtReset">&#8634; Reset</button></div>'+
@@ -5412,8 +5406,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     P.insertBefore(nav, ref); P.insertBefore(tools, ref);
     wire('mnBrackets', function(){ cycOpenAllBrackets(); });
     wire('mnAlbum', function(){ cycOpenBestAlbum(); });
-    wire('mnQuiz', function(){ cycOpenQuiz(); });
-    wire('mtHowto', function(){ openHowto(); });
+    wire('mnHowto', function(){ openHowto(); });
     wire('mtShare', function(){ openShare(); });
     wire('mtReset', function(){ confirmReset(); });
     var panel=tools.querySelector('#cycMobModes');
@@ -5599,8 +5592,6 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
       '<button class="cwc-item" data-act="brackets"><span class="cwc-ico">&#128451;&#65039;</span> All Brackets</button>'+
       '<span class="cwc-sep">&middot;</span>'+
       '<button class="cwc-item" data-act="album">&#128191; Vote: Best Album</button>'+
-      '<span class="cwc-sep">&middot;</span>'+
-      '<button class="cwc-item" data-act="quiz">&#127919; Superfan Quiz</button>'+
       '<span class="cwc-seam" aria-hidden="true"></span>'+
       '<button class="cwc-item cwc-tool" data-act="howto">&#10067; How to Play</button>'+
       '<span class="cwc-sep">&middot;</span>'+
