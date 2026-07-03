@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>SuperFan Shuffle — Tilt Test</title>
+<style>
+ :root{--sand:#e9d8b4;--parch:#f3e7c9;--leather:#3a2416;--ink:#1c1207;--rust:#a8431f;--gold:#c8912a;--go:#2f8f4e;--pass:#c9a227;}
+ *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+ html,body{height:100%;overflow:hidden;font-family:'Georgia',serif;background:var(--leather);color:var(--parch);user-select:none;-webkit-user-select:none}
+ #app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;transition:background .12s}
+ .screen{display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;width:100%;height:100%}
+ .screen.on{display:flex}
+ h1{font-size:12vw;letter-spacing:2px;color:var(--gold);text-shadow:2px 2px 0 #000;line-height:.95;text-transform:uppercase}
+ .sub{font-size:5vw;color:var(--sand);max-width:640px;line-height:1.4}
+ .btn{font-family:'Georgia',serif;font-weight:bold;font-size:6vw;padding:16px 34px;border:3px solid var(--gold);border-radius:12px;background:var(--rust);color:#fff;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 0 #000}
+ .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #000}
+ .small{font-size:4vw;color:var(--sand);opacity:.85}
+ /* GAME */
+ #card{font-size:11vw;font-weight:bold;color:#fff;text-shadow:2px 2px 0 #000;line-height:1.05;padding:0 16px;max-width:95vw}
+ #big{font-size:18vw;font-weight:bold;color:#fff;text-shadow:3px 3px 0 rgba(0,0,0,.4)}
+ #timer{position:fixed;top:14px;left:50%;transform:translateX(-50%);font-size:9vw;font-weight:bold;color:#fff;text-shadow:2px 2px 0 #000}
+ #score{position:fixed;top:16px;right:18px;font-size:6vw;color:var(--gold);font-weight:bold}
+ #hint{position:fixed;bottom:16px;left:0;right:0;font-size:4vw;color:rgba(255,255,255,.85)}
+ /* debug */
+ #dbg{position:fixed;bottom:6px;left:6px;font:12px/1.4 monospace;color:#0f0;background:rgba(0,0,0,.55);padding:6px 8px;border-radius:6px;display:none;text-align:left;z-index:9}
+ #dbgBtn{position:fixed;top:8px;left:8px;font:11px monospace;color:#aaa;background:rgba(0,0,0,.4);border:1px solid #555;border-radius:6px;padding:4px 7px;z-index:10}
+ .rotate{font-size:5vw;color:var(--gold)}
+ ul{list-style:none;text-align:left;max-width:90vw;max-height:46vh;overflow:auto;font-size:4.4vw}
+ li{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+ li.g{color:#7fe0a0}li.p{color:#e6c65a}
+</style></head>
+<body>
+<button id="dbgBtn">debug</button>
+<div id="dbg"></div>
+<div id="app">
+  <!-- START -->
+  <div class="screen on" id="sStart">
+    <h1>SuperFan<br>Shuffle</h1>
+    <div class="sub">Hold the phone to your forehead.<br><b>Tilt DOWN</b> when you get it • <b>Tilt UP</b> to pass.</div>
+    <button class="btn" id="startBtn">Tap to Play</button>
+    <div class="small">Tilt test build · turn sideways to play</div>
+  </div>
+  <!-- READY (countdown) -->
+  <div class="screen" id="sReady">
+    <div class="rotate" id="rotateMsg">Turn your phone sideways →</div>
+    <div id="big">3</div>
+    <div class="sub">Get it to your forehead!</div>
+  </div>
+  <!-- GAME -->
+  <div class="screen" id="sGame">
+    <div id="timer">60</div>
+    <div id="score">0</div>
+    <div id="card">—</div>
+    <div id="hint">tilt DOWN = got it · tilt UP = pass</div>
+  </div>
+  <!-- END -->
+  <div class="screen" id="sEnd">
+    <h1 style="font-size:9vw">Time!</h1>
+    <div class="sub">You got <b id="finalScore">0</b></div>
+    <ul id="recap"></ul>
+    <button class="btn" id="againBtn">Play Again</button>
+  </div>
+</div>
+<script>
+/* ---------- sample deck (placeholder — content TBD) ---------- */
+var DECK=["Bohemian Rhapsody","Sweet Child O' Mine","Billie Jean","Don't Stop Believin'","Wonderwall","Smells Like Teen Spirit","Poker Face","Mr. Brightside","Hotel California","Rolling in the Deep","Under Pressure","Africa","Take On Me","Uptown Funk","Purple Rain","Livin' on a Prayer","Bad Guy","Shake It Off","Hey Jude","Seven Nation Army","Stairway to Heaven","Dancing Queen","Wannabe","Zombie","Creep","Toxic","Umbrella","Blinding Lights","Hips Don't Lie","Yeah!"];
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ---------- screens ---------- */
+var app=document.getElementById('app');
+function show(id){['sStart','sReady','sGame','sEnd'].forEach(function(s){document.getElementById(s).classList.toggle('on',s===id);});}
+
+/* ---------- tilt engine (gravity z-axis = screen facing down/up, orientation-agnostic) ---------- */
+var TH=5.8, NEUTRAL=3.6;         // thresholds (tune via debug)
+var armed=true, gz=0, beta=0, gamma=0, haveMotion=false;
+var DOWN_IS_GOOD=1;              // +1: tip screen toward floor = GOT IT. flip if reversed.
+function onMotion(e){
+  var g=e.accelerationIncludingGravity; if(!g||g.z==null) return; haveMotion=true;
+  gz=g.z;
+  if(playing){
+    if(armed){
+      if(gz*DOWN_IS_GOOD > TH){ armed=false; mark(true); }
+      else if(gz*DOWN_IS_GOOD < -TH){ armed=false; mark(false); }
+    } else if(Math.abs(gz) < NEUTRAL){ armed=true; }
+  }
+  dbgTick();
+}
+function onOrient(e){ beta=e.beta||0; gamma=e.gamma||0; if(!haveMotion){ /* fallback: use beta if no motion */ gz=(beta/90)*9.8; if(playing){ if(armed){ if(gz*DOWN_IS_GOOD>TH){armed=false;mark(true);} else if(gz*DOWN_IS_GOOD<-TH){armed=false;mark(false);} } else if(Math.abs(gz)<NEUTRAL){armed=true;} } } dbgTick(); }
+
+function attach(){ window.addEventListener('devicemotion',onMotion); window.addEventListener('deviceorientation',onOrient); }
+function requestPerm(cb){
+  var need=(typeof DeviceMotionEvent!=='undefined' && typeof DeviceMotionEvent.requestPermission==='function');
+  if(need){ DeviceMotionEvent.requestPermission().then(function(r){ if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){DeviceOrientationEvent.requestPermission().catch(function(){});} attach(); cb(r==='granted'); }).catch(function(){ attach(); cb(false); }); }
+  else { attach(); cb(true); }
+}
+
+/* ---------- game loop ---------- */
+var playing=false, idx=0, order=[], results=[], score=0, timeLeft=60, tHandle=null;
+function newCard(){ if(idx>=order.length){ order=shuffle(DECK.slice()); idx=0; } var w=order[idx++]; document.getElementById('card').textContent=w; return w; }
+var current='';
+function mark(good){
+  results.push({w:current,good:good});
+  if(good){ score++; document.getElementById('score').textContent=score; }
+  flash(good?'var(--go)':'var(--pass)', good?'GOT IT!':'PASS');
+  navigator.vibrate&&navigator.vibrate(good?60:30);
+}
+function flash(color,label){
+  app.style.background=color;
+  document.getElementById('card').textContent=label;
+  setTimeout(function(){ if(playing){ app.style.background='var(--leather)'; current=newCard(); } }, 550);
+}
+function startGame(){
+  order=shuffle(DECK.slice()); idx=0; results=[]; score=0; timeLeft=60; armed=true; playing=true;
+  document.getElementById('score').textContent='0';
+  show('sGame'); app.style.background='var(--leather)';
+  current=newCard();
+  tHandle=setInterval(function(){ timeLeft--; document.getElementById('timer').textContent=timeLeft; if(timeLeft<=0) endGame(); }, 1000);
+}
+function endGame(){
+  playing=false; clearInterval(tHandle); app.style.background='var(--leather)';
+  document.getElementById('finalScore').textContent=score;
+  var ul=document.getElementById('recap'); ul.innerHTML='';
+  results.forEach(function(r){ var li=document.createElement('li'); li.className=r.good?'g':'p'; li.textContent=(r.good?'✓ ':'�— ')+r.w; ul.appendChild(li); });
+  show('sEnd');
+}
+
+/* ---------- countdown ---------- */
+function ready(){
+  show('sReady');
+  var n=3; document.getElementById('big').textContent=n;
+  var iv=setInterval(function(){ n--; if(n<=0){ clearInterval(iv); startGame(); } else document.getElementById('big').textContent=n; }, 900);
+}
+
+/* ---------- buttons ---------- */
+document.getElementById('startBtn').onclick=function(){ requestPerm(function(ok){ ready(); }); };
+document.getElementById('againBtn').onclick=function(){ ready(); };
+
+/* ---------- debug ---------- */
+var dbgOn=false;
+document.getElementById('dbgBtn').onclick=function(){ dbgOn=!dbgOn; document.getElementById('dbg').style.display=dbgOn?'block':'none'; };
+function dbgTick(){ if(!dbgOn) return; document.getElementById('dbg').innerHTML='gz: '+gz.toFixed(2)+'<br>beta: '+beta.toFixed(0)+'  gamma: '+gamma.toFixed(0)+'<br>armed: '+armed+'  motion:'+haveMotion+'<br>TH:'+TH+' NEU:'+NEUTRAL; }
+</script>
+</body></html>
