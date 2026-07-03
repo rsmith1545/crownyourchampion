@@ -1514,13 +1514,13 @@
         }
         .region-header, .bracket-row { position: relative; z-index: 1; }
         .venue-gorge::before    { background:radial-gradient(130% 80% at 50% 0%, rgba(196,30,127,.44), transparent 72%); }
-        .venue-gorge::after     { content:"Hot Lips"; }
+        .venue-gorge::after     { content:""; }
         .venue-westpalm::before { background:radial-gradient(130% 80% at 50% 0%, rgba(150,110,60,.42), transparent 72%); }
-        .venue-westpalm::after  { content:"Exile Outlaws"; }
+        .venue-westpalm::after  { content:""; }
         .venue-spac::before     { background:radial-gradient(130% 80% at 50% 0%, rgba(95,105,120,.46), transparent 72%); }
-        .venue-spac::after      { content:"Steel Wheels"; }
+        .venue-spac::after      { content:""; }
         .venue-camden::before   { background:radial-gradient(130% 80% at 50% 0%, rgba(60,85,130,.44), transparent 72%); }
-        .venue-camden::after    { content:"Dartford Station"; }
+        .venue-camden::after    { content:""; }
     
         /* ── SONG PREVIEW PLAY BUTTONS ──────────────────────────────── */
         .play-btn {
@@ -1677,10 +1677,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Hot Lips')">Hot Lips</button>
-    <button class="era-btn" onclick="selectEra('Exile Outlaws')">Exile Outlaws</button>
-    <button class="era-btn" onclick="selectEra('Steel Wheels')">Steel Wheels</button>
-    <button class="era-btn" onclick="selectEra('Dartford Station')">Dartford Station</button>
+    <button class="era-btn" onclick="selectEra('Kirkwood Casino')">Kirkwood Casino</button>
+    <button class="era-btn" onclick="selectEra('Long Night at Long Beach')">Long Night at Long Beach</button>
+    <button class="era-btn" onclick="selectEra('Third Encore')">Third Encore</button>
+    <button class="era-btn" onclick="selectEra('The 14 Year Freeze')">The 14 Year Freeze</button>
 </div>
 </div><!-- /sticky-bar -->
 
@@ -2939,7 +2939,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Steel Wheels Winner' && t !== 'Exile Outlaws Winner' && t !== 'Hot Lips Winner' && t !== 'Dartford Station Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Third Encore Winner' && t !== 'Long Night at Long Beach Winner' && t !== 'Kirkwood Casino Winner' && t !== 'The 14 Year Freeze Winner') {
                 filled++;
             }
         }
@@ -3355,8 +3355,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Steel Wheels Winner' && text !== 'Exile Outlaws Winner' && 
-            text !== 'Hot Lips Winner' && text !== 'Dartford Station Winner') {
+            text !== 'Third Encore Winner' && text !== 'Long Night at Long Beach Winner' && 
+            text !== 'Kirkwood Casino Winner' && text !== 'The 14 Year Freeze Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -3392,10 +3392,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=doc
 function openShare() {
     try{cycEvt('share_click',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     const regions = {
-        'Hot Lips': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Exile Outlaws': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Steel Wheels': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Dartford Station': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
+        'Kirkwood Casino': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Long Night at Long Beach': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Third Encore': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'The 14 Year Freeze': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN']
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8','Region Winner'];
 
