@@ -6066,7 +6066,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 
   function setMode(modeKey){
     try{ localStorage.setItem('ts_mode', modeKey); }catch(e){}
-    try{ localStorage.setItem('ts_mode_selected','1'); }catch(e){}
+    try{ sessionStorage.setItem('ts_skip_chooser','1'); }catch(e){}  // don't re-open on the reload that follows a pick
     location.reload();
   }
 
@@ -6122,8 +6122,9 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     if(!window.TS_MODES[mode]) mode='numbers';
     // apply current mode (numbers = safe re-set of baked HTML)
     try{ window.applyTSMode(mode); }catch(e){}
-    // show chooser on every visit (instantly dismissible, one tap to proceed)
-    window.openTSChooser();
+    // show chooser on fresh visits, but NOT on the reload that immediately follows a mode pick (avoids a loop)
+    var skip=false; try{ skip=!!sessionStorage.getItem('ts_skip_chooser'); if(skip) sessionStorage.removeItem('ts_skip_chooser'); }catch(e){}
+    if(!skip) window.openTSChooser();
   }
 
   if(document.readyState!=='loading') init();
