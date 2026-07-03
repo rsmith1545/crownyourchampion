@@ -6132,5 +6132,34 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 
+<script>
+/* Taylor active-mode label: web under the gold name in the championship box; mobile under the name at region-name size */
+(function(){
+  if(window.__tsModeLabel) return; window.__tsModeLabel=1;
+  var NAMES={numbers:'By the Numbers', superfan:"Superfan's Cut", deepcuts:'Deep Cuts'};
+  function cur(){ try{ return localStorage.getItem('ts_mode')||'numbers'; }catch(e){ return 'numbers'; } }
+  function label(){ return NAMES[cur()]||NAMES.numbers; }
+  function inject(){
+    var txt=label();
+    var cb=document.querySelector('.finals-header .cyc-champ-band');
+    if(cb){ var el=cb.parentNode.querySelector('.ts-mode-web');
+      if(!el){ el=document.createElement('div'); el.className='ts-mode-web'; cb.parentNode.insertBefore(el, cb.nextSibling); }
+      el.textContent=txt; }
+    Array.prototype.forEach.call(document.querySelectorAll('.cyc-rgn-info'), function(info){
+      var band=info.querySelector('.cri-band'); if(!band) return;
+      var el=info.querySelector('.cri-mode');
+      if(!el){ el=document.createElement('div'); el.className='cri-mode'; band.parentNode.insertBefore(el, band.nextSibling); }
+      el.textContent=txt; });
+  }
+  var css=document.createElement('style');
+  css.textContent='.ts-mode-web{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;font-size:12px;color:#e8c98a;margin:1px 0 3px;}'
+    +'@media(max-width:1080px){.ts-mode-web{display:none;}}'
+    +'.cri-mode{font-family:"Bebas Neue",sans-serif;font-size:16px;letter-spacing:1px;line-height:1.05;color:#e8c98a;text-transform:uppercase;margin-top:3px;}';
+  document.head.appendChild(css);
+  window.__tsRefreshModeLabel=inject;
+  if(document.readyState!=='loading') setTimeout(inject,600); else document.addEventListener('DOMContentLoaded',function(){setTimeout(inject,600);});
+  setTimeout(inject,1700);
+})();
+</script>
 </body>
 </html>
