@@ -13,6 +13,7 @@
  #app.st-correct{background-color:var(--green)}
  #app.st-pass{background-color:var(--orange)}
  #app.st-timeup{background-color:#c81e1e}
+ @media (orientation:portrait){ body.lock-ls #app{ inset:auto; top:100%; left:0; width:100vh; height:100vw; transform-origin:left top; transform:rotate(-90deg); } }
  .screen{display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;width:100%;height:100%}
  .screen.on{display:flex}
  h1{font-family:var(--disp);font-size:15vmin;letter-spacing:2px;color:var(--gold);text-shadow:3px 3px 0 rgba(0,0,0,.4);line-height:.92;text-transform:uppercase}
@@ -150,7 +151,7 @@ function startGame(){
   document.getElementById('score').textContent='0';
   show('sGame'); app.classList.remove('st-correct','st-pass'); sndGo();
   var tEl0=document.getElementById('timer'); tEl0.classList.remove('pulsing'); tEl0.textContent=fmt(timeLeft);
-  tryLockLandscape();
+  document.body.classList.add('lock-ls'); tryLockLandscape();
   current=newCard();
   var cd=document.getElementById('card'); cd.classList.remove('zoomIn'); void cd.offsetWidth; cd.classList.add('zoomIn');
   tHandle=setInterval(function(){
@@ -167,7 +168,7 @@ function endGame(){
   app.classList.remove('st-correct','st-pass'); app.classList.add('st-timeup');
   var cd=document.getElementById('card'); cd.textContent="TIME'S UP"; cd.classList.remove('zoomIn'); void cd.offsetWidth; cd.classList.add('zoomIn');
   navigator.vibrate&&navigator.vibrate([130,70,130]);
-  setTimeout(function(){ app.classList.remove('st-timeup'); buildRecap(); show('sEnd'); }, 1800);
+  setTimeout(function(){ app.classList.remove('st-timeup'); document.body.classList.remove('lock-ls'); tryUnlock(); buildRecap(); show('sEnd'); }, 1800);
 }
 function buildRecap(){
   document.getElementById('finalScore').textContent=score;
@@ -175,6 +176,7 @@ function buildRecap(){
   results.forEach(function(r){ var li=document.createElement('li'); li.className=r.good?'g':'p'; li.textContent=(r.good?'\u2713 ':'\u2717 ')+r.w; ul.appendChild(li); });
 }
 function tryLockLandscape(){ try{ if(screen.orientation&&screen.orientation.lock){ screen.orientation.lock('landscape').catch(function(){}); } }catch(e){} }
+function tryUnlock(){ try{ if(screen.orientation&&screen.orientation.unlock){ screen.orientation.unlock(); } }catch(e){} }
 
 /* ---------- ready: wait for portrait -> landscape, then 3-2-1 ---------- */
 var awaitingLandscape=false, counting=false;
