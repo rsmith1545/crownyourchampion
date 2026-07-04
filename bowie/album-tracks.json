@@ -1,0 +1,376 @@
+{
+ "David Bowie": [
+  {
+   "n": "Uncle Arthur",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8a/d0/77/8ad077f1-a84f-a975-07c9-8d95e40c10c0/mzaf_8390536139879640674.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sell Me A Coat",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/82/f7/3482f789-64cf-5e7a-ae6d-6273e62a09c6/mzaf_13096841026710638782.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rubber Band",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/7d/f3/0f7df329-afc5-4c68-000a-863861975de8/mzaf_16897270664749263800.plus.aac.p.m4a"
+  },
+  {
+   "n": "Love You Till Tuesday",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e7/0b/4c/e70b4c04-c3cb-1612-9d5a-da216d221ea4/mzaf_4520976595353342657.plus.aac.p.m4a"
+  },
+  {
+   "n": "There Is A Happy Land",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4c/33/53/4c335366-1baf-0546-203a-95cb8ec0a47a/mzaf_5759202179530937147.plus.aac.p.m4a"
+  },
+  {
+   "n": "We Are Hungry Men",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/de/7e/d6de7e6a-220f-c666-3294-9f06803f7849/mzaf_11514351045956694384.plus.aac.p.m4a"
+  },
+  {
+   "n": "When I Live My Dream",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6d/dc/f7/6ddcf772-7132-631e-3cee-4814710f3bab/mzaf_11392900641539947656.plus.aac.p.m4a"
+  },
+  {
+   "n": "Come And Buy My Toys",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/ff/c6/aaffc670-0529-1eef-6ea1-4882f95ffb64/mzaf_292216379299728613.plus.aac.p.m4a"
+  },
+  {
+   "n": "Join The Gang",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/63/43/fb634380-8ee1-b5bf-c34c-d0477b27176d/mzaf_5550637162489402207.plus.aac.p.m4a"
+  },
+  {
+   "n": "She's Got Medals",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/35/d8/41/35d84112-d00b-07e5-c39f-4dbe89cea828/mzaf_2524231387647312584.plus.aac.p.m4a"
+  },
+  {
+   "n": "Maid Of Bond Street",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/46/8f/89/468f8939-7497-a40d-aa15-d78ebd736658/mzaf_9470762528339259278.plus.aac.p.m4a"
+  },
+  {
+   "n": "Please Mr. Gravedigger",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/d1/99/47d199af-27e9-5233-325d-020b62384dca/mzaf_12879671829976760445.plus.aac.p.m4a"
+  }
+ ],
+ "The Man Who Sold the World": [
+  {
+   "n": "The Width of a Circle (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/5f/7d/47/5f7d472f-c618-d55e-bea8-820b11549720/mzaf_15164212551038770868.plus.aac.p.m4a"
+  },
+  {
+   "n": "All the Madmen (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ae/14/04/ae140439-0166-3170-e548-026255c12528/mzaf_508385415994995626.plus.aac.p.m4a"
+  },
+  {
+   "n": "Black Country Rock (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/86/21/c0/8621c05c-5a4f-3201-4370-eea1c14957ae/mzaf_703034551777483862.plus.aac.p.m4a"
+  },
+  {
+   "n": "After All (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/94/e4/20/94e420c7-7cd3-0989-7332-86bd077be5b2/mzaf_1761804224089688412.plus.aac.p.m4a"
+  },
+  {
+   "n": "Running Gun Blues (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/38/8a/c1/388ac15f-6757-c2d2-1809-ec1e1e0c7f81/mzaf_16581676928359824091.plus.aac.p.m4a"
+  },
+  {
+   "n": "Saviour Machine (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6c/35/43/6c3543db-598c-3086-81b8-368b0815ab6e/mzaf_8742068049554639297.plus.aac.p.m4a"
+  },
+  {
+   "n": "She Shook Me Cold (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9f/ac/83/9fac83d2-db3c-83fb-03f6-ccce3aaf386e/mzaf_1848100549274057345.plus.aac.p.m4a"
+  },
+  {
+   "n": "The Man Who Sold the World (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d9/be/0a/d9be0ad4-c38b-6fb8-9a46-4ea33ac43fb5/mzaf_14441852116171306693.plus.aac.p.m4a"
+  },
+  {
+   "n": "The Supermen (2015 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6a/6b/bc/6a6bbcfb-76f8-c577-a4db-75206d1b23f5/mzaf_11017895235666946915.plus.aac.p.m4a"
+  }
+ ],
+ "Hunky Dory": [
+  {
+   "n": "Changes",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3b/a8/19/3ba81905-f12c-299c-0efd-fcfe43558c22/mzaf_15463370320544172076.plus.aac.p.m4a"
+  },
+  {
+   "n": "Oh! You Pretty Things",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fc/10/92/fc10922e-78c2-c5fc-66ce-5f6532bec57e/mzaf_9421831923991808719.plus.aac.p.m4a"
+  },
+  {
+   "n": "Eight Line Poem",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/95/d9/6d/95d96dad-6fa2-4042-1451-40072faf25a0/mzaf_5877347610155251461.plus.aac.p.m4a"
+  },
+  {
+   "n": "Life On Mars?",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/63/6b/06/636b0642-5636-af2c-06e1-bb0dabdefcb7/mzaf_16026243431927840611.plus.aac.p.m4a"
+  },
+  {
+   "n": "Kooks",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/68/dd/da/68ddda73-9fbb-e06b-14e6-24e6b3abc6b2/mzaf_11235403052261250607.plus.aac.p.m4a"
+  },
+  {
+   "n": "Quicksand",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2a/fc/28/2afc2818-569f-7777-63a7-bac513fde896/mzaf_14699503147358057788.plus.aac.p.m4a"
+  },
+  {
+   "n": "Fill Your Heart",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/88/b2/17/88b2175b-3b22-f770-1f7a-320d8e38e027/mzaf_16989851132961576015.plus.aac.p.m4a"
+  },
+  {
+   "n": "Andy Warhol",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d8/4a/b9/d84ab9ed-82f0-9b4f-e987-79e6415a43e7/mzaf_638628688670144502.plus.aac.p.m4a"
+  },
+  {
+   "n": "Song for Bob Dylan",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ff/9b/5f/ff9b5f04-7d35-0d11-e74b-62292bd34506/mzaf_9849978504812332310.plus.aac.p.m4a"
+  },
+  {
+   "n": "Queen Bitch",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/28/f2/63/28f26306-f929-8e59-6f2d-c631cb55787c/mzaf_14284342493304686815.plus.aac.p.m4a"
+  },
+  {
+   "n": "The Bewlay Brothers",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/56/1a/c3/561ac34f-670c-2b72-ebae-c5c70d025ce1/mzaf_13953517238715755546.plus.aac.p.m4a"
+  }
+ ],
+ "The Rise and Fall of Ziggy Stardust": [
+  {
+   "n": "Five Years (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/03/9f/e6/039fe626-64a1-bb80-010f-85d31baa556e/mzaf_9537798668244648095.plus.aac.p.m4a"
+  },
+  {
+   "n": "Soul Love (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f9/9d/b1/f99db1b1-fdd5-03c8-ebb2-038a29ae91e8/mzaf_17469876447123975442.plus.aac.p.m4a"
+  },
+  {
+   "n": "Moonage Daydream (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/33/65/4a/33654a5b-dcca-ac42-f82c-59b560aa72ce/mzaf_15049485422022275058.plus.aac.p.m4a"
+  },
+  {
+   "n": "Starman (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/78/5d/be/785dbe59-1fe3-cf29-0292-50e9ee944354/mzaf_5639770502612710333.plus.aac.p.m4a"
+  },
+  {
+   "n": "It Ain't Easy (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/43/59/e0/4359e0c2-4298-b8dc-80e7-98ae6256c06a/mzaf_8428802524951287631.plus.aac.p.m4a"
+  },
+  {
+   "n": "Lady Stardust (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/cb/74/5d/cb745d04-333d-ef01-7eae-0f9d4edf3a0c/mzaf_5941986103559471893.plus.aac.p.m4a"
+  },
+  {
+   "n": "Star (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/75/b9/97/75b99748-2e95-7be6-2f72-c58c81d08e59/mzaf_2754162854496211607.plus.aac.p.m4a"
+  },
+  {
+   "n": "Hang on to Yourself (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/54/a7/81/54a781f0-4256-fe25-8b18-06b16789036b/mzaf_13396403147955759369.plus.aac.p.m4a"
+  },
+  {
+   "n": "Ziggy Stardust (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e1/5f/44/e15f442d-95f5-41cc-6f69-b23eb58c4af7/mzaf_17935873034057372065.plus.aac.p.m4a"
+  },
+  {
+   "n": "Suffragette City (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c2/07/83/c20783e5-62d9-d255-e03b-9945f1c4c1af/mzaf_18339170982313928137.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rock 'n' Roll Suicide (2012 Remaster)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/5f/33/2f/5f332f6b-2871-6d39-303a-07f166cc9f58/mzaf_17733899714682258952.plus.aac.p.m4a"
+  }
+ ],
+ "Aladdin Sane": [
+  {
+   "n": "Watch That Man",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d4/5e/8f/d45e8fe9-aae4-9c2e-72a1-b919c5f687f8/mzaf_15022413278976131093.plus.aac.p.m4a"
+  },
+  {
+   "n": "Aladdin Sane",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f4/a4/5a/f4a45a3e-81c6-b33e-4070-985318088bbe/mzaf_5394154194450773484.plus.aac.p.m4a"
+  },
+  {
+   "n": "Drive-In Saturday",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d7/37/00/d73700c6-2194-97a1-0596-db96eeee9b0c/mzaf_6125253305654066050.plus.aac.p.m4a"
+  },
+  {
+   "n": "Panic in Detroit",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f8/37/8e/f8378e7f-db87-ac5d-e847-8bbeb63b91fd/mzaf_9292024478727059256.plus.aac.p.m4a"
+  },
+  {
+   "n": "Cracked Actor",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/31/5c/32/315c3239-1da7-1d5c-027b-3e5fd3dcb711/mzaf_9100540352349823129.plus.aac.p.m4a"
+  },
+  {
+   "n": "Time",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/94/fd/83/94fd83bb-2bef-f0d5-74d7-83bdbfc141e6/mzaf_16582825307665054689.plus.aac.p.m4a"
+  },
+  {
+   "n": "The Prettiest Star",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/60/85/42/60854282-4d77-408b-f69f-fd7753921556/mzaf_3534830321430243160.plus.aac.p.m4a"
+  },
+  {
+   "n": "Let's Spend the Night Together",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/1a/7e/e8/1a7ee83e-c6cb-322b-46cf-4c23721bf236/mzaf_3051772416236483435.plus.aac.p.m4a"
+  },
+  {
+   "n": "The Jean Genie",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d1/15/42/d11542e7-4c1d-8bda-b4ec-f2d89b2d0715/mzaf_13582827937162392593.plus.aac.p.m4a"
+  },
+  {
+   "n": "Lady Grinning Soul",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a4/1d/a3/a41da3f5-6376-0634-83e8-68a0f78a122d/mzaf_11241843798177104551.plus.aac.p.m4a"
+  }
+ ],
+ "Diamond Dogs": [
+  {
+   "n": "Future Legend",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/6b/1f/80/6b1f80fc-c549-d2db-a246-3ddeb293bf69/mzaf_1846567575954391561.plus.aac.p.m4a"
+  },
+  {
+   "n": "Diamond Dogs",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/84/ca/6f/84ca6fa1-dd98-eeaf-e1ac-db7598e7768f/mzaf_9772839202358342175.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sweet Thing",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e2/bd/2b/e2bd2b27-5db5-a5a7-b365-ea24b01bca97/mzaf_6013214132231151542.plus.aac.p.m4a"
+  },
+  {
+   "n": "Candidate",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/18/0e/2c/180e2cc7-2653-0d21-c7a7-f41ed0bc69bc/mzaf_14769597540005085056.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sweet Thing (Reprise)",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/8b/5c/9a/8b5c9ab8-c572-3b80-fde4-2814bb444ac5/mzaf_9539910851524145823.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rebel Rebel",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/6b/9b/3f/6b9b3f04-5e8f-07ae-68e6-13b33552cef5/mzaf_1518430714649909690.plus.aac.p.m4a"
+  },
+  {
+   "n": "Rock 'n' Roll with Me",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7b/2c/df/7b2cdf88-c43f-0a3c-9168-6f18e5bd780b/mzaf_16378345734066176052.plus.aac.p.m4a"
+  },
+  {
+   "n": "We Are the Dead",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/17/49/67/174967a0-238d-b246-5205-f045aba8f8c4/mzaf_5172921228333437677.plus.aac.p.m4a"
+  },
+  {
+   "n": "1984",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/50/72/8c/50728cdd-3a7d-863c-5b1a-b7de1ae08e99/mzaf_415288593150014954.plus.aac.p.m4a"
+  },
+  {
+   "n": "Big Brother",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ee/95/52/ee9552e9-62a0-775c-be8a-425a7548eb39/mzaf_14737663438983279673.plus.aac.p.m4a"
+  },
+  {
+   "n": "Chant of the Ever Circling Skeletal Family",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/86/68/83/866883d3-f534-634d-2afb-7edcb092b5dc/mzaf_3846189763089258216.plus.aac.p.m4a"
+  }
+ ],
+ "Young Americans": [
+  {
+   "n": "Young Americans",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/55/54/6f/55546fed-00e5-958c-6a4a-f85241ab26c2/mzaf_11850948229286846561.plus.aac.p.m4a"
+  },
+  {
+   "n": "Win",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9d/4b/52/9d4b52a3-d5a6-b8ff-2a20-3fe45856881f/mzaf_8824146907443091558.plus.aac.p.m4a"
+  },
+  {
+   "n": "Fascination",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/5b/6b/03/5b6b03b6-7345-6c5e-c0d8-e3644e20b641/mzaf_3576145451718856117.plus.aac.p.m4a"
+  },
+  {
+   "n": "Right",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6b/7f/8b/6b7f8bb2-3be9-6a70-6f0f-e51e91df887f/mzaf_10867259558934299443.plus.aac.p.m4a"
+  },
+  {
+   "n": "Somebody Up There Likes Me",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d9/ea/64/d9ea6449-601e-0d5c-846d-d9c63b71a828/mzaf_13838489058414190661.plus.aac.p.m4a"
+  },
+  {
+   "n": "Across the Universe",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b2/93/34/b29334b7-a680-bb85-e086-c2af91094190/mzaf_12859411790411758427.plus.aac.p.m4a"
+  },
+  {
+   "n": "Can You Hear Me",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7f/86/1a/7f861a49-725a-0706-4cf7-874d80efd9fe/mzaf_4316040353890173774.plus.aac.p.m4a"
+  },
+  {
+   "n": "Fame",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7c/24/39/7c243961-14ad-05b0-3b48-24cfd6f3c886/mzaf_10382701304508159069.plus.aac.p.m4a"
+  }
+ ],
+ "Station to Station": [
+  {
+   "n": "Station to Station",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b3/37/51/b3375110-b472-adbb-2ddf-5fc950a5ccdc/mzaf_18265167111952179788.plus.aac.p.m4a"
+  },
+  {
+   "n": "Golden Years",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fd/38/b0/fd38b03b-3221-93cf-7d21-67343a848213/mzaf_11874216663189468126.plus.aac.p.m4a"
+  },
+  {
+   "n": "Word on a Wing",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e4/06/71/e406714d-5269-c971-cc0f-3079b216f163/mzaf_4086525560734186709.plus.aac.p.m4a"
+  },
+  {
+   "n": "TVC15",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/00/b0/7c/00b07c96-b180-60ae-f0db-1b089b336ea6/mzaf_12623873888263248133.plus.aac.p.m4a"
+  },
+  {
+   "n": "Stay",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/93/57/58/93575801-aa01-c5f5-37ae-1975d4226133/mzaf_10389762860857322132.plus.aac.p.m4a"
+  },
+  {
+   "n": "Wild Is the Wind",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/a2/55/b3/a255b3c7-4fbb-58b2-3851-5855af3362d4/mzaf_8873630608207706335.plus.aac.p.m4a"
+  }
+ ],
+ "Low": [
+  {
+   "n": "Speed of Life",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/a3/0a/9a/a30a9a30-a8ec-c8fc-b304-d413fdf2c3bb/mzaf_257757922286059371.plus.aac.p.m4a"
+  },
+  {
+   "n": "Breaking Glass",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ab/bb/3a/abbb3ad9-f460-6345-23f0-8c8a8fdc5ed3/mzaf_4281065744101618041.plus.aac.p.m4a"
+  },
+  {
+   "n": "What in the World",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c2/d7/ed/c2d7ed41-4350-b69a-bfc2-e0d867699a2a/mzaf_15813173557602072972.plus.aac.p.m4a"
+  },
+  {
+   "n": "Sound and Vision",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f0/e8/bd/f0e8bdcd-6962-b8f8-d0bf-4dc25893ed99/mzaf_4991925338582405351.plus.aac.p.m4a"
+  },
+  {
+   "n": "Always Crashing in the Same Car",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/72/7b/94/727b9400-1013-acaf-7e8a-cb77efb27433/mzaf_15224319348091127904.plus.aac.p.m4a"
+  },
+  {
+   "n": "Be My Wife",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/13/30/ec1330f5-4652-60c2-38b0-7ce258fcb6a6/mzaf_8929838820787314812.plus.aac.p.m4a"
+  },
+  {
+   "n": "A New Career in a New Town",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a3/cf/d7/a3cfd794-d18a-3b09-ddff-40c11273736d/mzaf_144290046174311932.plus.aac.p.m4a"
+  },
+  {
+   "n": "Warszawa",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/14/2b/ea/142bea39-2c56-68ae-92ea-0574b45cc043/mzaf_1581408905304102530.plus.aac.p.m4a"
+  },
+  {
+   "n": "Art Decade",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/da/14/a3/da14a3e4-89ba-1d78-4e4e-c11d9c783e83/mzaf_139349471982684946.plus.aac.p.m4a"
+  },
+  {
+   "n": "Weeping Wall",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/b0/e6/07/b0e6076d-356c-ca4d-5c6f-036159ed55d0/mzaf_18005580608283572060.plus.aac.p.m4a"
+  },
+  {
+   "n": "Subterraneans",
+   "u": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/14/bd/92/14bd929f-af6f-2c50-ed62-fcf0f78c3120/mzaf_11185023818531606519.plus.aac.p.m4a"
+  }
+ ]
+}
