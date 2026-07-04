@@ -71,21 +71,28 @@ var app=document.getElementById('app');
 function show(id){['sStart','sReady','sGame','sEnd'].forEach(function(s){document.getElementById(s).classList.toggle('on',s===id);});}
 
 /* ---------- tilt engine (gravity z-axis = screen facing down/up, orientation-agnostic) ---------- */
-var TH=5.8, NEUTRAL=3.6;         // thresholds (tune via debug)
+var TH=7.4, NEUTRAL=3.2;         // trigger + re-arm thresholds (tune via debug)
+var HOLD_MS=110, COOLDOWN_MS=450;// must hold past TH this long; lockout after each mark
 var armed=true, gz=0, beta=0, gamma=0, haveMotion=false;
+var holdDir=0, holdStart=0, lastMark=0;
 var DOWN_IS_GOOD=1;              // +1: tip screen toward floor = GOT IT. flip if reversed.
+function nowMs(){ return (window.performance&&performance.now)?performance.now():Date.now(); }
+function evalTilt(){
+  if(!playing) return;
+  var now=nowMs();
+  if(!armed){ if(Math.abs(gz)<NEUTRAL && now-lastMark>COOLDOWN_MS){ armed=true; } holdDir=0; return; }
+  if(now-lastMark < COOLDOWN_MS){ return; }
+  var v=gz*DOWN_IS_GOOD;
+  var dir=(v>TH)?1:((v<-TH)?-1:0);
+  if(dir===0){ holdDir=0; return; }
+  if(dir!==holdDir){ holdDir=dir; holdStart=now; return; }   // just crossed: start hold timer
+  if(now-holdStart >= HOLD_MS){ armed=false; lastMark=now; holdDir=0; mark(dir>0); }  // held long enough
+}
 function onMotion(e){
   var g=e.accelerationIncludingGravity; if(!g||g.z==null) return; haveMotion=true;
-  gz=g.z;
-  if(playing){
-    if(armed){
-      if(gz*DOWN_IS_GOOD > TH){ armed=false; mark(true); }
-      else if(gz*DOWN_IS_GOOD < -TH){ armed=false; mark(false); }
-    } else if(Math.abs(gz) < NEUTRAL){ armed=true; }
-  }
-  dbgTick();
+  gz=g.z; evalTilt(); dbgTick();
 }
-function onOrient(e){ beta=e.beta||0; gamma=e.gamma||0; if(!haveMotion){ /* fallback: use beta if no motion */ gz=(beta/90)*9.8; if(playing){ if(armed){ if(gz*DOWN_IS_GOOD>TH){armed=false;mark(true);} else if(gz*DOWN_IS_GOOD<-TH){armed=false;mark(false);} } else if(Math.abs(gz)<NEUTRAL){armed=true;} } } dbgTick(); }
+function onOrient(e){ beta=e.beta||0; gamma=e.gamma||0; if(!haveMotion){ /* fallback: no devicemotion */ gz=(beta/90)*9.8; evalTilt(); } dbgTick(); }
 
 function attach(){ window.addEventListener('devicemotion',onMotion); window.addEventListener('deviceorientation',onOrient); }
 function requestPerm(cb){
@@ -138,6 +145,6 @@ document.getElementById('againBtn').onclick=function(){ ready(); };
 /* ---------- debug ---------- */
 var dbgOn=false;
 document.getElementById('dbgBtn').onclick=function(){ dbgOn=!dbgOn; document.getElementById('dbg').style.display=dbgOn?'block':'none'; };
-function dbgTick(){ if(!dbgOn) return; document.getElementById('dbg').innerHTML='gz: '+gz.toFixed(2)+'<br>beta: '+beta.toFixed(0)+'  gamma: '+gamma.toFixed(0)+'<br>armed: '+armed+'  motion:'+haveMotion+'<br>TH:'+TH+' NEU:'+NEUTRAL; }
+function dbgTick(){ if(!dbgOn) return; document.getElementById('dbg').innerHTML='gz: '+gz.toFixed(2)+'<br>beta: '+beta.toFixed(0)+'  gamma: '+gamma.toFixed(0)+'<br>armed: '+armed+'  hold:'+holdDir+'  motion:'+haveMotion+'<br>TH:'+TH+' NEU:'+NEUTRAL; }
 </script>
 </body></html>
