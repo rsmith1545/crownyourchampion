@@ -163,7 +163,7 @@ function startCountdown(){
   document.getElementById('rotateMsg').style.display='none';
   var gr=document.getElementById('getReady'), big=document.getElementById('big');
   big.style.display='none';
-  gr.style.display=''; gr.classList.add('pulsing');
+  gr.style.display='block'; gr.classList.add('pulsing');
   navigator.vibrate&&navigator.vibrate(50);
   setTimeout(function(){
     gr.classList.remove('pulsing'); gr.style.display='none';
