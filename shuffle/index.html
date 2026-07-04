@@ -75,7 +75,7 @@ var TH=7.4, NEUTRAL=3.2;         // trigger + re-arm thresholds (tune via debug)
 var HOLD_MS=110, COOLDOWN_MS=450;// must hold past TH this long; lockout after each mark
 var armed=true, gz=0, beta=0, gamma=0, haveMotion=false;
 var holdDir=0, holdStart=0, lastMark=0;
-var DOWN_IS_GOOD=1;              // +1: tip screen toward floor = GOT IT. flip if reversed.
+var DOWN_IS_GOOD=-1;             // -1: tip screen toward floor = GOT IT (Android z-axis sign). flip if reversed.
 function nowMs(){ return (window.performance&&performance.now)?performance.now():Date.now(); }
 function evalTilt(){
   if(!playing) return;
