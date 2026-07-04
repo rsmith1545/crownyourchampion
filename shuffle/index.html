@@ -2,6 +2,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SuperFan Shuffle">
+<meta name="theme-color" content="#2a1257">
+<link rel="manifest" href="/shuffle/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/shuffle/apple-touch-icon.png">
 <title>SuperFan Shuffle — Tilt Test</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -227,4 +232,5 @@ var dbgOn=false;
 document.getElementById('dbgBtn').onclick=function(){ dbgOn=!dbgOn; document.getElementById('dbg').style.display=dbgOn?'block':'none'; };
 function dbgTick(){ if(!dbgOn) return; document.getElementById('dbg').innerHTML='gz: '+gz.toFixed(2)+'<br>beta: '+beta.toFixed(0)+'  gamma: '+gamma.toFixed(0)+'<br>armed: '+armed+'  hold:'+holdDir+'  motion:'+haveMotion+'<br>TH:'+TH+' NEU:'+NEUTRAL; }
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/shuffle/sw.js").catch(function(){});});}</script>
 </body></html>
