@@ -22,7 +22,7 @@
  /* GAME */
  #card{font-family:var(--disp);font-size:16vmin;color:#fff;text-transform:uppercase;letter-spacing:1px;text-shadow:3px 3px 0 rgba(0,0,0,.35);line-height:1;padding:0 14px;max-width:96vw}
  #big{font-family:var(--disp);font-size:30vmin;color:#fff;text-shadow:4px 4px 0 rgba(0,0,0,.35)}
- #timer{position:fixed;top:10px;left:50%;transform:translateX(-50%);font-family:var(--disp);font-size:11vmin;color:#fff;letter-spacing:1px;text-shadow:2px 2px 0 rgba(0,0,0,.35)}
+ #timer{font-family:var(--disp);font-size:10vmin;color:#fff;letter-spacing:1px;text-shadow:2px 2px 0 rgba(0,0,0,.35);opacity:.95}
  #score{position:fixed;top:14px;right:20px;font-family:var(--disp);font-size:7vmin;color:#fff;opacity:.85}
  #hint{position:fixed;bottom:12px;left:0;right:0;font-size:3.4vmin;color:rgba(255,255,255,.8);letter-spacing:.5px}
  /* debug */
@@ -63,10 +63,9 @@
   </div>
   <!-- GAME -->
   <div class="screen" id="sGame">
-    <div id="timer">60</div>
     <div id="score">0</div>
     <div id="card">—</div>
-    <div id="hint">tilt DOWN = got it · tilt UP = pass</div>
+    <div id="timer">1:00</div>
   </div>
   <!-- END -->
   <div class="screen" id="sEnd">
@@ -116,6 +115,16 @@ function requestPerm(cb){
   else { attach(); cb(true); }
 }
 
+/* ---------- sound (Web Audio, no files) ---------- */
+var AC=null;
+function initAudio(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); }catch(e){} }
+function tone(freq,dur,type,vol,when){ if(!AC) return; var t0=AC.currentTime+(when||0); var o=AC.createOscillator(),g=AC.createGain(); o.type=type||'sine'; o.frequency.value=freq; g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(vol||0.3,t0+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0+dur+0.03); }
+function sndCorrect(){ initAudio(); tone(660,0.12,'square',0.28,0); tone(990,0.16,'square',0.28,0.1); }
+function sndPass(){ initAudio(); tone(210,0.16,'sawtooth',0.26,0); tone(150,0.22,'sawtooth',0.26,0.1); }
+function sndTick(){ initAudio(); tone(520,0.09,'square',0.24,0); }
+function sndGo(){ initAudio(); tone(880,0.2,'square',0.3,0); }
+function sndEnd(){ initAudio(); tone(520,0.16,'sawtooth',0.3,0); tone(390,0.2,'sawtooth',0.3,0.16); tone(260,0.32,'sawtooth',0.3,0.34); }
+
 /* ---------- game loop ---------- */
 function fmt(t){ var m=Math.floor(t/60), sec=t%60; return m+':'+(sec<10?'0':'')+sec; }
 var playing=false, idx=0, order=[], results=[], score=0, timeLeft=60, tHandle=null;
@@ -125,6 +134,7 @@ function mark(good){
   results.push({w:current,good:good});
   if(good){ score++; document.getElementById('score').textContent=score; }
   flash(good, good?'CORRECT':'PASS');
+  good?sndCorrect():sndPass();
   navigator.vibrate&&navigator.vibrate(good?60:30);
 }
 function flash(good,label){
@@ -135,14 +145,14 @@ function flash(good,label){
 function startGame(){
   order=shuffle(DECK.slice()); idx=0; results=[]; score=0; timeLeft=60; armed=true; playing=true;
   document.getElementById('score').textContent='0';
-  show('sGame'); app.classList.remove('st-correct','st-pass');
+  show('sGame'); app.classList.remove('st-correct','st-pass'); sndGo();
   document.getElementById('timer').textContent=fmt(timeLeft);
   current=newCard();
   var cd=document.getElementById('card'); cd.classList.remove('zoomIn'); void cd.offsetWidth; cd.classList.add('zoomIn');
   tHandle=setInterval(function(){ timeLeft--; document.getElementById('timer').textContent=fmt(timeLeft); if(timeLeft<=0) endGame(); }, 1000);
 }
 function endGame(){
-  playing=false; clearInterval(tHandle); app.classList.remove('st-correct','st-pass');
+  playing=false; clearInterval(tHandle); app.classList.remove('st-correct','st-pass'); sndEnd();
   document.getElementById('finalScore').textContent=score;
   var ul=document.getElementById('recap'); ul.innerHTML='';
   results.forEach(function(r){ var li=document.createElement('li'); li.className=r.good?'g':'p'; li.textContent=(r.good?'✓ ':'�— ')+r.w; ul.appendChild(li); });
@@ -173,11 +183,11 @@ function startCountdown(){
   navigator.vibrate&&navigator.vibrate(50);
   setTimeout(function(){
     gr.classList.remove('pulsing'); gr.style.display='none';
-    big.style.display=''; var n=3; big.textContent=n; popEl(big); navigator.vibrate&&navigator.vibrate(40);
+    big.style.display=''; var n=3; big.textContent=n; popEl(big); sndTick(); navigator.vibrate&&navigator.vibrate(40);
     var iv=setInterval(function(){
       n--;
       if(n<=0){ clearInterval(iv); startGame(); }
-      else { big.textContent=n; popEl(big); navigator.vibrate&&navigator.vibrate(40); }
+      else { big.textContent=n; popEl(big); sndTick(); navigator.vibrate&&navigator.vibrate(40); }
     }, 850);
   }, 1300);
 }
@@ -185,8 +195,8 @@ window.addEventListener('orientationchange', function(){ setTimeout(checkOrienta
 window.addEventListener('resize', checkOrientation);
 
 /* ---------- buttons ---------- */
-document.getElementById('startBtn').onclick=function(){ requestPerm(function(ok){ ready(); }); };
-document.getElementById('againBtn').onclick=function(){ ready(); };
+document.getElementById('startBtn').onclick=function(){ initAudio(); requestPerm(function(ok){ ready(); }); };
+document.getElementById('againBtn').onclick=function(){ initAudio(); ready(); };
 
 /* ---------- debug ---------- */
 var dbgOn=false;
