@@ -42,7 +42,7 @@
   </div>
   <!-- READY (countdown) -->
   <div class="screen" id="sReady">
-    <div class="rotate" id="rotateMsg">Turn your phone sideways →</div>
+    <div class="rotate" id="rotateMsg">Turn phone sideways<br>&amp; raise to your forehead</div>
     <div id="big">3</div>
     <div class="sub">Get it to your forehead!</div>
   </div>
@@ -92,7 +92,7 @@ function onMotion(e){
   var g=e.accelerationIncludingGravity; if(!g||g.z==null) return; haveMotion=true;
   gz=g.z; evalTilt(); dbgTick();
 }
-function onOrient(e){ beta=e.beta||0; gamma=e.gamma||0; if(!haveMotion){ /* fallback: no devicemotion */ gz=(beta/90)*9.8; evalTilt(); } dbgTick(); }
+function onOrient(e){ beta=e.beta||0; gamma=e.gamma||0; if(!haveMotion){ /* fallback: no devicemotion */ gz=(beta/90)*9.8; evalTilt(); } if(awaitingLandscape) checkOrientation(); dbgTick(); }
 
 function attach(){ window.addEventListener('devicemotion',onMotion); window.addEventListener('deviceorientation',onOrient); }
 function requestPerm(cb){
@@ -131,12 +131,29 @@ function endGame(){
   show('sEnd');
 }
 
-/* ---------- countdown ---------- */
-function ready(){
-  show('sReady');
-  var n=3; document.getElementById('big').textContent=n;
-  var iv=setInterval(function(){ n--; if(n<=0){ clearInterval(iv); startGame(); } else document.getElementById('big').textContent=n; }, 900);
+/* ---------- ready: wait for portrait -> landscape, then 3-2-1 ---------- */
+var awaitingLandscape=false, counting=false;
+function isLandscape(){
+  var mm=(window.matchMedia && window.matchMedia('(orientation: landscape)').matches);
+  return !!mm || Math.abs(gamma) > 55;
 }
+function ready(){
+  show('sReady'); counting=false; awaitingLandscape=true;
+  document.getElementById('rotateMsg').style.display='';
+  document.getElementById('big').style.display='none';
+  checkOrientation();
+}
+function checkOrientation(){ if(awaitingLandscape && isLandscape()){ awaitingLandscape=false; startCountdown(); } }
+function startCountdown(){
+  if(counting) return; counting=true;
+  document.getElementById('rotateMsg').style.display='none';
+  var big=document.getElementById('big'); big.style.display=''; big.textContent='3';
+  navigator.vibrate&&navigator.vibrate(40);
+  var n=3;
+  var iv=setInterval(function(){ n--; if(n<=0){ clearInterval(iv); startGame(); } else { big.textContent=n; navigator.vibrate&&navigator.vibrate(40); } }, 900);
+}
+window.addEventListener('orientationchange', function(){ setTimeout(checkOrientation,150); });
+window.addEventListener('resize', checkOrientation);
 
 /* ---------- buttons ---------- */
 document.getElementById('startBtn').onclick=function(){ requestPerm(function(ok){ ready(); }); };
