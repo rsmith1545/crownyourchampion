@@ -28,6 +28,17 @@
  ul{list-style:none;text-align:left;max-width:90vw;max-height:46vh;overflow:auto;font-size:4.4vw}
  li{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.12)}
  li.g{color:#7fe0a0}li.p{color:#e6c65a}
+ /* READY flow */
+ #rotateMsg{display:flex;align-items:center;justify-content:center;height:100%}
+ .fhText{transform:rotate(-90deg);white-space:nowrap;font-size:7vw;font-weight:bold;color:var(--gold);text-transform:uppercase;letter-spacing:1px;line-height:1.25;text-shadow:2px 2px 0 #000}
+ .fhHint{display:block;font-size:3.4vw;color:var(--sand);opacity:.9;letter-spacing:0;text-transform:none;margin-top:6px}
+ #getReady{display:none;font-size:8.5vw;font-weight:bold;color:var(--gold);text-transform:uppercase;letter-spacing:1px;line-height:1.02;max-width:94vw;text-shadow:2px 2px 0 #000}
+ @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+ @keyframes pop{0%{transform:scale(.35);opacity:0}45%{transform:scale(1.22);opacity:1}100%{transform:scale(1);opacity:1}}
+ @keyframes cardIn{0%{transform:scale(.22);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+ .pulsing{animation:pulse .7s ease-in-out infinite}
+ .pop{animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+ .zoomIn{animation:cardIn .5s cubic-bezier(.2,1.25,.4,1)}
 </style></head>
 <body>
 <button id="dbgBtn">debug</button>
@@ -42,9 +53,9 @@
   </div>
   <!-- READY (countdown) -->
   <div class="screen" id="sReady">
-    <div class="rotate" id="rotateMsg">Turn phone sideways<br>&amp; raise to your forehead</div>
+    <div id="rotateMsg"><div class="fhText">Place on your forehead<span class="fhHint">↻ turn phone sideways</span></div></div>
+    <div id="getReady">Time to Face the Music</div>
     <div id="big">3</div>
-    <div class="sub">Get it to your forehead!</div>
   </div>
   <!-- GAME -->
   <div class="screen" id="sGame">
@@ -121,6 +132,7 @@ function startGame(){
   document.getElementById('score').textContent='0';
   show('sGame'); app.style.background='var(--leather)';
   current=newCard();
+  var cd=document.getElementById('card'); cd.classList.remove('zoomIn'); void cd.offsetWidth; cd.classList.add('zoomIn');
   tHandle=setInterval(function(){ timeLeft--; document.getElementById('timer').textContent=timeLeft; if(timeLeft<=0) endGame(); }, 1000);
 }
 function endGame(){
@@ -140,17 +152,28 @@ function isLandscape(){
 function ready(){
   show('sReady'); counting=false; awaitingLandscape=true;
   document.getElementById('rotateMsg').style.display='';
+  var gr=document.getElementById('getReady'); gr.style.display='none'; gr.classList.remove('pulsing');
   document.getElementById('big').style.display='none';
   checkOrientation();
 }
 function checkOrientation(){ if(awaitingLandscape && isLandscape()){ awaitingLandscape=false; startCountdown(); } }
+function popEl(el){ el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
 function startCountdown(){
   if(counting) return; counting=true;
   document.getElementById('rotateMsg').style.display='none';
-  var big=document.getElementById('big'); big.style.display=''; big.textContent='3';
-  navigator.vibrate&&navigator.vibrate(40);
-  var n=3;
-  var iv=setInterval(function(){ n--; if(n<=0){ clearInterval(iv); startGame(); } else { big.textContent=n; navigator.vibrate&&navigator.vibrate(40); } }, 900);
+  var gr=document.getElementById('getReady'), big=document.getElementById('big');
+  big.style.display='none';
+  gr.style.display=''; gr.classList.add('pulsing');
+  navigator.vibrate&&navigator.vibrate(50);
+  setTimeout(function(){
+    gr.classList.remove('pulsing'); gr.style.display='none';
+    big.style.display=''; var n=3; big.textContent=n; popEl(big); navigator.vibrate&&navigator.vibrate(40);
+    var iv=setInterval(function(){
+      n--;
+      if(n<=0){ clearInterval(iv); startGame(); }
+      else { big.textContent=n; popEl(big); navigator.vibrate&&navigator.vibrate(40); }
+    }, 850);
+  }, 1300);
 }
 window.addEventListener('orientationchange', function(){ setTimeout(checkOrientation,150); });
 window.addEventListener('resize', checkOrientation);
