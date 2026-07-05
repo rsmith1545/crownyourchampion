@@ -39,8 +39,8 @@ Re-run failed jobs (an empty commit re-triggers).
 
 ### File structure (repo root = superfanshuffle.com root)
 - index.html = neon STORE / home (domain opens here). play.html = the tilt game.
-- manifest.webmanifest (display: fullscreen), sw.js (v2, network-first for docs so page updates
-  show on relaunch), icon-192/512/512-maskable + apple-touch-icon (neon vinyl), CNAME, .nojekyll.
+- manifest.webmanifest (display: fullscreen), sw.js (v3, network-first for docs + only caches OK responses so a bad deploy can't
+  white-screen the app; page updates show on relaunch), icon-192/512/512-maskable + apple-touch-icon (neon vinyl), CNAME, .nojekyll.
 - Local ready copy also in this folder: ./SuperFanShuffle-site/ . CLAUDE.md committed to BOTH repos.
 
 ### Product model
@@ -74,9 +74,59 @@ Re-run failed jobs (an empty commit re-triggers).
 - ALL 4 "Try 5 free" currently launch the SAME generic tilt demo (placeholder songs). The 4 modes
   and real per-vault content are NOT built yet.
 
-### iOS / cross-platform notes (test on a real iPhone)
-- Tilt: direction sign may be reversed vs Android — DOWN_IS_GOOD set to +1 for iOS as a guess; confirm.
-- Fullscreen: iOS has NO Fullscreen API — goFullscreen() safely no-ops. iOS status bar CANNOT be hidden
-  in portrait (Apple limit; we use apple-mobile-web-app-status-bar-style=black-translucent so the neon
-  flows under it). iPhone auto-hides the status bar in LANDSCAPE, so the game itself should be clean.
-  No bottom n
+### iOS / cross-platform notes (tested on a real iPhone — updated July 5 2026)
+- **Tilt:** direction sign may be reversed vs Android — DOWN_IS_GOOD set to +1 for iOS as a guess; confirm on device.
+- **Fake-landscape rotation (iOS PWA):** an installed iOS PWA never physically rotates, so during play we rotate the
+  content in CSS. As of the July 2026 fix the rotation lives on an OUTER `#stage` wrapper while the card's spring
+  animation stays on `#app`. Previously BOTH were on `#app` and the transforms fought each other — that is what made
+  the game card off-center with no margins. Countdown / "Face the Music" screens now also get `lock-ls` so the whole
+  play flow is consistently landscape (not just the game). `#score`/`#hint` are position:absolute so they rotate with
+  the panel. Android uses REAL rotation (the @media(orientation:portrait) rule just doesn't apply there).
+- **Status bar CANNOT be hidden on iPhone** (Apple limit). iOS has no Fullscreen API — goFullscreen() no-ops on iPhone
+  (works on Android). Because the iOS PWA stays physically portrait during play, the real status bar sits at the physical
+  top and shows even in the rotated game (it does NOT auto-hide — the device isn't truly landscape). On the web the best
+  we can do is black-translucent so the clock floats on black. TRUE fullscreen requires the native wrapper (see below).
+- **Audio + iOS silent switch:** Web Audio is muted by the ring/silent switch. `unlockAudio()` (play.html) plays a
+  near-silent looping media element on the Tap-to-Play / Play Again tap to shift the audio session to "playback" so the
+  synth sounds come through. Best-effort — also tell users to check the physical ring switch.
+- **Haptics:** iOS Safari IGNORES navigator.vibrate entirely — buzz() does nothing on the iPhone web build. Real haptics
+  only come from the native wrapper.
+- **Motion permission:** iOS requires the DeviceMotion/Orientation grant per fresh launch (security) — no web way to make
+  it permanent. Guarded so it prompts once per session, not per round.
+- **Screen sleep:** Wake Lock API (navigator.wakeLock) holds the screen on during a round (Android + iOS 16.4+),
+  re-acquired on return to foreground, released at game end.
+
+------------------------------------------------------------
+## Native app path — Capacitor (cross-platform iOS + Android)  [SCAFFOLDED · branch: native-app]
+------------------------------------------------------------
+- WHY: the iPhone web PWA can't hide the status bar, has no real haptics, and relies on the fragile CSS fake-rotation.
+  A Capacitor native shell around the SAME web game fixes all of it — true fullscreen, REAL OS landscape lock (deletes
+  the #stage hack), real haptics, reliable keep-awake, remembered permissions. ONE codebase → both iOS and Android.
+- Lives on branch **`native-app`** (main / live web PWA untouched). Files added there:
+  package.json + capacitor.config.json (appId **com.hutchdesign.superfanshuffle**, webDir=www);
+  native.js (feature-detected bridge: SFS.native + lockLandscape / hideStatusBar / keepAwake / haptic — all no-ops on
+  the web); scripts/build-web.js (copies web assets into www/); README-NATIVE.md (the Mac/Xcode runbook). play.html +
+  index.html load native.js and take the native path only when SFS.native is true; web behavior is unchanged behind guards.
+- BUILD (needs a Mac + Xcode + Apple Developer acct $99/yr): `git checkout native-app` → `npm install` →
+  `npm run ios:add` → `npm run ios:open` → in Xcode set signing Team, plug in iPhone, press Run. Own phone via cable
+  (free Apple ID works but the app expires in 7 days; paid = 1yr + TestFlight). Share via **TestFlight** (up to 10k
+  testers, no full review). Android later: `npm install @capacitor/android && npx cap add android` (buildable on Windows, $25 Google one-time).
+- App Store gotchas: Guideline 4.2 (must feel like an app, not a bare web wrapper — our native features clear it);
+  vault-unlock payments must use Apple In-App Purchase (**15% Small Business Program** / 30% otherwise) — decide the
+  payments model before public launch. Add a proper app icon + splash.
+- WORKFLOW: keep iterating gameplay / content / look on the WEB (fast loop: push → live ~60s, testable in any browser).
+  Only go to Capacitor/Xcode to test native-only things (fullscreen, real rotation, haptics). When the game feels done,
+  wrap + TestFlight. The native scaffold is fully guarded, so merging native-app → main is safe (no visible change to the
+  live site) and keeps ONE codebase — offered, not yet done.
+- Reference doc (local, not in repo): **SuperFanShuffle-Native-Wrapper-Guide.md** in the SFS folder.
+
+------------------------------------------------------------
+## Session log — July 5 2026 (iOS fixes + native scaffold)
+------------------------------------------------------------
+- Pushed to **main**: audio silent-switch unlock + safe-area centering + sw v3 (ca3ab59); screen wake lock (2d6cad6);
+  #stage rotation refactor + rotated countdown screens + single motion prompt per session (c9f20ce).
+- Pushed to **native-app** branch: full Capacitor scaffold (see section above).
+- OPEN / needs device confirm: card centering after the #stage refactor (awaiting a fresh iPhone screenshot); iOS tilt
+  direction (DOWN_IS_GOOD +1 guess).
+- Reminder: repo is cloud-synced via OneDrive — the bash sandbox sometimes reads half-synced files. Work from a fresh
+  /tmp clone and push (the reliable path); the Read tool sees the authoritative OneDrive copy.
