@@ -43,20 +43,28 @@ Re-run failed jobs (an empty commit re-triggers).
   white-screen the app; page updates show on relaunch), icon-192/512/512-maskable + apple-touch-icon (neon vinyl), CNAME, .nojekyll.
 - Local ready copy also in this folder: ./SuperFanShuffle-site/ . CLAUDE.md committed to BOTH repos.
 
-### Product model
-- **Vault = an artist** (Taylor Swift, Gracie Abrams, Chappell Roan…), sold in Volumes (Vol.1…).
-- Inside each vault = **4 games**: (1) Name That Tune, (2) Fill-in-the-Lyric, (3) Party Trivia
-  (multiplayer/forehead), (4) Superfan Solo (single-player sit-down; likely needs a DIFFERENT
-  interaction than forehead — no clue-giver to confirm; undecided). IP-safe by design: app never
-  plays copyrighted audio / never shows a continuous copyrighted lyric run.
-- Free taste: 5 questions per game, then unlock with payment.
-- Pricing per vault: 1 game $1.99 · 2 games $2.99 · **all 4 $3.99** (NO 3-game tier: selecting 3 → all 4).
-- Charts: Featured of the Week, Top 10 Overall / Pop / Rock / Hip-Hop.
+### Product model (UPDATED per home-screen spec July 2026 — retires the old 4-games/tiered model)
+- **Vault = an artist** (Taylor Swift, Gracie Abrams…). SFS is **ONE mixed game per vault** —
+  songs + lyrics + lore all shuffled together (NOT 4 separate games; don't count/​reveal modes).
+- Monetization: **5 free questions, then $0.99 to unlock the rest.** This is the **inherited default
+  behavior of the vault template** (not a per-vault toggle) — any artist added to Firebase later
+  auto-inherits it. IP-safe: never plays copyrighted audio / never shows a continuous lyric run.
+- **NO counts anywhere on tiles** (no "Vol. 1", no "X / 250 shuffled", no "4 games inside", no pool
+  size). A ceiling disappoints; only the free-preview FLOOR is allowed — the "5-question taste" pill.
+- Keep free/seasonal tiles + the "3 days left" FOMO badge (the acquisition engine).
+- **Editions** = top-tab filter inside Store: **Music · Movies · TV**. Music is the only live edition;
+  Movies + TV are scaffolded but **hidden behind a server-side Firebase flag** (editions.<id>.enabled)
+  — flip to launch instantly, no App Store resubmit. Dev build uses GENERIC non-IP placeholders only
+  ("Sample Vault A"). Never real movie/TV titles, even hidden (studio IP liability).
+- **Nav:** bottom tabs = **My Vaults · Store** (state); editions = **top tabs inside Store** (content),
+  never bottom. Pin a **Free/Seasonal strip** at the top of each edition.
+- Charts (Music): Featured of the Week, Top in Pop / Rock / Hip-Hop.
 
 ### Current state (deployed + working)
 - PWA installs cleanly on Android (own origin). Store: neon vault tiles (vinyl aesthetic),
-  mode-picker w/ live tiered pricing, Install button (beforeinstallprompt) + iOS Add-to-Home hint.
-  **Gracie Abrams tile = direct-launch into the game; all other vaults = mode-picker.**
+  edition top-tabs (Music live; Movies/TV placeholder, flag-gated), pinned Free strip, bottom nav
+  (My Vaults / Store), Install button + iOS hint. Free vaults direct-launch the 5-question taste;
+  paid vaults open a sheet: "Play 5 free" + "Unlock the full vault · $0.99". No counts shown anywhere.
 - Tilt mechanic PROVEN on Android (accelerationIncludingGravity.z, orientation-agnostic).
   Direction is platform-aware: `DOWN_IS_GOOD = IS_IOS ? 1 : -1` (Android confirmed -1; iOS is a
   best-guess +1, flip that one value if reversed on a real iPhone).
