@@ -52,12 +52,18 @@ Re-run failed jobs (an empty commit re-triggers).
 - **NO counts anywhere on tiles** (no "Vol. 1", no "X / 250 shuffled", no "4 games inside", no pool
   size). A ceiling disappoints; only the free-preview FLOOR is allowed — the "5-question taste" pill.
 - Keep free/seasonal tiles + the "3 days left" FOMO badge (the acquisition engine).
-- **Editions** = top-tab filter inside Store: **Music · Movies · TV**. Music is the only live edition;
-  Movies + TV are scaffolded but **hidden behind a server-side Firebase flag** (editions.<id>.enabled)
-  — flip to launch instantly, no App Store resubmit. Dev build uses GENERIC non-IP placeholders only
-  ("Sample Vault A"). Never real movie/TV titles, even hidden (studio IP liability).
-- **Nav:** bottom tabs = **My Vaults · Store** (state); editions = **top tabs inside Store** (content),
-  never bottom. Pin a **Free/Seasonal strip** at the top of each edition.
+- **Editions** = top-tab filter: **Music · Film & TV · Sports** (TV folded into Film & TV). Music is the
+  only live edition; Film&TV + Sports are **hidden behind a server-side Firebase flag** (editions.<id>.enabled),
+  GENERIC non-IP placeholders only. Sports gets one LIVE free seed: **"The '85 Shuffle"**. DEV_PREVIEW=true
+  renders the hidden tabs during build; set false for prod.
+- **Per-edition ACCENT tint** (glows only, chrome stays dark, NEVER aqua=nav): Music=purple, Film&TV=gold/amber,
+  Sports=yellow-orange. Chrome = dark header + dark bottom bar framing a **lighter-purple content zone**.
+- **No "X days left" countdown** for now (no rotation calendar yet) — free tiles show just "FREE".
+  Category shelf order (render only if ~3+ tiles; See All when >9): Best Of · Pop · Hip-Hop & R&B · Country ·
+  Alt & Grunge · Classic Rock · Singer-Songwriter · Jam · Indie. Layout: Free This Week → Featured (whole card
+  clickable, no button) → Recently Added → category shelves.
+- **Nav:** bottom tabs = **Play · Explore · My Vaults** (Play=home, default; active tab glows aqua). Editions =
+  top tabs inside Play. Never ship "Home/Store/My Brackets". Pin **Free This Week** at top of each edition.
 - Charts (Music): Featured of the Week, Top in Pop / Rock / Hip-Hop.
 
 ### Current state (deployed + working)
