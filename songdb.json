@@ -1,5 +1,5 @@
 {
-"updated": "2026-07-02",
+"updated": "2026-07-06",
 "songs": [
 {
 "artist": "Taylor Swift",
@@ -25866,6 +25866,789 @@
 "total": 267317857,
 "daily": 83237,
 "live": 315
+},
+{
+"artist": "Alice in Chains",
+"song": "Man in the Box",
+"album": "",
+"total": 667946315,
+"daily": 377871,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Would?",
+"album": "",
+"total": 560328977,
+"daily": 257701,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Nutshell",
+"album": "",
+"total": 470895305,
+"daily": 390462,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Rooster",
+"album": "",
+"total": 378086383,
+"daily": 231190,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Them Bones",
+"album": "",
+"total": 281936969,
+"daily": 133054,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Down in a Hole",
+"album": "",
+"total": 243973205,
+"daily": 145863,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "No Excuses",
+"album": "",
+"total": 145444656,
+"daily": 59115,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Bleed the Freak",
+"album": "",
+"total": 133948105,
+"daily": 135561,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "We Die Young",
+"album": "",
+"total": 111123983,
+"daily": 52524,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Check My Brain",
+"album": "",
+"total": 105966125,
+"daily": 67750,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "I Stay Away",
+"album": "",
+"total": 104893358,
+"daily": 66382,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Rotten Apple",
+"album": "",
+"total": 97902651,
+"daily": 86706,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Heaven Beside You",
+"album": "",
+"total": 96977757,
+"daily": 37073,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Dam That River",
+"album": "",
+"total": 63125680,
+"daily": 33679,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Don't Follow",
+"album": "",
+"total": 56533489,
+"daily": 36621,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Rain When I Die",
+"album": "",
+"total": 55044766,
+"daily": 29625,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Stone",
+"album": "",
+"total": 46306222,
+"daily": 55234,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Again",
+"album": "",
+"total": 39789001,
+"daily": 16021,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Junkhead",
+"album": "",
+"total": 39602494,
+"daily": 20778,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Love, Hate, Love",
+"album": "",
+"total": 39017867,
+"daily": 25547,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "It Ain't Like That",
+"album": "",
+"total": 35871216,
+"daily": 27627,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Angry Chair",
+"album": "",
+"total": 35495197,
+"daily": 16012,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Your Decision",
+"album": "",
+"total": 34004320,
+"daily": 16679,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Sea of Sorrow",
+"album": "",
+"total": 33981329,
+"daily": 19374,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Dirt",
+"album": "",
+"total": 30529677,
+"daily": 14573,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Grind",
+"album": "",
+"total": 29065878,
+"daily": 14246,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Got Me Wrong",
+"album": "",
+"total": 26509474,
+"daily": 13321,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Whale & Wasp",
+"album": "",
+"total": 23172219,
+"daily": 13669,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Black Gives Way to Blue",
+"album": "",
+"total": 20782220,
+"daily": 14507,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Sickman",
+"album": "",
+"total": 20677504,
+"daily": 8566,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Sludge Factory",
+"album": "",
+"total": 19265052,
+"daily": 15580,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Sunshine",
+"album": "",
+"total": 17964668,
+"daily": 12542,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "God Smack",
+"album": "",
+"total": 17940935,
+"daily": 7354,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "The One You Know",
+"album": "",
+"total": 17752587,
+"daily": 4337,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Hate to Feel",
+"album": "",
+"total": 17285053,
+"daily": 7540,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Voices",
+"album": "",
+"total": 17036789,
+"daily": 4905,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Hollow",
+"album": "",
+"total": 16657020,
+"daily": 6958,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "I Can't Remember",
+"album": "",
+"total": 16399083,
+"daily": 9373,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Right Turn",
+"album": "",
+"total": 15708054,
+"daily": 7225,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Shame in You",
+"album": "",
+"total": 15206985,
+"daily": 8590,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Swing on This",
+"album": "",
+"total": 13365769,
+"daily": 7643,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Put You Down",
+"album": "",
+"total": 12390200,
+"daily": 6865,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "God Am",
+"album": "",
+"total": 12316246,
+"daily": 4925,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Brush Away",
+"album": "",
+"total": 11986132,
+"daily": 5919,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "I Know Somethin (Bout You)",
+"album": "",
+"total": 11534545,
+"daily": 6429,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Never Fade",
+"album": "",
+"total": 11368177,
+"daily": 2753,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Confusion",
+"album": "",
+"total": 11030171,
+"daily": 5804,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Frogs",
+"album": "",
+"total": 10726490,
+"daily": 6049,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Over Now",
+"album": "",
+"total": 10658306,
+"daily": 5612,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Real Thing",
+"album": "",
+"total": 10452344,
+"daily": 5380,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "A Looking in View",
+"album": "",
+"total": 9728627,
+"daily": 3629,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Rainier Fog",
+"album": "",
+"total": 9546506,
+"daily": 2870,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "All Secrets Known",
+"album": "",
+"total": 9262019,
+"daily": 4361,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Untitled",
+"album": "",
+"total": 9004299,
+"daily": 3312,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Head Creeps",
+"album": "",
+"total": 8659856,
+"daily": 4226,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Phantom Limb",
+"album": "",
+"total": 8512592,
+"daily": 5584,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "What the Hell Have I",
+"album": "",
+"total": 8504266,
+"daily": 4872,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "So Far Under",
+"album": "",
+"total": 8480669,
+"daily": 2518,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Get Born Again",
+"album": "",
+"total": 8458052,
+"daily": 3142,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "The Devil Put Dinosaurs Here",
+"album": "",
+"total": 8359440,
+"daily": 2912,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Am I Inside",
+"album": "",
+"total": 8175152,
+"daily": 3440,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Last of My Kind",
+"album": "",
+"total": 7086553,
+"daily": 1605,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Lesson Learned",
+"album": "",
+"total": 6789560,
+"daily": 2621,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Died",
+"album": "",
+"total": 6694137,
+"daily": 5000,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Pretty Done",
+"album": "",
+"total": 6506558,
+"daily": 1066,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Fly",
+"album": "",
+"total": 6231634,
+"daily": 3006,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Red Giant",
+"album": "",
+"total": 5954909,
+"daily": 1831,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Nothin' Song",
+"album": "",
+"total": 5538821,
+"daily": 2385,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "So Close",
+"album": "",
+"total": 5451226,
+"daily": 2378,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "When the Sun Rose Again",
+"album": "",
+"total": 4497752,
+"daily": 1330,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Private Hell",
+"album": "",
+"total": 4271212,
+"daily": 1428,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Acid Bubble",
+"album": "",
+"total": 4254979,
+"daily": 1321,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Choke",
+"album": "",
+"total": 4088121,
+"daily": 2448,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "All I Am",
+"album": "",
+"total": 4054367,
+"daily": 1514,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Breath on a Window",
+"album": "",
+"total": 3846112,
+"daily": 936,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Scalpel",
+"album": "",
+"total": 3778829,
+"daily": 806,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Take Her Out",
+"album": "",
+"total": 3770373,
+"daily": 1116,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Lab Monkey",
+"album": "",
+"total": 3743710,
+"daily": 763,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Drone",
+"album": "",
+"total": 3732861,
+"daily": 750,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Low Ceiling",
+"album": "",
+"total": 3732830,
+"daily": 875,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Maybe",
+"album": "",
+"total": 3639880,
+"daily": 1107,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Deaf Ears Blind Eyes",
+"album": "",
+"total": 3202309,
+"daily": 643,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Hung on a Hook",
+"album": "",
+"total": 2955449,
+"daily": 812,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Tears",
+"album": "",
+"total": 2652210,
+"daily": 560,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Fear the Voices",
+"album": "",
+"total": 1421818,
+"daily": 768,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Lying Season",
+"album": "",
+"total": 1148456,
+"daily": 694,
+"live": 0,
+"year": null
+},
+{
+"artist": "Alice in Chains",
+"song": "Iron Gland",
+"album": "",
+"total": 506833,
+"daily": 160,
+"live": 0,
+"year": null
 }
 ]
 }
