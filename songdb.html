@@ -65,6 +65,7 @@
   <div class="controls">
     <label>Artist <select id="artist"><option>(all)</option></select></label>
     <label>Category <select id="cat"><option>(all)</option></select></label>
+    <label>Status <select id="status"><option value="(all)">(all)</option><option value="live">✅ Live on CYC</option><option value="not">⬜ Not yet live</option></select></label>
     <input type="text" id="search" placeholder="search song&hellip;" style="flex:1;min-width:150px;max-width:260px">
     <label>Weighting <select id="wmode"><option value="auto">Auto (jam-aware)</option><option value="std">Standard 50/30/20</option><option value="jam">Jam 25/15/60</option><option value="bal">50/35/15</option><option value="s603010">60/30/10</option><option value="s60355">60/35/5</option></select></label>
     <button class="btn-sm" id="csv">&#11015; Export CSV</button>
@@ -143,8 +144,11 @@
     });
   }
   function val(r,k){var m={seed:r._seed,rs:r._rs,rd:r._rd,rl:r._rl,w:r._w,wrank:r._wrank,spread:r._spread,dvs:r._dvs,t64:(r._hasSeed&&r._seed<=64?1:0)};return (k in m)?m[k]:r[k];}
-  function filtered(){var a=$("artist").value,c=$("cat").value,q=$("search").value.trim().toLowerCase();
-    return DATA.filter(function(r){ if(c&&c!=="(all)"&&catFor(r.artist)!==c)return false; if(a&&a!=="(all)"&&r.artist!==a)return false;
+  // artists whose bracket is LIVE on crownyourchampion.com (matched to songdb artist names)
+  var LIVE={"Taylor Swift":1,"Beyoncé":1,"Lady Gaga":1,"Fleetwood Mac":1,"Queen":1,"The Who":1,"Eagles":1,"Tom Petty and the Heartbreakers":1,"Creedence Clearwater Revival":1,"Jimi Hendrix":1,"David Bowie":1,"U2":1,"Led Zeppelin":1,"Nirvana":1,"The Smashing Pumpkins":1,"Stone Temple Pilots":1,"Oasis":1,"Grateful Dead":1};
+  function isLive(a){return !!LIVE[a];}
+  function filtered(){var a=$("artist").value,c=$("cat").value,q=$("search").value.trim().toLowerCase(),st=($("status")?$("status").value:"(all)");
+    return DATA.filter(function(r){ if(st==="live"&&!isLive(r.artist))return false; if(st==="not"&&isLive(r.artist))return false; if(c&&c!=="(all)"&&catFor(r.artist)!==c)return false; if(a&&a!=="(all)"&&r.artist!==a)return false;
       if(q&&String(r.song||"").toLowerCase().indexOf(q)<0&&String(r.artist||"").toLowerCase().indexOf(q)<0)return false; return true;});}
   function render(){
     var rows=filtered().slice();
@@ -188,7 +192,7 @@
     var sel=$("artist");sel.innerHTML='<option>(all)</option>'+artsIn("(all)").map(function(a){return "<option>"+esc(a)+"</option>";}).join("");
     var csel=$("cat");csel.innerHTML='<option>(all)</option>'+cats().map(function(c){return "<option>"+esc(c)+"</option>";}).join("");
     csel.onchange=function(){var sv=$("artist");sv.innerHTML='<option>(all)</option>'+artsIn(this.value).map(function(a){return "<option>"+esc(a)+"</option>";}).join("");sv.value="(all)";render();};
-    sel.onchange=render;$("search").oninput=render;$("csv").onclick=csv;
+    sel.onchange=render;$("status").onchange=render;$("search").oninput=render;$("csv").onclick=csv;
     $("wmode").onchange=function(){WMODE=this.value;computeSeeds();render();};
     $("t").querySelector("tbody").addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".pb"); if(b)_onPb(b);});
     $("stArtists").textContent=arts().length;$("stSongs").textContent=DATA.length;
