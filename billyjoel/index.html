@@ -6030,15 +6030,16 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     if(u){ buyEl.href=u; buyEl.style.display=''; } else { buyEl.style.display='none'; }
     bar.classList.add('on'); }
   function hide(){ bar.classList.remove('on'); }
-  var iv=setInterval(function(){
-    if(window.cycPlayPreview && !window.__cycBuyWrapped){ window.__cycBuyWrapped=1; clearInterval(iv);
-      var orig=window.cycPlayPreview;
-      window.cycPlayPreview=function(name,btn,e){ try{orig(name,btn,e);}catch(err){}
-        setTimeout(function(){ var c=btn&&btn.classList;
-          if(c&&(c.contains('playing')||c.contains('loading'))) show(name); else hide(); },50); };
-    }
-  },200);
-  setInterval(function(){ if(bar.classList.contains('on') && !document.querySelector('.play-btn.playing,.play-btn.loading')) hide(); },700);
+  /* Watch actual playback state via the .playing class the engine toggles on every preview.
+     This catches EVERY surface identically — bracket-cell click, mobile long-press, and the
+     Best-Album tracklist — regardless of which internal function starts playback. Web + mobile. */
+  var lastNm=null;
+  setInterval(function(){
+    var pb=document.querySelector('.play-btn.playing')||document.querySelector('.play-btn.loading');
+    if(pb){ var al=pb.getAttribute('aria-label')||''; var nm=al.replace(/^Play (?:30 second )?preview of /i,'').trim();
+      if(nm && nm!==lastNm){ show(nm); lastNm=nm; } }
+    else if(lastNm){ hide(); lastNm=null; }
+  },300);
 })();
 </script>
 </body>
