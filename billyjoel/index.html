@@ -1623,6 +1623,13 @@
   .region-card::after { left: auto; right: 8px; transform: none; }
 }
 
+
+/* Apple compliance: now-previewing buy bar */
+#cycBuyBar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%) translateY(150%);z-index:9000;display:flex;align-items:center;gap:11px;max-width:94vw;background:rgba(10,12,20,.95);border:1px solid rgba(240,165,0,.55);border-radius:26px;padding:9px 10px 9px 15px;box-shadow:0 10px 30px rgba(0,0,0,.55);font-family:'Barlow Condensed',system-ui,sans-serif;opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s}
+#cycBuyBar.on{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+#cycBuyBar .cbb-att{color:#b8b3ab;font-size:10.5px;letter-spacing:.3px;white-space:nowrap}
+#cycBuyBar .cbb-now{color:#fff;font-weight:700;font-size:13px;max-width:36vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cycBuyBar .cbb-buy{flex:none;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font-weight:800;font-size:12.5px;text-decoration:none;padding:7px 13px;border-radius:20px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1888,7 +1895,7 @@
     <div class="credits-title">About this project</div>
     <div class="credits-line">Made by a fan, for fans — no affiliation, just love for the music, friends, and family.</div>
     <div class="credits-line">Not affiliated with or endorsed by Billy Joel.</div>
-    <div class="credits-line">Album artwork &amp; 30-sec previews via Apple Music.</div>
+    <div class="credits-line">Album artwork &amp; 30-second song previews provided courtesy of iTunes.</div>
     <div class="credits-line"><a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
 </footer>
 
@@ -6006,5 +6013,33 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 
+<script>
+/* Apple iTunes Search API compliance: proximate per-track purchase link + attribution.
+   Hooks window.cycPlayPreview (single choke point for every preview surface). One track at a time,
+   present exactly while a preview plays, cleared when playback stops or another starts. */
+(function(){
+  var BUY={};
+  fetch('buy-urls.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){BUY=j||{};}).catch(function(){});
+  var bar=document.createElement('div'); bar.id='cycBuyBar';
+  bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span><a class="cbb-buy" target="_blank" rel="noopener">Download on iTunes \u2197</a>';
+  function mount(){ if(!bar.parentNode && document.body) document.body.appendChild(bar); }
+  if(document.body) mount(); else document.addEventListener('DOMContentLoaded',mount);
+  var nowEl,buyEl;
+  function show(name){ nowEl=nowEl||bar.querySelector('.cbb-now'); buyEl=buyEl||bar.querySelector('.cbb-buy');
+    nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
+    if(u){ buyEl.href=u; buyEl.style.display=''; } else { buyEl.style.display='none'; }
+    bar.classList.add('on'); }
+  function hide(){ bar.classList.remove('on'); }
+  var iv=setInterval(function(){
+    if(window.cycPlayPreview && !window.__cycBuyWrapped){ window.__cycBuyWrapped=1; clearInterval(iv);
+      var orig=window.cycPlayPreview;
+      window.cycPlayPreview=function(name,btn,e){ try{orig(name,btn,e);}catch(err){}
+        setTimeout(function(){ var c=btn&&btn.classList;
+          if(c&&(c.contains('playing')||c.contains('loading'))) show(name); else hide(); },50); };
+    }
+  },200);
+  setInterval(function(){ if(bar.classList.contains('on') && !document.querySelector('.play-btn.playing,.play-btn.loading')) hide(); },700);
+})();
+</script>
 </body>
 </html>
