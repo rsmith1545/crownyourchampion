@@ -1570,6 +1570,27 @@
         @keyframes pvspin { to { transform: rotate(360deg); } }
         @keyframes pvshake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
 
+        /* ── Apple iTunes compliance: ACTIVE-ROW HIGHLIGHT ────────────────
+           The cell whose 30s preview is playing gets a clear gold active state.
+           Visually links the playing cell to the buy badge in the bottom bar
+           (proximity by association). Only one .play-btn is ever .playing, so
+           exactly one cell is active at a time. Pure CSS — reacts to the class
+           the preview engine already toggles; no JS, no layout change; clears
+           automatically when playback stops or another track starts. */
+        .slot:has(.play-btn.playing),
+        .slot:has(.play-btn.loading) {
+            background: rgba(240,165,0,0.16);
+            box-shadow: inset 0 0 0 2px var(--dmb-gold), 0 0 12px rgba(240,165,0,0.5);
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        /* if the active cell is also the selected (blue) winner, keep the gold ring readable */
+        .slot.winner:has(.play-btn.playing),
+        .slot.winner:has(.play-btn.loading) {
+            box-shadow: inset 0 0 0 2px var(--dmb-gold), 0 0 14px rgba(240,165,0,0.6);
+        }
+
         /* ── SITE FOOTER / CREDITS ──────────────────────────── */
         .site-footer {
             max-width: 900px; margin: 26px auto 44px; padding: 16px 18px 0;
