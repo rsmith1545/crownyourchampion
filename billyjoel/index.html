@@ -1653,7 +1653,7 @@
    holding the badge; the vote tap-target (title row) stays full-size above it. */
 .cbb-host{flex-wrap:wrap;padding-bottom:7px}
 .cbb-inline{flex:0 0 100%;order:99;margin-top:5px;text-decoration:none;line-height:0;cursor:pointer;animation:cbbIn .18s ease}
-.cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10.5px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.4px;white-space:nowrap}
+.cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;max-width:100%;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.3px;white-space:normal;text-align:center;overflow-wrap:break-word}
 .cbb-inline:hover::after{filter:brightness(1.06)}
 @keyframes cbbIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 </style>
