@@ -6078,7 +6078,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   setInterval(function(){
     var pb=document.querySelector('.play-btn.playing')||document.querySelector('.play-btn.loading');
     if(pb){ var al=pb.getAttribute('aria-label')||''; var nm=al.replace(/^Play (?:30 second )?preview of /i,'').trim();
-      if(nm && nm!==lastNm){ show(nm, (pb.closest?(pb.closest('.slot')||pb.closest('.fv-track')):null)); lastNm=nm; } }
+      if(nm && nm!==lastNm){ show(nm, (pb.closest?(pb.closest('.slot')||pb.closest('.final-slot')||pb.closest('.fv-track')):null)); lastNm=nm; } }
     else if(lastNm){ hide(); lastNm=null; }
   },300);
 })();
