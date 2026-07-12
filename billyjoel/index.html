@@ -1651,11 +1651,13 @@
 /* Apple compliance Part 2 — inline per-track buy badge on the ACTIVE cell.
    The playing cell expands (flex-wrap) to reveal a thin strip below the title
    holding the badge; the vote tap-target (title row) stays full-size above it. */
-.cbb-host{position:relative;flex-wrap:wrap;padding-bottom:7px;padding-right:30px}
-/* pin the play/pause control to the top-right so it stays in the SAME spot for any
-   title length (short or 2-line); title flows beside it, badge strip sits below */
-.cbb-host>.play-btn{position:absolute;top:7px;right:8px;margin:0;opacity:1}
-.cbb-inline{flex:0 0 100%;order:99;margin-top:5px;text-decoration:none;line-height:0;cursor:pointer;animation:cbbIn .18s ease}
+.cbb-host{flex-wrap:wrap;padding-bottom:7px}
+/* When a cell is previewing, its play/pause control drops into a bottom strip next to
+   the buy badge, leaving the title the full top row — clean at any title length, no
+   overlap, no floating button. */
+.cbb-strip{flex:0 0 100%;order:99;display:flex;align-items:center;gap:8px;margin-top:6px}
+.cbb-strip>.play-btn{position:static!important;margin:0!important;opacity:1!important;flex:0 0 auto}
+.cbb-inline{display:inline-block;min-width:0;line-height:0;text-decoration:none;cursor:pointer;animation:cbbIn .18s ease}
 .cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;max-width:100%;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.3px;white-space:normal;text-align:center;overflow-wrap:break-word}
 .cbb-inline:hover::after{filter:brightness(1.06)}
 @keyframes cbbIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
@@ -6061,11 +6063,13 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   if(document.readyState!=='loading') sanitize(); else document.addEventListener('DOMContentLoaded',sanitize);
   setTimeout(sanitize,1200);
   var nowEl,lastSlot=null;
+  var strip=document.createElement('div'); strip.className='cbb-strip';
+  strip.addEventListener('click',function(e){ e.stopPropagation(); }); /* strip taps never cast a vote */
   var inline=document.createElement('a'); inline.className='cbb-inline'; inline.target='_blank'; inline.rel='noopener';
   inline.setAttribute('aria-label','Download on iTunes'); /* label is drawn with CSS ::after so it is NOT a text node — the vote engine's innerText read of a cell can never capture it and leak it into a progression cell */
   inline.addEventListener('click',function(e){ e.stopPropagation(); }); /* opening iTunes must NOT cast a vote */
-  function detachInline(){ if(lastSlot){ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(inline.parentNode) inline.parentNode.removeChild(inline); }
-  function placeInline(url,slot){ detachInline(); inline.href=url; slot.appendChild(inline); slot.classList.add('cbb-host'); lastSlot=slot; }
+  function detachInline(){ if(lastSlot){ var pb=strip.querySelector('.play-btn'); if(pb) lastSlot.appendChild(pb); /* return the control to the cell */ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(strip.parentNode) strip.parentNode.removeChild(strip); }
+  function placeInline(url,host){ detachInline(); inline.href=url; var pb=host.querySelector('.play-btn'); if(pb) strip.appendChild(pb); strip.appendChild(inline); host.appendChild(strip); host.classList.add('cbb-host'); lastSlot=host; }
   function show(name,host){ nowEl=nowEl||bar.querySelector('.cbb-now');
     nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
     /* The buy badge is ALWAYS inline, directly below whichever cell is previewing —
