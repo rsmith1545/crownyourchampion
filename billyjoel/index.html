@@ -1651,7 +1651,7 @@
 /* Apple compliance Part 2 — inline per-track buy badge on the ACTIVE cell.
    The playing cell expands (flex-wrap) to reveal a thin strip below the title
    holding the badge; the vote tap-target (title row) stays full-size above it. */
-.slot.cbb-host{flex-wrap:wrap;padding-bottom:7px}
+.cbb-host{flex-wrap:wrap;padding-bottom:7px}
 .cbb-inline{flex:0 0 100%;order:99;margin-top:5px;text-decoration:none;line-height:0;cursor:pointer;animation:cbbIn .18s ease}
 .cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10.5px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.4px;white-space:nowrap}
 .cbb-inline:hover::after{filter:brightness(1.06)}
@@ -6047,7 +6047,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   var BUY={};
   fetch('buy-urls.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){BUY=j||{};}).catch(function(){});
   var bar=document.createElement('div'); bar.id='cycBuyBar';
-  bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span><a class="cbb-buy" target="_blank" rel="noopener">Download on iTunes \u2197</a>';
+  bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span>'; /* attribution + track name ONLY — the buy badge is NEVER in the bar */
   function mount(){ if(!bar.parentNode && document.body) document.body.appendChild(bar); }
   if(document.body) mount(); else document.addEventListener('DOMContentLoaded',mount);
   /* Scrub any badge text a previous build leaked into cells (via the old innerText path). */
@@ -6057,18 +6057,18 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
         n.nodeValue=n.nodeValue.replace(/\s*Download on iTunes\s*\u2197?/g,'').replace(/\s{2,}/g,' ').trim(); } } } }catch(e){} }
   if(document.readyState!=='loading') sanitize(); else document.addEventListener('DOMContentLoaded',sanitize);
   setTimeout(sanitize,1200);
-  var nowEl,buyEl,lastSlot=null;
+  var nowEl,lastSlot=null;
   var inline=document.createElement('a'); inline.className='cbb-inline'; inline.target='_blank'; inline.rel='noopener';
   inline.setAttribute('aria-label','Download on iTunes'); /* label is drawn with CSS ::after so it is NOT a text node — the vote engine's innerText read of a cell can never capture it and leak it into a progression cell */
   inline.addEventListener('click',function(e){ e.stopPropagation(); }); /* opening iTunes must NOT cast a vote */
   function detachInline(){ if(lastSlot){ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(inline.parentNode) inline.parentNode.removeChild(inline); }
   function placeInline(url,slot){ detachInline(); inline.href=url; slot.appendChild(inline); slot.classList.add('cbb-host'); lastSlot=slot; }
-  function show(name,slot){ nowEl=nowEl||bar.querySelector('.cbb-now'); buyEl=buyEl||bar.querySelector('.cbb-buy');
+  function show(name,host){ nowEl=nowEl||bar.querySelector('.cbb-now');
     nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
-    /* Exactly ONE buy badge on screen, placed PROXIMATE to the track: inline on the
-       bracket cell when we have one, else fall back to the bottom bar (e.g. tracklist). */
-    if(u&&slot&&!slot.classList.contains('adv')){ placeInline(u,slot); buyEl.style.display='none'; }
-    else { detachInline(); if(u){ buyEl.href=u; buyEl.style.display=''; } else { buyEl.style.display='none'; } }
+    /* The buy badge is ALWAYS inline, directly below whichever cell is previewing —
+       seed cell, advanced/matchup cell, or Best-Album tracklist row, identical behaviour.
+       It NEVER appears in the bottom bar; the bar carries attribution + track name only. */
+    if(u&&host){ placeInline(u,host); } else { detachInline(); }
     bar.classList.add('on'); }
   function hide(){ bar.classList.remove('on'); detachInline(); }
   /* Watch actual playback state via the .playing class the engine toggles on every preview.
@@ -6078,7 +6078,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   setInterval(function(){
     var pb=document.querySelector('.play-btn.playing')||document.querySelector('.play-btn.loading');
     if(pb){ var al=pb.getAttribute('aria-label')||''; var nm=al.replace(/^Play (?:30 second )?preview of /i,'').trim();
-      if(nm && nm!==lastNm){ show(nm, (pb.closest?pb.closest('.slot'):null)); lastNm=nm; } }
+      if(nm && nm!==lastNm){ show(nm, (pb.closest?(pb.closest('.slot')||pb.closest('.fv-track')):null)); lastNm=nm; } }
     else if(lastNm){ hide(); lastNm=null; }
   },300);
 })();
