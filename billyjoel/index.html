@@ -1577,18 +1577,15 @@
            exactly one cell is active at a time. Pure CSS — reacts to the class
            the preview engine already toggles; no JS, no layout change; clears
            automatically when playback stops or another track starts. */
+        /* GOLD (now playing) overrides BLUE (selected pick) via !important so the
+           two states never blend on one cell — they stay visually distinct. */
         .slot:has(.play-btn.playing),
         .slot:has(.play-btn.loading) {
-            background: rgba(240,165,0,0.16);
+            background: rgba(240,165,0,0.18) !important;
             box-shadow: inset 0 0 0 2px var(--dmb-gold), 0 0 12px rgba(240,165,0,0.5);
-            color: #fff;
+            color: #fff !important;
             position: relative;
             z-index: 2;
-        }
-        /* if the active cell is also the selected (blue) winner, keep the gold ring readable */
-        .slot.winner:has(.play-btn.playing),
-        .slot.winner:has(.play-btn.loading) {
-            box-shadow: inset 0 0 0 2px var(--dmb-gold), 0 0 14px rgba(240,165,0,0.6);
         }
 
         /* ── SITE FOOTER / CREDITS ──────────────────────────── */
@@ -1655,8 +1652,9 @@
    The playing cell expands (flex-wrap) to reveal a thin strip below the title
    holding the badge; the vote tap-target (title row) stays full-size above it. */
 .slot.cbb-host{flex-wrap:wrap;padding-bottom:7px}
-.cbb-inline{flex:0 0 100%;order:99;align-self:flex-start;width:max-content;max-width:100%;margin-top:5px;padding:3px 9px;font:800 10.5px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.4px;color:#231800;background:linear-gradient(180deg,#ffc23d,#f0a500);border-radius:14px;text-decoration:none;cursor:pointer;animation:cbbIn .18s ease}
-.cbb-inline:hover{filter:brightness(1.06)}
+.cbb-inline{flex:0 0 100%;order:99;margin-top:5px;text-decoration:none;line-height:0;cursor:pointer;animation:cbbIn .18s ease}
+.cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10.5px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.4px;white-space:nowrap}
+.cbb-inline:hover::after{filter:brightness(1.06)}
 @keyframes cbbIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -6052,9 +6050,16 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span><a class="cbb-buy" target="_blank" rel="noopener">Download on iTunes \u2197</a>';
   function mount(){ if(!bar.parentNode && document.body) document.body.appendChild(bar); }
   if(document.body) mount(); else document.addEventListener('DOMContentLoaded',mount);
+  /* Scrub any badge text a previous build leaked into cells (via the old innerText path). */
+  function sanitize(){ try{ var ns=document.querySelectorAll('.slot, .final-slot, #champion');
+    for(var i=0;i<ns.length;i++){ var cn=ns[i].childNodes; for(var k=0;k<cn.length;k++){ var n=cn[k];
+      if(n.nodeType===3 && n.nodeValue && n.nodeValue.indexOf('Download on iTunes')>-1){
+        n.nodeValue=n.nodeValue.replace(/\s*Download on iTunes\s*\u2197?/g,'').replace(/\s{2,}/g,' ').trim(); } } } }catch(e){} }
+  if(document.readyState!=='loading') sanitize(); else document.addEventListener('DOMContentLoaded',sanitize);
+  setTimeout(sanitize,1200);
   var nowEl,buyEl,lastSlot=null;
   var inline=document.createElement('a'); inline.className='cbb-inline'; inline.target='_blank'; inline.rel='noopener';
-  inline.textContent='Download on iTunes \u2197';
+  inline.setAttribute('aria-label','Download on iTunes'); /* label is drawn with CSS ::after so it is NOT a text node — the vote engine's innerText read of a cell can never capture it and leak it into a progression cell */
   inline.addEventListener('click',function(e){ e.stopPropagation(); }); /* opening iTunes must NOT cast a vote */
   function detachInline(){ if(lastSlot){ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(inline.parentNode) inline.parentNode.removeChild(inline); }
   function placeInline(url,slot){ detachInline(); inline.href=url; slot.appendChild(inline); slot.classList.add('cbb-host'); lastSlot=slot; }
@@ -6062,7 +6067,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
     /* Exactly ONE buy badge on screen, placed PROXIMATE to the track: inline on the
        bracket cell when we have one, else fall back to the bottom bar (e.g. tracklist). */
-    if(u&&slot){ placeInline(u,slot); buyEl.style.display='none'; }
+    if(u&&slot&&!slot.classList.contains('adv')){ placeInline(u,slot); buyEl.style.display='none'; }
     else { detachInline(); if(u){ buyEl.href=u; buyEl.style.display=''; } else { buyEl.style.display='none'; } }
     bar.classList.add('on'); }
   function hide(){ bar.classList.remove('on'); detachInline(); }
