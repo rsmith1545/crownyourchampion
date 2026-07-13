@@ -6024,49 +6024,92 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 </script>
 
 <script>
-/* Apple iTunes Search API compliance: proximate per-track purchase link + attribution.
-   Hooks window.cycPlayPreview (single choke point for every preview surface). One track at a time,
-   present exactly while a preview plays, cleared when playback stops or another starts. */
-(function(){
-  var BUY={};
-  fetch('buy-urls.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){BUY=j||{};}).catch(function(){});
-  var bar=document.createElement('div'); bar.id='cycBuyBar';
-  bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span>'; /* attribution + track name ONLY — the buy badge is NEVER in the bar */
-  function mount(){ if(!bar.parentNode && document.body) document.body.appendChild(bar); }
-  if(document.body) mount(); else document.addEventListener('DOMContentLoaded',mount);
-  /* Scrub any badge text a previous build leaked into cells (via the old innerText path). */
-  function sanitize(){ try{ var ns=document.querySelectorAll('.slot, .final-slot, #champion');
-    for(var i=0;i<ns.length;i++){ var cn=ns[i].childNodes; for(var k=0;k<cn.length;k++){ var n=cn[k];
-      if(n.nodeType===3 && n.nodeValue && n.nodeValue.indexOf('Download on iTunes')>-1){
-        n.nodeValue=n.nodeValue.replace(/\s*Download on iTunes\s*\u2197?/g,'').replace(/\s{2,}/g,' ').trim(); } } } }catch(e){} }
-  if(document.readyState!=='loading') sanitize(); else document.addEventListener('DOMContentLoaded',sanitize);
-  setTimeout(sanitize,1200);
-  var nowEl,lastSlot=null;
-  var strip=document.createElement('div'); strip.className='cbb-strip';
-  strip.addEventListener('click',function(e){ e.stopPropagation(); }); /* strip taps never cast a vote */
-  var inline=document.createElement('a'); inline.className='cbb-inline'; inline.target='_blank'; inline.rel='noopener';
-  inline.setAttribute('aria-label','Download on iTunes'); /* label is drawn with CSS ::after so it is NOT a text node — the vote engine's innerText read of a cell can never capture it and leak it into a progression cell */
-  inline.addEventListener('click',function(e){ e.stopPropagation(); }); /* opening iTunes must NOT cast a vote */
-  function detachInline(){ if(lastSlot){ var pb=strip.querySelector('.play-btn'); if(pb) lastSlot.appendChild(pb); /* return the control to the cell */ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(strip.parentNode) strip.parentNode.removeChild(strip); }
-  function placeInline(url,host){ detachInline(); inline.href=url; var pb=host.querySelector('.play-btn'); if(pb) strip.appendChild(pb); strip.appendChild(inline); host.appendChild(strip); host.classList.add('cbb-host'); lastSlot=host; }
-  function show(name,host){ nowEl=nowEl||bar.querySelector('.cbb-now');
-    nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
-    /* The buy badge is ALWAYS inline, directly below whichever cell is previewing —
-       seed cell, advanced/matchup cell, or Best-Album tracklist row, identical behaviour.
-       It NEVER appears in the bottom bar; the bar carries attribution + track name only. */
-    if(u&&host){ placeInline(u,host); } else { detachInline(); }
-    bar.classList.add('on'); }
-  function hide(){ bar.classList.remove('on'); detachInline(); }
-  /* Watch actual playback state via the .playing class the engine toggles on every preview.
-     This catches EVERY surface identically — bracket-cell click, mobile long-press, and the
-     Best-Album tracklist — regardless of which internal function starts playback. Web + mobile. */
-  var lastNm=null;
-  setInterval(function(){
-    var pb=document.querySelector('.play-btn.playing')||document.querySelector('.play-btn.loading');
-    if(pb){ var al=pb.getAttribute('aria-label')||''; var nm=al.replace(/^Play (?:30 second )?preview of /i,'').trim();
-      if(nm && nm!==lastNm){ show(nm, (pb.closest?(pb.closest('.slot')||pb.closest('.final-slot')||pb.closest('.fv-track')):null)); lastNm=nm; } }
-    else if(lastNm){ hide(); lastNm=null; }
-  },300);
+/* Apple iTunes Search API compliance: attribution + proximate per-track purchase link.
+   While a 30-second preview plays, show a bar naming the track, the required iTunes
+   attribution, and a "Download on iTunes" link to THAT track's purchase page.
+   Buy URLs come from buy-urls.json (baked, exact trackViewUrl). Anything missing from
+   that map is resolved on demand from the iTunes Search API and cached for the session.
+   Previews are streamed only — never downloaded, cached, or re-hosted. */
+(function () {
+    var ART_DEFAULT = 'Red Hot Chili Peppers';
+    var BUY = {};
+    fetch('buy-urls.json', { cache: 'force-cache' })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (j) { BUY = j || {}; })
+        .catch(function () { });
+
+    var CACHE = {};
+    function artistFor(n) {
+        if (window.NPQ_ARTIST && window.NPQ_ARTIST[n]) return window.NPQ_ARTIST[n];
+        try {
+            if (ART_DEFAULT === 'Dave Matthews Band' && typeof SOLO_SONGS !== 'undefined' && SOLO_SONGS[n]) return 'Dave Matthews';
+        } catch (e) { }
+        return ART_DEFAULT;
+    }
+    function lookupBuy(name, cb) {
+        if (Object.prototype.hasOwnProperty.call(CACHE, name)) return cb(CACHE[name]);
+        var a = artistFor(name);
+        var cbn = 'cbb_' + Math.random().toString(36).slice(2);
+        var s = document.createElement('script');
+        var done = false;
+        function cleanup() {
+            try { delete window[cbn]; } catch (e) { window[cbn] = undefined; }
+            if (s.parentNode) s.parentNode.removeChild(s);
+        }
+        window[cbn] = function (d) {
+            done = true;
+            var u = null;
+            try {
+                var rs = (d && d.results) || [], la = (a || '').toLowerCase();
+                for (var i = 0; i < rs.length; i++) {
+                    var r = rs[i];
+                    if (r.trackViewUrl && r.artistName && (!la || r.artistName.toLowerCase().indexOf(la) >= 0)) { u = r.trackViewUrl; break; }
+                }
+                if (!u && rs[0] && rs[0].trackViewUrl) u = rs[0].trackViewUrl;
+            } catch (e) { }
+            CACHE[name] = u; cleanup(); cb(u);
+        };
+        s.onerror = function () { if (!done) { CACHE[name] = null; cleanup(); cb(null); } };
+        setTimeout(function () { if (!done) { CACHE[name] = null; cleanup(); cb(null); } }, 8000);
+        s.src = 'https://itunes.apple.com/search?term=' + encodeURIComponent((a ? a + ' ' : '') + name) +
+            '&media=music&entity=song&limit=5&callback=' + cbn;
+        document.head.appendChild(s);
+    }
+
+    var bar = document.createElement('div');
+    bar.id = 'cycBuyBar';
+    bar.innerHTML = '<span class="cbb-att">Preview provided courtesy of iTunes</span>' +
+        '<span class="cbb-now"></span>' +
+        '<a class="cbb-buy" target="_blank" rel="noopener">Download on iTunes ↗</a>';
+    function mount() { if (!bar.parentNode && document.body) document.body.appendChild(bar); }
+    if (document.body) mount(); else document.addEventListener('DOMContentLoaded', mount);
+
+    var nowEl, buyEl, cur = null;
+    function setBuy(name, u) {
+        if (cur !== name) return;
+        if (u) { buyEl.href = u; buyEl.style.display = ''; } else { buyEl.style.display = 'none'; }
+    }
+    function show(name) {
+        nowEl = nowEl || bar.querySelector('.cbb-now');
+        buyEl = buyEl || bar.querySelector('.cbb-buy');
+        cur = name;
+        nowEl.textContent = '“' + name + '”';
+        buyEl.style.display = 'none';
+        var u = BUY[name];
+        if (u) setBuy(name, u); else lookupBuy(name, function (x) { setBuy(name, x); });
+        bar.classList.add('on');
+    }
+    function hide() { bar.classList.remove('on'); cur = null; }
+
+    var lastNm = null;
+    setInterval(function () {
+        var pb = document.querySelector('.play-btn.playing') || document.querySelector('.play-btn.loading');
+        if (pb) {
+            var al = pb.getAttribute('aria-label') || '';
+            var nm = al.replace(/^Play (?:30 second )?preview of /i, '').trim();
+            if (nm && nm !== lastNm) { show(nm); lastNm = nm; }
+        } else if (lastNm) { hide(); lastNm = null; }
+    }, 300);
 })();
 </script>
 </body>
