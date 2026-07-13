@@ -1623,6 +1623,25 @@
   .region-card::after { left: auto; right: 8px; transform: none; }
 }
 
+/* Apple compliance: now-previewing buy bar */
+#cycBuyBar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%) translateY(150%);z-index:9000;display:flex;align-items:center;gap:11px;max-width:94vw;background:rgba(10,12,20,.95);border:1px solid rgba(240,165,0,.55);border-radius:26px;padding:9px 10px 9px 15px;box-shadow:0 10px 30px rgba(0,0,0,.55);font-family:'Barlow Condensed',system-ui,sans-serif;opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s}
+#cycBuyBar.on{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+#cycBuyBar .cbb-att{color:#b8b3ab;font-size:10.5px;letter-spacing:.3px;white-space:nowrap}
+#cycBuyBar .cbb-now{color:#fff;font-weight:700;font-size:13px;max-width:36vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cycBuyBar .cbb-buy{flex:none;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font-weight:800;font-size:12.5px;text-decoration:none;padding:7px 13px;border-radius:20px;white-space:nowrap}
+/* Apple compliance Part 2 — inline per-track buy badge on the ACTIVE cell.
+   The playing cell expands (flex-wrap) to reveal a thin strip below the title
+   holding the badge; the vote tap-target (title row) stays full-size above it. */
+.cbb-host{flex-wrap:wrap;padding-bottom:7px}
+/* When a cell is previewing, its play/pause control drops into a bottom strip next to
+   the buy badge, leaving the title the full top row — clean at any title length, no
+   overlap, no floating button. */
+.cbb-strip{flex:0 0 100%;order:99;display:flex;align-items:center;gap:8px;margin-top:6px}
+.cbb-strip>.play-btn{position:static!important;margin:0!important;opacity:1!important;flex:0 0 auto}
+.cbb-inline{display:inline-block;min-width:0;line-height:0;text-decoration:none;cursor:pointer;animation:cbbIn .18s ease}
+.cbb-inline::after{content:"Download on iTunes \2197";display:inline-block;max-width:100%;padding:3px 9px;border-radius:14px;background:linear-gradient(180deg,#ffc23d,#f0a500);color:#231800;font:800 10px/1.15 'Barlow Condensed',system-ui,sans-serif;letter-spacing:.3px;white-space:normal;text-align:center;overflow-wrap:break-word}
+.cbb-inline:hover::after{filter:brightness(1.06)}
+@keyframes cbbIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -1887,7 +1906,7 @@
     <div class="credits-title">About this project</div>
     <div class="credits-line">Made by a fan, for fans — no affiliation, just love for the music, friends, and family.</div>
     <div class="credits-line">Not affiliated with or endorsed by Beyoncé.</div>
-    <div class="credits-line">Album artwork &amp; 30-sec previews via Apple Music.</div>
+    <div class="credits-line">Album artwork &amp; 30-second song previews provided courtesy of iTunes.</div>
     <div class="credits-line"><a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
 </footer>
 
@@ -6003,5 +6022,51 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 })();
 </script>
 
+<script>
+/* Apple iTunes Search API compliance: proximate per-track purchase link + attribution.
+   Hooks window.cycPlayPreview (single choke point for every preview surface). One track at a time,
+   present exactly while a preview plays, cleared when playback stops or another starts. */
+(function(){
+  var BUY={};
+  fetch('buy-urls.json',{cache:'force-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){BUY=j||{};}).catch(function(){});
+  var bar=document.createElement('div'); bar.id='cycBuyBar';
+  bar.innerHTML='<span class="cbb-att">Preview provided courtesy of iTunes</span><span class="cbb-now"></span>'; /* attribution + track name ONLY — the buy badge is NEVER in the bar */
+  function mount(){ if(!bar.parentNode && document.body) document.body.appendChild(bar); }
+  if(document.body) mount(); else document.addEventListener('DOMContentLoaded',mount);
+  /* Scrub any badge text a previous build leaked into cells (via the old innerText path). */
+  function sanitize(){ try{ var ns=document.querySelectorAll('.slot, .final-slot, #champion');
+    for(var i=0;i<ns.length;i++){ var cn=ns[i].childNodes; for(var k=0;k<cn.length;k++){ var n=cn[k];
+      if(n.nodeType===3 && n.nodeValue && n.nodeValue.indexOf('Download on iTunes')>-1){
+        n.nodeValue=n.nodeValue.replace(/\s*Download on iTunes\s*\u2197?/g,'').replace(/\s{2,}/g,' ').trim(); } } } }catch(e){} }
+  if(document.readyState!=='loading') sanitize(); else document.addEventListener('DOMContentLoaded',sanitize);
+  setTimeout(sanitize,1200);
+  var nowEl,lastSlot=null;
+  var strip=document.createElement('div'); strip.className='cbb-strip';
+  strip.addEventListener('click',function(e){ e.stopPropagation(); }); /* strip taps never cast a vote */
+  var inline=document.createElement('a'); inline.className='cbb-inline'; inline.target='_blank'; inline.rel='noopener';
+  inline.setAttribute('aria-label','Download on iTunes'); /* label is drawn with CSS ::after so it is NOT a text node — the vote engine's innerText read of a cell can never capture it and leak it into a progression cell */
+  inline.addEventListener('click',function(e){ e.stopPropagation(); }); /* opening iTunes must NOT cast a vote */
+  function detachInline(){ if(lastSlot){ var pb=strip.querySelector('.play-btn'); if(pb) lastSlot.appendChild(pb); /* return the control to the cell */ lastSlot.classList.remove('cbb-host'); lastSlot=null; } if(strip.parentNode) strip.parentNode.removeChild(strip); }
+  function placeInline(url,host){ detachInline(); inline.href=url; var pb=host.querySelector('.play-btn'); if(pb) strip.appendChild(pb); strip.appendChild(inline); host.appendChild(strip); host.classList.add('cbb-host'); lastSlot=host; }
+  function show(name,host){ nowEl=nowEl||bar.querySelector('.cbb-now');
+    nowEl.textContent='\u201C'+name+'\u201D'; var u=BUY[name];
+    /* The buy badge is ALWAYS inline, directly below whichever cell is previewing —
+       seed cell, advanced/matchup cell, or Best-Album tracklist row, identical behaviour.
+       It NEVER appears in the bottom bar; the bar carries attribution + track name only. */
+    if(u&&host){ placeInline(u,host); } else { detachInline(); }
+    bar.classList.add('on'); }
+  function hide(){ bar.classList.remove('on'); detachInline(); }
+  /* Watch actual playback state via the .playing class the engine toggles on every preview.
+     This catches EVERY surface identically — bracket-cell click, mobile long-press, and the
+     Best-Album tracklist — regardless of which internal function starts playback. Web + mobile. */
+  var lastNm=null;
+  setInterval(function(){
+    var pb=document.querySelector('.play-btn.playing')||document.querySelector('.play-btn.loading');
+    if(pb){ var al=pb.getAttribute('aria-label')||''; var nm=al.replace(/^Play (?:30 second )?preview of /i,'').trim();
+      if(nm && nm!==lastNm){ show(nm, (pb.closest?(pb.closest('.slot')||pb.closest('.final-slot')||pb.closest('.fv-track')):null)); lastNm=nm; } }
+    else if(lastNm){ hide(); lastNm=null; }
+  },300);
+})();
+</script>
 </body>
 </html>
