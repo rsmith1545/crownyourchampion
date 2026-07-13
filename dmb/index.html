@@ -6223,18 +6223,22 @@ updateProgress();
     /* Watch playback state via the .playing class the engine toggles on every preview.
        Catches every surface identically -- bracket-cell click, mobile long-press, and the
        Best-Album tracklist -- on web and mobile alike. */
-    var lastNm = null;
+    var lastPb = null;
     setInterval(function () {
         var pb = document.querySelector('.play-btn.playing') || document.querySelector('.play-btn.loading');
         if (pb) {
-            var al = pb.getAttribute('aria-label') || '';
-            var nm = al.replace(/^Play (?:30 second )?preview of /i, '').trim();
-            if (nm && nm !== lastNm) {
+            /* Key off the BUTTON, not the song name. The same song can appear in several cells
+               (a seed cell and the matchup cell it advanced into); keying off the name alone
+               meant re-previewing it in the next round left the badge parked on the old cell.
+               Note placeInline() moves this button into the strip, so its identity is stable
+               across ticks while one cell keeps playing. */
+            if (pb !== lastPb) {
+                var al = pb.getAttribute('aria-label') || '';
+                var nm = al.replace(/^Play (?:30 second )?preview of /i, '').trim();
                 var host = pb.closest ? (pb.closest('.slot') || pb.closest('.final-slot') || pb.closest('.fv-track')) : null;
-                show(nm, host);
-                lastNm = nm;
+                if (nm) { show(nm, host); lastPb = pb; }
             }
-        } else if (lastNm) { hide(); lastNm = null; }
+        } else if (lastPb) { hide(); lastPb = null; }
     }, 300);
 })();
 </script>
