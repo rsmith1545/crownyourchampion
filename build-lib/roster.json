@@ -2,166 +2,295 @@
  {
   "s": "foo",
   "n": "Foo Fighters",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#d4503f"
  },
  {
   "s": "greenday",
   "n": "Green Day",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#e8336d"
  },
  {
   "s": "metallica",
   "n": "Metallica",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#9aa3b2"
  },
  {
   "s": "nirvana",
   "n": "Nirvana",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#d9c02b"
  },
  {
   "s": "oasis",
   "n": "Oasis",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#3f8fd6"
  },
  {
   "s": "pearljam",
   "n": "Pearl Jam",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#2f9fa6"
  },
  {
   "s": "rhcp",
   "n": "Red Hot Chili Peppers",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#e2571e"
+ },
+ {
+  "s": "smashingpumpkins",
+  "n": "Smashing Pumpkins",
+  "c": "Alt & Hard Rock",
+  "ac": "#b0122a"
  },
  {
   "s": "stp",
   "n": "Stone Temple Pilots",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#6f8f3a"
  },
  {
   "s": "ate",
   "n": "The Airborne Toxic Event",
-  "c": "Alt & Hard Rock"
- },
- {
-  "s": "smashingpumpkins",
-  "n": "The Smashing Pumpkins",
-  "c": "Alt & Hard Rock"
+  "c": "Alt & Hard Rock",
+  "ac": "#7b2d3a"
  },
  {
   "s": "billyjoel",
   "n": "Billy Joel",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#6a4c93"
  },
  {
   "s": "bonjovi",
   "n": "Bon Jovi",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#b87333"
  },
  {
   "s": "springsteen",
   "n": "Bruce Springsteen",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#c0202a"
  },
  {
   "s": "ccr",
-  "n": "CCR",
-  "c": "Classic Rock"
+  "n": "Creedence Clearwater Revival",
+  "c": "Classic Rock",
+  "ac": "#2f9e4f"
  },
  {
   "s": "bowie",
   "n": "David Bowie",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#e23b6d"
  },
  {
   "s": "eagles",
   "n": "Eagles",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#b98b3a"
  },
  {
   "s": "fleetwoodmac",
   "n": "Fleetwood Mac",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#7a5cff"
  },
  {
   "s": "hendrix",
   "n": "Jimi Hendrix",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#8e33c0"
  },
  {
   "s": "ledzeppelin",
   "n": "Led Zeppelin",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#b5832b"
  },
  {
   "s": "queen",
   "n": "Queen",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#d4af37"
  },
  {
   "s": "beatles",
   "n": "The Beatles",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#f5c518"
  },
  {
   "s": "stones",
   "n": "The Rolling Stones",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#c41e7f"
  },
  {
   "s": "thewho",
   "n": "The Who",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#c8102e"
  },
  {
   "s": "tompetty",
   "n": "Tom Petty",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#5e3a96"
  },
  {
   "s": "u2",
   "n": "U2",
-  "c": "Classic Rock"
+  "c": "Classic Rock",
+  "ac": "#e0522a"
  },
  {
   "s": "dmb",
   "n": "Dave Matthews Band",
-  "c": "Folk · Jam · Singer-songwriter · Indie"
+  "c": "Folk · Jam · Singer-songwriter · Indie",
+  "ac": "#2563aa"
  },
  {
   "s": "fthc",
   "n": "Frank Turner",
-  "c": "Folk · Jam · Singer-songwriter · Indie"
+  "c": "Folk · Jam · Singer-songwriter · Indie",
+  "ac": "#6aa84f"
  },
  {
   "s": "gratefuldead",
   "n": "Grateful Dead",
-  "c": "Folk · Jam · Singer-songwriter · Indie"
+  "c": "Folk · Jam · Singer-songwriter · Indie",
+  "ac": "#e8336d"
+ },
+ {
+  "s": "eminem",
+  "n": "Eminem",
+  "c": "Hip-Hop & R&B",
+  "ac": "#8a8f98"
+ },
+ {
+  "s": "biggie",
+  "n": "Notorious B.I.G.",
+  "c": "Hip-Hop & R&B",
+  "ac": "#c9a227"
+ },
+ {
+  "s": "adele",
+  "n": "Adele",
+  "c": "Pop",
+  "ac": "#4a6fa5"
+ },
+ {
+  "s": "arianagrande",
+  "n": "Ariana Grande",
+  "c": "Pop",
+  "ac": "#b8a6c9"
  },
  {
   "s": "beyonce",
   "n": "Beyoncé",
-  "c": "Pop"
+  "c": "Pop",
+  "ac": "#c9a227"
+ },
+ {
+  "s": "billieeilish",
+  "n": "Billie Eilish",
+  "c": "Pop",
+  "ac": "#7ec850"
+ },
+ {
+  "s": "brunomars",
+  "n": "Bruno Mars",
+  "c": "Pop",
+  "ac": "#d4af37"
+ },
+ {
+  "s": "coldplay",
+  "n": "Coldplay",
+  "c": "Pop",
+  "ac": "#2f6fd0"
+ },
+ {
+  "s": "dualipa",
+  "n": "Dua Lipa",
+  "c": "Pop",
+  "ac": "#d94f8a"
+ },
+ {
+  "s": "edsheeran",
+  "n": "Ed Sheeran",
+  "c": "Pop",
+  "ac": "#e25822"
  },
  {
   "s": "harrystyles",
   "n": "Harry Styles",
-  "c": "Pop"
+  "c": "Pop",
+  "ac": "#e8567a"
+ },
+ {
+  "s": "justintimberlake",
+  "n": "Justin Timberlake",
+  "c": "Pop",
+  "ac": "#3f7fbf"
+ },
+ {
+  "s": "katyperry",
+  "n": "Katy Perry",
+  "c": "Pop",
+  "ac": "#ff5fa2"
  },
  {
   "s": "ladygaga",
   "n": "Lady Gaga",
-  "c": "Pop"
+  "c": "Pop",
+  "ac": "#e91e8c"
+ },
+ {
+  "s": "maroon5",
+  "n": "Maroon 5",
+  "c": "Pop",
+  "ac": "#8c1c2b"
  },
  {
   "s": "newpopqueens",
   "n": "New Pop Queens",
-  "c": "Pop"
+  "c": "Pop",
+  "ac": "#ff4fa3"
+ },
+ {
+  "s": "onedirection",
+  "n": "One Direction",
+  "c": "Pop",
+  "ac": "#1a7fc1"
+ },
+ {
+  "s": "postmalone",
+  "n": "Post Malone",
+  "c": "Pop",
+  "ac": "#5f8f6a"
+ },
+ {
+  "s": "rihanna",
+  "n": "Rihanna",
+  "c": "Pop",
+  "ac": "#b5122e"
+ },
+ {
+  "s": "selenagomez",
+  "n": "Selena Gomez",
+  "c": "Pop",
+  "ac": "#7a4fa3"
  },
  {
   "s": "taylorswift",
   "n": "Taylor Swift",
-  "c": "Pop"
+  "c": "Pop",
+  "ac": "#b57edc"
  }
 ]
