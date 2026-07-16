@@ -27,12 +27,30 @@ REGION_PREFIXES = tree.REGION_PREFIXES
 R1_ORDER = tree.R1_ORDERS[16]   # kept for any legacy caller; size-aware code uses tree.r1_order()
 
 
+# Quadrant strength rank -> DOM slot. The four region cards are emitted in DOM
+# order SP, WP, AL, DC, which renders as top-left, bottom-left, top-right,
+# bottom-right (AL/DC carry flex-direction:row-reverse -- see tree.ROW_STYLE).
+#
+# The v14 workbook's "Round 1 Logic" tab is the spec and is unambiguous:
+#     Region 1 = Top Left | Region 2 = Top Right | Region 3 = Bottom Left | Region 4 = Bottom Right
+# with overall seed 1->R1, 2->R2, 3->R3, 4->R4. So the #1 and #2 songs sit in
+# OPPOSITE halves and can only meet in the final. Every hand-built bracket
+# (ATE verified 63/63 against the sheet) already does this.
+#
+# The bug this fixes: quadrant k used to render into DOM slot k, which put the
+# #2 song bottom-left -- the same half as #1 -- so they collided in the SEMI.
+# Do NOT "fix" this by reordering REGION_PREFIXES: the emitter replaces the
+# ridx-th DOM block, so prefix and slot are coupled and that would render AL's
+# mirrored markup in the bottom-left slot.
+QUAD_TO_SLOT = (0, 2, 1, 3)   # R1->TL, R2->TR, R3->BL, R4->BR
+
+
 def scurve(overall):
     line = (overall - 1) // 4
     pos = (overall - 1) % 4
     region_seed = line + 1
-    region_idx = pos if line % 2 == 0 else 3 - pos
-    return region_idx, region_seed
+    quadrant = pos if line % 2 == 0 else 3 - pos
+    return QUAD_TO_SLOT[quadrant], region_seed
 
 
 def norm_title(t):
