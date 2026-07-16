@@ -427,22 +427,25 @@ def fix_round_col_spacing(text, size):
     and R2-3/R2-4 pairs). Pinning column one to flex-start breaks that alignment.
     Halving the row height keeps the same geometry at half scale.
 
-    Also lock the slot height: `min-height` is only a floor, so a two-line title
-    (e.g. "Music For a Sushi Restaurant") still grows its card and makes the row
-    heights uneven. The auto-fill modes -- My Concert especially -- drop in real
-    setlist titles of arbitrary length, so this has to hold regardless of content.
+    Slot height is deliberately NOT locked. An earlier version pinned
+    height/max-height to var(--slot-h) with overflow:hidden, reading "it
+    shouldn't change the height of each selection" as "never grow". That was
+    wrong twice over: the ask was for the same slot height as a 64 (which
+    --slot-h already gives), and the clip hid the "Download on iTunes" button,
+    an inline-block ::after on .cbb-inline that lives INSIDE the slot. The 64s
+    set only min-height -- a floor -- so the card grows to fit it. Match that;
+    a locked box and an in-flow button cannot both win.
     """
     if size >= 64:
         return text
     rows = 960 * size // 64          # 32 -> 480
-    text = re.sub(r'(\.bracket-row\s*\{[^}]*?height:\s*)960px', r'\g<1>%dpx' % rows, text, count=1)
+    text = re.sub(r'(\.bracket-row\s*\{[^}]*?height:\s*)960px', r'\g<1>%dpx' % rows,
+                  text, count=1)
     css = """
         /* --- %d-song bracket ------------------------------------------------
            Row height scaled to the matchup count; space-around still handles
-           feeder alignment. Slot height locked so long titles (auto-fill / My
-           Concert) can never change the tree geometry. */
-        .slot { height: var(--slot-h); min-height: var(--slot-h); max-height: var(--slot-h);
-                overflow: hidden; }
+           feeder alignment. Slot sizing inherited from the 64 (min-height only)
+           so the iTunes buy button can expand its card. */
         .slot > span.seed { flex: 0 0 auto; }
 """ % size
     return text.replace("</style>", css + "    </style>", 1)
@@ -548,8 +551,8 @@ def web_header_note(text):
         print("[build] WARNING: desktop tagline-hide rule not found"); ok = False
 
     css = ("  #cycWebTag .wt-note { display:block; font-family:'Barlow Condensed',sans-serif;"
-           " font-style:italic; font-size:12px; letter-spacing:.3px;"
-           " color:rgba(240,165,0,.72); margin-bottom:3px; }\n")
+           " font-style:italic; font-size:23px; letter-spacing:.5px; line-height:1.1;"
+           " color:rgba(240,165,0,.72); margin-bottom:1px; }\n")
     anchor = "  #cycWebTag { min-width:0;"
     i = text.find(anchor)
     if i >= 0:

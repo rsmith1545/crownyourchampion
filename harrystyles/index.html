@@ -1645,10 +1645,8 @@
 
         /* --- 32-song bracket ------------------------------------------------
            Row height scaled to the matchup count; space-around still handles
-           feeder alignment. Slot height locked so long titles (auto-fill / My
-           Concert) can never change the tree geometry. */
-        .slot { height: var(--slot-h); min-height: var(--slot-h); max-height: var(--slot-h);
-                overflow: hidden; }
+           feeder alignment. Slot sizing inherited from the 64 (min-height only)
+           so the iTunes buy button can expand its card. */
         .slot > span.seed { flex: 0 0 auto; }
     
         .subtitle-note {
@@ -5401,7 +5399,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:0 0 auto; min-width:0; }
-  #cycWebTag .wt-note { display:block; font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:12px; letter-spacing:.3px; color:rgba(240,165,0,.72); margin-bottom:3px; }
+  #cycWebTag .wt-note { display:block; font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; line-height:1.1; color:rgba(240,165,0,.72); margin-bottom:1px; }
   #cycWebTag { min-width:0; padding-bottom:24px; line-height:1.1; white-space:nowrap; margin-left:-12px; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
