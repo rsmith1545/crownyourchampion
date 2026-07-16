@@ -1,0 +1,116 @@
+{
+ "name": "Ed Sheeran",
+ "slug": "edsheeran",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Shape of You",
+  "Perfect",
+  "Thinking out Loud",
+  "The A Team",
+  "Photograph",
+  "Castle on the Hill",
+  "Bad Habits",
+  "Shivers",
+  "Galway Girl",
+  "South of the Border",
+  "Happier",
+  "Sing",
+  "Dive",
+  "Lego House",
+  "Don't",
+  "I See Fire",
+  "I Don't Care",
+  "Tenerife Sea",
+  "Give Me Love",
+  "Beautiful People",
+  "Eyes Closed",
+  "Afterglow",
+  "Bloodstream",
+  "Kiss Me",
+  "Supermarket Flowers",
+  "Cross Me",
+  "Azizam",
+  "Overpass Graffiti",
+  "I'm a Mess",
+  "Nancy Mulligan",
+  "New Man",
+  "How Would You Feel (Paean)",
+  "You Need Me, I Don't Need You",
+  "Sapphire",
+  "Celestial",
+  "Remember The Name",
+  "Drunk",
+  "Best Part of Me",
+  "One",
+  "Antisocial",
+  "Visiting Hours",
+  "All of the Stars",
+  "Take Me Back to London",
+  "Lay It All on Me",
+  "What Do I Know?",
+  "Barcelona",
+  "Small Bump",
+  "Save Myself",
+  "Eraser",
+  "Hearts Don't Break Around Here",
+  "2step",
+  "The Joker And The Queen",
+  "Nothing On You",
+  "Put It All on Me",
+  "Life Goes On",
+  "Afire Love",
+  "First Times",
+  "Take It Back",
+  "U.N.I.",
+  "Even My Dad Does Sometimes",
+  "Tides",
+  "Bibia Be Ye Ye",
+  "Wake Me Up",
+  "Grade 8"
+ ],
+ "albums": [
+  [
+   "+",
+   2011
+  ],
+  [
+   "x",
+   2014
+  ],
+  [
+   "÷",
+   2017
+  ],
+  [
+   "No.6 Collaborations Project",
+   2019
+  ],
+  [
+   "=",
+   2021
+  ],
+  [
+   "-",
+   2023
+  ],
+  [
+   "Autumn Variations",
+   2023
+  ],
+  [
+   "Play",
+   2025
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

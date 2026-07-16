@@ -1,0 +1,112 @@
+{
+ "name": "Ariana Grande",
+ "slug": "arianagrande",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "7 rings",
+  "thank u, next",
+  "Problem",
+  "no tears left to cry",
+  "Break Free",
+  "Rain On Me",
+  "Side To Side",
+  "positions",
+  "God is a woman",
+  "Into You",
+  "Dangerous Woman",
+  "34+35",
+  "Bang Bang",
+  "we can't be friends",
+  "One Last Time",
+  "Love Me Harder",
+  "The Way",
+  "break up with your girlfriend, i'm bored",
+  "needy",
+  "Stuck with U",
+  "boyfriend",
+  "yes, and?",
+  "Everyday",
+  "bloodline",
+  "the boy is mine",
+  "supernatural",
+  "pov",
+  "breathin",
+  "Let Me Love You",
+  "Focus",
+  "intro (end of the world)",
+  "motive",
+  "Almost Is Never Enough",
+  "imagine",
+  "Greedy",
+  "ghostin",
+  "eternal sunshine",
+  "safety net",
+  "Don't Call Me Angel",
+  "bad idea",
+  "everytime",
+  "just like magic",
+  "goodnight n go",
+  "Honeymoon Avenue",
+  "sweetener",
+  "in my head",
+  "Be Alright",
+  "NASA",
+  "bye",
+  "Best Mistake",
+  "nasty",
+  "Quit",
+  "Moonlight",
+  "Daydreamin'",
+  "Touch It",
+  "R.E.M",
+  "My Everything",
+  "don't wanna break up again",
+  "twilight zone",
+  "fake smile",
+  "i wish i hated you",
+  "imperfect for you",
+  "off the table",
+  "Thinking Bout You"
+ ],
+ "albums": [
+  [
+   "Yours Truly",
+   2013
+  ],
+  [
+   "My Everything",
+   2014
+  ],
+  [
+   "Dangerous Woman",
+   2016
+  ],
+  [
+   "Sweetener",
+   2018
+  ],
+  [
+   "Thank U, Next",
+   2019
+  ],
+  [
+   "Positions",
+   2020
+  ],
+  [
+   "Eternal Sunshine",
+   2024
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

@@ -1,0 +1,108 @@
+{
+ "name": "Post Malone",
+ "slug": "postmalone",
+ "category": "Hip-Hop & R&B",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Circles",
+  "rockstar",
+  "Sunflower",
+  "Congratulations",
+  "Better Now",
+  "I Had Some Help",
+  "Wow.",
+  "Psycho",
+  "White Iverson",
+  "Goodbyes",
+  "I Fall Apart",
+  "Take What You Want",
+  "I Like You (A Happier Song)",
+  "Chemical",
+  "Go Flex",
+  "One Right Now",
+  "Hollywood's Bleeding",
+  "Jackie Chan",
+  "Pour Me A Drink",
+  "Stay",
+  "Guy For That",
+  "Feeling Whitney",
+  "Motley Crew",
+  "Saint-Tropez",
+  "Cooped Up",
+  "Wrong Ones",
+  "Deja Vu",
+  "Enemies",
+  "Die For Me",
+  "Over Now",
+  "Ball For Me",
+  "Candy Paint",
+  "92 Explorer",
+  "Rich & Sad",
+  "Losers",
+  "Wolves",
+  "On The Road",
+  "I Ain't Comin' Back",
+  "No Option",
+  "Mourning",
+  "Livin It Up",
+  "California Sober",
+  "Spoil My Night",
+  "Too Young",
+  "A Thousand Bad Times",
+  "Staring At The Sun",
+  "Writing on the Wall",
+  "Nosedive",
+  "I'm Gonna Be",
+  "Wrapped Around Your Finger",
+  "Overdrive",
+  "Same Bitches",
+  "Sugar Wraith",
+  "Zack And Codeine",
+  "Patient",
+  "Big Lie",
+  "Up There",
+  "Enough Is Enough",
+  "Takin' Shots",
+  "Blame It On Me",
+  "I DID IT",
+  "Otherside",
+  "Paranoid",
+  "Waiting For Never"
+ ],
+ "albums": [
+  [
+   "Stoney",
+   2016
+  ],
+  [
+   "beerbongs & bentleys",
+   2018
+  ],
+  [
+   "Hollywood's Bleeding",
+   2019
+  ],
+  [
+   "Twelve Carat Toothache",
+   2022
+  ],
+  [
+   "Austin",
+   2023
+  ],
+  [
+   "F-1 Trillion",
+   2024
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

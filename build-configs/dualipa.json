@@ -1,0 +1,65 @@
+{
+ "name": "Dua Lipa",
+ "slug": "dualipa",
+ "category": "Pop",
+ "size": 32,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Don't Start Now",
+  "Levitating",
+  "New Rules",
+  "One Kiss",
+  "IDGAF",
+  "Physical",
+  "Break My Heart",
+  "Cold Heart",
+  "Dance The Night",
+  "Be the One",
+  "Scared to Be Lonely",
+  "Blow Your Mind",
+  "Love Again",
+  "Houdini",
+  "Electricity",
+  "Hotter Than Hell",
+  "Prisoner",
+  "Un Día",
+  "Training Season",
+  "Hallucinate",
+  "Kiss and Make Up",
+  "Future Nostalgia",
+  "We're Good",
+  "Fever",
+  "Sweetest Pie",
+  "Illusion",
+  "Pretty Please",
+  "Cool",
+  "Lost In Your Light",
+  "Homesick",
+  "Swan Song",
+  "These Walls"
+ ],
+ "albums": [
+  [
+   "Dua Lipa",
+   2017
+  ],
+  [
+   "Future Nostalgia",
+   2020
+  ],
+  [
+   "Radical Optimism",
+   2024
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "size_note": "Not enough songs for 64… yet"
+}

@@ -1,0 +1,73 @@
+{
+ "name": "Bruno Mars",
+ "slug": "brunomars",
+ "category": "Pop",
+ "size": 32,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Just the Way You Are",
+  "That's What I Like",
+  "Uptown Funk",
+  "Locked out of Heaven",
+  "24K Magic",
+  "When I Was Your Man",
+  "Grenade",
+  "nothin' on you",
+  "Die With A Smile",
+  "Leave The Door Open",
+  "APT.",
+  "Marry You",
+  "Treasure",
+  "The Lazy Song",
+  "Talking to the Moon",
+  "It Will Rain",
+  "Billionaire",
+  "Finesse",
+  "Count on Me",
+  "Versace on the Floor",
+  "Please Me",
+  "Lighters",
+  "Runaway Baby",
+  "Mirror",
+  "Smokin Out The Window",
+  "Young Girls",
+  "Gorilla",
+  "Chunky",
+  "Skate",
+  "Too Good to Say Goodbye",
+  "Risk It All",
+  "I Just Might"
+ ],
+ "albums": [
+  [
+   "Doo-Wops & Hooligans",
+   2010
+  ],
+  [
+   "Unorthodox Jukebox",
+   2012
+  ],
+  [
+   "24K Magic",
+   2016
+  ],
+  [
+   "The Romantic",
+   2024
+  ],
+  [
+   "An Evening with Silk Sonic",
+   2021
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "size_note": "Not enough songs for 64… yet"
+}

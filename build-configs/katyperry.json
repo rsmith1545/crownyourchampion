@@ -1,0 +1,112 @@
+{
+ "name": "Katy Perry",
+ "slug": "katyperry",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Firework",
+  "Roar",
+  "Teenage Dream",
+  "California Gurls",
+  "Dark Horse",
+  "Last Friday Night (T.G.I.F.)",
+  "I Kissed A Girl",
+  "Hot N Cold",
+  "E.T.",
+  "The One That Got Away",
+  "Part Of Me",
+  "Wide Awake",
+  "Unconditionally",
+  "Waking Up In Vegas",
+  "Thinking Of You",
+  "Never Really Over",
+  "This Is How We Do",
+  "Chained To The Rhythm",
+  "Bon Appétit",
+  "Birthday",
+  "Swish Swish",
+  "Daisies",
+  "Rise",
+  "Smile",
+  "Legendary Lovers",
+  "Ur So Gay",
+  "Peacock",
+  "Harleys In Hawaii",
+  "Small Talk",
+  "Walking On Air",
+  "Never Worn White",
+  "Cry About It Later",
+  "I'M HIS, HE'S MINE",
+  "Hummingbird Heartbeat",
+  "Not Like The Movies",
+  "Circle The Drain",
+  "Who Am I Living For?",
+  "International Smile",
+  "LIFETIMES",
+  "WOMAN'S WORLD",
+  "When I'm Gone",
+  "By The Grace Of God",
+  "Not the End of the World",
+  "One Of The Boys",
+  "Ghost",
+  "Love Me",
+  "This Moment",
+  "Hey Hey Hey",
+  "Double Rainbow",
+  "Witness",
+  "365",
+  "Electric",
+  "Pearl",
+  "Roulette",
+  "Tucked",
+  "bandaids",
+  "Déjà Vu",
+  "It Takes Two",
+  "GORGEOUS",
+  "CRUSH",
+  "WONDER",
+  "ALL THE LOVE",
+  "Watch It Burn",
+  "If You Can Afford Me"
+ ],
+ "albums": [
+  [
+   "One of the Boys",
+   2008
+  ],
+  [
+   "Teenage Dream",
+   2010
+  ],
+  [
+   "Teenage Dream: The Complete Confection",
+   2012
+  ],
+  [
+   "Prism",
+   2013
+  ],
+  [
+   "Witness",
+   2017
+  ],
+  [
+   "Smile",
+   2020
+  ],
+  [
+   "143",
+   2024
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

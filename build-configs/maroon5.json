@@ -1,0 +1,120 @@
+{
+ "name": "Maroon 5",
+ "slug": "maroon5",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "This Love",
+  "Moves Like Jagger",
+  "Sugar",
+  "Girls Like You (feat. Cardi B)",
+  "She Will Be Loved",
+  "Payphone",
+  "Memories",
+  "Harder To Breathe",
+  "Animals",
+  "Maps",
+  "One More Night",
+  "Sunday Morning",
+  "Stereo Hearts",
+  "Locked Away",
+  "Makes Me Wonder",
+  "Won't Go Home Without You",
+  "Daylight",
+  "Wake Up Call",
+  "Misery",
+  "What Lovers Do (feat. SZA)",
+  "Don't Wanna Know (feat. Kendrick Lamar)",
+  "Love Somebody",
+  "Cold (feat. Future)",
+  "Never Gonna Leave This Bed",
+  "Beautiful Mistakes (feat. Megan Thee Stallion)",
+  "Wait",
+  "Lucky Strike",
+  "Nobody's Love",
+  "Sweetest Goodbye",
+  "If I Never See Your Face Again",
+  "Goodnight Goodnight",
+  "Beautiful Goodbye",
+  "It Was Always You",
+  "Lost",
+  "Just A Feeling",
+  "Must Get Out",
+  "This Summer",
+  "Shiver",
+  "Secret",
+  "The Sun",
+  "Priceless (feat. LISA)",
+  "Feelings",
+  "Unkiss Me",
+  "Lips On You",
+  "Nothing Lasts Forever",
+  "Tangled",
+  "Help Me Out (with Julia Michaels)",
+  "In Your Pocket",
+  "Can't Leave You Alone (feat. Juice WRLD)",
+  "Sad",
+  "My Heart Is Open",
+  "Give A Little More",
+  "Coming Back For You",
+  "The Man Who Never Lied",
+  "Leaving California",
+  "Echo (feat. blackbear)",
+  "Whiskey (feat. A$AP Rocky)",
+  "New Love",
+  "I Can't Lie",
+  "Best 4 U",
+  "Wipe Your Eyes",
+  "All Night",
+  "Stutter",
+  "Who I Am (feat. LunchMoney Lewis)"
+ ],
+ "albums": [
+  [
+   "Songs About Jane",
+   2002
+  ],
+  [
+   "It Won't Be Soon Before Long",
+   2007
+  ],
+  [
+   "Hands All Over",
+   2010
+  ],
+  [
+   "Overexposed",
+   2012
+  ],
+  [
+   "V",
+   2014
+  ],
+  [
+   "Red Pill Blues",
+   2017
+  ],
+  [
+   "Jordi",
+   2021
+  ],
+  [
+   "Love Is Like",
+   2025
+  ],
+  [
+   "The B-Side Collection",
+   2007
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

@@ -1,0 +1,69 @@
+{
+ "name": "Adele",
+ "slug": "adele",
+ "category": "Pop",
+ "size": 32,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Someone Like You",
+  "Easy On Me",
+  "Set Fire to the Rain",
+  "Rolling in the Deep",
+  "Skyfall",
+  "When We Were Young",
+  "Hello",
+  "Send My Love (To Your New Lover)",
+  "Love In The Dark",
+  "Make You Feel My Love",
+  "Chasing Pavements",
+  "All I Ask",
+  "Water Under the Bridge",
+  "Hometown Glory",
+  "Oh My God",
+  "Rumour Has It",
+  "Turning Tables",
+  "Don't You Remember",
+  "I Drink Wine",
+  "Lovesong",
+  "One And Only",
+  "Remedy",
+  "Million Years Ago",
+  "Can I Get It",
+  "I Miss You",
+  "Daydreamer",
+  "To Be Loved",
+  "My Little Love",
+  "River Lea",
+  "He Won't Go",
+  "Hold On",
+  "Take It All"
+ ],
+ "albums": [
+  [
+   "19",
+   2008
+  ],
+  [
+   "21",
+   2011
+  ],
+  [
+   "25",
+   2015
+  ],
+  [
+   "30",
+   2021
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "size_note": "Not enough songs for 64… yet"
+}

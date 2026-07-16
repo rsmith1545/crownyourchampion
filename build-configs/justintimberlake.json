@@ -1,0 +1,120 @@
+{
+ "name": "Justin Timberlake",
+ "slug": "justintimberlake",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "SexyBack",
+  "Cry Me a River",
+  "CAN'T STOP THE FEELING!",
+  "Rock Your Body",
+  "Mirrors",
+  "My Love",
+  "What Goes Around.../...Comes Around",
+  "Suit & Tie",
+  "Señorita",
+  "Like I Love You",
+  "Summer Love",
+  "Say Something",
+  "Holy Grail",
+  "Dead and Gone",
+  "Ayo Technology",
+  "4 Minutes",
+  "Carry Out",
+  "Signs",
+  "Selfish",
+  "LoveStoned / I Think She Knows",
+  "The Other Side",
+  "Until The End Of Time (with Beyoncé)",
+  "TKO",
+  "Not a Bad Thing",
+  "Filthy",
+  "Tunnel Vision",
+  "Take Back the Night",
+  "Drink You Away",
+  "Pusher Love Girl",
+  "Bounce",
+  "Sexy Ladies",
+  "That Girl",
+  "Don't Slack",
+  "Chop Me Up",
+  "FutureSex / LoveSound",
+  "Dick In A Box",
+  "Winner",
+  "Morning Light",
+  "Strawberry Bubblegum",
+  "Supplies",
+  "Man of the Woods",
+  "Motherlover",
+  "Don't Hold the Wall",
+  "Losing My Way",
+  "Let the Groove Get In",
+  "Last Night",
+  "Sin Fin",
+  "Blue Ocean Floor",
+  "Believe",
+  "SoulMate",
+  "Spaceship Coupe",
+  "Cabaret",
+  "Higher Higher",
+  "Damn Girl",
+  "(Oh No) What You Got",
+  "Parent Trap",
+  "Amnesia",
+  "Take It From Here",
+  "Paradise",
+  "Set the Mood Prelude / Until the End of Time",
+  "Murder",
+  "3-Way (The Golden Rule)",
+  "Breeze Off the Pond",
+  "Midnight Summer Jam"
+ ],
+ "albums": [
+  [
+   "Justified",
+   2002
+  ],
+  [
+   "FutureSex/LoveSounds",
+   2006
+  ],
+  [
+   "The 20/20 Experience",
+   2013
+  ],
+  [
+   "The 20/20 Experience - 2 of 2",
+   2013
+  ],
+  [
+   "TROLLS",
+   2016
+  ],
+  [
+   "Man of the Woods",
+   2018
+  ],
+  [
+   "TROLLS World Tour",
+   2020
+  ],
+  [
+   "Trolls Band Together",
+   2023
+  ],
+  [
+   "Everything I Thought It Was",
+   2024
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

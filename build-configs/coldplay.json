@@ -1,0 +1,128 @@
+{
+ "name": "Coldplay",
+ "slug": "coldplay",
+ "category": "Alt & Grunge",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Yellow",
+  "Viva La Vida",
+  "Clocks",
+  "Fix You",
+  "The Scientist",
+  "A Sky Full of Stars",
+  "In My Place",
+  "Paradise",
+  "Adventure of a Lifetime",
+  "Hymn for the Weekend",
+  "Something Just Like This",
+  "Speed of Sound",
+  "Trouble",
+  "Every Teardrop Is a Waterfall",
+  "My Universe",
+  "Magic",
+  "Don't Panic",
+  "The Hardest Part",
+  "God Put a Smile upon Your Face",
+  "Politik",
+  "Violet Hill",
+  "Charlie Brown",
+  "Princess of China",
+  "Shiver",
+  "Higher Power",
+  "Talk",
+  "Lost!",
+  "Green Eyes",
+  "Warning Sign",
+  "A Rush of Blood to the Head",
+  "Sparks",
+  "Everglow",
+  "Up&Up",
+  "Life in Technicolor ii",
+  "A Message",
+  "Strawberry Swing",
+  "Always in My Head",
+  "A Head Full of Dreams",
+  "Til Kingdom Come",
+  "Spies",
+  "Lovers in Japan / Reign of Love",
+  "Hurts Like Heaven",
+  "Midnight",
+  "Everyday Life",
+  "Orphans",
+  "feelslikeimfallinginlove",
+  "High Speed",
+  "Amazing Day",
+  "Let Somebody Go",
+  "Coloratura",
+  "Birds",
+  "Ink",
+  "We Never Change",
+  "O",
+  "WE PRAY",
+  "True Love",
+  "Miracles (Someone Special)",
+  "Biutyful",
+  "See You Soon",
+  "Fun",
+  "Champion Of The World",
+  "Army of One",
+  "ALL MY LOVE",
+  "GOOD FEELiNGS"
+ ],
+ "albums": [
+  [
+   "Parachutes",
+   2000
+  ],
+  [
+   "A Rush of Blood to the Head",
+   2002
+  ],
+  [
+   "X&Y",
+   2005
+  ],
+  [
+   "Viva la Vida or Death and All His Friends",
+   2008
+  ],
+  [
+   "Mylo Xyloto",
+   2011
+  ],
+  [
+   "Ghost Stories",
+   2014
+  ],
+  [
+   "A Head Full of Dreams",
+   2015
+  ],
+  [
+   "Everyday Life",
+   2019
+  ],
+  [
+   "Music of the Spheres",
+   2021
+  ],
+  [
+   "Moon Music",
+   2024
+  ],
+  [
+   "The Blue Room",
+   1999
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}

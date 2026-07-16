@@ -1,0 +1,144 @@
+{
+ "name": "Rihanna",
+ "slug": "rihanna",
+ "category": "Pop",
+ "size": 64,
+ "regions": [
+  "Region One",
+  "Region Two",
+  "Region Three",
+  "Region Four"
+ ],
+ "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
+ "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "songs": [
+  "Umbrella",
+  "Diamonds",
+  "We Found Love",
+  "Only Girl (In The World)",
+  "Don't Stop The Music",
+  "Work",
+  "Rude Boy",
+  "Disturbia",
+  "Take A Bow",
+  "Unfaithful",
+  "Stay",
+  "Needed Me",
+  "S&M",
+  "Love On The Brain",
+  "Pon de Replay",
+  "SOS",
+  "What's My Name?",
+  "This Is What You Came For",
+  "Love The Way You Lie",
+  "Where Have You Been",
+  "Man Down",
+  "Bitch Better Have My Money",
+  "Wild Thoughts",
+  "Shut Up And Drive",
+  "FourFiveSeconds",
+  "Hate That I Love You",
+  "Run This Town",
+  "Kiss It Better",
+  "Live Your Life",
+  "The Monster",
+  "Take Care",
+  "California King Bed",
+  "Te Amo",
+  "Russian Roulette",
+  "Breakin' Dishes",
+  "Pour It Up",
+  "Lift Me Up",
+  "Rehab",
+  "You Da One",
+  "Talk That Talk",
+  "Cheers (Drink To That)",
+  "Loveeeeeee Song",
+  "Desperado",
+  "If It's Lovin' That You Want",
+  "Hard",
+  "Consideration",
+  "What Now",
+  "Princess of China",
+  "Birthday Cake",
+  "Sex With Me",
+  "Nobody's Business",
+  "Same Ol' Mistakes",
+  "Cockiness (Love It)",
+  "Right Now",
+  "Woo",
+  "American Oxygen",
+  "Yeah, I Said It",
+  "Numb",
+  "Higher",
+  "Skin",
+  "James Joint",
+  "Close To You",
+  "We Ride",
+  "Who's That Chick?"
+ ],
+ "albums": [
+  [
+   "Music of the Sun",
+   2005
+  ],
+  [
+   "A Girl Like Me",
+   2006
+  ],
+  [
+   "Good Girl Gone Bad",
+   2007
+  ],
+  [
+   "Good Girl Gone Bad: Reloaded",
+   2008
+  ],
+  [
+   "Rated R",
+   2009
+  ],
+  [
+   "Loud",
+   2010
+  ],
+  [
+   "Talk That Talk",
+   2011
+  ],
+  [
+   "Unapologetic",
+   2012
+  ],
+  [
+   "Anti",
+   2016
+  ],
+  [
+   "FourFiveSeconds",
+   2015
+  ],
+  [
+   "Bitch Better Have My Money",
+   2015
+  ],
+  [
+   "American Oxygen",
+   2015
+  ],
+  [
+   "Home (Soundtrack)",
+   2015
+  ],
+  [
+   "S&M Remix",
+   2011
+  ],
+  [
+   "Lift Me Up",
+   2022
+  ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+}
