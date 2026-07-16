@@ -140,5 +140,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Umbrella": {
+   "total": 2297049863,
+   "daily": 1084474
+  },
+  "Diamonds": {
+   "total": 1978721803,
+   "daily": 647537
+  },
+  "We Found Love": {
+   "total": 2571513036,
+   "daily": 1102984
+  },
+  "Only Girl (In The World)": {
+   "total": 1923134715,
+   "daily": 1156647
+  },
+  "Don't Stop The Music": {
+   "total": 1771800046,
+   "daily": 1443446
+  },
+  "Work": {
+   "total": 1725448406,
+   "daily": 424679
+  },
+  "Rude Boy": {
+   "total": 884187706,
+   "daily": 361529
+  },
+  "Disturbia": {
+   "total": 1122432159,
+   "daily": 597958
+  },
+  "Take A Bow": {
+   "total": 988889052,
+   "daily": 277070
+  },
+  "Unfaithful": {
+   "total": 459210160,
+   "daily": 114953
+  },
+  "Stay": {
+   "total": 1981430268,
+   "daily": 598784
+  },
+  "Needed Me": {
+   "total": 1946349171,
+   "daily": 441561
+  },
+  "S&M": {
+   "total": 1760682079,
+   "daily": 1112061
+  },
+  "Love On The Brain": {
+   "total": 2233688000,
+   "daily": 803145
+  },
+  "Pon de Replay": {
+   "total": 1102051171,
+   "daily": 430792
+  },
+  "SOS": {
+   "total": 670949405,
+   "daily": 334198
+  },
+  "What's My Name?": {
+   "total": 801254177,
+   "daily": 414053
+  },
+  "This Is What You Came For": {
+   "total": 2320863447,
+   "daily": 825825
+  },
+  "Love The Way You Lie": {
+   "total": 2285278403,
+   "daily": 1470212
+  },
+  "Where Have You Been": {
+   "total": 1233336235,
+   "daily": 815826
+  },
+  "Man Down": {
+   "total": 520769430,
+   "daily": 190588
+  },
+  "Bitch Better Have My Money": {
+   "total": 1004269958,
+   "daily": 177147
+  },
+  "Wild Thoughts": {
+   "total": 1411412163,
+   "daily": 336995
+  },
+  "Shut Up And Drive": {
+   "total": 506594370,
+   "daily": 307961
+  },
+  "FourFiveSeconds": {
+   "total": 1375341304,
+   "daily": 229927
+  },
+  "Hate That I Love You": {
+   "total": 528551505,
+   "daily": 186409
+  },
+  "Run This Town": {
+   "total": 795605174,
+   "daily": 362520
+  },
+  "Kiss It Better": {
+   "total": 1014428127,
+   "daily": 974412
+  },
+  "Live Your Life": {
+   "total": 746570889,
+   "daily": 436635
+  },
+  "The Monster": {
+   "total": 1455953018,
+   "daily": 805403
+  },
+  "Take Care": {
+   "total": 829812740,
+   "daily": 231291
+  },
+  "California King Bed": {
+   "total": 377825271,
+   "daily": 135236
+  },
+  "Te Amo": {
+   "total": 275532322,
+   "daily": 106883
+  },
+  "Russian Roulette": {
+   "total": 226361977,
+   "daily": 57690
+  },
+  "Breakin' Dishes": {
+   "total": 975621851,
+   "daily": 761356
+  },
+  "Pour It Up": {
+   "total": 576689333,
+   "daily": 223820
+  },
+  "Lift Me Up": {
+   "total": 475646833,
+   "daily": 92763
+  },
+  "Rehab": {
+   "total": 329588216,
+   "daily": 137028
+  },
+  "You Da One": {
+   "total": 514728906,
+   "daily": 250872
+  },
+  "Talk That Talk": {
+   "total": 291878412,
+   "daily": 132631
+  },
+  "Cheers (Drink To That)": {
+   "total": 138363891,
+   "daily": 32749
+  },
+  "Loveeeeeee Song": {
+   "total": 761259475,
+   "daily": 476519
+  },
+  "Desperado": {
+   "total": 476218819,
+   "daily": 79271
+  },
+  "If It's Lovin' That You Want": {
+   "total": 183148508,
+   "daily": 91270
+  },
+  "Hard": {
+   "total": 67854217,
+   "daily": 16978
+  },
+  "Consideration": {
+   "total": 378415357,
+   "daily": 73283
+  },
+  "What Now": {
+   "total": 225090532,
+   "daily": 24600
+  },
+  "Princess of China": {
+   "total": 355437842,
+   "daily": 139125
+  },
+  "Birthday Cake": {
+   "total": 131120191,
+   "daily": 22797
+  },
+  "Sex With Me": {
+   "total": 523673421,
+   "daily": 330250
+  },
+  "Nobody's Business": {
+   "total": 242195735,
+   "daily": 157578
+  },
+  "Same Ol' Mistakes": {
+   "total": 183678596,
+   "daily": 56920
+  },
+  "Cockiness (Love It)": {
+   "total": 78013589,
+   "daily": 17697
+  },
+  "Right Now": {
+   "total": 151757873,
+   "daily": 26347
+  },
+  "Woo": {
+   "total": 423606916,
+   "daily": 151112
+  },
+  "American Oxygen": {
+   "total": 145759914,
+   "daily": 5109
+  },
+  "Yeah, I Said It": {
+   "total": 216614873,
+   "daily": 37125
+  },
+  "Numb": {
+   "total": 48394141,
+   "daily": 9041
+  },
+  "Higher": {
+   "total": 162707957,
+   "daily": 24844
+  },
+  "Skin": {
+   "total": 145822225,
+   "daily": 43050
+  },
+  "James Joint": {
+   "total": 169607909,
+   "daily": 56429
+  },
+  "Close To You": {
+   "total": 148835508,
+   "daily": 11851
+  },
+  "We Ride": {
+   "total": 137225527,
+   "daily": 51752
+  },
+  "Who's That Chick?": {
+   "total": 413740589,
+   "daily": 385612
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

@@ -65,5 +65,136 @@
  ],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
- "size_note": "Not enough songs for 64… yet"
+ "size_note": "Not enough songs for 64… yet",
+ "stream_data": {
+  "bad guy": {
+   "total": 2944415199,
+   "daily": 417031
+  },
+  "BIRDS OF A FEATHER": {
+   "total": 3831717883,
+   "daily": 1934933
+  },
+  "when the party's over": {
+   "total": 2523504214,
+   "daily": 484975
+  },
+  "ocean eyes": {
+   "total": 2245507241,
+   "daily": 824180
+  },
+  "everything i wanted": {
+   "total": 2140295242,
+   "daily": 405148
+  },
+  "Happier Than Ever": {
+   "total": 1877937355,
+   "daily": 567470
+  },
+  "lovely": {
+   "total": 3808677481,
+   "daily": 865978
+  },
+  "What Was I Made For?": {
+   "total": 1638497819,
+   "daily": 501591
+  },
+  "bury a friend": {
+   "total": 1166336797,
+   "daily": 132898
+  },
+  "WILDFLOWER": {
+   "total": 2149483789,
+   "daily": 1399791
+  },
+  "bellyache": {
+   "total": 1259169472,
+   "daily": 274961
+  },
+  "Therefore I Am": {
+   "total": 1006790351,
+   "daily": 176204
+  },
+  "you should see me in a crown": {
+   "total": 1045899893,
+   "daily": 153002
+  },
+  "idontwannabeyouanymore": {
+   "total": 1384703543,
+   "daily": 297933
+  },
+  "i love you": {
+   "total": 1381862097,
+   "daily": 400095
+  },
+  "No Time To Die": {
+   "total": 797820333,
+   "daily": 152894
+  },
+  "CHIHIRO": {
+   "total": 1240241915,
+   "daily": 598208
+  },
+  "TV": {
+   "total": 1117960232,
+   "daily": 401092
+  },
+  "LUNCH": {
+   "total": 1005539555,
+   "daily": 330872
+  },
+  "Guess": {
+   "total": 884714222,
+   "daily": 345081
+  },
+  "all the good girls go to hell": {
+   "total": 765718630,
+   "daily": 104920
+  },
+  "wish you were gay": {
+   "total": 925469508,
+   "daily": 121604
+  },
+  "Your Power": {
+   "total": 564134266,
+   "daily": 123876
+  },
+  "my future": {
+   "total": 602160084,
+   "daily": 108487
+  },
+  "listen before i go": {
+   "total": 730490330,
+   "daily": 156450
+  },
+  "Bored": {
+   "total": 1305549239,
+   "daily": 221807
+  },
+  "my strange addiction": {
+   "total": 662083320,
+   "daily": 136809
+  },
+  "hostage": {
+   "total": 637963077,
+   "daily": 128683
+  },
+  "COPYCAT": {
+   "total": 621700668,
+   "daily": 110204
+  },
+  "watch": {
+   "total": 979548138,
+   "daily": 271412
+  },
+  "my boy": {
+   "total": 630879508,
+   "daily": 103259
+  },
+  "bitches broken hearts": {
+   "total": 643215246,
+   "daily": 123127
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

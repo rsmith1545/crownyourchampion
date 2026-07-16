@@ -61,5 +61,136 @@
  ],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
- "size_note": "Not enough songs for 64… yet"
+ "size_note": "Not enough songs for 64… yet",
+ "stream_data": {
+  "Don't Start Now": {
+   "total": 3274030642,
+   "daily": 858132
+  },
+  "Levitating": {
+   "total": 2626709506,
+   "daily": 847333
+  },
+  "New Rules": {
+   "total": 2587715909,
+   "daily": 665082
+  },
+  "One Kiss": {
+   "total": 2738343589,
+   "daily": 829140
+  },
+  "IDGAF": {
+   "total": 1880868570,
+   "daily": 299263
+  },
+  "Physical": {
+   "total": 1234678474,
+   "daily": 354591
+  },
+  "Break My Heart": {
+   "total": 1508698337,
+   "daily": 655951
+  },
+  "Cold Heart": {
+   "total": 2760743171,
+   "daily": 918022
+  },
+  "Dance The Night": {
+   "total": 1344071773,
+   "daily": 466219
+  },
+  "Be the One": {
+   "total": 854721914,
+   "daily": 417681
+  },
+  "Scared to Be Lonely": {
+   "total": 1528436149,
+   "daily": 217646
+  },
+  "Blow Your Mind": {
+   "total": 641776515,
+   "daily": 121320
+  },
+  "Love Again": {
+   "total": 926636321,
+   "daily": 516424
+  },
+  "Houdini": {
+   "total": 1066446727,
+   "daily": 534026
+  },
+  "Electricity": {
+   "total": 679765340,
+   "daily": 63741
+  },
+  "Hotter Than Hell": {
+   "total": 381174627,
+   "daily": 66054
+  },
+  "Prisoner": {
+   "total": 910960078,
+   "daily": 110736
+  },
+  "Un Día": {
+   "total": 1009671884,
+   "daily": 229656
+  },
+  "Training Season": {
+   "total": 890008687,
+   "daily": 956948
+  },
+  "Hallucinate": {
+   "total": 433668354,
+   "daily": 89286
+  },
+  "Kiss and Make Up": {
+   "total": 772965229,
+   "daily": 141637
+  },
+  "Future Nostalgia": {
+   "total": 204663265,
+   "daily": 26365
+  },
+  "We're Good": {
+   "total": 587471950,
+   "daily": 78690
+  },
+  "Fever": {
+   "total": 466454202,
+   "daily": 87087
+  },
+  "Sweetest Pie": {
+   "total": 457245647,
+   "daily": 122552
+  },
+  "Illusion": {
+   "total": 367523374,
+   "daily": 170540
+  },
+  "Pretty Please": {
+   "total": 342060549,
+   "daily": 72939
+  },
+  "Cool": {
+   "total": 203404825,
+   "daily": 31279
+  },
+  "Lost In Your Light": {
+   "total": 181979118,
+   "daily": 22985
+  },
+  "Homesick": {
+   "total": 269603254,
+   "daily": 24650
+  },
+  "Swan Song": {
+   "total": 159765184,
+   "daily": 13808
+  },
+  "These Walls": {
+   "total": 188207782,
+   "daily": 138045
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

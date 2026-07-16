@@ -108,5 +108,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Firework": {
+   "total": 1563657535,
+   "daily": 1052309
+  },
+  "Roar": {
+   "total": 1570904377,
+   "daily": 536772
+  },
+  "Teenage Dream": {
+   "total": 1209094769,
+   "daily": 601796
+  },
+  "California Gurls": {
+   "total": 1366377830,
+   "daily": 787267
+  },
+  "Dark Horse": {
+   "total": 2017281435,
+   "daily": 786178
+  },
+  "Last Friday Night (T.G.I.F.)": {
+   "total": 1943433825,
+   "daily": 1314699
+  },
+  "I Kissed A Girl": {
+   "total": 1295778374,
+   "daily": 557574
+  },
+  "Hot N Cold": {
+   "total": 1472051286,
+   "daily": 950245
+  },
+  "E.T.": {
+   "total": 551205452,
+   "daily": 247906
+  },
+  "The One That Got Away": {
+   "total": 1716224543,
+   "daily": 3158402
+  },
+  "Part Of Me": {
+   "total": 794650584,
+   "daily": 363194
+  },
+  "Wide Awake": {
+   "total": 840311765,
+   "daily": 523559
+  },
+  "Unconditionally": {
+   "total": 906682698,
+   "daily": 325773
+  },
+  "Waking Up In Vegas": {
+   "total": 122846643,
+   "daily": 45185
+  },
+  "Thinking Of You": {
+   "total": 222889640,
+   "daily": 527466
+  },
+  "Never Really Over": {
+   "total": 769100041,
+   "daily": 81922
+  },
+  "This Is How We Do": {
+   "total": 306239636,
+   "daily": 43314
+  },
+  "Chained To The Rhythm": {
+   "total": 661109088,
+   "daily": 126410
+  },
+  "Bon Appétit": {
+   "total": 399987814,
+   "daily": 164227
+  },
+  "Birthday": {
+   "total": 270861249,
+   "daily": 66568
+  },
+  "Swish Swish": {
+   "total": 454649468,
+   "daily": 34401
+  },
+  "Daisies": {
+   "total": 234647275,
+   "daily": 13603
+  },
+  "Rise": {
+   "total": 193212040,
+   "daily": 23409
+  },
+  "Smile": {
+   "total": 136539533,
+   "daily": 11224
+  },
+  "Legendary Lovers": {
+   "total": 145236023,
+   "daily": 829364
+  },
+  "Ur So Gay": {
+   "total": 46013289,
+   "daily": 9975
+  },
+  "Peacock": {
+   "total": 73866047,
+   "daily": 11404
+  },
+  "Harleys In Hawaii": {
+   "total": 839449998,
+   "daily": 562063
+  },
+  "Small Talk": {
+   "total": 129178466,
+   "daily": 5504
+  },
+  "Walking On Air": {
+   "total": 58742410,
+   "daily": 7948
+  },
+  "Never Worn White": {
+   "total": 38366171,
+   "daily": 1820
+  },
+  "Cry About It Later": {
+   "total": 53398105,
+   "daily": 5331
+  },
+  "I'M HIS, HE'S MINE": {
+   "total": 68006253,
+   "daily": 24810
+  },
+  "Hummingbird Heartbeat": {
+   "total": 43338728,
+   "daily": 6438
+  },
+  "Not Like The Movies": {
+   "total": 43519890,
+   "daily": 4234
+  },
+  "Circle The Drain": {
+   "total": 36482565,
+   "daily": 6376
+  },
+  "Who Am I Living For?": {
+   "total": 32367205,
+   "daily": 4782
+  },
+  "International Smile": {
+   "total": 45499193,
+   "daily": 4958
+  },
+  "LIFETIMES": {
+   "total": 59732726,
+   "daily": 22617
+  },
+  "WOMAN'S WORLD": {
+   "total": 68040644,
+   "daily": 18443
+  },
+  "When I'm Gone": {
+   "total": 328363098,
+   "daily": 36847
+  },
+  "By The Grace Of God": {
+   "total": 39699361,
+   "daily": 2641
+  },
+  "Not the End of the World": {
+   "total": 27697813,
+   "daily": 5270
+  },
+  "One Of The Boys": {
+   "total": 22067542,
+   "daily": 3836
+  },
+  "Ghost": {
+   "total": 31089541,
+   "daily": 3616
+  },
+  "Love Me": {
+   "total": 32514150,
+   "daily": 2984
+  },
+  "This Moment": {
+   "total": 29686839,
+   "daily": 2834
+  },
+  "Hey Hey Hey": {
+   "total": 42339857,
+   "daily": 3172
+  },
+  "Double Rainbow": {
+   "total": 28197578,
+   "daily": 2667
+  },
+  "Witness": {
+   "total": 30259596,
+   "daily": 2359
+  },
+  "365": {
+   "total": 275476613,
+   "daily": 35138
+  },
+  "Electric": {
+   "total": 69644763,
+   "daily": 5684
+  },
+  "Pearl": {
+   "total": 25552773,
+   "daily": 4013
+  },
+  "Roulette": {
+   "total": 27863056,
+   "daily": 2202
+  },
+  "Tucked": {
+   "total": 26628158,
+   "daily": 6604
+  },
+  "bandaids": {
+   "total": 27678426,
+   "daily": 48359
+  },
+  "Déjà Vu": {
+   "total": 26035971,
+   "daily": 1390
+  },
+  "It Takes Two": {
+   "total": 23045299,
+   "daily": 1564
+  },
+  "GORGEOUS": {
+   "total": 16312075,
+   "daily": 3527
+  },
+  "CRUSH": {
+   "total": 14602858,
+   "daily": 8213
+  },
+  "WONDER": {
+   "total": 12065052,
+   "daily": 68857
+  },
+  "ALL THE LOVE": {
+   "total": 14918675,
+   "daily": 10181
+  },
+  "Watch It Burn": {
+   "total": 5181034,
+   "daily": 255919
+  },
+  "If You Can Afford Me": {
+   "total": 21716993,
+   "daily": 2319
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

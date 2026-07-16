@@ -104,5 +104,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Circles": {
+   "total": 3201678428,
+   "daily": 711612
+  },
+  "rockstar": {
+   "total": 3411591240,
+   "daily": 456874
+  },
+  "Sunflower": {
+   "total": 4310071635,
+   "daily": 1175692
+  },
+  "Congratulations": {
+   "total": 2351798448,
+   "daily": 404814
+  },
+  "Better Now": {
+   "total": 2282240597,
+   "daily": 376581
+  },
+  "I Had Some Help": {
+   "total": 1533441293,
+   "daily": 926847
+  },
+  "Wow.": {
+   "total": 1938567446,
+   "daily": 252492
+  },
+  "Psycho": {
+   "total": 1704678487,
+   "daily": 259236
+  },
+  "White Iverson": {
+   "total": 1403466352,
+   "daily": 339183
+  },
+  "Goodbyes": {
+   "total": 1475352343,
+   "daily": 227807
+  },
+  "I Fall Apart": {
+   "total": 1828021800,
+   "daily": 171241
+  },
+  "Take What You Want": {
+   "total": 841553861,
+   "daily": 212127
+  },
+  "I Like You (A Happier Song)": {
+   "total": 1045840940,
+   "daily": 211494
+  },
+  "Chemical": {
+   "total": 722119491,
+   "daily": 166613
+  },
+  "Go Flex": {
+   "total": 1178154617,
+   "daily": 136147
+  },
+  "One Right Now": {
+   "total": 770039296,
+   "daily": 128929
+  },
+  "Hollywood's Bleeding": {
+   "total": 686323658,
+   "daily": 104644
+  },
+  "Jackie Chan": {
+   "total": 972375881,
+   "daily": 117215
+  },
+  "Pour Me A Drink": {
+   "total": 275839469,
+   "daily": 213602
+  },
+  "Stay": {
+   "total": 679922521,
+   "daily": 78059
+  },
+  "Guy For That": {
+   "total": 337271555,
+   "daily": 170261
+  },
+  "Feeling Whitney": {
+   "total": 614354378,
+   "daily": 78041
+  },
+  "Motley Crew": {
+   "total": 462574635,
+   "daily": 51265
+  },
+  "Saint-Tropez": {
+   "total": 508278116,
+   "daily": 43905
+  },
+  "Cooped Up": {
+   "total": 387778617,
+   "daily": 55207
+  },
+  "Wrong Ones": {
+   "total": 96580468,
+   "daily": 57445
+  },
+  "Deja Vu": {
+   "total": 449411850,
+   "daily": 52460
+  },
+  "Enemies": {
+   "total": 490559701,
+   "daily": 32531
+  },
+  "Die For Me": {
+   "total": 403889625,
+   "daily": 51099
+  },
+  "Over Now": {
+   "total": 376433148,
+   "daily": 50761
+  },
+  "Ball For Me": {
+   "total": 460225261,
+   "daily": 30754
+  },
+  "Candy Paint": {
+   "total": 1172553553,
+   "daily": 172794
+  },
+  "92 Explorer": {
+   "total": 398911520,
+   "daily": 38714
+  },
+  "Rich & Sad": {
+   "total": 427248590,
+   "daily": 31842
+  },
+  "Losers": {
+   "total": 147747102,
+   "daily": 97199
+  },
+  "Wolves": {
+   "total": 425820765,
+   "daily": 40111
+  },
+  "On The Road": {
+   "total": 347809356,
+   "daily": 47500
+  },
+  "I Ain't Comin' Back": {
+   "total": 180670726,
+   "daily": 187482
+  },
+  "No Option": {
+   "total": 417990312,
+   "daily": 27475
+  },
+  "Mourning": {
+   "total": 227237893,
+   "daily": 54978
+  },
+  "Livin It Up": {
+   "total": 166671468,
+   "daily": 18890
+  },
+  "California Sober": {
+   "total": 55722685,
+   "daily": 32999
+  },
+  "Spoil My Night": {
+   "total": 364169809,
+   "daily": 24239
+  },
+  "Too Young": {
+   "total": 346895709,
+   "daily": 24658
+  },
+  "A Thousand Bad Times": {
+   "total": 268905384,
+   "daily": 30727
+  },
+  "Staring At The Sun": {
+   "total": 244371312,
+   "daily": 33727
+  },
+  "Writing on the Wall": {
+   "total": 147013692,
+   "daily": 9368
+  },
+  "Nosedive": {
+   "total": 72203093,
+   "daily": 31789
+  },
+  "I'm Gonna Be": {
+   "total": 248093520,
+   "daily": 32348
+  },
+  "Wrapped Around Your Finger": {
+   "total": 179379688,
+   "daily": 52744
+  },
+  "Overdrive": {
+   "total": 185881061,
+   "daily": 43149
+  },
+  "Same Bitches": {
+   "total": 288579368,
+   "daily": 17983
+  },
+  "Sugar Wraith": {
+   "total": 239774666,
+   "daily": 22546
+  },
+  "Zack And Codeine": {
+   "total": 265035736,
+   "daily": 16721
+  },
+  "Patient": {
+   "total": 250714161,
+   "daily": 17131
+  },
+  "Big Lie": {
+   "total": 236687869,
+   "daily": 19161
+  },
+  "Up There": {
+   "total": 178207113,
+   "daily": 21187
+  },
+  "Enough Is Enough": {
+   "total": 147560000,
+   "daily": 28300
+  },
+  "Takin' Shots": {
+   "total": 249114614,
+   "daily": 14948
+  },
+  "Blame It On Me": {
+   "total": 228216009,
+   "daily": 16492
+  },
+  "I DID IT": {
+   "total": 130644826,
+   "daily": 8901
+  },
+  "Otherside": {
+   "total": 248687347,
+   "daily": 20315
+  },
+  "Paranoid": {
+   "total": 433670295,
+   "daily": 27457
+  },
+  "Waiting For Never": {
+   "total": 106661014,
+   "daily": 31818
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

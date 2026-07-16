@@ -96,5 +96,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Lose Yourself": {
+   "total": 2952383866,
+   "daily": 745377
+  },
+  "The Real Slim Shady": {
+   "total": 2503831744,
+   "daily": 646678
+  },
+  "Stan": {
+   "total": 1513039009,
+   "daily": 386527
+  },
+  "The Way I Am": {
+   "total": 551332969,
+   "daily": 132390
+  },
+  "Without Me": {
+   "total": 3147102362,
+   "daily": 999354
+  },
+  "Love The Way You Lie": {
+   "total": 2286202466,
+   "daily": 924063
+  },
+  "My Name Is": {
+   "total": 771909631,
+   "daily": 143510
+  },
+  "Forgot About Dre": {
+   "total": 1089412767,
+   "daily": 297213
+  },
+  "Mockingbird": {
+   "total": 2531787326,
+   "daily": 780134
+  },
+  "Sing For The Moment": {
+   "total": 717299925,
+   "daily": 201895
+  },
+  "Cleanin' Out My Closet": {
+   "total": 541578234,
+   "daily": 123107
+  },
+  "Till I Collapse": {
+   "total": 2531464914,
+   "daily": 534394
+  },
+  "Rap God": {
+   "total": 1287824188,
+   "daily": 176261
+  },
+  "Not Afraid": {
+   "total": 1329608556,
+   "daily": 292605
+  },
+  "Forever": {
+   "total": 787526605,
+   "daily": 210912
+  },
+  "Superman": {
+   "total": 1401090738,
+   "daily": 461820
+  },
+  "The Monster": {
+   "total": 1456433668,
+   "daily": 480650
+  },
+  "Like Toy Soldiers": {
+   "total": 388537276,
+   "daily": 67044
+  },
+  "Godzilla": {
+   "total": 1912366501,
+   "daily": 350000
+  },
+  "Guilty Conscience": {
+   "total": 215466031,
+   "daily": 26765
+  },
+  "Kill You": {
+   "total": 335863879,
+   "daily": 80360
+  },
+  "Just Lose It": {
+   "total": 362572721,
+   "daily": 84896
+  },
+  "When I'm Gone": {
+   "total": 601774716,
+   "daily": 97459
+  },
+  "Business": {
+   "total": 285899661,
+   "daily": 89970
+  },
+  "Beautiful": {
+   "total": 435177980,
+   "daily": 95029
+  },
+  "Ass Like That": {
+   "total": 299977305,
+   "daily": 69454
+  },
+  "White America": {
+   "total": 206517070,
+   "daily": 38816
+  },
+  "Crack A Bottle": {
+   "total": 369189072,
+   "daily": 68280
+  },
+  "We Made You": {
+   "total": 176405828,
+   "daily": 27535
+  },
+  "I Need A Doctor": {
+   "total": 408440967,
+   "daily": 81892
+  },
+  "Shake That": {
+   "total": 718247052,
+   "daily": 206308
+  },
+  "Airplanes, Pt. II": {
+   "total": 164791217,
+   "daily": 55300
+  },
+  "Criminal": {
+   "total": 116139083,
+   "daily": 22703
+  },
+  "Role Model": {
+   "total": 209996133,
+   "daily": 45794
+  },
+  "Space Bound": {
+   "total": 379516175,
+   "daily": 70129
+  },
+  "No Love": {
+   "total": 419736438,
+   "daily": 93343
+  },
+  "Berzerk": {
+   "total": 357080024,
+   "daily": 36416
+  },
+  "Venom": {
+   "total": 961392783,
+   "daily": 133888
+  },
+  "Killshot": {
+   "total": 501788424,
+   "daily": 68484
+  },
+  "Drop The World": {
+   "total": 307082444,
+   "daily": 73530
+  },
+  "The Ringer": {
+   "total": 350580738,
+   "daily": 21129
+  },
+  "River": {
+   "total": 948296163,
+   "daily": 104137
+  },
+  "Lucky You": {
+   "total": 800538002,
+   "daily": 73554
+  },
+  "Houdini": {
+   "total": 780254951,
+   "daily": 239680
+  },
+  "Homicide": {
+   "total": 594980886,
+   "daily": 54242
+  },
+  "'97 Bonnie & Clyde": {
+   "total": 44120881,
+   "daily": 7346
+  },
+  "Kim": {
+   "total": 70361482,
+   "daily": 13200
+  },
+  "My Dad's Gone Crazy": {
+   "total": 114966686,
+   "daily": 28072
+  },
+  "Bitch Please II": {
+   "total": 356729421,
+   "daily": 88745
+  },
+  "Square Dance": {
+   "total": 101803126,
+   "daily": 27986
+  },
+  "Cinderella Man": {
+   "total": 378861343,
+   "daily": 53072
+  },
+  "Renegade": {
+   "total": 170122141,
+   "daily": 30934
+  },
+  "What's The Difference": {
+   "total": 595920589,
+   "daily": 193884
+  },
+  "Patiently Waiting": {
+   "total": 303104788,
+   "daily": 99054
+  },
+  "Just Don't Give A Fuck": {
+   "total": 128597734,
+   "daily": 18034
+  },
+  "Rock Bottom": {
+   "total": 82086714,
+   "daily": 13613
+  },
+  "Drug Ballad": {
+   "total": 79009610,
+   "daily": 16598
+  },
+  "Brain Damage": {
+   "total": 77642715,
+   "daily": 12917
+  },
+  "Marshall Mathers": {
+   "total": 95527856,
+   "daily": 18405
+  },
+  "No Favors": {
+   "total": 128783938,
+   "daily": 6668
+  },
+  "8 Mile": {
+   "total": 99109792,
+   "daily": 41158
+  },
+  "Roman's Revenge": {
+   "total": 84090075,
+   "daily": 14466
+  },
+  "Mosh": {
+   "total": 41850015,
+   "daily": 6637
+  },
+  "Headlights": {
+   "total": 172838908,
+   "daily": 16056
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

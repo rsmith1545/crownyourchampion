@@ -116,5 +116,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "SexyBack": {
+   "total": 1460492900,
+   "daily": 787599
+  },
+  "Cry Me a River": {
+   "total": 808496072,
+   "daily": 289911
+  },
+  "CAN'T STOP THE FEELING!": {
+   "total": 2076271831,
+   "daily": 470339
+  },
+  "Rock Your Body": {
+   "total": 1077748931,
+   "daily": 696047
+  },
+  "Mirrors": {
+   "total": 1563765243,
+   "daily": 878175
+  },
+  "My Love": {
+   "total": 792268499,
+   "daily": 540121
+  },
+  "What Goes Around.../...Comes Around": {
+   "total": 630723480,
+   "daily": 335375
+  },
+  "Suit & Tie": {
+   "total": 306448175,
+   "daily": 117720
+  },
+  "Señorita": {
+   "total": 250002460,
+   "daily": 51307
+  },
+  "Like I Love You": {
+   "total": 138397829,
+   "daily": 34329
+  },
+  "Summer Love": {
+   "total": 338780632,
+   "daily": 329131
+  },
+  "Say Something": {
+   "total": 576725598,
+   "daily": 59518
+  },
+  "Holy Grail": {
+   "total": 401338295,
+   "daily": 106660
+  },
+  "Dead and Gone": {
+   "total": 347536864,
+   "daily": 171652
+  },
+  "Ayo Technology": {
+   "total": 478934619,
+   "daily": 348005
+  },
+  "4 Minutes": {
+   "total": 525632907,
+   "daily": 302812
+  },
+  "Carry Out": {
+   "total": 265387433,
+   "daily": 144224
+  },
+  "Signs": {
+   "total": 190158389,
+   "daily": 112508
+  },
+  "Selfish": {
+   "total": 159868155,
+   "daily": 30131
+  },
+  "LoveStoned / I Think She Knows": {
+   "total": 89592931,
+   "daily": 17891
+  },
+  "The Other Side": {
+   "total": 194085510,
+   "daily": 21873
+  },
+  "Until The End Of Time (with Beyoncé)": {
+   "total": 97843920,
+   "daily": 37323
+  },
+  "TKO": {
+   "total": 79804329,
+   "daily": 7336
+  },
+  "Not a Bad Thing": {
+   "total": 60693632,
+   "daily": 15126
+  },
+  "Filthy": {
+   "total": 127452950,
+   "daily": 4152
+  },
+  "Tunnel Vision": {
+   "total": 47234113,
+   "daily": 6436
+  },
+  "Take Back the Night": {
+   "total": 57260184,
+   "daily": 2823
+  },
+  "Drink You Away": {
+   "total": 79516689,
+   "daily": 5345
+  },
+  "Pusher Love Girl": {
+   "total": 59669683,
+   "daily": 4497
+  },
+  "Bounce": {
+   "total": 87123775,
+   "daily": 30534
+  },
+  "Sexy Ladies": {
+   "total": 12173759,
+   "daily": 2355
+  },
+  "That Girl": {
+   "total": 45259187,
+   "daily": 5276
+  },
+  "Don't Slack": {
+   "total": 36752391,
+   "daily": 6381
+  },
+  "Chop Me Up": {
+   "total": 35442455,
+   "daily": 6772
+  },
+  "FutureSex / LoveSound": {
+   "total": 33341505,
+   "daily": 4613
+  },
+  "Dick In A Box": {
+   "total": 35724030,
+   "daily": 5117
+  },
+  "Winner": {
+   "total": 28015614,
+   "daily": 4353
+  },
+  "Morning Light": {
+   "total": 50913731,
+   "daily": 3774
+  },
+  "Strawberry Bubblegum": {
+   "total": 41359514,
+   "daily": 3584
+  },
+  "Supplies": {
+   "total": 56466186,
+   "daily": 1790
+  },
+  "Man of the Woods": {
+   "total": 45100089,
+   "daily": 1978
+  },
+  "Motherlover": {
+   "total": 87706809,
+   "daily": 11360
+  },
+  "Don't Hold the Wall": {
+   "total": 32229518,
+   "daily": 3463
+  },
+  "Losing My Way": {
+   "total": 30963150,
+   "daily": 3615
+  },
+  "Let the Groove Get In": {
+   "total": 31166668,
+   "daily": 2786
+  },
+  "Last Night": {
+   "total": 15891027,
+   "daily": 8319
+  },
+  "Sin Fin": {
+   "total": 76960273,
+   "daily": 10188
+  },
+  "Blue Ocean Floor": {
+   "total": 26822964,
+   "daily": 1788
+  },
+  "Believe": {
+   "total": 31247226,
+   "daily": 2745
+  },
+  "SoulMate": {
+   "total": 36236827,
+   "daily": 785
+  },
+  "Spaceship Coupe": {
+   "total": 22720300,
+   "daily": 1748
+  },
+  "Cabaret": {
+   "total": 21788791,
+   "daily": 1391
+  },
+  "Higher Higher": {
+   "total": 24219258,
+   "daily": 1280
+  },
+  "Damn Girl": {
+   "total": 15814232,
+   "daily": 1882
+  },
+  "(Oh No) What You Got": {
+   "total": 15290777,
+   "daily": 2837
+  },
+  "Parent Trap": {
+   "total": 22773361,
+   "daily": 4761
+  },
+  "Amnesia": {
+   "total": 16708892,
+   "daily": 1320
+  },
+  "Take It From Here": {
+   "total": 13960977,
+   "daily": 2184
+  },
+  "Paradise": {
+   "total": 13164308,
+   "daily": 4095
+  },
+  "Set the Mood Prelude / Until the End of Time": {
+   "total": 9162209,
+   "daily": 2453
+  },
+  "Murder": {
+   "total": 20006664,
+   "daily": 830
+  },
+  "3-Way (The Golden Rule)": {
+   "total": 25567274,
+   "daily": 4338
+  },
+  "Breeze Off the Pond": {
+   "total": 18372287,
+   "daily": 1178
+  },
+  "Midnight Summer Jam": {
+   "total": 22924201,
+   "daily": 796
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

@@ -116,5 +116,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "This Love": {
+   "total": 1781111163,
+   "daily": 895112
+  },
+  "Moves Like Jagger": {
+   "total": 2202040473,
+   "daily": 926979
+  },
+  "Sugar": {
+   "total": 2351712703,
+   "daily": 625424
+  },
+  "Girls Like You (feat. Cardi B)": {
+   "total": 1868454727,
+   "daily": 310092
+  },
+  "She Will Be Loved": {
+   "total": 2110014487,
+   "daily": 830976
+  },
+  "Payphone": {
+   "total": 2750575201,
+   "daily": 1344698
+  },
+  "Memories": {
+   "total": 2506683537,
+   "daily": 498496
+  },
+  "Harder To Breathe": {
+   "total": 245568163,
+   "daily": 73832
+  },
+  "Animals": {
+   "total": 1989432620,
+   "daily": 924023
+  },
+  "Maps": {
+   "total": 2444907154,
+   "daily": 781016
+  },
+  "One More Night": {
+   "total": 1381634740,
+   "daily": 610627
+  },
+  "Sunday Morning": {
+   "total": 952606205,
+   "daily": 589052
+  },
+  "Stereo Hearts": {
+   "total": 1845084687,
+   "daily": 824599
+  },
+  "Locked Away": {
+   "total": 1397053221,
+   "daily": 503855
+  },
+  "Makes Me Wonder": {
+   "total": 252633741,
+   "daily": 88286
+  },
+  "Won't Go Home Without You": {
+   "total": 563080553,
+   "daily": 311197
+  },
+  "Daylight": {
+   "total": 497722865,
+   "daily": 194770
+  },
+  "Wake Up Call": {
+   "total": 117160695,
+   "daily": 31342
+  },
+  "Misery": {
+   "total": 441539569,
+   "daily": 141698
+  },
+  "What Lovers Do (feat. SZA)": {
+   "total": 1443462186,
+   "daily": 220471
+  },
+  "Don't Wanna Know (feat. Kendrick Lamar)": {
+   "total": 1116484488,
+   "daily": 171468
+  },
+  "Love Somebody": {
+   "total": 318566634,
+   "daily": 103568
+  },
+  "Cold (feat. Future)": {
+   "total": 921301305,
+   "daily": 223048
+  },
+  "Never Gonna Leave This Bed": {
+   "total": 127222168,
+   "daily": 26821
+  },
+  "Beautiful Mistakes (feat. Megan Thee Stallion)": {
+   "total": 911226609,
+   "daily": 201235
+  },
+  "Wait": {
+   "total": 544744281,
+   "daily": 190065
+  },
+  "Lucky Strike": {
+   "total": 165792228,
+   "daily": 43345
+  },
+  "Nobody's Love": {
+   "total": 224538147,
+   "daily": 22091
+  },
+  "Sweetest Goodbye": {
+   "total": 29249796,
+   "daily": 5432
+  },
+  "If I Never See Your Face Again": {
+   "total": 94970099,
+   "daily": 16844
+  },
+  "Goodnight Goodnight": {
+   "total": 62550583,
+   "daily": 14511
+  },
+  "Beautiful Goodbye": {
+   "total": 134939726,
+   "daily": 173773
+  },
+  "It Was Always You": {
+   "total": 181193564,
+   "daily": 17822
+  },
+  "Lost": {
+   "total": 252363964,
+   "daily": 25262
+  },
+  "Just A Feeling": {
+   "total": 87483641,
+   "daily": 32063
+  },
+  "Must Get Out": {
+   "total": 39486270,
+   "daily": 6256
+  },
+  "This Summer": {
+   "total": 189508376,
+   "daily": 13344
+  },
+  "Shiver": {
+   "total": 35496978,
+   "daily": 6876
+  },
+  "Secret": {
+   "total": 51064136,
+   "daily": 8881
+  },
+  "The Sun": {
+   "total": 43301429,
+   "daily": 13993
+  },
+  "Priceless (feat. LISA)": {
+   "total": 102892194,
+   "daily": 49795
+  },
+  "Feelings": {
+   "total": 127598852,
+   "daily": 14450
+  },
+  "Unkiss Me": {
+   "total": 77590312,
+   "daily": 5641
+  },
+  "Lips On You": {
+   "total": 76108498,
+   "daily": 14246
+  },
+  "Nothing Lasts Forever": {
+   "total": 46669326,
+   "daily": 25416
+  },
+  "Tangled": {
+   "total": 33908773,
+   "daily": 7852
+  },
+  "Help Me Out (with Julia Michaels)": {
+   "total": 87217613,
+   "daily": 5475
+  },
+  "In Your Pocket": {
+   "total": 64107380,
+   "daily": 5630
+  },
+  "Can't Leave You Alone (feat. Juice WRLD)": {
+   "total": 47166013,
+   "daily": 17361
+  },
+  "Sad": {
+   "total": 69533944,
+   "daily": 5016
+  },
+  "My Heart Is Open": {
+   "total": 76487929,
+   "daily": 3576
+  },
+  "Give A Little More": {
+   "total": 49462894,
+   "daily": 5637
+  },
+  "Coming Back For You": {
+   "total": 47927691,
+   "daily": 3497
+  },
+  "The Man Who Never Lied": {
+   "total": 44137382,
+   "daily": 4271
+  },
+  "Leaving California": {
+   "total": 63595309,
+   "daily": 5331
+  },
+  "Echo (feat. blackbear)": {
+   "total": 37960258,
+   "daily": 7754
+  },
+  "Whiskey (feat. A$AP Rocky)": {
+   "total": 57472231,
+   "daily": 2696
+  },
+  "New Love": {
+   "total": 47417587,
+   "daily": 2590
+  },
+  "I Can't Lie": {
+   "total": 24782496,
+   "daily": 8518
+  },
+  "Best 4 U": {
+   "total": 37952046,
+   "daily": 2743
+  },
+  "Wipe Your Eyes": {
+   "total": 32679320,
+   "daily": 4647
+  },
+  "All Night": {
+   "total": 19609562,
+   "daily": 14508
+  },
+  "Stutter": {
+   "total": 28908182,
+   "daily": 4266
+  },
+  "Who I Am (feat. LunchMoney Lewis)": {
+   "total": 37185432,
+   "daily": 2317
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

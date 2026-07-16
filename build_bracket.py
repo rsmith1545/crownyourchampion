@@ -85,8 +85,22 @@ def build_song_data(cfg, songdb_map):
     assert len(songs) == size, f"config says size={size} but has {len(songs)} songs"
     assert len(regions) == 4, "config must have exactly 4 regions"
 
+    # Stream counts come from THREE places, in this order of trust:
+    #   1. cfg["stream_data"] -- Rose's Master Grid staging tabs. Authoritative:
+    #      it is the same sheet the seed order came from, and it is curated.
+    #   2. songdb.json -- only covers 65 mostly rock/country acts. Of the 17
+    #      pop/hip-hop boards only Billie Eilish is in it (30/32).
+    #   3. a synthetic ramp -- 3bn minus 20m per rank. This is a LIE that renders
+    #      as a real figure in By-The-Numbers and silently mis-orders the Most
+    #      Streamed auto-fill. Before stream_data existed, 15 of 16 new boards
+    #      plus the live Harry Styles were running entirely on it.
+    # Live counts still come from songdb only; the grid has no live data yet, so
+    # an artist absent from songdb gets liveRank=mid and wants "no_live_data".
+    stream_data = cfg.get("stream_data") or {}
+
     entries = []
     matched = 0
+    from_cfg = 0
     fallbacks = []
 
     for i, name in enumerate(songs):
@@ -94,13 +108,17 @@ def build_song_data(cfg, songdb_map):
         ridx, rseed = scurve(overall)
         region = regions[ridx]
         hit = songdb_map.get(norm_title(name))
+        live = hit["live"] if hit is not None else None
         if hit is not None:
             matched += 1
+        cfg_sd = stream_data.get(name)
+        if cfg_sd is not None:
+            spotify = int(cfg_sd["total"])
+            from_cfg += 1
+        elif hit is not None:
             spotify = hit["total"]
-            live = hit["live"]
         else:
             spotify = 3_000_000_000 - overall * 20_000_000
-            live = None
             fallbacks.append(name)
         entries.append({
             "name": name, "overall": overall, "region_idx": ridx,
@@ -116,7 +134,7 @@ def build_song_data(cfg, songdb_map):
         if e["_live"] is None:
             e["liveRank"] = mid
 
-    return entries, matched, fallbacks
+    return entries, matched, fallbacks, from_cfg
 
 
 def render_all_songs(entries):
@@ -867,7 +885,7 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
 
     songdb_map = build_songdb_map(os.path.join(root, "songdb.json"), out_band)
-    entries, matched, fallbacks = build_song_data(cfg, songdb_map)
+    entries, matched, fallbacks, from_cfg = build_song_data(cfg, songdb_map)
 
     with open(os.path.join(ref_dir, "index.html"), encoding="utf-8") as f:
         text = f.read()
@@ -941,7 +959,13 @@ def main():
             shutil.copy2(src, os.path.join(out_dir, fname))
 
     print(f"[build] {out_band} -> {out_dir}")
-    print(f"[build] songdb match: {matched}/64  (fallbacks: {len(fallbacks)})")
+    _size = int(cfg.get("size", 64))
+    _db = _size - from_cfg - len(fallbacks)
+    print(f"[build] streams: {from_cfg}/{_size} from config, {_db} from songdb, "
+          f"{len(fallbacks)} SYNTHETIC   |  songdb live match: {matched}/{_size}")
+    if fallbacks:
+        print(f"[build] WARNING: {len(fallbacks)} songs have INVENTED stream counts -- "
+              f"By-The-Numbers and Most Streamed will be wrong for them")
     if fallbacks:
         print("[build] fallback songs:", ", ".join(fallbacks))
     return 0

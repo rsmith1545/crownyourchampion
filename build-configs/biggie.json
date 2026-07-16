@@ -48,5 +48,136 @@
  "albums": [],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
- "size_note": "Not enough songs for 64… yet"
+ "size_note": "Not enough songs for 64… yet",
+ "stream_data": {
+  "Juicy": {
+   "total": 935504503,
+   "daily": 190862
+  },
+  "Hypnotize": {
+   "total": 1667117697,
+   "daily": 701268
+  },
+  "Big Poppa": {
+   "total": 1543625265,
+   "daily": 602729
+  },
+  "Mo Money Mo Problems": {
+   "total": 643269111,
+   "daily": 211060
+  },
+  "One More Chance": {
+   "total": 38236969,
+   "daily": 8254
+  },
+  "Warning": {
+   "total": 131487296,
+   "daily": 34493
+  },
+  "Who Shot Ya?": {
+   "total": 254719510,
+   "daily": 57298
+  },
+  "Gimme the Loot": {
+   "total": 187183531,
+   "daily": 44498
+  },
+  "Ten Crack Commandments": {
+   "total": 161168182,
+   "daily": 44818
+  },
+  "Notorious Thugs": {
+   "total": 349278798,
+   "daily": 137622
+  },
+  "Sky's the Limit": {
+   "total": 118568973,
+   "daily": 66162
+  },
+  "Machine Gun Funk": {
+   "total": 105314851,
+   "daily": 29465
+  },
+  "Party And Bullshit": {
+   "total": 262121950,
+   "daily": 89633
+  },
+  "Unbelievable": {
+   "total": 49494946,
+   "daily": 12186
+  },
+  "Things Done Changed": {
+   "total": 37478358,
+   "daily": 7634
+  },
+  "Kick in the Door": {
+   "total": 44584895,
+   "daily": 8801
+  },
+  "Everyday Struggle": {
+   "total": 64966739,
+   "daily": 15319
+  },
+  "Suicidal Thoughts": {
+   "total": 204792323,
+   "daily": 35161
+  },
+  "Ready to Die": {
+   "total": 70725059,
+   "daily": 31020
+  },
+  "I Got a Story to Tell": {
+   "total": 47350719,
+   "daily": 11745
+  },
+  "Going Back to Cali": {
+   "total": 84544816,
+   "daily": 34198
+  },
+  "The What": {
+   "total": 72412906,
+   "daily": 14661
+  },
+  "Me and My Bitch": {
+   "total": 30552290,
+   "daily": 4064
+  },
+  "What's Beef?": {
+   "total": 30889203,
+   "daily": 6608
+  },
+  "You're Nobody (Til Somebody Kills You)": {
+   "total": 22584636,
+   "daily": 4715
+  },
+  "Somebody's Gotta Die": {
+   "total": 16939973,
+   "daily": 4337
+  },
+  "N****s Bleed": {
+   "total": 44362875,
+   "daily": 10914
+  },
+  "Respect": {
+   "total": 33130415,
+   "daily": 5519
+  },
+  "Long Kiss Goodnight": {
+   "total": 15996516,
+   "daily": 2955
+  },
+  "Miss U": {
+   "total": 18639930,
+   "daily": 4448
+  },
+  "I Love The Dough": {
+   "total": 36372746,
+   "daily": 9557
+  },
+  "Nasty Boy": {
+   "total": 9135741,
+   "daily": 1368
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

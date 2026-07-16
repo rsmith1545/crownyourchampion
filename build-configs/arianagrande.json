@@ -108,5 +108,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "7 rings": {
+   "total": 2860568319,
+   "daily": 816436
+  },
+  "thank u, next": {
+   "total": 2270880784,
+   "daily": 728946
+  },
+  "Problem": {
+   "total": 1149158540,
+   "daily": 429736
+  },
+  "no tears left to cry": {
+   "total": 1596994331,
+   "daily": 399351
+  },
+  "Break Free": {
+   "total": 1259130801,
+   "daily": 663514
+  },
+  "Rain On Me": {
+   "total": 1255445051,
+   "daily": 259957
+  },
+  "Side To Side": {
+   "total": 1928376865,
+   "daily": 846006
+  },
+  "positions": {
+   "total": 1760342823,
+   "daily": 417946
+  },
+  "God is a woman": {
+   "total": 1300294865,
+   "daily": 429449
+  },
+  "Into You": {
+   "total": 2043975690,
+   "daily": 1112838
+  },
+  "Dangerous Woman": {
+   "total": 1642524241,
+   "daily": 787429
+  },
+  "34+35": {
+   "total": 1194748957,
+   "daily": 281680
+  },
+  "Bang Bang": {
+   "total": 1722183009,
+   "daily": 448559
+  },
+  "we can't be friends": {
+   "total": 2024957544,
+   "daily": 1333065
+  },
+  "One Last Time": {
+   "total": 2138745989,
+   "daily": 932503
+  },
+  "Love Me Harder": {
+   "total": 1461151469,
+   "daily": 999915
+  },
+  "The Way": {
+   "total": 606195290,
+   "daily": 229240
+  },
+  "break up with your girlfriend, i'm bored": {
+   "total": 1145819799,
+   "daily": 202133
+  },
+  "needy": {
+   "total": 626609072,
+   "daily": 539539
+  },
+  "Stuck with U": {
+   "total": 1458125118,
+   "daily": 367326
+  },
+  "boyfriend": {
+   "total": 1099218529,
+   "daily": 342860
+  },
+  "yes, and?": {
+   "total": 769418753,
+   "daily": 320543
+  },
+  "Everyday": {
+   "total": 788935035,
+   "daily": 347437
+  },
+  "bloodline": {
+   "total": 666412134,
+   "daily": 415574
+  },
+  "the boy is mine": {
+   "total": 675293844,
+   "daily": 389564
+  },
+  "supernatural": {
+   "total": 473265718,
+   "daily": 553431
+  },
+  "pov": {
+   "total": 732248005,
+   "daily": 229338
+  },
+  "breathin": {
+   "total": 727526037,
+   "daily": 142695
+  },
+  "Let Me Love You": {
+   "total": 574369940,
+   "daily": 280145
+  },
+  "Focus": {
+   "total": 363677438,
+   "daily": 74677
+  },
+  "intro (end of the world)": {
+   "total": 619585151,
+   "daily": 261241
+  },
+  "motive": {
+   "total": 626175649,
+   "daily": 151636
+  },
+  "Almost Is Never Enough": {
+   "total": 392650921,
+   "daily": 125366
+  },
+  "imagine": {
+   "total": 480932274,
+   "daily": 93076
+  },
+  "Greedy": {
+   "total": 363034275,
+   "daily": 131629
+  },
+  "ghostin": {
+   "total": 341662828,
+   "daily": 125971
+  },
+  "eternal sunshine": {
+   "total": 311536804,
+   "daily": 247039
+  },
+  "safety net": {
+   "total": 270643212,
+   "daily": 161129
+  },
+  "Don't Call Me Angel": {
+   "total": 428303427,
+   "daily": 76589
+  },
+  "bad idea": {
+   "total": 338503206,
+   "daily": 86842
+  },
+  "everytime": {
+   "total": 466328285,
+   "daily": 191109
+  },
+  "just like magic": {
+   "total": 272759464,
+   "daily": 144021
+  },
+  "goodnight n go": {
+   "total": 312050911,
+   "daily": 88986
+  },
+  "Honeymoon Avenue": {
+   "total": 240941858,
+   "daily": 159754
+  },
+  "sweetener": {
+   "total": 307402649,
+   "daily": 101179
+  },
+  "in my head": {
+   "total": 327592420,
+   "daily": 74064
+  },
+  "Be Alright": {
+   "total": 336046086,
+   "daily": 69729
+  },
+  "NASA": {
+   "total": 353318688,
+   "daily": 58535
+  },
+  "bye": {
+   "total": 344161532,
+   "daily": 362493
+  },
+  "Best Mistake": {
+   "total": 278096292,
+   "daily": 78826
+  },
+  "nasty": {
+   "total": 243687293,
+   "daily": 104529
+  },
+  "Quit": {
+   "total": 279524091,
+   "daily": 73566
+  },
+  "Moonlight": {
+   "total": 267995233,
+   "daily": 83198
+  },
+  "Daydreamin'": {
+   "total": 243048013,
+   "daily": 70804
+  },
+  "Touch It": {
+   "total": 218747405,
+   "daily": 87853
+  },
+  "R.E.M": {
+   "total": 233711875,
+   "daily": 61173
+  },
+  "My Everything": {
+   "total": 228135384,
+   "daily": 66635
+  },
+  "don't wanna break up again": {
+   "total": 212057528,
+   "daily": 136980
+  },
+  "twilight zone": {
+   "total": 306278365,
+   "daily": 448550
+  },
+  "fake smile": {
+   "total": 252058332,
+   "daily": 38104
+  },
+  "i wish i hated you": {
+   "total": 184577111,
+   "daily": 117027
+  },
+  "imperfect for you": {
+   "total": 163602354,
+   "daily": 109626
+  },
+  "off the table": {
+   "total": 205997724,
+   "daily": 59764
+  },
+  "Thinking Bout You": {
+   "total": 184797073,
+   "daily": 68684
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

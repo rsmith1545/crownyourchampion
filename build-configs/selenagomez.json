@@ -100,5 +100,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Love You Like A Love Song": {
+   "total": 1347632830,
+   "daily": 873499
+  },
+  "Lose You To Love Me": {
+   "total": 1485586345,
+   "daily": 245819
+  },
+  "Come & Get It": {
+   "total": 519966690,
+   "daily": 143390
+  },
+  "It Ain't Me": {
+   "total": 1754012452,
+   "daily": 405645
+  },
+  "Good For You": {
+   "total": 958815833,
+   "daily": 264221
+  },
+  "Same Old Love": {
+   "total": 801860756,
+   "daily": 182390
+  },
+  "Naturally": {
+   "total": 191640024,
+   "daily": 74893
+  },
+  "Who Says": {
+   "total": 650947832,
+   "daily": 227038
+  },
+  "Hands To Myself": {
+   "total": 791169162,
+   "daily": 120159
+  },
+  "Wolves": {
+   "total": 1557106290,
+   "daily": 221824
+  },
+  "The Heart Wants What It Wants": {
+   "total": 668984537,
+   "daily": 199579
+  },
+  "We Don't Talk Anymore": {
+   "total": 2656293188,
+   "daily": 1139391
+  },
+  "Kill Em With Kindness": {
+   "total": 590174593,
+   "daily": 36362
+  },
+  "Bad Liar": {
+   "total": 546035294,
+   "daily": 30060
+  },
+  "Back To You": {
+   "total": 1225908355,
+   "daily": 181547
+  },
+  "Slow Down": {
+   "total": 217718577,
+   "daily": 119287
+  },
+  "A Year Without Rain": {
+   "total": 150069833,
+   "daily": 47903
+  },
+  "Round & Round": {
+   "total": 78538172,
+   "daily": 20907
+  },
+  "Fetish": {
+   "total": 723569877,
+   "daily": 199436
+  },
+  "Look At Her Now": {
+   "total": 343685516,
+   "daily": 17732
+  },
+  "Rare": {
+   "total": 309871076,
+   "daily": 17006
+  },
+  "Tell Me Something I Don't Know": {
+   "total": 47394561,
+   "daily": 9623
+  },
+  "I Want You To Know": {
+   "total": 401948687,
+   "daily": 90451
+  },
+  "Hit The Lights": {
+   "total": 88457125,
+   "daily": 24975
+  },
+  "People You Know": {
+   "total": 479364556,
+   "daily": 204013
+  },
+  "Let Somebody Go": {
+   "total": 302970086,
+   "daily": 37448
+  },
+  "Ice Cream": {
+   "total": 668578813,
+   "daily": 88500
+  },
+  "Boyfriend": {
+   "total": 140963389,
+   "daily": 7332
+  },
+  "Baila Conmigo": {
+   "total": 521426071,
+   "daily": 36309
+  },
+  "Love Will Remember": {
+   "total": 69756171,
+   "daily": 5147
+  },
+  "Sober": {
+   "total": 111978236,
+   "daily": 7945
+  },
+  "Me & The Rhythm": {
+   "total": 127491116,
+   "daily": 8518
+  },
+  "Single Soon": {
+   "total": 278090475,
+   "daily": 29626
+  },
+  "Birthday": {
+   "total": 41689435,
+   "daily": 3412
+  },
+  "Dance Again": {
+   "total": 69997073,
+   "daily": 4872
+  },
+  "Me & My Girls": {
+   "total": 86358961,
+   "daily": 8604
+  },
+  "Stars Dance": {
+   "total": 30141489,
+   "daily": 2805
+  },
+  "De Una Vez": {
+   "total": 109618254,
+   "daily": 5545
+  },
+  "Vulnerable": {
+   "total": 72133209,
+   "daily": 5507
+  },
+  "Crowded Room": {
+   "total": 66791423,
+   "daily": 4604
+  },
+  "Let Me Get Me": {
+   "total": 49306637,
+   "daily": 4927
+  },
+  "Feel Me": {
+   "total": 192756049,
+   "daily": 16317
+  },
+  "Souvenir": {
+   "total": 144596684,
+   "daily": 31935
+  },
+  "Selfish Love": {
+   "total": 123625121,
+   "daily": 9906
+  },
+  "My Mind & Me": {
+   "total": 145750577,
+   "daily": 10819
+  },
+  "I Can't Get Enough": {
+   "total": 377058503,
+   "daily": 16976
+  },
+  "Perfect": {
+   "total": 64751565,
+   "daily": 5751
+  },
+  "Nobody": {
+   "total": 47084297,
+   "daily": 2963
+  },
+  "Revival": {
+   "total": 48346989,
+   "daily": 2178
+  },
+  "A Sweeter Place": {
+   "total": 44891391,
+   "daily": 2871
+  },
+  "Trust Nobody": {
+   "total": 184840121,
+   "daily": 4717
+  },
+  "Camouflage": {
+   "total": 45596861,
+   "daily": 1816
+  },
+  "Kinda Crazy": {
+   "total": 34896625,
+   "daily": 2420
+  },
+  "She": {
+   "total": 31711421,
+   "daily": 3485
+  },
+  "Cut You Off": {
+   "total": 38574456,
+   "daily": 2276
+  },
+  "Ojos Tristes": {
+   "total": 240078558,
+   "daily": 167864
+  },
+  "Bluest Flame": {
+   "total": 104373680,
+   "daily": 57168
+  },
+  "Call Me When You Break Up": {
+   "total": 141707576,
+   "daily": 62678
+  },
+  "Sunset Blvd": {
+   "total": 72513243,
+   "daily": 27258
+  },
+  "How Does It Feel To Be Forgotten": {
+   "total": 81191871,
+   "daily": 32007
+  },
+  "Love On": {
+   "total": 81897325,
+   "daily": 11333
+  },
+  "Scared Of Loving You": {
+   "total": 35610851,
+   "daily": 13995
+  },
+  "Pick It Up": {
+   "total": 18580001,
+   "daily": 8628
+  },
+  "Already Missing You": {
+   "total": 15265402,
+   "daily": 815
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

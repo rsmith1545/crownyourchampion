@@ -67,5 +67,136 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not in songdb.json -- liveRank is synthetic. Remove this flag once real setlist data is loaded."
+ "_no_live_data_reason": "Not in songdb.json -- liveRank is synthetic. Remove this flag once real setlist data is loaded.",
+ "stream_data": {
+  "As It Was": {
+   "total": 4503321547,
+   "daily": 1536048
+  },
+  "Sign of the Times": {
+   "total": 2291434876,
+   "daily": 1618592
+  },
+  "Watermelon Sugar": {
+   "total": 3334866633,
+   "daily": 795058
+  },
+  "Adore You": {
+   "total": 2124465242,
+   "daily": 575519
+  },
+  "Aperture": {
+   "total": 233425446,
+   "daily": 398503
+  },
+  "Golden": {
+   "total": 1078621053,
+   "daily": 196400
+  },
+  "Falling": {
+   "total": 1585218746,
+   "daily": 252173
+  },
+  "Late Night Talking": {
+   "total": 1196173384,
+   "daily": 214226
+  },
+  "Kiwi": {
+   "total": 611118368,
+   "daily": 89406
+  },
+  "Lights Up": {
+   "total": 752960583,
+   "daily": 71996
+  },
+  "American Girls": {
+   "total": 243873333,
+   "daily": 1009404
+  },
+  "Fine Line": {
+   "total": 753165559,
+   "daily": 337170
+  },
+  "Sweet Creature": {
+   "total": 689797817,
+   "daily": 90144
+  },
+  "Matilda": {
+   "total": 804496585,
+   "daily": 447659
+  },
+  "Woman": {
+   "total": 262543557,
+   "daily": 39478
+  },
+  "Two Ghosts": {
+   "total": 380793764,
+   "daily": 72122
+  },
+  "Cherry": {
+   "total": 435418784,
+   "daily": 97147
+  },
+  "Only Angel": {
+   "total": 238921263,
+   "daily": 45582
+  },
+  "Music For a Sushi Restaurant": {
+   "total": 503445617,
+   "daily": 122540
+  },
+  "Carolina": {
+   "total": 247903800,
+   "daily": 33191
+  },
+  "Meet Me in the Hallway": {
+   "total": 265691251,
+   "daily": 33018
+  },
+  "From the Dining Table": {
+   "total": 416552943,
+   "daily": 63789
+  },
+  "Dance No More": {
+   "total": 75566696,
+   "daily": 263038
+  },
+  "Satellite": {
+   "total": 596217016,
+   "daily": 136801
+  },
+  "Coming Up Roses": {
+   "total": 109678847,
+   "daily": 344478
+  },
+  "Ever Since New York": {
+   "total": 216190266,
+   "daily": 40790
+  },
+  "She": {
+   "total": 391460551,
+   "daily": 54762
+  },
+  "Little Freak": {
+   "total": 480977082,
+   "daily": 96157
+  },
+  "Canyon Moon": {
+   "total": 250634554,
+   "daily": 42858
+  },
+  "Treat People With Kindness": {
+   "total": 231641505,
+   "daily": 58458
+  },
+  "Daylight": {
+   "total": 470805538,
+   "daily": 91953
+  },
+  "Ready, Steady, Go!": {
+   "total": 90667201,
+   "daily": 229477
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

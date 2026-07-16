@@ -124,5 +124,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Yellow": {
+   "total": 3845718920,
+   "daily": 1509014
+  },
+  "Viva La Vida": {
+   "total": 3402989471,
+   "daily": 1433016
+  },
+  "Clocks": {
+   "total": 1554767695,
+   "daily": 707406
+  },
+  "Fix You": {
+   "total": 2156020087,
+   "daily": 658815
+  },
+  "The Scientist": {
+   "total": 2915328346,
+   "daily": 1029290
+  },
+  "A Sky Full of Stars": {
+   "total": 2392103805,
+   "daily": 863473
+  },
+  "In My Place": {
+   "total": 514365405,
+   "daily": 169411
+  },
+  "Paradise": {
+   "total": 1906018534,
+   "daily": 584457
+  },
+  "Adventure of a Lifetime": {
+   "total": 1640728684,
+   "daily": 823205
+  },
+  "Hymn for the Weekend": {
+   "total": 1976402047,
+   "daily": 546244
+  },
+  "Something Just Like This": {
+   "total": 3690773559,
+   "daily": 982993
+  },
+  "Speed of Sound": {
+   "total": 411302309,
+   "daily": 121947
+  },
+  "Trouble": {
+   "total": 503836511,
+   "daily": 131068
+  },
+  "Every Teardrop Is a Waterfall": {
+   "total": 400520166,
+   "daily": 92302
+  },
+  "My Universe": {
+   "total": 1624150544,
+   "daily": 295299
+  },
+  "Magic": {
+   "total": 815016341,
+   "daily": 95919
+  },
+  "Don't Panic": {
+   "total": 292049471,
+   "daily": 94176
+  },
+  "The Hardest Part": {
+   "total": 128323550,
+   "daily": 37883
+  },
+  "God Put a Smile upon Your Face": {
+   "total": 144959026,
+   "daily": 28490
+  },
+  "Politik": {
+   "total": 115237944,
+   "daily": 20950
+  },
+  "Violet Hill": {
+   "total": 235903226,
+   "daily": 47140
+  },
+  "Charlie Brown": {
+   "total": 317297351,
+   "daily": 63222
+  },
+  "Princess of China": {
+   "total": 355518523,
+   "daily": 80681
+  },
+  "Shiver": {
+   "total": 221477845,
+   "daily": 46565
+  },
+  "Higher Power": {
+   "total": 461873650,
+   "daily": 78159
+  },
+  "Talk": {
+   "total": 174729912,
+   "daily": 55306
+  },
+  "Lost!": {
+   "total": 88306003,
+   "daily": 15109
+  },
+  "Green Eyes": {
+   "total": 181314050,
+   "daily": 40897
+  },
+  "Warning Sign": {
+   "total": 119307101,
+   "daily": 30059
+  },
+  "A Rush of Blood to the Head": {
+   "total": 72073801,
+   "daily": 16210
+  },
+  "Sparks": {
+   "total": 2135176687,
+   "daily": 1185327
+  },
+  "Everglow": {
+   "total": 383483627,
+   "daily": 88482
+  },
+  "Up&Up": {
+   "total": 315414575,
+   "daily": 42729
+  },
+  "Life in Technicolor ii": {
+   "total": 81837026,
+   "daily": 12721
+  },
+  "A Message": {
+   "total": 122573700,
+   "daily": 29169
+  },
+  "Strawberry Swing": {
+   "total": 109027709,
+   "daily": 17090
+  },
+  "Always in My Head": {
+   "total": 175784837,
+   "daily": 30081
+  },
+  "A Head Full of Dreams": {
+   "total": 243102495,
+   "daily": 32607
+  },
+  "Til Kingdom Come": {
+   "total": 101182973,
+   "daily": 27211
+  },
+  "Spies": {
+   "total": 76672598,
+   "daily": 17282
+  },
+  "Lovers in Japan / Reign of Love": {
+   "total": 74289483,
+   "daily": 12245
+  },
+  "Hurts Like Heaven": {
+   "total": 85165690,
+   "daily": 9485
+  },
+  "Midnight": {
+   "total": 170446119,
+   "daily": 18885
+  },
+  "Everyday Life": {
+   "total": 156048976,
+   "daily": 22157
+  },
+  "Orphans": {
+   "total": 277959211,
+   "daily": 32020
+  },
+  "feelslikeimfallinginlove": {
+   "total": 312036189,
+   "daily": 151725
+  },
+  "High Speed": {
+   "total": 114335735,
+   "daily": 20881
+  },
+  "Amazing Day": {
+   "total": 102028671,
+   "daily": 13043
+  },
+  "Let Somebody Go": {
+   "total": 302970086,
+   "daily": 37448
+  },
+  "Coloratura": {
+   "total": 82277324,
+   "daily": 15646
+  },
+  "Birds": {
+   "total": 152401331,
+   "daily": 19364
+  },
+  "Ink": {
+   "total": 130381950,
+   "daily": 21942
+  },
+  "We Never Change": {
+   "total": 112330339,
+   "daily": 25580
+  },
+  "O": {
+   "total": 145095101,
+   "daily": 32297
+  },
+  "WE PRAY": {
+   "total": 240060915,
+   "daily": 139208
+  },
+  "True Love": {
+   "total": 104691430,
+   "daily": 11463
+  },
+  "Miracles (Someone Special)": {
+   "total": 120457369,
+   "daily": 14030
+  },
+  "Biutyful": {
+   "total": 98426973,
+   "daily": 17951
+  },
+  "See You Soon": {
+   "total": 88100664,
+   "daily": 12590
+  },
+  "Fun": {
+   "total": 115799402,
+   "daily": 9615
+  },
+  "Champion Of The World": {
+   "total": 83014710,
+   "daily": 13010
+  },
+  "Army of One": {
+   "total": 90221924,
+   "daily": 9376
+  },
+  "ALL MY LOVE": {
+   "total": 107584894,
+   "daily": 65364
+  },
+  "GOOD FEELiNGS": {
+   "total": 54274267,
+   "daily": 29639
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

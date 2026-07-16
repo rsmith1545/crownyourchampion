@@ -100,5 +100,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "What Makes You Beautiful": {
+   "total": 1940306497,
+   "daily": 880713
+  },
+  "Story of My Life": {
+   "total": 1973994516,
+   "daily": 476704
+  },
+  "Night Changes": {
+   "total": 2638000154,
+   "daily": 1112994
+  },
+  "Drag Me Down": {
+   "total": 1423575253,
+   "daily": 240419
+  },
+  "Perfect": {
+   "total": 1290174273,
+   "daily": 489537
+  },
+  "Steal My Girl": {
+   "total": 1281149583,
+   "daily": 626921
+  },
+  "Best Song Ever": {
+   "total": 811026178,
+   "daily": 259339
+  },
+  "You & I": {
+   "total": 902539104,
+   "daily": 271348
+  },
+  "Live While We're Young": {
+   "total": 519440261,
+   "daily": 129353
+  },
+  "One Thing": {
+   "total": 519986657,
+   "daily": 224464
+  },
+  "Kiss You": {
+   "total": 537084413,
+   "daily": 109511
+  },
+  "Little Things": {
+   "total": 728378553,
+   "daily": 89273
+  },
+  "History": {
+   "total": 683464591,
+   "daily": 94146
+  },
+  "18": {
+   "total": 968662703,
+   "daily": 240409
+  },
+  "Midnight Memories": {
+   "total": 273429220,
+   "daily": 44538
+  },
+  "Rock Me": {
+   "total": 183252822,
+   "daily": 38437
+  },
+  "They Don't Know About Us": {
+   "total": 693167326,
+   "daily": 177530
+  },
+  "Right Now": {
+   "total": 667423021,
+   "daily": 155389
+  },
+  "No Control": {
+   "total": 372938806,
+   "daily": 77314
+  },
+  "Strong": {
+   "total": 430653398,
+   "daily": 132891
+  },
+  "Where Do Broken Hearts Go": {
+   "total": 247255425,
+   "daily": 52173
+  },
+  "Olivia": {
+   "total": 319963117,
+   "daily": 35446
+  },
+  "Stockholm Syndrome": {
+   "total": 278548320,
+   "daily": 43256
+  },
+  "Fireproof": {
+   "total": 232785276,
+   "daily": 46651
+  },
+  "Infinity": {
+   "total": 268932329,
+   "daily": 29789
+  },
+  "Up All Night": {
+   "total": 155408695,
+   "daily": 28349
+  },
+  "Gotta Be You": {
+   "total": 151325498,
+   "daily": 27851
+  },
+  "More Than This": {
+   "total": 195692807,
+   "daily": 27639
+  },
+  "Happily": {
+   "total": 197934040,
+   "daily": 27502
+  },
+  "What a Feeling": {
+   "total": 219244575,
+   "daily": 35050
+  },
+  "Fool's Gold": {
+   "total": 232634509,
+   "daily": 31979
+  },
+  "If I Could Fly": {
+   "total": 316946924,
+   "daily": 27585
+  },
+  "Diana": {
+   "total": 179559880,
+   "daily": 31147
+  },
+  "Ready to Run": {
+   "total": 175313354,
+   "daily": 28931
+  },
+  "Love You Goodbye": {
+   "total": 242524817,
+   "daily": 24671
+  },
+  "Last First Kiss": {
+   "total": 178697795,
+   "daily": 28606
+  },
+  "Half a Heart": {
+   "total": 213379470,
+   "daily": 21498
+  },
+  "Walking in the Wind": {
+   "total": 193460279,
+   "daily": 29107
+  },
+  "Girl Almighty": {
+   "total": 162604474,
+   "daily": 28777
+  },
+  "Over Again": {
+   "total": 194212792,
+   "daily": 23526
+  },
+  "A.M.": {
+   "total": 216946817,
+   "daily": 22975
+  },
+  "End of the Day": {
+   "total": 198405680,
+   "daily": 20178
+  },
+  "She's Not Afraid": {
+   "total": 128843369,
+   "daily": 24965
+  },
+  "Temporary Fix": {
+   "total": 163012462,
+   "daily": 25227
+  },
+  "C'mon, C'mon": {
+   "total": 132437624,
+   "daily": 30403
+  },
+  "I Would": {
+   "total": 143896705,
+   "daily": 28148
+  },
+  "Wolves": {
+   "total": 147598818,
+   "daily": 21334
+  },
+  "Through the Dark": {
+   "total": 130166951,
+   "daily": 21825
+  },
+  "Don't Forget Where You Belong": {
+   "total": 132645837,
+   "daily": 20028
+  },
+  "Never Enough": {
+   "total": 136944971,
+   "daily": 15411
+  },
+  "Hey Angel": {
+   "total": 125231322,
+   "daily": 18628
+  },
+  "Moments": {
+   "total": 124711835,
+   "daily": 17950
+  },
+  "I Want to Write You a Song": {
+   "total": 134183149,
+   "daily": 13060
+  },
+  "I Wish": {
+   "total": 108152915,
+   "daily": 17099
+  },
+  "Heart Attack": {
+   "total": 111792378,
+   "daily": 15571
+  },
+  "Home": {
+   "total": 113882293,
+   "daily": 14169
+  },
+  "Clouds": {
+   "total": 103690533,
+   "daily": 15494
+  },
+  "Act My Age": {
+   "total": 114368706,
+   "daily": 13621
+  },
+  "Nobody Compares": {
+   "total": 101779643,
+   "daily": 16104
+  },
+  "Better Than Words": {
+   "total": 105398882,
+   "daily": 13776
+  },
+  "Taken": {
+   "total": 102772769,
+   "daily": 14790
+  },
+  "Magic": {
+   "total": 81741448,
+   "daily": 24766
+  },
+  "Little White Lies": {
+   "total": 100968893,
+   "daily": 15223
+  },
+  "Change Your Ticket": {
+   "total": 85302427,
+   "daily": 15045
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

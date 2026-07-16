@@ -65,5 +65,136 @@
  ],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
- "size_note": "Not enough songs for 64… yet"
+ "size_note": "Not enough songs for 64… yet",
+ "stream_data": {
+  "Someone Like You": {
+   "total": 2645086946,
+   "daily": 684919
+  },
+  "Easy On Me": {
+   "total": 2502686464,
+   "daily": 613597
+  },
+  "Set Fire to the Rain": {
+   "total": 2371630601,
+   "daily": 737824
+  },
+  "Rolling in the Deep": {
+   "total": 2431108461,
+   "daily": 598261
+  },
+  "Skyfall": {
+   "total": 1395770438,
+   "daily": 636088
+  },
+  "When We Were Young": {
+   "total": 1676278425,
+   "daily": 331667
+  },
+  "Hello": {
+   "total": 1843886572,
+   "daily": 287620
+  },
+  "Send My Love (To Your New Lover)": {
+   "total": 1345271772,
+   "daily": 396274
+  },
+  "Love In The Dark": {
+   "total": 1240099330,
+   "daily": 495469
+  },
+  "Make You Feel My Love": {
+   "total": 1397072666,
+   "daily": 250438
+  },
+  "Chasing Pavements": {
+   "total": 916486520,
+   "daily": 306638
+  },
+  "All I Ask": {
+   "total": 864224449,
+   "daily": 249588
+  },
+  "Water Under the Bridge": {
+   "total": 824848854,
+   "daily": 160165
+  },
+  "Hometown Glory": {
+   "total": 430218264,
+   "daily": 160176
+  },
+  "Oh My God": {
+   "total": 683298949,
+   "daily": 83269
+  },
+  "Rumour Has It": {
+   "total": 436799945,
+   "daily": 87069
+  },
+  "Turning Tables": {
+   "total": 495213770,
+   "daily": 68483
+  },
+  "Don't You Remember": {
+   "total": 416941072,
+   "daily": 156126
+  },
+  "I Drink Wine": {
+   "total": 377624659,
+   "daily": 136370
+  },
+  "Lovesong": {
+   "total": 216607492,
+   "daily": 281198
+  },
+  "One And Only": {
+   "total": 355087855,
+   "daily": 67465
+  },
+  "Remedy": {
+   "total": 296800434,
+   "daily": 35320
+  },
+  "Million Years Ago": {
+   "total": 270441303,
+   "daily": 51730
+  },
+  "Can I Get It": {
+   "total": 247113538,
+   "daily": 31742
+  },
+  "I Miss You": {
+   "total": 180267226,
+   "daily": 28810
+  },
+  "Daydreamer": {
+   "total": 171647692,
+   "daily": 24075
+  },
+  "To Be Loved": {
+   "total": 151179327,
+   "daily": 27624
+  },
+  "My Little Love": {
+   "total": 161180026,
+   "daily": 23611
+  },
+  "River Lea": {
+   "total": 146871448,
+   "daily": 20736
+  },
+  "He Won't Go": {
+   "total": 133461076,
+   "daily": 23376
+  },
+  "Hold On": {
+   "total": 114210647,
+   "daily": 18518
+  },
+  "Take It All": {
+   "total": 114880844,
+   "daily": 15895
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

@@ -112,5 +112,264 @@
   ]
  ],
  "no_live_data": true,
- "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands."
+ "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
+ "stream_data": {
+  "Shape of You": {
+   "total": 5003424508,
+   "daily": 1535414
+  },
+  "Perfect": {
+   "total": 4030530846,
+   "daily": 1140087
+  },
+  "Thinking out Loud": {
+   "total": 3165131178,
+   "daily": 714829
+  },
+  "The A Team": {
+   "total": 3482030519,
+   "daily": 942330
+  },
+  "Photograph": {
+   "total": 1619342924,
+   "daily": 354935
+  },
+  "Castle on the Hill": {
+   "total": 2187441844,
+   "daily": 522759
+  },
+  "Bad Habits": {
+   "total": 1173304386,
+   "daily": 210773
+  },
+  "Shivers": {
+   "total": 2092832173,
+   "daily": 573935
+  },
+  "Galway Girl": {
+   "total": 1617762332,
+   "daily": 360724
+  },
+  "South of the Border": {
+   "total": 887921165,
+   "daily": 135356
+  },
+  "Happier": {
+   "total": 1498807062,
+   "daily": 138192
+  },
+  "Sing": {
+   "total": 630780408,
+   "daily": 78395
+  },
+  "Dive": {
+   "total": 881068501,
+   "daily": 208282
+  },
+  "Lego House": {
+   "total": 665070611,
+   "daily": 93157
+  },
+  "Don't": {
+   "total": 877941569,
+   "daily": 123123
+  },
+  "I See Fire": {
+   "total": 1048661350,
+   "daily": 116637
+  },
+  "I Don't Care": {
+   "total": 2209122903,
+   "daily": 332689
+  },
+  "Tenerife Sea": {
+   "total": 684357789,
+   "daily": 72040
+  },
+  "Give Me Love": {
+   "total": 613243646,
+   "daily": 66413
+  },
+  "Beautiful People": {
+   "total": 1566635664,
+   "daily": 228651
+  },
+  "Eyes Closed": {
+   "total": 507265774,
+   "daily": 97442
+  },
+  "Afterglow": {
+   "total": 527875329,
+   "daily": 47408
+  },
+  "Bloodstream": {
+   "total": 348078201,
+   "daily": 32816
+  },
+  "Kiss Me": {
+   "total": 515369718,
+   "daily": 40666
+  },
+  "Supermarket Flowers": {
+   "total": 858444644,
+   "daily": 121146
+  },
+  "Cross Me": {
+   "total": 424552079,
+   "daily": 23232
+  },
+  "Azizam": {
+   "total": 464481675,
+   "daily": 328640
+  },
+  "Overpass Graffiti": {
+   "total": 381618291,
+   "daily": 54585
+  },
+  "I'm a Mess": {
+   "total": 355323256,
+   "daily": 17856
+  },
+  "Nancy Mulligan": {
+   "total": 331136906,
+   "daily": 38993
+  },
+  "New Man": {
+   "total": 347348268,
+   "daily": 19834
+  },
+  "How Would You Feel (Paean)": {
+   "total": 399740734,
+   "daily": 28575
+  },
+  "You Need Me, I Don't Need You": {
+   "total": 205234830,
+   "daily": 20274
+  },
+  "Sapphire": {
+   "total": 384407485,
+   "daily": 340945
+  },
+  "Celestial": {
+   "total": 296003656,
+   "daily": 69032
+  },
+  "Remember The Name": {
+   "total": 286310082,
+   "daily": 31139
+  },
+  "Drunk": {
+   "total": 277400617,
+   "daily": 23444
+  },
+  "Best Part of Me": {
+   "total": 301967686,
+   "daily": 17563
+  },
+  "One": {
+   "total": 297100068,
+   "daily": 21303
+  },
+  "Antisocial": {
+   "total": 285124812,
+   "daily": 21181
+  },
+  "Visiting Hours": {
+   "total": 289427978,
+   "daily": 40198
+  },
+  "All of the Stars": {
+   "total": 379106826,
+   "daily": 37713
+  },
+  "Take Me Back to London": {
+   "total": 249814461,
+   "daily": 23764
+  },
+  "Lay It All on Me": {
+   "total": 430204997,
+   "daily": 27161
+  },
+  "What Do I Know?": {
+   "total": 429725525,
+   "daily": 33730
+  },
+  "Barcelona": {
+   "total": 332313839,
+   "daily": 24416
+  },
+  "Small Bump": {
+   "total": 249624085,
+   "daily": 16363
+  },
+  "Save Myself": {
+   "total": 256904538,
+   "daily": 12860
+  },
+  "Eraser": {
+   "total": 218401810,
+   "daily": 10677
+  },
+  "Hearts Don't Break Around Here": {
+   "total": 291554975,
+   "daily": 17072
+  },
+  "2step": {
+   "total": 200359928,
+   "daily": 28417
+  },
+  "The Joker And The Queen": {
+   "total": 230693468,
+   "daily": 31379
+  },
+  "Nothing On You": {
+   "total": 153373158,
+   "daily": 11249
+  },
+  "Put It All on Me": {
+   "total": 127467975,
+   "daily": 14348
+  },
+  "Life Goes On": {
+   "total": 120140822,
+   "daily": 45677
+  },
+  "Afire Love": {
+   "total": 187933342,
+   "daily": 11190
+  },
+  "First Times": {
+   "total": 136099597,
+   "daily": 13507
+  },
+  "Take It Back": {
+   "total": 121755763,
+   "daily": 4965
+  },
+  "U.N.I.": {
+   "total": 102397216,
+   "daily": 5414
+  },
+  "Even My Dad Does Sometimes": {
+   "total": 109950592,
+   "daily": 5540
+  },
+  "Tides": {
+   "total": 79959972,
+   "daily": 8024
+  },
+  "Bibia Be Ye Ye": {
+   "total": 239975833,
+   "daily": 15165
+  },
+  "Wake Me Up": {
+   "total": 114500277,
+   "daily": 4880
+  },
+  "Grade 8": {
+   "total": 70343962,
+   "daily": 3942
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }

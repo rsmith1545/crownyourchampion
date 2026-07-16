@@ -69,5 +69,136 @@
  ],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
- "size_note": "Not enough songs for 64… yet"
+ "size_note": "Not enough songs for 64… yet",
+ "stream_data": {
+  "Just the Way You Are": {
+   "total": 3358834235,
+   "daily": 1433656
+  },
+  "That's What I Like": {
+   "total": 3289319427,
+   "daily": 1494288
+  },
+  "Uptown Funk": {
+   "total": 2709949597,
+   "daily": 1042985
+  },
+  "Locked out of Heaven": {
+   "total": 3350220016,
+   "daily": 1826003
+  },
+  "24K Magic": {
+   "total": 1977779923,
+   "daily": 780486
+  },
+  "When I Was Your Man": {
+   "total": 3210338311,
+   "daily": 1174133
+  },
+  "Grenade": {
+   "total": 1987207888,
+   "daily": 776503
+  },
+  "nothin' on you": {
+   "total": 1135525203,
+   "daily": 827148
+  },
+  "Die With A Smile": {
+   "total": 3807951073,
+   "daily": 2117900
+  },
+  "Leave The Door Open": {
+   "total": 1782871386,
+   "daily": 635381
+  },
+  "APT.": {
+   "total": 2529797486,
+   "daily": 1335273
+  },
+  "Marry You": {
+   "total": 1636018015,
+   "daily": 838273
+  },
+  "Treasure": {
+   "total": 1424135922,
+   "daily": 592260
+  },
+  "The Lazy Song": {
+   "total": 1442573053,
+   "daily": 690586
+  },
+  "Talking to the Moon": {
+   "total": 2170465489,
+   "daily": 944559
+  },
+  "It Will Rain": {
+   "total": 1673223772,
+   "daily": 835760
+  },
+  "Billionaire": {
+   "total": 973985250,
+   "daily": 416199
+  },
+  "Finesse": {
+   "total": 998149631,
+   "daily": 273001
+  },
+  "Count on Me": {
+   "total": 950504541,
+   "daily": 559734
+  },
+  "Versace on the Floor": {
+   "total": 1206287926,
+   "daily": 615620
+  },
+  "Please Me": {
+   "total": 874171666,
+   "daily": 443260
+  },
+  "Lighters": {
+   "total": 338696333,
+   "daily": 202342
+  },
+  "Runaway Baby": {
+   "total": 726989278,
+   "daily": 451058
+  },
+  "Mirror": {
+   "total": 737696157,
+   "daily": 192818
+  },
+  "Smokin Out The Window": {
+   "total": 628160344,
+   "daily": 239403
+  },
+  "Young Girls": {
+   "total": 295722854,
+   "daily": 87893
+  },
+  "Gorilla": {
+   "total": 289405587,
+   "daily": 72786
+  },
+  "Chunky": {
+   "total": 415897057,
+   "daily": 131370
+  },
+  "Skate": {
+   "total": 358026314,
+   "daily": 151758
+  },
+  "Too Good to Say Goodbye": {
+   "total": 330488626,
+   "daily": 225121
+  },
+  "Risk It All": {
+   "total": 466848604,
+   "daily": 2428522
+  },
+  "I Just Might": {
+   "total": 488039267,
+   "daily": 1580601
+  }
+ },
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
 }
