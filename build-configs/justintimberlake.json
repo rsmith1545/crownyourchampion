@@ -4,13 +4,13 @@
  "category": "Pop",
  "size": 64,
  "regions": [
-  "Region One",
-  "Region Two",
-  "Region Three",
-  "Region Four"
+  "Region 1 (Top Left)",
+  "Region 3 (Bottom Left)",
+  "Region 2 (Top Right)",
+  "Region 4 (Bottom Right)"
  ],
- "slogan": "TBD placeholder — CROWN YOUR CHAMPION",
- "_placeholder": "regions + slogan are PLACEHOLDERS. Swap in config, rerun, deploy.",
+ "slogan": "Every song's got a fan. Only one wears the crown.",
+ "_placeholder": "Generic labels pending real names. regions[] is indexed by DOM SLOT (0=top-left, 1=bottom-left, 2=top-right, 3=bottom-right), NOT reading order -- that is why the labels read 1,3,2,4 here. Keep that if relabelling.",
  "songs": [
   "SexyBack",
   "Cry Me a River",
