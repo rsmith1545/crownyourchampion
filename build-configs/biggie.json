@@ -45,7 +45,24 @@
   "I Love The Dough",
   "Nasty Boy"
  ],
- "albums": [],
+ "albums": [
+  [
+   "Ready to Die",
+   1994
+  ],
+  [
+   "Life After Death",
+   1997
+  ],
+  [
+   "Born Again",
+   1999
+  ],
+  [
+   "Duets: The Final Chapter",
+   2005
+  ]
+ ],
  "no_live_data": true,
  "_no_live_data_reason": "Not yet in songdb.json -- liveRank synthetic. Drop flag when real setlist data lands.",
  "size_note": "Not enough songs for 64… yet",
@@ -179,5 +196,6 @@
    "daily": 1368
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "_albums_note": "iTunes artist 5499810 (verified artistName). Excluded: Greatest Hits (x3), the Notorious soundtrack (x4), Music Inspired By Biggie, EPs and singles. NOTE only Ready to Die and Life After Death were released in his lifetime; Born Again and Duets are posthumous. Trim if the vote should be the real two."
 }
