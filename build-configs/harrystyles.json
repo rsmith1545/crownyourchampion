@@ -1,0 +1,69 @@
+{
+ "name": "Harry Styles",
+ "slug": "harrystyles",
+ "category": "Pop",
+ "size": 32,
+ "size_note": "Not enough songs for 64… yet",
+ "methodology": "Manual re-rank off streams (superfan order)",
+ "regions": [
+  "Fine Line",
+  "Harry's House",
+  "Watermelon Sugar",
+  "Golden"
+ ],
+ "slogan": "You know it's not the same as it was. Sign of the times — CROWN YOUR CHAMPION",
+ "concert_placeholder": "Love On Tour 2022, Coachella 2022...",
+ "songs": [
+  "As It Was",
+  "Sign of the Times",
+  "Watermelon Sugar",
+  "Adore You",
+  "Aperture",
+  "Golden",
+  "Falling",
+  "Late Night Talking",
+  "Kiwi",
+  "Lights Up",
+  "American Girls",
+  "Fine Line",
+  "Sweet Creature",
+  "Matilda",
+  "Woman",
+  "Two Ghosts",
+  "Cherry",
+  "Only Angel",
+  "Music For a Sushi Restaurant",
+  "Carolina",
+  "Meet Me in the Hallway",
+  "From the Dining Table",
+  "Dance No More",
+  "Satellite",
+  "Coming Up Roses",
+  "Ever Since New York",
+  "She",
+  "Little Freak",
+  "Canyon Moon",
+  "Treat People With Kindness",
+  "Daylight",
+  "Ready, Steady, Go!"
+ ],
+ "type": "standard",
+ "albums": [
+  [
+   "Harry Styles",
+   2017
+  ],
+  [
+   "Fine Line",
+   2019
+  ],
+  [
+   "Harry's House",
+   2022
+  ],
+  [
+   "Kiss All the Time.  Disco, Occasionally",
+   2026
+  ]
+ ]
+}

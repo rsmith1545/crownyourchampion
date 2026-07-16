@@ -19,8 +19,12 @@ import re
 import shutil
 import sys
 
-R1_ORDER = [(1, 16), (8, 9), (5, 12), (4, 13), (6, 11), (3, 14), (7, 10), (2, 15)]
-REGION_PREFIXES = ["SP", "WP", "AL", "DC"]
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "build-lib"))
+import tree  # the ONE place that knows what a bracket tree looks like
+
+VALID_SIZES = (32, 64)
+REGION_PREFIXES = tree.REGION_PREFIXES
+R1_ORDER = tree.R1_ORDERS[16]   # kept for any legacy caller; size-aware code uses tree.r1_order()
 
 
 def scurve(overall):
@@ -58,7 +62,9 @@ def build_songdb_map(songdb_path, artist):
 def build_song_data(cfg, songdb_map):
     songs = cfg["songs"]
     regions = cfg["regions"]
-    assert len(songs) == 64, "config must have exactly 64 songs"
+    size = int(cfg.get("size", 64))
+    assert size in VALID_SIZES, f"size must be one of {VALID_SIZES}, got {size}"
+    assert len(songs) == size, f"config says size={size} but has {len(songs)} songs"
     assert len(regions) == 4, "config must have exactly 4 regions"
 
     entries = []
@@ -133,36 +139,335 @@ def replace_all_songs_block(text, new_block):
     return text[:start] + new_block + text[end:]
 
 
+
+def js1(v):
+    """Escape a value for insertion into a JS '...' string literal."""
+    return v.replace("\\", "\\\\").replace("'", "\\'")
+
+
 def replace_region_headers(text, ref_regions, new_regions):
+    """Rewrite every place a region NAME appears, not just the visible header.
+
+    Three surfaces carry it and all three must move together, or a regenerated
+    bracket ends up showing its own regions on screen while the share card and
+    the venue watermarks still say the reference's:
+      1. <div class="region-header">NAME</div>      -- visible header
+      2. 'NAME': ['SP-R2-1', ...]                   -- share-card region->slot map
+      3. .venue-*::after { content:"NAME"; }        -- background watermark
+    """
     for old, new in zip(ref_regions, new_regions):
-        text = text.replace(
-            f'<div class="region-header">{html.escape(old)}</div>',
-            f'<div class="region-header">{html.escape(new)}</div>',
-        )
+        eo, en = html.escape(old), html.escape(new)
+        text = text.replace(f'<div class="region-header">{eo}</div>',
+                            f'<div class="region-header">{en}</div>')
+        # share-card map key (single-quoted JS string followed by the slot array)
+        text = re.sub(r"'" + re.escape(old) + r"'(\s*:\s*\[')",
+                      lambda m, en=new: "'" + en + "'" + m.group(1), text)
+        # era-filter buttons — the onclick arg is a JS '...' literal
+        text = text.replace(f"selectEra('{js1(old)}')\">{eo}</button>",
+                            f"selectEra('{js1(new)}')\">{en}</button>")
+        # JS string compares: 'X Winner' / "X Winner" (champion detection).
+        # MUST escape: a region like "Harry's House" otherwise terminates the
+        # literal early and breaks the entire <script> block.
+        text = text.replace(f"'{js1(old)} Winner'", f"'{js1(new)} Winner'")
+        text = text.replace(f'"{old} Winner"', f'"{new} Winner"')
+
+    # The .venue-*::after watermark carries the REFERENCE's region names. Every
+    # bracket built by this generator blanks it (19 of 32 live brackets are blank;
+    # the 13 non-blank ones came from the older one-off build_*.py scripts).
+    # Leaving it would print the reference's region names over the new bracket.
+    text = re.sub(r'(\.venue-[a-z]+::after\s*\{ content:")[^"]*(";)', r'\1\2', text)
     return text
 
 
-def replace_region_r1(text, entries, ref_regions):
+def replace_region_trees(text, entries, size):
+    """Replace each region's ENTIRE <div class="bracket-row"> block with a freshly
+    emitted tree. At 64 this reproduces the reference byte-for-byte (proven by
+    build-lib/verify_tree.py). At 32 the R4 tier simply is not emitted — which is
+    why we replace the whole block rather than patching R2 into an inherited one."""
     for ridx, prefix in enumerate(REGION_PREFIXES):
-        new_rows = render_region_card_r1(entries, ridx, prefix)
-        for i, (hi, lo) in enumerate(R1_ORDER, start=1):
-            pid = f"{prefix}-R2-{i}"
-            pat = re.compile(
-                r'<div class="matchup"><div class="slot" onclick="pick\(this,\''
-                + re.escape(pid)
-                + r"'\)\"><span class=\"seed\">"
-                + re.escape(str(hi))
-                + r'</span>.*?</div></div>'
-            )
-            m = pat.search(text)
-            if not m:
-                raise RuntimeError(f"could not find round-1 matchup {pid} seed {hi}")
-            text = text[: m.start()] + new_rows[i - 1] + text[m.end():]
+        by_seed = {}
+        for e in entries:
+            if e["region_idx"] == ridx:
+                by_seed[e["seed"]] = e["name"]
+        expect = tree.seeds_per_region(size)
+        if len(by_seed) != expect:
+            raise RuntimeError(f"{prefix}: got {len(by_seed)} seeds, expected {expect}")
+
+        # locate this region's existing bracket-row block in the reference
+        m = None
+        for cand in re.finditer(r'<div class="bracket-row"[^>]*>', text):
+            chunk = text[cand.start():]
+            pm = re.search(r"pick\(this,'([A-Z]{2})-R2-1'\)", chunk[:4000])
+            if pm and pm.group(1) == prefix:
+                end = chunk.find("\n            </div>")
+                if end < 0:
+                    raise RuntimeError(f"{prefix}: could not find end of bracket-row")
+                m = (cand.start(), cand.start() + end + len("\n            </div>"))
+                break
+        if m is None:
+            raise RuntimeError(f"could not find bracket-row for region {prefix}")
+        text = text[:m[0]] + tree.render_region(prefix, size, by_seed) + text[m[1]:]
     return text
 
 
 def short_band(b):
     return re.sub(r"^The\s+", "", b)
+
+
+
+# ---- depth-aware advance logic -------------------------------------------------
+# The template's auto-fill walks the region tiers with HARDCODED loop bounds
+# (i<=4 for R2->R3, i<=2 for R3->R4, then an explicit R4-1/R4-2 -> WIN).
+# At size 32 there is no R4 tier at all, so those loops must derive from the
+# tree shape instead. We inject CYC_ROUND_IDS/CYC_ROUND_COUNTS and replace both
+# copies of the walk (fillEntireBracket + fillRemainingRounds) with one generic
+# loop. At 64 it produces exactly the same sequence of advancePair() calls.
+
+ADVANCE_A = """    regionPrefixes.forEach(p => {
+        // R2 -> R3 (4 matchups -> but R2 has 8 slots feeding 4 R3... actually 8 R2 slots = 4 matchups)
+        // R2-1&R2-2 -> R3-1, R2-3&R2-4 -> R3-2, R2-5&R2-6 -> R3-3, R2-7&R2-8 -> R3-4
+        for (let i = 1; i <= 4; i++) {
+            const a = document.getElementById(`${p}-R2-${i*2-1}`);
+            const b = document.getElementById(`${p}-R2-${i*2}`);
+            advancePair(a, b, scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        // R3-1&R3-2 -> R4-1, R3-3&R3-4 -> R4-2
+        for (let i = 1; i <= 2; i++) {
+            const a = document.getElementById(`${p}-R3-${i*2-1}`);
+            const b = document.getElementById(`${p}-R3-${i*2}`);
+            advancePair(a, b, scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        // R4-1&R4-2 -> WIN
+        const a = document.getElementById(`${p}-R4-1`);
+        const b = document.getElementById(`${p}-R4-2`);
+        advancePair(a, b, scoreFn, randomTiebreak);
+    });"""
+
+ADVANCE_A_NEW = """    // Walk each tier: the slots of tier k-1 pair up and feed tier k.
+    // Derived from CYC_ROUND_IDS so 32 (no R4 tier) and 64 share one path.
+    for (let k = 1; k < CYC_ROUND_IDS.length; k++) {
+        const src = CYC_ROUND_IDS[k - 1];
+        const n = CYC_ROUND_COUNTS[k];
+        regionPrefixes.forEach(p => {
+            for (let i = 1; i <= n; i++) {
+                const a = document.getElementById(`${p}-${src}-${i*2-1}`);
+                const b = document.getElementById(`${p}-${src}-${i*2}`);
+                advancePair(a, b, scoreFn, randomTiebreak);
+            }
+        });
+    }"""
+
+ADVANCE_B = """    regionPrefixes.forEach(p => {
+        for (let i = 1; i <= 4; i++) {
+            advancePair(document.getElementById(`${p}-R2-${i*2-1}`), document.getElementById(`${p}-R2-${i*2}`), scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        for (let i = 1; i <= 2; i++) {
+            advancePair(document.getElementById(`${p}-R3-${i*2-1}`), document.getElementById(`${p}-R3-${i*2}`), scoreFn, randomTiebreak);
+        }
+    });
+    regionPrefixes.forEach(p => {
+        advancePair(document.getElementById(`${p}-R4-1`), document.getElementById(`${p}-R4-2`), scoreFn, randomTiebreak);
+    });"""
+
+ADVANCE_B_NEW = """    for (let k = 1; k < CYC_ROUND_IDS.length; k++) {
+        const src = CYC_ROUND_IDS[k - 1];
+        const n = CYC_ROUND_COUNTS[k];
+        regionPrefixes.forEach(p => {
+            for (let i = 1; i <= n; i++) {
+                advancePair(document.getElementById(`${p}-${src}-${i*2-1}`), document.getElementById(`${p}-${src}-${i*2}`), scoreFn, randomTiebreak);
+            }
+        });
+    }"""
+
+
+def make_advance_depth_aware(text, size):
+    ids = tree.round_ids(size)          # ['R2','R3','R4','WIN'] | ['R2','R3','WIN']
+    counts = tree.matchup_counts(size)  # [8,4,2,1]              | [4,2,1]
+    decl = ("    const CYC_ROUND_IDS = %s;\n    const CYC_ROUND_COUNTS = %s;\n"
+            % (json.dumps(ids), json.dumps(counts)))
+
+    hits = 0
+    for old, new in ((ADVANCE_A, ADVANCE_A_NEW), (ADVANCE_B, ADVANCE_B_NEW)):
+        if old in text:
+            text = text.replace(old, new, 1)
+            hits += 1
+    if hits != 2:
+        raise RuntimeError(
+            "advance-logic blocks not found (%d/2) -- the template moved; "
+            "re-sync ADVANCE_A/ADVANCE_B before building." % hits)
+
+    # declare the constants at the top of each function that uses them
+    for fname in ("function fillEntireBracket(scoreFn, randomTiebreak) {",
+                  "function fillRemainingRounds(scoreFn, randomTiebreak) {"):
+        if fname not in text:
+            raise RuntimeError("could not find %r to declare round constants" % fname)
+        text = text.replace(fname, fname + "\n" + decl, 1)
+    return text
+
+
+def rewrite_slot_tables(text, size):
+    """ALL_IDS (save/restore) and the child->parent NEXT map are pure derivations of
+    the tree shape but are written out longhand. Regenerate both for `size`, or a 32
+    bracket carries R4 ids that no element on the page has."""
+    ids, counts = tree.round_ids(size), tree.matchup_counts(size)
+
+    # --- ALL_IDS ---------------------------------------------------------------
+    m = re.search(r'const ALL_IDS = \[.*?\];', text, re.S)
+    if not m:
+        raise RuntimeError("ALL_IDS block not found")
+    lines = ["const ALL_IDS = ["]
+    for p in REGION_PREFIXES:
+        for k, tier in enumerate(ids):
+            if tier == "WIN":
+                lines.append(f"    '{p}-WIN',")
+            else:
+                row = ",".join(f"'{p}-{tier}-{i}'" for i in range(1, counts[k] + 1))
+                lines.append("    " + row + ",")
+    lines.append("    'f1','f2','f3','f4','c1','c2'")
+    lines.append("];")
+    text = text[:m.start()] + "\n".join(lines) + text[m.end():]
+
+    # --- child -> parent map ---------------------------------------------------
+    # every slot in tier k-1 points at the tier-k slot it feeds; WIN points at f1..f4
+    m = re.search(r"(\{\s*\n\s*'SP-R2-1':\s*'SP-R3-1',.*?\n\})", text, re.S)
+    if not m:
+        raise RuntimeError("child->parent NEXT map not found")
+    out = ["{"]
+    for p in REGION_PREFIXES:
+        for k in range(1, len(ids)):
+            src, dst = ids[k - 1], ids[k]
+            for i in range(1, counts[k] + 1):
+                a, b = i * 2 - 1, i * 2
+                tgt = f"{p}-WIN" if dst == "WIN" else f"{p}-{dst}-{i}"
+                out.append(f"    '{p}-{src}-{a}': '{tgt}', '{p}-{src}-{b}': '{tgt}',")
+        out.append(f"    '{p}-WIN':  '{tree.FINAL_SLOT[p]}',")
+    out.append("}")
+    text = text[:m.start(1)] + "\n".join(out) + text[m.end(1):]
+    return text
+
+
+def rewrite_share_card(text, size, regions):
+    """The share card holds THREE hardcoded four-tier structures: the region->slot
+    map, roundLabels, and a chunks slicing with literal offsets. All three are
+    derivations of the tree shape. At 32 the untouched version renders eight
+    round-1 matchups for a bracket that has four."""
+    ids, counts = tree.round_ids(size), tree.matchup_counts(size)
+
+    # region -> ordered slot ids
+    rows = []
+    for p, rname in zip(REGION_PREFIXES, regions):
+        slots = []
+        for k, tier in enumerate(ids):
+            if tier == "WIN":
+                slots.append(f"'{p}-WIN'")
+            else:
+                slots += [f"'{p}-{tier}-{i}'" for i in range(1, counts[k] + 1)]
+        rows.append("        '%s': [%s]," % (rname.replace("'", "\\'"), ",".join(slots)))
+    m = re.search(r"    const regions = \{\n(?:.*?\n)*?    \};", text)
+    if not m:
+        raise RuntimeError("share-card regions map not found")
+    text = text[:m.start()] + "    const regions = {\n" + "\n".join(rows) + "\n    };" + text[m.end():]
+
+    # roundLabels: one per tier. tier k-1 has counts[k-1]*2 slots -> counts[k] winners
+    labels = []
+    for k, tier in enumerate(ids):
+        if tier == "WIN":
+            labels.append("Elite 8")          # live convention: the region-winner chunk
+        else:
+            labels.append("R%d Winners (%d)" % (k + 1, counts[k]))
+    m = re.search(r"    const roundLabels = \[.*?\];", text, re.S)
+    if not m:
+        raise RuntimeError("roundLabels not found")
+    text = (text[:m.start()] + "    const roundLabels = [" +
+            ",".join("'%s'" % l for l in labels) + "];" + text[m.end():])
+
+    # chunks: literal slice offsets over the slot list
+    offs, acc = [], 0
+    for k, tier in enumerate(ids):
+        n = 1 if tier == "WIN" else counts[k]
+        offs.append((acc, acc + n)); acc += n
+    chunks = ",".join("ids.slice(%d,%d)" % (a, b) for a, b in offs)
+    m = re.search(r"        const chunks = \[.*?\];", text, re.S)
+    if not m:
+        raise RuntimeError("chunks slicing not found")
+    text = text[:m.start()] + "        const chunks = [" + chunks + "];" + text[m.end():]
+    return text
+
+
+def rewrite_size_constants(text, size):
+    """Four more places hardcode 64. All are size derivations, none were caught by
+    the tree/JS work because they are copy or arithmetic, not slot ids.
+
+      * TOTAL_PICKS = 63      -> a 32 bracket is 31 picks (size-1)
+      * "0 / 63" in the HTML  -> initial progress label
+      * tg-stats / wt-stats   -> "64 Songs · 4 Regions · 1 Champion" tagline copy
+                                 (SEPARATE from <div class="subtitle">, which is why
+                                  the earlier subtitle fix missed it)
+    """
+    picks = size - 1                      # every song but the champion loses once
+    text = re.sub(r'const TOTAL_PICKS = \d+;', f'const TOTAL_PICKS = {picks};', text)
+    text = text.replace('id="progressCount">0 / 63<', f'id="progressCount">0 / {picks}<')
+    text = re.sub(r'(<span class="(?:tg|wt)-stats">(?:&mdash; )?)64 Songs',
+                  lambda m: m.group(1) + f'{size} Songs', text)
+    return text
+
+
+def fix_round_col_spacing(text, size):
+    """`.bracket-row { height: 960px }` is hardcoded for 8 matchups in column one.
+    At 32 there are 4, so the tree floats in ~half a card of dead space.
+
+    Do NOT touch `justify-content: space-around` -- it is what makes each column
+    center on its feeders automatically (R3-1 lands exactly between the R2-1/R2-2
+    and R2-3/R2-4 pairs). Pinning column one to flex-start breaks that alignment.
+    Halving the row height keeps the same geometry at half scale.
+
+    Also lock the slot height: `min-height` is only a floor, so a two-line title
+    (e.g. "Music For a Sushi Restaurant") still grows its card and makes the row
+    heights uneven. The auto-fill modes -- My Concert especially -- drop in real
+    setlist titles of arbitrary length, so this has to hold regardless of content.
+    """
+    if size >= 64:
+        return text
+    rows = 960 * size // 64          # 32 -> 480
+    text = re.sub(r'(\.bracket-row\s*\{[^}]*?height:\s*)960px', r'\g<1>%dpx' % rows, text, count=1)
+    css = """
+        /* --- %d-song bracket ------------------------------------------------
+           Row height scaled to the matchup count; space-around still handles
+           feeder alignment. Slot height locked so long titles (auto-fill / My
+           Concert) can never change the tree geometry. */
+        .slot { height: var(--slot-h); min-height: var(--slot-h); max-height: var(--slot-h);
+                overflow: hidden; }
+        .slot > span.seed { flex: 0 0 auto; }
+""" % size
+    return text.replace("</style>", css + "    </style>", 1)
+
+
+def style_size_note(text):
+    """The size note div ships with NO css -- it renders as an unstyled block and
+    strands itself under the header. Give it the subtitle's visual weight so it
+    reads as a caption on the song count rather than a system message.
+
+    NOTE: placement is layout, not markup -- it already sits above .header-tagline
+    in the DOM. If it still renders below, that is a positioning rule in the header
+    and needs an eye on a real browser, not a grep."""
+    css = """
+        .subtitle-note {
+            font-size: 10.5px;
+            font-style: italic;
+            letter-spacing: .3px;
+            color: rgba(240,165,0,.72);
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+        @media (max-width:1080px){ .subtitle-note { font-size: 9.5px; } }
+"""
+    return text.replace("</style>", css + "    </style>", 1)
 
 
 def swap_tokens(text, ref, out):
@@ -196,12 +501,20 @@ def swap_tokens(text, ref, out):
         (f'<p class="band">{rb}</p>', f'<p class="band">{ob}</p>'),
         # itunes lookup artist (full name)
         (f"var artist = '{rb} ';", f"var artist = '{ob} ';"),
+        # buy-bar compliance block: per-bracket artist for the runtime iTunes lookup.
+        # Added after this generator was written -- without it every "Download on
+        # iTunes" link searches for the REFERENCE artist.
+        (f"var ART_DEFAULT = '{rb}';", f"var ART_DEFAULT = '{ob}';"),
         # share header uses SHORT band, uppercased
         (f"{rbs.upper()} MADNESS — MY BRACKET", f"{obs.upper()} MADNESS — MY BRACKET"),
         (f"Play the {rbs} bracket → crownyourchampion.com/{rslug}",
          f"Play the {obs} bracket → crownyourchampion.com/{oslug}"),
-        # quiz-menu chip (full band)
-        (f'href="/{rslug}/">{rb}</a>', f'href="/{oslug}/">{ob}</a>'),
+        # NOTE: deliberately NOT swapping the all-brackets menu chip
+        #   (f'href="/{rslug}/">{rb}</a>', ...)
+        # That menu lists EVERY bracket, so the reference's own chip is legitimate
+        # content -- swapping it deletes the reference from the menu and creates a
+        # duplicate of this bracket. New brackets need a chip ADDED to all pages
+        # (see task #140), which is a separate propagation step, not a token swap.
         # album-vote title uses SHORT band
         (f"Best {rbs} Album?", f"Best {obs} Album?"),
         # service worker registration
@@ -209,6 +522,13 @@ def swap_tokens(text, ref, out):
         # itunes title-match regex uses SHORT band, lowercased (/rolling stones/i)
         (f"/{rbs.lower()}/i", f"/{obs.lower()}/i"),
     ]
+    # concert-mode placeholder is per-artist prose ("e.g. Hyde Park 1969, Wembley 1990").
+    # There is nothing to infer it from, so it comes from the config; if absent we
+    # leave the reference's text rather than invent venues for the wrong band.
+    ph = out.get("concert_placeholder")
+    if ph:
+        subs.append((f'placeholder="e.g. {ref.get("concert_placeholder","")}"',
+                     f'placeholder="e.g. {ph}"'))
     for a, b in subs:
         text = text.replace(a, b)
     return text
@@ -298,6 +618,7 @@ def main():
         cfg = json.load(f)
     out_slug = args.slug or cfg["slug"]
     out_band = cfg["name"]
+    size = int(cfg.get("size", 64))
     out_regions = cfg["regions"]
 
     ref_dir = os.path.join(root, ref_slug)
@@ -311,21 +632,47 @@ def main():
         text = f.read()
 
     text = replace_all_songs_block(text, render_all_songs(entries))
-    text = replace_region_r1(text, entries, ref_regions)
+    text = replace_region_trees(text, entries, size)
+    text = make_advance_depth_aware(text, size)
+    text = rewrite_slot_tables(text, size)
+    text = rewrite_size_constants(text, size)
+    text = fix_round_col_spacing(text, size)
+    text = style_size_note(text)
     text = replace_region_headers(text, ref_regions, out_regions)
+    text = rewrite_share_card(text, size, out_regions)
     for old, new in zip(ref_regions, out_regions):
         text = text.replace(f">{html.escape(old)} Winner<", f">{html.escape(new)} Winner<")
+
+    # subtitle + (32 only) the explainer line beneath it
+    if size != 64:
+        sub_old = '<div class="subtitle">64 Songs &middot; 4 Regions &middot; 1 Champion</div>'
+        if sub_old not in text:
+            sub_old = re.search(r'<div class="subtitle">64 Songs[^<]*</div>', text)
+            sub_old = sub_old.group(0) if sub_old else None
+        if sub_old:
+            note = cfg.get("size_note", "Not enough songs for 64\u2026 yet")
+            sub_new = (sub_old.replace("64 Songs", f"{size} Songs")
+                       + f'\n            <div class="subtitle-note">{html.escape(note)}</div>')
+            text = text.replace(sub_old, sub_new, 1)
 
     ref = {"band": ref_band, "slug": ref_slug}
     out = {"band": out_band, "slug": out_slug}
     text = swap_tokens(text, ref, out)
 
+    # Best Album vote. Source order: --albums flag > config "albums" > hardcoded
+    # queen special-case. Without one of these the vote silently keeps the
+    # REFERENCE band's discography (Stones albums on a Harry Styles board).
     albums = None
     if args.albums:
         albums = [(p.split("::")[0], (p.split("::")[1] if "::" in p else ""))
                   for p in args.albums.split("|") if p.strip()]
+    elif cfg.get("albums"):
+        albums = [(a[0], a[1]) for a in cfg["albums"]]
     elif out_slug == "queen":
         albums = QUEEN_ALBUMS
+    if not albums:
+        print("[build] WARNING: no albums for %s -- Best Album vote will still show "
+              "the reference band's albums" % out_slug)
     text = swap_album_vote(text, albums)
 
     text = replace_celebrate(text, build_celebrate_block(cfg["slogan"]))
