@@ -4660,9 +4660,32 @@ updateProgress();
   function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
   function ce(n){ try{ if(window.cycEvt) cycEvt(n,{band:slug()}); }catch(e){} }
   // genre-adjacent next brackets (1-2 neighbors + See all fallback)
-  var NEXT={ line:"More classic rock? Settle another bracket \u2192", picks:[["The Beatles", "/beatles/"], ["Bruce Springsteen", "/springsteen/"]] };
+  /* Roster of LIVE brackets so the card can pick an uncrowned neighbour.
+     Rebuilt by build_bracket.py from build-lib/roster.json. */
+  var CYC_ROSTER=[{"s": "foo", "n": "Foo Fighters", "c": "Alt & Hard Rock"}, {"s": "greenday", "n": "Green Day", "c": "Alt & Hard Rock"}, {"s": "metallica", "n": "Metallica", "c": "Alt & Hard Rock"}, {"s": "nirvana", "n": "Nirvana", "c": "Alt & Hard Rock"}, {"s": "oasis", "n": "Oasis", "c": "Alt & Hard Rock"}, {"s": "pearljam", "n": "Pearl Jam", "c": "Alt & Hard Rock"}, {"s": "rhcp", "n": "Red Hot Chili Peppers", "c": "Alt & Hard Rock"}, {"s": "stp", "n": "Stone Temple Pilots", "c": "Alt & Hard Rock"}, {"s": "ate", "n": "The Airborne Toxic Event", "c": "Alt & Hard Rock"}, {"s": "smashingpumpkins", "n": "The Smashing Pumpkins", "c": "Alt & Hard Rock"}, {"s": "billyjoel", "n": "Billy Joel", "c": "Classic Rock"}, {"s": "bonjovi", "n": "Bon Jovi", "c": "Classic Rock"}, {"s": "springsteen", "n": "Bruce Springsteen", "c": "Classic Rock"}, {"s": "ccr", "n": "CCR", "c": "Classic Rock"}, {"s": "bowie", "n": "David Bowie", "c": "Classic Rock"}, {"s": "eagles", "n": "Eagles", "c": "Classic Rock"}, {"s": "fleetwoodmac", "n": "Fleetwood Mac", "c": "Classic Rock"}, {"s": "hendrix", "n": "Jimi Hendrix", "c": "Classic Rock"}, {"s": "ledzeppelin", "n": "Led Zeppelin", "c": "Classic Rock"}, {"s": "queen", "n": "Queen", "c": "Classic Rock"}, {"s": "beatles", "n": "The Beatles", "c": "Classic Rock"}, {"s": "stones", "n": "The Rolling Stones", "c": "Classic Rock"}, {"s": "thewho", "n": "The Who", "c": "Classic Rock"}, {"s": "tompetty", "n": "Tom Petty", "c": "Classic Rock"}, {"s": "u2", "n": "U2", "c": "Classic Rock"}, {"s": "dmb", "n": "Dave Matthews Band", "c": "Folk · Jam · Singer-songwriter · Indie"}, {"s": "fthc", "n": "Frank Turner", "c": "Folk · Jam · Singer-songwriter · Indie"}, {"s": "gratefuldead", "n": "Grateful Dead", "c": "Folk · Jam · Singer-songwriter · Indie"}, {"s": "beyonce", "n": "Beyoncé", "c": "Pop"}, {"s": "harrystyles", "n": "Harry Styles", "c": "Pop"}, {"s": "ladygaga", "n": "Lady Gaga", "c": "Pop"}, {"s": "newpopqueens", "n": "New Pop Queens", "c": "Pop"}, {"s": "taylorswift", "n": "Taylor Swift", "c": "Pop"}];
+  var CYC_SLUG="queen", CYC_CAT="Classic Rock";
+  var CYC_NEXT_OVERRIDE=null;
+  var CYC_LINES={"Pop": "More pop?", "Hip-Hop & R&B": "More hip-hop?", "Classic Rock": "More classic rock?", "Alt & Hard Rock": "More alt rock?"};
+  function cycCrowned(s){ try{ return localStorage.getItem('cyc-crowned-'+s)==='1'; }catch(e){ return false; } }
+  function cycNextData(){
+    var pool=CYC_ROSTER.filter(function(b){ return b.s!==CYC_SLUG && !cycCrowned(b.s); });
+    var picks=[];
+    function add(b){ if(b && picks.length<2 && picks.indexOf(b)<0) picks.push(b); }
+    if(CYC_NEXT_OVERRIDE){ CYC_NEXT_OVERRIDE.forEach(function(sl){ pool.forEach(function(b){ if(b.s===sl) add(b); }); }); }
+    if(CYC_CAT==='Pop'){ pool.forEach(function(b){ if(b.s==='taylorswift') add(b); }); }
+    pool.forEach(function(b){ if(b.c===CYC_CAT) add(b); });
+    var sameCat=picks.length>0;
+    pool.forEach(function(b){ add(b); });
+    if(sameCat){ sameCat=picks.every(function(b){ return b.c===CYC_CAT; }); }
+    var line;
+    if(!picks.length){ line='You\u2019ve crowned them all \u2014 for now.'; }
+    else if(sameCat){ line=(CYC_LINES[CYC_CAT]||'More like this?')+' Settle another bracket \u2192'; }
+    else { line='Not done yet? Settle another bracket \u2192'; }
+    return { line:line, picks:picks.map(function(b){ return [b.n, '/'+b.s+'/']; }) };
+  }
   function build(){
     if(document.getElementById('cycQuizFunnel')) return;
+    var NEXT=cycNextData();
     var ov=document.createElement('div'); ov.className='modal-overlay'; ov.id='cycQuizFunnel';
     var picksHtml=NEXT.picks.map(function(p){return '<a data-cyc-next="'+p[1]+'" href="'+p[1]+'" style="display:inline-block;background:#2f80ed;color:#fff;border-radius:9px;padding:10px 16px;font-size:13.5px;font-weight:500;text-decoration:none;">'+p[0]+' \u2192</a>';}).join('');
     ov.innerHTML='<div class="modal" style="text-align:center;max-width:480px;">'

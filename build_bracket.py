@@ -625,6 +625,92 @@ def compact_console(text):
     return text
 
 
+def rewrite_next_bracket(text, cfg, roster_path=None):
+    """Rebuild the post-crown "What's next?" card.
+
+    The bug: build_bracket clones a reference bracket and never touched `NEXT`,
+    a hardcoded {line, picks} literal. Every generated board therefore inherited
+    the REFERENCE's cross-sell -- so Taylor Swift, Lady Gaga, Beyonce, Queen,
+    Harry Styles et al all told fans "More classic rock?" and sent them to The
+    Beatles. Live, on the flagship.
+
+    Static pairs cannot fix this properly, because they re-offer brackets the
+    player has already crowned: Rihanna -> Taylor -> Katy -> Taylor again. The
+    site already records `cyc-crowned-<slug>` in localStorage on every crown, and
+    it is one origin, so ANY page can see every bracket you have finished. The
+    card just never asked. So this emits a roster + a runtime filter instead:
+
+        1. drop self, drop anything already crowned
+        2. Pop leads with Taylor (Rose: "default every non-taylor in pop to taylor")
+        3. fill from the same category, then widen to any uncrowned
+        4. nothing left -> no picks, just "See all brackets"
+
+    Roster is LIVE brackets only -- listing an unbuilt board would link to a 404.
+    Rebuild roster.json whenever new boards deploy.
+
+    Per-bracket override: "next_picks": ["onedirection", "selenagomez"] in the
+    config, for the pairs Rose has an opinion about (Harry -> One Direction).
+    """
+    import json as _json, os as _os
+    if roster_path is None:
+        roster_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                                    "build-lib", "roster.json")
+    try:
+        with open(roster_path, encoding="utf-8") as f:
+            roster = _json.load(f)
+    except Exception as e:
+        print(f"[build] WARNING: no roster ({e}) -- NEXT card left as-is")
+        return text
+
+    m = re.search(r'^\s*var NEXT=\{.*?\};\s*$', text, re.M)
+    if not m:
+        print("[build] WARNING: `var NEXT={...}` not found -- NEXT card NOT rewritten")
+        return text
+
+    lines = {
+        "Pop": "More pop?",
+        "Hip-Hop & R&B": "More hip-hop?",
+        "Classic Rock": "More classic rock?",
+        "Alt & Hard Rock": "More alt rock?",
+    }
+    override = cfg.get("next_picks")
+    block = (
+        "  /* Roster of LIVE brackets so the card can pick an uncrowned neighbour.\n"
+        "     Rebuilt by build_bracket.py from build-lib/roster.json. */\n"
+        "  var CYC_ROSTER=" + _json.dumps(roster, ensure_ascii=False) + ";\n"
+        "  var CYC_SLUG=" + _json.dumps(cfg["slug"]) + ", CYC_CAT=" + _json.dumps(cfg.get("category", "")) + ";\n"
+        "  var CYC_NEXT_OVERRIDE=" + (_json.dumps(override) if override else "null") + ";\n"
+        "  var CYC_LINES=" + _json.dumps(lines, ensure_ascii=False) + ";\n"
+        "  function cycCrowned(s){ try{ return localStorage.getItem('cyc-crowned-'+s)==='1'; }catch(e){ return false; } }\n"
+        "  function cycNextData(){\n"
+        "    var pool=CYC_ROSTER.filter(function(b){ return b.s!==CYC_SLUG && !cycCrowned(b.s); });\n"
+        "    var picks=[];\n"
+        "    function add(b){ if(b && picks.length<2 && picks.indexOf(b)<0) picks.push(b); }\n"
+        "    if(CYC_NEXT_OVERRIDE){ CYC_NEXT_OVERRIDE.forEach(function(sl){ pool.forEach(function(b){ if(b.s===sl) add(b); }); }); }\n"
+        "    if(CYC_CAT==='Pop'){ pool.forEach(function(b){ if(b.s==='taylorswift') add(b); }); }\n"
+        "    pool.forEach(function(b){ if(b.c===CYC_CAT) add(b); });\n"
+        "    var sameCat=picks.length>0;\n"
+        "    pool.forEach(function(b){ add(b); });\n"
+        "    if(sameCat){ sameCat=picks.every(function(b){ return b.c===CYC_CAT; }); }\n"
+        "    var line;\n"
+        "    if(!picks.length){ line='You\\u2019ve crowned them all \\u2014 for now.'; }\n"
+        "    else if(sameCat){ line=(CYC_LINES[CYC_CAT]||'More like this?')+' Settle another bracket \\u2192'; }\n"
+        "    else { line='Not done yet? Settle another bracket \\u2192'; }\n"
+        "    return { line:line, picks:picks.map(function(b){ return [b.n, '/'+b.s+'/']; }) };\n"
+        "  }"
+    )
+    text = text[:m.start()] + block + text[m.end():]
+
+    anchor = "  function build(){\n    if(document.getElementById('cycQuizFunnel')) return;"
+    if anchor not in text:
+        anchor = "function build(){\n    if(document.getElementById('cycQuizFunnel')) return;"
+    if anchor in text:
+        text = text.replace(anchor, anchor + "\n    var NEXT=cycNextData();", 1)
+    else:
+        print("[build] WARNING: build() anchor not found -- NEXT computed but not wired")
+    return text
+
+
 def swap_tokens(text, ref, out):
     rb = ref["band"]; rslug = ref["slug"]
     ob = out["band"]; oslug = out["slug"]
@@ -795,6 +881,7 @@ def main():
     text = style_size_note(text)
     text = web_header_note(text)
     text = compact_console(text)
+    text = rewrite_next_bracket(text, cfg)
     text = drop_live_mode(text, cfg)
     text = replace_region_headers(text, ref_regions, out_regions)
     text = rewrite_share_card(text, size, out_regions)

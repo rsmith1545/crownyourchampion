@@ -1,0 +1,167 @@
+[
+ {
+  "s": "foo",
+  "n": "Foo Fighters",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "greenday",
+  "n": "Green Day",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "metallica",
+  "n": "Metallica",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "nirvana",
+  "n": "Nirvana",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "oasis",
+  "n": "Oasis",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "pearljam",
+  "n": "Pearl Jam",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "rhcp",
+  "n": "Red Hot Chili Peppers",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "stp",
+  "n": "Stone Temple Pilots",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "ate",
+  "n": "The Airborne Toxic Event",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "smashingpumpkins",
+  "n": "The Smashing Pumpkins",
+  "c": "Alt & Hard Rock"
+ },
+ {
+  "s": "billyjoel",
+  "n": "Billy Joel",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "bonjovi",
+  "n": "Bon Jovi",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "springsteen",
+  "n": "Bruce Springsteen",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "ccr",
+  "n": "CCR",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "bowie",
+  "n": "David Bowie",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "eagles",
+  "n": "Eagles",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "fleetwoodmac",
+  "n": "Fleetwood Mac",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "hendrix",
+  "n": "Jimi Hendrix",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "ledzeppelin",
+  "n": "Led Zeppelin",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "queen",
+  "n": "Queen",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "beatles",
+  "n": "The Beatles",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "stones",
+  "n": "The Rolling Stones",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "thewho",
+  "n": "The Who",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "tompetty",
+  "n": "Tom Petty",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "u2",
+  "n": "U2",
+  "c": "Classic Rock"
+ },
+ {
+  "s": "dmb",
+  "n": "Dave Matthews Band",
+  "c": "Folk · Jam · Singer-songwriter · Indie"
+ },
+ {
+  "s": "fthc",
+  "n": "Frank Turner",
+  "c": "Folk · Jam · Singer-songwriter · Indie"
+ },
+ {
+  "s": "gratefuldead",
+  "n": "Grateful Dead",
+  "c": "Folk · Jam · Singer-songwriter · Indie"
+ },
+ {
+  "s": "beyonce",
+  "n": "Beyoncé",
+  "c": "Pop"
+ },
+ {
+  "s": "harrystyles",
+  "n": "Harry Styles",
+  "c": "Pop"
+ },
+ {
+  "s": "ladygaga",
+  "n": "Lady Gaga",
+  "c": "Pop"
+ },
+ {
+  "s": "newpopqueens",
+  "n": "New Pop Queens",
+  "c": "Pop"
+ },
+ {
+  "s": "taylorswift",
+  "n": "Taylor Swift",
+  "c": "Pop"
+ }
+]
