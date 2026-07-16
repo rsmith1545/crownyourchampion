@@ -375,5 +375,7 @@
    "daily": 796
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · R&B",
+ "tile_blurb": "’N Sync to \"FutureSex\" — from \"Cry Me a River\" to \"Can’t Stop the Feeling!\""
 }

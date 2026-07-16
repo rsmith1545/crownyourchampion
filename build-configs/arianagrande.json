@@ -367,5 +367,7 @@
    "daily": 68684
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · R&B",
+ "tile_blurb": "\"Yours Truly\" to \"Eternal Sunshine\" — from \"thank u, next\" to \"7 rings.\""
 }

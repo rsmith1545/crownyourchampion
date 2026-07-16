@@ -200,5 +200,7 @@
    "daily": 1580601
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Funk",
+ "tile_blurb": "Doo-wops to disco — from \"Just the Way You Are\" to \"Leave the Door Open.\""
 }

@@ -363,5 +363,7 @@
    "daily": 31818
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Hip-Hop",
+ "tile_blurb": "\"Stoney\" to \"F-1 Trillion\" — from \"Rockstar\" to \"Circles.\""
 }

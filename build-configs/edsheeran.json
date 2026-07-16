@@ -371,5 +371,7 @@
    "daily": 3942
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Songwriter",
+ "tile_blurb": "Plus to Subtract — from \"Shape of You\" to \"Perfect.\""
 }

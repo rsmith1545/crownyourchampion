@@ -375,5 +375,7 @@
    "daily": 2317
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Rock",
+ "tile_blurb": "\"Songs About Jane\" to now — from \"This Love\" to \"Memories.\""
 }

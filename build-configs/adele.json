@@ -196,5 +196,7 @@
    "daily": 15895
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Soul",
+ "tile_blurb": "\"19\" to \"30\" — from \"Rolling in the Deep\" to \"Easy on Me.\""
 }

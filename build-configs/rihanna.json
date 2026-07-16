@@ -399,5 +399,7 @@
    "daily": 385612
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · R&B",
+ "tile_blurb": "Eight albums, no filler — from \"Umbrella\" to \"Work.\""
 }

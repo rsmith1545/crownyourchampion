@@ -359,5 +359,7 @@
    "daily": 815
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Dance",
+ "tile_blurb": "Scene kid to solo — from \"Lose You to Love Me\" to \"Calm Down.\""
 }

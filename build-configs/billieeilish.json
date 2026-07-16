@@ -196,5 +196,7 @@
    "daily": 123127
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Alt",
+ "tile_blurb": "Bedroom pop to arena headliner — from \"Ocean Eyes\" to \"Birds of a Feather.\""
 }

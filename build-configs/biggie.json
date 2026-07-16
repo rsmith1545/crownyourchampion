@@ -197,5 +197,7 @@
   }
  },
  "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
- "_albums_note": "iTunes artist 5499810 (verified artistName). Excluded: Greatest Hits (x3), the Notorious soundtrack (x4), Music Inspired By Biggie, EPs and singles. NOTE only Ready to Die and Life After Death were released in his lifetime; Born Again and Duets are posthumous. Trim if the vote should be the real two."
+ "_albums_note": "iTunes artist 5499810 (verified artistName). Excluded: Greatest Hits (x3), the Notorious soundtrack (x4), Music Inspired By Biggie, EPs and singles. NOTE only Ready to Die and Life After Death were released in his lifetime; Born Again and Duets are posthumous. Trim if the vote should be the real two.",
+ "tile_genre": "Hip-Hop · East Coast",
+ "tile_blurb": "\"Ready to Die\" to \"Life After Death\" — from \"Juicy\" to \"Hypnotize.\""
 }

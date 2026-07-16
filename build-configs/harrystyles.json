@@ -198,5 +198,7 @@
    "daily": 229477
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Solo",
+ "tile_blurb": "One Direction to \"Harry’s House\" — from \"Sign of the Times\" to \"As It Was.\" 32 songs and growing."
 }

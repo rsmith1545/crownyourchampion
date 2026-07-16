@@ -359,5 +359,7 @@
    "daily": 15045
   }
  },
- "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json."
+ "_stream_source": "Master Grid 'Pop & Hip-Hop' staging tabs, col E/F. Authoritative -- preferred over songdb.json.",
+ "tile_genre": "Pop · Boy Band",
+ "tile_blurb": "Five albums in five years — from \"What Makes You Beautiful\" to \"Drag Me Down.\""
 }
