@@ -65,5 +65,7 @@
    "Kiss All the Time.  Disco, Occasionally",
    2026
   ]
- ]
+ ],
+ "no_live_data": true,
+ "_no_live_data_reason": "Not in songdb.json -- liveRank is synthetic. Remove this flag once real setlist data is loaded."
 }

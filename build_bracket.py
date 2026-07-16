@@ -463,11 +463,53 @@ def style_size_note(text):
             letter-spacing: .3px;
             color: rgba(240,165,0,.72);
             margin-top: 2px;
-            white-space: nowrap;
+            margin-bottom: 1px;
         }
         @media (max-width:1080px){ .subtitle-note { font-size: 9.5px; } }
 """
     return text.replace("</style>", css + "    </style>", 1)
+
+
+
+def drop_live_mode(text, cfg):
+    """Remove the "Most Played Live" auto-fill button.
+
+    This is an EDITORIAL call, not a data check. The Beatles bracket omits it
+    because setlist.fm coverage of the 1960s is not trustworthy -- the data
+    exists, we just don't believe it. So it lives in the config as a decision:
+
+        "no_live_data": true
+
+    Also correct (for now) for any artist absent from songdb.json, because their
+    liveRank is a synthetic constant and the button would silently produce
+    meaningless order. Remove the flag once they have real setlist data.
+    """
+    if not cfg.get("no_live_data"):
+        return text
+    pat = r'\s*<button class="mode-btn mode-live"[^>]*>[^<]*</button>'
+    new, n = re.subn(pat, "", text, count=1)
+    if not n:
+        print("[build] WARNING: no_live_data set but the Most Played Live button "
+              "was not found -- markup may have changed")
+    return new
+
+
+def move_note_into_tagline(text):
+    """The size note sits in .header-left with white-space:nowrap, which widens
+    that block and shoves "Settle the debate" to the right of where it sits on a
+    64. Move it out of the flow above the tagline instead, so the tagline keeps
+    its normal position and the note reads as a caption on it."""
+    m = re.search(r'\s*<div class="subtitle-note">.*?</div>', text)
+    if not m:
+        return text
+    note = m.group(0).strip()
+    text = text.replace(m.group(0), "", 1)
+    # place it immediately BEFORE the tagline, inside the same wrapper
+    tag = '<div class="header-tagline">'
+    i = text.find(tag)
+    if i < 0:
+        return text
+    return text[:i] + note + "\n        " + text[i:]
 
 
 def swap_tokens(text, ref, out):
@@ -638,6 +680,8 @@ def main():
     text = rewrite_size_constants(text, size)
     text = fix_round_col_spacing(text, size)
     text = style_size_note(text)
+    text = move_note_into_tagline(text)
+    text = drop_live_mode(text, cfg)
     text = replace_region_headers(text, ref_regions, out_regions)
     text = rewrite_share_card(text, size, out_regions)
     for old, new in zip(ref_regions, out_regions):
