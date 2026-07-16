@@ -495,6 +495,12 @@ def drop_live_mode(text, cfg):
 
 
 def move_note_into_tagline(text):
+    """RETIRED -- superseded by web_header_note(). This moved the note above
+    .header-tagline, which is display:none on desktop, so it fixed nothing."""
+    return text
+
+
+def _dead_move_note(text):
     """The size note sits in .header-left with white-space:nowrap, which widens
     that block and shoves "Settle the debate" to the right of where it sits on a
     64. Move it out of the flow above the tagline instead, so the tagline keeps
@@ -510,6 +516,92 @@ def move_note_into_tagline(text):
     if i < 0:
         return text
     return text[:i] + note + "\n        " + text[i:]
+
+
+def web_header_note(text):
+    """Put the size note ABOVE the tagline on desktop, without moving the tagline.
+
+    Why the first two attempts failed -- worth recording, because the markup
+    lies about the layout. On desktop .header-left is:
+        display:flex; align-items:flex-end; gap:20px
+    a HORIZONTAL row. .subtitle-note is a direct child of it, so it was a flex
+    ITEM sitting between the logo and the tagline, shoving "Settle the debate"
+    right by its own width + the 20px gap. Dropping white-space:nowrap only
+    narrowed the shove. And moving the note above .header-tagline did nothing,
+    because .header-tagline is display:none on desktop -- the tagline you can
+    actually SEE is #cycWebTag, which the web-header JS builds at runtime and
+    appends to .header-left.
+
+    So: hide .subtitle-note on desktop and render the note as a block INSIDE
+    #cycWebTag. That div is a block and .header-left is align-items:flex-end,
+    so the note stacks above the tagline and the tagline's baseline does not
+    move. Text is read from the DOM, so a bracket with no size_note emits no
+    div. Mobile (<=1080) is a separate layout and keeps .subtitle-note as-is.
+    """
+    ok = True
+    old = "  .site-header .subtitle, .site-header .header-tagline { display:none !important; }"
+    new = ("  .site-header .subtitle, .site-header .header-tagline,\n"
+           "  .site-header .subtitle-note { display:none !important; }")
+    if old in text:
+        text = text.replace(old, new, 1)
+    else:
+        print("[build] WARNING: desktop tagline-hide rule not found"); ok = False
+
+    css = ("  #cycWebTag .wt-note { display:block; font-family:'Barlow Condensed',sans-serif;"
+           " font-style:italic; font-size:12px; letter-spacing:.3px;"
+           " color:rgba(240,165,0,.72); margin-bottom:3px; }\n")
+    anchor = "  #cycWebTag { min-width:0;"
+    i = text.find(anchor)
+    if i >= 0:
+        text = text[:i] + css + text[i:]
+    else:
+        print("[build] WARNING: #cycWebTag rule not found"); ok = False
+
+    old_js = '      tag.innerHTML=\'<span class="wt-lead">Settle the debate: </span>\'+'
+    new_js = ("      var nEl=document.querySelector('.site-header .subtitle-note');\n"
+              "      var nTx=nEl?(nEl.textContent||'').trim():'';\n"
+              "      tag.innerHTML=(nTx?'<div class=\"wt-note\">'+nTx+'</div>':'')+\n"
+              "        '<span class=\"wt-lead\">Settle the debate: </span>'+")
+    if old_js in text:
+        text = text.replace(old_js, new_js, 1)
+    else:
+        print("[build] WARNING: cycWebTag innerHTML not found -- note NOT injected"); ok = False
+    if not ok:
+        print("[build] WARNING: web_header_note only partially applied")
+    return text
+
+
+def compact_console(text):
+    """Trim the center console so more of Most-Crowned Champions clears the fold.
+
+    .center-col is sticky with max-height:calc(100vh - sticky-top-h) and scrolls
+    internally; Most-Crowned is its next sibling below .finals-card. So every px
+    off the finals card lifts the leaderboard by one px.
+
+    Only chrome is touched -- padding, gaps, empty-slot minimums, and the crown
+    button. Deliberately NOT the .final-slot font: those carry song titles, and
+    shrinking them would sell legibility to buy vertical space.
+    """
+    subs = [
+        (".sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(40px, auto) auto minmax(40px, auto); gap: 8px; }",
+         ".sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(30px, auto) auto minmax(30px, auto); gap: 6px; }"),
+        ("display: grid; grid-template-rows: subgrid; grid-row: 1 / span 3; gap: 6px;",
+         "display: grid; grid-template-rows: subgrid; grid-row: 1 / span 3; gap: 4px;"),
+        ("border-radius: 4px; padding: 7px;",
+         "border-radius: 4px; padding: 5px;"),
+        ("display: block; width: 100%; margin-top: 8px;",
+         "display: block; width: 100%; margin-top: 6px;"),
+        ("padding: 13px 16px; border: 1px dashed #3a4150; border-radius: 9px;",
+         "padding: 9px 16px; border: 1px dashed #3a4150; border-radius: 9px;"),
+        ("font-family: 'Bebas Neue', sans-serif; font-size: 23px; letter-spacing: 2.5px;",
+         "font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2.5px;"),
+    ]
+    for a, b in subs:
+        if a in text:
+            text = text.replace(a, b, 1)
+        else:
+            print("[build] WARNING: compact_console miss -> " + a[:58])
+    return text
 
 
 def swap_tokens(text, ref, out):
@@ -680,7 +772,8 @@ def main():
     text = rewrite_size_constants(text, size)
     text = fix_round_col_spacing(text, size)
     text = style_size_note(text)
-    text = move_note_into_tagline(text)
+    text = web_header_note(text)
+    text = compact_console(text)
     text = drop_live_mode(text, cfg)
     text = replace_region_headers(text, ref_regions, out_regions)
     text = rewrite_share_card(text, size, out_regions)

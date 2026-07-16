@@ -651,11 +651,11 @@
         }
 
         /* ── FINAL FOUR / FINALS LAYOUT ─────────────────────── */
-        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(40px, auto) auto minmax(40px, auto); gap: 8px; }
+        .sf-pairs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(30px, auto) auto minmax(30px, auto); gap: 6px; }
         .sf-pair {
-            display: grid; grid-template-rows: subgrid; grid-row: 1 / span 3; gap: 6px;
+            display: grid; grid-template-rows: subgrid; grid-row: 1 / span 3; gap: 4px;
             border: 1.5px solid var(--dmb-gold);
-            border-radius: 4px; padding: 7px;
+            border-radius: 4px; padding: 5px;
         }
         .sf-pair .final-slot { margin-bottom: 0; min-height: 0; font-size: 15px; line-height: 1.1; padding: 5px 8px; }
         .finals-pair {
@@ -674,9 +674,9 @@
             letter-spacing: 1px; margin: 4px 0;
         }
         .crown-btn {
-            display: block; width: 100%; margin-top: 8px;
-            padding: 13px 16px; border: 1px dashed #3a4150; border-radius: 9px;
-            font-family: 'Bebas Neue', sans-serif; font-size: 23px; letter-spacing: 2.5px;
+            display: block; width: 100%; margin-top: 6px;
+            padding: 9px 16px; border: 1px dashed #3a4150; border-radius: 9px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2.5px;
             background: #232833; color: #6b7283; opacity: 0.85;
             cursor: not-allowed; transition: transform 0.2s ease, box-shadow 0.25s ease;
         }
@@ -5393,13 +5393,15 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 @media (min-width:1081px){
   /* drop legacy chrome on web */
   .site-header .header-actions { display:none !important; }
-  .site-header .subtitle, .site-header .header-tagline { display:none !important; }
+  .site-header .subtitle, .site-header .header-tagline,
+  .site-header .subtitle-note { display:none !important; }
   /* supersede the legacy desktop region-jump bar (avoid duplicate Regions row) */
   #regionJump, .region-jump { display:none !important; }
 
   /* Row 1 brand bar — logo left, tagline bottom-aligned beside it, light Sign Up right */
   .site-header { align-items:flex-end; }
   .site-header .header-left { display:flex; align-items:flex-end; gap:20px; flex:0 0 auto; min-width:0; }
+  #cycWebTag .wt-note { display:block; font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:12px; letter-spacing:.3px; color:rgba(240,165,0,.72); margin-bottom:3px; }
   #cycWebTag { min-width:0; padding-bottom:24px; line-height:1.1; white-space:nowrap; margin-left:-12px; }
   #cycWebTag .wt-lead { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:23px; letter-spacing:.5px; color:var(--dmb-gold); }
   #cycWebTag .wt-sub { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-size:19px; letter-spacing:.4px; color:#cf9b3a; }
@@ -5527,7 +5529,10 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     if(!document.getElementById('cycWebTag')){
       var sub=subFromTagline();
       var tag=document.createElement('div'); tag.id='cycWebTag';
-      tag.innerHTML='<span class="wt-lead">Settle the debate: </span>'+
+      var nEl=document.querySelector('.site-header .subtitle-note');
+      var nTx=nEl?(nEl.textContent||'').trim():'';
+      tag.innerHTML=(nTx?'<div class="wt-note">'+nTx+'</div>':'')+
+        '<span class="wt-lead">Settle the debate: </span>'+
         (sub?('<span class="wt-sub">'+sub+' </span>'):'')+
         '<span class="wt-stats">&mdash; 32 Songs &middot; 4 Regions &middot; 1 Champion</span>';
       left.appendChild(tag);
