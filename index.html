@@ -877,6 +877,10 @@
         <button class="qm-close" id="bracketPickClose" aria-label="Close">&times;</button>
         <div class="qm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7H8"/><path d="M3 17H8"/><path d="M8 7V17"/><path d="M8 12H15"/><circle cx="17.5" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>Pick a Bracket</div>
         <div class="qm-sub">64 songs, one champion — or scroll down to browse the tiles.</div>
+        <div class="qm-filter">
+          <input id="qm-filter-in" type="search" autocomplete="off" placeholder="Filter brackets…" aria-label="Filter brackets">
+        </div>
+        <div class="qm-none" id="qm-none" hidden>Nothing matches that.</div>
         <div class="qm-groups">
                 <div class="qm-group">
           <div class="qm-gh">Pop</div>
@@ -1629,30 +1633,54 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
 </script>
 
 <script>
-  /* All Others -> un-cap that shelf. Search -> un-cap everything while a query
-     is active, else restore, so filtering can still reach brackets 11+. */
+  /* All Others opens the Pick-a-Bracket list, scrolled to that genre -- Rose:
+     "a pop up with choices in a list format of everything not there".
+     The hidden tiles STAY in the DOM regardless: the page search filters .tile,
+     so removing them would make 39 brackets unsearchable. Search still un-caps
+     the shelf in place; that's a different intent ("I know who I want") from
+     this one ("show me what else there is"). */
   (function(){
-    var shelves = Array.prototype.slice.call(document.querySelectorAll('.tiles.capped'));  /* layout class .carousel is never touched */
-    shelves.forEach(function(s){ s.dataset.capped = '1'; });
     document.addEventListener('click', function(e){
       var b = e.target.closest && e.target.closest('.tile-more');
       if(!b) return;
       e.preventDefault();
-      var wrap = b.closest('.tiles');
-      if(!wrap) return;
-      wrap.classList.remove('capped');
-      wrap.dataset.capped = '0';
-      b.setAttribute('aria-expanded','true');
-      b.style.display = 'none';
+      var sec = b.closest('.genre-group');
+      var head = sec && sec.querySelector('.section-head');
+      var genre = head ? (head.childNodes[0].textContent || '').trim() : '';
+      var modal = document.getElementById('bracketPickModal');
+      if(!modal) return;
+      modal.hidden = false; document.body.style.overflow = 'hidden';
+      window.__cycAlbumMode = false;
+      var fi = document.getElementById('qm-filter-in');
+      if(fi){ fi.value = ''; fi.dispatchEvent(new Event('input')); }
+      // scroll the list to the row's genre
+      var groups = modal.querySelectorAll('.qm-gh');
+      for(var i=0;i<groups.length;i++){
+        if(groups[i].textContent.trim().toLowerCase().indexOf(genre.toLowerCase()) === 0){
+          groups[i].scrollIntoView({block:'start'});
+          break;
+        }
+      }
     });
-    var input = document.getElementById('bracket-search');
-    if(!input) return;
-    input.addEventListener('input', function(){
-      var q = input.value.trim();
-      shelves.forEach(function(s){
-        if(s.dataset.capped !== '1') return;          // user already expanded it
-        s.classList.toggle('capped', !q);
+    // modal's own filter -- you can't reach the page search while this is open
+    var inp = document.getElementById('qm-filter-in');
+    if(!inp) return;
+    var modal = document.getElementById('bracketPickModal');
+    var chips = Array.prototype.slice.call(modal.querySelectorAll('.qm-chip'));
+    var groups = Array.prototype.slice.call(modal.querySelectorAll('.qm-group'));
+    var none = document.getElementById('qm-none');
+    inp.addEventListener('input', function(){
+      var q = inp.value.trim().toLowerCase(), any = false;
+      chips.forEach(function(c){
+        var hit = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+        c.style.display = hit ? '' : 'none';
+        if(hit) any = true;
       });
+      groups.forEach(function(g){
+        var vis = g.querySelectorAll('.qm-chip:not([style*="display: none"])').length;
+        g.style.display = vis ? '' : 'none';
+      });
+      if(none) none.hidden = any;
     });
   })();
 </script>
@@ -1836,4 +1864,15 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   .tiles.carousel .tile .desc{padding-right:52px;}
   .tile .enter{padding-right:0;}
   .tile .enter{padding-right:104px;}
-</style>
+
+  /* The modal needs its own filter: while it's open the sticky page search is
+     unreachable. Pop is already 19 chips at 49 brackets. */
+  .qm-filter{margin:10px 0 4px;}
+  .qm-filter input{width:100%; background:#0a0e16; border:1px solid var(--line);
+    border-radius:999px; padding:9px 16px; color:var(--text); font-size:14px;
+    font-family:inherit; outline:none;}
+  .qm-filter input:focus{border-color:var(--gold);}
+  .qm-none{color:var(--muted); font-size:14px; padding:14px 2px; font-style:italic;}
+  /* the All Others card is a button -- make it read as the 11th card */
+  .tile-more .band{color:var(--gold);}
+  </style>
