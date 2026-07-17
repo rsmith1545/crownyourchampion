@@ -471,6 +471,8 @@
 
         <section class="genre-group featured-group">
       <h2 class="section-head">Where It All Started</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel">
         <a class="tile dmb" href="./dmb/">
           <div class="genre">Jam · Rock</div>
@@ -485,9 +487,12 @@
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
     <section class="genre-group">
       <h2 class="section-head">Pop</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel capped">
         <a class="tile taylorswift" href="./taylorswift/">
           <span class="rank-num" aria-hidden="true">1</span>
@@ -648,9 +653,12 @@
           <span class="enter">Show all <span class="arr">→</span></span>
         </button>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
     <section class="genre-group">
       <h2 class="section-head">Classic Rock</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel capped">
         <a class="tile queen" href="./queen/">
           <span class="rank-num" aria-hidden="true">1</span>
@@ -777,9 +785,12 @@
           <span class="enter">Show all <span class="arr">→</span></span>
         </button>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
     <section class="genre-group">
       <h2 class="section-head">Alt &amp; Hard Rock</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel">
         <a class="tile rhcp" href="./rhcp/">
           <span class="rank-num" aria-hidden="true">1</span>
@@ -858,9 +869,12 @@
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
     <section class="genre-group">
       <h2 class="section-head">Hip-Hop &amp; R&amp;B</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel">
         <a class="tile eminem" href="./eminem/">
           <span class="rank-num" aria-hidden="true">1</span>
@@ -879,9 +893,12 @@
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
     <section class="genre-group">
       <h2 class="section-head">Folk · Jam · Singer-songwriter · Indie</h2>
+      <div class="shelf">
+        <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel">
         <a class="tile gratefuldead" href="./gratefuldead/">
           <span class="rank-num" aria-hidden="true">1</span>
@@ -906,7 +923,8 @@
           <span class="enter">Enter the bracket <span class="arr">→</span></span>
         </a>
       </div>
-    </section>
+        <button class="shelf-arr shelf-next" type="button" aria-label="Scroll right">&#8250;</button>
+      </div>    </section>
 
     <div class="no-results" id="no-results">No bands match that — try another search.</div>
 
@@ -1658,6 +1676,27 @@
     .tiles.carousel > .tile{flex:0 0 84%;}
     .rank-num{font-size:80px;}
   }
+  
+  /* Arrows are the DESKTOP affordance; touch just swipes, so they're hidden
+     there and the native scrollbar comes back. */
+  .shelf{position:relative;}
+  .shelf-arr{position:absolute; top:calc(50% - 30px); transform:translateY(-50%); z-index:5;
+    width:44px; height:64px; border:0; cursor:pointer; padding:0;
+    font:400 30px/1 'Bebas Neue',sans-serif; color:var(--gold);
+    background:linear-gradient(90deg, rgba(10,13,20,0), rgba(10,13,20,.92) 45%);
+    opacity:0; transition:opacity .18s; border-radius:6px;}
+  .shelf-prev{left:-6px; transform:translateY(-50%) scaleX(-1);}
+  .shelf-next{right:-6px;}
+  .shelf:hover .shelf-arr:not([hidden]){opacity:1;}
+  .shelf-arr:hover{color:#fff;}
+  .shelf-arr[hidden]{display:none;}
+  @media(hover:hover) and (min-width:761px){
+    .tiles.carousel{scrollbar-width:none;}
+    .tiles.carousel::-webkit-scrollbar{display:none;}
+  }
+  @media(hover:none), (max-width:760px){
+    .shelf-arr{display:none !important;}
+  }
   </style>
 <script>
 function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
@@ -1694,6 +1733,31 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
         if(s.dataset.capped !== '1') return;          // user already expanded it
         s.classList.toggle('capped', !q);
       });
+    });
+  })();
+</script>
+
+<script>
+  /* Shelf arrows: scroll by ~one viewport of tiles, and hide whichever end
+     you're already at. Desktop only -- CSS hides them on touch. */
+  (function(){
+    document.querySelectorAll('.shelf').forEach(function(sh){
+      var row = sh.querySelector('.tiles.carousel');
+      var prev = sh.querySelector('.shelf-prev'), next = sh.querySelector('.shelf-next');
+      if(!row || !prev || !next) return;
+      function page(){ return Math.max(240, row.clientWidth * 0.8); }
+      function sync(){
+        var max = row.scrollWidth - row.clientWidth - 2;
+        prev.hidden = row.scrollLeft <= 2;
+        next.hidden = row.scrollLeft >= max || max <= 0;
+      }
+      prev.addEventListener('click', function(){ row.scrollBy({left:-page(), behavior:'smooth'}); });
+      next.addEventListener('click', function(){ row.scrollBy({left: page(), behavior:'smooth'}); });
+      row.addEventListener('scroll', sync, {passive:true});
+      window.addEventListener('resize', sync);
+      sync();
+      /* re-sync after All Others expands the shelf */
+      new MutationObserver(sync).observe(row, {attributes:true, attributeFilter:['class']});
     });
   })();
 </script>
