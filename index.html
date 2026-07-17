@@ -2002,7 +2002,10 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        toward Bracket so the two read as one pair instead of two things at
        opposite ends of the card. bottom:2px keeps its 44px touch box centred on
        Bracket's baseline. */
-    .tile-alb{max-width:none; white-space:nowrap; right:62px; bottom:2px;
+    /* bottom:4px is measured, not derived: .tile-alb is a sibling of .tile, so
+       it doesn't ride the card's `rise` animation, and its 44px touch box
+       centres 4px off Bracket's baseline. Verified at 0.3px across both rows. */
+    .tile-alb{max-width:none; white-space:nowrap; right:62px; bottom:4px;
       text-align:right;}
     .tile .enter{padding-right:0;}
 
