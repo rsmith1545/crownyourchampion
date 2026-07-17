@@ -1552,8 +1552,8 @@
      numeral all read from --accent. Ranks 11+ (only visible once All Others
      expands) keep their own artist accent and get a grey numeral -- outside the
      top 10 shouldn't wear a medal. */
-  .rank-num{position:absolute; right:6px; bottom:24px; z-index:0; pointer-events:none;
-    font-family:'Bebas Neue',sans-serif; font-size:92px; line-height:.8; font-weight:400;
+  .rank-num{position:absolute; right:10px; bottom:18px; z-index:0; pointer-events:none;
+    font-family:'Bebas Neue',sans-serif; font-size:84px; line-height:.8; font-weight:400;
     color:transparent; -webkit-text-stroke:3px rgba(160,168,180,.55);
     opacity:.78; letter-spacing:-2px;}
   .tiles.carousel > .tile-wrap:nth-child(-n+10) > .tile .rank-num{-webkit-text-stroke-color:var(--accent);}
@@ -1817,6 +1817,13 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
      half its 16px line). .tile-alb's 44px hit box centres at bottom+22, so
      bottom:0 puts both texts on the same line. The box overhangs into the
      padding -- that's hit area, not ink. */
-  .tile-alb{position:absolute; right:12px; bottom:0;}
+  /* Vote Album sits LEFT of the numeral and wraps to two lines. The numeral
+     owns the right ~54px of the card; .desc and .tile-alb both stay out of it,
+     which is what was causing Nirvana's 3 to sit on top of its blurb. */
+  .tile-alb{position:absolute; right:54px; bottom:0; max-width:84px;
+    white-space:normal; text-align:right; line-height:1.02; padding:0 6px;
+    margin-right:0;}
+  .tiles.carousel .tile .desc{padding-right:52px;}
+  .tile .enter{padding-right:0;}
   .tile .enter{padding-right:104px;}
 </style>
