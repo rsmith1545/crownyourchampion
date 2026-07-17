@@ -1829,11 +1829,19 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
 
   /* Quiet by design -- must not fight SETTLE THE DEBATE. Small caps, muted gold,
      no box. Reads as a fact, not a plea. */
-  .hero-about{display:inline-block; margin-top:5px; text-decoration:none;
+  /* This is the Reddit card -- the origin story -- and it was reading as a
+     caption, not a link: dim gold at 62%, no underline, and the arrow got cut.
+     Colour alone is a weak affordance (and fails for anyone who can't separate
+     the gold from the body text). Full gold + underline; the underline is the
+     only signal here that doesn't depend on seeing colour. */
+  .hero-about{display:inline-block; margin-top:5px;
     font-family:'Barlow Condensed',sans-serif; font-size:12.5px;
     letter-spacing:.14em; text-transform:uppercase;
-    color:rgba(203,184,119,.62); transition:color .18s;}
-  .hero-about:hover{color:var(--gold);}
+    color:var(--gold-soft); text-decoration:underline;
+    text-decoration-color:rgba(255,206,92,.5);
+    text-underline-offset:4px; text-decoration-thickness:1px;
+    transition:color .18s, text-decoration-color .18s;}
+  .hero-about:hover{color:#fff; text-decoration-color:#fff;}
   .hero-about .arr{margin-left:4px; opacity:.8;}
   
   /* Hero search: 49 brackets makes this a directory, and directories lead with search. */
