@@ -1347,19 +1347,29 @@
   (function(){
     var input = document.getElementById('bracket-search');
     if(!input) return;
+    function matches(name, q){
+      var words = name.toLowerCase().split(/[^a-z0-9]+/);
+      for(var i=0;i<words.length;i++){ if(words[i].indexOf(q) === 0) return true; }
+      return false;
+    }
     var groups = Array.prototype.slice.call(document.querySelectorAll('.genre-group'));
     var tiles  = Array.prototype.slice.call(document.querySelectorAll('.tile'));
     var noRes  = document.getElementById('no-results');
     function apply(){
       var q = input.value.trim().toLowerCase();
       var anyVisible = false;
+      // Word-PREFIX, not substring. Rose: "type cold and coldplay is the only
+      // bracket STARTING w/ those letters". A plain substring match returns
+      // Stone Temple Pilots for "em" (T-em-ple) -- technically a hit, useless
+      // to a human. Any word may start the match, so "petty" finds Tom Petty
+      // and "zep" finds Led Zeppelin without needing the first word.
       tiles.forEach(function(t){
         // Artist name ONLY. This used to search band + genre, so typing "em"
         // matched U2 on its "Anthem Rock" genre line -- the genre text is
         // editorial flavour, not an index. Nobody types two letters hoping for
         // a substring of a subtitle. Genre already has its own shelf.
         var band = (t.querySelector('.band')||{}).textContent || '';
-        var show = !q || band.toLowerCase().indexOf(q) !== -1;
+        var show = !q || matches(band, q);
         // Hide the WRAP, not the card. .tile-wrap owns `flex:0 0 300px`, so
         // hiding just the inner <a> left a 300px empty box sitting in the
         // nowrap track -- typing "cold" meant scrolling past 7 blank cards to
@@ -1705,10 +1715,17 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     var chips = Array.prototype.slice.call(modal.querySelectorAll('.qm-chip'));
     var groups = Array.prototype.slice.call(modal.querySelectorAll('.qm-group'));
     var none = document.getElementById('qm-none');
+    function qmMatches(name, q){
+      var words = name.toLowerCase().split(/[^a-z0-9]+/);
+      for(var i=0;i<words.length;i++){ if(words[i].indexOf(q) === 0) return true; }
+      return false;
+    }
     inp.addEventListener('input', function(){
       var q = inp.value.trim().toLowerCase(), any = false;
       chips.forEach(function(c){
-        var hit = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+        // same word-prefix rule as the page search -- two boxes that filter the
+        // same 49 names should not disagree about what a match is
+        var hit = !q || qmMatches(c.textContent.trim(), q);
         c.style.display = hit ? '' : 'none';
         if(hit) any = true;
       });
