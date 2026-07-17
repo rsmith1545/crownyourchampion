@@ -2067,5 +2067,12 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     .genre-group{margin-bottom:24px;}
     .whats-new{margin-top:24px;}
     .hero-search{margin-bottom:18px;}
+    /* .sec-head carries margin-top:30px and .whats-new has no border or
+       padding-top to stop it, so that margin COLLAPSES THROUGH the section's
+       top edge and becomes the section's own -- outranking the 24 above. The
+       genre heads use .section-head, which is margin-top:0, which is why only
+       this one gap misbehaved. Pinning .whats-new alone was not enough: the
+       child was the one winning. */
+    .whats-new .sec-head{margin-top:0;}
   }
   </style>
