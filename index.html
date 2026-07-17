@@ -411,7 +411,7 @@
       <div class="kicker">Think You’re a Superfan?</div>
       <h1>Settle The Debate</h1>
       <div class="subline">Crown the greatest song. Vote the best album.</div>
-      <a class="hero-about" href="/about/">Made by one fan who couldn’t settle an <span class="nb">argument. <span class="arr">→</span></span></a>
+      <a class="hero-about" href="/about/">Made by a fan to settle an argument.</a>
       <div class="search-wrap hero-search">
         <input id="bracket-search" type="search" autocomplete="off" placeholder="Search 49 brackets" aria-label="Search brackets">
       </div>
@@ -1958,8 +1958,6 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   .tiles .tile-wrap.hidden{display:none;}
   
   /* ── MOBILE HERO + CARDS (Rose's punch list, phone only) ── */
-  .nb{white-space:nowrap;}   /* keep the arrow with the word it belongs to */
-
   @media(max-width:600px){
     /* Let the logo lead. h1 was clamp(44px,8.5vw,92px) -- 8.5vw is ~33px on a
        phone, so every handset sat on the 44px FLOOR while the logo was 68px:
@@ -1976,21 +1974,31 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        the only thing telling you the row scrolls. */
     .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{flex:0 0 85%;}
 
-    /* Numeral read far heavier than on desktop: identical 84px/3px stroke, but
-       on a ~330px card with tighter copy it competed instead of sitting behind. */
-    .rank-num{font-size:76px; opacity:.32; -webkit-text-stroke-width:2.5px;}
+    /* THE DEAD SPACE: the wrap had a hard height (248 desktop / 232 here) while
+       the copy above it got shorter -- a fixed box can only ever be too big or
+       too small. height:auto lets the row size itself; .tiles.carousel is a flex
+       row with default align-items:stretch, so every card still matches the
+       tallest one. No magic number to be wrong about. */
+    .tiles.carousel > .tile-wrap{height:auto;}
+    .tiles.carousel .tile{padding:20px 20px 14px;}
+
+    /* Numeral read far heavier than desktop (same 84px/3px stroke on a smaller
+       card) AND sat in the bottom-right, squeezing the two links into the strip
+       beside it. Lift it behind the copy: the bottom row gets the full width. */
+    .rank-num{font-size:74px; opacity:.3; -webkit-text-stroke-width:2.5px;
+      bottom:46px; right:6px;}
 
     /* "VOTE ALBUM" never fit beside "BRACKET" and wrapped into the numeral.
-       Drop the verb -- "Album ->" is one line, and "Bracket / Album" reads as
-       the pair it is. Stays absolute: see note above. */
+       Drop the verb, then park Album at the RIGHT EDGE now the numeral has
+       moved off it. bottom:2px (not 14) so its 44px touch box centres on
+       Bracket's text baseline -- they're on one line, not stepped. */
     .alb-v{display:none;}
-    .tile-alb{max-width:none; white-space:nowrap; bottom:7px; right:52px;
+    .tile-alb{max-width:none; white-space:nowrap; right:16px; bottom:2px;
       text-align:right;}
-    .tile .enter{padding-right:96px;}
+    .tile .enter{padding-right:0;}
 
     /* Clean 2-line clamp -- no more "seeded by streams a..." mid-word. */
-    .tiles.carousel .tile .desc{-webkit-line-clamp:2; padding-right:46px;
+    .tiles.carousel .tile .desc{-webkit-line-clamp:2; padding-right:44px;
       min-height:0; font-size:14px;}
-    .tiles.carousel > .tile-wrap{height:232px;}
   }
   </style>
