@@ -20,11 +20,38 @@ Re-run failed jobs (an empty commit re-triggers).
 - Live: https://crownyourchampion.com · Repo: rsmith1545/crownyourchampion (GitHub Pages)
 - Static PWA of 64-song music-bracket tournaments. Backend = Firebase Firestore + GA4.
 - Identity: gold-on-dark, regal (distinct from SFS's neon).
-- Status: 32 brackets live. Album "Best Album" vote = 32/32 fully covered (incl. Beyoncé
-  Lemonade via per-song iTunes lookup). Previews baked from iTunes (permanent
-  audio-ssl.itunes.apple.com m4a URLs; Deezer expires — never use).
+- Status: **49 brackets live** (32 hand-built + 17 generated). Album vote = **49/49**.
+  Previews baked from iTunes (permanent audio-ssl.itunes.apple.com m4a URLs; Deezer expires — never use).
 - Note: CYC hub PWA manifest_hub.json has scope "/" — it claims the whole origin, which is why
   a second PWA can't install separately under crownyourchampion.com (the reason SFS got its own domain).
+
+### CYC data model — the traps (learned the hard way, July 17 2026)
+- **roster.json is the source of truth (49)** but every bracket page embeds a COPY as
+  `var CYC_ROSTER`. It feeds `cycNextData()` = the post-crown "What's Next?" pick, NOT the
+  All-Brackets menu (that's 49 hardcoded `.qm-chip`s on every page — it was never broken).
+  Adding a bracket = re-sync the embedded copy or new brackets never get suggested. Will drift
+  again; the durable fix is fetching roster.json at runtime.
+- **17 older bracket pages have NO CYC_ROSTER.** They use a hardcoded `NEXT = {picks:[...]}` with
+  2 hand-picked neighbours (rhcp → Foo, Pearl Jam). Editorial, not stale. They'll never suggest a
+  new bracket — decide separately.
+- **`pick()` reads `innerText`** to advance a winner and writes it to the next slot AND Firebase.
+  Any CSS that changes rendered text (clamp/truncate) risks writing a TRUNCATED title to real data.
+  Verified: `-webkit-line-clamp` does NOT change innerText. Still — test before shipping.
+- **The title CANNOT be wrapped in a span.** `pick()` does `target.innerText = text`, which replaces
+  the target's children with a bare text node — any wrapper dies on the first advance, precisely in
+  the R2/Final-Four boxes that overflow.
+- **`.round-col` is `justify-content:space-around`** → gaps are LEFTOVER space. Oversized boxes eat
+  them. "Round 2 has no gap" is a SYMPTOM of box overflow, not its own bug.
+- **Region panels** are `.venue-gorge/spac/westpalm/camden` — DMB venue names on all 49, because
+  everything was cloned from the DMB template. They are decoration with NO meaning (chips are all
+  gold; there is no legend). Now uniform `rgba(56,96,72,.46)` ("Oyster Bay", renders #16242a) on 48.
+  **DMB is deliberately excluded** — its panels are real venue PHOTOS (bg-gorge.jpg etc). Its regions
+  ARE those venues. Don't flatten it.
+- **Two `</head>` in bracket pages** (one inside a JS string). Inject late CSS as a
+  `<style id="cyc-*">` after the last `</style>` — the file's own convention.
+- **Blurbs must never mention seeding/streams.** Rose killed it ("streamed by who? not our
+  audience"). A 2-line clamp was HIDING the tail on 30 of 51 homepage tiles; widening to 3 lines
+  re-exposed it. All 51 cleaned July 17.
 
 ------------------------------------------------------------
 ## Product 2 — SuperFan Shuffle (SFS)  [ACTIVE BUILD]
@@ -120,27 +147,4 @@ Re-run failed jobs (an empty commit re-triggers).
   package.json + capacitor.config.json (appId **com.hutchdesign.superfanshuffle**, webDir=www);
   native.js (feature-detected bridge: SFS.native + lockLandscape / hideStatusBar / keepAwake / haptic — all no-ops on
   the web); scripts/build-web.js (copies web assets into www/); README-NATIVE.md (the Mac/Xcode runbook). play.html +
-  index.html load native.js and take the native path only when SFS.native is true; web behavior is unchanged behind guards.
-- BUILD (needs a Mac + Xcode + Apple Developer acct $99/yr): `git checkout native-app` → `npm install` →
-  `npm run ios:add` → `npm run ios:open` → in Xcode set signing Team, plug in iPhone, press Run. Own phone via cable
-  (free Apple ID works but the app expires in 7 days; paid = 1yr + TestFlight). Share via **TestFlight** (up to 10k
-  testers, no full review). Android later: `npm install @capacitor/android && npx cap add android` (buildable on Windows, $25 Google one-time).
-- App Store gotchas: Guideline 4.2 (must feel like an app, not a bare web wrapper — our native features clear it);
-  vault-unlock payments must use Apple In-App Purchase (**15% Small Business Program** / 30% otherwise) — decide the
-  payments model before public launch. Add a proper app icon + splash.
-- WORKFLOW: keep iterating gameplay / content / look on the WEB (fast loop: push → live ~60s, testable in any browser).
-  Only go to Capacitor/Xcode to test native-only things (fullscreen, real rotation, haptics). When the game feels done,
-  wrap + TestFlight. The native scaffold is fully guarded, so merging native-app → main is safe (no visible change to the
-  live site) and keeps ONE codebase — offered, not yet done.
-- Reference doc (local, not in repo): **SuperFanShuffle-Native-Wrapper-Guide.md** in the SFS folder.
-
-------------------------------------------------------------
-## Session log — July 5 2026 (iOS fixes + native scaffold)
-------------------------------------------------------------
-- Pushed to **main**: audio silent-switch unlock + safe-area centering + sw v3 (ca3ab59); screen wake lock (2d6cad6);
-  #stage rotation refactor + rotated countdown screens + single motion prompt per session (c9f20ce).
-- Pushed to **native-app** branch: full Capacitor scaffold (see section above).
-- OPEN / needs device confirm: card centering after the #stage refactor (awaiting a fresh iPhone screenshot); iOS tilt
-  direction (DOWN_IS_GOOD +1 guess).
-- Reminder: repo is cloud-synced via OneDrive — the bash sandbox sometimes reads half-synced files. Work from a fresh
-  /tmp clone and push (the reliable path); the Read tool sees the authoritative OneDrive copy.
+  index.html load native.js and take the native path only when SFS.nati
