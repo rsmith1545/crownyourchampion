@@ -1354,9 +1354,12 @@
       var q = input.value.trim().toLowerCase();
       var anyVisible = false;
       tiles.forEach(function(t){
+        // Artist name ONLY. This used to search band + genre, so typing "em"
+        // matched U2 on its "Anthem Rock" genre line -- the genre text is
+        // editorial flavour, not an index. Nobody types two letters hoping for
+        // a substring of a subtitle. Genre already has its own shelf.
         var band = (t.querySelector('.band')||{}).textContent || '';
-        var genre = (t.querySelector('.genre')||{}).textContent || '';
-        var show = !q || (band + ' ' + genre).toLowerCase().indexOf(q) !== -1;
+        var show = !q || band.toLowerCase().indexOf(q) !== -1;
         // Hide the WRAP, not the card. .tile-wrap owns `flex:0 0 300px`, so
         // hiding just the inner <a> left a 300px empty box sitting in the
         // nowrap track -- typing "cold" meant scrolling past 7 blank cards to
