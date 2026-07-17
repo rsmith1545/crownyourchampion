@@ -2074,5 +2074,9 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        this one gap misbehaved. Pinning .whats-new alone was not enough: the
        child was the one winning. */
     .whats-new .sec-head{margin-top:0;}
+    /* head -> card was 22px (.section-head's 18 + the row's 4px padding-top).
+       Tighten to 14 so a shelf reads as one unit with its header instead of
+       two floating things. */
+    .section-head{margin-bottom:10px;}
   }
   </style>
