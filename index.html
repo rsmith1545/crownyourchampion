@@ -420,7 +420,6 @@
 
 
 
-    <h2 class="sec-head" id="tournaments"><span class="sh-ico">🏆</span>Choose Your Tournament</h2>
 
 
 
@@ -428,7 +427,7 @@
 
 
     <section class="genre-group">
-      <h2 class="section-head">Pop</h2>
+      <h2 class="section-head">Pop <span class="sh-rank">· Most Streamed</span></h2>
       <div class="shelf">
         <button class="shelf-arr shelf-prev" type="button" aria-label="Scroll left" hidden>&#8249;</button>
       <div class="tiles carousel capped">
@@ -1644,8 +1643,8 @@
      top 10 shouldn't wear a medal. */
   .rank-num{position:absolute; right:8px; bottom:-18px; z-index:0; pointer-events:none;
     font-family:'Bebas Neue',sans-serif; font-size:112px; line-height:.8; font-weight:400;
-    color:transparent; -webkit-text-stroke:2.5px rgba(160,168,180,.5);
-    opacity:.55; letter-spacing:-2px;}
+    color:transparent; -webkit-text-stroke:3px rgba(160,168,180,.55);
+    opacity:.78; letter-spacing:-2px;}
   .tiles.carousel > .tile:nth-child(-n+10) .rank-num{-webkit-text-stroke-color:var(--accent);}
   .tiles.carousel > .tile:nth-child(1){--accent:#C99E4A;}   /* Gold */
   .tiles.carousel > .tile:nth-child(2){--accent:#C4C8CC;}   /* Silver */
@@ -1685,6 +1684,8 @@
      glyph, so the back arrow pointed forward. */
   .shelf-next{right:-8px; background:linear-gradient(90deg, rgba(10,13,20,0), rgba(10,13,20,.94) 55%);}
   .shelf-prev{left:-8px;  background:linear-gradient(270deg, rgba(10,13,20,0), rgba(10,13,20,.94) 55%);}
+  .shelf-arr:not([hidden]){opacity:.72;}          /* visible at rest -- an arrow
+     that only appears on hover is not an affordance, it's a secret */
   .shelf:hover .shelf-arr:not([hidden]){opacity:1;}
   .shelf-arr:hover{color:#fff;}
   .shelf-arr[hidden]{display:none;}
@@ -1748,6 +1749,7 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
         var max = row.scrollWidth - row.clientWidth - 2;
         prev.hidden = row.scrollLeft <= 2;
         next.hidden = row.scrollLeft >= max || max <= 0;
+        sh.classList.toggle('has-more', !next.hidden);
       }
       prev.addEventListener('click', function(){ row.scrollBy({left:-page(), behavior:'smooth'}); });
       next.addEventListener('click', function(){ row.scrollBy({left: page(), behavior:'smooth'}); });
@@ -1814,4 +1816,17 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     letter-spacing:.14em; font-size:11.5px; color:var(--muted);}
   footer .foot-comm svg{width:19px; height:19px;}
   footer .foot-legal{margin-bottom:8px;}
+  
+  /* first row carries the label; numerals teach the rest */
+  .sh-rank{font-family:'Barlow Condensed',sans-serif; font-size:.62em;
+    letter-spacing:.16em; color:var(--muted); opacity:.75; margin-left:6px;}
+  /* the catalog now starts right under the hero -- the 'Choose Your Tournament'
+     header and its 34px search-wrap margin are gone, so reclaim the gap. */
+  .hero{padding-bottom:6px;}
+  .genre-group:first-of-type{margin-top:10px;}
+  /* right-edge fade so a sliced card reads as "there's more", not "broken" */
+  .shelf::after{content:""; position:absolute; top:0; bottom:14px; right:0; width:56px;
+    pointer-events:none; z-index:4; opacity:0; transition:opacity .18s;
+    background:linear-gradient(90deg, rgba(10,13,20,0), rgba(10,13,20,.85));}
+  .shelf.has-more::after{opacity:1;}
   </style>
