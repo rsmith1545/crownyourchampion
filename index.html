@@ -2013,17 +2013,20 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     .tiles.carousel .tile .desc{-webkit-line-clamp:2; padding-right:44px;
       min-height:0; font-size:14px;}
 
-    /* WHY THE ROWS DISAGREED: every card part is identical, but .band is
-       clamped to 2 lines and only SOME names need the second one. Creedence
-       Clearwater Revival wraps -> 60px band -> 197px card -> it's the tallest
-       item in Classic Rock, so align-items:stretch drags that whole row to 197
-       while every other row (no wrapping name) sits at 167. The row height was
-       hostage to the longest artist in the genre.
-       Reserve both lines on every card: 2 x 30px line-height, deterministic,
-       and now every row is 197 regardless of who's in it. flex-end keeps a
-       one-line name sitting against its description instead of stranding it. */
-    .tiles.carousel .tile .band{min-height:60px; display:flex;
-      align-items:flex-end; -webkit-box-orient:vertical;}
+    /* WHY THE ROWS DISAGREED: every card part is identical, but .band is clamped
+       to 2 lines and only SOME names need the second one. Creedence Clearwater
+       Revival wraps -> 60px band -> 197px card -> tallest item in Classic Rock,
+       so align-items:stretch drags that row to 197 while every other row sits at
+       167. Row height was hostage to the longest artist in the genre.
+
+       Fix on the CARD, not the band. Reserving the space inside .band puts the
+       slack right next to the text -- which is what pushed the artist away from
+       its category. A min-height on the card lets margin-top:auto on .enter
+       collect the slack at the BOTTOM instead: genre/name/desc stay together up
+       top and Bracket sits on the floor. That's the Queen card Rose liked; it
+       was only ever doing this because CCR made its row tall.
+       197 = the 167px card + one extra 30px band line. */
+    .tiles.carousel .tile{min-height:197px;}
   }
   
   /* HOW TO PLAY: the number badge was a block ABOVE the heading, so its 30px +
@@ -2031,4 +2034,14 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
      heading sits beside it -- same badge, ~41px back per step. */
   .step{position:relative; padding-left:58px;}
   .step .n{position:absolute; left:16px; top:17px; margin-bottom:0;}
+  
+  /* WHAT'S NEW: the "New" pill was display:inline-block with margin-bottom, so
+     it burned a whole line above the heading for a 9px label. Same treatment as
+     the bracket cards -- pin it to the corner it's annotating. */
+  .whats-new .wn-new{position:absolute; top:13px; right:14px; margin-bottom:0;}
+  .whats-new .wn-card h3{padding-right:52px;}
+  @media(max-width:600px){
+    .whats-new .wn-grid{gap:16px;}   /* was 12 -- the two cards read as one slab */
+    .whats-new .wn-card{padding:15px 17px 15px;}
+  }
   </style>
