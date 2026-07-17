@@ -471,7 +471,7 @@
 
         <section class="genre-group featured-group">
       <h2 class="section-head">Where It All Started</h2>
-      <div class="tiles">
+      <div class="tiles carousel">
         <a class="tile dmb" href="./dmb/">
           <div class="genre">Jam · Rock</div>
           <div class="band">Dave Matthews Band</div>
@@ -488,7 +488,7 @@
     </section>
     <section class="genre-group">
       <h2 class="section-head">Pop</h2>
-      <div class="tiles capped">
+      <div class="tiles carousel capped">
         <a class="tile taylorswift" href="./taylorswift/">
           <span class="rank-num" aria-hidden="true">1</span>
           <span class="new-badge">New</span>
@@ -651,7 +651,7 @@
     </section>
     <section class="genre-group">
       <h2 class="section-head">Classic Rock</h2>
-      <div class="tiles capped">
+      <div class="tiles carousel capped">
         <a class="tile queen" href="./queen/">
           <span class="rank-num" aria-hidden="true">1</span>
           <span class="new-badge">New</span>
@@ -780,7 +780,7 @@
     </section>
     <section class="genre-group">
       <h2 class="section-head">Alt &amp; Hard Rock</h2>
-      <div class="tiles">
+      <div class="tiles carousel">
         <a class="tile rhcp" href="./rhcp/">
           <span class="rank-num" aria-hidden="true">1</span>
           <div class="genre">Funk · Rock</div>
@@ -861,7 +861,7 @@
     </section>
     <section class="genre-group">
       <h2 class="section-head">Hip-Hop &amp; R&amp;B</h2>
-      <div class="tiles">
+      <div class="tiles carousel">
         <a class="tile eminem" href="./eminem/">
           <span class="rank-num" aria-hidden="true">1</span>
           <span class="new-badge">New</span>
@@ -882,7 +882,7 @@
     </section>
     <section class="genre-group">
       <h2 class="section-head">Folk · Jam · Singer-songwriter · Indie</h2>
-      <div class="tiles">
+      <div class="tiles carousel">
         <a class="tile gratefuldead" href="./gratefuldead/">
           <span class="rank-num" aria-hidden="true">1</span>
           <span class="new-badge">New</span>
@@ -1630,13 +1630,16 @@
      .genre-group, so capping by removing tiles would hide 39 brackets FROM
      SEARCH. The cap is presentational only -- .tiles.capped -- and both the
      All Others button and any active query drop it. */
-  .tiles.capped{flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start;
+  /* .carousel = the LAYOUT (every shelf). .capped = the LIMIT (only >10).
+     Kept separate: Alt & Hard Rock has exactly 10, so tying the carousel to the
+     cap left it rendering as a wrapped grid while Pop/Classic Rock scrolled. */
+  .tiles.carousel{flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start;
     scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch;
     padding:4px 2px 14px; scrollbar-width:thin;}
-  .tiles.capped > .tile{flex:0 0 300px; scroll-snap-align:start;}
+  .tiles.carousel > .tile{flex:0 0 300px; scroll-snap-align:start;}
   .tiles.capped > a.tile:nth-child(n+11){display:none;}
-  .tiles.capped::-webkit-scrollbar{height:8px;}
-  .tiles.capped::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+  .tiles.carousel::-webkit-scrollbar{height:8px;}
+  .tiles.carousel::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
 
   .tile{overflow:hidden;}
   .rank-num{position:absolute; right:8px; bottom:-16px; z-index:0; pointer-events:none;
@@ -1652,7 +1655,7 @@
   .tile-more:hover{border-color:var(--gold);}
 
   @media(max-width:760px){
-    .tiles.capped > .tile{flex:0 0 84%;}
+    .tiles.carousel > .tile{flex:0 0 84%;}
     .rank-num{font-size:80px;}
   }
   </style>
@@ -1670,7 +1673,7 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   /* All Others -> un-cap that shelf. Search -> un-cap everything while a query
      is active, else restore, so filtering can still reach brackets 11+. */
   (function(){
-    var shelves = Array.prototype.slice.call(document.querySelectorAll('.tiles.capped'));
+    var shelves = Array.prototype.slice.call(document.querySelectorAll('.tiles.capped'));  /* layout class .carousel is never touched */
     shelves.forEach(function(s){ s.dataset.capped = '1'; });
     document.addEventListener('click', function(e){
       var b = e.target.closest && e.target.closest('.tile-more');
