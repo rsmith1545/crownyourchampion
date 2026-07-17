@@ -1964,6 +1964,13 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   .tiles.capped.searching > .tile-wrap:nth-child(n+11){display:flex;}
   .tiles.capped.searching > .tile-wrap:nth-child(n+11).hidden,
   .tiles .tile-wrap.hidden{display:none;}
+  /* All Others must hide during a search too. The page search DOES add .hidden
+     to it, but .tiles.carousel > .tile-more{display:flex} is (0,3,0) and
+     .tile.hidden{display:none} is only (0,2,0) -- so the button won every
+     search and sat there next to the one real result. Third time a rule
+     targeting .tile has lost to one targeting the carousel (palette, 10-cap,
+     now this). Match the specificity. */
+  .tiles.carousel > .tile-more.hidden{display:none;}
   
   /* ── MOBILE HERO + CARDS (Rose's punch list, phone only) ── */
   @media(max-width:600px){
