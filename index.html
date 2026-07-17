@@ -877,8 +877,10 @@
         <button class="qm-close" id="bracketPickClose" aria-label="Close">&times;</button>
         <div class="qm-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7H8"/><path d="M3 17H8"/><path d="M8 7V17"/><path d="M8 12H15"/><circle cx="17.5" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>Pick a Bracket</div>
         <div class="qm-sub">64 songs, one champion — or scroll down to browse the tiles.</div>
+        <div class="qm-stick">
         <div class="qm-filter">
           <input id="qm-filter-in" type="search" autocomplete="off" placeholder="Filter brackets…" aria-label="Filter brackets">
+        </div>
         </div>
         <div class="qm-none" id="qm-none" hidden>Nothing matches that.</div>
         <div class="qm-groups">
@@ -1350,11 +1352,20 @@
         var band = (t.querySelector('.band')||{}).textContent || '';
         var genre = (t.querySelector('.genre')||{}).textContent || '';
         var show = !q || (band + ' ' + genre).toLowerCase().indexOf(q) !== -1;
-        t.classList.toggle('hidden', !show);
+        // Hide the WRAP, not the card. .tile-wrap owns `flex:0 0 300px`, so
+        // hiding just the inner <a> left a 300px empty box sitting in the
+        // nowrap track -- typing "cold" meant scrolling past 7 blank cards to
+        // reach Coldplay. Same wrapper trap as the palette and the 10-cap.
+        (t.closest('.tile-wrap') || t).classList.toggle('hidden', !show);
         if(show) anyVisible = true;
       });
+      // A search has to reach past the 10-cap, or the box that says
+      // "Search 49 brackets" can only ever find 10 of them.
+      Array.prototype.forEach.call(document.querySelectorAll('.tiles'), function(row){
+        row.classList.toggle('searching', !!q);
+      });
       groups.forEach(function(g){
-        var visible = g.querySelectorAll('.tile:not(.hidden)').length;
+        var visible = g.querySelectorAll('.tile-wrap:not(.hidden)').length;
         g.classList.toggle('hidden', visible === 0);
       });
       if(noRes) noRes.style.display = anyVisible ? 'none' : 'block';
@@ -1448,13 +1459,23 @@
   (function(){
     function wire(openId, modalId, closeId){
       var open=document.getElementById(openId), modal=document.getElementById(modalId), close=document.getElementById(closeId);
-      if(!open||!modal) return;
-      function show(e){ if(e) e.preventDefault(); modal.hidden=false; document.body.style.overflow='hidden'; }
+      if(!modal) return;
       function hide(){ modal.hidden=true; document.body.style.overflow=''; }
+      // Do NOT gate this on `open`. It used to read `if(!open||!modal) return;`
+      // so when the homepage restructure deleted the nav-box openers, every
+      // close / backdrop / Escape handler silently went with them and the modal
+      // became un-closeable. Nothing opened it, so nothing caught it -- until
+      // All Others did. A modal must always know how to shut itself, whether or
+      // not the thing that opened it still exists.
+      if(modal.dataset.wiredClose !== '1'){
+        modal.dataset.wiredClose = '1';
+        if(close) close.addEventListener('click', hide);
+        modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
+        document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
+      }
+      if(!open) return;
+      function show(e){ if(e) e.preventDefault(); modal.hidden=false; document.body.style.overflow='hidden'; }
       open.addEventListener('click', show);
-      if(close) close.addEventListener('click', hide);
-      modal.addEventListener('click', function(e){ if(e.target===modal) hide(); });
-      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !modal.hidden) hide(); });
     }
     wire('quizPickOpen','quizPickModal','quizPickClose');
     var _qpm=document.getElementById('quizPickModal');
@@ -1657,7 +1678,8 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
       var groups = modal.querySelectorAll('.qm-gh');
       for(var i=0;i<groups.length;i++){
         if(groups[i].textContent.trim().toLowerCase().indexOf(genre.toLowerCase()) === 0){
-          groups[i].scrollIntoView({block:'start'});
+          // Never let a nice-to-have scroll take the modal down with it.
+          try{ groups[i].scrollIntoView({block:'start'}); }catch(err){}
           break;
         }
       }
@@ -1875,4 +1897,21 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   .qm-none{color:var(--muted); font-size:14px; padding:14px 2px; font-style:italic;}
   /* the All Others card is a button -- make it read as the 11th card */
   .tile-more .band{color:var(--gold);}
+  
+  /* .qm-card IS the scroller (max-height:85vh; overflow-y:auto) and .qm-close
+     is absolute inside it -- so it scrolls away with the content. Harmless
+     while the list always opened at the top; broken the moment All Others
+     started opening it mid-list. Pin the X and the filter to the card. */
+  #bracketPickModal .qm-card{padding-top:0;}
+  #bracketPickModal .qm-close{position:sticky; float:right; top:12px; margin:12px -4px 0 0; z-index:3;}
+  #bracketPickModal .qm-title{padding-top:24px;}
+  .qm-stick{position:sticky; top:0; z-index:2; background:var(--card);
+    padding:8px 0 10px; box-shadow:0 10px 14px -10px rgba(0,0,0,.8);}
+  .qm-stick .qm-filter{margin:0;}
+  /* Un-cap while searching. .hidden must out-specify this or a NON-matching
+     card at position 11+ reappears mid-search -- the un-cap rule is (0,5,0),
+     so the hide rule has to match it and come after. */
+  .tiles.capped.searching > .tile-wrap:nth-child(n+11){display:flex;}
+  .tiles.capped.searching > .tile-wrap:nth-child(n+11).hidden,
+  .tiles .tile-wrap.hidden{display:none;}
   </style>
