@@ -1908,8 +1908,14 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
      while the list always opened at the top; broken the moment All Others
      started opening it mid-list. Pin the X and the filter to the card. */
   #bracketPickModal .qm-card{padding-top:0;}
-  #bracketPickModal .qm-close{position:sticky; float:right; top:12px; margin:12px -4px 0 0; z-index:3;}
-  #bracketPickModal .qm-title{padding-top:24px;}
+  /* Measured live: the X was a 16x28px hit area -- under half the 44x44 touch
+     minimum. Visible but genuinely hard to tap on a phone. Give it a real
+     target; the glyph doesn't move, the tappable box grows around it. */
+  #bracketPickModal .qm-close{position:sticky; float:right; top:8px; z-index:3;
+    width:44px; height:44px; margin:8px -12px 0 0; display:flex;
+    align-items:center; justify-content:center; border-radius:50%;}
+  #bracketPickModal .qm-close:hover{background:rgba(240,165,0,.14); color:#fff;}
+  #bracketPickModal .qm-title{padding-top:26px;}
   .qm-stick{position:sticky; top:0; z-index:2; background:var(--card);
     padding:8px 0 10px; box-shadow:0 10px 14px -10px rgba(0,0,0,.8);}
   .qm-stick .qm-filter{margin:0;}
