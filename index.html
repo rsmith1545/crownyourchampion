@@ -2012,5 +2012,23 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     /* Clean 2-line clamp -- no more "seeded by streams a..." mid-word. */
     .tiles.carousel .tile .desc{-webkit-line-clamp:2; padding-right:44px;
       min-height:0; font-size:14px;}
+
+    /* WHY THE ROWS DISAGREED: every card part is identical, but .band is
+       clamped to 2 lines and only SOME names need the second one. Creedence
+       Clearwater Revival wraps -> 60px band -> 197px card -> it's the tallest
+       item in Classic Rock, so align-items:stretch drags that whole row to 197
+       while every other row (no wrapping name) sits at 167. The row height was
+       hostage to the longest artist in the genre.
+       Reserve both lines on every card: 2 x 30px line-height, deterministic,
+       and now every row is 197 regardless of who's in it. flex-end keeps a
+       one-line name sitting against its description instead of stranding it. */
+    .tiles.carousel .tile .band{min-height:60px; display:flex;
+      align-items:flex-end; -webkit-box-orient:vertical;}
   }
+  
+  /* HOW TO PLAY: the number badge was a block ABOVE the heading, so its 30px +
+     11px margin pushed every step down for no reason. Float it left and the
+     heading sits beside it -- same badge, ~41px back per step. */
+  .step{position:relative; padding-left:58px;}
+  .step .n{position:absolute; left:16px; top:17px; margin-bottom:0;}
   </style>
