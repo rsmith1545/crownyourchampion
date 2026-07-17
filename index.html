@@ -1979,21 +1979,31 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        too small. height:auto lets the row size itself; .tiles.carousel is a flex
        row with default align-items:stretch, so every card still matches the
        tallest one. No magic number to be wrong about. */
-    .tiles.carousel > .tile-wrap{height:auto;}
+    /* .tile-more MUST be in here too. It kept height:248px while the cards went
+       auto -- and since it's a flex item in the same row, align-items:stretch
+       dragged every card back up to 248 to match it. Cards are 177px naturally,
+       so that was 71px of dead air, and no amount of tuning the CARDS could fix
+       it: the button was setting the height. */
+    .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{height:auto;}
     .tiles.carousel .tile{padding:20px 20px 14px;}
 
-    /* Numeral read far heavier than desktop (same 84px/3px stroke on a smaller
-       card) AND sat in the bottom-right, squeezing the two links into the strip
-       beside it. Lift it behind the copy: the bottom row gets the full width. */
-    .rank-num{font-size:74px; opacity:.3; -webkit-text-stroke-width:2.5px;
-      bottom:46px; right:6px;}
+    /* Numeral reads far heavier than desktop (same 84px/3px stroke on a smaller
+       card), so pull the weight back. It sits bottom-right as on desktop; with
+       the card now 177px there's no room to float it, and Album tucks in beside
+       it rather than under it. */
+    .rank-num{font-size:70px; opacity:.28; -webkit-text-stroke-width:2.5px;
+      bottom:4px; right:4px;}
 
     /* "VOTE ALBUM" never fit beside "BRACKET" and wrapped into the numeral.
        Drop the verb, then park Album at the RIGHT EDGE now the numeral has
        moved off it. bottom:2px (not 14) so its 44px touch box centres on
        Bracket's text baseline -- they're on one line, not stepped. */
     .alb-v{display:none;}
-    .tile-alb{max-width:none; white-space:nowrap; right:16px; bottom:2px;
+    /* Album sits LEFT of the numeral, not out at the edge -- that pulls it in
+       toward Bracket so the two read as one pair instead of two things at
+       opposite ends of the card. bottom:2px keeps its 44px touch box centred on
+       Bracket's baseline. */
+    .tile-alb{max-width:none; white-space:nowrap; right:62px; bottom:2px;
       text-align:right;}
     .tile .enter{padding-right:0;}
 
