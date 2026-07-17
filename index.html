@@ -1979,13 +1979,12 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        too small. height:auto lets the row size itself; .tiles.carousel is a flex
        row with default align-items:stretch, so every card still matches the
        tallest one. No magic number to be wrong about. */
-    /* .tile-more MUST be in here too. It kept height:248px while the cards went
-       auto -- and since it's a flex item in the same row, align-items:stretch
-       dragged every card back up to 248 to match it. Cards are 177px naturally,
-       so that was 71px of dead air, and no amount of tuning the CARDS could fix
-       it: the button was setting the height. */
+    /* THREE rules pin 248px: .tile-wrap (1580), .tile (1581), .tile-more (1623).
+       All three have to go or the survivor stretches the other two back. The
+       one that actually mattered is .tile -- it holds the content, so the wrap
+       just grows around it; releasing only the wrap changed nothing. */
     .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{height:auto;}
-    .tiles.carousel .tile{padding:20px 20px 14px;}
+    .tiles.carousel .tile{height:auto; padding:20px 20px 14px;}
 
     /* Numeral reads far heavier than desktop (same 84px/3px stroke on a smaller
        card), so pull the weight back. It sits bottom-right as on desktop; with
