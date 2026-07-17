@@ -2044,4 +2044,13 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     .whats-new .wn-grid{gap:16px;}   /* was 12 -- the two cards read as one slab */
     .whats-new .wn-card{padding:15px 17px 15px;}
   }
+  
+  /* The rhythm between a row and the next section head is 34px (.genre-group's
+     margin-bottom). Above POP it was 6px, so the first shelf jammed into the
+     search bar while every later one breathed. Put the 28px on the search bar's
+     own margin rather than on .genre-group -- touching the group's margin would
+     have moved every OTHER gap too, since the 34 I'm matching comes from it.
+     What's New already measures 34: its 30px margin-top collapses against the
+     last group's 34px margin-bottom and max() wins. Left alone. */
+  .hero-search{margin-bottom:28px;}
   </style>
