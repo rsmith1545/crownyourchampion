@@ -6006,51 +6006,25 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 }
 </style>
 <style id="cyc-title-clamp">
-/* ---- Ticket #1/#2: long-title overflow ----
-   .slot shipped flex + fixed height + overflow:hidden -> titles guillotined
-   mid-word, no ellipsis. .final-slot shipped height:auto + overflow:visible ->
-   "Miami 2017 (Seen the Lights Go Out on Broadway)" grew it to 161px against
-   67px siblings. Clamp both to 2 lines.
-   -webkit-box is required by -webkit-line-clamp and costs align-items:center;
-   -webkit-box-pack:center restores the vertical centring.
-
-   VERIFIED LIVE BEFORE SHIPPING: innerText is UNCHANGED by the clamp, so pick()
-   still advances the FULL title. pick() reads innerText and writes it onward
-   (and into Firebase) -- a clamp that truncated it would have turned a cosmetic
-   fix into data corruption.
-
-   The title CANNOT be wrapped in a span: pick() does `target.innerText = text`,
-   replacing the target's children with a bare text node, so a wrapper would die
-   on the first advance -- precisely in the R2 / Final-Four boxes that overflow.
-
-   Round 2's "no gap" needs NO separate fix. .round-col is space-around, so the
-   gaps are LEFTOVER space and oversized boxes ate them. Uniform heights give it
-   back: measured 0 -> 128px. */
-.slot{
-  display:-webkit-box !important;
-  -webkit-box-orient:vertical !important;
-  -webkit-box-pack:center !important;
-  -webkit-line-clamp:2 !important;
-  overflow:hidden !important;
-  height:auto !important;
-}
-.final-slot{
-  display:-webkit-box !important;
-  -webkit-box-orient:vertical !important;
-  -webkit-box-pack:center !important;
-  -webkit-line-clamp:2 !important;
-  overflow:hidden !important;
-  height:auto !important;
-  min-height:44px !important;
-}
-/* ---- Ticket #4: ON THE LIST chip ----
-   Green is in neither palette and it was the brightest element on a navy+gold
-   page -- a status indicator out-shouting every real action. Muted gold. */
+/* Ticket #4: the ON THE LIST chip. Green is in neither palette and it was the
+   brightest element on a navy+gold page. Muted gold; recedes once you're on. */
 .signup-done{
   color:rgba(240,165,0,.72) !important;
   border-color:rgba(240,165,0,.32) !important;
   background:rgba(240,165,0,.07) !important;
 }
+/* THE TITLE CLAMP IS REVERTED -- it did not work and shipped worse than the bug.
+   display:-webkit-box computes to flow-root on this element even when set
+   INLINE with !important, so the legacy -webkit-line-clamp never engages and
+   overflow:hidden simply clips harder (45px box vs the old 77px = MORE text
+   hidden, no ellipsis). Root cause not yet identified -- something is
+   blockifying the slot.
+
+   My verification was the actual failure: I measured that slot heights became
+   uniform and called it fixed. Uniform heights were a symptom of clipping more,
+   not of clamping. The test that distinguishes them is scrollHeight vs
+   clientHeight, and I never ran it. Any retry MUST assert
+   scrollHeight <= clientHeight + 2 on the Miami slot before shipping. */
 </style>
 
 <script>window.CYC_BAND="Billy Joel";</script>
