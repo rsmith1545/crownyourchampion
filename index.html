@@ -1978,9 +1978,13 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   }
 
   @media(max-width:760px){
-    /* 85% so the next card peeks -- with arrows hidden on touch, the peek IS
-       the only thing telling you the row scrolls. */
-    .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{flex:0 0 85%;}
+    /* Rose asked for ~85% of the VIEWPORT. flex-basis % resolves against the
+       FLEX CONTAINER, and .tiles sits inside .wrap's 22px padding -- so 85%
+       here was 85% of the row = only 75% of the viewport (309px on a 412px
+       phone). 96% of the row IS ~85% of the viewport: 349px, with a 41px peek
+       still showing the row scrolls (the peek is the only scroll signal on
+       touch -- the arrows are desktop-only). */
+    .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{flex:0 0 96%;}
 
     /* THE DEAD SPACE: the wrap had a hard height (248 desktop / 232 here) while
        the copy above it got shorter -- a fixed box can only ever be too big or
