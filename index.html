@@ -347,7 +347,12 @@
   /* mobile hero tighten */
   @media(max-width:600px){
     header.hero{padding:14px 0 4px;}
-    .crown-logo{height:clamp(56px,15vw,84px);}
+    /* Was clamp(56px,15vw,84px) -- 15vw never reaches 56 on a phone, so every
+       handset got the 56px floor: a 4.2:1 logo rendered 235px wide inside a
+       316px column, i.e. shrunk for no reason. The old max-width:92% capped it
+       again at ~69px even if the height asked for more. Drive it off the width
+       it actually has. 360px -> 68px, 430px -> 82px (was 56px on both). */
+    .crown-logo{height:clamp(64px,19vw,88px); max-width:100%;}
     .fan-note{margin-top:7px;}
     .hero-cta{margin-top:14px;}
   }
