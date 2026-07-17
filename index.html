@@ -1627,10 +1627,16 @@
   /* SVG, not a text glyph: '›' is punctuation and fills ~35% of its em box, so
      font-size:92px rendered a ~30px chevron. The button was always 70x140. */
   .shelf-arr{position:absolute; top:calc(50% - 22px); transform:translateY(-50%); z-index:5;
-    width:64px; height:150px; border:0; cursor:pointer; padding:0;
+    width:74px; height:150px; border:0; cursor:pointer; padding:0;
     display:flex; align-items:center; justify-content:center;
     color:var(--gold); opacity:0; transition:opacity .18s, color .18s; border-radius:6px;}
-  .shelf-arr svg{width:46px; height:46px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.9));}
+  /* Sizing the SVG BOX is not sizing the arrow. The polyline "15 18 9 12 15 6"
+     spans x 9->15 and y 6->18 of a 24 viewBox -- a quarter of the width, half
+     the height. At 46px the DRAWN chevron was 11x23px. Same trap as the old
+     &#8250; glyph: the container was never the thing that looked small.
+     72px box => an 18x36px chevron with a 6px stroke. */
+  .shelf-arr svg{width:72px; height:72px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.9));}
+  .shelf-arr svg polyline{stroke-width:2;}
   /* separate gradients rather than scaleX(-1) -- flipping the box flipped the
      glyph, so the back arrow pointed forward. */
   .shelf-next{right:-8px; background:linear-gradient(90deg, rgba(10,13,20,0), rgba(10,13,20,.94) 55%);}
@@ -1919,6 +1925,11 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
   .qm-stick{position:sticky; top:0; z-index:2; background:var(--card);
     padding:8px 0 10px; box-shadow:0 10px 14px -10px rgba(0,0,0,.8);}
   .qm-stick .qm-filter{margin:0;}
+  /* scrollIntoView aligns to the CONTAINER's top edge -- which is exactly where
+     the sticky filter now sits, so the genre header parked underneath it and
+     the first row of chips got clipped. scroll-margin reserves the filter's
+     own height (~58px) so the header lands just below it. */
+  .qm-gh{scroll-margin-top:68px;}
   /* Un-cap while searching. .hidden must out-specify this or a NON-matching
      card at position 11+ reappears mid-search -- the un-cap rule is (0,5,0),
      so the hide rule has to match it and come after. */
