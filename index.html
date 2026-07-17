@@ -2003,6 +2003,12 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
        just grows around it; releasing only the wrap changed nothing. */
     .tiles.carousel > .tile-wrap, .tiles.carousel > .tile-more{height:auto;}
     .tiles.carousel .tile{height:auto; padding:20px 20px 14px;}
+    /* 3-line desc. 197 was sized for CCR's 2-line name; every other card had
+       ~30px of slack doing nothing, which the 3rd line uses for free. CCR
+       itself would overflow to 216, so min-height goes to 218 or Classic Rock
+       renders taller than every other row again. 218 = +11%, still -12% on the
+       original 248. */
+    .tiles.carousel .tile{min-height:218px;}
 
     /* Numeral reads far heavier than desktop (same 84px/3px stroke on a smaller
        card), so pull the weight back. It sits bottom-right as on desktop; with
@@ -2028,7 +2034,7 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
     .tile .enter{padding-right:0;}
 
     /* Clean 2-line clamp -- no more "seeded by streams a..." mid-word. */
-    .tiles.carousel .tile .desc{-webkit-line-clamp:2; padding-right:44px;
+    .tiles.carousel .tile .desc{-webkit-line-clamp:3; padding-right:44px;
       min-height:0; font-size:14px;}
 
     /* WHY THE ROWS DISAGREED: every card part is identical, but .band is clamped
