@@ -2053,4 +2053,19 @@ function cycShareSite(e){ if(e&&e.preventDefault)e.preventDefault();
      What's New already measures 34: its 30px margin-top collapses against the
      last group's 34px margin-bottom and max() wins. Left alone. */
   .hero-search{margin-bottom:28px;}
+
+  /* Tighten the whole rhythm 34 -> 24. One number drives it (.genre-group's
+     margin-bottom) but it has two hangers-on that must move with it or the
+     gaps desync again:
+       - .hero-search's 28 was sized to reach 34 (6px base + 28). -> 18.
+       - .whats-new's 30px margin-top COLLAPSES against the group's bottom
+         margin and max() wins -- leave it and that one gap silently stays 30
+         while the other five go to 24. -> 24.
+     Mobile only: this was reviewed on a phone and I haven't looked at what 24
+     does to the desktop grid. */
+  @media(max-width:760px){
+    .genre-group{margin-bottom:24px;}
+    .whats-new{margin-top:24px;}
+    .hero-search{margin-bottom:18px;}
+  }
   </style>
