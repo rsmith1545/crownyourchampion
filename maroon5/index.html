@@ -1705,10 +1705,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Region 1 (Top Left)')">Region 1 (Top Left)</button>
-    <button class="era-btn" onclick="selectEra('Region 2 (Top Right)')">Region 2 (Top Right)</button>
-    <button class="era-btn" onclick="selectEra('Region 3 (Bottom Left)')">Region 3 (Bottom Left)</button>
-    <button class="era-btn" onclick="selectEra('Region 4 (Bottom Right)')">Region 4 (Bottom Right)</button>
+    <button class="era-btn" onclick="selectEra('Region 1')">Region 1</button>
+    <button class="era-btn" onclick="selectEra('Region 2')">Region 2</button>
+    <button class="era-btn" onclick="selectEra('Region 3')">Region 3</button>
+    <button class="era-btn" onclick="selectEra('Region 4')">Region 4</button>
 </div>
 </div><!-- /sticky-bar -->
 
@@ -1733,7 +1733,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Region 1 (Top Left)</div>
+            <div class="region-header">Region 1</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>This Love</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>Who I Am (feat. LunchMoney Lewis)</div></div>
@@ -1765,7 +1765,7 @@
         </div>
 
         <div class="region-card venue-spac">
-            <div class="region-header">Region 3 (Bottom Left)</div>
+            <div class="region-header">Region 3</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Sugar</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>All Night</div></div>
@@ -1805,14 +1805,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Region 1 (Top Left) Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Region 1 Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Region 3 (Bottom Left) Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Region 3 Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Region 2 (Top Right) Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Region 2 Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Region 4 (Bottom Right) Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Region 4 Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1843,7 +1843,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-westpalm">
-            <div class="region-header">Region 2 (Top Right)</div>
+            <div class="region-header">Region 2</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Moves Like Jagger</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>Stutter</div></div>
@@ -1875,7 +1875,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">Region 4 (Bottom Right)</div>
+            <div class="region-header">Region 4</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Girls Like You (feat. Cardi B)</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Wipe Your Eyes</div></div>
@@ -2110,70 +2110,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"This Love", seed:1, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:1781111163, liveRank:1},
-  {name:"Moves Like Jagger", seed:1, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:2202040473, liveRank:1},
-  {name:"Sugar", seed:1, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:2351712703, liveRank:1},
-  {name:"Girls Like You (feat. Cardi B)", seed:1, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:1868454727, liveRank:1},
-  {name:"She Will Be Loved", seed:2, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:2110014487, liveRank:1},
-  {name:"Payphone", seed:2, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:2750575201, liveRank:1},
-  {name:"Memories", seed:2, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:2506683537, liveRank:1},
-  {name:"Harder To Breathe", seed:2, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:245568163, liveRank:1},
-  {name:"Animals", seed:3, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:1989432620, liveRank:1},
-  {name:"Maps", seed:3, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:2444907154, liveRank:1},
-  {name:"One More Night", seed:3, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:1381634740, liveRank:1},
-  {name:"Sunday Morning", seed:3, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:952606205, liveRank:1},
-  {name:"Stereo Hearts", seed:4, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:1845084687, liveRank:1},
-  {name:"Locked Away", seed:4, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:1397053221, liveRank:1},
-  {name:"Makes Me Wonder", seed:4, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:252633741, liveRank:1},
-  {name:"Won't Go Home Without You", seed:4, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:563080553, liveRank:1},
-  {name:"Daylight", seed:5, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:497722865, liveRank:1},
-  {name:"Wake Up Call", seed:5, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:117160695, liveRank:1},
-  {name:"Misery", seed:5, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:441539569, liveRank:1},
-  {name:"What Lovers Do (feat. SZA)", seed:5, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:1443462186, liveRank:1},
-  {name:"Don't Wanna Know (feat. Kendrick Lamar)", seed:6, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:1116484488, liveRank:1},
-  {name:"Love Somebody", seed:6, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:318566634, liveRank:1},
-  {name:"Cold (feat. Future)", seed:6, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:921301305, liveRank:1},
-  {name:"Never Gonna Leave This Bed", seed:6, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:127222168, liveRank:1},
-  {name:"Beautiful Mistakes (feat. Megan Thee Stallion)", seed:7, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:911226609, liveRank:1},
-  {name:"Wait", seed:7, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:544744281, liveRank:1},
-  {name:"Lucky Strike", seed:7, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:165792228, liveRank:1},
-  {name:"Nobody's Love", seed:7, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:224538147, liveRank:1},
-  {name:"Sweetest Goodbye", seed:8, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:29249796, liveRank:1},
-  {name:"If I Never See Your Face Again", seed:8, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:94970099, liveRank:1},
-  {name:"Goodnight Goodnight", seed:8, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:62550583, liveRank:1},
-  {name:"Beautiful Goodbye", seed:8, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:134939726, liveRank:1},
-  {name:"It Was Always You", seed:9, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:181193564, liveRank:1},
-  {name:"Lost", seed:9, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:252363964, liveRank:1},
-  {name:"Just A Feeling", seed:9, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:87483641, liveRank:1},
-  {name:"Must Get Out", seed:9, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:39486270, liveRank:1},
-  {name:"This Summer", seed:10, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:189508376, liveRank:1},
-  {name:"Shiver", seed:10, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:35496978, liveRank:1},
-  {name:"Secret", seed:10, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:51064136, liveRank:1},
-  {name:"The Sun", seed:10, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:43301429, liveRank:1},
-  {name:"Priceless (feat. LISA)", seed:11, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:102892194, liveRank:1},
-  {name:"Feelings", seed:11, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:127598852, liveRank:1},
-  {name:"Unkiss Me", seed:11, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:77590312, liveRank:1},
-  {name:"Lips On You", seed:11, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:76108498, liveRank:1},
-  {name:"Nothing Lasts Forever", seed:12, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:46669326, liveRank:1},
-  {name:"Tangled", seed:12, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:33908773, liveRank:1},
-  {name:"Help Me Out (with Julia Michaels)", seed:12, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:87217613, liveRank:1},
-  {name:"In Your Pocket", seed:12, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:64107380, liveRank:1},
-  {name:"Can't Leave You Alone (feat. Juice WRLD)", seed:13, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:47166013, liveRank:1},
-  {name:"Sad", seed:13, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:69533944, liveRank:1},
-  {name:"My Heart Is Open", seed:13, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:76487929, liveRank:1},
-  {name:"Give A Little More", seed:13, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:49462894, liveRank:1},
-  {name:"Coming Back For You", seed:14, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:47927691, liveRank:1},
-  {name:"The Man Who Never Lied", seed:14, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:44137382, liveRank:1},
-  {name:"Leaving California", seed:14, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:63595309, liveRank:1},
-  {name:"Echo (feat. blackbear)", seed:14, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:37960258, liveRank:1},
-  {name:"Whiskey (feat. A$AP Rocky)", seed:15, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:57472231, liveRank:1},
-  {name:"New Love", seed:15, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:47417587, liveRank:1},
-  {name:"I Can't Lie", seed:15, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:24782496, liveRank:1},
-  {name:"Best 4 U", seed:15, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:37952046, liveRank:1},
-  {name:"Wipe Your Eyes", seed:16, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:32679320, liveRank:1},
-  {name:"All Night", seed:16, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:19609562, liveRank:1},
-  {name:"Stutter", seed:16, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:28908182, liveRank:1},
-  {name:"Who I Am (feat. LunchMoney Lewis)", seed:16, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:37185432, liveRank:1},
+  {name:"This Love", seed:1, region:"Region 1", era:"Region 1", spotify:1781111163, liveRank:1},
+  {name:"Moves Like Jagger", seed:1, region:"Region 2", era:"Region 2", spotify:2202040473, liveRank:1},
+  {name:"Sugar", seed:1, region:"Region 3", era:"Region 3", spotify:2351712703, liveRank:1},
+  {name:"Girls Like You (feat. Cardi B)", seed:1, region:"Region 4", era:"Region 4", spotify:1868454727, liveRank:1},
+  {name:"She Will Be Loved", seed:2, region:"Region 4", era:"Region 4", spotify:2110014487, liveRank:1},
+  {name:"Payphone", seed:2, region:"Region 3", era:"Region 3", spotify:2750575201, liveRank:1},
+  {name:"Memories", seed:2, region:"Region 2", era:"Region 2", spotify:2506683537, liveRank:1},
+  {name:"Harder To Breathe", seed:2, region:"Region 1", era:"Region 1", spotify:245568163, liveRank:1},
+  {name:"Animals", seed:3, region:"Region 1", era:"Region 1", spotify:1989432620, liveRank:1},
+  {name:"Maps", seed:3, region:"Region 2", era:"Region 2", spotify:2444907154, liveRank:1},
+  {name:"One More Night", seed:3, region:"Region 3", era:"Region 3", spotify:1381634740, liveRank:1},
+  {name:"Sunday Morning", seed:3, region:"Region 4", era:"Region 4", spotify:952606205, liveRank:1},
+  {name:"Stereo Hearts", seed:4, region:"Region 4", era:"Region 4", spotify:1845084687, liveRank:1},
+  {name:"Locked Away", seed:4, region:"Region 3", era:"Region 3", spotify:1397053221, liveRank:1},
+  {name:"Makes Me Wonder", seed:4, region:"Region 2", era:"Region 2", spotify:252633741, liveRank:1},
+  {name:"Won't Go Home Without You", seed:4, region:"Region 1", era:"Region 1", spotify:563080553, liveRank:1},
+  {name:"Daylight", seed:5, region:"Region 1", era:"Region 1", spotify:497722865, liveRank:1},
+  {name:"Wake Up Call", seed:5, region:"Region 2", era:"Region 2", spotify:117160695, liveRank:1},
+  {name:"Misery", seed:5, region:"Region 3", era:"Region 3", spotify:441539569, liveRank:1},
+  {name:"What Lovers Do (feat. SZA)", seed:5, region:"Region 4", era:"Region 4", spotify:1443462186, liveRank:1},
+  {name:"Don't Wanna Know (feat. Kendrick Lamar)", seed:6, region:"Region 4", era:"Region 4", spotify:1116484488, liveRank:1},
+  {name:"Love Somebody", seed:6, region:"Region 3", era:"Region 3", spotify:318566634, liveRank:1},
+  {name:"Cold (feat. Future)", seed:6, region:"Region 2", era:"Region 2", spotify:921301305, liveRank:1},
+  {name:"Never Gonna Leave This Bed", seed:6, region:"Region 1", era:"Region 1", spotify:127222168, liveRank:1},
+  {name:"Beautiful Mistakes (feat. Megan Thee Stallion)", seed:7, region:"Region 1", era:"Region 1", spotify:911226609, liveRank:1},
+  {name:"Wait", seed:7, region:"Region 2", era:"Region 2", spotify:544744281, liveRank:1},
+  {name:"Lucky Strike", seed:7, region:"Region 3", era:"Region 3", spotify:165792228, liveRank:1},
+  {name:"Nobody's Love", seed:7, region:"Region 4", era:"Region 4", spotify:224538147, liveRank:1},
+  {name:"Sweetest Goodbye", seed:8, region:"Region 4", era:"Region 4", spotify:29249796, liveRank:1},
+  {name:"If I Never See Your Face Again", seed:8, region:"Region 3", era:"Region 3", spotify:94970099, liveRank:1},
+  {name:"Goodnight Goodnight", seed:8, region:"Region 2", era:"Region 2", spotify:62550583, liveRank:1},
+  {name:"Beautiful Goodbye", seed:8, region:"Region 1", era:"Region 1", spotify:134939726, liveRank:1},
+  {name:"It Was Always You", seed:9, region:"Region 1", era:"Region 1", spotify:181193564, liveRank:1},
+  {name:"Lost", seed:9, region:"Region 2", era:"Region 2", spotify:252363964, liveRank:1},
+  {name:"Just A Feeling", seed:9, region:"Region 3", era:"Region 3", spotify:87483641, liveRank:1},
+  {name:"Must Get Out", seed:9, region:"Region 4", era:"Region 4", spotify:39486270, liveRank:1},
+  {name:"This Summer", seed:10, region:"Region 4", era:"Region 4", spotify:189508376, liveRank:1},
+  {name:"Shiver", seed:10, region:"Region 3", era:"Region 3", spotify:35496978, liveRank:1},
+  {name:"Secret", seed:10, region:"Region 2", era:"Region 2", spotify:51064136, liveRank:1},
+  {name:"The Sun", seed:10, region:"Region 1", era:"Region 1", spotify:43301429, liveRank:1},
+  {name:"Priceless (feat. LISA)", seed:11, region:"Region 1", era:"Region 1", spotify:102892194, liveRank:1},
+  {name:"Feelings", seed:11, region:"Region 2", era:"Region 2", spotify:127598852, liveRank:1},
+  {name:"Unkiss Me", seed:11, region:"Region 3", era:"Region 3", spotify:77590312, liveRank:1},
+  {name:"Lips On You", seed:11, region:"Region 4", era:"Region 4", spotify:76108498, liveRank:1},
+  {name:"Nothing Lasts Forever", seed:12, region:"Region 4", era:"Region 4", spotify:46669326, liveRank:1},
+  {name:"Tangled", seed:12, region:"Region 3", era:"Region 3", spotify:33908773, liveRank:1},
+  {name:"Help Me Out (with Julia Michaels)", seed:12, region:"Region 2", era:"Region 2", spotify:87217613, liveRank:1},
+  {name:"In Your Pocket", seed:12, region:"Region 1", era:"Region 1", spotify:64107380, liveRank:1},
+  {name:"Can't Leave You Alone (feat. Juice WRLD)", seed:13, region:"Region 1", era:"Region 1", spotify:47166013, liveRank:1},
+  {name:"Sad", seed:13, region:"Region 2", era:"Region 2", spotify:69533944, liveRank:1},
+  {name:"My Heart Is Open", seed:13, region:"Region 3", era:"Region 3", spotify:76487929, liveRank:1},
+  {name:"Give A Little More", seed:13, region:"Region 4", era:"Region 4", spotify:49462894, liveRank:1},
+  {name:"Coming Back For You", seed:14, region:"Region 4", era:"Region 4", spotify:47927691, liveRank:1},
+  {name:"The Man Who Never Lied", seed:14, region:"Region 3", era:"Region 3", spotify:44137382, liveRank:1},
+  {name:"Leaving California", seed:14, region:"Region 2", era:"Region 2", spotify:63595309, liveRank:1},
+  {name:"Echo (feat. blackbear)", seed:14, region:"Region 1", era:"Region 1", spotify:37960258, liveRank:1},
+  {name:"Whiskey (feat. A$AP Rocky)", seed:15, region:"Region 1", era:"Region 1", spotify:57472231, liveRank:1},
+  {name:"New Love", seed:15, region:"Region 2", era:"Region 2", spotify:47417587, liveRank:1},
+  {name:"I Can't Lie", seed:15, region:"Region 3", era:"Region 3", spotify:24782496, liveRank:1},
+  {name:"Best 4 U", seed:15, region:"Region 4", era:"Region 4", spotify:37952046, liveRank:1},
+  {name:"Wipe Your Eyes", seed:16, region:"Region 4", era:"Region 4", spotify:32679320, liveRank:1},
+  {name:"All Night", seed:16, region:"Region 3", era:"Region 3", spotify:19609562, liveRank:1},
+  {name:"Stutter", seed:16, region:"Region 2", era:"Region 2", spotify:28908182, liveRank:1},
+  {name:"Who I Am (feat. LunchMoney Lewis)", seed:16, region:"Region 1", era:"Region 1", spotify:37185432, liveRank:1},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2964,7 +2964,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Region 3 (Bottom Left) Winner' && t !== 'Region 2 (Top Right) Winner' && t !== 'Region 1 (Top Left) Winner' && t !== 'Region 4 (Bottom Right) Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Region 3 Winner' && t !== 'Region 2 Winner' && t !== 'Region 1 Winner' && t !== 'Region 4 Winner') {
                 filled++;
             }
         }
@@ -3380,8 +3380,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Region 3 (Bottom Left) Winner' && text !== 'Region 2 (Top Right) Winner' && 
-            text !== 'Region 1 (Top Left) Winner' && text !== 'Region 4 (Bottom Right) Winner') {
+            text !== 'Region 3 Winner' && text !== 'Region 2 Winner' && 
+            text !== 'Region 1 Winner' && text !== 'Region 4 Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -3417,10 +3417,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=doc
 function openShare() {
     try{cycEvt('share_click',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     const regions = {
-        'Region 1 (Top Left)': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Region 3 (Bottom Left)': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Region 2 (Top Right)': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Region 4 (Bottom Right)': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN'],
+        'Region 1': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Region 3': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Region 2': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Region 4': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN'],
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8'];
 
@@ -5707,7 +5707,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var cards=Array.prototype.slice.call(document.querySelectorAll('.region-card')).slice(0,4);
     var reg=document.createElement('div'); reg.id='cycWebRegions';
     var pillsHTML='';
-    cards.forEach(function(c,i){ pillsHTML+='<button class="cwr-pill" data-ri="'+i+'"><span class="cwr-dot"></span>'+regionName(c)+'</button>'; });
+    [0,2,1,3].forEach(function(i){ var c=cards[i]; if(!c) return; pillsHTML+='<button class="cwr-pill" data-ri="'+i+'"><span class="cwr-dot"></span>'+regionName(c)+'</button>'; });
     reg.innerHTML='<span class="cwr-label">Regions:</span><div class="cwr-box">'+pillsHTML+'</div>'+
       '<span class="cwr-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
     sb.insertBefore(reg, modebar.nextSibling);

@@ -1705,10 +1705,10 @@
 <!-- ERA SUB-SELECTOR -->
 <div class="era-selector" id="eraSelector">
     <span class="era-prompt">👇 Pick an era to fill your bracket</span>
-    <button class="era-btn" onclick="selectEra('Region 1 (Top Left)')">Region 1 (Top Left)</button>
-    <button class="era-btn" onclick="selectEra('Region 2 (Top Right)')">Region 2 (Top Right)</button>
-    <button class="era-btn" onclick="selectEra('Region 3 (Bottom Left)')">Region 3 (Bottom Left)</button>
-    <button class="era-btn" onclick="selectEra('Region 4 (Bottom Right)')">Region 4 (Bottom Right)</button>
+    <button class="era-btn" onclick="selectEra('Region 1')">Region 1</button>
+    <button class="era-btn" onclick="selectEra('Region 2')">Region 2</button>
+    <button class="era-btn" onclick="selectEra('Region 3')">Region 3</button>
+    <button class="era-btn" onclick="selectEra('Region 4')">Region 4</button>
 </div>
 </div><!-- /sticky-bar -->
 
@@ -1733,7 +1733,7 @@
     <!-- LEFT: GORGE + WEST PALM -->
     <div class="side-col">
         <div class="region-card venue-gorge">
-            <div class="region-header">Region 1 (Top Left)</div>
+            <div class="region-header">Region 1</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">1</span>Yellow</div><div class="slot" onclick="pick(this,'SP-R2-1')"><span class="seed">16</span>GOOD FEELiNGS</div></div>
@@ -1765,7 +1765,7 @@
         </div>
 
         <div class="region-card venue-spac">
-            <div class="region-header">Region 3 (Bottom Left)</div>
+            <div class="region-header">Region 3</div>
             <div class="bracket-row">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">1</span>Clocks</div><div class="slot" onclick="pick(this,'WP-R2-1')"><span class="seed">16</span>Army of One</div></div>
@@ -1805,14 +1805,14 @@
                 <div class="final-section-label">Final Four</div>
                 <div class="sf-pairs">
                     <div class="sf-pair">
-                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Region 1 (Top Left) Winner</div>
+                        <div class="final-slot" id="f1" onclick="pickFinal(this,'c1')">Region 1 Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Region 3 (Bottom Left) Winner</div>
+                        <div class="final-slot" id="f2" onclick="pickFinal(this,'c1')">Region 3 Winner</div>
                     </div>
                     <div class="sf-pair">
-                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Region 2 (Top Right) Winner</div>
+                        <div class="final-slot" id="f3" onclick="pickFinal(this,'c2')">Region 2 Winner</div>
                         <div class="vs-label">vs.</div>
-                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Region 4 (Bottom Right) Winner</div>
+                        <div class="final-slot" id="f4" onclick="pickFinal(this,'c2')">Region 4 Winner</div>
                     </div>
                 </div>
                 <div class="final-hint">▾ tap each pair's winner</div>
@@ -1843,7 +1843,7 @@
     <!-- RIGHT: SPAC + CAMDEN -->
     <div class="side-col">
         <div class="region-card venue-westpalm">
-            <div class="region-header">Region 2 (Top Right)</div>
+            <div class="region-header">Region 2</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">1</span>Viva La Vida</div><div class="slot" onclick="pick(this,'AL-R2-1')"><span class="seed">16</span>ALL MY LOVE</div></div>
@@ -1875,7 +1875,7 @@
         </div>
 
         <div class="region-card venue-camden">
-            <div class="region-header">Region 4 (Bottom Right)</div>
+            <div class="region-header">Region 4</div>
             <div class="bracket-row" style="flex-direction: row-reverse;">
                 <div class="round-col">
                     <div class="matchup"><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">1</span>Fix You</div><div class="slot" onclick="pick(this,'DC-R2-1')"><span class="seed">16</span>Champion Of The World</div></div>
@@ -2110,70 +2110,70 @@
 
 // ─── SONG DATA ────────────────────────────────────────────────────
 const ALL_SONGS = [
-  {name:"Yellow", seed:1, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:3845718920, liveRank:1},
-  {name:"Viva La Vida", seed:1, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:3402989471, liveRank:1},
-  {name:"Clocks", seed:1, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:1554767695, liveRank:1},
-  {name:"Fix You", seed:1, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:2156020087, liveRank:1},
-  {name:"The Scientist", seed:2, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:2915328346, liveRank:1},
-  {name:"A Sky Full of Stars", seed:2, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:2392103805, liveRank:1},
-  {name:"In My Place", seed:2, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:514365405, liveRank:1},
-  {name:"Paradise", seed:2, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:1906018534, liveRank:1},
-  {name:"Adventure of a Lifetime", seed:3, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:1640728684, liveRank:1},
-  {name:"Hymn for the Weekend", seed:3, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:1976402047, liveRank:1},
-  {name:"Something Just Like This", seed:3, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:3690773559, liveRank:1},
-  {name:"Speed of Sound", seed:3, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:411302309, liveRank:1},
-  {name:"Trouble", seed:4, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:503836511, liveRank:1},
-  {name:"Every Teardrop Is a Waterfall", seed:4, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:400520166, liveRank:1},
-  {name:"My Universe", seed:4, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:1624150544, liveRank:1},
-  {name:"Magic", seed:4, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:815016341, liveRank:1},
-  {name:"Don't Panic", seed:5, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:292049471, liveRank:1},
-  {name:"The Hardest Part", seed:5, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:128323550, liveRank:1},
-  {name:"God Put a Smile upon Your Face", seed:5, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:144959026, liveRank:1},
-  {name:"Politik", seed:5, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:115237944, liveRank:1},
-  {name:"Violet Hill", seed:6, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:235903226, liveRank:1},
-  {name:"Charlie Brown", seed:6, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:317297351, liveRank:1},
-  {name:"Princess of China", seed:6, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:355518523, liveRank:1},
-  {name:"Shiver", seed:6, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:221477845, liveRank:1},
-  {name:"Higher Power", seed:7, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:461873650, liveRank:1},
-  {name:"Talk", seed:7, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:174729912, liveRank:1},
-  {name:"Lost!", seed:7, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:88306003, liveRank:1},
-  {name:"Green Eyes", seed:7, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:181314050, liveRank:1},
-  {name:"Warning Sign", seed:8, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:119307101, liveRank:1},
-  {name:"A Rush of Blood to the Head", seed:8, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:72073801, liveRank:1},
-  {name:"Sparks", seed:8, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:2135176687, liveRank:1},
-  {name:"Everglow", seed:8, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:383483627, liveRank:1},
-  {name:"Up&Up", seed:9, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:315414575, liveRank:1},
-  {name:"Life in Technicolor ii", seed:9, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:81837026, liveRank:1},
-  {name:"A Message", seed:9, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:122573700, liveRank:1},
-  {name:"Strawberry Swing", seed:9, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:109027709, liveRank:1},
-  {name:"Always in My Head", seed:10, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:175784837, liveRank:1},
-  {name:"A Head Full of Dreams", seed:10, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:243102495, liveRank:1},
-  {name:"Til Kingdom Come", seed:10, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:101182973, liveRank:1},
-  {name:"Spies", seed:10, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:76672598, liveRank:1},
-  {name:"Lovers in Japan / Reign of Love", seed:11, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:74289483, liveRank:1},
-  {name:"Hurts Like Heaven", seed:11, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:85165690, liveRank:1},
-  {name:"Midnight", seed:11, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:170446119, liveRank:1},
-  {name:"Everyday Life", seed:11, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:156048976, liveRank:1},
-  {name:"Orphans", seed:12, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:277959211, liveRank:1},
-  {name:"feelslikeimfallinginlove", seed:12, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:312036189, liveRank:1},
-  {name:"High Speed", seed:12, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:114335735, liveRank:1},
-  {name:"Amazing Day", seed:12, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:102028671, liveRank:1},
-  {name:"Let Somebody Go", seed:13, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:302970086, liveRank:1},
-  {name:"Coloratura", seed:13, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:82277324, liveRank:1},
-  {name:"Birds", seed:13, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:152401331, liveRank:1},
-  {name:"Ink", seed:13, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:130381950, liveRank:1},
-  {name:"We Never Change", seed:14, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:112330339, liveRank:1},
-  {name:"O", seed:14, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:145095101, liveRank:1},
-  {name:"WE PRAY", seed:14, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:240060915, liveRank:1},
-  {name:"True Love", seed:14, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:104691430, liveRank:1},
-  {name:"Miracles (Someone Special)", seed:15, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:120457369, liveRank:1},
-  {name:"Biutyful", seed:15, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:98426973, liveRank:1},
-  {name:"See You Soon", seed:15, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:88100664, liveRank:1},
-  {name:"Fun", seed:15, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:115799402, liveRank:1},
-  {name:"Champion Of The World", seed:16, region:"Region 4 (Bottom Right)", era:"Region 4 (Bottom Right)", spotify:83014710, liveRank:1},
-  {name:"Army of One", seed:16, region:"Region 3 (Bottom Left)", era:"Region 3 (Bottom Left)", spotify:90221924, liveRank:1},
-  {name:"ALL MY LOVE", seed:16, region:"Region 2 (Top Right)", era:"Region 2 (Top Right)", spotify:107584894, liveRank:1},
-  {name:"GOOD FEELiNGS", seed:16, region:"Region 1 (Top Left)", era:"Region 1 (Top Left)", spotify:54274267, liveRank:1},
+  {name:"Yellow", seed:1, region:"Region 1", era:"Region 1", spotify:3845718920, liveRank:1},
+  {name:"Viva La Vida", seed:1, region:"Region 2", era:"Region 2", spotify:3402989471, liveRank:1},
+  {name:"Clocks", seed:1, region:"Region 3", era:"Region 3", spotify:1554767695, liveRank:1},
+  {name:"Fix You", seed:1, region:"Region 4", era:"Region 4", spotify:2156020087, liveRank:1},
+  {name:"The Scientist", seed:2, region:"Region 4", era:"Region 4", spotify:2915328346, liveRank:1},
+  {name:"A Sky Full of Stars", seed:2, region:"Region 3", era:"Region 3", spotify:2392103805, liveRank:1},
+  {name:"In My Place", seed:2, region:"Region 2", era:"Region 2", spotify:514365405, liveRank:1},
+  {name:"Paradise", seed:2, region:"Region 1", era:"Region 1", spotify:1906018534, liveRank:1},
+  {name:"Adventure of a Lifetime", seed:3, region:"Region 1", era:"Region 1", spotify:1640728684, liveRank:1},
+  {name:"Hymn for the Weekend", seed:3, region:"Region 2", era:"Region 2", spotify:1976402047, liveRank:1},
+  {name:"Something Just Like This", seed:3, region:"Region 3", era:"Region 3", spotify:3690773559, liveRank:1},
+  {name:"Speed of Sound", seed:3, region:"Region 4", era:"Region 4", spotify:411302309, liveRank:1},
+  {name:"Trouble", seed:4, region:"Region 4", era:"Region 4", spotify:503836511, liveRank:1},
+  {name:"Every Teardrop Is a Waterfall", seed:4, region:"Region 3", era:"Region 3", spotify:400520166, liveRank:1},
+  {name:"My Universe", seed:4, region:"Region 2", era:"Region 2", spotify:1624150544, liveRank:1},
+  {name:"Magic", seed:4, region:"Region 1", era:"Region 1", spotify:815016341, liveRank:1},
+  {name:"Don't Panic", seed:5, region:"Region 1", era:"Region 1", spotify:292049471, liveRank:1},
+  {name:"The Hardest Part", seed:5, region:"Region 2", era:"Region 2", spotify:128323550, liveRank:1},
+  {name:"God Put a Smile upon Your Face", seed:5, region:"Region 3", era:"Region 3", spotify:144959026, liveRank:1},
+  {name:"Politik", seed:5, region:"Region 4", era:"Region 4", spotify:115237944, liveRank:1},
+  {name:"Violet Hill", seed:6, region:"Region 4", era:"Region 4", spotify:235903226, liveRank:1},
+  {name:"Charlie Brown", seed:6, region:"Region 3", era:"Region 3", spotify:317297351, liveRank:1},
+  {name:"Princess of China", seed:6, region:"Region 2", era:"Region 2", spotify:355518523, liveRank:1},
+  {name:"Shiver", seed:6, region:"Region 1", era:"Region 1", spotify:221477845, liveRank:1},
+  {name:"Higher Power", seed:7, region:"Region 1", era:"Region 1", spotify:461873650, liveRank:1},
+  {name:"Talk", seed:7, region:"Region 2", era:"Region 2", spotify:174729912, liveRank:1},
+  {name:"Lost!", seed:7, region:"Region 3", era:"Region 3", spotify:88306003, liveRank:1},
+  {name:"Green Eyes", seed:7, region:"Region 4", era:"Region 4", spotify:181314050, liveRank:1},
+  {name:"Warning Sign", seed:8, region:"Region 4", era:"Region 4", spotify:119307101, liveRank:1},
+  {name:"A Rush of Blood to the Head", seed:8, region:"Region 3", era:"Region 3", spotify:72073801, liveRank:1},
+  {name:"Sparks", seed:8, region:"Region 2", era:"Region 2", spotify:2135176687, liveRank:1},
+  {name:"Everglow", seed:8, region:"Region 1", era:"Region 1", spotify:383483627, liveRank:1},
+  {name:"Up&Up", seed:9, region:"Region 1", era:"Region 1", spotify:315414575, liveRank:1},
+  {name:"Life in Technicolor ii", seed:9, region:"Region 2", era:"Region 2", spotify:81837026, liveRank:1},
+  {name:"A Message", seed:9, region:"Region 3", era:"Region 3", spotify:122573700, liveRank:1},
+  {name:"Strawberry Swing", seed:9, region:"Region 4", era:"Region 4", spotify:109027709, liveRank:1},
+  {name:"Always in My Head", seed:10, region:"Region 4", era:"Region 4", spotify:175784837, liveRank:1},
+  {name:"A Head Full of Dreams", seed:10, region:"Region 3", era:"Region 3", spotify:243102495, liveRank:1},
+  {name:"Til Kingdom Come", seed:10, region:"Region 2", era:"Region 2", spotify:101182973, liveRank:1},
+  {name:"Spies", seed:10, region:"Region 1", era:"Region 1", spotify:76672598, liveRank:1},
+  {name:"Lovers in Japan / Reign of Love", seed:11, region:"Region 1", era:"Region 1", spotify:74289483, liveRank:1},
+  {name:"Hurts Like Heaven", seed:11, region:"Region 2", era:"Region 2", spotify:85165690, liveRank:1},
+  {name:"Midnight", seed:11, region:"Region 3", era:"Region 3", spotify:170446119, liveRank:1},
+  {name:"Everyday Life", seed:11, region:"Region 4", era:"Region 4", spotify:156048976, liveRank:1},
+  {name:"Orphans", seed:12, region:"Region 4", era:"Region 4", spotify:277959211, liveRank:1},
+  {name:"feelslikeimfallinginlove", seed:12, region:"Region 3", era:"Region 3", spotify:312036189, liveRank:1},
+  {name:"High Speed", seed:12, region:"Region 2", era:"Region 2", spotify:114335735, liveRank:1},
+  {name:"Amazing Day", seed:12, region:"Region 1", era:"Region 1", spotify:102028671, liveRank:1},
+  {name:"Let Somebody Go", seed:13, region:"Region 1", era:"Region 1", spotify:302970086, liveRank:1},
+  {name:"Coloratura", seed:13, region:"Region 2", era:"Region 2", spotify:82277324, liveRank:1},
+  {name:"Birds", seed:13, region:"Region 3", era:"Region 3", spotify:152401331, liveRank:1},
+  {name:"Ink", seed:13, region:"Region 4", era:"Region 4", spotify:130381950, liveRank:1},
+  {name:"We Never Change", seed:14, region:"Region 4", era:"Region 4", spotify:112330339, liveRank:1},
+  {name:"O", seed:14, region:"Region 3", era:"Region 3", spotify:145095101, liveRank:1},
+  {name:"WE PRAY", seed:14, region:"Region 2", era:"Region 2", spotify:240060915, liveRank:1},
+  {name:"True Love", seed:14, region:"Region 1", era:"Region 1", spotify:104691430, liveRank:1},
+  {name:"Miracles (Someone Special)", seed:15, region:"Region 1", era:"Region 1", spotify:120457369, liveRank:1},
+  {name:"Biutyful", seed:15, region:"Region 2", era:"Region 2", spotify:98426973, liveRank:1},
+  {name:"See You Soon", seed:15, region:"Region 3", era:"Region 3", spotify:88100664, liveRank:1},
+  {name:"Fun", seed:15, region:"Region 4", era:"Region 4", spotify:115799402, liveRank:1},
+  {name:"Champion Of The World", seed:16, region:"Region 4", era:"Region 4", spotify:83014710, liveRank:1},
+  {name:"Army of One", seed:16, region:"Region 3", era:"Region 3", spotify:90221924, liveRank:1},
+  {name:"ALL MY LOVE", seed:16, region:"Region 2", era:"Region 2", spotify:107584894, liveRank:1},
+  {name:"GOOD FEELiNGS", seed:16, region:"Region 1", era:"Region 1", spotify:54274267, liveRank:1},
 ];
 
 // Expose a name→seed lookup so the (module-scoped) leaderboard can flag upsets
@@ -2964,7 +2964,7 @@ function updateProgress() {
         const el = document.getElementById(id);
         if (el) {
             const t = el.innerText.trim();
-            if (t && t !== '--' && t !== '---' && t !== 'Region 3 (Bottom Left) Winner' && t !== 'Region 2 (Top Right) Winner' && t !== 'Region 1 (Top Left) Winner' && t !== 'Region 4 (Bottom Right) Winner') {
+            if (t && t !== '--' && t !== '---' && t !== 'Region 3 Winner' && t !== 'Region 2 Winner' && t !== 'Region 1 Winner' && t !== 'Region 4 Winner') {
                 filled++;
             }
         }
@@ -3380,8 +3380,8 @@ function restore() {
         if (!el) return;
         const { text, winner } = data[id];
         if (text && text !== '--' && text !== '---' && 
-            text !== 'Region 3 (Bottom Left) Winner' && text !== 'Region 2 (Top Right) Winner' && 
-            text !== 'Region 1 (Top Left) Winner' && text !== 'Region 4 (Bottom Right) Winner') {
+            text !== 'Region 3 Winner' && text !== 'Region 2 Winner' && 
+            text !== 'Region 1 Winner' && text !== 'Region 4 Winner') {
             el.innerText = text;
             el.classList.remove('empty');
             el.classList.add('has-value');
@@ -3417,10 +3417,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=doc
 function openShare() {
     try{cycEvt('share_click',{band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     const regions = {
-        'Region 1 (Top Left)': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
-        'Region 3 (Bottom Left)': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
-        'Region 2 (Top Right)': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
-        'Region 4 (Bottom Right)': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN'],
+        'Region 1': ['SP-R2-1','SP-R2-2','SP-R2-3','SP-R2-4','SP-R2-5','SP-R2-6','SP-R2-7','SP-R2-8','SP-R3-1','SP-R3-2','SP-R3-3','SP-R3-4','SP-R4-1','SP-R4-2','SP-WIN'],
+        'Region 3': ['WP-R2-1','WP-R2-2','WP-R2-3','WP-R2-4','WP-R2-5','WP-R2-6','WP-R2-7','WP-R2-8','WP-R3-1','WP-R3-2','WP-R3-3','WP-R3-4','WP-R4-1','WP-R4-2','WP-WIN'],
+        'Region 2': ['AL-R2-1','AL-R2-2','AL-R2-3','AL-R2-4','AL-R2-5','AL-R2-6','AL-R2-7','AL-R2-8','AL-R3-1','AL-R3-2','AL-R3-3','AL-R3-4','AL-R4-1','AL-R4-2','AL-WIN'],
+        'Region 4': ['DC-R2-1','DC-R2-2','DC-R2-3','DC-R2-4','DC-R2-5','DC-R2-6','DC-R2-7','DC-R2-8','DC-R3-1','DC-R3-2','DC-R3-3','DC-R3-4','DC-R4-1','DC-R4-2','DC-WIN'],
     };
     const roundLabels = ['R1 Winners (8)','R2 Winners (4)','R3 Winners (2)','Elite 8'];
 
@@ -5707,7 +5707,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
     var cards=Array.prototype.slice.call(document.querySelectorAll('.region-card')).slice(0,4);
     var reg=document.createElement('div'); reg.id='cycWebRegions';
     var pillsHTML='';
-    cards.forEach(function(c,i){ pillsHTML+='<button class="cwr-pill" data-ri="'+i+'"><span class="cwr-dot"></span>'+regionName(c)+'</button>'; });
+    [0,2,1,3].forEach(function(i){ var c=cards[i]; if(!c) return; pillsHTML+='<button class="cwr-pill" data-ri="'+i+'"><span class="cwr-dot"></span>'+regionName(c)+'</button>'; });
     reg.innerHTML='<span class="cwr-label">Regions:</span><div class="cwr-box">'+pillsHTML+'</div>'+
       '<span class="cwr-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
     sb.insertBefore(reg, modebar.nextSibling);
