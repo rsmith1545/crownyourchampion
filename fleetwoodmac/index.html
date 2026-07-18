@@ -6052,6 +6052,26 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
    Album (Hidden Track)"), pearljam 48, nirvana 47, billyjoel 47.
    Longest unbreakable word: coldplay "feelslikeimfallinginlove" (24). */
 </style>
+<style id="cyc-ab-filter">
+/* All-Brackets filter. .qm-card IS the scroller (max-height:85vh; overflow-y:auto)
+   and .qm-close is absolute inside it, so BOTH scroll away with the list. Pin the
+   head: Rose wants the search "always constant if u scroll down". */
+#cycAllBracketsModal .qm-card{ padding-top:0; }
+#cycAllBracketsModal .qm-close{ position:sticky; float:right; top:8px; z-index:4;
+  width:44px; height:44px; margin:8px -12px 0 0; display:flex; align-items:center;
+  justify-content:center; border-radius:50%; }
+#cycAllBracketsModal .qm-close:hover{ background:rgba(240,165,0,.14); color:#fff; }
+#cycAllBracketsModal .qm-title{ padding-top:26px; }
+#cycAllBracketsModal .ab-stick{ position:sticky; top:0; z-index:3; background:#121a2b;
+  padding:8px 0 10px; box-shadow:0 10px 14px -10px rgba(0,0,0,.85); }
+#cycAllBracketsModal .ab-stick input{ width:100%; background:#0a0e16;
+  border:1px solid rgba(255,255,255,.14); border-radius:999px; padding:9px 16px;
+  color:#e8edf7; font-size:14px; font-family:inherit; outline:none; }
+#cycAllBracketsModal .ab-stick input:focus{ border-color:#f0a500; }
+#cycAllBracketsModal .ab-none{ color:#7c89a6; font-size:14px; padding:14px 2px; font-style:italic; }
+/* scrollIntoView aligns to the container top -- where the sticky head now sits */
+#cycAllBracketsModal .qm-gh{ scroll-margin-top:70px; }
+</style>
 <script>window.CYC_BAND="Fleetwood Mac";</script>
 <script>
 /* cycBandMarks v2 — band name (web: big, above CHAMPIONSHIP; mobile: big gold over faint region + tip, filling dead space) + footer signup confirmation */
@@ -6257,6 +6277,54 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
             }
         } else if (lastPb) { hide(); lastPb = null; }
     }, 300);
+})();
+</script>
+<script>
+/* All-Brackets filter, scoped hard to #cycAllBracketsModal.
+   Chips are HARDCODED DOM here (not roster-driven like cycNextData), so this
+   filters the DOM. Word-PREFIX matching, same rule as the homepage search:
+   plain substring returns Stone Temple Pilots for "em" (T-em-ple), which is
+   technically a hit and useless to a person. Dots are stripped first or
+   "Notorious B.I.G." splits into b/i/g and "big" finds nothing. */
+(function(){
+  var modal = document.getElementById('cycAllBracketsModal');
+  if(!modal || modal.querySelector('.ab-stick')) return;
+  var sub = modal.querySelector('.qm-sub');
+  if(!sub) return;
+  var wrap = document.createElement('div');
+  wrap.className = 'ab-stick';
+  wrap.innerHTML = '<input id="ab-filter-in" type="search" autocomplete="off" placeholder="Filter brackets\u2026" aria-label="Filter brackets">';
+  var none = document.createElement('div');
+  none.className = 'ab-none'; none.hidden = true; none.textContent = 'Nothing matches that.';
+  sub.parentNode.insertBefore(wrap, sub.nextSibling);
+  wrap.parentNode.insertBefore(none, wrap.nextSibling);
+
+  var chips  = Array.prototype.slice.call(modal.querySelectorAll('.qm-chip'));
+  var groups = Array.prototype.slice.call(modal.querySelectorAll('.qm-group'));
+  var input  = wrap.querySelector('input');
+
+  function matches(name, q){
+    var w = name.toLowerCase().replace(/\./g,'').split(/[^a-z0-9]+/);
+    for(var i=0;i<w.length;i++){ if(w[i].indexOf(q) === 0) return true; }
+    return false;
+  }
+  function apply(){
+    var q = input.value.trim().toLowerCase(), any = false;
+    chips.forEach(function(c){
+      var hit = !q || matches(c.textContent.trim(), q);
+      c.style.display = hit ? '' : 'none';
+      if(hit) any = true;
+    });
+    groups.forEach(function(g){
+      g.style.display = g.querySelector('.qm-chip:not([style*="display: none"])') ? '' : 'none';
+    });
+    none.hidden = any;
+  }
+  input.addEventListener('input', apply);
+  /* clear the filter each time the modal opens, so it never opens pre-filtered */
+  new MutationObserver(function(){
+    if(!modal.hidden && input.value){ input.value=''; apply(); }
+  }).observe(modal, {attributes:true, attributeFilter:['hidden']});
 })();
 </script>
 </body>
