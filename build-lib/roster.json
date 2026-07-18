@@ -292,5 +292,95 @@
   "n": "Taylor Swift",
   "c": "Pop",
   "ac": "#b57edc"
+ },
+ {
+  "s": "carrieunderwood",
+  "n": "Carrie Underwood",
+  "c": "Country",
+  "ac": "#a83279"
+ },
+ {
+  "s": "chrisstapleton",
+  "n": "Chris Stapleton",
+  "c": "Country",
+  "ac": "#6b4423"
+ },
+ {
+  "s": "codyjohnson",
+  "n": "Cody Johnson",
+  "c": "Country",
+  "ac": "#8b6d3f"
+ },
+ {
+  "s": "ellalangley",
+  "n": "Ella Langley",
+  "c": "Country",
+  "ac": "#9a6a3f"
+ },
+ {
+  "s": "faithhill",
+  "n": "Faith Hill",
+  "c": "Country",
+  "ac": "#c04f7a"
+ },
+ {
+  "s": "jasonaldean",
+  "n": "Jason Aldean",
+  "c": "Country",
+  "ac": "#556b2f"
+ },
+ {
+  "s": "jellyroll",
+  "n": "Jelly Roll",
+  "c": "Country",
+  "ac": "#7a2e3a"
+ },
+ {
+  "s": "kennychesney",
+  "n": "Kenny Chesney",
+  "c": "Country",
+  "ac": "#1c9db5"
+ },
+ {
+  "s": "laineywilson",
+  "n": "Lainey Wilson",
+  "c": "Country",
+  "ac": "#c78a2b"
+ },
+ {
+  "s": "lukebryan",
+  "n": "Luke Bryan",
+  "c": "Country",
+  "ac": "#c25a1c"
+ },
+ {
+  "s": "lukecombs",
+  "n": "Luke Combs",
+  "c": "Country",
+  "ac": "#1f6f54"
+ },
+ {
+  "s": "morganwallen",
+  "n": "Morgan Wallen",
+  "c": "Country",
+  "ac": "#b5651d"
+ },
+ {
+  "s": "shaboozey",
+  "n": "Shaboozey",
+  "c": "Country",
+  "ac": "#b8863b"
+ },
+ {
+  "s": "timmcgraw",
+  "n": "Tim McGraw",
+  "c": "Country",
+  "ac": "#2b5f8a"
+ },
+ {
+  "s": "zachbryan",
+  "n": "Zach Bryan",
+  "c": "Country",
+  "ac": "#8a5a2b"
  }
 ]
