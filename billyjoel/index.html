@@ -6006,7 +6006,7 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 }
 </style>
 <style id="cyc-title-clamp">
-/* Ticket #4: ON THE LIST chip. Green is in neither palette and it was the
+/* Ticket #4: ON THE LIST chip -- green is in neither palette and it was the
    brightest thing on a navy+gold page. Muted gold. */
 .signup-done{
   color:rgba(240,165,0,.72) !important;
@@ -6014,45 +6014,31 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   background:rgba(240,165,0,.07) !important;
 }
 
-/* ---- Ticket #1/#2: long titles clamp to 2 lines + ellipsis ----
-   Selectors are DOUBLED (.slot.slot = 0,2,0) on purpose. Two rules in the BODY
-   set `.final-slot{ overflow:visible !important; min-height:74px !important }`,
-   and a line-clamp REQUIRES overflow:hidden -- a single-class !important rule
-   ties with those and then depends on source order. Doubling the class wins
-   outright, wherever this block ends up.
-   THAT was the actual bug: .slot clamped fine all along, .final-slot never did,
-   because overflow:visible killed it. The Final Four is exactly the box Rose
-   kept pointing at.
+/* ---- TITLE CLAMP REMOVED. Do not re-add it to .slot. ----
+   1) THE SLOTS NEVER NEEDED IT. Measured: "Miami 2017 (Seen the Lights Go Out
+      on Broadway)" wants 1.99 lines at slot width -- it FITS. Every "3 lines
+      overflowing" call (mine and the ticket's) was misreading a JPEG. The real
+      test is: build a probe div at the element's width and compare the text's
+      natural line count to the box.
+   2) IT BREAKS THE PLAY BUTTONS. .slot is display:flex; align-items:center,
+      which pins the seed, title and the play button in a row. Swapping to
+      -webkit-box destroys that -- the buttons float inline after the text.
+      Compare beyonce/ (untouched, correct) against a clamped billyjoel.
+   3) IT CANNOT WORK ON .final-slot ANYWAY. #f1 is a FLEX ITEM (flex:0 1 auto),
+      and CSS blockifies flex items -- display:-webkit-box computes to flow-root,
+      so the legacy line-clamp never engages. Confirmed by forcing it INLINE with
+      !important: still flow-root, still unclamped. A plain div in <body> with the
+      same CSS clamps perfectly, which is what proves it's blockification and not
+      the cascade.
 
-   -webkit-box is REQUIRED. `display:block/flow-root + -webkit-line-clamp` does
-   NOT clamp in Chrome 150 (verified: renders all 3 lines, no ellipsis).
-   Chrome REPORTS computed display as flow-root even when -webkit-box is applied
-   and honoured -- do not trust getComputedStyle('display') here, trust the
-   rendered line count.
+   THE ONLY REAL BUG is the Final Four: it's ~115px wide, so the title wants 2.98
+   lines and shows 3. Fixing it needs the flex-item constraint solved -- either
+   un-flex the parent, or have pickFinal() write into a child element (note:
+   pick() does `target.innerText = text`, which destroys any wrapper on advance).
 
-   innerText is UNCHANGED by the clamp (verified), so pick() still advances the
-   FULL title into the next slot and into Firebase. The title cannot be wrapped
-   in a span: pick() does `target.innerText = text`, destroying wrappers on the
-   first advance.
-
-   TEST = (clientHeight - padding) / lineHeight ~= 2.0.
-   NOT scrollHeight vs clientHeight (meaningless under line-clamp), and NOT
-   "are the heights uniform" (that is what clipping looks like). */
-.slot.slot{
-  display:-webkit-box !important;
-  -webkit-box-orient:vertical !important;
-  -webkit-line-clamp:2 !important;
-  overflow:hidden !important;
-  height:auto !important;
-}
-.final-slot.final-slot{
-  display:-webkit-box !important;
-  -webkit-box-orient:vertical !important;
-  -webkit-line-clamp:2 !important;
-  overflow:hidden !important;
-  height:auto !important;
-  min-height:0 !important;
-}
+   Chrome REPORTS computed display as flow-root even where -webkit-box IS applied
+   and honoured. Don't trust getComputedStyle('display') here. Trust rendered
+   line count. */
 </style>
 
 <script>window.CYC_BAND="Billy Joel";</script>
