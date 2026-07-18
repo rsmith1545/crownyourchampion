@@ -5982,6 +5982,52 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   #cycSetlistBackdrop{ max-width:100vw; }               /* dont let the fixed backdrop stretch to an inflated width */
 }
 </style>
+<style id="cyc-title-clamp">
+/* Ticket #4: ON THE LIST chip -- green is in neither palette. Muted gold. */
+.signup-done{
+  color:rgba(240,165,0,.72) !important;
+  border-color:rgba(240,165,0,.32) !important;
+  background:rgba(240,165,0,.07) !important;
+}
+
+/* ---- THE ACTUAL BUG (ticket #1/#2) ----
+   .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px;
+   overflow:hidden; }
+   :not(:first-child) EXEMPTS ROUND 1 -- so R1 grows to fit (Miami renders at
+   77px, all lines visible) while every later round is pinned at 52px and
+   guillotined. That is exactly "works in round 1, fails in future rounds".
+   Nothing to do with pick(), the data, or blockification.
+
+   Let the later rounds grow like round 1. min-height keeps the tree aligned when
+   titles are short; height:auto lets a long one breathe.
+   Selector is (0,4,0) to beat the (0,3,0) rule above without !important games. */
+.region-card .region-card .round-col:not(:first-child) .slot,
+.region-card .round-col:not(:first-child) .slot.slot{
+  height:auto !important;
+  min-height:52px !important;
+  overflow:visible !important;
+}
+
+/* Final Four + Finals (f1-f4, c1, c2): that column is ~115px on ANY monitor, so
+   long titles wrap hard and word-break:break-word split them mid-word
+   ("Broadwa / y)"). Wrap at spaces; only break a word that cannot fit. */
+.final-slot.final-slot{
+  word-break:normal !important;
+  overflow-wrap:break-word !important;
+  hyphens:none !important;
+}
+
+/* DO NOT add a -webkit-line-clamp here.
+   - On .slot it kills the play buttons: .slot is display:flex; align-items:center
+     and that flex row pins seed / title / play button (compare beyonce/).
+   - On .final-slot it cannot work at all: #f1 is a FLEX ITEM, CSS blockifies flex
+     items, so display:-webkit-box computes to flow-root and the legacy clamp
+     never engages -- verified by forcing it inline with !important.
+   WIDTH: titles that fit at 1920 CLIP on a 27". Never conclude "it fits" from one
+   window size. Worst titles: stp 56 chars ("Kitchenware & Candybars / My Second
+   Album (Hidden Track)"), pearljam 48, nirvana 47, billyjoel 47.
+   Longest unbreakable word: coldplay "feelslikeimfallinginlove" (24). */
+</style>
 <script>window.CYC_BAND="Bruce Springsteen";</script>
 <script>
 /* cycBandMarks v2 — band name (web: big, above CHAMPIONSHIP; mobile: big gold over faint region + tip, filling dead space) + footer signup confirmation */
