@@ -6013,35 +6013,43 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   background:rgba(240,165,0,.07) !important;
 }
 
-/* ---- Final Four + Finals: stop breaking words in half ----
-   Covers f1-f4 (Final Four) and c1,c2 (Finals) -- all .final-slot.
-   That column is ~115px on ANY monitor, so long titles wrap hard, and
-   `word-break:break-word` was splitting inside words: "Broadwa / y)".
-   word-break:normal + overflow-wrap:break-word wraps at SPACES and only breaks
-   a word if that single word cannot fit. Box is height:auto, so it grows.
+/* ---- THE ACTUAL BUG (ticket #1/#2) ----
+   .region-card .round-col:not(:first-child) .slot { height:52px; min-height:52px;
+   overflow:hidden; }
+   :not(:first-child) EXEMPTS ROUND 1 -- so R1 grows to fit (Miami renders at
+   77px, all lines visible) while every later round is pinned at 52px and
+   guillotined. That is exactly "works in round 1, fails in future rounds".
+   Nothing to do with pick(), the data, or blockification.
 
-   Doubled selector (.final-slot.final-slot = 0,2,0) because two rules in the
-   BODY set .final-slot properties with !important and would otherwise tie and
-   win on source order.
+   Let the later rounds grow like round 1. min-height keeps the tree aligned when
+   titles are short; height:auto lets a long one breathe.
+   Selector is (0,4,0) to beat the (0,3,0) rule above without !important games. */
+.region-card .region-card .round-col:not(:first-child) .slot,
+.region-card .round-col:not(:first-child) .slot.slot{
+  height:auto !important;
+  min-height:52px !important;
+  overflow:visible !important;
+}
 
-   NOT a line-clamp. A clamp cannot work here: #f1 is a FLEX ITEM, CSS blockifies
-   flex items, so display:-webkit-box computes to flow-root and the legacy
-   -webkit-line-clamp never engages -- confirmed by forcing it inline with
-   !important. The same CSS on a plain div in <body> clamps fine, which is what
-   proves it's blockification, not the cascade.
-
-   DO NOT put a clamp on .slot either: .slot is display:flex; align-items:center,
-   and that flex row is what pins the seed / title / play button. Swapping to
-   -webkit-box makes the play buttons float inline (compare beyonce/, untouched).
-
-   NOTE ON WIDTH: slot titles fit at 1920px but CLIP on a 27" at a narrower
-   viewport. Never conclude "it fits" from one window size -- measure at the
-   narrow end. */
+/* Final Four + Finals (f1-f4, c1, c2): that column is ~115px on ANY monitor, so
+   long titles wrap hard and word-break:break-word split them mid-word
+   ("Broadwa / y)"). Wrap at spaces; only break a word that cannot fit. */
 .final-slot.final-slot{
   word-break:normal !important;
   overflow-wrap:break-word !important;
   hyphens:none !important;
 }
+
+/* DO NOT add a -webkit-line-clamp here.
+   - On .slot it kills the play buttons: .slot is display:flex; align-items:center
+     and that flex row pins seed / title / play button (compare beyonce/).
+   - On .final-slot it cannot work at all: #f1 is a FLEX ITEM, CSS blockifies flex
+     items, so display:-webkit-box computes to flow-root and the legacy clamp
+     never engages -- verified by forcing it inline with !important.
+   WIDTH: titles that fit at 1920 CLIP on a 27". Never conclude "it fits" from one
+   window size. Worst titles: stp 56 chars ("Kitchenware & Candybars / My Second
+   Album (Hidden Track)"), pearljam 48, nirvana 47, billyjoel 47.
+   Longest unbreakable word: coldplay "feelslikeimfallinginlove" (24). */
 </style>
 
 <script>window.CYC_BAND="Billy Joel";</script>
