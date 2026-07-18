@@ -3710,6 +3710,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var SONG_IDS = {};         // hand-placed Apple track IDs for songs search can't find
     var cache = {};            // songName -> previewUrl | null
+    var BAKED_ONLY = false;    // baked file present -> never live-lookup; unbaked songs get no button
     var audio = null;
     var currentBtn = null;
     var currentName = null;
@@ -3874,6 +3875,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cache[name] === null) { flashUnavailable(btn); return; }
         if (cache[name]) { startPlayback(name, btn, cache[name]); return; }   // known link: plays in the tap gesture (iOS-safe)
 
+        if (BAKED_ONLY) { return; }   // baked-only: unbaked songs have no button; never spin
+
         // Not known yet -> live lookup. Play happens after the network call,
         // so claim audio permission now, inside the gesture.
         unlockAudio();
@@ -3936,6 +3939,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (e.key === 'Enter' || e.key === ' ') onPlayClick(n, b, e);
                 });
             })(name, btn);
+            btn.setAttribute('data-song', name);
             slot.appendChild(btn);
         }
     }
@@ -3947,13 +3951,23 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch('preview-urls.json', { cache: 'no-store' })
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (map) {
-                    if (!map) { dbg('preview-urls.json not found — using live lookup'); return; }
+                    if (!map) { dbg('preview-urls.json not found — using live lookup'); setTimeout(prefetchPreviews, 2500); return; }
                     var n = 0; for (var k in map) { if (map[k]) { cache[k] = map[k]; n++; } }
                     dbg('preview-urls.json loaded: ' + n + ' links');
+                    BAKED_ONLY = true;
+                    window.CYC_BAKED = cache;
+                    hideUnbakedButtons();
                 })
-                .catch(function () {});
-        } catch (e) {}
-        setTimeout(prefetchPreviews, 2500);   // warm the cache in background via title-anchored lookups
+                .catch(function () { setTimeout(prefetchPreviews, 2500); });
+        } catch (e) { setTimeout(prefetchPreviews, 2500); }
+    }
+
+    function hideUnbakedButtons() {
+        var btns = document.querySelectorAll('.play-btn[data-song]');
+        for (var i = 0; i < btns.length; i++) {
+            var nm = btns[i].getAttribute('data-song');
+            if (!cache[nm]) btns[i].remove();
+        }
     }
     // Expose the preview engine so the Best Album tracklist can reuse the SAME Apple Music playback.
     window.cycPlayPreview = function(name, btn, e){ onPlayClick(name, btn, e || {stopPropagation:function(){}, preventDefault:function(){}}); };
@@ -5880,14 +5894,14 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   function songText(el){ var c=el.cloneNode(true), n;
     ['.play-btn','.seed','.cyc-auditn'].forEach(function(sel){ while((n=c.querySelector(sel))) n.remove(); });
     return (c.textContent||'').trim(); }
-  function known(t){ return !!(t && window.NAME_SEED && Object.prototype.hasOwnProperty.call(window.NAME_SEED,t)); }
+  function known(t){ if(!(t && window.NAME_SEED && Object.prototype.hasOwnProperty.call(window.NAME_SEED,t))) return false; if(window.CYC_BAKED) return !!window.CYC_BAKED[t]; return true; }
   function decorate(){
     var slots=document.querySelectorAll('.slot, .final-slot'), i, s, t, b;
     for(i=0;i<slots.length;i++){ s=slots[i];
       if(s.querySelector('.play-btn')) continue;
       t=songText(s); if(!known(t)) continue;
       b=document.createElement('span'); b.className='play-btn cyc-pe-btn';
-      b.setAttribute('role','button'); b.setAttribute('tabindex','0'); b.setAttribute('aria-label','Play 30 second preview of '+t);
+      b.setAttribute('role','button'); b.setAttribute('tabindex','0'); b.setAttribute('aria-label','Play 30 second preview of '+t); b.setAttribute('data-song',t);
       (function(name,btn){
         btn.addEventListener('click',function(e){ e.stopPropagation(); if(window.cycPlayPreview) cycPlayPreview(name,btn,e); });
         btn.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(window.cycPlayPreview) cycPlayPreview(name,btn,e); } });
