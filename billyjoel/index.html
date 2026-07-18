@@ -6359,5 +6359,31 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
   }).observe(modal, {attributes:true, attributeFilter:['hidden']});
 })();
 </script>
+<script>
+/* cycFitScale — half-screen fix: scale the wide desktop bracket to fit instead of
+   letting it squeeze and wrap song titles. Only in the 601-1080 zone (wide layout
+   too narrow); >=1081 fits as-is, <=600 uses the mobile stacked layout (untouched).
+   CSS zoom keeps layout height correct with no wrapper hacks. */
+(function(){
+  if(window.__cycFitScale) return; window.__cycFitScale=1;
+  var DESIGN=1040;
+  function fit(){
+    var mg=document.querySelector('.master-grid'); if(!mg) return;
+    mg.style.zoom=''; mg.style.width='';
+    var vw=document.documentElement.clientWidth;
+    if(vw>600 && vw<1081){
+      var host=mg.parentNode, cs=getComputedStyle(host);
+      var avail=host.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0);
+      var z=Math.min(1, avail/DESIGN);
+      if(z<0.999){ mg.style.width=DESIGN+'px'; mg.style.zoom=z; }
+    }
+  }
+  var raf; function onR(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(fit); }
+  window.addEventListener('resize', onR, {passive:true});
+  window.addEventListener('orientationchange', onR);
+  if(document.readyState!=='loading') fit(); else document.addEventListener('DOMContentLoaded', fit);
+  setTimeout(fit,300); setTimeout(fit,1200);
+})();
+</script>
 </body>
 </html>
