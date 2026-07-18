@@ -6006,39 +6006,42 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 }
 </style>
 <style id="cyc-title-clamp">
-/* Ticket #4: ON THE LIST chip -- green is in neither palette and it was the
-   brightest thing on a navy+gold page. Muted gold. */
+/* Ticket #4: ON THE LIST chip -- green is in neither palette. Muted gold. */
 .signup-done{
   color:rgba(240,165,0,.72) !important;
   border-color:rgba(240,165,0,.32) !important;
   background:rgba(240,165,0,.07) !important;
 }
 
-/* ---- TITLE CLAMP REMOVED. Do not re-add it to .slot. ----
-   1) THE SLOTS NEVER NEEDED IT. Measured: "Miami 2017 (Seen the Lights Go Out
-      on Broadway)" wants 1.99 lines at slot width -- it FITS. Every "3 lines
-      overflowing" call (mine and the ticket's) was misreading a JPEG. The real
-      test is: build a probe div at the element's width and compare the text's
-      natural line count to the box.
-   2) IT BREAKS THE PLAY BUTTONS. .slot is display:flex; align-items:center,
-      which pins the seed, title and the play button in a row. Swapping to
-      -webkit-box destroys that -- the buttons float inline after the text.
-      Compare beyonce/ (untouched, correct) against a clamped billyjoel.
-   3) IT CANNOT WORK ON .final-slot ANYWAY. #f1 is a FLEX ITEM (flex:0 1 auto),
-      and CSS blockifies flex items -- display:-webkit-box computes to flow-root,
-      so the legacy line-clamp never engages. Confirmed by forcing it INLINE with
-      !important: still flow-root, still unclamped. A plain div in <body> with the
-      same CSS clamps perfectly, which is what proves it's blockification and not
-      the cascade.
+/* ---- Final Four + Finals: stop breaking words in half ----
+   Covers f1-f4 (Final Four) and c1,c2 (Finals) -- all .final-slot.
+   That column is ~115px on ANY monitor, so long titles wrap hard, and
+   `word-break:break-word` was splitting inside words: "Broadwa / y)".
+   word-break:normal + overflow-wrap:break-word wraps at SPACES and only breaks
+   a word if that single word cannot fit. Box is height:auto, so it grows.
 
-   THE ONLY REAL BUG is the Final Four: it's ~115px wide, so the title wants 2.98
-   lines and shows 3. Fixing it needs the flex-item constraint solved -- either
-   un-flex the parent, or have pickFinal() write into a child element (note:
-   pick() does `target.innerText = text`, which destroys any wrapper on advance).
+   Doubled selector (.final-slot.final-slot = 0,2,0) because two rules in the
+   BODY set .final-slot properties with !important and would otherwise tie and
+   win on source order.
 
-   Chrome REPORTS computed display as flow-root even where -webkit-box IS applied
-   and honoured. Don't trust getComputedStyle('display') here. Trust rendered
-   line count. */
+   NOT a line-clamp. A clamp cannot work here: #f1 is a FLEX ITEM, CSS blockifies
+   flex items, so display:-webkit-box computes to flow-root and the legacy
+   -webkit-line-clamp never engages -- confirmed by forcing it inline with
+   !important. The same CSS on a plain div in <body> clamps fine, which is what
+   proves it's blockification, not the cascade.
+
+   DO NOT put a clamp on .slot either: .slot is display:flex; align-items:center,
+   and that flex row is what pins the seed / title / play button. Swapping to
+   -webkit-box makes the play buttons float inline (compare beyonce/, untouched).
+
+   NOTE ON WIDTH: slot titles fit at 1920px but CLIP on a 27" at a narrower
+   viewport. Never conclude "it fits" from one window size -- measure at the
+   narrow end. */
+.final-slot.final-slot{
+  word-break:normal !important;
+  overflow-wrap:break-word !important;
+  hyphens:none !important;
+}
 </style>
 
 <script>window.CYC_BAND="Billy Joel";</script>
