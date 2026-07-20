@@ -4328,6 +4328,7 @@ updateProgress();
       var label=h ? (h.innerText||'').split('\n')[0].replace(/\s*REGION\s*$/i,'').trim() : ('Region '+(i+1));
       secs.push({el:regions[i],label:label||('Region '+(i+1))});
     }
+    secs.sort(function(a,b){var na=parseInt((a.label.match(/\d+/)||[99])[0],10),nb=parseInt((b.label.match(/\d+/)||[99])[0],10);return na-nb;});
     var center=document.querySelector('.center-col');
     if(center) secs.push({el:center,label:'👑 Finals'});
     if(secs.length<2) return;
