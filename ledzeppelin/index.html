@@ -6083,6 +6083,12 @@ window.closeAutofillModes=function(){ var m=document.getElementById('autofillMod
 /* scrollIntoView aligns to the container top -- where the sticky head now sits */
 #cycAllBracketsModal .qm-gh{ scroll-margin-top:70px; }
 </style>
+<style id="cyc-holdwidth">
+/* CYC hold-width: keep the desktop bracket at a readable size and let the page scroll
+   horizontally instead of squishing round-1 song boxes when the window is narrow.
+   Mobile (<=1080px) keeps its own stacked + horizontal-scroll layout, untouched. */
+@media (min-width:1081px){ .master-grid{ min-width:1500px; } }
+</style>
 <script>window.CYC_BAND="Led Zeppelin";</script>
 <script>
 /* cycBandMarks v2 — band name (web: big, above CHAMPIONSHIP; mobile: big gold over faint region + tip, filling dead space) + footer signup confirmation */
