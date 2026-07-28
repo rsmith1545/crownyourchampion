@@ -793,7 +793,7 @@
         .toast.show { transform: translateX(-50%) translateY(0); }
 
         /* MOBILE: stack everything vertically */
-        @media (max-width: 1080px) {
+        @media (max-width: 1500px) {
             .master-grid {
                 grid-template-columns: minmax(0, 1fr);
             }
@@ -1616,7 +1616,7 @@
 }
 
 /* mobile connector lines (cyc) — make the gold edge actually visible on phones */
-@media (max-width: 1080px){
+@media (max-width: 1500px){
   .round-col:not(:first-child) .matchup { border-left: 3px solid rgba(197,160,89,0.55) !important; }
 }
 
@@ -3019,7 +3019,7 @@ function submitAndCrown() {
     try{cycEvt('crown_champion',{champion:champ,band:(location.pathname.split('/').filter(Boolean)[0]||'home')});}catch(e){}
     try{ if(window.cycCrowdRead) window.cycCrowdRead(champ, function(){}); }catch(e){}
     // MOBILE (DMB): collapse the 4-modal chain into one celebratory screen. Desktop path unchanged below.
-    var __mob=false; try{ __mob=window.matchMedia('(max-width:1080px)').matches; }catch(e){ __mob=innerWidth<=1080; }
+    var __mob=false; try{ __mob=window.matchMedia('(max-width:1500px)').matches; }catch(e){ __mob=innerWidth<=1500; }
     if(__mob && window.cycShowWinScreen){
         window.__cycPostCrownShare=false;                                    // suppress the desktop What's-next funnel
         try{ saveBracketData(null,false).catch(function(){}); }catch(e){}    // record the crowned bracket (anonymous)
@@ -4315,7 +4315,7 @@ updateProgress();
 /* cycTabBar v2 — mobile-only sticky region/championship tab nav. Regions first, Final Four last. Self-contained. */
 (function(){
   if(window.__cycTabBar) return; window.__cycTabBar=1;
-  function isMobile(){ try{return window.matchMedia('(max-width: 1080px)').matches;}catch(e){return window.innerWidth<=1080;} }
+  function isMobile(){ try{return window.matchMedia('(max-width: 1500px)').matches;}catch(e){return window.innerWidth<=1500;} }
   function modalOpen(){ return !!document.querySelector('.modal-overlay.open, .email-modal-overlay.open, .concert-mode-overlay.open, .concert-modal-overlay.open, .fav-modal-overlay.open'); }
   function init(){
     if(document.getElementById('cycTabBar')) return;
@@ -4384,7 +4384,7 @@ updateProgress();
   function build(row){
     var cols=Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col')&&c.offsetParent!==null;});
     if(cols.length<2) return;
-    var MOB=false; try{ MOB=window.matchMedia('(max-width:1080px)').matches; }catch(e){}
+    var MOB=false; try{ MOB=window.matchMedia('(max-width:1500px)').matches; }catch(e){}
     var svg=row.querySelector(':scope > svg.cyc-lines');
     if(!svg){ svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','cyc-lines'); row.appendChild(svg); }
     var W=row.scrollWidth,H=row.scrollHeight;
@@ -4464,9 +4464,9 @@ updateProgress();
       hdr.insertBefore(c, actions);
     }
   }
-  function showHeaderChamp(){ var name=champName(); if(!name) return; var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName'); if(c&&n){ n.textContent=name; c.style.display=(window.innerWidth>900)?'flex':'none'; } }
+  function showHeaderChamp(){ var name=champName(); if(!name) return; var c=document.getElementById('cycHdrChamp'), n=document.getElementById('cycHdrChampName'); if(c&&n){ n.textContent=name; c.style.display=(window.innerWidth>1500)?'flex':'none'; } }
   function hideHeaderChamp(){ var c=document.getElementById('cycHdrChamp'); if(c) c.style.display='none'; }
-  function showMobShare(){ var b=document.getElementById('cycMobShare'); if(b) b.style.display=(window.innerWidth<=1080)?'block':'none'; }
+  function showMobShare(){ var b=document.getElementById('cycMobShare'); if(b) b.style.display=(window.innerWidth<=1500)?'block':'none'; }
   function autoShareAfterEmail(){
     var emailM=document.getElementById('emailModal'), concertM=document.getElementById('concertModal');
     if(!emailM) return; var armed=false;
@@ -4488,7 +4488,7 @@ updateProgress();
     window.submitAndCrown=function(){ var r; try{ r=_sc&&_sc.apply(this,arguments);}catch(e){} showHeaderChamp(); return r; };
     var _cr=window.confirmReset;
     if(typeof _cr==='function'){ window.confirmReset=function(){ var r; try{ r=_cr.apply(this,arguments);}catch(e){} setTimeout(hideHeaderChamp,60); return r; }; }
-    window.addEventListener('resize', function(){ showMobShare(); var c=document.getElementById('cycHdrChamp'); if(c&&c.style.display!=='none'&&window.innerWidth<=1080) c.style.display='none'; });
+    window.addEventListener('resize', function(){ showMobShare(); var c=document.getElementById('cycHdrChamp'); if(c&&c.style.display!=='none'&&window.innerWidth<=1500) c.style.display='none'; });
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
 })();
@@ -4669,7 +4669,7 @@ updateProgress();
      +".region-jump .rj-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-muted,#6b7a99);margin-right:2px;white-space:nowrap;}"
      +".region-jump .rj-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:7px 12px;border:1px solid rgba(240,165,0,.4);border-radius:3px;background:var(--dmb-card,#1a2332);color:var(--dmb-gold,#f0a500);cursor:pointer;white-space:nowrap;transition:all .2s;}"
      +".region-jump .rj-btn:hover{background:rgba(240,165,0,.12);border-color:var(--dmb-gold,#f0a500);}"
-     +"@media(max-width:1080px){.region-jump{display:none;}}"
+     +"@media(max-width:1500px){.region-jump{display:none;}}"
      ;
     document.head.appendChild(st);
   }
@@ -5114,7 +5114,7 @@ updateProgress();
 
 <style id="cyc-dmb-mobchrome">
 #cycMobNav, #cycMobToolsWrap, #cycMobTagline { display:none; }
-@media (max-width:1080px){
+@media (max-width:1500px){
   .site-header .header-actions { display:none !important; }
   .site-header .header-tagline, .site-header .subtitle { display:none !important; }
   .sticky-bar .progress-bar-wrap { display:none !important; }
@@ -5156,7 +5156,7 @@ updateProgress();
 /* cycMobileChrome (DMB) — mobile-only top stack. Desktop untouched. */
 (function(){
   if(window.__cycMobChrome) return; window.__cycMobChrome=1;
-  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function mobile(){ try{return window.matchMedia('(max-width:1500px)').matches;}catch(e){return innerWidth<=1500;} }
   function wire(id,fn){ var el=document.getElementById(id); if(el) el.onclick=function(){ try{fn();}catch(e){} }; }
   function build(){
     if(document.getElementById('cycMobNav')) return;
@@ -5205,14 +5205,14 @@ updateProgress();
 .howto-modes summary::-webkit-details-marker { display:none; }
 .howto-modes .hm-hint { font-size:.78em; font-weight:400; opacity:.65; letter-spacing:0; }
 .howto-modes[open] .hm-hint { display:none; }
-@media (min-width:1081px){
+@media (min-width:1501px){
   /* desktop unchanged: auto-fill modes always shown, summary inert */
   .howto-modes > .howto-list { display:grid !important; }
   .howto-modes .hm-hint { display:none; }
   .howto-modes summary { cursor:default; pointer-events:none; }
 }
   .howto-mobile { display:none; }
-  @media (max-width:1080px){ .howto-modal .howto-desktop { display:none; } .howto-modal .howto-mobile { display:block; } }
+  @media (max-width:1500px){ .howto-modal .howto-desktop { display:none; } .howto-modal .howto-mobile { display:block; } }
   .btn-howto-modes { background:transparent; border:1px solid rgba(197,160,89,.55); color:var(--dmb-gold); border-radius:8px; padding:10px 15px; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.5px; text-transform:uppercase; font-size:13.5px; cursor:pointer; margin-top:4px; }
 </style>
 <script>
@@ -5250,7 +5250,7 @@ updateProgress();
 <style id="cyc-dmb-progress">
 .cyc-progress-glyph { display:none; }
 .cyc-next-region { display:none; }
-@media (max-width:1080px){
+@media (max-width:1500px){
   .cyc-progress-glyph { display:inline-grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px;
     width:24px; height:24px; vertical-align:middle; margin-left:10px; }
   .cyc-progress-glyph .cpg-q { background:rgba(255,255,255,.20); border-radius:2px; transition:background .25s ease; }
@@ -5266,7 +5266,7 @@ updateProgress();
 /* cycRegionProgress (DMB mobile) — 2x2 gold progress glyph by each region heading + amber Next-Region arrow at end of a completed region. */
 (function(){
   if(window.__cycRegionProgress) return; window.__cycRegionProgress=1;
-  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function mobile(){ try{return window.matchMedia('(max-width:1500px)').matches;}catch(e){return innerWidth<=1500;} }
   var R=[];
   function done(r){ if(!r.win) return false; var t=(r.win.textContent||'').trim(); return !!t && t!=='--' && t!=='—' && !r.win.classList.contains('empty'); }
   var lastKey='';
@@ -5341,7 +5341,7 @@ updateProgress();
 @media (min-width:1px){
   /* Fix dead links: the modals the win screen opens (share 200, concert 300, all-brackets 3000, vote 3000, quiz 4000)
    were rendering BEHIND the win screen (99990). Raise them above it on mobile so they actually appear. */
-@media (max-width:1080px){
+@media (max-width:1500px){
   #shareModal.modal-overlay, #concertModal.concert-modal-overlay,
   #cycAllBracketsModal.quizmodal, #cycBestAlbumModal.quizmodal, #quizPop.quizpop { z-index:100040 !important; }
 }
@@ -5532,7 +5532,7 @@ updateProgress();
    clears its inline styles on desktop. Throttled (load/resize/click + rAF) — no tight observer. Reversible. */
 (function(){
   if(window.__cycBracketCenter) return; window.__cycBracketCenter=1;
-  function mobile(){ try{return window.matchMedia('(max-width:1080px)').matches;}catch(e){return innerWidth<=1080;} }
+  function mobile(){ try{return window.matchMedia('(max-width:1500px)').matches;}catch(e){return innerWidth<=1500;} }
   function mus(col){ return Array.prototype.filter.call(col.children,function(m){return m.classList&&m.classList.contains('matchup');}); }
   function vcols(row){ return Array.prototype.filter.call(row.children,function(c){return c.classList&&c.classList.contains('round-col')&&c.offsetParent!==null;}); }
   function clearRow(row){
@@ -5587,11 +5587,11 @@ updateProgress();
 }catch(e){} })();
 </script>
 <style id="cycWebHead">
-/* ===== cycWebHeader V3 — WEB ONLY (>=1081px). Mobile (<=1080) untouched. Reversible. ===== */
-@media (max-width:1080px){
+/* ===== cycWebHeader V3 — WEB ONLY (>=1501px). Mobile (<=1500) untouched. Reversible. ===== */
+@media (max-width:1500px){
   #cycWebControls, #cycWebSignup, #cycWebTag, #cycWebRegions { display:none !important; }
 }
-@media (min-width:1081px){
+@media (min-width:1501px){
   /* drop legacy chrome on web */
   .site-header .header-actions { display:none !important; }
   .site-header .subtitle, .site-header .header-tagline { display:none !important; }
@@ -5699,10 +5699,10 @@ updateProgress();
 }
 </style>
 <script>
-/* cycWebHeader V3 (desktop >=1081) — control-zone cleanup + Submit/Crown reveal. Mobile (<=1080) untouched. */
+/* cycWebHeader V3 (desktop >=1501) — control-zone cleanup + Submit/Crown reveal. Mobile (<=1500) untouched. */
 (function(){
   if(window.__cycWebHead) return; window.__cycWebHead=1;
-  function desk(){ try{ return window.matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
+  function desk(){ try{ return window.matchMedia('(min-width:1501px)').matches; }catch(e){ return innerWidth>=1501; } }
   function signedUp(){ try{ return !!localStorage.getItem('cyc-hub-email'); }catch(e){ return false; } }
   function subFromTagline(){
     try{ var el=document.querySelector('.site-header .header-tagline'); if(!el) return '';
@@ -5854,7 +5854,7 @@ updateProgress();
     }
     /* Widen the green champion banner so it starts right after the tagline */
     if(!document.getElementById('cycHdrChampWide')){ var hw=document.createElement('style'); hw.id='cycHdrChampWide';
-      hw.textContent='@media(min-width:1081px){'+
+      hw.textContent='@media(min-width:1501px){'+
         ' #cycHdrChamp{ margin-left:16px !important; margin-right:16px !important; min-height:0 !important; max-height:clamp(54px,8.5vw,140px) !important; padding:6px 22px !important; overflow:hidden !important; box-sizing:border-box !important; gap:1px !important; }'+
         ' #cycHdrChampName{ font-size:clamp(20px,2.3vw,34px) !important; line-height:1.04 !important; }'+
         ' .cyc-win{ background:rgba(4,6,11,.86) !important; }'+
@@ -5901,12 +5901,12 @@ updateProgress();
 </script>
 
 <script>
-/* cycMobCrown — port the validated WEB Submit&Crown / champion-reveal to MOBILE (<=1080). Web untouched.
+/* cycMobCrown — port the validated WEB Submit&Crown / champion-reveal to MOBILE (<=1500). Web untouched.
    Pre-submit: no green champion box; finalist name on the pulsing Submit&Crown button.
    Post-submit: green champion box appears on return; button shows the crowned state. */
 (function(){
   if(window.__cycMobCrown) return; window.__cycMobCrown=1;
-  function mob(){ try{ return window.matchMedia('(max-width:1080px)').matches; }catch(e){ return innerWidth<=1080; } }
+  function mob(){ try{ return window.matchMedia('(max-width:1500px)').matches; }catch(e){ return innerWidth<=1500; } }
   function slug(){ try{ return location.pathname.split('/').filter(Boolean)[0]||'home'; }catch(e){ return 'home'; } }
   var CKEY='cyc-crowned-'+slug();
   function champNow(){ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='\u2014'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }
@@ -5916,7 +5916,7 @@ updateProgress();
 
   if(!document.getElementById('cycMobCrownCss')){
     var st=document.createElement('style'); st.id='cycMobCrownCss';
-    st.textContent='@media (max-width:1080px){'+
+    st.textContent='@media (max-width:1500px){'+
       ' .finals-card .champion-slot{ display:none; }'+
       ' body.cyc-mob-crowned .finals-card .champion-slot{ display:block; }'+
       " #crownBtn .cb-champ{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; opacity:.97; line-height:1.1; margin-bottom:5px; }"+
@@ -5954,7 +5954,7 @@ updateProgress();
 /* cycCelebFix v3.2 (force fixed-position popup) — popup renders above the celebration; SKIP is a small non-blocking button (never a full-screen overlay), plus a global tap-backstop so a celebration overlay can never freeze the page. Band-agnostic. */
 (function(){
   if(window.__cycCelebFix) return; window.__cycCelebFix=1; try{ if(!document.getElementById('cycModalLift')){ var __ml=document.createElement('style'); __ml.id='cycModalLift'; __ml.textContent='#shareModal,#concertModal,#emailModal,#cycAllBracketsModal,#cycBestAlbumModal,#quizPop{ z-index:100050 !important; }'; document.head.appendChild(__ml); } }catch(e){}
-  function desk(){ try{ return matchMedia('(min-width:1081px)').matches; }catch(e){ return innerWidth>=1081; } }
+  function desk(){ try{ return matchMedia('(min-width:1501px)').matches; }catch(e){ return innerWidth>=1501; } }
   function champNow(){ try{ var e=document.getElementById('champion'); var v=e?(e.innerText||'').trim():''; return (v&&v!=='—'&&v!=='-'&&v!=='--'&&v!=='---')?v:''; }catch(e){ return ''; } }
   function killCeleb(){
     try{ var c=document.getElementById('confettiCanvas'); if(c) c.style.display='none'; }catch(e){}
@@ -6014,7 +6014,7 @@ updateProgress();
    Mobile: press-and-hold any song to preview (a quick tap still picks). */
 (function(){
   if(window.__cycPreviewEverywhere) return; window.__cycPreviewEverywhere=1;
-  function isWeb(){ try{return window.matchMedia('(min-width:1081px)').matches;}catch(e){return true;} }
+  function isWeb(){ try{return window.matchMedia('(min-width:1501px)').matches;}catch(e){return true;} }
   function songText(el){ var c=el.cloneNode(true), n;
     ['.play-btn','.seed','.cyc-auditn'].forEach(function(sel){ while((n=c.querySelector(sel))) n.remove(); });
     return (c.textContent||'').trim(); }
@@ -6064,12 +6064,12 @@ updateProgress();
 </script>
 <style>
 .slot, .final-slot{ -webkit-touch-callout:none !important; -webkit-user-select:none !important; -moz-user-select:none !important; -ms-user-select:none !important; user-select:none !important; }
-@media (min-width:1081px){
+@media (min-width:1501px){
   .round-col:not(:first-child) .play-btn, .final-slot .play-btn{ opacity:0; transition:opacity .12s ease; }
   .round-col:not(:first-child) .slot:hover .play-btn, .final-slot:hover .play-btn,
   .round-col:not(:first-child) .play-btn:focus, .final-slot .play-btn:focus{ opacity:1 !important; }
 }
-@media (max-width:1080px){
+@media (max-width:1500px){
   .round-col:not(:first-child) .play-btn, .final-slot .play-btn{ display:none !important; }
   #cycPeHint{ display:block !important; }
 }
@@ -6079,7 +6079,7 @@ updateProgress();
 <style id="cycMobFit">
 /* Keep the mobile bracket within the viewport: cap grid tracks so a column can't
    force the page wider (which pushed round 4 + the header pill off-screen). */
-@media (max-width:1080px){
+@media (max-width:1500px){
   .region-card .bracket-row{ grid-template-columns: minmax(0,1.46fr) minmax(0,1.04fr) minmax(0,1fr) minmax(0,1fr) !important; }
   .region-card .bracket-row > .round-col:nth-child(5){ display:none !important; } /* region-winner col: hidden by position too, not just JS class */
   .master-grid, .region-card, .main-wrap{ max-width:100%; }
@@ -6196,7 +6196,7 @@ updateProgress();
    '.cyc-champ-band{font-family:"Bebas Neue",sans-serif;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--dmb-gold,#f0a500);font-size:24px;line-height:1;margin-bottom:2px;}.finals-header .cyc-champ-line{display:inline-block;position:relative;}.finals-header .cyc-crown{position:absolute;right:100%;margin-right:8px;}'+
    '.cyc-rgn-info{display:none;}'+
    '#cycFootOnList{display:none;}'+
-   '@media(max-width:1080px){'+
+   '@media(max-width:1500px){'+
      '.region-card::after{display:none !important;}.bracket-row{padding-top:2px !important;}.region-card .region-header{font-size:14px !important;letter-spacing:2px !important;}.region-card .region-header::after{display:inline !important;margin:0 0 0 8px !important;font-size:9px !important;vertical-align:baseline !important;}'+              /* replaced by cyc-rgn-info */
      '#cycPeHint{display:none !important;}'+
      '.cyc-rgn-info{display:block;position:absolute;top:48px;right:10px;z-index:1;pointer-events:none;text-align:right;max-width:64%;}'+
